@@ -6,6 +6,7 @@ import '../../features/auth/presentation/forgot_password_screen.dart';
 import '../../features/auth/presentation/login_screen.dart';
 import '../../features/auth/presentation/signup_screen.dart';
 import '../../features/auth/presentation/welcome_screen.dart';
+import '../../features/flashcard/presentation/flashcard_review_screen.dart';
 import '../../features/home/presentation/home_screen.dart';
 import '../../shared/widgets/app_shell.dart';
 import '../../shared/widgets/placeholder_screen.dart';
@@ -68,8 +69,7 @@ final routerProvider = Provider<GoRouter>((ref) {
             routes: [
               GoRoute(
                 path: '/vocab',
-                builder: (context, state) =>
-                    const PlaceholderScreen(title: 'Ôn từ', icon: Icons.style),
+                builder: (context, state) => const FlashcardReviewScreen(),
               ),
             ],
           ),

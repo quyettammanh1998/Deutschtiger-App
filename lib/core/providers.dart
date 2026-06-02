@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import 'audio/audio_service.dart';
 import 'auth/auth_service.dart';
 import 'auth/token_provider.dart';
 import 'config/app_config.dart';
@@ -28,6 +29,12 @@ final apiClientProvider = Provider<ApiClient>((ref) {
     baseUrl: AppConfig.apiBaseUrl,
     tokenProvider: ref.watch(tokenProviderProvider),
   );
+});
+
+final audioServiceProvider = Provider<AudioService>((ref) {
+  final service = AudioService(ref.watch(apiClientProvider));
+  ref.onDispose(service.dispose);
+  return service;
 });
 
 /// Stream auth state cho router redirect + UI reactive.
