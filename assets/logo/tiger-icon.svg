@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="260" height="230" viewBox="70 60 260 230" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Tiger Face - Main head -->
+  <ellipse cx="200" cy="180" rx="110" ry="100" fill="#F7931E"/>
+
+  <!-- Left Ear -->
+  <circle cx="110" cy="100" r="35" fill="#F7931E"/>
+  <circle cx="110" cy="100" r="20" fill="#E07D18"/>
+
+  <!-- Right Ear -->
+  <circle cx="290" cy="100" r="35" fill="#F7931E"/>
+  <circle cx="290" cy="100" r="20" fill="#E07D18"/>
+
+  <!-- Left side stripes -->
+  <path d="M100 150 Q120 155 130 150" stroke="#E07D18" stroke-width="8" stroke-linecap="round" fill="none"/>
+  <path d="M95 180 Q115 185 130 180" stroke="#E07D18" stroke-width="8" stroke-linecap="round" fill="none"/>
+  <path d="M100 210 Q118 215 132 210" stroke="#E07D18" stroke-width="8" stroke-linecap="round" fill="none"/>
+
+  <!-- Right side stripes -->
+  <path d="M300 150 Q280 155 270 150" stroke="#E07D18" stroke-width="8" stroke-linecap="round" fill="none"/>
+  <path d="M305 180 Q285 185 270 180" stroke="#E07D18" stroke-width="8" stroke-linecap="round" fill="none"/>
+  <path d="M300 210 Q282 215 268 210" stroke="#E07D18" stroke-width="8" stroke-linecap="round" fill="none"/>
+
+  <!-- Vietnam Flag Badge (Red circle with yellow star) - centered on forehead -->
+  <circle cx="200" cy="125" r="26" fill="#DA251D"/>
+  <polygon
+    points="200,105 205,119 220,119 208,128 213,142 200,134 187,142 192,128 180,119 195,119"
+    fill="#FFCC00"
+  />
+
+  <!-- Eyes -->
+  <circle cx="160" cy="170" r="12" fill="#2D2D2D"/>
+  <circle cx="240" cy="170" r="12" fill="#2D2D2D"/>
+
+  <!-- Eye highlights -->
+  <circle cx="164" cy="166" r="4" fill="#FFFFFF"/>
+  <circle cx="244" cy="166" r="4" fill="#FFFFFF"/>
+
+  <!-- White muzzle area -->
+  <ellipse cx="200" cy="230" rx="60" ry="50" fill="#FFFAF5"/>
+
+  <!-- Nose -->
+  <path d="M185 205 Q200 190 215 205 Q200 220 185 205" fill="#2D2D2D"/>
+
+  <!-- Mouth smile -->
+  <path d="M200 220 Q200 240 200 240" stroke="#2D2D2D" stroke-width="3" stroke-linecap="round"/>
+  <path d="M175 235 Q190 250 200 240 Q210 250 225 235" stroke="#2D2D2D" stroke-width="3" stroke-linecap="round" fill="none"/>
+</svg>

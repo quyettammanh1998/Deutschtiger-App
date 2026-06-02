@@ -1,0 +1,106 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+
+import '../../features/auth/presentation/forgot_password_screen.dart';
+import '../../features/auth/presentation/login_screen.dart';
+import '../../features/auth/presentation/signup_screen.dart';
+import '../../shared/widgets/app_shell.dart';
+import '../../shared/widgets/placeholder_screen.dart';
+import '../providers.dart';
+
+final _rootKey = GlobalKey<NavigatorState>();
+
+/// Router go_router với ShellRoute 4 tab + redirect theo auth state.
+/// Chưa login → /login. Đã login mà ở /login → /home.
+final routerProvider = Provider<GoRouter>((ref) {
+  final authService = ref.watch(authServiceProvider);
+
+  return GoRouter(
+    navigatorKey: _rootKey,
+    initialLocation: '/home',
+    // Rebuild redirect khi auth state đổi.
+    refreshListenable: _GoRouterRefresh(authService.authStateChanges),
+    redirect: (context, state) {
+      final loggedIn = authService.isLoggedIn;
+      const publicRoutes = {'/login', '/signup', '/forgot-password'};
+      final atPublic = publicRoutes.contains(state.matchedLocation);
+      if (!loggedIn) return atPublic ? null : '/login';
+      if (atPublic) return '/home';
+      return null;
+    },
+    routes: [
+      GoRoute(path: '/login', builder: (context, state) => const LoginScreen()),
+      GoRoute(
+        path: '/signup',
+        builder: (context, state) => const SignupScreen(),
+      ),
+      GoRoute(
+        path: '/forgot-password',
+        builder: (context, state) => const ForgotPasswordScreen(),
+      ),
+      StatefulShellRoute.indexedStack(
+        builder: (context, state, navigationShell) =>
+            AppShell(navigationShell: navigationShell),
+        branches: [
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/home',
+                builder: (context, state) => const PlaceholderScreen(
+                  title: 'Trang chủ',
+                  icon: Icons.home,
+                ),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/vocab',
+                builder: (context, state) =>
+                    const PlaceholderScreen(title: 'Ôn từ', icon: Icons.style),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/lessons',
+                builder: (context, state) => const PlaceholderScreen(
+                  title: 'Bài học',
+                  icon: Icons.menu_book,
+                ),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/profile',
+                builder: (context, state) =>
+                    const PlaceholderScreen(title: 'Hồ sơ', icon: Icons.person),
+              ),
+            ],
+          ),
+        ],
+      ),
+    ],
+  );
+});
+
+/// Cầu nối Stream → Listenable cho go_router refreshListenable.
+class _GoRouterRefresh extends ChangeNotifier {
+  _GoRouterRefresh(Stream<dynamic> stream) {
+    notifyListeners();
+    _sub = stream.listen((_) => notifyListeners());
+  }
+
+  late final dynamic _sub;
+
+  @override
+  void dispose() {
+    _sub.cancel();
+    super.dispose();
+  }
+}
