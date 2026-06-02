@@ -6,6 +6,7 @@ import '../../features/auth/presentation/forgot_password_screen.dart';
 import '../../features/auth/presentation/login_screen.dart';
 import '../../features/auth/presentation/signup_screen.dart';
 import '../../features/auth/presentation/welcome_screen.dart';
+import '../../features/home/presentation/home_screen.dart';
 import '../../shared/widgets/app_shell.dart';
 import '../../shared/widgets/placeholder_screen.dart';
 import '../providers.dart';
@@ -59,10 +60,7 @@ final routerProvider = Provider<GoRouter>((ref) {
             routes: [
               GoRoute(
                 path: '/home',
-                builder: (context, state) => const PlaceholderScreen(
-                  title: 'Trang chủ',
-                  icon: Icons.home,
-                ),
+                builder: (context, state) => const HomeScreen(),
               ),
             ],
           ),
