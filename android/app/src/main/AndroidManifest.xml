@@ -1,6 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Gọi API backend + tải audio/ảnh/YouTube. Bắt buộc cho release build
+         (debug manifest có sẵn nhưng release dùng manifest này). -->
+    <uses-permission android:name="android.permission.INTERNET"/>
     <application
-        android:label="deutschtiger"
+        android:label="DeutschTiger"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
