@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -6,7 +7,9 @@ import 'app.dart';
 import 'core/config/app_config.dart';
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  final binding = WidgetsFlutterBinding.ensureInitialized();
+  // Giữ splash native trong lúc khởi tạo (tránh nháy trắng trước khi UI sẵn sàng).
+  FlutterNativeSplash.preserve(widgetsBinding: binding);
 
   // 1. Load env (.env)
   await AppConfig.load();
@@ -18,7 +21,8 @@ Future<void> main() async {
     anonKey: AppConfig.supabaseAnonKey,
   );
 
-  // Firebase chỉ init cho FCM push ở P5 (không phải auth).
+  // Firebase init cho FCM push: tách task riêng (chưa config).
 
+  FlutterNativeSplash.remove();
   runApp(const ProviderScope(child: DeutschTigerApp()));
 }

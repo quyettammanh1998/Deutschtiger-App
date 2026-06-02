@@ -6,9 +6,14 @@ import '../../features/auth/presentation/forgot_password_screen.dart';
 import '../../features/auth/presentation/login_screen.dart';
 import '../../features/auth/presentation/signup_screen.dart';
 import '../../features/auth/presentation/welcome_screen.dart';
+import '../../features/flashcard/presentation/flashcard_review_screen.dart';
 import '../../features/home/presentation/home_screen.dart';
+import '../../features/interview/presentation/group_detail_screen.dart';
+import '../../features/interview/presentation/interview_roadmap_screen.dart';
+import '../../features/interview/presentation/video_player_screen.dart';
+import '../../features/profile/presentation/edit_profile_screen.dart';
+import '../../features/profile/presentation/profile_screen.dart';
 import '../../shared/widgets/app_shell.dart';
-import '../../shared/widgets/placeholder_screen.dart';
 import '../providers.dart';
 
 final _rootKey = GlobalKey<NavigatorState>();
@@ -68,8 +73,7 @@ final routerProvider = Provider<GoRouter>((ref) {
             routes: [
               GoRoute(
                 path: '/vocab',
-                builder: (context, state) =>
-                    const PlaceholderScreen(title: 'Ôn từ', icon: Icons.style),
+                builder: (context, state) => const FlashcardReviewScreen(),
               ),
             ],
           ),
@@ -77,10 +81,25 @@ final routerProvider = Provider<GoRouter>((ref) {
             routes: [
               GoRoute(
                 path: '/lessons',
-                builder: (context, state) => const PlaceholderScreen(
-                  title: 'Bài học',
-                  icon: Icons.menu_book,
-                ),
+                builder: (context, state) => const InterviewRoadmapScreen(),
+                routes: [
+                  GoRoute(
+                    path: 'group/:groupId',
+                    builder: (context, state) => GroupDetailScreen(
+                      groupId: state.pathParameters['groupId']!,
+                    ),
+                    routes: [
+                      GoRoute(
+                        path: 'watch/:videoId',
+                        builder: (context, state) => VideoPlayerScreen(
+                          groupId: state.pathParameters['groupId']!,
+                          videoId: state.pathParameters['videoId']!,
+                          title: state.extra as String? ?? '',
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ],
           ),
@@ -88,8 +107,13 @@ final routerProvider = Provider<GoRouter>((ref) {
             routes: [
               GoRoute(
                 path: '/profile',
-                builder: (context, state) =>
-                    const PlaceholderScreen(title: 'Hồ sơ', icon: Icons.person),
+                builder: (context, state) => const ProfileScreen(),
+                routes: [
+                  GoRoute(
+                    path: 'edit',
+                    builder: (context, state) => const EditProfileScreen(),
+                  ),
+                ],
               ),
             ],
           ),
