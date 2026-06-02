@@ -11,8 +11,9 @@ import '../../features/home/presentation/home_screen.dart';
 import '../../features/interview/presentation/group_detail_screen.dart';
 import '../../features/interview/presentation/interview_roadmap_screen.dart';
 import '../../features/interview/presentation/video_player_screen.dart';
+import '../../features/profile/presentation/edit_profile_screen.dart';
+import '../../features/profile/presentation/profile_screen.dart';
 import '../../shared/widgets/app_shell.dart';
-import '../../shared/widgets/placeholder_screen.dart';
 import '../providers.dart';
 
 final _rootKey = GlobalKey<NavigatorState>();
@@ -106,8 +107,13 @@ final routerProvider = Provider<GoRouter>((ref) {
             routes: [
               GoRoute(
                 path: '/profile',
-                builder: (context, state) =>
-                    const PlaceholderScreen(title: 'Hồ sơ', icon: Icons.person),
+                builder: (context, state) => const ProfileScreen(),
+                routes: [
+                  GoRoute(
+                    path: 'edit',
+                    builder: (context, state) => const EditProfileScreen(),
+                  ),
+                ],
               ),
             ],
           ),
