@@ -6,7 +6,7 @@ import 'package:deutschtiger/services/auth_service.dart';
 import 'package:deutschtiger/services/auth_provider.dart';
 import 'package:deutschtiger/services/config/app_config.dart';
 import 'package:deutschtiger/core/identity/app_user.dart';
-import 'package:deutschtiger/core/identity/profile_repository.dart';
+import 'package:deutschtiger/repositories/profile_repository.dart';
 import 'package:deutschtiger/services/api_client.dart';
 
 /// DI gốc cho core layer. Feature đọc các provider này, không tự khởi tạo SDK.

@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../../../core/providers.dart';
+import 'package:deutschtiger/view_models/providers.dart';
 
 /// Controller cho các thao tác auth (Riverpod 3 Notifier).
 /// State [AsyncValue] để UI hiện loading/error. go_router tự redirect khi auth

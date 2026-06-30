@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../core/providers.dart';
+import 'package:deutschtiger/view_models/providers.dart';
 import '../../../core/theme/app_colors.dart';
-import '../../../shared/widgets/async_state_views.dart';
-import '../../../shared/widgets/gradient_button.dart';
+import 'package:deutschtiger/widgets/common/async_state_views.dart';
+import 'package:deutschtiger/widgets/common/gradient_button.dart';
 import 'review_provider.dart';
 import 'widgets/flashcard_view.dart';
 import 'widgets/rating_bar.dart';

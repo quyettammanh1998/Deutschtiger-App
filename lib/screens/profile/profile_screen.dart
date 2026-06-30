@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../core/providers.dart';
+import 'package:deutschtiger/view_models/providers.dart';
 import '../../../core/theme/app_colors.dart';
-import '../../../shared/widgets/async_state_views.dart';
+import 'package:deutschtiger/widgets/common/async_state_views.dart';
 import 'profile_controller.dart';
 import 'widgets/profile_header.dart';
 import 'widgets/profile_stats_grid.dart';

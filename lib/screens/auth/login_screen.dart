@@ -6,9 +6,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/theme/app_colors.dart';
-import '../../../shared/widgets/auth_card.dart';
-import '../../../shared/widgets/gradient_button.dart';
-import '../../../shared/widgets/tiger_logo.dart';
+import 'package:deutschtiger/widgets/common/auth_card.dart';
+import 'package:deutschtiger/widgets/common/gradient_button.dart';
+import 'package:deutschtiger/widgets/common/tiger_logo.dart';
 import 'auth_controller.dart';
 import 'widgets/auth_text_field.dart';
 import 'widgets/social_login_button.dart';

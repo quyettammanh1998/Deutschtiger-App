@@ -3,10 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../../core/notifications/notification_service.dart';
-import '../../../core/preferences/preferences_provider.dart';
+import 'package:deutschtiger/services/notifications/notification_service.dart';
+import 'package:deutschtiger/view_models/preferences_provider.dart';
 import '../../../core/theme/app_colors.dart';
-import '../../../core/theme/theme_provider.dart';
+import 'package:deutschtiger/view_models/theme_provider.dart';
 
 /// Màn Cài đặt - quản lý các cài đặt của app.
 class SettingsScreen extends ConsumerWidget {

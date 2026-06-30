@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:deutschtiger/core/theme/app_colors.dart';
-import 'package:deutschtiger/features/social/domain/social_models.dart';
+import 'package:deutschtiger/data/$1/$2.dart';
 
 class StudyGroupsList extends StatelessWidget {
   final List<StudyGroup> groups;

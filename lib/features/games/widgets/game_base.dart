@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import '../../../core/theme/app_colors.dart';
-import '../domain/game_models.dart';
+import '../../../data/games/game_models.dart';
 
 /// Base class cho các game widgets.
 class GameBase extends StatefulWidget {

@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../core/network/api_client.dart';
-import '../../../core/providers.dart';
+import 'package:deutschtiger/services/api_client.dart';
+import 'package:deutschtiger/view_models/providers.dart';
 import '../domain/video_note.dart';
 
 /// Repository cho video notes (ghi chu cua nguoi dung cho video YouTube).

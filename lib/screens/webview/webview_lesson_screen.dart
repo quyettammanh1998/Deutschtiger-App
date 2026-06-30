@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-import '../../../core/config/app_config.dart';
+import 'package:deutschtiger/services/config/app_config.dart';
 import '../../../core/theme/app_colors.dart';
 
 /// Màn học qua WebView - hiển thị nội dung bài học từ website.

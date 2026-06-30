@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'core/router/app_router.dart';
+import 'navigation/app_router.dart';
 import 'core/theme/app_theme.dart';
-import 'core/theme/theme_provider.dart';
+import 'view_models/theme_provider.dart';
 
 /// Root widget — MaterialApp.router với theme + go_router.
 class DeutschTigerApp extends ConsumerWidget {

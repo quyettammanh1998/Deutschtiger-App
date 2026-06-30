@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../core/providers.dart';
+import 'package:deutschtiger/view_models/providers.dart';
 import '../data/dashboard_repository.dart';
 import '../domain/dashboard_data.dart';
 

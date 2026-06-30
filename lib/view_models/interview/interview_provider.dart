@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../core/config/app_config.dart';
-import '../../../core/providers.dart';
+import 'package:deutschtiger/services/config/app_config.dart';
+import 'package:deutschtiger/view_models/providers.dart';
 import '../data/interview_repository.dart';
 import '../domain/interview_models.dart';
 

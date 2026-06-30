@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/theme/app_colors.dart';
-import '../../../shared/widgets/async_state_views.dart';
+import 'package:deutschtiger/widgets/common/async_state_views.dart';
 
 /// Progress analytics data model.
 class ProgressAnalytics {

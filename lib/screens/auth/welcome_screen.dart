@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/theme/app_colors.dart';
-import '../../../shared/widgets/gradient_button.dart';
-import '../../../shared/widgets/tiger_logo.dart';
+import 'package:deutschtiger/widgets/common/gradient_button.dart';
+import 'package:deutschtiger/widgets/common/tiger_logo.dart';
 
 /// Màn giới thiệu app (welcome) — màn đầu khi chưa đăng nhập.
 /// Bám tinh thần web welcome-page: logo + tagline + 3 điểm nổi bật + CTA.

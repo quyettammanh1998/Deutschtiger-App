@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:deutschtiger/features/social/domain/social_models.dart';
+import 'package:deutschtiger/data/$1/$2.dart';
 
 class MomentsFeed extends StatelessWidget {
   final List<SocialMoment> moments;

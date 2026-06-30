@@ -1,4 +1,4 @@
-import '../../../core/network/api_client.dart';
+import 'package:deutschtiger/services/api_client.dart';
 import '../domain/review_item.dart';
 
 /// Lấy thẻ đến hạn + gửi đánh giá. FSRS tính phía server.

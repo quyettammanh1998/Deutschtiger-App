@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../core/providers.dart';
+import 'package:deutschtiger/view_models/providers.dart';
 import '../domain/deck_models.dart';
 
 /// Repository cho deck management.

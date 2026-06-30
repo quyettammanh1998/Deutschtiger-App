@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../core/providers.dart';
+import 'package:deutschtiger/view_models/providers.dart';
 
 /// Controller các thao tác hồ sơ: cập nhật, đăng xuất, xóa tài khoản.
 /// State [AsyncValue] để UI hiện loading/error trên nút.
