@@ -60,7 +60,7 @@ class ReviewSessionState {
 
 /// Điều phối phiên ôn: nạp thẻ đến hạn → lật → rate → thẻ kế tiếp.
 /// FSRS tính phía server; client chỉ trượt qua danh sách đã nạp.
-class ReviewSessionNotifier extends AsyncNotifier<ReviewSessionState> {
+class ReviewSessionNotifier extends AutoDisposeAsyncNotifier<ReviewSessionState> {
   @override
   Future<ReviewSessionState> build() async {
     final items = await ref.watch(reviewRepositoryProvider).fetchDue();

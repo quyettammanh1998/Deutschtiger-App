@@ -1,80 +1,146 @@
 import 'package:flutter/material.dart';
 
-import 'app_colors.dart';
+import '../design_tokens.dart';
 
 /// ThemeData cho app, dựng từ tokens web (xem app_colors.dart).
 ///
-/// V1 chỉ dùng [light]. Radius mặc định 16px khớp `--radius: 1rem` của web.
+/// Hỗ trợ cả light và dark mode.
 class AppTheme {
   const AppTheme._();
 
-  static const double radius = 16;
-
   static ThemeData get light {
     final scheme = ColorScheme.fromSeed(
-      seedColor: AppColors.primary,
-      primary: AppColors.primary,
-      onPrimary: AppColors.primaryForeground,
-      secondary: AppColors.brand,
-      surface: AppColors.card,
-      onSurface: AppColors.cardForeground,
-      error: AppColors.destructive,
+      seedColor: DesignTokens.primary,
+      primary: DesignTokens.primary,
+      onPrimary: DesignTokens.primaryForeground,
+      secondary: DesignTokens.brand,
+      surface: DesignTokens.card,
+      onSurface: DesignTokens.cardForeground,
+      error: DesignTokens.destructive,
       brightness: Brightness.light,
     );
 
     return ThemeData(
       useMaterial3: true,
       colorScheme: scheme,
-      scaffoldBackgroundColor: AppColors.background,
-      fontFamily: 'Inter',
+      scaffoldBackgroundColor: DesignTokens.background,
+      fontFamily: DesignTokens.fontFamily,
       appBarTheme: const AppBarTheme(
-        backgroundColor: AppColors.background,
-        foregroundColor: AppColors.foreground,
+        backgroundColor: DesignTokens.background,
+        foregroundColor: DesignTokens.foreground,
         elevation: 0,
         centerTitle: false,
       ),
       cardTheme: CardThemeData(
-        color: AppColors.card,
+        color: DesignTokens.card,
         elevation: 0,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(radius),
-          side: const BorderSide(color: AppColors.border),
+          borderRadius: BorderRadius.circular(DesignTokens.radius),
+          side: const BorderSide(color: DesignTokens.border),
         ),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.primary,
-          foregroundColor: AppColors.primaryForeground,
+          backgroundColor: DesignTokens.primary,
+          foregroundColor: DesignTokens.primaryForeground,
           minimumSize: const Size.fromHeight(52),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(radius),
+            borderRadius: BorderRadius.circular(DesignTokens.radius),
           ),
-          textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+          textStyle: DesignTokens.buttonText,
         ),
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: AppColors.card,
+        fillColor: DesignTokens.card,
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(radius),
-          borderSide: const BorderSide(color: AppColors.border),
+          borderRadius: BorderRadius.circular(DesignTokens.radius),
+          borderSide: const BorderSide(color: DesignTokens.border),
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(radius),
-          borderSide: const BorderSide(color: AppColors.border),
+          borderRadius: BorderRadius.circular(DesignTokens.radius),
+          borderSide: const BorderSide(color: DesignTokens.border),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(radius),
-          borderSide: const BorderSide(color: AppColors.primary, width: 2),
+          borderRadius: BorderRadius.circular(DesignTokens.radius),
+          borderSide: const BorderSide(color: DesignTokens.primary, width: 2),
         ),
       ),
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-        backgroundColor: AppColors.card,
-        selectedItemColor: AppColors.primary,
-        unselectedItemColor: AppColors.mutedForeground,
+        backgroundColor: DesignTokens.card,
+        selectedItemColor: DesignTokens.primary,
+        unselectedItemColor: DesignTokens.mutedForeground,
         type: BottomNavigationBarType.fixed,
       ),
-      dividerColor: AppColors.border,
+      dividerColor: DesignTokens.border,
+    );
+  }
+
+  static ThemeData get dark {
+    final scheme = ColorScheme.fromSeed(
+      seedColor: DesignTokens.darkPrimary,
+      primary: DesignTokens.darkPrimary,
+      onPrimary: Colors.black,
+      secondary: DesignTokens.brand,
+      surface: DesignTokens.darkCard,
+      onSurface: DesignTokens.darkForeground,
+      error: DesignTokens.destructive,
+      brightness: Brightness.dark,
+    );
+
+    return ThemeData(
+      useMaterial3: true,
+      colorScheme: scheme,
+      scaffoldBackgroundColor: DesignTokens.darkBackground,
+      fontFamily: DesignTokens.fontFamily,
+      appBarTheme: const AppBarTheme(
+        backgroundColor: DesignTokens.darkBackground,
+        foregroundColor: DesignTokens.darkForeground,
+        elevation: 0,
+        centerTitle: false,
+      ),
+      cardTheme: CardThemeData(
+        color: DesignTokens.darkCard,
+        elevation: 0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(DesignTokens.radius),
+          side: const BorderSide(color: DesignTokens.darkBorder),
+        ),
+      ),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: DesignTokens.darkPrimary,
+          foregroundColor: Colors.black,
+          minimumSize: const Size.fromHeight(52),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(DesignTokens.radius),
+          ),
+          textStyle: DesignTokens.buttonText,
+        ),
+      ),
+      inputDecorationTheme: InputDecorationTheme(
+        filled: true,
+        fillColor: DesignTokens.darkCard,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(DesignTokens.radius),
+          borderSide: const BorderSide(color: DesignTokens.darkBorder),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(DesignTokens.radius),
+          borderSide: const BorderSide(color: DesignTokens.darkBorder),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(DesignTokens.radius),
+          borderSide: const BorderSide(color: DesignTokens.darkPrimary, width: 2),
+        ),
+      ),
+      bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+        backgroundColor: DesignTokens.darkCard,
+        selectedItemColor: DesignTokens.darkPrimary,
+        unselectedItemColor: DesignTokens.mutedForeground,
+        type: BottomNavigationBarType.fixed,
+      ),
+      dividerColor: DesignTokens.darkBorder,
     );
   }
 }

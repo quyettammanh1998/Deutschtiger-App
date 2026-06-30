@@ -1,0 +1,672 @@
+Analyzing Deutschtiger-App...                                   
+
+   info • The imported package 'riverpod' isn't a dependency of the importing package. Try adding a dependency for 'riverpod' in the 'pubspec.yaml' file • lib/core/preferences/preferences_provider.dart:2:8 • depend_on_referenced_packages
+   info • The imported package 'riverpod' isn't a dependency of the importing package. Try adding a dependency for 'riverpod' in the 'pubspec.yaml' file • lib/core/theme/theme_provider.dart:3:8 • depend_on_referenced_packages
+   info • Unnecessary use of multiple underscores. Try using '_' • lib/features/achievements/data/mock_data.dart:133:16 • unnecessary_underscores
+  error • Invalid constant value • lib/features/achievements/presentation/achievements_screen.dart:144:20 • invalid_constant
+  error • Invalid constant value • lib/features/affiliate/presentation/affiliate_leaderboard_page.dart:222:20 • invalid_constant
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/affiliate/presentation/affiliate_leaderboard_page.dart:520:60 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/affiliate/presentation/affiliate_leaderboard_page.dart:533:45 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/affiliate/presentation/affiliate_leaderboard_page.dart:561:45 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/affiliate/presentation/affiliate_leaderboard_page.dart:568:45 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/affiliate/presentation/affiliate_leaderboard_page.dart:621:54 • deprecated_member_use
+warning • The value of the local variable 'isTop20' isn't used. Try removing the variable or using it • lib/features/affiliate/presentation/affiliate_leaderboard_page.dart:784:11 • unused_local_variable
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/affiliate/presentation/affiliate_leaderboard_page.dart:790:33 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/affiliate/presentation/affiliate_leaderboard_page.dart:798:33 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/affiliate/presentation/affiliate_leaderboard_page.dart:848:50 • deprecated_member_use
+  error • Invalid constant value • lib/features/affiliate/presentation/affiliate_leaderboard_page.dart:852:26 • invalid_constant
+  error • Invalid constant value • lib/features/affiliate/presentation/affiliate_leaderboard_page.dart:920:24 • invalid_constant
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/affiliate/presentation/affiliate_leaderboard_page.dart:946:46 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/affiliate/presentation/affiliate_leaderboard_page.dart:947:42 • deprecated_member_use
+warning • Unused import: '../data/affiliate_repository.dart'. Try removing the import directive • lib/features/affiliate/presentation/affiliate_page.dart:6:8 • unused_import
+  error • Invalid constant value • lib/features/affiliate/presentation/affiliate_page.dart:45:20 • invalid_constant
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/affiliate/presentation/affiliate_page.dart:129:31 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/affiliate/presentation/affiliate_page.dart:135:38 • deprecated_member_use
+  error • Invalid constant value • lib/features/affiliate/presentation/affiliate_page.dart:168:28 • invalid_constant
+  error • Invalid constant value • lib/features/affiliate/presentation/affiliate_page.dart:173:55 • invalid_constant
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/affiliate/presentation/affiliate_page.dart:239:46 • deprecated_member_use
+  error • Invalid constant value • lib/features/affiliate/presentation/affiliate_page.dart:242:60 • invalid_constant
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/affiliate/presentation/affiliate_page.dart:333:26 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/affiliate/presentation/affiliate_page.dart:379:46 • deprecated_member_use
+  error • Invalid constant value • lib/features/affiliate/presentation/affiliate_page.dart:382:62 • invalid_constant
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/affiliate/presentation/affiliate_page.dart:397:48 • deprecated_member_use
+  error • Invalid constant value • lib/features/affiliate/presentation/affiliate_page.dart:404:32 • invalid_constant
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/affiliate/presentation/affiliate_page.dart:455:48 • deprecated_member_use
+  error • Invalid constant value • lib/features/affiliate/presentation/affiliate_page.dart:459:24 • invalid_constant
+  error • Invalid constant value • lib/features/affiliate/presentation/affiliate_page.dart:505:26 • invalid_constant
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/affiliate/presentation/affiliate_page.dart:577:50 • deprecated_member_use
+  error • Invalid constant value • lib/features/affiliate/presentation/affiliate_page.dart:580:64 • invalid_constant
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/affiliate/presentation/affiliate_page.dart:654:26 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/affiliate/presentation/affiliate_page.dart:672:26 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/affiliate/presentation/affiliate_page.dart:758:53 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/affiliate/presentation/affiliate_page.dart:787:42 • deprecated_member_use
+  error • Invalid constant value • lib/features/affiliate/presentation/affiliate_page.dart:794:26 • invalid_constant
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/affiliate/presentation/affiliate_page.dart:911:41 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/affiliate/presentation/affiliate_page.dart:1147:49 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/affiliate/presentation/affiliate_page.dart:1190:40 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/affiliate/presentation/affiliate_page.dart:1252:59 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/affiliate/presentation/affiliate_page.dart:1252:92 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/affiliate/presentation/affiliate_page.dart:1308:42 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/affiliate/presentation/affiliate_page.dart:1352:28 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/affiliate/presentation/affiliate_page.dart:1356:49 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/affiliate/presentation/affiliate_page.dart:1365:53 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/affiliate/presentation/affiliate_page.dart:1429:55 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/affiliate/presentation/affiliate_screen.dart:70:57 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/affiliate/presentation/affiliate_screen.dart:91:50 • deprecated_member_use
+  error • Invalid constant value • lib/features/affiliate/presentation/affiliate_screen.dart:109:28 • invalid_constant
+  error • Invalid constant value • lib/features/affiliate/presentation/affiliate_screen.dart:114:55 • invalid_constant
+  error • Invalid constant value • lib/features/affiliate/presentation/affiliate_screen.dart:181:76 • invalid_constant
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/affiliate/presentation/affiliate_screen.dart:225:44 • deprecated_member_use
+  error • Invalid constant value • lib/features/affiliate/presentation/affiliate_screen.dart:228:62 • invalid_constant
+  error • Invalid constant value • lib/features/affiliate/presentation/affiliate_screen.dart:234:76 • invalid_constant
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/affiliate/presentation/widgets/referral_stats_card.dart:99:43 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/affiliate/presentation/widgets/referral_stats_card.dart:176:39 • deprecated_member_use
+  error • Invalid constant value • lib/features/affiliate/presentation/widgets/referral_stats_card.dart:182:52 • invalid_constant
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/affiliate/presentation/widgets/referral_stats_card.dart:215:42 • deprecated_member_use
+  error • Invalid constant value • lib/features/affiliate/presentation/widgets/referral_stats_card.dart:221:26 • invalid_constant
+   info • Unnecessary 'const' keyword. Try removing the keyword • lib/features/ai/data/mock_data.dart:15:9 • unnecessary_const
+   info • Unnecessary 'const' keyword. Try removing the keyword • lib/features/ai/data/mock_data.dart:23:9 • unnecessary_const
+   info • Unnecessary 'const' keyword. Try removing the keyword • lib/features/ai/data/mock_data.dart:30:9 • unnecessary_const
+   info • Unnecessary use of multiple underscores. Try using '_' • lib/features/ai/presentation/ai_chat_page.dart:120:28 • unnecessary_underscores
+  error • Invalid constant value • lib/features/ai/presentation/ai_chat_page.dart:219:22 • invalid_constant
+  error • Invalid constant value • lib/features/ai/presentation/ai_chat_page.dart:613:25 • invalid_constant
+  error • Invalid constant value • lib/features/ai/presentation/ai_settings_page.dart:101:18 • invalid_constant
+  error • Invalid constant value • lib/features/ai/presentation/ai_settings_page.dart:141:58 • invalid_constant
+  error • Invalid constant value • lib/features/ai/presentation/ai_settings_page.dart:210:67 • invalid_constant
+   info • 'activeColor' is deprecated and shouldn't be used. Use activeThumbColor instead. This feature was deprecated after v3.31.0-2.0.pre. Try replacing the use of the deprecated member with the replacement • lib/features/ai/presentation/ai_settings_page.dart:381:11 • deprecated_member_use
+  error • Invalid constant value • lib/features/ai/presentation/ai_settings_page.dart:531:40 • invalid_constant
+  error • Invalid constant value • lib/features/ai/presentation/ai_writing_practice_page.dart:175:30 • invalid_constant
+  error • Invalid constant value • lib/features/ai/presentation/ai_writing_practice_page.dart:216:36 • invalid_constant
+  error • Invalid constant value • lib/features/ai/presentation/ai_writing_practice_page.dart:223:38 • invalid_constant
+  error • Invalid constant value • lib/features/ai/presentation/ai_writing_practice_page.dart:257:30 • invalid_constant
+  error • Invalid constant value • lib/features/ai/presentation/ai_writing_practice_page.dart:262:68 • invalid_constant
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/ai/widgets/chat_history_sidebar.dart:28:33 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/ai/widgets/chat_history_sidebar.dart:70:34 • deprecated_member_use
+  error • Invalid constant value • lib/features/ai/widgets/chat_history_sidebar.dart:77:44 • invalid_constant
+   info • Unnecessary use of multiple underscores. Try using '_' • lib/features/ai/widgets/chat_history_sidebar.dart:153:29 • unnecessary_underscores
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/ai/widgets/chat_history_sidebar.dart:189:49 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/ai/widgets/chat_history_sidebar.dart:199:49 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/ai/widgets/voice_recording_overlay.dart:69:27 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/ai/widgets/voice_recording_overlay.dart:89:37 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/ai/widgets/voice_recording_overlay.dart:99:37 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/ai/widgets/voice_recording_overlay.dart:123:31 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/ai/widgets/voice_recording_overlay.dart:232:28 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/ai/widgets/voice_recording_overlay.dart:241:35 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/ai_tutor/presentation/ai_tutor_screen.dart:77:57 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/ai_tutor/presentation/ai_tutor_screen.dart:99:50 • deprecated_member_use
+  error • Invalid constant value • lib/features/ai_tutor/presentation/widgets/ai_chat_screen.dart:66:72 • invalid_constant
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/ai_tutor/presentation/widgets/ai_chat_screen.dart:156:38 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/ai_tutor/presentation/widgets/ai_chat_screen.dart:196:33 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/ai_tutor/presentation/widgets/ai_writing_practice_list.dart:49:49 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/ai_tutor/presentation/widgets/ai_writing_practice_list.dart:50:49 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/ai_tutor/presentation/widgets/ai_writing_practice_list.dart:128:22 • deprecated_member_use
+  error • Invalid constant value • lib/features/auth/presentation/forgot_password_screen.dart:79:32 • invalid_constant
+  error • Invalid constant value • lib/features/auth/presentation/forgot_password_screen.dart:88:32 • invalid_constant
+  error • Invalid constant value • lib/features/auth/presentation/forgot_password_screen.dart:115:36 • invalid_constant
+  error • Invalid constant value • lib/features/auth/presentation/login_screen.dart:95:32 • invalid_constant
+  error • Invalid constant value • lib/features/auth/presentation/login_screen.dart:153:36 • invalid_constant
+  error • Invalid constant value • lib/features/auth/presentation/login_screen.dart:172:36 • invalid_constant
+  error • Invalid constant value • lib/features/auth/presentation/login_screen.dart:182:38 • invalid_constant
+  error • Invalid constant value • lib/features/auth/presentation/login_screen.dart:242:46 • invalid_constant
+  error • Invalid constant value • lib/features/auth/presentation/login_screen.dart:253:46 • invalid_constant
+  error • Invalid constant value • lib/features/auth/presentation/signup_screen.dart:105:32 • invalid_constant
+  error • Invalid constant value • lib/features/auth/presentation/signup_screen.dart:170:36 • invalid_constant
+  error • Invalid constant value • lib/features/auth/presentation/signup_screen.dart:180:38 • invalid_constant
+  error • Invalid constant value • lib/features/auth/presentation/signup_screen.dart:240:46 • invalid_constant
+  error • Invalid constant value • lib/features/auth/presentation/signup_screen.dart:246:22 • invalid_constant
+  error • Invalid constant value • lib/features/auth/presentation/signup_screen.dart:251:46 • invalid_constant
+  error • Invalid constant value • lib/features/auth/presentation/welcome_screen.dart:61:51 • invalid_constant
+  error • Invalid constant value • lib/features/auth/presentation/welcome_screen.dart:81:30 • invalid_constant
+  error • Invalid constant value • lib/features/auth/presentation/welcome_screen.dart:103:34 • invalid_constant
+  error • Invalid constant value • lib/features/auth/presentation/welcome_screen.dart:113:36 • invalid_constant
+  error • Invalid constant value • lib/features/auth/presentation/welcome_screen.dart:164:26 • invalid_constant
+  error • Invalid constant value • lib/features/auth/presentation/welcome_screen.dart:172:26 • invalid_constant
+  error • Invalid constant value • lib/features/auth/presentation/widgets/social_login_button.dart:49:41 • invalid_constant
+  error • Invalid constant value • lib/features/auth/presentation/widgets/social_login_button.dart:60:26 • invalid_constant
+  error • Invalid constant value • lib/features/dashboard/widgets/mobile_dashboard_header.dart:50:20 • invalid_constant
+  error • Invalid constant value • lib/features/dashboard/widgets/mobile_stats_card.dart:273:26 • invalid_constant
+  error • Invalid constant value • lib/features/dashboard/widgets/quick_actions.dart:212:22 • invalid_constant
+  error • Invalid constant value • lib/features/dashboard/widgets/streak_claim_modal.dart:152:34 • invalid_constant
+  error • Invalid constant value • lib/features/decks/presentation/deck_list_screen.dart:27:20 • invalid_constant
+  error • Invalid constant value • lib/features/decks/presentation/deck_list_screen.dart:121:39 • invalid_constant
+  error • Invalid constant value • lib/features/decks/presentation/deck_list_screen.dart:231:63 • invalid_constant
+  error • Arguments of a constant creation must be constant expressions. Try making the argument a valid constant, or use 'new' to call the constructor • lib/features/decks/presentation/deck_list_screen.dart:270:62 • const_with_non_constant_argument
+  error • Invalid constant value • lib/features/exam/presentation/exam_list_page.dart:19:20 • invalid_constant
+  error • Invalid constant value • lib/features/exam/presentation/exam_list_page.dart:69:32 • invalid_constant
+  error • Invalid constant value • lib/features/exam/presentation/exam_list_page.dart:100:69 • invalid_constant
+  error • Invalid constant value • lib/features/exam/presentation/exam_list_page.dart:203:60 • invalid_constant
+warning • A value for optional parameter 'isCompleted' isn't ever given. Try removing the unused parameter • lib/features/exam/presentation/exam_list_page.dart:279:10 • unused_element_parameter
+   info • The private field _totalQuestions could be 'final'. Try making the field 'final' • lib/features/exam/presentation/exam_practice_page.dart:24:7 • prefer_final_fields
+warning • The declaration '_formatTime' isn't referenced. Try removing the declaration of '_formatTime' • lib/features/exam/presentation/exam_practice_page.dart:96:10 • unused_element
+  error • Invalid constant value • lib/features/exam/presentation/exam_practice_page.dart:181:20 • invalid_constant
+  error • Invalid constant value • lib/features/exam/presentation/exam_practice_page.dart:372:24 • invalid_constant
+  error • Invalid constant value • lib/features/exam/presentation/exam_result_page.dart:93:20 • invalid_constant
+  error • Invalid constant value • lib/features/exam/presentation/exam_result_page.dart:537:32 • invalid_constant
+  error • Invalid constant value • lib/features/exam/presentation/exam_result_page.dart:560:32 • invalid_constant
+  error • Invalid constant value • lib/features/exam/presentation/exam_result_page.dart:586:32 • invalid_constant
+  error • Invalid constant value • lib/features/exam/presentation/exam_result_page.dart:609:32 • invalid_constant
+  error • Invalid constant value • lib/features/exam/presentation/exam_result_page.dart:704:58 • invalid_constant
+warning • Unused import: '../../../core/theme/app_colors.dart'. Try removing the import directive • lib/features/exam/presentation/exam_screen.dart:3:8 • unused_import
+warning • Unused import: 'widgets/writing_topics_list.dart'. Try removing the import directive • lib/features/exam/presentation/exam_screen.dart:6:8 • unused_import
+   info • Unnecessary use of multiple underscores. Try using '_' • lib/features/exam/presentation/exam_screen.dart:80:18 • unnecessary_underscores
+  error • Invalid constant value • lib/features/exam/presentation/goethe_b1_hub_page.dart:24:20 • invalid_constant
+  error • Invalid constant value • lib/features/exam/presentation/goethe_b1_hub_page.dart:225:24 • invalid_constant
+  error • Invalid constant value • lib/features/exam/presentation/goethe_b1_hub_page.dart:302:24 • invalid_constant
+warning • The value of the field '_selectedPart' isn't used. Try removing the field, or using it • lib/features/exam/presentation/goethe_b1_writing_page.dart:17:7 • unused_field
+  error • Invalid constant value • lib/features/exam/presentation/goethe_b1_writing_page.dart:46:20 • invalid_constant
+  error • Invalid constant value • lib/features/exam/presentation/goethe_b1_writing_page.dart:140:36 • invalid_constant
+  error • Invalid constant value • lib/features/exam/presentation/goethe_b1_writing_page.dart:253:34 • invalid_constant
+  error • Invalid constant value • lib/features/exam/presentation/goethe_b1_writing_page.dart:284:36 • invalid_constant
+  error • Invalid constant value • lib/features/exam/presentation/goethe_b1_writing_page.dart:291:38 • invalid_constant
+  error • Invalid constant value • lib/features/exam/presentation/goethe_b1_writing_page.dart:514:36 • invalid_constant
+  error • Invalid constant value • lib/features/exam/presentation/goethe_b1_writing_page.dart:609:47 • invalid_constant
+  error • Invalid constant value • lib/features/exam/presentation/goethe_b1_writing_page.dart:625:36 • invalid_constant
+warning • A value for optional parameter 'attempts' isn't ever given. Try removing the unused parameter • lib/features/exam/presentation/goethe_b1_writing_page.dart:654:10 • unused_element_parameter
+warning • A value for optional parameter 'bestScore' isn't ever given. Try removing the unused parameter • lib/features/exam/presentation/goethe_b1_writing_page.dart:655:10 • unused_element_parameter
+warning • The value of the field '_selectedPart' isn't used. Try removing the field, or using it • lib/features/exam/presentation/goethe_speaking_page.dart:16:7 • unused_field
+  error • Invalid constant value • lib/features/exam/presentation/goethe_speaking_page.dart:45:20 • invalid_constant
+  error • Invalid constant value • lib/features/exam/presentation/goethe_speaking_page.dart:139:36 • invalid_constant
+  error • Invalid constant value • lib/features/exam/presentation/goethe_speaking_page.dart:252:34 • invalid_constant
+  error • Invalid constant value • lib/features/exam/presentation/goethe_speaking_page.dart:283:36 • invalid_constant
+  error • Invalid constant value • lib/features/exam/presentation/goethe_speaking_page.dart:290:38 • invalid_constant
+  error • Invalid constant value • lib/features/exam/presentation/goethe_speaking_page.dart:642:26 • invalid_constant
+warning • A value for optional parameter 'attempts' isn't ever given. Try removing the unused parameter • lib/features/exam/presentation/goethe_speaking_page.dart:721:10 • unused_element_parameter
+warning • A value for optional parameter 'bestScore' isn't ever given. Try removing the unused parameter • lib/features/exam/presentation/goethe_speaking_page.dart:722:10 • unused_element_parameter
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/exam/presentation/widgets/exam_hub_card.dart:24:40 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/exam/presentation/widgets/exam_hub_card.dart:31:48 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/exam/presentation/widgets/exam_hub_card.dart:132:39 • deprecated_member_use
+  error • Invalid constant value • lib/features/exam/presentation/widgets/exam_readiness_card.dart:87:67 • invalid_constant
+  error • Invalid constant value • lib/features/exam/presentation/widgets/exam_readiness_card.dart:106:70 • invalid_constant
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/exam/presentation/widgets/writing_topics_list.dart:33:52 • deprecated_member_use
+  error • Invalid constant value • lib/features/exam/presentation/widgets/writing_topics_list.dart:36:62 • invalid_constant
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/exam/presentation/widgets/writing_topics_list.dart:71:54 • deprecated_member_use
+  error • Invalid constant value • lib/features/exam/presentation/widgets/writing_topics_list.dart:76:72 • invalid_constant
+  error • Invalid constant value • lib/features/exam/presentation/widgets/writing_topics_list.dart:80:63 • invalid_constant
+  error • Invalid constant value • lib/features/flashcard/presentation/flashcard_review_screen.dart:28:20 • invalid_constant
+  error • Arguments of a constant creation must be constant expressions. Try making the argument a valid constant, or use 'new' to call the constructor • lib/features/flashcard/presentation/flashcard_review_screen.dart:120:56 • const_with_non_constant_argument
+  error • Invalid constant value • lib/features/flashcard/presentation/flashcard_review_screen.dart:128:22 • invalid_constant
+  error • Invalid constant value • lib/features/flashcard/presentation/flashcard_review_screen.dart:153:22 • invalid_constant
+  error • Invalid constant value • lib/features/flashcard/presentation/flashcard_review_screen.dart:162:24 • invalid_constant
+  error • Invalid constant value • lib/features/flashcard/presentation/widgets/flashcard_view.dart:58:26 • invalid_constant
+  error • Invalid constant value • lib/features/flashcard/presentation/widgets/flashcard_view.dart:88:18 • invalid_constant
+  error • Invalid constant value • lib/features/flashcard/presentation/widgets/flashcard_view.dart:113:22 • invalid_constant
+  error • Invalid constant value • lib/features/flashcard/presentation/widgets/flashcard_view.dart:139:30 • invalid_constant
+  error • Invalid constant value • lib/features/flashcard/presentation/widgets/flashcard_view.dart:146:20 • invalid_constant
+  error • Invalid constant value • lib/features/flashcard/presentation/widgets/flashcard_view.dart:186:30 • invalid_constant
+  error • Invalid constant value • lib/features/flashcard/presentation/widgets/flashcard_view.dart:195:32 • invalid_constant
+  error • Invalid constant value • lib/features/flashcard/presentation/widgets/flashcard_view.dart:209:26 • invalid_constant
+  error • Const variables must be initialized with a constant value. Try changing the initializer to be a constant expression • lib/features/flashcard/presentation/widgets/rating_bar.dart:19:26 • const_initialized_with_non_constant_value
+  error • The values in a const map literal must be constant. Try removing the keyword 'const' from the map literal • lib/features/flashcard/presentation/widgets/rating_bar.dart:19:26 • non_constant_map_value
+  error • The values in a const map literal must be constant. Try removing the keyword 'const' from the map literal • lib/features/flashcard/presentation/widgets/rating_bar.dart:20:24 • non_constant_map_value
+  error • The values in a const map literal must be constant. Try removing the keyword 'const' from the map literal • lib/features/flashcard/presentation/widgets/rating_bar.dart:21:26 • non_constant_map_value
+  error • The values in a const map literal must be constant. Try removing the keyword 'const' from the map literal • lib/features/flashcard/presentation/widgets/rating_bar.dart:22:24 • non_constant_map_value
+  error • Invalid constant value • lib/features/games/games/article_game_screen.dart:168:28 • invalid_constant
+  error • Invalid constant value • lib/features/games/games/article_game_screen.dart:262:30 • invalid_constant
+  error • Invalid constant value • lib/features/games/games/article_game_screen.dart:384:26 • invalid_constant
+  error • Invalid constant value • lib/features/games/games/article_game_screen.dart:561:26 • invalid_constant
+  error • Invalid constant value • lib/features/games/games/article_game_screen.dart:710:20 • invalid_constant
+warning • The value of the field '_isCorrect' isn't used. Try removing the field, or using it • lib/features/games/games/cases_mastery_game_screen.dart:23:9 • unused_field
+  error • Invalid constant value • lib/features/games/games/cases_mastery_game_screen.dart:390:70 • invalid_constant
+  error • Invalid constant value • lib/features/games/games/cases_mastery_game_screen.dart:462:65 • invalid_constant
+warning • The value of the field '_isCorrect' isn't used. Try removing the field, or using it • lib/features/games/games/conversation_game_screen.dart:23:9 • unused_field
+  error • Invalid constant value • lib/features/games/games/conversation_game_screen.dart:290:22 • invalid_constant
+  error • Invalid constant value • lib/features/games/games/conversation_game_screen.dart:438:70 • invalid_constant
+  error • Invalid constant value • lib/features/games/games/conversation_game_screen.dart:505:65 • invalid_constant
+warning • The value of the field '_isCorrect' isn't used. Try removing the field, or using it • lib/features/games/games/fill_blank_game_screen.dart:24:9 • unused_field
+  error • Invalid constant value • lib/features/games/games/fill_blank_game_screen.dart:224:63 • invalid_constant
+  error • Invalid constant value • lib/features/games/games/fill_blank_game_screen.dart:381:70 • invalid_constant
+  error • Invalid constant value • lib/features/games/games/fill_blank_game_screen.dart:449:65 • invalid_constant
+  error • Invalid constant value • lib/features/games/games/flashcard_game_screen.dart:206:40 • invalid_constant
+  error • Invalid constant value • lib/features/games/games/flashcard_game_screen.dart:238:46 • invalid_constant
+   info • Unnecessary braces in a string interpolation. Try removing the braces • lib/features/games/games/flashcard_game_screen.dart:382:27 • unnecessary_brace_in_string_interps
+  error • Invalid constant value • lib/features/games/games/flashcard_game_screen.dart:471:55 • invalid_constant
+warning • The value of the field '_isCorrect' isn't used. Try removing the field, or using it • lib/features/games/games/konjugation_game_screen.dart:23:9 • unused_field
+  error • Invalid constant value • lib/features/games/games/konjugation_game_screen.dart:380:70 • invalid_constant
+  error • Invalid constant value • lib/features/games/games/konjugation_game_screen.dart:447:65 • invalid_constant
+warning • The value of the field '_isCorrect' isn't used. Try removing the field, or using it • lib/features/games/games/listening_game_screen.dart:25:9 • unused_field
+  error • Invalid constant value • lib/features/games/games/listening_game_screen.dart:237:26 • invalid_constant
+  error • Invalid constant value • lib/features/games/games/listening_game_screen.dart:348:70 • invalid_constant
+  error • Invalid constant value • lib/features/games/games/listening_game_screen.dart:418:65 • invalid_constant
+   info • The private field _matchedGerman could be 'final'. Try making the field 'final' • lib/features/games/games/matching_game_screen.dart:39:12 • prefer_final_fields
+   info • The private field _matchedVietnamese could be 'final'. Try making the field 'final' • lib/features/games/games/matching_game_screen.dart:40:12 • prefer_final_fields
+  error • Invalid constant value • lib/features/games/games/matching_game_screen.dart:169:28 • invalid_constant
+  error • Invalid constant value • lib/features/games/games/matching_game_screen.dart:411:72 • invalid_constant
+  error • Invalid constant value • lib/features/games/games/matching_game_screen.dart:641:65 • invalid_constant
+  error • Invalid constant value • lib/features/games/games/pronunciation_game_screen.dart:438:70 • invalid_constant
+  error • Invalid constant value • lib/features/games/games/pronunciation_game_screen.dart:503:65 • invalid_constant
+warning • The value of the field '_isRunning' isn't used. Try removing the field, or using it • lib/features/games/games/runner_game_screen.dart:23:8 • unused_field
+  error • Invalid constant value • lib/features/games/games/runner_game_screen.dart:344:26 • invalid_constant
+  error • Invalid constant value • lib/features/games/games/runner_game_screen.dart:432:70 • invalid_constant
+  error • Invalid constant value • lib/features/games/games/runner_game_screen.dart:593:65 • invalid_constant
+  error • Invalid constant value • lib/features/games/games/speaking_game_screen.dart:175:26 • invalid_constant
+  error • Invalid constant value • lib/features/games/games/speaking_game_screen.dart:331:70 • invalid_constant
+  error • Invalid constant value • lib/features/games/games/speaking_game_screen.dart:398:65 • invalid_constant
+  error • Invalid constant value • lib/features/games/games/typing_sprint_game_screen.dart:224:26 • invalid_constant
+  error • Invalid constant value • lib/features/games/games/typing_sprint_game_screen.dart:241:26 • invalid_constant
+  error • Invalid constant value • lib/features/games/games/typing_sprint_game_screen.dart:396:70 • invalid_constant
+  error • Invalid constant value • lib/features/games/games/typing_sprint_game_screen.dart:466:65 • invalid_constant
+  error • Invalid constant value • lib/features/games/games/word_order_game_screen.dart:285:26 • invalid_constant
+  error • Invalid constant value • lib/features/games/games/word_order_game_screen.dart:294:28 • invalid_constant
+warning • The value of the local variable 'index' isn't used. Try removing the variable or using it • lib/features/games/games/word_order_game_screen.dart:302:27 • unused_local_variable
+  error • Invalid constant value • lib/features/games/games/word_order_game_screen.dart:355:26 • invalid_constant
+  error • Invalid constant value • lib/features/games/games/word_order_game_screen.dart:451:70 • invalid_constant
+  error • Invalid constant value • lib/features/games/games/word_order_game_screen.dart:520:65 • invalid_constant
+warning • The value of the field '_isCorrect' isn't used. Try removing the field, or using it • lib/features/games/games/word_sprint_game_screen.dart:26:9 • unused_field
+  error • Invalid constant value • lib/features/games/games/word_sprint_game_screen.dart:171:28 • invalid_constant
+warning • Unnecessary cast. Try removing the cast • lib/features/games/games/word_sprint_game_screen.dart:247:18 • unnecessary_cast
+  error • Invalid constant value • lib/features/games/games/word_sprint_game_screen.dart:251:26 • invalid_constant
+  error • Invalid constant value • lib/features/games/games/word_sprint_game_screen.dart:378:72 • invalid_constant
+  error • Invalid constant value • lib/features/games/games/word_sprint_game_screen.dart:512:116 • invalid_constant
+  error • Invalid constant value • lib/features/games/games/word_sprint_game_screen.dart:571:65 • invalid_constant
+  error • Invalid constant value • lib/features/games/games/writing_sentence_game_screen.dart:246:26 • invalid_constant
+  error • Invalid constant value • lib/features/games/games/writing_sentence_game_screen.dart:393:70 • invalid_constant
+  error • Invalid constant value • lib/features/games/games/writing_sentence_game_screen.dart:462:65 • invalid_constant
+  error • Invalid constant value • lib/features/games/games/writing_word_game_screen.dart:215:26 • invalid_constant
+  error • Invalid constant value • lib/features/games/games/writing_word_game_screen.dart:377:70 • invalid_constant
+  error • Invalid constant value • lib/features/games/games/writing_word_game_screen.dart:446:65 • invalid_constant
+  error • Invalid constant value • lib/features/games/presentation/game_hub_screen.dart:155:57 • invalid_constant
+  error • Invalid constant value • lib/features/games/presentation/game_hub_screen.dart:170:28 • invalid_constant
+  error • Invalid constant value • lib/features/games/presentation/game_hub_screen.dart:187:26 • invalid_constant
+  error • Invalid constant value • lib/features/games/presentation/game_hub_screen.dart:272:57 • invalid_constant
+  error • Invalid constant value • lib/features/games/presentation/game_hub_screen.dart:332:22 • invalid_constant
+  error • Invalid constant value • lib/features/games/presentation/game_hub_screen.dart:519:20 • invalid_constant
+  error • Invalid constant value • lib/features/games/presentation/game_hub_screen.dart:756:32 • invalid_constant
+  error • Invalid constant value • lib/features/games/presentation/game_hub_screen.dart:767:34 • invalid_constant
+warning • The declaration '_checkAnswer' isn't referenced. Try removing the declaration of '_checkAnswer' • lib/features/games/widgets/game_base.dart:64:8 • unused_element
+  error • Invalid constant value • lib/features/games/widgets/game_base.dart:181:45 • invalid_constant
+  error • Invalid constant value • lib/features/games/widgets/game_base.dart:188:26 • invalid_constant
+  error • Arguments of a constant creation must be constant expressions. Try making the argument a valid constant, or use 'new' to call the constructor • lib/features/games/widgets/game_base.dart:259:55 • const_with_non_constant_argument
+  error • Invalid constant value • lib/features/games/widgets/game_base.dart:334:24 • invalid_constant
+  error • Invalid constant value • lib/features/games/widgets/game_base.dart:341:24 • invalid_constant
+  error • Invalid constant value • lib/features/grammar/presentation/grammar_screen.dart:108:20 • invalid_constant
+  error • Invalid constant value • lib/features/grammar/presentation/grammar_screen.dart:189:58 • invalid_constant
+  error • Invalid constant value • lib/features/grammar/presentation/grammar_screen.dart:216:30 • invalid_constant
+  error • Arguments of a constant creation must be constant expressions. Try making the argument a valid constant, or use 'new' to call the constructor • lib/features/grammar/presentation/grammar_screen.dart:228:60 • const_with_non_constant_argument
+warning • The value of the field '_levelFilters' isn't used. Try removing the field, or using it • lib/features/grammar/widgets/grammar_roadmap.dart:19:16 • unused_field
+warning • The value of the field '_topics' isn't used. Try removing the field, or using it • lib/features/grammar/widgets/grammar_roadmap.dart:20:16 • unused_field
+  error • Invalid constant value • lib/features/grammar/widgets/grammar_roadmap.dart:379:40 • invalid_constant
+   info • Unnecessary braces in a string interpolation. Try removing the braces • lib/features/grammar/widgets/grammar_roadmap.dart:388:28 • unnecessary_brace_in_string_interps
+  error • Invalid constant value • lib/features/home/presentation/home_screen.dart:163:26 • invalid_constant
+  error • Invalid constant value • lib/features/home/presentation/home_screen.dart:204:22 • invalid_constant
+  error • Invalid constant value • lib/features/home/presentation/home_screen.dart:232:28 • invalid_constant
+  error • Invalid constant value • lib/features/home/presentation/home_screen.dart:246:34 • invalid_constant
+  error • Arguments of a constant creation must be constant expressions. Try making the argument a valid constant, or use 'new' to call the constructor • lib/features/home/presentation/home_screen.dart:262:27 • const_with_non_constant_argument
+  error • Invalid constant value • lib/features/home/presentation/home_screen.dart:334:28 • invalid_constant
+  error • Invalid constant value • lib/features/home/presentation/widgets/daily_goal_card.dart:28:20 • invalid_constant
+  error • Invalid constant value • lib/features/home/presentation/widgets/mission_list.dart:26:20 • invalid_constant
+  error • Invalid constant value • lib/features/home/presentation/widgets/mission_list.dart:101:28 • invalid_constant
+  error • Invalid constant value • lib/features/home/presentation/widgets/quick_stats_row.dart:79:24 • invalid_constant
+  error • Invalid constant value • lib/features/home/presentation/widgets/quick_stats_row.dart:88:24 • invalid_constant
+  error • Invalid constant value • lib/features/interview/presentation/group_detail_screen.dart:32:20 • invalid_constant
+  error • Invalid constant value • lib/features/interview/presentation/group_detail_screen.dart:135:32 • invalid_constant
+  error • Invalid constant value • lib/features/interview/presentation/group_detail_screen.dart:143:32 • invalid_constant
+  error • Invalid constant value • lib/features/interview/presentation/group_detail_screen.dart:152:26 • invalid_constant
+  error • Invalid constant value • lib/features/interview/presentation/group_detail_screen.dart:193:24 • invalid_constant
+  error • Invalid constant value • lib/features/interview/presentation/interview_roadmap_screen.dart:28:20 • invalid_constant
+  error • Invalid constant value • lib/features/interview/presentation/video_player_screen.dart:136:20 • invalid_constant
+  error • Invalid constant value • lib/features/interview/presentation/video_player_screen.dart:199:34 • invalid_constant
+  error • Invalid constant value • lib/features/interview/presentation/widgets/group_card.dart:30:39 • invalid_constant
+  error • Invalid constant value • lib/features/interview/presentation/widgets/group_card.dart:53:36 • invalid_constant
+  error • Invalid constant value • lib/features/interview/presentation/widgets/group_card.dart:60:36 • invalid_constant
+  error • Invalid constant value • lib/features/interview/presentation/widgets/group_card.dart:75:28 • invalid_constant
+  error • Invalid constant value • lib/features/interview/presentation/widgets/group_card.dart:82:30 • invalid_constant
+  error • Invalid constant value • lib/features/interview/presentation/widgets/group_card.dart:92:32 • invalid_constant
+  error • Arguments of a constant creation must be constant expressions. Try making the argument a valid constant, or use 'new' to call the constructor • lib/features/interview/presentation/widgets/group_card.dart:107:23 • const_with_non_constant_argument
+  error • Invalid constant value • lib/features/interview/presentation/widgets/group_card.dart:131:16 • invalid_constant
+  error • Invalid constant value • lib/features/interview/presentation/widgets/group_card.dart:139:18 • invalid_constant
+  error • Invalid constant value • lib/features/interview/presentation/widgets/group_card.dart:164:18 • invalid_constant
+  error • Invalid constant value • lib/features/interview/presentation/widgets/premium_required_view.dart:29:22 • invalid_constant
+  error • Invalid constant value • lib/features/interview/presentation/widgets/premium_required_view.dart:37:24 • invalid_constant
+  error • Invalid constant value • lib/features/interview/presentation/widgets/premium_required_view.dart:44:53 • invalid_constant
+  error • Invalid constant value • lib/features/interview/widgets/transcript_panel.dart:61:62 • invalid_constant
+  error • Invalid constant value • lib/features/interview/widgets/transcript_panel.dart:88:57 • invalid_constant
+  error • Invalid constant value • lib/features/interview/widgets/video_notes_panel.dart:108:59 • invalid_constant
+  error • Invalid constant value • lib/features/interview/widgets/video_notes_panel.dart:140:57 • invalid_constant
+  error • Invalid constant value • lib/features/interview/widgets/video_notes_panel.dart:145:49 • invalid_constant
+warning • Unused import: '../data/journey_repository.dart'. Try removing the import directive • lib/features/journey/presentation/journey_roadmap_screen.dart:6:8 • unused_import
+   info • Unnecessary use of multiple underscores. Try using '_' • lib/features/journey/presentation/journey_roadmap_screen.dart:39:24 • unnecessary_underscores
+  error • Invalid constant value • lib/features/journey/presentation/journey_roadmap_screen.dart:68:20 • invalid_constant
+warning • Unused import: 'widgets/chapter_detail_screen.dart'. Try removing the import directive • lib/features/journey/presentation/journey_screen.dart:6:8 • unused_import
+warning • The value of the local variable 'progressAsync' isn't used. Try removing the variable or using it • lib/features/journey/presentation/journey_screen.dart:13:11 • unused_local_variable
+   info • Unnecessary use of multiple underscores. Try using '_' • lib/features/journey/presentation/journey_screen.dart:50:18 • unnecessary_underscores
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/journey/presentation/journey_screen.dart:53:34 • deprecated_member_use
+  error • Arguments of a constant creation must be constant expressions. Try making the argument a valid constant, or use 'new' to call the constructor • lib/features/journey/presentation/journey_screen.dart:87:62 • const_with_non_constant_argument
+warning • Unused import: '../data/journey_repository.dart'. Try removing the import directive • lib/features/journey/presentation/learning_browser_screen.dart:7:8 • unused_import
+warning • The value of the field '_levelFilters' isn't used. Try removing the field, or using it • lib/features/journey/presentation/learning_browser_screen.dart:30:16 • unused_field
+warning • The value of the field '_categoryFilters' isn't used. Try removing the field, or using it • lib/features/journey/presentation/learning_browser_screen.dart:31:16 • unused_field
+warning • The value of the field '_typeFilters' isn't used. Try removing the field, or using it • lib/features/journey/presentation/learning_browser_screen.dart:32:16 • unused_field
+  error • Invalid constant value • lib/features/journey/presentation/learning_browser_screen.dart:161:65 • invalid_constant
+  error • Invalid constant value • lib/features/journey/presentation/learning_browser_screen.dart:470:24 • invalid_constant
+  error • Invalid constant value • lib/features/journey/presentation/learning_browser_screen.dart:484:30 • invalid_constant
+  error • Invalid constant value • lib/features/journey/presentation/learning_browser_screen.dart:499:22 • invalid_constant
+  error • Invalid constant value • lib/features/journey/presentation/learning_browser_screen.dart:637:38 • invalid_constant
+  error • Invalid constant value • lib/features/journey/presentation/learning_browser_screen.dart:651:68 • invalid_constant
+  error • Invalid constant value • lib/features/journey/presentation/learning_browser_screen.dart:800:62 • invalid_constant
+   info • 'value' is deprecated and shouldn't be used. Use initialValue instead. This will set the initial value for the form field. This feature was deprecated after v3.33.0-1.0.pre. Try replacing the use of the deprecated member with the replacement • lib/features/journey/presentation/learning_browser_screen.dart:846:21 • deprecated_member_use
+   info • 'value' is deprecated and shouldn't be used. Use initialValue instead. This will set the initial value for the form field. This feature was deprecated after v3.33.0-1.0.pre. Try replacing the use of the deprecated member with the replacement • lib/features/journey/presentation/learning_browser_screen.dart:855:21 • deprecated_member_use
+  error • Invalid constant value • lib/features/journey/presentation/widgets/chapter_detail_screen.dart:56:28 • invalid_constant
+  error • Invalid constant value • lib/features/journey/presentation/widgets/chapter_detail_screen.dart:173:28 • invalid_constant
+  error • Invalid constant value • lib/features/journey/presentation/widgets/chapter_detail_screen.dart:212:28 • invalid_constant
+   info • Unnecessary use of multiple underscores. Try using '_' • lib/features/journey/presentation/widgets/chapter_detail_screen.dart:231:24 • unnecessary_underscores
+  error • Invalid constant value • lib/features/journey/presentation/widgets/chapter_detail_screen.dart:270:20 • invalid_constant
+  error • Invalid constant value • lib/features/journey/presentation/widgets/chapter_detail_screen.dart:311:22 • invalid_constant
+  error • Invalid constant value • lib/features/journey/presentation/widgets/chapter_detail_screen.dart:407:53 • invalid_constant
+  error • Invalid constant value • lib/features/journey/presentation/widgets/chapter_detail_screen.dart:503:34 • invalid_constant
+  error • Invalid constant value • lib/features/journey/presentation/widgets/chapter_detail_screen.dart:516:28 • invalid_constant
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/journey/presentation/widgets/journey_roadmap.dart:49:65 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/journey/presentation/widgets/journey_roadmap.dart:104:58 • deprecated_member_use
+  error • Invalid constant value • lib/features/journey/presentation/widgets/journey_roadmap.dart:109:70 • invalid_constant
+  error • Invalid constant value • lib/features/leaderboard/presentation/leaderboard_screen.dart:74:64 • invalid_constant
+  error • Invalid constant value • lib/features/legal/privacy_policy_screen.dart:19:20 • invalid_constant
+  error • Invalid constant value • lib/features/legal/terms_of_service_screen.dart:19:20 • invalid_constant
+warning • The value of the field '_totalAttempts' isn't used. Try removing the field, or using it • lib/features/listening/presentation/dictation_page.dart:34:7 • unused_field
+  error • Invalid constant value • lib/features/listening/presentation/dictation_page.dart:109:28 • invalid_constant
+  error • Invalid constant value • lib/features/listening/presentation/dictation_page.dart:154:45 • invalid_constant
+  error • Invalid constant value • lib/features/listening/presentation/dictation_page.dart:167:24 • invalid_constant
+  error • Invalid constant value • lib/features/listening/presentation/dictation_page.dart:272:57 • invalid_constant
+  error • Invalid constant value • lib/features/listening/presentation/dictation_page.dart:286:28 • invalid_constant
+  error • Invalid constant value • lib/features/listening/presentation/dictation_page.dart:300:53 • invalid_constant
+  error • Invalid constant value • lib/features/listening/presentation/dictation_page.dart:350:63 • invalid_constant
+  error • Invalid constant value • lib/features/listening/presentation/dictation_page.dart:356:28 • invalid_constant
+  error • Invalid constant value • lib/features/listening/presentation/dictation_page.dart:400:32 • invalid_constant
+warning • The value of the local variable 'parts' isn't used. Try removing the variable or using it • lib/features/listening/presentation/dictation_page.dart:466:11 • unused_local_variable
+  error • Invalid constant value • lib/features/listening/presentation/dictation_page.dart:497:28 • invalid_constant
+  error • Invalid constant value • lib/features/listening/presentation/dictation_page.dart:531:62 • invalid_constant
+  error • Invalid constant value • lib/features/listening/presentation/dictation_page.dart:559:18 • invalid_constant
+  error • Invalid constant value • lib/features/listening/presentation/dictation_page.dart:570:18 • invalid_constant
+  error • Invalid constant value • lib/features/listening/presentation/dictation_page.dart:612:53 • invalid_constant
+  error • Invalid constant value • lib/features/listening/presentation/dictation_page.dart:614:55 • invalid_constant
+  error • Invalid constant value • lib/features/listening/presentation/dictation_page.dart:638:49 • invalid_constant
+  error • Invalid constant value • lib/features/listening/presentation/dictation_page.dart:706:24 • invalid_constant
+  error • Arguments of a constant creation must be constant expressions. Try making the argument a valid constant, or use 'new' to call the constructor • lib/features/listening/presentation/dictation_page.dart:715:52 • const_with_non_constant_argument
+  error • Invalid constant value • lib/features/listening/presentation/dictation_page.dart:754:26 • invalid_constant
+  error • Invalid constant value • lib/features/listening/presentation/dictation_page.dart:764:26 • invalid_constant
+  error • Invalid constant value • lib/features/listening/presentation/dictation_page.dart:802:26 • invalid_constant
+  error • Invalid constant value • lib/features/listening/presentation/dictation_page.dart:845:26 • invalid_constant
+  error • Invalid constant value • lib/features/listening/presentation/easy_german_podcast_page.dart:75:57 • invalid_constant
+  error • Invalid constant value • lib/features/listening/presentation/easy_german_podcast_page.dart:89:28 • invalid_constant
+  error • Invalid constant value • lib/features/listening/presentation/easy_german_podcast_page.dart:317:30 • invalid_constant
+  error • Invalid constant value • lib/features/listening/presentation/easy_german_podcast_page.dart:333:32 • invalid_constant
+  error • Invalid constant value • lib/features/listening/presentation/easy_german_podcast_page.dart:377:42 • invalid_constant
+  error • Arguments of a constant creation must be constant expressions. Try making the argument a valid constant, or use 'new' to call the constructor • lib/features/listening/presentation/easy_german_podcast_page.dart:398:33 • const_with_non_constant_argument
+  error • Invalid constant value • lib/features/listening/presentation/easy_german_podcast_page.dart:414:30 • invalid_constant
+  error • Invalid constant value • lib/features/listening/presentation/easy_german_podcast_player_page.dart:145:57 • invalid_constant
+  error • Invalid constant value • lib/features/listening/presentation/easy_german_podcast_player_page.dart:159:28 • invalid_constant
+  error • Invalid constant value • lib/features/listening/presentation/easy_german_podcast_player_page.dart:180:53 • invalid_constant
+  error • Invalid constant value • lib/features/listening/presentation/easy_german_podcast_player_page.dart:223:22 • invalid_constant
+  error • Invalid constant value • lib/features/listening/presentation/easy_german_podcast_player_page.dart:233:22 • invalid_constant
+  error • Invalid constant value • lib/features/listening/presentation/easy_german_podcast_player_page.dart:335:28 • invalid_constant
+  error • Invalid constant value • lib/features/listening/presentation/easy_german_podcast_player_page.dart:397:53 • invalid_constant
+  error • Invalid constant value • lib/features/listening/presentation/easy_german_podcast_player_page.dart:404:26 • invalid_constant
+  error • Invalid constant value • lib/features/listening/presentation/easy_german_podcast_player_page.dart:456:52 • invalid_constant
+  error • Invalid constant value • lib/features/listening/presentation/easy_german_podcast_player_page.dart:463:28 • invalid_constant
+  error • Invalid constant value • lib/features/listening/presentation/easy_german_podcast_player_page.dart:614:18 • invalid_constant
+  error • Invalid constant value • lib/features/listening/presentation/easy_german_podcast_player_page.dart:659:18 • invalid_constant
+  error • Invalid constant value • lib/features/listening/presentation/easy_german_podcast_player_page.dart:706:24 • invalid_constant
+  error • Invalid constant value • lib/features/listening/presentation/easy_german_podcast_player_page.dart:716:24 • invalid_constant
+  error • Invalid constant value • lib/features/listening/presentation/easy_german_podcast_player_page.dart:756:24 • invalid_constant
+   info • 'activeColor' is deprecated and shouldn't be used. Use activeThumbColor instead. This feature was deprecated after v3.31.0-2.0.pre. Try replacing the use of the deprecated member with the replacement • lib/features/listening/presentation/easy_german_podcast_player_page.dart:764:15 • deprecated_member_use
+   info • 'activeColor' is deprecated and shouldn't be used. Use activeThumbColor instead. This feature was deprecated after v3.31.0-2.0.pre. Try replacing the use of the deprecated member with the replacement • lib/features/listening/presentation/easy_german_podcast_player_page.dart:773:15 • deprecated_member_use
+  error • Invalid constant value • lib/features/listening/presentation/easy_german_podcast_player_page.dart:816:20 • invalid_constant
+  error • Invalid constant value • lib/features/listening/presentation/listening_hub_screen.dart:79:57 • invalid_constant
+  error • Invalid constant value • lib/features/listening/presentation/listening_hub_screen.dart:93:28 • invalid_constant
+  error • Invalid constant value • lib/features/listening/presentation/listening_hub_screen.dart:168:41 • invalid_constant
+  error • Invalid constant value • lib/features/listening/presentation/listening_hub_screen.dart:267:20 • invalid_constant
+warning • Unused import: 'package:flutter/material.dart'. Try removing the import directive • lib/features/listening/presentation/podcast_provider.dart:1:8 • unused_import
+   info • The private field _showOnlyIncomplete could be 'final'. Try making the field 'final' • lib/features/listening/presentation/sprechen_b1_page.dart:19:8 • prefer_final_fields
+warning • The value of the field '_showOnlyIncomplete' isn't used. Try removing the field, or using it • lib/features/listening/presentation/sprechen_b1_page.dart:19:8 • unused_field
+  error • Invalid constant value • lib/features/listening/presentation/sprechen_b1_page.dart:76:57 • invalid_constant
+  error • Invalid constant value • lib/features/listening/presentation/sprechen_b1_page.dart:90:28 • invalid_constant
+  error • Invalid constant value • lib/features/listening/presentation/sprechen_b1_page.dart:127:26 • invalid_constant
+  error • Invalid constant value • lib/features/listening/presentation/sprechen_b1_page.dart:414:30 • invalid_constant
+  error • Invalid constant value • lib/features/listening/presentation/sprechen_b1_page.dart:440:28 • invalid_constant
+  error • Invalid constant value • lib/features/listening/presentation/sprechen_b2_page.dart:75:57 • invalid_constant
+  error • Invalid constant value • lib/features/listening/presentation/sprechen_b2_page.dart:89:28 • invalid_constant
+  error • Invalid constant value • lib/features/listening/presentation/sprechen_b2_page.dart:413:30 • invalid_constant
+  error • Invalid constant value • lib/features/listening/presentation/sprechen_b2_page.dart:439:28 • invalid_constant
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/listening/presentation/widgets/audiobook_list.dart:45:48 • deprecated_member_use
+  error • Invalid constant value • lib/features/listening/presentation/widgets/audiobook_list.dart:53:67 • invalid_constant
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/listening/presentation/widgets/audiobook_list.dart:63:56 • deprecated_member_use
+  error • Invalid constant value • lib/features/listening/presentation/widgets/audiobook_list.dart:68:73 • invalid_constant
+  error • Invalid constant value • lib/features/listening/presentation/widgets/audiobook_list.dart:102:71 • invalid_constant
+  error • Invalid constant value • lib/features/listening/presentation/widgets/dictation_list.dart:88:36 • invalid_constant
+  error • Invalid constant value • lib/features/listening/presentation/widgets/podcast_series_card.dart:89:36 • invalid_constant
+  error • Invalid constant value • lib/features/profile/presentation/edit_profile_screen.dart:72:20 • invalid_constant
+  error • Invalid constant value • lib/features/profile/presentation/profile_screen.dart:29:20 • invalid_constant
+  error • Invalid constant value • lib/features/profile/presentation/profile_screen.dart:176:39 • invalid_constant
+  error • Invalid constant value • lib/features/profile/presentation/profile_screen.dart:183:18 • invalid_constant
+  error • Invalid constant value • lib/features/profile/presentation/widgets/profile_header.dart:30:28 • invalid_constant
+  error • Invalid constant value • lib/features/profile/presentation/widgets/profile_header.dart:40:20 • invalid_constant
+  error • Invalid constant value • lib/features/profile/presentation/widgets/profile_header.dart:57:24 • invalid_constant
+  error • Invalid constant value • lib/features/profile/presentation/widgets/profile_stats_grid.dart:69:26 • invalid_constant
+  error • Invalid constant value • lib/features/profile/presentation/widgets/profile_stats_grid.dart:76:26 • invalid_constant
+  error • Invalid constant value • lib/features/progress/presentation/progress_analytics_screen.dart:93:20 • invalid_constant
+  error • Invalid constant value • lib/features/progress/presentation/progress_analytics_screen.dart:417:28 • invalid_constant
+  error • Invalid constant value • lib/features/pronunciation/widgets/pronunciation_practice.dart:84:22 • invalid_constant
+  error • Invalid constant value • lib/features/pronunciation/widgets/pronunciation_practice.dart:112:28 • invalid_constant
+  error • Invalid constant value • lib/features/pronunciation/widgets/pronunciation_practice.dart:223:26 • invalid_constant
+  error • Invalid constant value • lib/features/quiz/presentation/daily_review.dart:123:24 • invalid_constant
+  error • Invalid constant value • lib/features/quiz/presentation/daily_review.dart:198:48 • invalid_constant
+  error • Invalid constant value • lib/features/quiz/presentation/daily_review.dart:206:20 • invalid_constant
+  error • Arguments of a constant creation must be constant expressions. Try making the argument a valid constant, or use 'new' to call the constructor • lib/features/quiz/presentation/daily_review.dart:219:63 • const_with_non_constant_argument
+  error • Invalid constant value • lib/features/quiz/presentation/daily_review.dart:230:24 • invalid_constant
+  error • Invalid constant value • lib/features/quiz/presentation/daily_review.dart:294:52 • invalid_constant
+  error • Invalid constant value • lib/features/quiz/presentation/quiz_list_screen.dart:89:20 • invalid_constant
+  error • Invalid constant value • lib/features/reminders/presentation/reminder_settings_screen.dart:145:20 • invalid_constant
+  error • Invalid constant value • lib/features/settings/presentation/settings_screen.dart:29:20 • invalid_constant
+  error • Invalid constant value • lib/features/settings/presentation/settings_screen.dart:273:46 • invalid_constant
+  error • Invalid constant value • lib/features/settings/presentation/settings_screen.dart:340:44 • invalid_constant
+  error • Invalid constant value • lib/features/settings/presentation/settings_screen.dart:361:18 • invalid_constant
+  error • Invalid constant value • lib/features/settings/presentation/settings_screen.dart:401:56 • invalid_constant
+  error • Invalid constant value • lib/features/settings/presentation/settings_screen.dart:480:22 • invalid_constant
+  error • Invalid constant value • lib/features/settings/presentation/settings_screen.dart:502:60 • invalid_constant
+  error • Invalid constant value • lib/features/settings/presentation/settings_screen.dart:527:45 • invalid_constant
+  error • Invalid constant value • lib/features/settings/presentation/settings_screen.dart:529:54 • invalid_constant
+  error • Invalid constant value • lib/features/social/presentation/challenges_page.dart:39:64 • invalid_constant
+  error • Invalid constant value • lib/features/social/presentation/challenges_page.dart:214:34 • invalid_constant
+  error • Invalid constant value • lib/features/social/presentation/challenges_page.dart:222:67 • invalid_constant
+  error • Invalid constant value • lib/features/social/presentation/challenges_page.dart:227:38 • invalid_constant
+  error • Invalid constant value • lib/features/social/presentation/challenges_page.dart:267:57 • invalid_constant
+  error • Invalid constant value • lib/features/social/presentation/challenges_page.dart:331:28 • invalid_constant
+  error • Invalid constant value • lib/features/social/presentation/challenges_page.dart:508:55 • invalid_constant
+  error • Invalid constant value • lib/features/social/presentation/chat_page.dart:174:57 • invalid_constant
+  error • Invalid constant value • lib/features/social/presentation/duel_lobby_page.dart:42:64 • invalid_constant
+  error • Invalid constant value • lib/features/social/presentation/duel_lobby_page.dart:67:20 • invalid_constant
+  error • Arguments of a constant creation must be constant expressions. Try making the argument a valid constant, or use 'new' to call the constructor • lib/features/social/presentation/duel_lobby_page.dart:164:50 • const_with_non_constant_argument
+  error • Invalid constant value • lib/features/social/presentation/duel_play_page.dart:222:30 • invalid_constant
+  error • Arguments of a constant creation must be constant expressions. Try making the argument a valid constant, or use 'new' to call the constructor • lib/features/social/presentation/duel_play_page.dart:312:48 • const_with_non_constant_argument
+  error • Invalid constant value • lib/features/social/presentation/duel_play_page.dart:411:49 • invalid_constant
+  error • Invalid constant value • lib/features/social/presentation/duel_play_page.dart:418:30 • invalid_constant
+  error • Invalid constant value • lib/features/social/presentation/friends_page.dart:43:64 • invalid_constant
+  error • Invalid constant value • lib/features/social/presentation/friends_page.dart:433:47 • invalid_constant
+  error • Invalid constant value • lib/features/social/presentation/friends_page.dart:532:39 • invalid_constant
+  error • Invalid constant value • lib/features/social/presentation/group_detail_page.dart:322:58 • invalid_constant
+  error • Invalid constant value • lib/features/social/presentation/group_detail_page.dart:339:82 • invalid_constant
+  error • Invalid constant value • lib/features/social/presentation/group_detail_page.dart:371:59 • invalid_constant
+  error • Invalid constant value • lib/features/social/presentation/groups_page.dart:21:64 • invalid_constant
+  error • Invalid constant value • lib/features/social/presentation/groups_page.dart:121:59 • invalid_constant
+  error • Invalid constant value • lib/features/social/presentation/groups_page.dart:176:61 • invalid_constant
+  error • Invalid constant value • lib/features/social/presentation/messages_page.dart:21:64 • invalid_constant
+  error • Invalid constant value • lib/features/social/presentation/messages_page.dart:267:85 • invalid_constant
+  error • Invalid constant value • lib/features/social/presentation/moments_page.dart:31:64 • invalid_constant
+  error • Invalid constant value • lib/features/social/presentation/moments_page.dart:151:83 • invalid_constant
+  error • Invalid constant value • lib/features/social/presentation/moments_page.dart:257:53 • invalid_constant
+  error • Invalid constant value • lib/features/social/presentation/widgets/challenges_list.dart:89:67 • invalid_constant
+  error • Invalid constant value • lib/features/social/presentation/widgets/challenges_list.dart:93:59 • invalid_constant
+  error • Invalid constant value • lib/features/social/presentation/widgets/study_groups_list.dart:33:61 • invalid_constant
+  error • Invalid constant value • lib/features/social/presentation/widgets/study_groups_list.dart:54:79 • invalid_constant
+  error • Invalid constant value • lib/features/social/presentation/widgets/study_groups_list.dart:189:67 • invalid_constant
+  error • Invalid constant value • lib/features/social/presentation/widgets/study_groups_list.dart:193:59 • invalid_constant
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/speaking/presentation/conversation_hub_page.dart:90:39 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/speaking/presentation/conversation_hub_page.dart:125:35 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/speaking/presentation/conversation_hub_page.dart:156:40 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/speaking/presentation/conversation_hub_page.dart:168:63 • deprecated_member_use
+   info • Unnecessary use of multiple underscores. Try using '_' • lib/features/speaking/presentation/conversation_hub_page.dart:177:47 • unnecessary_underscores
+   info • Unnecessary use of multiple underscores. Try using '_' • lib/features/speaking/presentation/conversation_hub_page.dart:177:51 • unnecessary_underscores
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/speaking/presentation/conversation_hub_page.dart:200:73 • deprecated_member_use
+  error • Invalid constant value • lib/features/speaking/presentation/conversation_hub_page.dart:227:34 • invalid_constant
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/speaking/presentation/conversation_hub_page.dart:267:46 • deprecated_member_use
+  error • Invalid constant value • lib/features/speaking/presentation/conversation_hub_page.dart:272:28 • invalid_constant
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/speaking/presentation/conversation_scenario_page.dart:198:34 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/speaking/presentation/conversation_scenario_page.dart:211:44 • deprecated_member_use
+  error • Invalid constant value • lib/features/speaking/presentation/conversation_scenario_page.dart:219:28 • invalid_constant
+warning • The value of the local variable 'isAssistant' isn't used. Try removing the variable or using it • lib/features/speaking/presentation/conversation_scenario_page.dart:243:11 • unused_local_variable
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/speaking/presentation/conversation_scenario_page.dart:262:35 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/speaking/presentation/conversation_scenario_page.dart:278:48 • deprecated_member_use
+  error • Invalid constant value • lib/features/speaking/presentation/conversation_scenario_page.dart:281:73 • invalid_constant
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/speaking/presentation/conversation_scenario_page.dart:326:33 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/speaking/presentation/conversation_scenario_page.dart:343:72 • deprecated_member_use
+  error • Invalid constant value • lib/features/speaking/presentation/conversation_scenario_page.dart:380:26 • invalid_constant
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/speaking/presentation/conversation_scenario_page.dart:400:40 • deprecated_member_use
+  error • Invalid constant value • lib/features/speaking/presentation/conversation_scenario_page.dart:407:46 • invalid_constant
+  error • Invalid constant value • lib/features/speaking/presentation/conversation_scenario_page.dart:454:22 • invalid_constant
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/speaking/presentation/ich_ach_trainer_page.dart:107:28 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/speaking/presentation/ich_ach_trainer_page.dart:139:27 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/speaking/presentation/ich_ach_trainer_page.dart:140:27 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/speaking/presentation/ich_ach_trainer_page.dart:144:49 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/speaking/presentation/ich_ach_trainer_page.dart:200:22 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/speaking/presentation/ich_ach_trainer_page.dart:202:41 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/speaking/presentation/ich_ach_trainer_page.dart:244:33 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/speaking/presentation/ich_ach_trainer_page.dart:286:52 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/speaking/presentation/ich_ach_trainer_page.dart:286:82 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/speaking/presentation/ich_ach_trainer_page.dart:290:40 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/speaking/presentation/ich_ach_trainer_page.dart:329:41 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/speaking/presentation/ich_ach_trainer_page.dart:329:71 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/speaking/presentation/ich_ach_trainer_page.dart:379:33 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/speaking/presentation/r_sound_trainer_page.dart:95:26 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/speaking/presentation/r_sound_trainer_page.dart:127:25 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/speaking/presentation/r_sound_trainer_page.dart:128:25 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/speaking/presentation/r_sound_trainer_page.dart:132:47 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/speaking/presentation/r_sound_trainer_page.dart:142:38 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/speaking/presentation/r_sound_trainer_page.dart:207:33 • deprecated_member_use
+  error • Invalid constant value • lib/features/speaking/presentation/shadowing_page.dart:101:22 • invalid_constant
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/speaking/presentation/shadowing_page.dart:135:33 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/speaking/presentation/shadowing_page.dart:219:31 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/speaking/presentation/shadowing_page.dart:220:35 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/speaking/presentation/shadowing_page.dart:224:53 • deprecated_member_use
+  error • Invalid constant value • lib/features/speaking/presentation/shadowing_page.dart:233:22 • invalid_constant
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/speaking/presentation/shadowing_page.dart:289:33 • deprecated_member_use
+  error • Invalid constant value • lib/features/speaking/presentation/shadowing_page.dart:299:61 • invalid_constant
+  error • Invalid constant value • lib/features/speaking/presentation/shadowing_page.dart:305:26 • invalid_constant
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/speaking/presentation/shadowing_page.dart:331:49 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/speaking/presentation/sp_st_trainer_page.dart:95:26 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/speaking/presentation/sp_st_trainer_page.dart:127:25 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/speaking/presentation/sp_st_trainer_page.dart:128:25 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/speaking/presentation/sp_st_trainer_page.dart:132:47 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/speaking/presentation/sp_st_trainer_page.dart:142:38 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/speaking/presentation/sp_st_trainer_page.dart:201:22 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/speaking/presentation/sp_st_trainer_page.dart:203:41 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/speaking/presentation/sp_st_trainer_page.dart:268:33 • deprecated_member_use
+  error • Invalid constant value • lib/features/speaking/presentation/speaking_hub_screen.dart:116:22 • invalid_constant
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/speaking/presentation/speaking_hub_screen.dart:138:28 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/speaking/presentation/speaking_hub_screen.dart:150:34 • deprecated_member_use
+  error • Invalid constant value • lib/features/speaking/presentation/speaking_hub_screen.dart:165:34 • invalid_constant
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/speaking/presentation/speaking_screen.dart:105:32 • deprecated_member_use
+  error • Invalid constant value • lib/features/speaking/presentation/speaking_screen.dart:108:58 • invalid_constant
+   info • The private field _showMinimalPair could be 'final'. Try making the field 'final' • lib/features/speaking/presentation/umlaute_trainer_page.dart:20:8 • prefer_final_fields
+warning • The value of the field '_showMinimalPair' isn't used. Try removing the field, or using it • lib/features/speaking/presentation/umlaute_trainer_page.dart:20:8 • unused_field
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/speaking/presentation/umlaute_trainer_page.dart:130:32 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/speaking/presentation/umlaute_trainer_page.dart:175:32 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/speaking/presentation/umlaute_trainer_page.dart:198:42 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/speaking/presentation/umlaute_trainer_page.dart:279:52 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/speaking/presentation/umlaute_trainer_page.dart:279:82 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/speaking/presentation/umlaute_trainer_page.dart:283:40 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/speaking/presentation/umlaute_trainer_page.dart:327:41 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/speaking/presentation/umlaute_trainer_page.dart:327:71 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/speaking/presentation/umlaute_trainer_page.dart:364:33 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/speaking/presentation/widgets/ai_conversation_card.dart:25:44 • deprecated_member_use
+  error • Invalid constant value • lib/features/speaking/presentation/widgets/ai_conversation_card.dart:33:60 • invalid_constant
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/speaking/presentation/widgets/ai_conversation_card.dart:45:56 • deprecated_member_use
+  error • Invalid constant value • lib/features/speaking/presentation/widgets/ai_conversation_card.dart:50:73 • invalid_constant
+  error • Invalid constant value • lib/features/speaking/presentation/widgets/ai_conversation_card.dart:95:51 • invalid_constant
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/speaking/presentation/widgets/pronunciation_trainer_card.dart:28:61 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/speaking/presentation/widgets/shadowing_session_card.dart:28:48 • deprecated_member_use
+  error • Invalid constant value • lib/features/speaking/presentation/widgets/shadowing_session_card.dart:31:57 • invalid_constant
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/speaking/widgets/pronunciation_practice_widget.dart:87:33 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/speaking/widgets/pronunciation_practice_widget.dart:99:40 • deprecated_member_use
+  error • Invalid constant value • lib/features/speaking/widgets/pronunciation_practice_widget.dart:109:28 • invalid_constant
+  error • Invalid constant value • lib/features/speaking/widgets/pronunciation_practice_widget.dart:218:26 • invalid_constant
+  error • Invalid constant value • lib/features/stats/presentation/daily_quote_page.dart:389:26 • invalid_constant
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/stats/presentation/daily_quote_page.dart:400:41 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/stats/presentation/daily_quote_page.dart:401:45 • deprecated_member_use
+  error • Invalid constant value • lib/features/stats/presentation/daily_quote_page.dart:467:57 • invalid_constant
+   info • Unnecessary use of multiple underscores. Try using '_' • lib/features/stats/presentation/daily_quote_page.dart:488:26 • unnecessary_underscores
+   info • Unnecessary use of multiple underscores. Try using '_' • lib/features/stats/presentation/daily_quote_page.dart:533:30 • unnecessary_underscores
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/stats/presentation/daily_quote_page.dart:578:31 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/stats/presentation/daily_quote_page.dart:579:35 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/stats/presentation/daily_quote_page.dart:585:38 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/stats/presentation/daily_quote_page.dart:601:41 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/stats/presentation/daily_quote_page.dart:649:41 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/stats/presentation/daily_quote_page.dart:659:47 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/stats/presentation/daily_quote_page.dart:666:45 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/stats/presentation/daily_quote_page.dart:675:41 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/stats/presentation/daily_quote_page.dart:745:49 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/stats/presentation/daily_quote_page.dart:829:33 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/stats/presentation/daily_quote_page.dart:882:46 • deprecated_member_use
+  error • Invalid constant value • lib/features/stats/presentation/daily_quote_page.dart:889:30 • invalid_constant
+  error • Invalid constant value • lib/features/stats/presentation/daily_quote_page.dart:926:24 • invalid_constant
+warning • Unused import: 'package:go_router/go_router.dart'. Try removing the import directive • lib/features/stats/presentation/error_patterns_page.dart:3:8 • unused_import
+  error • Invalid constant value • lib/features/stats/presentation/error_patterns_page.dart:37:20 • invalid_constant
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/stats/presentation/error_patterns_page.dart:227:57 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/stats/presentation/error_patterns_page.dart:368:33 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/stats/presentation/error_patterns_page.dart:400:65 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/stats/presentation/error_patterns_page.dart:403:67 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/stats/presentation/error_patterns_page.dart:510:46 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/stats/presentation/error_patterns_page.dart:512:65 • deprecated_member_use
+  error • Invalid constant value • lib/features/stats/presentation/error_patterns_page.dart:517:68 • invalid_constant
+  error • Invalid constant value • lib/features/stats/presentation/error_patterns_page.dart:521:69 • invalid_constant
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/stats/presentation/error_patterns_page.dart:633:42 • deprecated_member_use
+  error • Invalid constant value • lib/features/stats/presentation/error_patterns_page.dart:640:26 • invalid_constant
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/stats/presentation/error_patterns_page.dart:654:50 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/stats/presentation/stats_screen.dart:152:22 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/stats/presentation/stats_screen.dart:185:49 • deprecated_member_use
+   info • Unnecessary use of multiple underscores. Try using '_' • lib/features/stats/presentation/stats_screen.dart:227:18 • unnecessary_underscores
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/stats/presentation/widgets/error_patterns_list.dart:40:62 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/stats/presentation/widgets/error_patterns_list.dart:98:46 • deprecated_member_use
+  error • Invalid constant value • lib/features/stats/presentation/widgets/error_patterns_list.dart:104:68 • invalid_constant
+  error • Invalid constant value • lib/features/stats/presentation/widgets/error_patterns_list.dart:108:69 • invalid_constant
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/stats/presentation/widgets/near_achievements_list.dart:38:42 • deprecated_member_use
+  error • Arguments of a constant creation must be constant expressions. Try making the argument a valid constant, or use 'new' to call the constructor • lib/features/stats/presentation/widgets/near_achievements_list.dart:66:62 • const_with_non_constant_argument
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/stats/presentation/widgets/near_achievements_list.dart:75:42 • deprecated_member_use
+  error • Invalid constant value • lib/features/stats/presentation/widgets/near_achievements_list.dart:81:59 • invalid_constant
+  error • Invalid constant value • lib/features/stats/presentation/widgets/near_achievements_list.dart:86:30 • invalid_constant
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/stats/presentation/widgets/srs_stats_card.dart:158:24 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/stats/widgets/online_time_card.dart:32:48 • deprecated_member_use
+  error • Invalid constant value • lib/features/stats/widgets/online_time_card.dart:37:30 • invalid_constant
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/stats/widgets/online_time_card.dart:177:26 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/stats/widgets/online_time_card.dart:244:45 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/stats/widgets/online_time_card.dart:245:49 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/stats/widgets/online_time_card.dart:421:33 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/features/stats/widgets/online_time_card.dart:432:40 • deprecated_member_use
+  error • Invalid constant value • lib/features/stats/widgets/online_time_card.dart:437:22 • invalid_constant
+  error • Invalid constant value • lib/features/stats/widgets/online_time_card.dart:459:28 • invalid_constant
+   info • Unnecessary braces in a string interpolation. Try removing the braces • lib/features/stats/widgets/online_time_card.dart:488:31 • unnecessary_brace_in_string_interps
+   info • Unnecessary braces in a string interpolation. Try removing the braces • lib/features/stats/widgets/online_time_card.dart:491:47 • unnecessary_brace_in_string_interps
+  error • Invalid constant value • lib/features/vocabulary_search/presentation/vocab_search_screen.dart:51:20 • invalid_constant
+  error • Invalid constant value • lib/features/vocabulary_search/presentation/vocab_search_screen.dart:174:49 • invalid_constant
+  error • Invalid constant value • lib/features/vocabulary_search/presentation/vocab_search_screen.dart:180:62 • invalid_constant
+  error • Invalid constant value • lib/features/vocabulary_search/presentation/vocab_search_screen.dart:197:63 • invalid_constant
+  error • Invalid constant value • lib/features/vocabulary_search/presentation/vocab_search_screen.dart:233:49 • invalid_constant
+  error • Invalid constant value • lib/features/vocabulary_search/presentation/vocab_search_screen.dart:308:34 • invalid_constant
+  error • Invalid constant value • lib/features/vocabulary_search/presentation/vocab_search_screen.dart:499:61 • invalid_constant
+  error • Invalid constant value • lib/features/vocabulary_search/presentation/vocab_search_screen.dart:572:53 • invalid_constant
+  error • Invalid constant value • lib/features/vocabulary_search/presentation/vocab_search_screen.dart:602:62 • invalid_constant
+  error • Invalid constant value • lib/features/vocabulary_search/presentation/vocab_search_screen.dart:636:49 • invalid_constant
+  error • Invalid constant value • lib/features/vocabulary_search/presentation/vocab_search_screen.dart:642:62 • invalid_constant
+  error • Invalid constant value • lib/features/vocabulary_search/presentation/vocab_search_screen.dart:759:64 • invalid_constant
+  error • Invalid constant value • lib/features/vocabulary_search/widgets/vocabulary_detail_panel.dart:130:26 • invalid_constant
+  error • Invalid constant value • lib/features/vocabulary_search/widgets/vocabulary_detail_panel.dart:172:24 • invalid_constant
+  error • Invalid constant value • lib/features/vocabulary_search/widgets/vocabulary_detail_panel.dart:364:22 • invalid_constant
+  error • Invalid constant value • lib/features/vocabulary_search/widgets/vocabulary_detail_panel.dart:425:22 • invalid_constant
+  error • Invalid constant value • lib/features/webview/presentation/webview_lesson_screen.dart:92:20 • invalid_constant
+  error • Arguments of a constant creation must be constant expressions. Try making the argument a valid constant, or use 'new' to call the constructor • lib/features/webview/presentation/webview_lesson_screen.dart:125:54 • const_with_non_constant_argument
+  error • Invalid constant value • lib/features/webview/presentation/webview_lesson_screen.dart:142:22 • invalid_constant
+   info • 'anonKey' is deprecated and shouldn't be used. Use publishableKey instead. anonKey will be removed in a future major version. Try replacing the use of the deprecated member with the replacement • lib/main.dart:21:5 • deprecated_member_use
+  error • Invalid constant value • lib/shared/widgets/async_state_views.dart:12:47 • invalid_constant
+  error • Invalid constant value • lib/shared/widgets/async_state_views.dart:39:22 • invalid_constant
+  error • Invalid constant value • lib/shared/widgets/async_state_views.dart:45:45 • invalid_constant
+warning • Unused import: 'package:deutschtiger/core/notifications/notification_contract.dart'. Try removing the import directive • test/core/notifications/notification_contract_test.dart:2:8 • unused_import
+   info • Can't use a relative path to import a library in 'lib'. Try fixing the relative path or changing the import to a 'package:' import • test/helpers/fake_notification_service.dart:1:8 • avoid_relative_lib_imports
+  error • The name 'MyApp' isn't a class. Try correcting the name to match an existing class • test/widget_test.dart:16:35 • creation_with_non_type
+
+668 issues found. (ran in 2.2s)

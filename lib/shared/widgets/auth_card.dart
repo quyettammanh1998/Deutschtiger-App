@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../core/theme/app_colors.dart';
+import '../../../core/theme/app_colors.dart';
 
 /// Card bao form auth — bám web: nền trắng, bo góc 2xl (16px),
 /// border cam nhạt (orange-100), shadow nhẹ, max-width ~360.

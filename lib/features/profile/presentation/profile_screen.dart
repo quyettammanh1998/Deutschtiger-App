@@ -30,6 +30,13 @@ class ProfileScreen extends ConsumerWidget {
             fontSize: 18,
           ),
         ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.settings_outlined),
+            onPressed: () => context.push('/settings'),
+            tooltip: 'Cài đặt',
+          ),
+        ],
       ),
       body: profile.when(
         loading: () => const LoadingView(),
@@ -53,6 +60,12 @@ class ProfileScreen extends ConsumerWidget {
                 label: 'Sửa hồ sơ',
                 onTap: () => context.push('/profile/edit'),
               ),
+              _ActionTile(
+                icon: Icons.settings_outlined,
+                label: 'Cài đặt',
+                onTap: () => context.push('/settings'),
+              ),
+              const SizedBox(height: 8),
               _ActionTile(
                 icon: Icons.logout,
                 label: 'Đăng xuất',

@@ -18,6 +18,14 @@ class AuthController extends Notifier<AsyncValue<void>> {
     );
   }
 
+  Future<bool> loginWithGoogle() {
+    return _run(() => ref.read(authServiceProvider).signInWithGoogle());
+  }
+
+  Future<bool> loginWithApple() {
+    return _run(() => ref.read(authServiceProvider).signInWithApple());
+  }
+
   Future<bool> signUp(String email, String password, String displayName) {
     return _run(
       () => ref
@@ -71,6 +79,15 @@ class AuthController extends Notifier<AsyncValue<void>> {
     }
     if (msg.contains('rate limit') || msg.contains('too many')) {
       return 'Bạn thao tác quá nhanh. Vui lòng thử lại sau ít phút.';
+    }
+    if (msg.contains('google')) {
+      return 'Đăng nhập Google thất bại. Vui lòng thử lại.';
+    }
+    if (msg.contains('apple')) {
+      return 'Đăng nhập Apple thất bại. Vui lòng thử lại.';
+    }
+    if (msg.contains('cancelled')) {
+      return 'Đăng nhập đã bị hủy.';
     }
     return e.message;
   }

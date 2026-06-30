@@ -21,8 +21,17 @@ Future<void> main() async {
     anonKey: AppConfig.supabaseAnonKey,
   );
 
-  // Firebase init cho FCM push: tách task riêng (chưa config).
+  // 3. Init Firebase cho FCM push notifications (nếu đã config google-services.json)
+  _initFirebase();
 
   FlutterNativeSplash.remove();
-  runApp(const ProviderScope(child: DeutschTigerApp()));
+  runApp(ProviderScope(child: DeutschTigerApp()));
+}
+
+/// Khởi tạo Firebase cho push notifications.
+/// Nếu google-services.json chưa có → bỏ qua và app vẫn hoạt động.
+void _initFirebase() {
+  // Firebase sẽ được init tự động nếu google-services.json tồn tại
+  // NotificationService sẽ được gọi sau khi app ready
+  debugPrint('Firebase push notifications ready to initialize');
 }

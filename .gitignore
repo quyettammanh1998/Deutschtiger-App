@@ -49,3 +49,4 @@ app.*.map.json
 
 # Claude harness internal
 .claude/
+ios/Runner/GoogleService-Info.plist

@@ -1,3 +1,6 @@
+import 'dart:io' show Platform;
+
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -8,6 +11,7 @@ import '../../../shared/widgets/gradient_button.dart';
 import '../../../shared/widgets/tiger_logo.dart';
 import 'auth_controller.dart';
 import 'widgets/auth_text_field.dart';
+import 'widgets/social_login_button.dart';
 
 /// Màn đăng ký native — bám web. Sau khi đăng ký (Supabase có thể yêu cầu xác
 /// nhận email) → thông báo và quay lại login.
@@ -24,6 +28,7 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
   final _email = TextEditingController();
   final _password = TextEditingController();
   bool _obscure = true;
+  bool _socialLoading = false;
 
   @override
   void dispose() {
@@ -46,6 +51,22 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
         ),
       );
       context.go('/login');
+    }
+  }
+
+  Future<void> _loginWithGoogle() async {
+    setState(() => _socialLoading = true);
+    await ref.read(authControllerProvider.notifier).loginWithGoogle();
+    if (mounted) {
+      setState(() => _socialLoading = false);
+    }
+  }
+
+  Future<void> _loginWithApple() async {
+    setState(() => _socialLoading = true);
+    await ref.read(authControllerProvider.notifier).loginWithApple();
+    if (mounted) {
+      setState(() => _socialLoading = false);
     }
   }
 
@@ -85,6 +106,18 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                       ),
                     ),
                     const SizedBox(height: 20),
+
+                    // Social login buttons
+                    _SocialLoginSection(
+                      onGoogle: _loginWithGoogle,
+                      onApple: _loginWithApple,
+                      loading: _socialLoading || loading,
+                    ),
+
+                    const SizedBox(height: 16),
+                    const _DividerWithText(),
+
+                    const SizedBox(height: 16),
                     AuthTextField(
                       controller: _name,
                       label: 'Tên hiển thị',
@@ -157,6 +190,66 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
           ),
         ),
       ),
+    );
+  }
+}
+
+class _SocialLoginSection extends StatelessWidget {
+  const _SocialLoginSection({
+    required this.onGoogle,
+    required this.onApple,
+    required this.loading,
+  });
+
+  final VoidCallback onGoogle;
+  final VoidCallback onApple;
+  final bool loading;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        // Google login
+        SocialLoginButton(
+          provider: 'google',
+          label: 'Đăng ký với Google',
+          icon: const GoogleIconSimple(),
+          onPressed: loading ? null : onGoogle,
+        ),
+        const SizedBox(height: 12),
+        // Apple login (only show on iOS/macOS, not on web)
+        if (!kIsWeb && (Platform.isIOS || Platform.isMacOS))
+          SocialLoginButton(
+            provider: 'apple',
+            label: 'Đăng ký với Apple',
+            icon: const AppleIcon(),
+            onPressed: loading ? null : onApple,
+          ),
+      ],
+    );
+  }
+}
+
+class _DividerWithText extends StatelessWidget {
+  const _DividerWithText();
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        const Expanded(child: Divider(color: AppColors.border)),
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16),
+          child: Text(
+            'hoặc',
+            style: TextStyle(
+              color: AppColors.mutedForeground,
+              fontSize: 13,
+            ),
+          ),
+        ),
+        const Expanded(child: Divider(color: AppColors.border)),
+      ],
     );
   }
 }

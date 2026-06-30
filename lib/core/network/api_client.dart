@@ -2,6 +2,17 @@ import 'package:dio/dio.dart';
 
 import '../auth/token_provider.dart';
 
+/// Custom exception for API errors with more context.
+class ApiException implements Exception {
+  ApiException(this.message, {this.statusCode, this.originalError});
+  final String message;
+  final int? statusCode;
+  final Object? originalError;
+
+  @override
+  String toString() => 'ApiException: $message (status: $statusCode)';
+}
+
 /// HTTP client cho Go backend (`/api/v1`).
 ///
 /// Interceptor tự đính `Authorization: Bearer <jwt>` và xử lý 401 tập trung
@@ -52,28 +63,121 @@ class ApiClient {
             }
           }
         }
+
+        // Transform network/CORS errors into meaningful exceptions
+        if (err.type == DioExceptionType.connectionError ||
+            err.type == DioExceptionType.connectionTimeout ||
+            err.message?.contains('CORS') == true ||
+            err.message?.contains('XMLHttpRequest') == true) {
+          return handler.reject(
+            DioException(
+              requestOptions: err.requestOptions,
+              error: ApiException(
+                'Không thể kết nối đến server. Vui lòng kiểm tra kết nối mạng.',
+                statusCode: err.response?.statusCode,
+                originalError: err,
+              ),
+              type: err.type,
+              response: err.response,
+            ),
+          );
+        }
+
         handler.next(err);
       },
     );
   }
 
   Future<T> get<T>(String path, {Map<String, dynamic>? query}) async {
-    final res = await _dio.get<T>(path, queryParameters: query);
-    return res.data as T;
+    try {
+      final res = await _dio.get<T>(path, queryParameters: query);
+      if (res.data == null) {
+        throw ApiException('Empty response from $path');
+      }
+      return res.data as T;
+    } on DioException catch (e) {
+      throw _transformError(e, path);
+    }
   }
 
   Future<T> post<T>(String path, {Object? body}) async {
-    final res = await _dio.post<T>(path, data: body);
-    return res.data as T;
+    try {
+      final res = await _dio.post<T>(path, data: body);
+      if (res.data == null) {
+        throw ApiException('Empty response from $path');
+      }
+      return res.data as T;
+    } on DioException catch (e) {
+      throw _transformError(e, path);
+    }
   }
 
   Future<T> put<T>(String path, {Object? body}) async {
-    final res = await _dio.put<T>(path, data: body);
-    return res.data as T;
+    try {
+      final res = await _dio.put<T>(path, data: body);
+      if (res.data == null) {
+        throw ApiException('Empty response from $path');
+      }
+      return res.data as T;
+    } on DioException catch (e) {
+      throw _transformError(e, path);
+    }
   }
 
   Future<T> delete<T>(String path, {Object? body}) async {
-    final res = await _dio.delete<T>(path, data: body);
-    return res.data as T;
+    try {
+      final res = await _dio.delete<T>(path, data: body);
+      if (res.data == null) {
+        throw ApiException('Empty response from $path');
+      }
+      return res.data as T;
+    } on DioException catch (e) {
+      throw _transformError(e, path);
+    }
+  }
+
+  ApiException _transformError(DioException e, String path) {
+    final statusCode = e.response?.statusCode;
+    final type = e.type;
+
+    String message;
+    switch (type) {
+      case DioExceptionType.connectionTimeout:
+      case DioExceptionType.sendTimeout:
+      case DioExceptionType.receiveTimeout:
+        message = 'Hết thời gian kết nối. Vui lòng thử lại.';
+        break;
+      case DioExceptionType.connectionError:
+        message = 'Không thể kết nối đến server. Kiểm tra mạng của bạn.';
+        break;
+      case DioExceptionType.badResponse:
+        if (statusCode == 401) {
+          message = 'Phiên đăng nhập hết hạn. Vui lòng đăng nhập lại.';
+        } else if (statusCode == 403) {
+          message = 'Bạn không có quyền truy cập.';
+        } else if (statusCode == 404) {
+          message = 'Không tìm thấy dữ liệu.';
+        } else if (statusCode != null && statusCode >= 500) {
+          message = 'Server đang bận. Vui lòng thử lại sau.';
+        } else {
+          message = e.message ?? 'Đã xảy ra lỗi không xác định.';
+        }
+        break;
+      case DioExceptionType.cancel:
+        message = 'Yêu cầu đã bị hủy.';
+        break;
+      default:
+        // Check for CORS errors
+        final errorMsg = e.message?.toLowerCase() ?? '';
+        if (errorMsg.contains('cors') ||
+            errorMsg.contains('access-control') ||
+            errorMsg.contains('xmlhttprequest')) {
+          message = 'Lỗi CORS: Không thể truy cập server. Liên hệ admin.';
+        } else {
+          message = e.message ?? 'Đã xảy ra lỗi kết nối.';
+        }
+    }
+
+    return ApiException(message, statusCode: statusCode, originalError: e);
   }
 }

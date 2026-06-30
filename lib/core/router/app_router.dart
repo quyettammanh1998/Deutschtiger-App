@@ -6,13 +6,81 @@ import '../../features/auth/presentation/forgot_password_screen.dart';
 import '../../features/auth/presentation/login_screen.dart';
 import '../../features/auth/presentation/signup_screen.dart';
 import '../../features/auth/presentation/welcome_screen.dart';
+import '../../features/ai_tutor/presentation/ai_tutor_screen.dart';
+import '../../features/ai_tutor/presentation/widgets/ai_chat_screen.dart';
+import '../../features/ai/presentation/ai_chat_page.dart';
+import '../../features/ai/presentation/ai_writing_practice_page.dart';
+import '../../features/ai/presentation/ai_settings_page.dart';
+import '../../features/affiliate/presentation/affiliate_screen.dart';
+import '../../features/affiliate/presentation/affiliate_page.dart';
+import '../../features/affiliate/presentation/affiliate_leaderboard_page.dart';
+import '../../features/exam/presentation/exam_screen.dart';
+import '../../features/exam/presentation/goethe_b1_hub_page.dart';
+import '../../features/exam/presentation/exam_list_page.dart';
+import '../../features/exam/presentation/exam_practice_page.dart';
+import '../../features/exam/presentation/goethe_b1_writing_page.dart';
+import '../../features/exam/presentation/goethe_speaking_page.dart';
+import '../../features/exam/presentation/exam_result_page.dart';
 import '../../features/flashcard/presentation/flashcard_review_screen.dart';
+import '../../features/journey/presentation/journey_screen.dart';
+import '../../features/journey/presentation/journey_roadmap_screen.dart';
+import '../../features/journey/presentation/learning_browser_screen.dart';
+import '../../features/journey/presentation/widgets/chapter_detail_screen.dart';
+import '../../features/listening/presentation/listening_hub_screen.dart';
+import '../../features/listening/presentation/easy_german_podcast_page.dart';
+import '../../features/listening/presentation/easy_german_podcast_player_page.dart';
+import '../../features/listening/presentation/sprechen_b1_page.dart';
+import '../../features/listening/presentation/sprechen_b2_page.dart';
+import '../../features/listening/presentation/dictation_page.dart';
+import '../../features/listening/domain/podcast_models.dart';
+import '../../features/social/presentation/social_screen.dart';
+import '../../features/social/presentation/moments_page.dart';
+import '../../features/social/presentation/groups_page.dart';
+import '../../features/social/presentation/group_detail_page.dart';
+import '../../features/social/presentation/challenges_page.dart';
+import '../../features/social/presentation/duel_lobby_page.dart';
+import '../../features/social/presentation/duel_play_page.dart';
+import '../../features/social/presentation/messages_page.dart';
+import '../../features/social/presentation/chat_page.dart';
+import '../../features/social/presentation/friends_page.dart';
+import '../../features/speaking/presentation/speaking_screen.dart';
+import '../../features/speaking/presentation/speaking_hub_screen.dart';
+import '../../features/speaking/presentation/shadowing_page.dart';
+import '../../features/speaking/presentation/umlaute_trainer_page.dart';
+import '../../features/speaking/presentation/r_sound_trainer_page.dart';
+import '../../features/speaking/presentation/ich_ach_trainer_page.dart';
+import '../../features/speaking/presentation/sp_st_trainer_page.dart';
+import '../../features/speaking/presentation/conversation_hub_page.dart';
+import '../../features/speaking/presentation/conversation_scenario_page.dart';
+import '../../features/stats/presentation/stats_screen.dart';
+import '../../features/stats/presentation/error_patterns_page.dart';
+import '../../features/stats/presentation/daily_quote_page.dart';
+import '../../features/games/games/article_game_screen.dart';
+import '../../features/games/games/cases_mastery_game_screen.dart';
+import '../../features/games/games/conversation_game_screen.dart';
+import '../../features/games/games/fill_blank_game_screen.dart';
+import '../../features/games/games/flashcard_game_screen.dart';
+import '../../features/games/games/konjugation_game_screen.dart';
+import '../../features/games/games/listening_game_screen.dart';
+import '../../features/games/games/matching_game_screen.dart';
+import '../../features/games/games/pronunciation_game_screen.dart';
+import '../../features/games/games/runner_game_screen.dart';
+import '../../features/games/games/speaking_game_screen.dart';
+import '../../features/games/games/typing_sprint_game_screen.dart';
+import '../../features/games/games/word_order_game_screen.dart';
+import '../../features/games/games/word_sprint_game_screen.dart';
+import '../../features/games/games/writing_sentence_game_screen.dart';
+import '../../features/games/games/writing_word_game_screen.dart';
+import '../../features/games/presentation/game_hub_screen.dart';
 import '../../features/home/presentation/home_screen.dart';
 import '../../features/interview/presentation/group_detail_screen.dart';
 import '../../features/interview/presentation/interview_roadmap_screen.dart';
 import '../../features/interview/presentation/video_player_screen.dart';
+import '../../features/legal/privacy_policy_screen.dart';
+import '../../features/legal/terms_of_service_screen.dart';
 import '../../features/profile/presentation/edit_profile_screen.dart';
 import '../../features/profile/presentation/profile_screen.dart';
+import '../../features/settings/presentation/settings_screen.dart';
 import '../../shared/widgets/app_shell.dart';
 import '../providers.dart';
 
@@ -56,6 +124,363 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/forgot-password',
         builder: (context, state) => const ForgotPasswordScreen(),
+      ),
+      GoRoute(
+        path: '/settings',
+        builder: (context, state) => const SettingsScreen(),
+      ),
+      GoRoute(
+        path: '/privacy-policy',
+        builder: (context, state) => const PrivacyPolicyScreen(),
+      ),
+      GoRoute(
+        path: '/terms-of-service',
+        builder: (context, state) => const TermsOfServiceScreen(),
+      ),
+      // Game routes
+      GoRoute(
+        path: '/games',
+        builder: (context, state) => const GameHubScreen(),
+      ),
+      GoRoute(
+        path: '/games/article',
+        builder: (context, state) => const ArticleGameScreen(),
+      ),
+      GoRoute(
+        path: '/games/word-sprint',
+        builder: (context, state) => const WordSprintGameScreen(),
+      ),
+      GoRoute(
+        path: '/games/matching',
+        builder: (context, state) => const MatchingGameScreen(),
+      ),
+      GoRoute(
+        path: '/games/fill-blank',
+        builder: (context, state) => const FillBlankGameScreen(),
+      ),
+      GoRoute(
+        path: '/games/listening',
+        builder: (context, state) => const ListeningGameScreen(),
+      ),
+      GoRoute(
+        path: '/games/flashcard',
+        builder: (context, state) => const FlashcardGameScreen(),
+      ),
+      GoRoute(
+        path: '/games/runner',
+        builder: (context, state) => const RunnerGameScreen(),
+      ),
+      GoRoute(
+        path: '/games/typing-sprint',
+        builder: (context, state) => const TypingSprintGameScreen(),
+      ),
+      GoRoute(
+        path: '/games/writing',
+        builder: (context, state) => const WritingWordGameScreen(),
+      ),
+      GoRoute(
+        path: '/games/word-order',
+        builder: (context, state) => const WordOrderGameScreen(),
+      ),
+      GoRoute(
+        path: '/games/writing-sentence',
+        builder: (context, state) => const WritingSentenceGameScreen(),
+      ),
+      GoRoute(
+        path: '/games/speaking',
+        builder: (context, state) => const SpeakingGameScreen(),
+      ),
+      GoRoute(
+        path: '/games/cases',
+        builder: (context, state) => const CasesMasteryGameScreen(),
+      ),
+      GoRoute(
+        path: '/games/konjugation',
+        builder: (context, state) => const KonjugationGameScreen(),
+      ),
+      GoRoute(
+        path: '/games/pronunciation',
+        builder: (context, state) => const PronunciationGameScreen(),
+      ),
+      GoRoute(
+        path: '/games/conversation',
+        builder: (context, state) => const ConversationGameScreen(),
+      ),
+      // Listening routes
+      GoRoute(
+        path: '/listening',
+        builder: (context, state) => const ListeningHubScreen(),
+        routes: [
+          GoRoute(
+            path: 'easy-german',
+            builder: (context, state) => const EasyGermanPodcastPage(),
+            routes: [
+              GoRoute(
+                path: 'episode/:episodeId',
+                builder: (context, state) {
+                  final extra = state.extra as Map<String, dynamic>?;
+                  return EasyGermanPodcastPlayerPage(
+                    episode: extra?['episode'] as PodcastEpisode? ??
+                        PodcastEpisode(
+                          id: state.pathParameters['episodeId'] ?? '',
+                          seriesId: 'easy-german',
+                          episodeNumber: '1',
+                          title: 'Episode',
+                          titleVi: 'Tập',
+                        ),
+                    seriesId: extra?['seriesId'] as String? ?? 'easy-german',
+                  );
+                },
+              ),
+            ],
+          ),
+          GoRoute(
+            path: 'sprechen-b1',
+            builder: (context, state) => const SprechenB1Page(),
+          ),
+          GoRoute(
+            path: 'sprechen-b2',
+            builder: (context, state) => const SprechenB2Page(),
+          ),
+          GoRoute(
+            path: 'dictation/:dictationId',
+            builder: (context, state) {
+              final dictation = state.extra as Dictation? ??
+                  const Dictation(
+                    id: 'default',
+                    title: 'Dictation',
+                    titleVi: 'Nghe viết',
+                    level: 'A1',
+                    difficulty: 1,
+                    totalSentences: 10,
+                  );
+              return DictationPage(dictation: dictation);
+            },
+          ),
+        ],
+      ),
+      // Journey routes
+      GoRoute(
+        path: '/journey',
+        builder: (context, state) => const JourneyScreen(),
+        routes: [
+          GoRoute(
+            path: 'roadmap',
+            builder: (context, state) => const JourneyRoadmapScreen(),
+          ),
+          GoRoute(
+            path: 'browse',
+            builder: (context, state) => const LearningBrowserScreen(),
+          ),
+          GoRoute(
+            path: 'chapter/:chapterId',
+            builder: (context, state) => ChapterDetailScreen(
+              chapterId: state.pathParameters['chapterId']!,
+            ),
+          ),
+        ],
+      ),
+      GoRoute(
+        path: '/speaking',
+        builder: (context, state) => const SpeakingScreen(),
+        routes: [
+          GoRoute(
+            path: 'hub',
+            builder: (context, state) => const SpeakingHubScreen(),
+          ),
+          GoRoute(
+            path: 'shadowing',
+            builder: (context, state) => const ShadowingPage(),
+          ),
+          GoRoute(
+            path: 'umlaute',
+            builder: (context, state) => const UmlauteTrainerPage(),
+          ),
+          GoRoute(
+            path: 'r-sound',
+            builder: (context, state) => const RSoundTrainerPage(),
+          ),
+          GoRoute(
+            path: 'ich-ach',
+            builder: (context, state) => const IchAchTrainerPage(),
+          ),
+          GoRoute(
+            path: 'sp-st',
+            builder: (context, state) => const SpStTrainerPage(),
+          ),
+          GoRoute(
+            path: 'conversation-hub',
+            builder: (context, state) => const ConversationHubPage(),
+          ),
+          GoRoute(
+            path: 'conversation/:conversationId',
+            builder: (context, state) => ConversationScenarioPage(
+              conversationId: state.pathParameters['conversationId']!,
+            ),
+          ),
+        ],
+      ),
+      GoRoute(
+        path: '/social',
+        builder: (context, state) => const SocialScreen(),
+        routes: [
+          GoRoute(
+            path: 'moments',
+            builder: (context, state) => const MomentsPage(),
+          ),
+          GoRoute(
+            path: 'groups',
+            builder: (context, state) => const GroupsPage(),
+          ),
+          GoRoute(
+            path: 'group/:groupId',
+            builder: (context, state) => GroupDetailPage(
+              groupId: state.pathParameters['groupId']!,
+            ),
+          ),
+          GoRoute(
+            path: 'challenges',
+            builder: (context, state) => const ChallengesPage(),
+          ),
+          GoRoute(
+            path: 'duel/lobby',
+            builder: (context, state) => const DuelLobbyPage(),
+          ),
+          GoRoute(
+            path: 'duel/play',
+            builder: (context, state) => DuelPlayPage(
+              opponent: state.extra,
+            ),
+          ),
+          GoRoute(
+            path: 'messages',
+            builder: (context, state) => const MessagesPage(),
+          ),
+          GoRoute(
+            path: 'chat/:conversationId',
+            builder: (context, state) => ChatPage(
+              conversationId: state.pathParameters['conversationId']!,
+            ),
+          ),
+          GoRoute(
+            path: 'friends',
+            builder: (context, state) => const FriendsPage(),
+          ),
+        ],
+      ),
+      GoRoute(
+        path: '/exam',
+        builder: (context, state) => const ExamScreen(),
+        routes: [
+          GoRoute(
+            path: 'goethe-b1',
+            builder: (context, state) => const GoetheB1HubPage(),
+            routes: [
+              GoRoute(
+                path: 'reading',
+                builder: (context, state) => const GoetheB1HubPage(),
+              ),
+              GoRoute(
+                path: 'listening',
+                builder: (context, state) => const GoetheB1HubPage(),
+              ),
+              GoRoute(
+                path: 'writing',
+                builder: (context, state) => const GoetheB1HubPage(),
+              ),
+              GoRoute(
+                path: 'speaking',
+                builder: (context, state) => const GoetheB1HubPage(),
+              ),
+              GoRoute(
+                path: 'writing-topics',
+                builder: (context, state) => const GoetheB1WritingPage(),
+              ),
+              GoRoute(
+                path: 'speaking-topics',
+                builder: (context, state) => const GoetheSpeakingPage(),
+              ),
+              GoRoute(
+                path: 'exams',
+                builder: (context, state) => const ExamListPage(),
+              ),
+            ],
+          ),
+          GoRoute(
+            path: 'practice/:examId',
+            builder: (context, state) {
+              final examId = state.pathParameters['examId']!;
+              final timed = state.uri.queryParameters['timed'] == 'true';
+              return ExamPracticePage(examId: examId, timed: timed);
+            },
+            routes: [
+              GoRoute(
+                path: 'sections',
+                builder: (context, state) {
+                  final examId = state.pathParameters['examId']!;
+                  return ExamPracticePage(examId: examId, timed: true);
+                },
+              ),
+            ],
+          ),
+          GoRoute(
+            path: 'result/:examId',
+            builder: (context, state) {
+              final examId = state.pathParameters['examId']!;
+              return ExamResultPage(examId: examId);
+            },
+          ),
+        ],
+      ),
+      GoRoute(
+        path: '/ai-tutor',
+        builder: (context, state) => const AITutorScreen(),
+        routes: [
+          GoRoute(
+            path: 'chat',
+            builder: (context, state) => const AIChatScreen(),
+          ),
+          GoRoute(
+            path: 'chat-new',
+            builder: (context, state) => const AIChatPage(),
+          ),
+          GoRoute(
+            path: 'writing',
+            builder: (context, state) => const AIWritingPracticePage(),
+          ),
+          GoRoute(
+            path: 'settings',
+            builder: (context, state) => const AISettingsPage(),
+          ),
+        ],
+      ),
+      GoRoute(
+        path: '/stats',
+        builder: (context, state) => const StatsScreen(),
+        routes: [
+          GoRoute(
+            path: 'error-patterns',
+            builder: (context, state) => const ErrorPatternsPage(),
+          ),
+          GoRoute(
+            path: 'daily-quote',
+            builder: (context, state) => const DailyQuotePage(),
+          ),
+        ],
+      ),
+      GoRoute(
+        path: '/affiliate',
+        builder: (context, state) => const AffiliateScreen(),
+        routes: [
+          GoRoute(
+            path: 'leaderboard',
+            builder: (context, state) => const AffiliateLeaderboardPage(),
+          ),
+          GoRoute(
+            path: 'detail',
+            builder: (context, state) => const AffiliatePage(),
+          ),
+        ],
       ),
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) =>
