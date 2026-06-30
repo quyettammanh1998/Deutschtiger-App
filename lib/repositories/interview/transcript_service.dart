@@ -2,7 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:deutschtiger/services/api_client.dart';
 import 'package:deutschtiger/view_models/providers.dart';
-import '../domain/transcript_models.dart';
+import '../../data/interview/transcript_models.dart';
 
 /// Service de lay transcript cua video YouTube.
 class TranscriptService {

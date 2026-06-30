@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:deutschtiger/core/theme/app_colors.dart';
-import 'package:deutschtiger/screens/$1/$2.dart';
-import 'package:deutschtiger/screens/$1/$2.dart';
-import 'package:deutschtiger/screens/$1/$2.dart';
-import 'package:deutschtiger/screens/$1/$2.dart';
+import 'package:deutschtiger/screens/social/widgets/challenges_list.dart';
+import 'package:deutschtiger/screens/social/widgets/friends_list.dart';
+import 'package:deutschtiger/screens/social/widgets/moments_feed.dart';
+import 'package:deutschtiger/screens/social/widgets/study_groups_list.dart';
+import 'package:deutschtiger/view_models/social/social_provider.dart';
 
 class SocialScreen extends ConsumerWidget {
   const SocialScreen({super.key});

@@ -1,4 +1,4 @@
-import '../domain/exam_models.dart';
+import '../../data/exam/exam_models.dart';
 
 class ExamRepository {
   Future<List<ExamHub>> getExamHubs() async {

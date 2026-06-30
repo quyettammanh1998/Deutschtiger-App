@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../core/theme/app_colors.dart';
-import '../domain/podcast_models.dart';
-import 'podcast_provider.dart';
+import 'package:deutschtiger/data/listening/podcast_models.dart';
+import 'package:deutschtiger/view_models/listening/podcast_provider.dart';
 
 /// Sprechen B1 Page - Lists 145 B1 video lessons.
 class SprechenB1Page extends ConsumerStatefulWidget {

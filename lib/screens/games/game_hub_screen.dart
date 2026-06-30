@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/theme/app_colors.dart';
-import '../domain/game_models.dart';
+import 'package:deutschtiger/data/games/game_models.dart';
 
 /// Game Hub - Main games listing screen với thiết kế UI tốt hơn.
 class GameHubScreen extends StatefulWidget {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../data/podcast_repository.dart';
-import '../domain/podcast_models.dart';
+import '../../repositories/listening/podcast_repository.dart';
+import '../../data/listening/podcast_models.dart';
 
 final podcastRepositoryProvider = Provider<PodcastRepository>((ref) {
   return PodcastRepository();

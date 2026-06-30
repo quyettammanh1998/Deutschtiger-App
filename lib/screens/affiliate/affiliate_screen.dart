@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/services.dart';
 import '../../../core/theme/app_colors.dart';
-import 'affiliate_provider.dart';
+import 'package:deutschtiger/view_models/affiliate/affiliate_provider.dart';
 import 'widgets/referral_stats_card.dart';
 
 class AffiliateScreen extends ConsumerWidget {

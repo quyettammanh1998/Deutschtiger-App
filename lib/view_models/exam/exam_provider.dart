@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../data/exam_repository.dart';
-import '../domain/exam_models.dart';
+import '../../repositories/exam/exam_repository.dart';
+import '../../data/exam/exam_models.dart';
 
 final examRepositoryProvider = Provider<ExamRepository>((ref) => ExamRepository());
 

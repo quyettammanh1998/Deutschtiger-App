@@ -3,9 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
 import '../../../core/theme/app_colors.dart';
-import 'interview_provider.dart';
-import '../widgets/video_notes_panel.dart';
-import '../widgets/transcript_panel.dart';
+import 'package:deutschtiger/view_models/interview/interview_provider.dart';
+import 'package:deutschtiger/widgets/interview/video_notes_panel.dart';
+import 'package:deutschtiger/widgets/interview/transcript_panel.dart';
 
 /// Màn xem một video phỏng vấn: YouTube player + nút đánh dấu hoàn thành + ghi chú + transcript.
 /// Tự đánh dấu complete khi video phát xong (PlayerState.ended).

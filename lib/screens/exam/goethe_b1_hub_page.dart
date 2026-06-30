@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../core/theme/app_colors.dart';
-import '../domain/exam_models.dart';
-import 'exam_provider.dart';
+import 'package:deutschtiger/data/exam/exam_models.dart';
+import 'package:deutschtiger/view_models/exam/exam_provider.dart';
 import 'widgets/exam_readiness_card.dart';
 
 class GoetheB1HubPage extends ConsumerWidget {

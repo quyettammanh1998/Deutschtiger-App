@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
-import '../../domain/exam_models.dart';
+import 'package:deutschtiger/data/exam/exam_models.dart';
 
 class WritingTopicsList extends StatelessWidget {
   final List<WritingTopic> topics;

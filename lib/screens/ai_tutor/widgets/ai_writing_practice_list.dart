@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
-import '../../domain/ai_tutor_models.dart';
+import 'package:deutschtiger/data/ai_tutor/ai_tutor_models.dart';
 
 class AIWritingPracticeList extends StatelessWidget {
   final List<AIWritingPractice> practices;

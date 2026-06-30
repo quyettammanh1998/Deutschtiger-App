@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../core/theme/app_colors.dart';
-import '../domain/podcast_models.dart';
+import 'package:deutschtiger/data/listening/podcast_models.dart';
 
 /// Easy German Podcast Player Page - Audio player with transcript, word highlighting, and seek.
 class EasyGermanPodcastPlayerPage extends ConsumerStatefulWidget {

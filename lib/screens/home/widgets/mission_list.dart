@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_colors.dart';
-import '../../domain/dashboard_data.dart';
+import 'package:deutschtiger/data/home/dashboard_data.dart';
 
 /// Danh sách nhiệm vụ hôm nay (read-only V1). Mỗi mission: icon, tiêu đề,
 /// thanh tiến độ, XP thưởng; đánh dấu xong nếu completed.

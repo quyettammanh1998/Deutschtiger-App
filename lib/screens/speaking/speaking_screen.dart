@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/theme/app_colors.dart';
-import 'speaking_provider.dart';
+import 'package:deutschtiger/view_models/speaking/speaking_provider.dart';
 import 'widgets/shadowing_session_card.dart';
 import 'widgets/pronunciation_trainer_card.dart';
 import 'widgets/ai_conversation_card.dart';

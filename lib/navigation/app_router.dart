@@ -82,7 +82,7 @@ import '../screens/profile/edit_profile_screen.dart';
 import '../screens/profile/profile_screen.dart';
 import '../screens/settings/settings_screen.dart';
 import 'package:deutschtiger/widgets/common/app_shell.dart';
-import '../providers.dart';
+import '../view_models/providers.dart';
 
 final _rootKey = GlobalKey<NavigatorState>();
 

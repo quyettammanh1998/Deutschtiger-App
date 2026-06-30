@@ -1,8 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:deutschtiger/view_models/providers.dart';
-import '../data/dashboard_repository.dart';
-import '../domain/dashboard_data.dart';
+import '../../repositories/home/dashboard_repository.dart';
+import '../../data/home/dashboard_data.dart';
 
 final dashboardRepositoryProvider = Provider<DashboardRepository>((ref) {
   return DashboardRepository(ref.watch(apiClientProvider));

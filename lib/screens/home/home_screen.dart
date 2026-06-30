@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../core/theme/app_colors.dart';
-import '../../dashboard/widgets/mobile_dashboard_header.dart';
-import '../../dashboard/widgets/mobile_stats_card.dart';
-import '../../dashboard/widgets/quick_actions.dart';
-import '../../dashboard/widgets/streak_claim_modal.dart';
+import '../../core/theme/app_colors.dart';
+import '../../widgets/dashboard/mobile_dashboard_header.dart';
+import '../../widgets/dashboard/mobile_stats_card.dart';
+import '../../widgets/dashboard/quick_actions.dart';
+import '../../widgets/dashboard/streak_claim_modal.dart';
+import 'widgets/daily_goal_card.dart';
+import 'widgets/quick_stats_row.dart';
+import 'widgets/mission_list.dart';
 
 /// Home screen - main dashboard.
 class HomeScreen extends ConsumerStatefulWidget {

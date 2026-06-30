@@ -1,5 +1,5 @@
 import 'dart:math';
-import '../domain/ai_models.dart';
+import '../../data/ai/ai_models.dart';
 import 'mock_data.dart';
 
 /// Repository for AI features - handles mock data and AI responses

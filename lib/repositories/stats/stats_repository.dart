@@ -1,4 +1,4 @@
-import '../domain/stats_models.dart';
+import '../../data/stats/stats_models.dart';
 
 class StatsRepository {
   Future<List<ErrorPattern>> getErrorPatterns() async {

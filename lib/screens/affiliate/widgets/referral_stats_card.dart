@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
-import '../../domain/affiliate_models.dart';
+import 'package:deutschtiger/data/affiliate/affiliate_models.dart';
 
 class ReferralStatsCard extends StatelessWidget {
   final ReferralProgram program;

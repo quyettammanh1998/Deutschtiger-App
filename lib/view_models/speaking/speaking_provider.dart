@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../data/speaking_repository.dart';
-import '../domain/speaking_models.dart';
+import '../../repositories/speaking/speaking_repository.dart';
+import '../../data/speaking/speaking_models.dart';
 
 final speakingRepositoryProvider = Provider<SpeakingRepository>((ref) => SpeakingRepository());
 

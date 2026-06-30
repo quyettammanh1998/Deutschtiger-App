@@ -1,4 +1,4 @@
-import '../domain/social_models.dart';
+import '../../data/social/social_models.dart';
 
 class SocialRepository {
   Future<List<SocialMoment>> getMoments({int page = 1, int limit = 20}) async {

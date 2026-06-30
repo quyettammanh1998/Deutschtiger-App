@@ -1,4 +1,4 @@
-import '../domain/speaking_models.dart';
+import '../../data/speaking/speaking_models.dart';
 
 class SpeakingRepository {
   Future<List<SpeakingSession>> getShadowingSessions() async {

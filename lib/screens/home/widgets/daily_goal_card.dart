@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_colors.dart';
-import '../../domain/dashboard_data.dart';
+import 'package:deutschtiger/data/home/dashboard_data.dart';
 
 /// Card "Hôm nay học gì" — lời chào + streak + tiến độ mục tiêu XP ngày.
 /// Bám tinh thần web dashboard mobile (header + daily goal).

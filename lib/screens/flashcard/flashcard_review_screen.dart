@@ -5,7 +5,7 @@ import 'package:deutschtiger/view_models/providers.dart';
 import '../../../core/theme/app_colors.dart';
 import 'package:deutschtiger/widgets/common/async_state_views.dart';
 import 'package:deutschtiger/widgets/common/gradient_button.dart';
-import 'review_provider.dart';
+import 'package:deutschtiger/view_models/flashcard/review_provider.dart';
 import 'widgets/flashcard_view.dart';
 import 'widgets/rating_bar.dart';
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/theme/app_colors.dart';
-import 'stats_provider.dart';
+import 'package:deutschtiger/view_models/stats/stats_provider.dart';
 import 'widgets/error_patterns_list.dart';
 import 'widgets/near_achievements_list.dart';
 import 'widgets/srs_stats_card.dart';

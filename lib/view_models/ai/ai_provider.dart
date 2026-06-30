@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../data/ai_repository.dart';
-import '../data/mock_data.dart';
-import '../domain/ai_models.dart';
+import '../../repositories/ai/ai_repository.dart';
+import '../../repositories/ai/mock_data.dart';
+import '../../data/ai/ai_models.dart';
 
 final aiRepositoryProvider = Provider<AIRepository>((ref) => AIRepository());
 

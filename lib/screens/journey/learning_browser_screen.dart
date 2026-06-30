@@ -3,9 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/theme/app_colors.dart';
-import '../domain/journey_models.dart';
-import '../data/journey_repository.dart';
-import '../presentation/journey_provider.dart';
+import 'package:deutschtiger/data/journey/journey_models.dart';
+import 'package:deutschtiger/repositories/journey/journey_repository.dart';
+import 'package:deutschtiger/view_models/journey/journey_provider.dart';
 
 /// Browse vocabulary items with filtering by category/level/type.
 /// AI word lookup (placeholder), inline add/delete, mini-game links.

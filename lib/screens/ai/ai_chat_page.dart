@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/theme/app_colors.dart';
-import 'ai_provider.dart';
-import '../domain/ai_models.dart';
-import '../widgets/chat_history_sidebar.dart';
-import '../widgets/voice_recording_overlay.dart';
+import 'package:deutschtiger/view_models/ai/ai_provider.dart';
+import 'package:deutschtiger/data/ai/ai_models.dart';
+import 'package:deutschtiger/widgets/ai/chat_history_sidebar.dart';
+import 'package:deutschtiger/widgets/ai/voice_recording_overlay.dart';
 
 class AIChatPage extends ConsumerStatefulWidget {
   const AIChatPage({super.key});

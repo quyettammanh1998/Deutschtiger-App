@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_colors.dart';
-import '../../domain/interview_models.dart';
+import 'package:deutschtiger/data/interview/interview_models.dart';
 
 /// Thẻ một nhóm video trên màn lộ trình: tên VI/DE, level, số video,
 /// thanh tiến độ (nếu có dữ liệu premium).

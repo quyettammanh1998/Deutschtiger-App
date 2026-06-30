@@ -1,5 +1,5 @@
 import 'package:deutschtiger/services/api_client.dart';
-import '../domain/review_item.dart';
+import '../../data/flashcard/review_item.dart';
 
 /// Lấy thẻ đến hạn + gửi đánh giá. FSRS tính phía server.
 class ReviewRepository {

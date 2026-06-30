@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/theme/app_colors.dart';
-import 'ai_provider.dart';
-import '../domain/ai_models.dart';
+import 'package:deutschtiger/view_models/ai/ai_provider.dart';
+import 'package:deutschtiger/data/ai/ai_models.dart';
 
 class AISettingsPage extends ConsumerStatefulWidget {
   const AISettingsPage({super.key});

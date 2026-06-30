@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/theme/app_colors.dart';
-import 'journey_provider.dart';
+import 'package:deutschtiger/view_models/journey/journey_provider.dart';
 import 'widgets/journey_roadmap.dart';
 import 'widgets/chapter_detail_screen.dart';
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/theme/app_colors.dart';
-import 'ai_tutor_provider.dart';
+import 'package:deutschtiger/view_models/ai_tutor/ai_tutor_provider.dart';
 import 'widgets/ai_chat_screen.dart';
 import 'widgets/ai_mode_selector.dart';
 import 'widgets/ai_writing_practice_list.dart';

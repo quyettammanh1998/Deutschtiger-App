@@ -1,4 +1,4 @@
-import '../domain/ai_tutor_models.dart';
+import '../../data/ai_tutor/ai_tutor_models.dart';
 
 class AITutorRepository {
   Future<List<AITutorSession>> getSessions() async {

@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../data/affiliate_repository.dart';
-import '../domain/affiliate_models.dart';
+import '../../repositories/affiliate/affiliate_repository.dart';
+import '../../data/affiliate/affiliate_models.dart';
 
 final affiliateRepositoryProvider = Provider<AffiliateRepository>((ref) => AffiliateRepository());
 

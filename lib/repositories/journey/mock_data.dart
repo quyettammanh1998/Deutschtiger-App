@@ -1,4 +1,4 @@
-import '../domain/journey_models.dart';
+import '../../data/journey/journey_models.dart';
 
 /// Mock data for journey chapters (A1 → C2)
 final mockJourneyChapters = [

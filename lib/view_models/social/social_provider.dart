@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../data/social_repository.dart';
-import '../domain/social_models.dart';
+import '../../repositories/social/social_repository.dart';
+import '../../data/social/social_models.dart';
 
 final socialRepositoryProvider = Provider((ref) => SocialRepository());
 

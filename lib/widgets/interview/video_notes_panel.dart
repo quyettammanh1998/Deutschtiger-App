@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/theme/app_colors.dart';
-import '../presentation/video_note_provider.dart';
+import 'package:deutschtiger/view_models/interview/video_note_provider.dart';
 
 /// Panel ghi chu cho video YouTube.
 /// Hien thi ghi chu hien tai + cho phep chinh sua.

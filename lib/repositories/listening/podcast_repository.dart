@@ -1,4 +1,4 @@
-import '../domain/podcast_models.dart';
+import '../../data/listening/podcast_models.dart';
 
 class PodcastRepository {
   static final List<PodcastSeries> _mockSeries = [

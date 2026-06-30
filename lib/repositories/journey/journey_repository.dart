@@ -1,4 +1,4 @@
-import '../domain/journey_models.dart';
+import '../../data/journey/journey_models.dart';
 
 class JourneyRepository {
   Future<List<JourneyChapter>> getChapters() async {

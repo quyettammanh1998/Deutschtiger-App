@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../data/journey_repository.dart';
-import '../domain/journey_models.dart';
+import '../../repositories/journey/journey_repository.dart';
+import '../../data/journey/journey_models.dart';
 
 final journeyRepositoryProvider = Provider((ref) => JourneyRepository());
 

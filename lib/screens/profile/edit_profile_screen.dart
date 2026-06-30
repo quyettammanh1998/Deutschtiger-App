@@ -5,7 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:deutschtiger/view_models/providers.dart';
 import '../../../core/theme/app_colors.dart';
 import 'package:deutschtiger/widgets/common/gradient_button.dart';
-import '../../auth/presentation/widgets/auth_text_field.dart';
+import 'package:deutschtiger/screens/auth/widgets/auth_text_field.dart';
 import 'profile_controller.dart';
 
 /// Màn sửa hồ sơ: đổi tên hiển thị và URL avatar (PUT /user/profile).

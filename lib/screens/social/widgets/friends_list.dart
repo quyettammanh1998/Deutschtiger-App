@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:deutschtiger/core/theme/app_colors.dart';
-import 'package:deutschtiger/data/$1/$2.dart';
+import 'package:deutschtiger/data/social/social_models.dart';
 
 class FriendsList extends StatelessWidget {
   final List<Friend> friends;

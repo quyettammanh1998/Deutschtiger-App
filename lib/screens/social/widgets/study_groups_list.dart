@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:deutschtiger/core/theme/app_colors.dart';
-import 'package:deutschtiger/data/$1/$2.dart';
+import 'package:deutschtiger/data/social/social_models.dart';
 
 class StudyGroupsList extends StatelessWidget {
   final List<StudyGroup> groups;
@@ -102,10 +102,10 @@ class StudyGroupsList extends StatelessWidget {
   }
 }
 
-class ChallengesList extends StatelessWidget {
+class _GroupChallengesList extends StatelessWidget {
   final List<Challenge> challenges;
 
-  const ChallengesList({super.key, required this.challenges});
+  const _GroupChallengesList({required this.challenges});
 
   @override
   Widget build(BuildContext context) {

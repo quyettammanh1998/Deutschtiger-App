@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
-import '../../domain/stats_models.dart';
+import 'package:deutschtiger/data/stats/stats_models.dart';
 
 class SRSStatsCard extends StatelessWidget {
   final SRSStats stats;

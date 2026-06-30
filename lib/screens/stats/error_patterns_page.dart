@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../core/theme/app_colors.dart';
-import '../data/stats_repository.dart';
-import '../domain/stats_models.dart';
+import 'package:deutschtiger/repositories/stats/stats_repository.dart';
+import 'package:deutschtiger/data/stats/stats_models.dart';
 
 final errorPatternsDetailProvider = FutureProvider<List<ErrorPattern>>((ref) async {
   final repo = StatsRepository();

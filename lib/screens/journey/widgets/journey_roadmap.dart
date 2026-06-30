@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
-import '../../domain/journey_models.dart';
+import 'package:deutschtiger/data/journey/journey_models.dart';
 
 class JourneyRoadmap extends StatelessWidget {
   final List<JourneyChapter> chapters;

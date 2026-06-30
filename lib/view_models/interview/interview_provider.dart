@@ -2,8 +2,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:deutschtiger/services/config/app_config.dart';
 import 'package:deutschtiger/view_models/providers.dart';
-import '../data/interview_repository.dart';
-import '../domain/interview_models.dart';
+import '../../repositories/interview/interview_repository.dart';
+import '../../data/interview/interview_models.dart';
 
 final interviewRepositoryProvider = Provider<InterviewRepository>((ref) {
   return InterviewRepository(

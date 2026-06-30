@@ -4,9 +4,9 @@ import 'package:go_router/go_router.dart';
 
 import '../../../core/theme/app_colors.dart';
 import 'package:deutschtiger/widgets/common/async_state_views.dart';
-import '../data/deck_repository.dart';
-import '../domain/deck_models.dart';
-import 'deck_provider.dart';
+import 'package:deutschtiger/repositories/decks/deck_repository.dart';
+import 'package:deutschtiger/data/decks/deck_models.dart';
+import 'package:deutschtiger/view_models/decks/deck_provider.dart';
 
 /// Màn danh sách decks.
 class DeckListScreen extends ConsumerWidget {

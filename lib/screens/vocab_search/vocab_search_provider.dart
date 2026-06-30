@@ -1,11 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../data/vocab_notes_repository.dart';
-import '../data/vocabulary_repository.dart';
-import '../domain/vocab_models.dart';
+import 'package:deutschtiger/repositories/vocab/vocab_notes_repository.dart';
+import 'package:deutschtiger/repositories/vocab/vocabulary_repository.dart';
+import 'package:deutschtiger/data/vocab/vocab_models.dart';
 
-export '../data/vocabulary_repository.dart' show vocabularyRepositoryProvider;
-export '../data/vocab_notes_repository.dart' show vocabNotesRepositoryProvider;
+export 'package:deutschtiger/repositories/vocab/vocabulary_repository.dart' show vocabularyRepositoryProvider;
+export 'package:deutschtiger/repositories/vocab/vocab_notes_repository.dart' show vocabNotesRepositoryProvider;
 
 /// CEFR level options.
 const cefrLevels = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];

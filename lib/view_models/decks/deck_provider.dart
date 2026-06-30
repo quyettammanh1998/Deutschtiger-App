@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../data/deck_repository.dart';
-import '../domain/deck_models.dart';
+import '../../repositories/decks/deck_repository.dart';
+import '../../data/decks/deck_models.dart';
 
 /// All decks provider.
 final decksProvider = FutureProvider<List<Deck>>((ref) async {

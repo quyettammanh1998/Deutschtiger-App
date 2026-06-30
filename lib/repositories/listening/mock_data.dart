@@ -1,4 +1,4 @@
-import '../domain/podcast_models.dart';
+import '../../data/listening/podcast_models.dart';
 
 /// Mock data for podcast series
 final mockPodcastSeries = [

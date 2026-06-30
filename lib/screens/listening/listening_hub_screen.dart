@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../core/theme/app_colors.dart';
-import 'podcast_provider.dart';
+import 'package:deutschtiger/view_models/listening/podcast_provider.dart';
 import 'widgets/podcast_series_card.dart';
 import 'widgets/audiobook_list.dart';
 import 'widgets/dictation_list.dart';

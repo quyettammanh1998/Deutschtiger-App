@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/theme/app_colors.dart';
-import '../domain/transcript_models.dart';
-import '../presentation/transcript_provider.dart';
+import 'package:deutschtiger/data/interview/transcript_models.dart';
+import 'package:deutschtiger/view_models/interview/transcript_provider.dart';
 
 /// Panel hien thi transcript cua video YouTube.
 /// Hien transcript voi tap-to-seek functionality.

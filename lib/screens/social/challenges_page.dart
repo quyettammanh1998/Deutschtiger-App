@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/theme/app_colors.dart';
-import '../domain/social_models.dart';
-import '../presentation/social_provider.dart';
+import 'package:deutschtiger/data/social/social_models.dart';
+import 'package:deutschtiger/view_models/social/social_provider.dart';
 
 class ChallengesPage extends ConsumerStatefulWidget {
   const ChallengesPage({super.key});

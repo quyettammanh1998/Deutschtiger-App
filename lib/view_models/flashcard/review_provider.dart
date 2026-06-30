@@ -1,8 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:deutschtiger/view_models/providers.dart';
-import '../data/review_repository.dart';
-import '../domain/review_item.dart';
+import '../../repositories/flashcard/review_repository.dart';
+import '../../data/flashcard/review_item.dart';
 
 final reviewRepositoryProvider = Provider<ReviewRepository>((ref) {
   return ReviewRepository(ref.watch(apiClientProvider));

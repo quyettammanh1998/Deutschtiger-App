@@ -1,4 +1,4 @@
-import 'package:deutschtiger/features/auth/presentation/widgets/auth_text_field.dart';
+import 'package:deutschtiger/screens/auth/widgets/auth_text_field.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

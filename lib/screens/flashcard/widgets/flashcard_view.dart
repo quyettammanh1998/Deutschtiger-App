@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_colors.dart';
-import '../../domain/review_item.dart';
+import 'package:deutschtiger/data/flashcard/review_item.dart';
 
 /// Thẻ từ vựng: mặt trước chỉ tiếng Đức + nút loa; sau khi lật hiện nghĩa
 /// tiếng Việt và các câu ví dụ. Bấm vào thẻ để lật.

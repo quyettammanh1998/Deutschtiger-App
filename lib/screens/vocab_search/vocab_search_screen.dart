@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/theme/app_colors.dart';
-import '../data/vocab_notes_repository.dart';
-import '../domain/vocab_models.dart';
-import 'vocab_search_provider.dart';
+import 'package:deutschtiger/repositories/vocab/vocab_notes_repository.dart';
+import 'package:deutschtiger/data/vocab/vocab_models.dart';
+import 'package:deutschtiger/screens/vocab_search/vocab_search_provider.dart';
 
 /// Màn tìm kiếm từ vựng.
 class VocabSearchScreen extends ConsumerStatefulWidget {

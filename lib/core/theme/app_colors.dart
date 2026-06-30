@@ -12,44 +12,44 @@ class AppColors {
   const AppColors._();
 
   // ===== Light theme ===== (delegated to DesignTokens)
-  static final Color background = DesignTokens.background;
-  static final Color foreground = DesignTokens.foreground;
-  static final Color muted = DesignTokens.muted;
-  static final Color mutedForeground = DesignTokens.mutedForeground;
-  static final Color card = DesignTokens.card;
-  static final Color cardBackground = DesignTokens.cardBackground;
-  static final Color cardForeground = DesignTokens.cardForeground;
-  static final Color primary = DesignTokens.primary;
-  static final Color primaryForeground = DesignTokens.primaryForeground;
-  static final Color secondary = DesignTokens.secondary;
-  static final Color accent = DesignTokens.accent;
-  static final Color border = DesignTokens.border;
-  static final Color ring = DesignTokens.ring;
-  static final Color destructive = DesignTokens.destructive;
-  static final Color success = DesignTokens.success;
-  static final Color error = DesignTokens.error;
-  static final Color warning = DesignTokens.warning;
-  static final Color brand = DesignTokens.brand;
-  static final Color brandDark = DesignTokens.brandDark;
-  static final Color sidebar = DesignTokens.sidebar;
+  static const Color background = DesignTokens.background;
+  static const Color foreground = DesignTokens.foreground;
+  static const Color muted = DesignTokens.muted;
+  static const Color mutedForeground = DesignTokens.mutedForeground;
+  static const Color card = DesignTokens.card;
+  static const Color cardBackground = DesignTokens.cardBackground;
+  static const Color cardForeground = DesignTokens.cardForeground;
+  static const Color primary = DesignTokens.primary;
+  static const Color primaryForeground = DesignTokens.primaryForeground;
+  static const Color secondary = DesignTokens.secondary;
+  static const Color accent = DesignTokens.accent;
+  static const Color border = DesignTokens.border;
+  static const Color ring = DesignTokens.ring;
+  static const Color destructive = DesignTokens.destructive;
+  static const Color success = DesignTokens.success;
+  static const Color error = DesignTokens.error;
+  static const Color warning = DesignTokens.warning;
+  static const Color brand = DesignTokens.brand;
+  static const Color brandDark = DesignTokens.brandDark;
+  static const Color sidebar = DesignTokens.sidebar;
 
   // ===== Auth colors ===== (delegated to DesignTokens)
-  static final Color authBackground = DesignTokens.authBackground;
-  static final Color tigerOrange = DesignTokens.tigerOrange;
-  static final Color tigerOrangeDark = DesignTokens.tigerOrangeDark;
-  static final Color orange50 = DesignTokens.orange50;
-  static final Color orange100 = DesignTokens.orange100;
-  static final Color orange500 = DesignTokens.orange500;
-  static final Color orange600 = DesignTokens.orange600;
-  static final Color rose600 = DesignTokens.rose600;
+  static const Color authBackground = DesignTokens.authBackground;
+  static const Color tigerOrange = DesignTokens.tigerOrange;
+  static const Color tigerOrangeDark = DesignTokens.tigerOrangeDark;
+  static const Color orange50 = DesignTokens.orange50;
+  static const Color orange100 = DesignTokens.orange100;
+  static const Color orange500 = DesignTokens.orange500;
+  static const Color orange600 = DesignTokens.orange600;
+  static const Color rose600 = DesignTokens.rose600;
 
   /// Gradient nút chính: from-orange-500 to-rose-600 (web login button).
-  static final LinearGradient primaryGradient = DesignTokens.primaryGradient;
+  static const LinearGradient primaryGradient = DesignTokens.primaryGradient;
 
   // ===== Dark theme (delegated to DesignTokens) =====
-  static final Color darkBackground = DesignTokens.darkBackground;
-  static final Color darkForeground = DesignTokens.darkForeground;
-  static final Color darkCard = DesignTokens.darkCard;
-  static final Color darkPrimary = DesignTokens.darkPrimary;
-  static final Color darkBorder = DesignTokens.darkBorder;
+  static const Color darkBackground = DesignTokens.darkBackground;
+  static const Color darkForeground = DesignTokens.darkForeground;
+  static const Color darkCard = DesignTokens.darkCard;
+  static const Color darkPrimary = DesignTokens.darkPrimary;
+  static const Color darkBorder = DesignTokens.darkBorder;
 }

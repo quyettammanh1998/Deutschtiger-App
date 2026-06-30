@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
-import '../../domain/speaking_models.dart';
+import 'package:deutschtiger/data/speaking/speaking_models.dart';
 
 class PronunciationTrainerCard extends StatelessWidget {
   final PronunciationTrainer trainer;

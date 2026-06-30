@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/theme/app_colors.dart';
-import '../domain/speaking_models.dart';
-import '../data/speaking_repository.dart';
-import '../widgets/pronunciation_practice_widget.dart';
+import 'package:deutschtiger/data/speaking/speaking_models.dart';
+import 'package:deutschtiger/repositories/speaking/speaking_repository.dart';
+import 'package:deutschtiger/widgets/speaking/pronunciation_practice_widget.dart';
 
 class IchAchTrainerPage extends ConsumerStatefulWidget {
   const IchAchTrainerPage({super.key});

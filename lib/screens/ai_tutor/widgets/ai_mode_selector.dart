@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/theme/app_colors.dart';
-import '../ai_tutor_provider.dart';
-import '../../domain/ai_tutor_models.dart';
+import 'package:deutschtiger/view_models/ai_tutor/ai_tutor_provider.dart';
+import 'package:deutschtiger/data/ai_tutor/ai_tutor_models.dart';
 
 class AIModeSelector extends ConsumerWidget {
   const AIModeSelector({super.key});

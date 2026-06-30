@@ -1,4 +1,4 @@
-import '../domain/affiliate_models.dart';
+import '../../data/affiliate/affiliate_models.dart';
 
 class AffiliateRepository {
   Future<ReferralProgram> getProgram() async {

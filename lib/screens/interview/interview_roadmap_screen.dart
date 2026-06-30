@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../core/theme/app_colors.dart';
 import 'package:deutschtiger/widgets/common/async_state_views.dart';
-import 'interview_provider.dart';
+import 'package:deutschtiger/view_models/interview/interview_provider.dart';
 import 'widgets/group_card.dart';
 
 /// Màn lộ trình video phỏng vấn (tab "Bài học"): danh sách 18 nhóm theo thứ tự,

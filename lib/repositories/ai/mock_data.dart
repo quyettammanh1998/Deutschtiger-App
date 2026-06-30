@@ -1,4 +1,4 @@
-import '../domain/ai_models.dart';
+import '../../data/ai/ai_models.dart';
 
 /// Mock data for AI features
 class AIMockData {

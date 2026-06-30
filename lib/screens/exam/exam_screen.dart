@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/theme/app_colors.dart';
-import 'exam_provider.dart';
+import 'package:deutschtiger/view_models/exam/exam_provider.dart';
 import 'widgets/exam_hub_card.dart';
 import 'widgets/writing_topics_list.dart';
 import 'widgets/exam_readiness_card.dart';

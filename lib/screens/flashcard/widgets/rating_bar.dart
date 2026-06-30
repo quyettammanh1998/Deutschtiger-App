@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_colors.dart';
-import '../../domain/review_item.dart';
+import 'package:deutschtiger/data/flashcard/review_item.dart';
 
 /// Hàng 4 nút đánh giá sau khi lật thẻ: Quên / Khó / Tốt / Dễ.
 /// Màu đi từ đỏ → cam → xanh lá theo độ nhớ (giống web).

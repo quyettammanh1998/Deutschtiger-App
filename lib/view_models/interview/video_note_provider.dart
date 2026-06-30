@@ -1,9 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../data/video_notes_repository.dart';
-import '../domain/video_note.dart';
+import '../../repositories/interview/video_notes_repository.dart';
+import '../../data/interview/video_note.dart';
 
-export '../data/video_notes_repository.dart' show videoNotesRepositoryProvider;
+export '../../repositories/interview/video_notes_repository.dart' show videoNotesRepositoryProvider;
 
 /// Lay ghi chu cho mot video.
 final videoNoteProvider = FutureProvider.family<VideoNote?, String>((ref, videoId) async {

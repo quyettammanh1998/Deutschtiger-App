@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
-import '../../domain/podcast_models.dart';
+import 'package:deutschtiger/data/listening/podcast_models.dart';
 
 class AudiobookList extends StatelessWidget {
   final List<Audiobook> audiobooks;

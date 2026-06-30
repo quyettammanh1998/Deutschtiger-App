@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../data/ai_tutor_repository.dart';
-import '../domain/ai_tutor_models.dart';
+import '../../repositories/ai_tutor/ai_tutor_repository.dart';
+import '../../data/ai_tutor/ai_tutor_models.dart';
 
 final aiTutorRepositoryProvider = Provider<AITutorRepository>((ref) => AITutorRepository());
 

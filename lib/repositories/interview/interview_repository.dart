@@ -1,5 +1,5 @@
 import 'package:deutschtiger/services/api_client.dart';
-import '../domain/interview_models.dart';
+import '../../data/interview/interview_models.dart';
 
 /// Lấy lộ trình video (file tĩnh) + trạng thái xem (API) + đánh dấu hoàn thành.
 ///

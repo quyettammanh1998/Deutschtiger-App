@@ -1,5 +1,4 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:deutschtiger/services/notifications/notification_contract.dart';
 import '../../helpers/fake_notification_service.dart';
 
 void main() {

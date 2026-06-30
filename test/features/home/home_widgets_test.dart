@@ -1,7 +1,7 @@
-import 'package:deutschtiger/features/home/domain/dashboard_data.dart';
-import 'package:deutschtiger/features/home/presentation/widgets/daily_goal_card.dart';
-import 'package:deutschtiger/features/home/presentation/widgets/mission_list.dart';
-import 'package:deutschtiger/features/home/presentation/widgets/quick_stats_row.dart';
+import 'package:deutschtiger/data/home/dashboard_data.dart';
+import 'package:deutschtiger/screens/home/widgets/daily_goal_card.dart';
+import 'package:deutschtiger/screens/home/widgets/mission_list.dart';
+import 'package:deutschtiger/screens/home/widgets/quick_stats_row.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 

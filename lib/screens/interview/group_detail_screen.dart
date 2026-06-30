@@ -4,8 +4,8 @@ import 'package:go_router/go_router.dart';
 
 import '../../../core/theme/app_colors.dart';
 import 'package:deutschtiger/widgets/common/async_state_views.dart';
-import '../domain/interview_models.dart';
-import 'interview_provider.dart';
+import 'package:deutschtiger/data/interview/interview_models.dart';
+import 'package:deutschtiger/view_models/interview/interview_provider.dart';
 import 'widgets/premium_required_view.dart';
 
 /// Chi tiết một nhóm: danh sách video (metadata tĩnh) merge trạng thái xem (DB).
