@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 
-import '../auth/token_provider.dart';
+import 'auth_provider.dart';
 
 /// Custom exception for API errors with more context.
 class ApiException implements Exception {

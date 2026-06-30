@@ -1,13 +1,13 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import 'audio/audio_service.dart';
-import 'auth/auth_service.dart';
-import 'auth/token_provider.dart';
-import 'config/app_config.dart';
-import 'identity/app_user.dart';
-import 'identity/profile_repository.dart';
-import 'network/api_client.dart';
+import 'package:deutschtiger/services/audio_service.dart';
+import 'package:deutschtiger/services/auth_service.dart';
+import 'package:deutschtiger/services/auth_provider.dart';
+import 'package:deutschtiger/services/config/app_config.dart';
+import 'package:deutschtiger/core/identity/app_user.dart';
+import 'package:deutschtiger/core/identity/profile_repository.dart';
+import 'package:deutschtiger/services/api_client.dart';
 
 /// DI gốc cho core layer. Feature đọc các provider này, không tự khởi tạo SDK.
 

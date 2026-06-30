@@ -1,4 +1,4 @@
-import '../../core/notifications/notification_contract.dart';
+import '../services/notifications/notification_contract.dart';
 
 /// Preview notification service that returns success for all operations.
 ///

@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:deutschtiger/core/notifications/notification_contract.dart';
-import '../../../test/helpers/fake_notification_service.dart';
+import 'package:deutschtiger/services/notifications/notification_contract.dart';
+import '../../helpers/fake_notification_service.dart';
 
 void main() {
   group('NotificationContract', () {

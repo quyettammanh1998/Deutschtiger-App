@@ -1,29 +1,6 @@
 import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
 
-String _resolvePath(String basePath, String importPath) {
-  if (importPath.startsWith('../')) {
-    final baseDir = Directory(basePath).parent;
-    final relative = importPath.replaceFirst('../', '');
-    final parts = baseDir.path.split('/');
-    final resolvedParts = <String>[];
-    for (final part in relative.split('/')) {
-      if (part == '..') {
-        if (resolvedParts.isNotEmpty) {
-          resolvedParts.removeLast();
-        } else {
-          parts.removeLast();
-        }
-      } else {
-        resolvedParts.add(part);
-      }
-    }
-    final baseResolved = resolvedParts.isEmpty ? parts.join('/') : [...parts, ...resolvedParts].join('/');
-    return '$baseResolved.dart';
-  }
-  return importPath;
-}
-
 void main() {
   group('Import Resolution Tests', () {
     test('All dart files can be parsed without errors', () {
@@ -53,7 +30,7 @@ void main() {
 
       for (final file in files) {
         final content = File(file).readAsStringSync();
-        final importRegex = RegExp(r"import\s+['\"]([^'\"]+)['\"]");
+        final importRegex = RegExp(r"import\s+['\""]([^'\"]+)['\"']");
         final matches = importRegex.allMatches(content);
 
         for (final match in matches) {

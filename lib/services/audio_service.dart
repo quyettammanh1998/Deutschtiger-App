@@ -1,6 +1,6 @@
 import 'package:just_audio/just_audio.dart';
 
-import '../network/api_client.dart';
+import 'api_client.dart';
 
 /// Phát âm thanh cho thẻ từ vựng — seam mỏng ở core (KISS).
 ///

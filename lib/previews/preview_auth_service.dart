@@ -1,6 +1,6 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../core/auth/auth_service.dart';
+import '../services/auth_service.dart';
 
 /// Preview auth service that simulates authenticated state.
 ///

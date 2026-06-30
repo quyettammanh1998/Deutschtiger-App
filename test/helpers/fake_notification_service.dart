@@ -1,4 +1,4 @@
-import '../../lib/core/notifications/notification_contract.dart';
+import 'package:deutschtiger/services/notifications/notification_contract.dart';
 
 /// Fake notification service for unit testing.
 ///
