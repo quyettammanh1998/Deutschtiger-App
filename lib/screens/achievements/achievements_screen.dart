@@ -30,9 +30,12 @@ class Achievement {
   double get progress => targetValue > 0 ? currentValue / targetValue : 0;
 }
 
-/// Mock achievements.
+/// Mock achievements - for demo/development only.
+/// Replace with actual API call in production.
 final achievementsProvider = FutureProvider<List<Achievement>>((ref) async {
-  await Future.delayed(const Duration(milliseconds: 300));
+  // Simulate network delay for realistic UX testing
+  // await Future.delayed(const Duration(milliseconds: 300));
+  
   return [
     Achievement(
       id: 'first_word',
@@ -150,29 +153,58 @@ class AchievementsScreen extends ConsumerWidget {
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (e, _) => Center(child: Text('Lỗi: $e')),
         data: (list) {
+          if (list.isEmpty) {
+            return const Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.emoji_events, size: 64, color: AppColors.muted),
+                  SizedBox(height: 16),
+                  Text(
+                    'Chưa có thành tựu nào',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  SizedBox(height: 8),
+                  Text(
+                    'Bắt đầu học để nhận thành tựu!',
+                    style: TextStyle(color: AppColors.mutedForeground),
+                  ),
+                ],
+              ),
+            );
+          }
+
           final unlocked = list.where((a) => a.isUnlocked).toList();
           final locked = list.where((a) => !a.isUnlocked).toList();
 
-          return ListView(
-            padding: const EdgeInsets.all(16),
-            children: [
-              _ProgressHeader(
-                unlockedCount: unlocked.length,
-                totalCount: list.length,
-              ),
-              const SizedBox(height: 24),
-              if (unlocked.isNotEmpty) ...[
-                const _SectionTitle(title: 'Đã đạt được'),
-                const SizedBox(height: 12),
-                ...unlocked.map((a) => _AchievementCard(achievement: a)),
+          return RefreshIndicator(
+            onRefresh: () async {
+              ref.invalidate(achievementsProvider);
+            },
+            child: ListView(
+              padding: const EdgeInsets.all(16),
+              children: [
+                _ProgressHeader(
+                  unlockedCount: unlocked.length,
+                  totalCount: list.length,
+                ),
                 const SizedBox(height: 24),
+                if (unlocked.isNotEmpty) ...[
+                  const _SectionTitle(title: 'Đã đạt được'),
+                  const SizedBox(height: 12),
+                  ...unlocked.map((a) => _AchievementCard(achievement: a)),
+                  const SizedBox(height: 24),
+                ],
+                if (locked.isNotEmpty) ...[
+                  const _SectionTitle(title: 'Đang theo đuổi'),
+                  const SizedBox(height: 12),
+                  ...locked.map((a) => _AchievementCard(achievement: a)),
+                ],
               ],
-              if (locked.isNotEmpty) ...[
-                const _SectionTitle(title: 'Đang theo đuổi'),
-                const SizedBox(height: 12),
-                ...locked.map((a) => _AchievementCard(achievement: a)),
-              ],
-            ],
+            ),
           );
         },
       ),
@@ -326,7 +358,7 @@ class _AchievementCard extends StatelessWidget {
                         value: achievement.progress,
                         minHeight: 6,
                         backgroundColor: AppColors.border,
-                        valueColor: AlwaysStoppedAnimation(achievement.color),
+                        valueColor: AlwaysStoppedAnimation<Color>(achievement.color),
                       ),
                     ),
                     const SizedBox(height: 4),
