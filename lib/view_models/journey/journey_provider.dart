@@ -1,55 +1,89 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../../features/journey/domain/course_models.dart';
 import '../../repositories/journey/journey_repository.dart';
-import '../../data/journey/journey_models.dart';
 
-final journeyRepositoryProvider = Provider((ref) => JourneyRepository());
-
-final journeyChaptersProvider = FutureProvider<List<JourneyChapter>>((ref) async {
+/// Toan bo catalog khoa hoc DW theo level (A1-B2).
+final courseCatalogProvider = FutureProvider<List<CourseGroup>>((ref) async {
   final repo = ref.watch(journeyRepositoryProvider);
-  return repo.getChapters();
+  return repo.getCourseCatalog();
 });
 
-final journeyChapterProvider = FutureProvider.family<JourneyChapter, String>((ref, chapterId) async {
-  final repo = ref.watch(journeyRepositoryProvider);
-  return repo.getChapter(chapterId);
+/// Danh sach khoa hoc phang (khong nhom theo level) — dung cho featured/my-courses lookup.
+final _flatCoursesProvider = FutureProvider<List<Course>>((ref) async {
+  final groups = await ref.watch(courseCatalogProvider.future);
+  return groups.expand((g) => g.courses).toList();
 });
 
-final learningItemsProvider = FutureProvider.family<List<LearningItem>, String>((ref, chapterId) async {
-  final repo = ref.watch(journeyRepositoryProvider);
-  return repo.getLearningItems(chapterId);
-});
-
-/// Provider for all learning items across chapters
-final allLearningItemsProvider = FutureProvider<List<LearningItem>>((ref) async {
-  final repo = ref.watch(journeyRepositoryProvider);
-  return repo.getAllLearningItems();
-});
-
-final journeyProgressProvider = FutureProvider<JourneyProgress>((ref) async {
-  final repo = ref.watch(journeyRepositoryProvider);
-  return repo.getProgress();
-});
-
-/// Selected chapter state using Notifier
-final selectedChapterProvider = NotifierProvider<SelectedChapterNotifier, JourneyChapter?>(() => SelectedChapterNotifier());
-
-class SelectedChapterNotifier extends Notifier<JourneyChapter?> {
-  @override
-  JourneyChapter? build() => null;
-
-  void select(JourneyChapter? chapter) {
-    state = chapter;
+/// Mot khoa hoc theo slug (tim trong catalog da tai).
+final courseBySlugProvider = FutureProvider.family<Course?, String>((ref, slug) async {
+  final courses = await ref.watch(_flatCoursesProvider.future);
+  for (final c in courses) {
+    if (c.slug == slug) return c;
   }
+  return null;
+});
+
+/// Khoa hoc noi bat (featured) tren trang hub — map slug -> Course object.
+final featuredCoursesProvider = FutureProvider<List<Course>>((ref) async {
+  final repo = ref.watch(journeyRepositoryProvider);
+  final featured = await repo.getFeaturedCourses();
+  final courses = await ref.watch(_flatCoursesProvider.future);
+  final bySlug = {for (final c in courses) c.slug: c};
+  final sorted = [...featured]..sort((a, b) => a.sortOrder.compareTo(b.sortOrder));
+  return sorted
+      .map((f) => bySlug[f.courseSlug])
+      .whereType<Course>()
+      .toList();
+});
+
+/// Khoa hoc nguoi dung da bat dau hoc (yeu cau dang nhap).
+final myCoursesProvider = FutureProvider<List<MyCourseEntry>>((ref) async {
+  final repo = ref.watch(journeyRepositoryProvider);
+  return repo.getMyCourses();
+});
+
+/// Chi tiet khoa hoc (danh sach bai hoc) theo slug.
+final courseDetailProvider = FutureProvider.family<DwCourseDetail, String>((ref, slug) async {
+  final repo = ref.watch(journeyRepositoryProvider);
+  return repo.getCourseDetail(slug);
+});
+
+/// Tien do toan bo cac bai hoc trong mot khoa hoc, dang map theo so bai.
+final courseProgressProvider = FutureProvider.family<Map<int, CourseLessonProgress>, String>((ref, slug) async {
+  final repo = ref.watch(journeyRepositoryProvider);
+  final progress = await repo.getCourseProgress(slug);
+  return {for (final p in progress) p.lessonNumber: p};
+});
+
+/// Tham so cho lesson provider: slug khoa hoc + so thu tu bai hoc.
+class LessonKey {
+  const LessonKey(this.slug, this.lessonNumber);
+  final String slug;
+  final int lessonNumber;
+
+  @override
+  bool operator ==(Object other) =>
+      other is LessonKey && other.slug == slug && other.lessonNumber == lessonNumber;
+
+  @override
+  int get hashCode => Object.hash(slug, lessonNumber);
 }
 
-/// Selected lesson state using Notifier
-final selectedLessonProvider = NotifierProvider<SelectedLessonNotifier, JourneyLesson?>(() => SelectedLessonNotifier());
+/// Noi dung mot bai hoc cu the.
+final lessonContentProvider = FutureProvider.family<DwLessonDetail, LessonKey>((ref, key) async {
+  final repo = ref.watch(journeyRepositoryProvider);
+  return repo.getLesson(key.slug, key.lessonNumber);
+});
 
-class SelectedLessonNotifier extends Notifier<JourneyLesson?> {
-  @override
-  JourneyLesson? build() => null;
+/// Tien do rieng cua mot bai hoc (null neu chua bat dau).
+final lessonProgressProvider = FutureProvider.family<CourseLessonProgress?, LessonKey>((ref, key) async {
+  final repo = ref.watch(journeyRepositoryProvider);
+  return repo.getLessonProgress(key.slug, key.lessonNumber);
+});
 
-  void select(JourneyLesson? lesson) {
-    state = lesson;
-  }
-}
+/// Ghi chu rieng cua mot bai hoc (null neu chua co).
+final lessonNoteProvider = FutureProvider.family<CourseLessonNote?, LessonKey>((ref, key) async {
+  final repo = ref.watch(journeyRepositoryProvider);
+  return repo.getLessonNote(key.slug, key.lessonNumber);
+});
