@@ -1,124 +1,148 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../core/theme/app_colors.dart';
-import 'package:deutschtiger/view_models/stats/stats_provider.dart';
-import 'widgets/error_patterns_list.dart';
-import 'widgets/near_achievements_list.dart';
-import 'widgets/srs_stats_card.dart';
+import 'package:go_router/go_router.dart';
 
+import '../../core/design_tokens.dart';
+import '../../data/home/dashboard_data.dart';
+import '../../l10n/app_localizations.dart';
+import 'package:deutschtiger/view_models/home/home_provider.dart';
+import 'package:deutschtiger/view_models/stats/stats_provider.dart';
+import 'package:deutschtiger/widgets/common/async_state_views.dart';
+import 'widgets/error_patterns_list.dart';
+import 'widgets/srs_stats_card.dart';
+import '../../view_models/stats/error_patterns_provider.dart';
+
+/// Màn Thống kê — live data từ FSRS/XP/error-patterns.
+///
+/// Nguồn dữ liệu:
+///   - `dashboardProvider` (đã có sẵn): level, tổng XP, streak hiện tại/tốt nhất
+///   - `reviewStatsProvider`: tổng lượt ôn + số từ đã học
+///   - `weeklyXpLogProvider`: XP 7 ngày qua
+///   - `masteryProvider` + `srsDailyStatsProvider`: độ nhớ FSRS + xu hướng 30 ngày
+///   - `errorPatternsSummaryProvider`: lỗi hay gặp (xem trước, top 3)
 class StatsScreen extends ConsumerWidget {
   const StatsScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final statsState = ref.watch(statsNotifierProvider);
+    final l10n = AppLocalizations.of(context);
+    final dashboard = ref.watch(dashboardProvider);
 
     return Scaffold(
+      backgroundColor: DesignTokens.background,
       appBar: AppBar(
-        title: const Text('Statistics'),
+        title: Text(l10n.statsScreenTitle),
+        backgroundColor: DesignTokens.background,
       ),
-      body: statsState.isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : RefreshIndicator(
-              onRefresh: () async {
-                ref.read(statsNotifierProvider.notifier).loadAllStats();
-              },
-              child: CustomScrollView(
-                slivers: [
-                  SliverToBoxAdapter(
-                    child: _OverviewCards(statsState: statsState),
-                  ),
-                  SliverToBoxAdapter(
-                    child: _SectionHeader(
-                      title: 'SRS Statistics',
-                      icon: Icons.auto_graph,
-                    ),
-                  ),
-                  SliverToBoxAdapter(
-                    child: statsState.srsStats != null
-                        ? SRSStatsCard(stats: statsState.srsStats!)
-                        : const SizedBox.shrink(),
-                  ),
-                  SliverToBoxAdapter(
-                    child: _SectionHeader(
-                      title: 'Error Patterns',
-                      icon: Icons.error_outline,
-                    ),
-                  ),
-                  SliverToBoxAdapter(
-                    child: ErrorPatternsList(patterns: statsState.errorPatterns),
-                  ),
-                  SliverToBoxAdapter(
-                    child: _SectionHeader(
-                      title: 'Near Achievements',
-                      icon: Icons.emoji_events,
-                    ),
-                  ),
-                  SliverToBoxAdapter(
-                    child: _NearAchievementsSection(),
-                  ),
-                  const SliverToBoxAdapter(child: SizedBox(height: 32)),
-                ],
+      body: dashboard.when(
+        loading: () => const LoadingView(),
+        error: (e, _) => ErrorView(
+          message: l10n.couldNotLoadData,
+          onRetry: () => ref.invalidate(dashboardProvider),
+        ),
+        data: (dashboardData) => RefreshIndicator(
+          onRefresh: () async {
+            ref.invalidate(dashboardProvider);
+            ref.invalidate(reviewStatsProvider);
+            ref.invalidate(weeklyXpLogProvider);
+            ref.invalidate(masteryProvider);
+            ref.invalidate(srsDailyStatsProvider);
+            ref.invalidate(errorPatternsSummaryProvider);
+          },
+          child: CustomScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            slivers: [
+              SliverToBoxAdapter(
+                child: _OverviewSection(gamification: dashboardData.gamification),
               ),
-            ),
+              const SliverToBoxAdapter(child: _WeeklyXpChartCard()),
+              SliverToBoxAdapter(
+                child: _SectionHeader(
+                  title: l10n.statsMasteryTitle,
+                  icon: Icons.auto_graph,
+                ),
+              ),
+              const SliverToBoxAdapter(child: _MasterySection()),
+              SliverToBoxAdapter(
+                child: _SectionHeader(
+                  title: l10n.statsErrorPatternsTitle,
+                  icon: Icons.error_outline,
+                  onSeeAll: () => context.push('/stats/error-patterns'),
+                ),
+              ),
+              const SliverToBoxAdapter(child: _ErrorPatternsSection()),
+              const SliverToBoxAdapter(
+                child: SizedBox(height: DesignTokens.spacingXl),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
 
-class _OverviewCards extends StatelessWidget {
-  final StatsState statsState;
+class _OverviewSection extends ConsumerWidget {
+  const _OverviewSection({required this.gamification});
 
-  const _OverviewCards({required this.statsState});
+  final Gamification? gamification;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
+    final reviewStats = ref.watch(reviewStatsProvider);
+    final streak = gamification?.currentStreak ?? 0;
+    final level = gamification?.level ?? 1;
+    final wordsLearned = reviewStats.valueOrNull?.wordsLearned ?? 0;
+    final totalReviews = reviewStats.valueOrNull?.totalReviews ?? 0;
+
     return Padding(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(DesignTokens.spacingMd),
       child: Column(
         children: [
           Row(
             children: [
               Expanded(
                 child: _StatCard(
-                  title: 'Streak',
-                  value: '${statsState.streakInfo?.currentStreak ?? 0}',
-                  subtitle: 'days',
+                  title: l10n.statsCurrentStreak,
+                  value: '$streak',
+                  unit: l10n.statsDaysUnit,
                   icon: Icons.local_fire_department,
-                  color: Colors.orange,
+                  accent: DesignTokens.warning,
                 ),
               ),
-              const SizedBox(width: 12),
+              const SizedBox(width: DesignTokens.spacingSm + 4),
               Expanded(
                 child: _StatCard(
-                  title: 'Today',
-                  value: '${statsState.timeStats?.todayMinutes ?? 0}',
-                  subtitle: 'minutes',
-                  icon: Icons.access_time,
-                  color: AppColors.primary,
+                  title: l10n.statsCurrentLevel,
+                  value: '$level',
+                  unit: '',
+                  icon: Icons.star,
+                  accent: DesignTokens.info,
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: DesignTokens.spacingSm + 4),
           Row(
             children: [
               Expanded(
                 child: _StatCard(
-                  title: 'Retention',
-                  value: '${statsState.srsStats?.retentionRate.toStringAsFixed(0) ?? 0}',
-                  subtitle: '%',
-                  icon: Icons.psychology,
-                  color: AppColors.success,
+                  title: l10n.statsWordsLearned,
+                  value: '$wordsLearned',
+                  unit: '',
+                  icon: Icons.style,
+                  accent: DesignTokens.success,
                 ),
               ),
-              const SizedBox(width: 12),
+              const SizedBox(width: DesignTokens.spacingSm + 4),
               Expanded(
                 child: _StatCard(
-                  title: 'Cards',
-                  value: '${statsState.srsStats?.cardsLearned ?? 0}',
-                  subtitle: 'learned',
-                  icon: Icons.style,
-                  color: Colors.purple,
+                  title: l10n.statsTotalReviews,
+                  value: '$totalReviews',
+                  unit: '',
+                  icon: Icons.repeat,
+                  accent: DesignTokens.orange500,
                 ),
               ),
             ],
@@ -130,61 +154,79 @@ class _OverviewCards extends StatelessWidget {
 }
 
 class _StatCard extends StatelessWidget {
-  final String title;
-  final String value;
-  final String subtitle;
-  final IconData icon;
-  final Color color;
-
   const _StatCard({
     required this.title,
     required this.value,
-    required this.subtitle,
+    required this.unit,
     required this.icon,
-    required this.color,
+    required this.accent,
   });
+
+  final String title;
+  final String value;
+  final String unit;
+  final IconData icon;
+  final Color accent;
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(DesignTokens.spacingMd),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(12),
+        color: DesignTokens.card,
+        borderRadius: BorderRadius.circular(DesignTokens.radius),
+        border: Border.all(color: DesignTokens.border),
+        boxShadow: DesignTokens.shadowSm,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
-              Icon(icon, color: color, size: 20),
-              const SizedBox(width: 8),
-              Text(
-                title,
-                style: TextStyle(color: color, fontSize: 12),
+              Container(
+                width: 28,
+                height: 28,
+                decoration: BoxDecoration(
+                  color: accent.withValues(alpha: 0.12),
+                  borderRadius: BorderRadius.circular(DesignTokens.radiusSm),
+                ),
+                child: Icon(icon, color: accent, size: 16),
+              ),
+              const SizedBox(width: DesignTokens.spacingSm),
+              Expanded(
+                child: Text(
+                  title,
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: DesignTokens.mutedForeground,
+                  ),
+                ),
               ),
             ],
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: DesignTokens.spacingSm),
           Row(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
                 value,
-                style: TextStyle(
-                  color: color,
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
+                style: theme.textTheme.headlineSmall?.copyWith(
+                  fontWeight: FontWeight.w700,
+                  color: DesignTokens.foreground,
                 ),
               ),
-              const SizedBox(width: 4),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 4),
-                child: Text(
-                  subtitle,
-                  style: TextStyle(color: color.withOpacity(0.8), fontSize: 12),
+              if (unit.isNotEmpty) ...[
+                const SizedBox(width: DesignTokens.spacingXs),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 4),
+                  child: Text(
+                    unit,
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      color: DesignTokens.mutedForeground,
+                    ),
+                  ),
                 ),
-              ),
+              ],
             ],
           ),
         ],
@@ -193,39 +235,204 @@ class _StatCard extends StatelessWidget {
   }
 }
 
-class _SectionHeader extends StatelessWidget {
-  final String title;
-  final IconData icon;
-
-  const _SectionHeader({required this.title, required this.icon});
+class _WeeklyXpChartCard extends ConsumerWidget {
+  const _WeeklyXpChartCard();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
+    final async = ref.watch(weeklyXpLogProvider);
+    final entries = async.valueOrNull ?? const [];
+    final sorted = [...entries]..sort((a, b) => a.logDate.compareTo(b.logDate));
+
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 24, 16, 12),
-      child: Row(
-        children: [
-          Icon(icon, size: 20, color: AppColors.primary),
-          const SizedBox(width: 8),
-          Text(
-            title,
-            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-          ),
-        ],
+      padding: const EdgeInsets.fromLTRB(
+        DesignTokens.spacingMd,
+        0,
+        DesignTokens.spacingMd,
+        DesignTokens.spacingMd,
+      ),
+      child: Container(
+        padding: const EdgeInsets.all(DesignTokens.spacingMd),
+        decoration: BoxDecoration(
+          color: DesignTokens.card,
+          borderRadius: BorderRadius.circular(DesignTokens.radius),
+          border: Border.all(color: DesignTokens.border),
+          boxShadow: DesignTokens.shadowSm,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Icon(Icons.bar_chart, color: DesignTokens.orange500, size: 18),
+                const SizedBox(width: DesignTokens.spacingSm),
+                Text(
+                  l10n.statsWeeklyXpChartTitle,
+                  style: Theme.of(
+                    context,
+                  ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w700),
+                ),
+              ],
+            ),
+            const SizedBox(height: DesignTokens.spacingMd),
+            SizedBox(
+              height: 100,
+              child: sorted.every((e) => e.xpEarned == 0)
+                  ? Center(
+                      child: Text(
+                        l10n.statsMasteryTrendEmpty,
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: DesignTokens.mutedForeground,
+                        ),
+                      ),
+                    )
+                  : CustomPaint(
+                      painter: _BarChartPainter(sorted),
+                      size: Size.infinite,
+                    ),
+            ),
+          ],
+        ),
       ),
     );
   }
 }
 
-class _NearAchievementsSection extends ConsumerWidget {
+class _BarChartPainter extends CustomPainter {
+  _BarChartPainter(this.entries);
+  final List<dynamic> entries;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    if (entries.isEmpty) return;
+    final maxValue = entries
+        .map((e) => e.xpEarned as int)
+        .fold<int>(0, (a, b) => a > b ? a : b)
+        .clamp(1, 1 << 30);
+    final barWidth = size.width / (entries.length * 1.5);
+    final paint = Paint()
+      ..color = DesignTokens.orange500
+      ..style = PaintingStyle.fill;
+    final labelStyle = TextStyle(
+      color: DesignTokens.mutedForeground,
+      fontSize: 10,
+    );
+
+    for (var i = 0; i < entries.length; i++) {
+      final value = entries[i].xpEarned as int;
+      final barHeight = (value / maxValue) * (size.height - 24);
+      final x = (i * 1.5 + 0.25) * barWidth;
+      final rect = Rect.fromLTWH(
+        x,
+        size.height - 24 - barHeight,
+        barWidth,
+        barHeight,
+      );
+      canvas.drawRRect(
+        RRect.fromRectAndRadius(rect, const Radius.circular(4)),
+        paint,
+      );
+
+      final date = entries[i].logDate as DateTime;
+      final dayLabel = '${date.day}/${date.month}';
+      final tp = TextPainter(
+        text: TextSpan(text: dayLabel, style: labelStyle),
+        textDirection: TextDirection.ltr,
+      )..layout();
+      tp.paint(
+        canvas,
+        Offset(x + (barWidth - tp.width) / 2, size.height - tp.height),
+      );
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant _BarChartPainter old) => old.entries != entries;
+}
+
+class _MasterySection extends ConsumerWidget {
+  const _MasterySection();
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final nearAsync = ref.watch(nearAchievementsProvider);
+    final mastery = ref.watch(masteryProvider);
+    final daily = ref.watch(srsDailyStatsProvider);
+    return mastery.when(
+      loading: () => const Padding(
+        padding: EdgeInsets.symmetric(horizontal: 16),
+        child: LinearProgressIndicator(),
+      ),
+      error: (_, _) => const SizedBox.shrink(),
+      data: (masterySummary) => SRSStatsCard(
+        mastery: masterySummary,
+        daily: daily.valueOrNull ?? const [],
+      ),
+    );
+  }
+}
 
-    return nearAsync.when(
-      loading: () => const SizedBox.shrink(),
-      error: (_, __) => const SizedBox.shrink(),
-      data: (achievements) => NearAchievementsList(achievements: achievements),
+class _ErrorPatternsSection extends ConsumerWidget {
+  const _ErrorPatternsSection();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
+    final async = ref.watch(errorPatternsSummaryProvider);
+    return async.when(
+      loading: () => const Padding(
+        padding: EdgeInsets.symmetric(horizontal: 16),
+        child: LinearProgressIndicator(),
+      ),
+      error: (_, _) => const SizedBox.shrink(),
+      data: (patterns) {
+        if (patterns.isEmpty) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Text(
+              l10n.statsErrorPatternsEmpty,
+              style: TextStyle(color: Colors.grey[600]),
+            ),
+          );
+        }
+        final top = [...patterns]
+          ..sort((a, b) => b.totalCount.compareTo(a.totalCount));
+        return ErrorPatternsList(patterns: top.take(3).toList());
+      },
+    );
+  }
+}
+
+class _SectionHeader extends StatelessWidget {
+  const _SectionHeader({required this.title, required this.icon, this.onSeeAll});
+  final String title;
+  final IconData icon;
+  final VoidCallback? onSeeAll;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(
+        DesignTokens.spacingMd,
+        DesignTokens.spacingLg,
+        DesignTokens.spacingMd,
+        DesignTokens.spacingSm + 4,
+      ),
+      child: Row(
+        children: [
+          Icon(icon, size: 18, color: DesignTokens.orange500),
+          const SizedBox(width: DesignTokens.spacingSm),
+          Expanded(
+            child: Text(
+              title,
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+            ),
+          ),
+          if (onSeeAll != null)
+            TextButton(onPressed: onSeeAll, child: Text(l10n.seeAll)),
+        ],
+      ),
     );
   }
 }

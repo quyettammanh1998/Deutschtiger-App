@@ -13,42 +13,42 @@ part of 'stats_models.dart';
 T _$identity<T>(T value) => value;
 
 /// @nodoc
-mixin _$ErrorPattern {
+mixin _$ReviewStats {
 
- String get id; String get odlId; String get grammarCategory; String get grammarCategoryVi; int get errorCount; int get totalAttempts; double get errorRate; List<String> get exampleErrors; List<String> get suggestions; DateTime? get lastOccurredAt;
-/// Create a copy of ErrorPattern
+@JsonKey(name: 'total_reviews') int get totalReviews;@JsonKey(name: 'words_learned') int get wordsLearned;
+/// Create a copy of ReviewStats
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$ErrorPatternCopyWith<ErrorPattern> get copyWith => _$ErrorPatternCopyWithImpl<ErrorPattern>(this as ErrorPattern, _$identity);
+$ReviewStatsCopyWith<ReviewStats> get copyWith => _$ReviewStatsCopyWithImpl<ReviewStats>(this as ReviewStats, _$identity);
 
-  /// Serializes this ErrorPattern to a JSON map.
+  /// Serializes this ReviewStats to a JSON map.
   Map<String, dynamic> toJson();
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ErrorPattern&&(identical(other.id, id) || other.id == id)&&(identical(other.odlId, odlId) || other.odlId == odlId)&&(identical(other.grammarCategory, grammarCategory) || other.grammarCategory == grammarCategory)&&(identical(other.grammarCategoryVi, grammarCategoryVi) || other.grammarCategoryVi == grammarCategoryVi)&&(identical(other.errorCount, errorCount) || other.errorCount == errorCount)&&(identical(other.totalAttempts, totalAttempts) || other.totalAttempts == totalAttempts)&&(identical(other.errorRate, errorRate) || other.errorRate == errorRate)&&const DeepCollectionEquality().equals(other.exampleErrors, exampleErrors)&&const DeepCollectionEquality().equals(other.suggestions, suggestions)&&(identical(other.lastOccurredAt, lastOccurredAt) || other.lastOccurredAt == lastOccurredAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ReviewStats&&(identical(other.totalReviews, totalReviews) || other.totalReviews == totalReviews)&&(identical(other.wordsLearned, wordsLearned) || other.wordsLearned == wordsLearned));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,odlId,grammarCategory,grammarCategoryVi,errorCount,totalAttempts,errorRate,const DeepCollectionEquality().hash(exampleErrors),const DeepCollectionEquality().hash(suggestions),lastOccurredAt);
+int get hashCode => Object.hash(runtimeType,totalReviews,wordsLearned);
 
 @override
 String toString() {
-  return 'ErrorPattern(id: $id, odlId: $odlId, grammarCategory: $grammarCategory, grammarCategoryVi: $grammarCategoryVi, errorCount: $errorCount, totalAttempts: $totalAttempts, errorRate: $errorRate, exampleErrors: $exampleErrors, suggestions: $suggestions, lastOccurredAt: $lastOccurredAt)';
+  return 'ReviewStats(totalReviews: $totalReviews, wordsLearned: $wordsLearned)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class $ErrorPatternCopyWith<$Res>  {
-  factory $ErrorPatternCopyWith(ErrorPattern value, $Res Function(ErrorPattern) _then) = _$ErrorPatternCopyWithImpl;
+abstract mixin class $ReviewStatsCopyWith<$Res>  {
+  factory $ReviewStatsCopyWith(ReviewStats value, $Res Function(ReviewStats) _then) = _$ReviewStatsCopyWithImpl;
 @useResult
 $Res call({
- String id, String odlId, String grammarCategory, String grammarCategoryVi, int errorCount, int totalAttempts, double errorRate, List<String> exampleErrors, List<String> suggestions, DateTime? lastOccurredAt
+@JsonKey(name: 'total_reviews') int totalReviews,@JsonKey(name: 'words_learned') int wordsLearned
 });
 
 
@@ -56,652 +56,19 @@ $Res call({
 
 }
 /// @nodoc
-class _$ErrorPatternCopyWithImpl<$Res>
-    implements $ErrorPatternCopyWith<$Res> {
-  _$ErrorPatternCopyWithImpl(this._self, this._then);
+class _$ReviewStatsCopyWithImpl<$Res>
+    implements $ReviewStatsCopyWith<$Res> {
+  _$ReviewStatsCopyWithImpl(this._self, this._then);
 
-  final ErrorPattern _self;
-  final $Res Function(ErrorPattern) _then;
+  final ReviewStats _self;
+  final $Res Function(ReviewStats) _then;
 
-/// Create a copy of ErrorPattern
+/// Create a copy of ReviewStats
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? odlId = null,Object? grammarCategory = null,Object? grammarCategoryVi = null,Object? errorCount = null,Object? totalAttempts = null,Object? errorRate = null,Object? exampleErrors = null,Object? suggestions = null,Object? lastOccurredAt = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? totalReviews = null,Object? wordsLearned = null,}) {
   return _then(_self.copyWith(
-id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as String,odlId: null == odlId ? _self.odlId : odlId // ignore: cast_nullable_to_non_nullable
-as String,grammarCategory: null == grammarCategory ? _self.grammarCategory : grammarCategory // ignore: cast_nullable_to_non_nullable
-as String,grammarCategoryVi: null == grammarCategoryVi ? _self.grammarCategoryVi : grammarCategoryVi // ignore: cast_nullable_to_non_nullable
-as String,errorCount: null == errorCount ? _self.errorCount : errorCount // ignore: cast_nullable_to_non_nullable
-as int,totalAttempts: null == totalAttempts ? _self.totalAttempts : totalAttempts // ignore: cast_nullable_to_non_nullable
-as int,errorRate: null == errorRate ? _self.errorRate : errorRate // ignore: cast_nullable_to_non_nullable
-as double,exampleErrors: null == exampleErrors ? _self.exampleErrors : exampleErrors // ignore: cast_nullable_to_non_nullable
-as List<String>,suggestions: null == suggestions ? _self.suggestions : suggestions // ignore: cast_nullable_to_non_nullable
-as List<String>,lastOccurredAt: freezed == lastOccurredAt ? _self.lastOccurredAt : lastOccurredAt // ignore: cast_nullable_to_non_nullable
-as DateTime?,
-  ));
-}
-
-}
-
-
-/// Adds pattern-matching-related methods to [ErrorPattern].
-extension ErrorPatternPatterns on ErrorPattern {
-/// A variant of `map` that fallback to returning `orElse`.
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case final Subclass value:
-///     return ...;
-///   case _:
-///     return orElse();
-/// }
-/// ```
-
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _ErrorPattern value)?  $default,{required TResult orElse(),}){
-final _that = this;
-switch (_that) {
-case _ErrorPattern() when $default != null:
-return $default(_that);case _:
-  return orElse();
-
-}
-}
-/// A `switch`-like method, using callbacks.
-///
-/// Callbacks receives the raw object, upcasted.
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case final Subclass value:
-///     return ...;
-///   case final Subclass2 value:
-///     return ...;
-/// }
-/// ```
-
-@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _ErrorPattern value)  $default,){
-final _that = this;
-switch (_that) {
-case _ErrorPattern():
-return $default(_that);case _:
-  throw StateError('Unexpected subclass');
-
-}
-}
-/// A variant of `map` that fallback to returning `null`.
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case final Subclass value:
-///     return ...;
-///   case _:
-///     return null;
-/// }
-/// ```
-
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _ErrorPattern value)?  $default,){
-final _that = this;
-switch (_that) {
-case _ErrorPattern() when $default != null:
-return $default(_that);case _:
-  return null;
-
-}
-}
-/// A variant of `when` that fallback to an `orElse` callback.
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case Subclass(:final field):
-///     return ...;
-///   case _:
-///     return orElse();
-/// }
-/// ```
-
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String odlId,  String grammarCategory,  String grammarCategoryVi,  int errorCount,  int totalAttempts,  double errorRate,  List<String> exampleErrors,  List<String> suggestions,  DateTime? lastOccurredAt)?  $default,{required TResult orElse(),}) {final _that = this;
-switch (_that) {
-case _ErrorPattern() when $default != null:
-return $default(_that.id,_that.odlId,_that.grammarCategory,_that.grammarCategoryVi,_that.errorCount,_that.totalAttempts,_that.errorRate,_that.exampleErrors,_that.suggestions,_that.lastOccurredAt);case _:
-  return orElse();
-
-}
-}
-/// A `switch`-like method, using callbacks.
-///
-/// As opposed to `map`, this offers destructuring.
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case Subclass(:final field):
-///     return ...;
-///   case Subclass2(:final field2):
-///     return ...;
-/// }
-/// ```
-
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String odlId,  String grammarCategory,  String grammarCategoryVi,  int errorCount,  int totalAttempts,  double errorRate,  List<String> exampleErrors,  List<String> suggestions,  DateTime? lastOccurredAt)  $default,) {final _that = this;
-switch (_that) {
-case _ErrorPattern():
-return $default(_that.id,_that.odlId,_that.grammarCategory,_that.grammarCategoryVi,_that.errorCount,_that.totalAttempts,_that.errorRate,_that.exampleErrors,_that.suggestions,_that.lastOccurredAt);case _:
-  throw StateError('Unexpected subclass');
-
-}
-}
-/// A variant of `when` that fallback to returning `null`
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case Subclass(:final field):
-///     return ...;
-///   case _:
-///     return null;
-/// }
-/// ```
-
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String odlId,  String grammarCategory,  String grammarCategoryVi,  int errorCount,  int totalAttempts,  double errorRate,  List<String> exampleErrors,  List<String> suggestions,  DateTime? lastOccurredAt)?  $default,) {final _that = this;
-switch (_that) {
-case _ErrorPattern() when $default != null:
-return $default(_that.id,_that.odlId,_that.grammarCategory,_that.grammarCategoryVi,_that.errorCount,_that.totalAttempts,_that.errorRate,_that.exampleErrors,_that.suggestions,_that.lastOccurredAt);case _:
-  return null;
-
-}
-}
-
-}
-
-/// @nodoc
-@JsonSerializable()
-
-class _ErrorPattern implements ErrorPattern {
-  const _ErrorPattern({required this.id, required this.odlId, required this.grammarCategory, required this.grammarCategoryVi, required this.errorCount, required this.totalAttempts, this.errorRate = 0.0, final  List<String> exampleErrors = const <String>[], final  List<String> suggestions = const <String>[], this.lastOccurredAt}): _exampleErrors = exampleErrors,_suggestions = suggestions;
-  factory _ErrorPattern.fromJson(Map<String, dynamic> json) => _$ErrorPatternFromJson(json);
-
-@override final  String id;
-@override final  String odlId;
-@override final  String grammarCategory;
-@override final  String grammarCategoryVi;
-@override final  int errorCount;
-@override final  int totalAttempts;
-@override@JsonKey() final  double errorRate;
- final  List<String> _exampleErrors;
-@override@JsonKey() List<String> get exampleErrors {
-  if (_exampleErrors is EqualUnmodifiableListView) return _exampleErrors;
-  // ignore: implicit_dynamic_type
-  return EqualUnmodifiableListView(_exampleErrors);
-}
-
- final  List<String> _suggestions;
-@override@JsonKey() List<String> get suggestions {
-  if (_suggestions is EqualUnmodifiableListView) return _suggestions;
-  // ignore: implicit_dynamic_type
-  return EqualUnmodifiableListView(_suggestions);
-}
-
-@override final  DateTime? lastOccurredAt;
-
-/// Create a copy of ErrorPattern
-/// with the given fields replaced by the non-null parameter values.
-@override @JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-_$ErrorPatternCopyWith<_ErrorPattern> get copyWith => __$ErrorPatternCopyWithImpl<_ErrorPattern>(this, _$identity);
-
-@override
-Map<String, dynamic> toJson() {
-  return _$ErrorPatternToJson(this, );
-}
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ErrorPattern&&(identical(other.id, id) || other.id == id)&&(identical(other.odlId, odlId) || other.odlId == odlId)&&(identical(other.grammarCategory, grammarCategory) || other.grammarCategory == grammarCategory)&&(identical(other.grammarCategoryVi, grammarCategoryVi) || other.grammarCategoryVi == grammarCategoryVi)&&(identical(other.errorCount, errorCount) || other.errorCount == errorCount)&&(identical(other.totalAttempts, totalAttempts) || other.totalAttempts == totalAttempts)&&(identical(other.errorRate, errorRate) || other.errorRate == errorRate)&&const DeepCollectionEquality().equals(other._exampleErrors, _exampleErrors)&&const DeepCollectionEquality().equals(other._suggestions, _suggestions)&&(identical(other.lastOccurredAt, lastOccurredAt) || other.lastOccurredAt == lastOccurredAt));
-}
-
-@JsonKey(includeFromJson: false, includeToJson: false)
-@override
-int get hashCode => Object.hash(runtimeType,id,odlId,grammarCategory,grammarCategoryVi,errorCount,totalAttempts,errorRate,const DeepCollectionEquality().hash(_exampleErrors),const DeepCollectionEquality().hash(_suggestions),lastOccurredAt);
-
-@override
-String toString() {
-  return 'ErrorPattern(id: $id, odlId: $odlId, grammarCategory: $grammarCategory, grammarCategoryVi: $grammarCategoryVi, errorCount: $errorCount, totalAttempts: $totalAttempts, errorRate: $errorRate, exampleErrors: $exampleErrors, suggestions: $suggestions, lastOccurredAt: $lastOccurredAt)';
-}
-
-
-}
-
-/// @nodoc
-abstract mixin class _$ErrorPatternCopyWith<$Res> implements $ErrorPatternCopyWith<$Res> {
-  factory _$ErrorPatternCopyWith(_ErrorPattern value, $Res Function(_ErrorPattern) _then) = __$ErrorPatternCopyWithImpl;
-@override @useResult
-$Res call({
- String id, String odlId, String grammarCategory, String grammarCategoryVi, int errorCount, int totalAttempts, double errorRate, List<String> exampleErrors, List<String> suggestions, DateTime? lastOccurredAt
-});
-
-
-
-
-}
-/// @nodoc
-class __$ErrorPatternCopyWithImpl<$Res>
-    implements _$ErrorPatternCopyWith<$Res> {
-  __$ErrorPatternCopyWithImpl(this._self, this._then);
-
-  final _ErrorPattern _self;
-  final $Res Function(_ErrorPattern) _then;
-
-/// Create a copy of ErrorPattern
-/// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? odlId = null,Object? grammarCategory = null,Object? grammarCategoryVi = null,Object? errorCount = null,Object? totalAttempts = null,Object? errorRate = null,Object? exampleErrors = null,Object? suggestions = null,Object? lastOccurredAt = freezed,}) {
-  return _then(_ErrorPattern(
-id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as String,odlId: null == odlId ? _self.odlId : odlId // ignore: cast_nullable_to_non_nullable
-as String,grammarCategory: null == grammarCategory ? _self.grammarCategory : grammarCategory // ignore: cast_nullable_to_non_nullable
-as String,grammarCategoryVi: null == grammarCategoryVi ? _self.grammarCategoryVi : grammarCategoryVi // ignore: cast_nullable_to_non_nullable
-as String,errorCount: null == errorCount ? _self.errorCount : errorCount // ignore: cast_nullable_to_non_nullable
-as int,totalAttempts: null == totalAttempts ? _self.totalAttempts : totalAttempts // ignore: cast_nullable_to_non_nullable
-as int,errorRate: null == errorRate ? _self.errorRate : errorRate // ignore: cast_nullable_to_non_nullable
-as double,exampleErrors: null == exampleErrors ? _self._exampleErrors : exampleErrors // ignore: cast_nullable_to_non_nullable
-as List<String>,suggestions: null == suggestions ? _self._suggestions : suggestions // ignore: cast_nullable_to_non_nullable
-as List<String>,lastOccurredAt: freezed == lastOccurredAt ? _self.lastOccurredAt : lastOccurredAt // ignore: cast_nullable_to_non_nullable
-as DateTime?,
-  ));
-}
-
-
-}
-
-
-/// @nodoc
-mixin _$SRSStats {
-
- String get odlId; int get totalReviews; int get totalCorrect; int get totalIncorrect; double get retentionRate; int get currentStreak; int get longestStreak; int get totalActiveDays; int get cardsLearned; int get cardsMature; int get cardsYoung; int get cardsRelearning; Map<String, int> get reviewsByDay; Map<String, double> get retentionByDay; Map<String, int> get intervalDistribution;
-/// Create a copy of SRSStats
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$SRSStatsCopyWith<SRSStats> get copyWith => _$SRSStatsCopyWithImpl<SRSStats>(this as SRSStats, _$identity);
-
-  /// Serializes this SRSStats to a JSON map.
-  Map<String, dynamic> toJson();
-
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SRSStats&&(identical(other.odlId, odlId) || other.odlId == odlId)&&(identical(other.totalReviews, totalReviews) || other.totalReviews == totalReviews)&&(identical(other.totalCorrect, totalCorrect) || other.totalCorrect == totalCorrect)&&(identical(other.totalIncorrect, totalIncorrect) || other.totalIncorrect == totalIncorrect)&&(identical(other.retentionRate, retentionRate) || other.retentionRate == retentionRate)&&(identical(other.currentStreak, currentStreak) || other.currentStreak == currentStreak)&&(identical(other.longestStreak, longestStreak) || other.longestStreak == longestStreak)&&(identical(other.totalActiveDays, totalActiveDays) || other.totalActiveDays == totalActiveDays)&&(identical(other.cardsLearned, cardsLearned) || other.cardsLearned == cardsLearned)&&(identical(other.cardsMature, cardsMature) || other.cardsMature == cardsMature)&&(identical(other.cardsYoung, cardsYoung) || other.cardsYoung == cardsYoung)&&(identical(other.cardsRelearning, cardsRelearning) || other.cardsRelearning == cardsRelearning)&&const DeepCollectionEquality().equals(other.reviewsByDay, reviewsByDay)&&const DeepCollectionEquality().equals(other.retentionByDay, retentionByDay)&&const DeepCollectionEquality().equals(other.intervalDistribution, intervalDistribution));
-}
-
-@JsonKey(includeFromJson: false, includeToJson: false)
-@override
-int get hashCode => Object.hash(runtimeType,odlId,totalReviews,totalCorrect,totalIncorrect,retentionRate,currentStreak,longestStreak,totalActiveDays,cardsLearned,cardsMature,cardsYoung,cardsRelearning,const DeepCollectionEquality().hash(reviewsByDay),const DeepCollectionEquality().hash(retentionByDay),const DeepCollectionEquality().hash(intervalDistribution));
-
-@override
-String toString() {
-  return 'SRSStats(odlId: $odlId, totalReviews: $totalReviews, totalCorrect: $totalCorrect, totalIncorrect: $totalIncorrect, retentionRate: $retentionRate, currentStreak: $currentStreak, longestStreak: $longestStreak, totalActiveDays: $totalActiveDays, cardsLearned: $cardsLearned, cardsMature: $cardsMature, cardsYoung: $cardsYoung, cardsRelearning: $cardsRelearning, reviewsByDay: $reviewsByDay, retentionByDay: $retentionByDay, intervalDistribution: $intervalDistribution)';
-}
-
-
-}
-
-/// @nodoc
-abstract mixin class $SRSStatsCopyWith<$Res>  {
-  factory $SRSStatsCopyWith(SRSStats value, $Res Function(SRSStats) _then) = _$SRSStatsCopyWithImpl;
-@useResult
-$Res call({
- String odlId, int totalReviews, int totalCorrect, int totalIncorrect, double retentionRate, int currentStreak, int longestStreak, int totalActiveDays, int cardsLearned, int cardsMature, int cardsYoung, int cardsRelearning, Map<String, int> reviewsByDay, Map<String, double> retentionByDay, Map<String, int> intervalDistribution
-});
-
-
-
-
-}
-/// @nodoc
-class _$SRSStatsCopyWithImpl<$Res>
-    implements $SRSStatsCopyWith<$Res> {
-  _$SRSStatsCopyWithImpl(this._self, this._then);
-
-  final SRSStats _self;
-  final $Res Function(SRSStats) _then;
-
-/// Create a copy of SRSStats
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? odlId = null,Object? totalReviews = null,Object? totalCorrect = null,Object? totalIncorrect = null,Object? retentionRate = null,Object? currentStreak = null,Object? longestStreak = null,Object? totalActiveDays = null,Object? cardsLearned = null,Object? cardsMature = null,Object? cardsYoung = null,Object? cardsRelearning = null,Object? reviewsByDay = null,Object? retentionByDay = null,Object? intervalDistribution = null,}) {
-  return _then(_self.copyWith(
-odlId: null == odlId ? _self.odlId : odlId // ignore: cast_nullable_to_non_nullable
-as String,totalReviews: null == totalReviews ? _self.totalReviews : totalReviews // ignore: cast_nullable_to_non_nullable
-as int,totalCorrect: null == totalCorrect ? _self.totalCorrect : totalCorrect // ignore: cast_nullable_to_non_nullable
-as int,totalIncorrect: null == totalIncorrect ? _self.totalIncorrect : totalIncorrect // ignore: cast_nullable_to_non_nullable
-as int,retentionRate: null == retentionRate ? _self.retentionRate : retentionRate // ignore: cast_nullable_to_non_nullable
-as double,currentStreak: null == currentStreak ? _self.currentStreak : currentStreak // ignore: cast_nullable_to_non_nullable
-as int,longestStreak: null == longestStreak ? _self.longestStreak : longestStreak // ignore: cast_nullable_to_non_nullable
-as int,totalActiveDays: null == totalActiveDays ? _self.totalActiveDays : totalActiveDays // ignore: cast_nullable_to_non_nullable
-as int,cardsLearned: null == cardsLearned ? _self.cardsLearned : cardsLearned // ignore: cast_nullable_to_non_nullable
-as int,cardsMature: null == cardsMature ? _self.cardsMature : cardsMature // ignore: cast_nullable_to_non_nullable
-as int,cardsYoung: null == cardsYoung ? _self.cardsYoung : cardsYoung // ignore: cast_nullable_to_non_nullable
-as int,cardsRelearning: null == cardsRelearning ? _self.cardsRelearning : cardsRelearning // ignore: cast_nullable_to_non_nullable
-as int,reviewsByDay: null == reviewsByDay ? _self.reviewsByDay : reviewsByDay // ignore: cast_nullable_to_non_nullable
-as Map<String, int>,retentionByDay: null == retentionByDay ? _self.retentionByDay : retentionByDay // ignore: cast_nullable_to_non_nullable
-as Map<String, double>,intervalDistribution: null == intervalDistribution ? _self.intervalDistribution : intervalDistribution // ignore: cast_nullable_to_non_nullable
-as Map<String, int>,
-  ));
-}
-
-}
-
-
-/// Adds pattern-matching-related methods to [SRSStats].
-extension SRSStatsPatterns on SRSStats {
-/// A variant of `map` that fallback to returning `orElse`.
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case final Subclass value:
-///     return ...;
-///   case _:
-///     return orElse();
-/// }
-/// ```
-
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _SRSStats value)?  $default,{required TResult orElse(),}){
-final _that = this;
-switch (_that) {
-case _SRSStats() when $default != null:
-return $default(_that);case _:
-  return orElse();
-
-}
-}
-/// A `switch`-like method, using callbacks.
-///
-/// Callbacks receives the raw object, upcasted.
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case final Subclass value:
-///     return ...;
-///   case final Subclass2 value:
-///     return ...;
-/// }
-/// ```
-
-@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _SRSStats value)  $default,){
-final _that = this;
-switch (_that) {
-case _SRSStats():
-return $default(_that);case _:
-  throw StateError('Unexpected subclass');
-
-}
-}
-/// A variant of `map` that fallback to returning `null`.
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case final Subclass value:
-///     return ...;
-///   case _:
-///     return null;
-/// }
-/// ```
-
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _SRSStats value)?  $default,){
-final _that = this;
-switch (_that) {
-case _SRSStats() when $default != null:
-return $default(_that);case _:
-  return null;
-
-}
-}
-/// A variant of `when` that fallback to an `orElse` callback.
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case Subclass(:final field):
-///     return ...;
-///   case _:
-///     return orElse();
-/// }
-/// ```
-
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String odlId,  int totalReviews,  int totalCorrect,  int totalIncorrect,  double retentionRate,  int currentStreak,  int longestStreak,  int totalActiveDays,  int cardsLearned,  int cardsMature,  int cardsYoung,  int cardsRelearning,  Map<String, int> reviewsByDay,  Map<String, double> retentionByDay,  Map<String, int> intervalDistribution)?  $default,{required TResult orElse(),}) {final _that = this;
-switch (_that) {
-case _SRSStats() when $default != null:
-return $default(_that.odlId,_that.totalReviews,_that.totalCorrect,_that.totalIncorrect,_that.retentionRate,_that.currentStreak,_that.longestStreak,_that.totalActiveDays,_that.cardsLearned,_that.cardsMature,_that.cardsYoung,_that.cardsRelearning,_that.reviewsByDay,_that.retentionByDay,_that.intervalDistribution);case _:
-  return orElse();
-
-}
-}
-/// A `switch`-like method, using callbacks.
-///
-/// As opposed to `map`, this offers destructuring.
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case Subclass(:final field):
-///     return ...;
-///   case Subclass2(:final field2):
-///     return ...;
-/// }
-/// ```
-
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String odlId,  int totalReviews,  int totalCorrect,  int totalIncorrect,  double retentionRate,  int currentStreak,  int longestStreak,  int totalActiveDays,  int cardsLearned,  int cardsMature,  int cardsYoung,  int cardsRelearning,  Map<String, int> reviewsByDay,  Map<String, double> retentionByDay,  Map<String, int> intervalDistribution)  $default,) {final _that = this;
-switch (_that) {
-case _SRSStats():
-return $default(_that.odlId,_that.totalReviews,_that.totalCorrect,_that.totalIncorrect,_that.retentionRate,_that.currentStreak,_that.longestStreak,_that.totalActiveDays,_that.cardsLearned,_that.cardsMature,_that.cardsYoung,_that.cardsRelearning,_that.reviewsByDay,_that.retentionByDay,_that.intervalDistribution);case _:
-  throw StateError('Unexpected subclass');
-
-}
-}
-/// A variant of `when` that fallback to returning `null`
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case Subclass(:final field):
-///     return ...;
-///   case _:
-///     return null;
-/// }
-/// ```
-
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String odlId,  int totalReviews,  int totalCorrect,  int totalIncorrect,  double retentionRate,  int currentStreak,  int longestStreak,  int totalActiveDays,  int cardsLearned,  int cardsMature,  int cardsYoung,  int cardsRelearning,  Map<String, int> reviewsByDay,  Map<String, double> retentionByDay,  Map<String, int> intervalDistribution)?  $default,) {final _that = this;
-switch (_that) {
-case _SRSStats() when $default != null:
-return $default(_that.odlId,_that.totalReviews,_that.totalCorrect,_that.totalIncorrect,_that.retentionRate,_that.currentStreak,_that.longestStreak,_that.totalActiveDays,_that.cardsLearned,_that.cardsMature,_that.cardsYoung,_that.cardsRelearning,_that.reviewsByDay,_that.retentionByDay,_that.intervalDistribution);case _:
-  return null;
-
-}
-}
-
-}
-
-/// @nodoc
-@JsonSerializable()
-
-class _SRSStats implements SRSStats {
-  const _SRSStats({required this.odlId, this.totalReviews = 0, this.totalCorrect = 0, this.totalIncorrect = 0, this.retentionRate = 0.0, this.currentStreak = 0, this.longestStreak = 0, this.totalActiveDays = 0, this.cardsLearned = 0, this.cardsMature = 0, this.cardsYoung = 0, this.cardsRelearning = 0, final  Map<String, int> reviewsByDay = const <String, int>{}, final  Map<String, double> retentionByDay = const <String, double>{}, final  Map<String, int> intervalDistribution = const <String, int>{}}): _reviewsByDay = reviewsByDay,_retentionByDay = retentionByDay,_intervalDistribution = intervalDistribution;
-  factory _SRSStats.fromJson(Map<String, dynamic> json) => _$SRSStatsFromJson(json);
-
-@override final  String odlId;
-@override@JsonKey() final  int totalReviews;
-@override@JsonKey() final  int totalCorrect;
-@override@JsonKey() final  int totalIncorrect;
-@override@JsonKey() final  double retentionRate;
-@override@JsonKey() final  int currentStreak;
-@override@JsonKey() final  int longestStreak;
-@override@JsonKey() final  int totalActiveDays;
-@override@JsonKey() final  int cardsLearned;
-@override@JsonKey() final  int cardsMature;
-@override@JsonKey() final  int cardsYoung;
-@override@JsonKey() final  int cardsRelearning;
- final  Map<String, int> _reviewsByDay;
-@override@JsonKey() Map<String, int> get reviewsByDay {
-  if (_reviewsByDay is EqualUnmodifiableMapView) return _reviewsByDay;
-  // ignore: implicit_dynamic_type
-  return EqualUnmodifiableMapView(_reviewsByDay);
-}
-
- final  Map<String, double> _retentionByDay;
-@override@JsonKey() Map<String, double> get retentionByDay {
-  if (_retentionByDay is EqualUnmodifiableMapView) return _retentionByDay;
-  // ignore: implicit_dynamic_type
-  return EqualUnmodifiableMapView(_retentionByDay);
-}
-
- final  Map<String, int> _intervalDistribution;
-@override@JsonKey() Map<String, int> get intervalDistribution {
-  if (_intervalDistribution is EqualUnmodifiableMapView) return _intervalDistribution;
-  // ignore: implicit_dynamic_type
-  return EqualUnmodifiableMapView(_intervalDistribution);
-}
-
-
-/// Create a copy of SRSStats
-/// with the given fields replaced by the non-null parameter values.
-@override @JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-_$SRSStatsCopyWith<_SRSStats> get copyWith => __$SRSStatsCopyWithImpl<_SRSStats>(this, _$identity);
-
-@override
-Map<String, dynamic> toJson() {
-  return _$SRSStatsToJson(this, );
-}
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SRSStats&&(identical(other.odlId, odlId) || other.odlId == odlId)&&(identical(other.totalReviews, totalReviews) || other.totalReviews == totalReviews)&&(identical(other.totalCorrect, totalCorrect) || other.totalCorrect == totalCorrect)&&(identical(other.totalIncorrect, totalIncorrect) || other.totalIncorrect == totalIncorrect)&&(identical(other.retentionRate, retentionRate) || other.retentionRate == retentionRate)&&(identical(other.currentStreak, currentStreak) || other.currentStreak == currentStreak)&&(identical(other.longestStreak, longestStreak) || other.longestStreak == longestStreak)&&(identical(other.totalActiveDays, totalActiveDays) || other.totalActiveDays == totalActiveDays)&&(identical(other.cardsLearned, cardsLearned) || other.cardsLearned == cardsLearned)&&(identical(other.cardsMature, cardsMature) || other.cardsMature == cardsMature)&&(identical(other.cardsYoung, cardsYoung) || other.cardsYoung == cardsYoung)&&(identical(other.cardsRelearning, cardsRelearning) || other.cardsRelearning == cardsRelearning)&&const DeepCollectionEquality().equals(other._reviewsByDay, _reviewsByDay)&&const DeepCollectionEquality().equals(other._retentionByDay, _retentionByDay)&&const DeepCollectionEquality().equals(other._intervalDistribution, _intervalDistribution));
-}
-
-@JsonKey(includeFromJson: false, includeToJson: false)
-@override
-int get hashCode => Object.hash(runtimeType,odlId,totalReviews,totalCorrect,totalIncorrect,retentionRate,currentStreak,longestStreak,totalActiveDays,cardsLearned,cardsMature,cardsYoung,cardsRelearning,const DeepCollectionEquality().hash(_reviewsByDay),const DeepCollectionEquality().hash(_retentionByDay),const DeepCollectionEquality().hash(_intervalDistribution));
-
-@override
-String toString() {
-  return 'SRSStats(odlId: $odlId, totalReviews: $totalReviews, totalCorrect: $totalCorrect, totalIncorrect: $totalIncorrect, retentionRate: $retentionRate, currentStreak: $currentStreak, longestStreak: $longestStreak, totalActiveDays: $totalActiveDays, cardsLearned: $cardsLearned, cardsMature: $cardsMature, cardsYoung: $cardsYoung, cardsRelearning: $cardsRelearning, reviewsByDay: $reviewsByDay, retentionByDay: $retentionByDay, intervalDistribution: $intervalDistribution)';
-}
-
-
-}
-
-/// @nodoc
-abstract mixin class _$SRSStatsCopyWith<$Res> implements $SRSStatsCopyWith<$Res> {
-  factory _$SRSStatsCopyWith(_SRSStats value, $Res Function(_SRSStats) _then) = __$SRSStatsCopyWithImpl;
-@override @useResult
-$Res call({
- String odlId, int totalReviews, int totalCorrect, int totalIncorrect, double retentionRate, int currentStreak, int longestStreak, int totalActiveDays, int cardsLearned, int cardsMature, int cardsYoung, int cardsRelearning, Map<String, int> reviewsByDay, Map<String, double> retentionByDay, Map<String, int> intervalDistribution
-});
-
-
-
-
-}
-/// @nodoc
-class __$SRSStatsCopyWithImpl<$Res>
-    implements _$SRSStatsCopyWith<$Res> {
-  __$SRSStatsCopyWithImpl(this._self, this._then);
-
-  final _SRSStats _self;
-  final $Res Function(_SRSStats) _then;
-
-/// Create a copy of SRSStats
-/// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? odlId = null,Object? totalReviews = null,Object? totalCorrect = null,Object? totalIncorrect = null,Object? retentionRate = null,Object? currentStreak = null,Object? longestStreak = null,Object? totalActiveDays = null,Object? cardsLearned = null,Object? cardsMature = null,Object? cardsYoung = null,Object? cardsRelearning = null,Object? reviewsByDay = null,Object? retentionByDay = null,Object? intervalDistribution = null,}) {
-  return _then(_SRSStats(
-odlId: null == odlId ? _self.odlId : odlId // ignore: cast_nullable_to_non_nullable
-as String,totalReviews: null == totalReviews ? _self.totalReviews : totalReviews // ignore: cast_nullable_to_non_nullable
-as int,totalCorrect: null == totalCorrect ? _self.totalCorrect : totalCorrect // ignore: cast_nullable_to_non_nullable
-as int,totalIncorrect: null == totalIncorrect ? _self.totalIncorrect : totalIncorrect // ignore: cast_nullable_to_non_nullable
-as int,retentionRate: null == retentionRate ? _self.retentionRate : retentionRate // ignore: cast_nullable_to_non_nullable
-as double,currentStreak: null == currentStreak ? _self.currentStreak : currentStreak // ignore: cast_nullable_to_non_nullable
-as int,longestStreak: null == longestStreak ? _self.longestStreak : longestStreak // ignore: cast_nullable_to_non_nullable
-as int,totalActiveDays: null == totalActiveDays ? _self.totalActiveDays : totalActiveDays // ignore: cast_nullable_to_non_nullable
-as int,cardsLearned: null == cardsLearned ? _self.cardsLearned : cardsLearned // ignore: cast_nullable_to_non_nullable
-as int,cardsMature: null == cardsMature ? _self.cardsMature : cardsMature // ignore: cast_nullable_to_non_nullable
-as int,cardsYoung: null == cardsYoung ? _self.cardsYoung : cardsYoung // ignore: cast_nullable_to_non_nullable
-as int,cardsRelearning: null == cardsRelearning ? _self.cardsRelearning : cardsRelearning // ignore: cast_nullable_to_non_nullable
-as int,reviewsByDay: null == reviewsByDay ? _self._reviewsByDay : reviewsByDay // ignore: cast_nullable_to_non_nullable
-as Map<String, int>,retentionByDay: null == retentionByDay ? _self._retentionByDay : retentionByDay // ignore: cast_nullable_to_non_nullable
-as Map<String, double>,intervalDistribution: null == intervalDistribution ? _self._intervalDistribution : intervalDistribution // ignore: cast_nullable_to_non_nullable
-as Map<String, int>,
-  ));
-}
-
-
-}
-
-
-/// @nodoc
-mixin _$NearAchievement {
-
- String get achievementId; String get name; String get nameVi; String get description; String get descriptionVi; String get icon; double get progress; int get currentValue; int get targetValue; int get xpReward;
-/// Create a copy of NearAchievement
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$NearAchievementCopyWith<NearAchievement> get copyWith => _$NearAchievementCopyWithImpl<NearAchievement>(this as NearAchievement, _$identity);
-
-  /// Serializes this NearAchievement to a JSON map.
-  Map<String, dynamic> toJson();
-
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is NearAchievement&&(identical(other.achievementId, achievementId) || other.achievementId == achievementId)&&(identical(other.name, name) || other.name == name)&&(identical(other.nameVi, nameVi) || other.nameVi == nameVi)&&(identical(other.description, description) || other.description == description)&&(identical(other.descriptionVi, descriptionVi) || other.descriptionVi == descriptionVi)&&(identical(other.icon, icon) || other.icon == icon)&&(identical(other.progress, progress) || other.progress == progress)&&(identical(other.currentValue, currentValue) || other.currentValue == currentValue)&&(identical(other.targetValue, targetValue) || other.targetValue == targetValue)&&(identical(other.xpReward, xpReward) || other.xpReward == xpReward));
-}
-
-@JsonKey(includeFromJson: false, includeToJson: false)
-@override
-int get hashCode => Object.hash(runtimeType,achievementId,name,nameVi,description,descriptionVi,icon,progress,currentValue,targetValue,xpReward);
-
-@override
-String toString() {
-  return 'NearAchievement(achievementId: $achievementId, name: $name, nameVi: $nameVi, description: $description, descriptionVi: $descriptionVi, icon: $icon, progress: $progress, currentValue: $currentValue, targetValue: $targetValue, xpReward: $xpReward)';
-}
-
-
-}
-
-/// @nodoc
-abstract mixin class $NearAchievementCopyWith<$Res>  {
-  factory $NearAchievementCopyWith(NearAchievement value, $Res Function(NearAchievement) _then) = _$NearAchievementCopyWithImpl;
-@useResult
-$Res call({
- String achievementId, String name, String nameVi, String description, String descriptionVi, String icon, double progress, int currentValue, int targetValue, int xpReward
-});
-
-
-
-
-}
-/// @nodoc
-class _$NearAchievementCopyWithImpl<$Res>
-    implements $NearAchievementCopyWith<$Res> {
-  _$NearAchievementCopyWithImpl(this._self, this._then);
-
-  final NearAchievement _self;
-  final $Res Function(NearAchievement) _then;
-
-/// Create a copy of NearAchievement
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? achievementId = null,Object? name = null,Object? nameVi = null,Object? description = null,Object? descriptionVi = null,Object? icon = null,Object? progress = null,Object? currentValue = null,Object? targetValue = null,Object? xpReward = null,}) {
-  return _then(_self.copyWith(
-achievementId: null == achievementId ? _self.achievementId : achievementId // ignore: cast_nullable_to_non_nullable
-as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
-as String,nameVi: null == nameVi ? _self.nameVi : nameVi // ignore: cast_nullable_to_non_nullable
-as String,description: null == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
-as String,descriptionVi: null == descriptionVi ? _self.descriptionVi : descriptionVi // ignore: cast_nullable_to_non_nullable
-as String,icon: null == icon ? _self.icon : icon // ignore: cast_nullable_to_non_nullable
-as String,progress: null == progress ? _self.progress : progress // ignore: cast_nullable_to_non_nullable
-as double,currentValue: null == currentValue ? _self.currentValue : currentValue // ignore: cast_nullable_to_non_nullable
-as int,targetValue: null == targetValue ? _self.targetValue : targetValue // ignore: cast_nullable_to_non_nullable
-as int,xpReward: null == xpReward ? _self.xpReward : xpReward // ignore: cast_nullable_to_non_nullable
+totalReviews: null == totalReviews ? _self.totalReviews : totalReviews // ignore: cast_nullable_to_non_nullable
+as int,wordsLearned: null == wordsLearned ? _self.wordsLearned : wordsLearned // ignore: cast_nullable_to_non_nullable
 as int,
   ));
 }
@@ -709,8 +76,8 @@ as int,
 }
 
 
-/// Adds pattern-matching-related methods to [NearAchievement].
-extension NearAchievementPatterns on NearAchievement {
+/// Adds pattern-matching-related methods to [ReviewStats].
+extension ReviewStatsPatterns on ReviewStats {
 /// A variant of `map` that fallback to returning `orElse`.
 ///
 /// It is equivalent to doing:
@@ -723,10 +90,10 @@ extension NearAchievementPatterns on NearAchievement {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _NearAchievement value)?  $default,{required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _ReviewStats value)?  $default,{required TResult orElse(),}){
 final _that = this;
 switch (_that) {
-case _NearAchievement() when $default != null:
+case _ReviewStats() when $default != null:
 return $default(_that);case _:
   return orElse();
 
@@ -745,10 +112,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _NearAchievement value)  $default,){
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _ReviewStats value)  $default,){
 final _that = this;
 switch (_that) {
-case _NearAchievement():
+case _ReviewStats():
 return $default(_that);case _:
   throw StateError('Unexpected subclass');
 
@@ -766,10 +133,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _NearAchievement value)?  $default,){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _ReviewStats value)?  $default,){
 final _that = this;
 switch (_that) {
-case _NearAchievement() when $default != null:
+case _ReviewStats() when $default != null:
 return $default(_that);case _:
   return null;
 
@@ -787,10 +154,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String achievementId,  String name,  String nameVi,  String description,  String descriptionVi,  String icon,  double progress,  int currentValue,  int targetValue,  int xpReward)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'total_reviews')  int totalReviews, @JsonKey(name: 'words_learned')  int wordsLearned)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
-case _NearAchievement() when $default != null:
-return $default(_that.achievementId,_that.name,_that.nameVi,_that.description,_that.descriptionVi,_that.icon,_that.progress,_that.currentValue,_that.targetValue,_that.xpReward);case _:
+case _ReviewStats() when $default != null:
+return $default(_that.totalReviews,_that.wordsLearned);case _:
   return orElse();
 
 }
@@ -808,10 +175,10 @@ return $default(_that.achievementId,_that.name,_that.nameVi,_that.description,_t
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String achievementId,  String name,  String nameVi,  String description,  String descriptionVi,  String icon,  double progress,  int currentValue,  int targetValue,  int xpReward)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'total_reviews')  int totalReviews, @JsonKey(name: 'words_learned')  int wordsLearned)  $default,) {final _that = this;
 switch (_that) {
-case _NearAchievement():
-return $default(_that.achievementId,_that.name,_that.nameVi,_that.description,_that.descriptionVi,_that.icon,_that.progress,_that.currentValue,_that.targetValue,_that.xpReward);case _:
+case _ReviewStats():
+return $default(_that.totalReviews,_that.wordsLearned);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -828,10 +195,10 @@ return $default(_that.achievementId,_that.name,_that.nameVi,_that.description,_t
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String achievementId,  String name,  String nameVi,  String description,  String descriptionVi,  String icon,  double progress,  int currentValue,  int targetValue,  int xpReward)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'total_reviews')  int totalReviews, @JsonKey(name: 'words_learned')  int wordsLearned)?  $default,) {final _that = this;
 switch (_that) {
-case _NearAchievement() when $default != null:
-return $default(_that.achievementId,_that.name,_that.nameVi,_that.description,_that.descriptionVi,_that.icon,_that.progress,_that.currentValue,_that.targetValue,_that.xpReward);case _:
+case _ReviewStats() when $default != null:
+return $default(_that.totalReviews,_that.wordsLearned);case _:
   return null;
 
 }
@@ -842,55 +209,47 @@ return $default(_that.achievementId,_that.name,_that.nameVi,_that.description,_t
 /// @nodoc
 @JsonSerializable()
 
-class _NearAchievement implements NearAchievement {
-  const _NearAchievement({required this.achievementId, required this.name, required this.nameVi, required this.description, required this.descriptionVi, this.icon = '', this.progress = 0.0, this.currentValue = 0, this.targetValue = 0, this.xpReward = 0});
-  factory _NearAchievement.fromJson(Map<String, dynamic> json) => _$NearAchievementFromJson(json);
+class _ReviewStats implements ReviewStats {
+  const _ReviewStats({@JsonKey(name: 'total_reviews') this.totalReviews = 0, @JsonKey(name: 'words_learned') this.wordsLearned = 0});
+  factory _ReviewStats.fromJson(Map<String, dynamic> json) => _$ReviewStatsFromJson(json);
 
-@override final  String achievementId;
-@override final  String name;
-@override final  String nameVi;
-@override final  String description;
-@override final  String descriptionVi;
-@override@JsonKey() final  String icon;
-@override@JsonKey() final  double progress;
-@override@JsonKey() final  int currentValue;
-@override@JsonKey() final  int targetValue;
-@override@JsonKey() final  int xpReward;
+@override@JsonKey(name: 'total_reviews') final  int totalReviews;
+@override@JsonKey(name: 'words_learned') final  int wordsLearned;
 
-/// Create a copy of NearAchievement
+/// Create a copy of ReviewStats
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-_$NearAchievementCopyWith<_NearAchievement> get copyWith => __$NearAchievementCopyWithImpl<_NearAchievement>(this, _$identity);
+_$ReviewStatsCopyWith<_ReviewStats> get copyWith => __$ReviewStatsCopyWithImpl<_ReviewStats>(this, _$identity);
 
 @override
 Map<String, dynamic> toJson() {
-  return _$NearAchievementToJson(this, );
+  return _$ReviewStatsToJson(this, );
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _NearAchievement&&(identical(other.achievementId, achievementId) || other.achievementId == achievementId)&&(identical(other.name, name) || other.name == name)&&(identical(other.nameVi, nameVi) || other.nameVi == nameVi)&&(identical(other.description, description) || other.description == description)&&(identical(other.descriptionVi, descriptionVi) || other.descriptionVi == descriptionVi)&&(identical(other.icon, icon) || other.icon == icon)&&(identical(other.progress, progress) || other.progress == progress)&&(identical(other.currentValue, currentValue) || other.currentValue == currentValue)&&(identical(other.targetValue, targetValue) || other.targetValue == targetValue)&&(identical(other.xpReward, xpReward) || other.xpReward == xpReward));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ReviewStats&&(identical(other.totalReviews, totalReviews) || other.totalReviews == totalReviews)&&(identical(other.wordsLearned, wordsLearned) || other.wordsLearned == wordsLearned));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,achievementId,name,nameVi,description,descriptionVi,icon,progress,currentValue,targetValue,xpReward);
+int get hashCode => Object.hash(runtimeType,totalReviews,wordsLearned);
 
 @override
 String toString() {
-  return 'NearAchievement(achievementId: $achievementId, name: $name, nameVi: $nameVi, description: $description, descriptionVi: $descriptionVi, icon: $icon, progress: $progress, currentValue: $currentValue, targetValue: $targetValue, xpReward: $xpReward)';
+  return 'ReviewStats(totalReviews: $totalReviews, wordsLearned: $wordsLearned)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class _$NearAchievementCopyWith<$Res> implements $NearAchievementCopyWith<$Res> {
-  factory _$NearAchievementCopyWith(_NearAchievement value, $Res Function(_NearAchievement) _then) = __$NearAchievementCopyWithImpl;
+abstract mixin class _$ReviewStatsCopyWith<$Res> implements $ReviewStatsCopyWith<$Res> {
+  factory _$ReviewStatsCopyWith(_ReviewStats value, $Res Function(_ReviewStats) _then) = __$ReviewStatsCopyWithImpl;
 @override @useResult
 $Res call({
- String achievementId, String name, String nameVi, String description, String descriptionVi, String icon, double progress, int currentValue, int targetValue, int xpReward
+@JsonKey(name: 'total_reviews') int totalReviews,@JsonKey(name: 'words_learned') int wordsLearned
 });
 
 
@@ -898,27 +257,19 @@ $Res call({
 
 }
 /// @nodoc
-class __$NearAchievementCopyWithImpl<$Res>
-    implements _$NearAchievementCopyWith<$Res> {
-  __$NearAchievementCopyWithImpl(this._self, this._then);
+class __$ReviewStatsCopyWithImpl<$Res>
+    implements _$ReviewStatsCopyWith<$Res> {
+  __$ReviewStatsCopyWithImpl(this._self, this._then);
 
-  final _NearAchievement _self;
-  final $Res Function(_NearAchievement) _then;
+  final _ReviewStats _self;
+  final $Res Function(_ReviewStats) _then;
 
-/// Create a copy of NearAchievement
+/// Create a copy of ReviewStats
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? achievementId = null,Object? name = null,Object? nameVi = null,Object? description = null,Object? descriptionVi = null,Object? icon = null,Object? progress = null,Object? currentValue = null,Object? targetValue = null,Object? xpReward = null,}) {
-  return _then(_NearAchievement(
-achievementId: null == achievementId ? _self.achievementId : achievementId // ignore: cast_nullable_to_non_nullable
-as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
-as String,nameVi: null == nameVi ? _self.nameVi : nameVi // ignore: cast_nullable_to_non_nullable
-as String,description: null == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
-as String,descriptionVi: null == descriptionVi ? _self.descriptionVi : descriptionVi // ignore: cast_nullable_to_non_nullable
-as String,icon: null == icon ? _self.icon : icon // ignore: cast_nullable_to_non_nullable
-as String,progress: null == progress ? _self.progress : progress // ignore: cast_nullable_to_non_nullable
-as double,currentValue: null == currentValue ? _self.currentValue : currentValue // ignore: cast_nullable_to_non_nullable
-as int,targetValue: null == targetValue ? _self.targetValue : targetValue // ignore: cast_nullable_to_non_nullable
-as int,xpReward: null == xpReward ? _self.xpReward : xpReward // ignore: cast_nullable_to_non_nullable
+@override @pragma('vm:prefer-inline') $Res call({Object? totalReviews = null,Object? wordsLearned = null,}) {
+  return _then(_ReviewStats(
+totalReviews: null == totalReviews ? _self.totalReviews : totalReviews // ignore: cast_nullable_to_non_nullable
+as int,wordsLearned: null == wordsLearned ? _self.wordsLearned : wordsLearned // ignore: cast_nullable_to_non_nullable
 as int,
   ));
 }
@@ -928,42 +279,42 @@ as int,
 
 
 /// @nodoc
-mixin _$StreakInfo {
+mixin _$XpDailyLogEntry {
 
- String get odlId; int get currentStreak; int get longestStreak; int get totalActiveDays; int get weeklyGoal; int get weeklyProgress; List<DateTime> get activeDays; DateTime? get lastActiveAt;
-/// Create a copy of StreakInfo
+@JsonKey(name: 'log_date') DateTime get logDate;@JsonKey(name: 'xp_earned') int get xpEarned;
+/// Create a copy of XpDailyLogEntry
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$StreakInfoCopyWith<StreakInfo> get copyWith => _$StreakInfoCopyWithImpl<StreakInfo>(this as StreakInfo, _$identity);
+$XpDailyLogEntryCopyWith<XpDailyLogEntry> get copyWith => _$XpDailyLogEntryCopyWithImpl<XpDailyLogEntry>(this as XpDailyLogEntry, _$identity);
 
-  /// Serializes this StreakInfo to a JSON map.
+  /// Serializes this XpDailyLogEntry to a JSON map.
   Map<String, dynamic> toJson();
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is StreakInfo&&(identical(other.odlId, odlId) || other.odlId == odlId)&&(identical(other.currentStreak, currentStreak) || other.currentStreak == currentStreak)&&(identical(other.longestStreak, longestStreak) || other.longestStreak == longestStreak)&&(identical(other.totalActiveDays, totalActiveDays) || other.totalActiveDays == totalActiveDays)&&(identical(other.weeklyGoal, weeklyGoal) || other.weeklyGoal == weeklyGoal)&&(identical(other.weeklyProgress, weeklyProgress) || other.weeklyProgress == weeklyProgress)&&const DeepCollectionEquality().equals(other.activeDays, activeDays)&&(identical(other.lastActiveAt, lastActiveAt) || other.lastActiveAt == lastActiveAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is XpDailyLogEntry&&(identical(other.logDate, logDate) || other.logDate == logDate)&&(identical(other.xpEarned, xpEarned) || other.xpEarned == xpEarned));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,odlId,currentStreak,longestStreak,totalActiveDays,weeklyGoal,weeklyProgress,const DeepCollectionEquality().hash(activeDays),lastActiveAt);
+int get hashCode => Object.hash(runtimeType,logDate,xpEarned);
 
 @override
 String toString() {
-  return 'StreakInfo(odlId: $odlId, currentStreak: $currentStreak, longestStreak: $longestStreak, totalActiveDays: $totalActiveDays, weeklyGoal: $weeklyGoal, weeklyProgress: $weeklyProgress, activeDays: $activeDays, lastActiveAt: $lastActiveAt)';
+  return 'XpDailyLogEntry(logDate: $logDate, xpEarned: $xpEarned)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class $StreakInfoCopyWith<$Res>  {
-  factory $StreakInfoCopyWith(StreakInfo value, $Res Function(StreakInfo) _then) = _$StreakInfoCopyWithImpl;
+abstract mixin class $XpDailyLogEntryCopyWith<$Res>  {
+  factory $XpDailyLogEntryCopyWith(XpDailyLogEntry value, $Res Function(XpDailyLogEntry) _then) = _$XpDailyLogEntryCopyWithImpl;
 @useResult
 $Res call({
- String odlId, int currentStreak, int longestStreak, int totalActiveDays, int weeklyGoal, int weeklyProgress, List<DateTime> activeDays, DateTime? lastActiveAt
+@JsonKey(name: 'log_date') DateTime logDate,@JsonKey(name: 'xp_earned') int xpEarned
 });
 
 
@@ -971,34 +322,28 @@ $Res call({
 
 }
 /// @nodoc
-class _$StreakInfoCopyWithImpl<$Res>
-    implements $StreakInfoCopyWith<$Res> {
-  _$StreakInfoCopyWithImpl(this._self, this._then);
+class _$XpDailyLogEntryCopyWithImpl<$Res>
+    implements $XpDailyLogEntryCopyWith<$Res> {
+  _$XpDailyLogEntryCopyWithImpl(this._self, this._then);
 
-  final StreakInfo _self;
-  final $Res Function(StreakInfo) _then;
+  final XpDailyLogEntry _self;
+  final $Res Function(XpDailyLogEntry) _then;
 
-/// Create a copy of StreakInfo
+/// Create a copy of XpDailyLogEntry
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? odlId = null,Object? currentStreak = null,Object? longestStreak = null,Object? totalActiveDays = null,Object? weeklyGoal = null,Object? weeklyProgress = null,Object? activeDays = null,Object? lastActiveAt = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? logDate = null,Object? xpEarned = null,}) {
   return _then(_self.copyWith(
-odlId: null == odlId ? _self.odlId : odlId // ignore: cast_nullable_to_non_nullable
-as String,currentStreak: null == currentStreak ? _self.currentStreak : currentStreak // ignore: cast_nullable_to_non_nullable
-as int,longestStreak: null == longestStreak ? _self.longestStreak : longestStreak // ignore: cast_nullable_to_non_nullable
-as int,totalActiveDays: null == totalActiveDays ? _self.totalActiveDays : totalActiveDays // ignore: cast_nullable_to_non_nullable
-as int,weeklyGoal: null == weeklyGoal ? _self.weeklyGoal : weeklyGoal // ignore: cast_nullable_to_non_nullable
-as int,weeklyProgress: null == weeklyProgress ? _self.weeklyProgress : weeklyProgress // ignore: cast_nullable_to_non_nullable
-as int,activeDays: null == activeDays ? _self.activeDays : activeDays // ignore: cast_nullable_to_non_nullable
-as List<DateTime>,lastActiveAt: freezed == lastActiveAt ? _self.lastActiveAt : lastActiveAt // ignore: cast_nullable_to_non_nullable
-as DateTime?,
+logDate: null == logDate ? _self.logDate : logDate // ignore: cast_nullable_to_non_nullable
+as DateTime,xpEarned: null == xpEarned ? _self.xpEarned : xpEarned // ignore: cast_nullable_to_non_nullable
+as int,
   ));
 }
 
 }
 
 
-/// Adds pattern-matching-related methods to [StreakInfo].
-extension StreakInfoPatterns on StreakInfo {
+/// Adds pattern-matching-related methods to [XpDailyLogEntry].
+extension XpDailyLogEntryPatterns on XpDailyLogEntry {
 /// A variant of `map` that fallback to returning `orElse`.
 ///
 /// It is equivalent to doing:
@@ -1011,10 +356,10 @@ extension StreakInfoPatterns on StreakInfo {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _StreakInfo value)?  $default,{required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _XpDailyLogEntry value)?  $default,{required TResult orElse(),}){
 final _that = this;
 switch (_that) {
-case _StreakInfo() when $default != null:
+case _XpDailyLogEntry() when $default != null:
 return $default(_that);case _:
   return orElse();
 
@@ -1033,10 +378,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _StreakInfo value)  $default,){
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _XpDailyLogEntry value)  $default,){
 final _that = this;
 switch (_that) {
-case _StreakInfo():
+case _XpDailyLogEntry():
 return $default(_that);case _:
   throw StateError('Unexpected subclass');
 
@@ -1054,10 +399,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _StreakInfo value)?  $default,){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _XpDailyLogEntry value)?  $default,){
 final _that = this;
 switch (_that) {
-case _StreakInfo() when $default != null:
+case _XpDailyLogEntry() when $default != null:
 return $default(_that);case _:
   return null;
 
@@ -1075,10 +420,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String odlId,  int currentStreak,  int longestStreak,  int totalActiveDays,  int weeklyGoal,  int weeklyProgress,  List<DateTime> activeDays,  DateTime? lastActiveAt)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'log_date')  DateTime logDate, @JsonKey(name: 'xp_earned')  int xpEarned)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
-case _StreakInfo() when $default != null:
-return $default(_that.odlId,_that.currentStreak,_that.longestStreak,_that.totalActiveDays,_that.weeklyGoal,_that.weeklyProgress,_that.activeDays,_that.lastActiveAt);case _:
+case _XpDailyLogEntry() when $default != null:
+return $default(_that.logDate,_that.xpEarned);case _:
   return orElse();
 
 }
@@ -1096,10 +441,10 @@ return $default(_that.odlId,_that.currentStreak,_that.longestStreak,_that.totalA
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String odlId,  int currentStreak,  int longestStreak,  int totalActiveDays,  int weeklyGoal,  int weeklyProgress,  List<DateTime> activeDays,  DateTime? lastActiveAt)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'log_date')  DateTime logDate, @JsonKey(name: 'xp_earned')  int xpEarned)  $default,) {final _that = this;
 switch (_that) {
-case _StreakInfo():
-return $default(_that.odlId,_that.currentStreak,_that.longestStreak,_that.totalActiveDays,_that.weeklyGoal,_that.weeklyProgress,_that.activeDays,_that.lastActiveAt);case _:
+case _XpDailyLogEntry():
+return $default(_that.logDate,_that.xpEarned);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -1116,10 +461,10 @@ return $default(_that.odlId,_that.currentStreak,_that.longestStreak,_that.totalA
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String odlId,  int currentStreak,  int longestStreak,  int totalActiveDays,  int weeklyGoal,  int weeklyProgress,  List<DateTime> activeDays,  DateTime? lastActiveAt)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'log_date')  DateTime logDate, @JsonKey(name: 'xp_earned')  int xpEarned)?  $default,) {final _that = this;
 switch (_that) {
-case _StreakInfo() when $default != null:
-return $default(_that.odlId,_that.currentStreak,_that.longestStreak,_that.totalActiveDays,_that.weeklyGoal,_that.weeklyProgress,_that.activeDays,_that.lastActiveAt);case _:
+case _XpDailyLogEntry() when $default != null:
+return $default(_that.logDate,_that.xpEarned);case _:
   return null;
 
 }
@@ -1130,59 +475,47 @@ return $default(_that.odlId,_that.currentStreak,_that.longestStreak,_that.totalA
 /// @nodoc
 @JsonSerializable()
 
-class _StreakInfo implements StreakInfo {
-  const _StreakInfo({required this.odlId, this.currentStreak = 0, this.longestStreak = 0, this.totalActiveDays = 0, this.weeklyGoal = 0, this.weeklyProgress = 0, final  List<DateTime> activeDays = const <DateTime>[], this.lastActiveAt}): _activeDays = activeDays;
-  factory _StreakInfo.fromJson(Map<String, dynamic> json) => _$StreakInfoFromJson(json);
+class _XpDailyLogEntry implements XpDailyLogEntry {
+  const _XpDailyLogEntry({@JsonKey(name: 'log_date') required this.logDate, @JsonKey(name: 'xp_earned') this.xpEarned = 0});
+  factory _XpDailyLogEntry.fromJson(Map<String, dynamic> json) => _$XpDailyLogEntryFromJson(json);
 
-@override final  String odlId;
-@override@JsonKey() final  int currentStreak;
-@override@JsonKey() final  int longestStreak;
-@override@JsonKey() final  int totalActiveDays;
-@override@JsonKey() final  int weeklyGoal;
-@override@JsonKey() final  int weeklyProgress;
- final  List<DateTime> _activeDays;
-@override@JsonKey() List<DateTime> get activeDays {
-  if (_activeDays is EqualUnmodifiableListView) return _activeDays;
-  // ignore: implicit_dynamic_type
-  return EqualUnmodifiableListView(_activeDays);
-}
+@override@JsonKey(name: 'log_date') final  DateTime logDate;
+@override@JsonKey(name: 'xp_earned') final  int xpEarned;
 
-@override final  DateTime? lastActiveAt;
-
-/// Create a copy of StreakInfo
+/// Create a copy of XpDailyLogEntry
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-_$StreakInfoCopyWith<_StreakInfo> get copyWith => __$StreakInfoCopyWithImpl<_StreakInfo>(this, _$identity);
+_$XpDailyLogEntryCopyWith<_XpDailyLogEntry> get copyWith => __$XpDailyLogEntryCopyWithImpl<_XpDailyLogEntry>(this, _$identity);
 
 @override
 Map<String, dynamic> toJson() {
-  return _$StreakInfoToJson(this, );
+  return _$XpDailyLogEntryToJson(this, );
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _StreakInfo&&(identical(other.odlId, odlId) || other.odlId == odlId)&&(identical(other.currentStreak, currentStreak) || other.currentStreak == currentStreak)&&(identical(other.longestStreak, longestStreak) || other.longestStreak == longestStreak)&&(identical(other.totalActiveDays, totalActiveDays) || other.totalActiveDays == totalActiveDays)&&(identical(other.weeklyGoal, weeklyGoal) || other.weeklyGoal == weeklyGoal)&&(identical(other.weeklyProgress, weeklyProgress) || other.weeklyProgress == weeklyProgress)&&const DeepCollectionEquality().equals(other._activeDays, _activeDays)&&(identical(other.lastActiveAt, lastActiveAt) || other.lastActiveAt == lastActiveAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _XpDailyLogEntry&&(identical(other.logDate, logDate) || other.logDate == logDate)&&(identical(other.xpEarned, xpEarned) || other.xpEarned == xpEarned));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,odlId,currentStreak,longestStreak,totalActiveDays,weeklyGoal,weeklyProgress,const DeepCollectionEquality().hash(_activeDays),lastActiveAt);
+int get hashCode => Object.hash(runtimeType,logDate,xpEarned);
 
 @override
 String toString() {
-  return 'StreakInfo(odlId: $odlId, currentStreak: $currentStreak, longestStreak: $longestStreak, totalActiveDays: $totalActiveDays, weeklyGoal: $weeklyGoal, weeklyProgress: $weeklyProgress, activeDays: $activeDays, lastActiveAt: $lastActiveAt)';
+  return 'XpDailyLogEntry(logDate: $logDate, xpEarned: $xpEarned)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class _$StreakInfoCopyWith<$Res> implements $StreakInfoCopyWith<$Res> {
-  factory _$StreakInfoCopyWith(_StreakInfo value, $Res Function(_StreakInfo) _then) = __$StreakInfoCopyWithImpl;
+abstract mixin class _$XpDailyLogEntryCopyWith<$Res> implements $XpDailyLogEntryCopyWith<$Res> {
+  factory _$XpDailyLogEntryCopyWith(_XpDailyLogEntry value, $Res Function(_XpDailyLogEntry) _then) = __$XpDailyLogEntryCopyWithImpl;
 @override @useResult
 $Res call({
- String odlId, int currentStreak, int longestStreak, int totalActiveDays, int weeklyGoal, int weeklyProgress, List<DateTime> activeDays, DateTime? lastActiveAt
+@JsonKey(name: 'log_date') DateTime logDate,@JsonKey(name: 'xp_earned') int xpEarned
 });
 
 
@@ -1190,26 +523,20 @@ $Res call({
 
 }
 /// @nodoc
-class __$StreakInfoCopyWithImpl<$Res>
-    implements _$StreakInfoCopyWith<$Res> {
-  __$StreakInfoCopyWithImpl(this._self, this._then);
+class __$XpDailyLogEntryCopyWithImpl<$Res>
+    implements _$XpDailyLogEntryCopyWith<$Res> {
+  __$XpDailyLogEntryCopyWithImpl(this._self, this._then);
 
-  final _StreakInfo _self;
-  final $Res Function(_StreakInfo) _then;
+  final _XpDailyLogEntry _self;
+  final $Res Function(_XpDailyLogEntry) _then;
 
-/// Create a copy of StreakInfo
+/// Create a copy of XpDailyLogEntry
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? odlId = null,Object? currentStreak = null,Object? longestStreak = null,Object? totalActiveDays = null,Object? weeklyGoal = null,Object? weeklyProgress = null,Object? activeDays = null,Object? lastActiveAt = freezed,}) {
-  return _then(_StreakInfo(
-odlId: null == odlId ? _self.odlId : odlId // ignore: cast_nullable_to_non_nullable
-as String,currentStreak: null == currentStreak ? _self.currentStreak : currentStreak // ignore: cast_nullable_to_non_nullable
-as int,longestStreak: null == longestStreak ? _self.longestStreak : longestStreak // ignore: cast_nullable_to_non_nullable
-as int,totalActiveDays: null == totalActiveDays ? _self.totalActiveDays : totalActiveDays // ignore: cast_nullable_to_non_nullable
-as int,weeklyGoal: null == weeklyGoal ? _self.weeklyGoal : weeklyGoal // ignore: cast_nullable_to_non_nullable
-as int,weeklyProgress: null == weeklyProgress ? _self.weeklyProgress : weeklyProgress // ignore: cast_nullable_to_non_nullable
-as int,activeDays: null == activeDays ? _self._activeDays : activeDays // ignore: cast_nullable_to_non_nullable
-as List<DateTime>,lastActiveAt: freezed == lastActiveAt ? _self.lastActiveAt : lastActiveAt // ignore: cast_nullable_to_non_nullable
-as DateTime?,
+@override @pragma('vm:prefer-inline') $Res call({Object? logDate = null,Object? xpEarned = null,}) {
+  return _then(_XpDailyLogEntry(
+logDate: null == logDate ? _self.logDate : logDate // ignore: cast_nullable_to_non_nullable
+as DateTime,xpEarned: null == xpEarned ? _self.xpEarned : xpEarned // ignore: cast_nullable_to_non_nullable
+as int,
   ));
 }
 
@@ -1218,42 +545,42 @@ as DateTime?,
 
 
 /// @nodoc
-mixin _$TimeStats {
+mixin _$MasterySummary {
 
- String get odlId; int get totalMinutes; int get todayMinutes; int get weekMinutes; int get monthMinutes; Map<String, int> get minutesByFeature; Map<String, int> get minutesByDay; double get averageMinutesPerDay;
-/// Create a copy of TimeStats
+@JsonKey(name: 'new') int get newCount; int get learning; int get young; int get mature; int get total;
+/// Create a copy of MasterySummary
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$TimeStatsCopyWith<TimeStats> get copyWith => _$TimeStatsCopyWithImpl<TimeStats>(this as TimeStats, _$identity);
+$MasterySummaryCopyWith<MasterySummary> get copyWith => _$MasterySummaryCopyWithImpl<MasterySummary>(this as MasterySummary, _$identity);
 
-  /// Serializes this TimeStats to a JSON map.
+  /// Serializes this MasterySummary to a JSON map.
   Map<String, dynamic> toJson();
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is TimeStats&&(identical(other.odlId, odlId) || other.odlId == odlId)&&(identical(other.totalMinutes, totalMinutes) || other.totalMinutes == totalMinutes)&&(identical(other.todayMinutes, todayMinutes) || other.todayMinutes == todayMinutes)&&(identical(other.weekMinutes, weekMinutes) || other.weekMinutes == weekMinutes)&&(identical(other.monthMinutes, monthMinutes) || other.monthMinutes == monthMinutes)&&const DeepCollectionEquality().equals(other.minutesByFeature, minutesByFeature)&&const DeepCollectionEquality().equals(other.minutesByDay, minutesByDay)&&(identical(other.averageMinutesPerDay, averageMinutesPerDay) || other.averageMinutesPerDay == averageMinutesPerDay));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is MasterySummary&&(identical(other.newCount, newCount) || other.newCount == newCount)&&(identical(other.learning, learning) || other.learning == learning)&&(identical(other.young, young) || other.young == young)&&(identical(other.mature, mature) || other.mature == mature)&&(identical(other.total, total) || other.total == total));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,odlId,totalMinutes,todayMinutes,weekMinutes,monthMinutes,const DeepCollectionEquality().hash(minutesByFeature),const DeepCollectionEquality().hash(minutesByDay),averageMinutesPerDay);
+int get hashCode => Object.hash(runtimeType,newCount,learning,young,mature,total);
 
 @override
 String toString() {
-  return 'TimeStats(odlId: $odlId, totalMinutes: $totalMinutes, todayMinutes: $todayMinutes, weekMinutes: $weekMinutes, monthMinutes: $monthMinutes, minutesByFeature: $minutesByFeature, minutesByDay: $minutesByDay, averageMinutesPerDay: $averageMinutesPerDay)';
+  return 'MasterySummary(newCount: $newCount, learning: $learning, young: $young, mature: $mature, total: $total)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class $TimeStatsCopyWith<$Res>  {
-  factory $TimeStatsCopyWith(TimeStats value, $Res Function(TimeStats) _then) = _$TimeStatsCopyWithImpl;
+abstract mixin class $MasterySummaryCopyWith<$Res>  {
+  factory $MasterySummaryCopyWith(MasterySummary value, $Res Function(MasterySummary) _then) = _$MasterySummaryCopyWithImpl;
 @useResult
 $Res call({
- String odlId, int totalMinutes, int todayMinutes, int weekMinutes, int monthMinutes, Map<String, int> minutesByFeature, Map<String, int> minutesByDay, double averageMinutesPerDay
+@JsonKey(name: 'new') int newCount, int learning, int young, int mature, int total
 });
 
 
@@ -1261,34 +588,31 @@ $Res call({
 
 }
 /// @nodoc
-class _$TimeStatsCopyWithImpl<$Res>
-    implements $TimeStatsCopyWith<$Res> {
-  _$TimeStatsCopyWithImpl(this._self, this._then);
+class _$MasterySummaryCopyWithImpl<$Res>
+    implements $MasterySummaryCopyWith<$Res> {
+  _$MasterySummaryCopyWithImpl(this._self, this._then);
 
-  final TimeStats _self;
-  final $Res Function(TimeStats) _then;
+  final MasterySummary _self;
+  final $Res Function(MasterySummary) _then;
 
-/// Create a copy of TimeStats
+/// Create a copy of MasterySummary
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? odlId = null,Object? totalMinutes = null,Object? todayMinutes = null,Object? weekMinutes = null,Object? monthMinutes = null,Object? minutesByFeature = null,Object? minutesByDay = null,Object? averageMinutesPerDay = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? newCount = null,Object? learning = null,Object? young = null,Object? mature = null,Object? total = null,}) {
   return _then(_self.copyWith(
-odlId: null == odlId ? _self.odlId : odlId // ignore: cast_nullable_to_non_nullable
-as String,totalMinutes: null == totalMinutes ? _self.totalMinutes : totalMinutes // ignore: cast_nullable_to_non_nullable
-as int,todayMinutes: null == todayMinutes ? _self.todayMinutes : todayMinutes // ignore: cast_nullable_to_non_nullable
-as int,weekMinutes: null == weekMinutes ? _self.weekMinutes : weekMinutes // ignore: cast_nullable_to_non_nullable
-as int,monthMinutes: null == monthMinutes ? _self.monthMinutes : monthMinutes // ignore: cast_nullable_to_non_nullable
-as int,minutesByFeature: null == minutesByFeature ? _self.minutesByFeature : minutesByFeature // ignore: cast_nullable_to_non_nullable
-as Map<String, int>,minutesByDay: null == minutesByDay ? _self.minutesByDay : minutesByDay // ignore: cast_nullable_to_non_nullable
-as Map<String, int>,averageMinutesPerDay: null == averageMinutesPerDay ? _self.averageMinutesPerDay : averageMinutesPerDay // ignore: cast_nullable_to_non_nullable
-as double,
+newCount: null == newCount ? _self.newCount : newCount // ignore: cast_nullable_to_non_nullable
+as int,learning: null == learning ? _self.learning : learning // ignore: cast_nullable_to_non_nullable
+as int,young: null == young ? _self.young : young // ignore: cast_nullable_to_non_nullable
+as int,mature: null == mature ? _self.mature : mature // ignore: cast_nullable_to_non_nullable
+as int,total: null == total ? _self.total : total // ignore: cast_nullable_to_non_nullable
+as int,
   ));
 }
 
 }
 
 
-/// Adds pattern-matching-related methods to [TimeStats].
-extension TimeStatsPatterns on TimeStats {
+/// Adds pattern-matching-related methods to [MasterySummary].
+extension MasterySummaryPatterns on MasterySummary {
 /// A variant of `map` that fallback to returning `orElse`.
 ///
 /// It is equivalent to doing:
@@ -1301,10 +625,10 @@ extension TimeStatsPatterns on TimeStats {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _TimeStats value)?  $default,{required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _MasterySummary value)?  $default,{required TResult orElse(),}){
 final _that = this;
 switch (_that) {
-case _TimeStats() when $default != null:
+case _MasterySummary() when $default != null:
 return $default(_that);case _:
   return orElse();
 
@@ -1323,10 +647,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _TimeStats value)  $default,){
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _MasterySummary value)  $default,){
 final _that = this;
 switch (_that) {
-case _TimeStats():
+case _MasterySummary():
 return $default(_that);case _:
   throw StateError('Unexpected subclass');
 
@@ -1344,10 +668,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _TimeStats value)?  $default,){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _MasterySummary value)?  $default,){
 final _that = this;
 switch (_that) {
-case _TimeStats() when $default != null:
+case _MasterySummary() when $default != null:
 return $default(_that);case _:
   return null;
 
@@ -1365,10 +689,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String odlId,  int totalMinutes,  int todayMinutes,  int weekMinutes,  int monthMinutes,  Map<String, int> minutesByFeature,  Map<String, int> minutesByDay,  double averageMinutesPerDay)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'new')  int newCount,  int learning,  int young,  int mature,  int total)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
-case _TimeStats() when $default != null:
-return $default(_that.odlId,_that.totalMinutes,_that.todayMinutes,_that.weekMinutes,_that.monthMinutes,_that.minutesByFeature,_that.minutesByDay,_that.averageMinutesPerDay);case _:
+case _MasterySummary() when $default != null:
+return $default(_that.newCount,_that.learning,_that.young,_that.mature,_that.total);case _:
   return orElse();
 
 }
@@ -1386,10 +710,10 @@ return $default(_that.odlId,_that.totalMinutes,_that.todayMinutes,_that.weekMinu
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String odlId,  int totalMinutes,  int todayMinutes,  int weekMinutes,  int monthMinutes,  Map<String, int> minutesByFeature,  Map<String, int> minutesByDay,  double averageMinutesPerDay)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'new')  int newCount,  int learning,  int young,  int mature,  int total)  $default,) {final _that = this;
 switch (_that) {
-case _TimeStats():
-return $default(_that.odlId,_that.totalMinutes,_that.todayMinutes,_that.weekMinutes,_that.monthMinutes,_that.minutesByFeature,_that.minutesByDay,_that.averageMinutesPerDay);case _:
+case _MasterySummary():
+return $default(_that.newCount,_that.learning,_that.young,_that.mature,_that.total);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -1406,10 +730,10 @@ return $default(_that.odlId,_that.totalMinutes,_that.todayMinutes,_that.weekMinu
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String odlId,  int totalMinutes,  int todayMinutes,  int weekMinutes,  int monthMinutes,  Map<String, int> minutesByFeature,  Map<String, int> minutesByDay,  double averageMinutesPerDay)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'new')  int newCount,  int learning,  int young,  int mature,  int total)?  $default,) {final _that = this;
 switch (_that) {
-case _TimeStats() when $default != null:
-return $default(_that.odlId,_that.totalMinutes,_that.todayMinutes,_that.weekMinutes,_that.monthMinutes,_that.minutesByFeature,_that.minutesByDay,_that.averageMinutesPerDay);case _:
+case _MasterySummary() when $default != null:
+return $default(_that.newCount,_that.learning,_that.young,_that.mature,_that.total);case _:
   return null;
 
 }
@@ -1420,65 +744,50 @@ return $default(_that.odlId,_that.totalMinutes,_that.todayMinutes,_that.weekMinu
 /// @nodoc
 @JsonSerializable()
 
-class _TimeStats implements TimeStats {
-  const _TimeStats({required this.odlId, this.totalMinutes = 0, this.todayMinutes = 0, this.weekMinutes = 0, this.monthMinutes = 0, final  Map<String, int> minutesByFeature = const <String, int>{}, final  Map<String, int> minutesByDay = const <String, int>{}, this.averageMinutesPerDay = 0}): _minutesByFeature = minutesByFeature,_minutesByDay = minutesByDay;
-  factory _TimeStats.fromJson(Map<String, dynamic> json) => _$TimeStatsFromJson(json);
+class _MasterySummary implements MasterySummary {
+  const _MasterySummary({@JsonKey(name: 'new') this.newCount = 0, this.learning = 0, this.young = 0, this.mature = 0, this.total = 0});
+  factory _MasterySummary.fromJson(Map<String, dynamic> json) => _$MasterySummaryFromJson(json);
 
-@override final  String odlId;
-@override@JsonKey() final  int totalMinutes;
-@override@JsonKey() final  int todayMinutes;
-@override@JsonKey() final  int weekMinutes;
-@override@JsonKey() final  int monthMinutes;
- final  Map<String, int> _minutesByFeature;
-@override@JsonKey() Map<String, int> get minutesByFeature {
-  if (_minutesByFeature is EqualUnmodifiableMapView) return _minutesByFeature;
-  // ignore: implicit_dynamic_type
-  return EqualUnmodifiableMapView(_minutesByFeature);
-}
+@override@JsonKey(name: 'new') final  int newCount;
+@override@JsonKey() final  int learning;
+@override@JsonKey() final  int young;
+@override@JsonKey() final  int mature;
+@override@JsonKey() final  int total;
 
- final  Map<String, int> _minutesByDay;
-@override@JsonKey() Map<String, int> get minutesByDay {
-  if (_minutesByDay is EqualUnmodifiableMapView) return _minutesByDay;
-  // ignore: implicit_dynamic_type
-  return EqualUnmodifiableMapView(_minutesByDay);
-}
-
-@override@JsonKey() final  double averageMinutesPerDay;
-
-/// Create a copy of TimeStats
+/// Create a copy of MasterySummary
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-_$TimeStatsCopyWith<_TimeStats> get copyWith => __$TimeStatsCopyWithImpl<_TimeStats>(this, _$identity);
+_$MasterySummaryCopyWith<_MasterySummary> get copyWith => __$MasterySummaryCopyWithImpl<_MasterySummary>(this, _$identity);
 
 @override
 Map<String, dynamic> toJson() {
-  return _$TimeStatsToJson(this, );
+  return _$MasterySummaryToJson(this, );
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TimeStats&&(identical(other.odlId, odlId) || other.odlId == odlId)&&(identical(other.totalMinutes, totalMinutes) || other.totalMinutes == totalMinutes)&&(identical(other.todayMinutes, todayMinutes) || other.todayMinutes == todayMinutes)&&(identical(other.weekMinutes, weekMinutes) || other.weekMinutes == weekMinutes)&&(identical(other.monthMinutes, monthMinutes) || other.monthMinutes == monthMinutes)&&const DeepCollectionEquality().equals(other._minutesByFeature, _minutesByFeature)&&const DeepCollectionEquality().equals(other._minutesByDay, _minutesByDay)&&(identical(other.averageMinutesPerDay, averageMinutesPerDay) || other.averageMinutesPerDay == averageMinutesPerDay));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _MasterySummary&&(identical(other.newCount, newCount) || other.newCount == newCount)&&(identical(other.learning, learning) || other.learning == learning)&&(identical(other.young, young) || other.young == young)&&(identical(other.mature, mature) || other.mature == mature)&&(identical(other.total, total) || other.total == total));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,odlId,totalMinutes,todayMinutes,weekMinutes,monthMinutes,const DeepCollectionEquality().hash(_minutesByFeature),const DeepCollectionEquality().hash(_minutesByDay),averageMinutesPerDay);
+int get hashCode => Object.hash(runtimeType,newCount,learning,young,mature,total);
 
 @override
 String toString() {
-  return 'TimeStats(odlId: $odlId, totalMinutes: $totalMinutes, todayMinutes: $todayMinutes, weekMinutes: $weekMinutes, monthMinutes: $monthMinutes, minutesByFeature: $minutesByFeature, minutesByDay: $minutesByDay, averageMinutesPerDay: $averageMinutesPerDay)';
+  return 'MasterySummary(newCount: $newCount, learning: $learning, young: $young, mature: $mature, total: $total)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class _$TimeStatsCopyWith<$Res> implements $TimeStatsCopyWith<$Res> {
-  factory _$TimeStatsCopyWith(_TimeStats value, $Res Function(_TimeStats) _then) = __$TimeStatsCopyWithImpl;
+abstract mixin class _$MasterySummaryCopyWith<$Res> implements $MasterySummaryCopyWith<$Res> {
+  factory _$MasterySummaryCopyWith(_MasterySummary value, $Res Function(_MasterySummary) _then) = __$MasterySummaryCopyWithImpl;
 @override @useResult
 $Res call({
- String odlId, int totalMinutes, int todayMinutes, int weekMinutes, int monthMinutes, Map<String, int> minutesByFeature, Map<String, int> minutesByDay, double averageMinutesPerDay
+@JsonKey(name: 'new') int newCount, int learning, int young, int mature, int total
 });
 
 
@@ -1486,26 +795,582 @@ $Res call({
 
 }
 /// @nodoc
-class __$TimeStatsCopyWithImpl<$Res>
-    implements _$TimeStatsCopyWith<$Res> {
-  __$TimeStatsCopyWithImpl(this._self, this._then);
+class __$MasterySummaryCopyWithImpl<$Res>
+    implements _$MasterySummaryCopyWith<$Res> {
+  __$MasterySummaryCopyWithImpl(this._self, this._then);
 
-  final _TimeStats _self;
-  final $Res Function(_TimeStats) _then;
+  final _MasterySummary _self;
+  final $Res Function(_MasterySummary) _then;
 
-/// Create a copy of TimeStats
+/// Create a copy of MasterySummary
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? odlId = null,Object? totalMinutes = null,Object? todayMinutes = null,Object? weekMinutes = null,Object? monthMinutes = null,Object? minutesByFeature = null,Object? minutesByDay = null,Object? averageMinutesPerDay = null,}) {
-  return _then(_TimeStats(
-odlId: null == odlId ? _self.odlId : odlId // ignore: cast_nullable_to_non_nullable
-as String,totalMinutes: null == totalMinutes ? _self.totalMinutes : totalMinutes // ignore: cast_nullable_to_non_nullable
-as int,todayMinutes: null == todayMinutes ? _self.todayMinutes : todayMinutes // ignore: cast_nullable_to_non_nullable
-as int,weekMinutes: null == weekMinutes ? _self.weekMinutes : weekMinutes // ignore: cast_nullable_to_non_nullable
-as int,monthMinutes: null == monthMinutes ? _self.monthMinutes : monthMinutes // ignore: cast_nullable_to_non_nullable
-as int,minutesByFeature: null == minutesByFeature ? _self._minutesByFeature : minutesByFeature // ignore: cast_nullable_to_non_nullable
-as Map<String, int>,minutesByDay: null == minutesByDay ? _self._minutesByDay : minutesByDay // ignore: cast_nullable_to_non_nullable
-as Map<String, int>,averageMinutesPerDay: null == averageMinutesPerDay ? _self.averageMinutesPerDay : averageMinutesPerDay // ignore: cast_nullable_to_non_nullable
-as double,
+@override @pragma('vm:prefer-inline') $Res call({Object? newCount = null,Object? learning = null,Object? young = null,Object? mature = null,Object? total = null,}) {
+  return _then(_MasterySummary(
+newCount: null == newCount ? _self.newCount : newCount // ignore: cast_nullable_to_non_nullable
+as int,learning: null == learning ? _self.learning : learning // ignore: cast_nullable_to_non_nullable
+as int,young: null == young ? _self.young : young // ignore: cast_nullable_to_non_nullable
+as int,mature: null == mature ? _self.mature : mature // ignore: cast_nullable_to_non_nullable
+as int,total: null == total ? _self.total : total // ignore: cast_nullable_to_non_nullable
+as int,
+  ));
+}
+
+
+}
+
+
+/// @nodoc
+mixin _$SrsDailyStat {
+
+ String get date;@JsonKey(name: 'reviews_count') int get reviewsCount;@JsonKey(name: 'retention_rate') double? get retentionRate; int get lapses;@JsonKey(name: 'new_cards_added') int get newCardsAdded;
+/// Create a copy of SrsDailyStat
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$SrsDailyStatCopyWith<SrsDailyStat> get copyWith => _$SrsDailyStatCopyWithImpl<SrsDailyStat>(this as SrsDailyStat, _$identity);
+
+  /// Serializes this SrsDailyStat to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SrsDailyStat&&(identical(other.date, date) || other.date == date)&&(identical(other.reviewsCount, reviewsCount) || other.reviewsCount == reviewsCount)&&(identical(other.retentionRate, retentionRate) || other.retentionRate == retentionRate)&&(identical(other.lapses, lapses) || other.lapses == lapses)&&(identical(other.newCardsAdded, newCardsAdded) || other.newCardsAdded == newCardsAdded));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,date,reviewsCount,retentionRate,lapses,newCardsAdded);
+
+@override
+String toString() {
+  return 'SrsDailyStat(date: $date, reviewsCount: $reviewsCount, retentionRate: $retentionRate, lapses: $lapses, newCardsAdded: $newCardsAdded)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $SrsDailyStatCopyWith<$Res>  {
+  factory $SrsDailyStatCopyWith(SrsDailyStat value, $Res Function(SrsDailyStat) _then) = _$SrsDailyStatCopyWithImpl;
+@useResult
+$Res call({
+ String date,@JsonKey(name: 'reviews_count') int reviewsCount,@JsonKey(name: 'retention_rate') double? retentionRate, int lapses,@JsonKey(name: 'new_cards_added') int newCardsAdded
+});
+
+
+
+
+}
+/// @nodoc
+class _$SrsDailyStatCopyWithImpl<$Res>
+    implements $SrsDailyStatCopyWith<$Res> {
+  _$SrsDailyStatCopyWithImpl(this._self, this._then);
+
+  final SrsDailyStat _self;
+  final $Res Function(SrsDailyStat) _then;
+
+/// Create a copy of SrsDailyStat
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? date = null,Object? reviewsCount = null,Object? retentionRate = freezed,Object? lapses = null,Object? newCardsAdded = null,}) {
+  return _then(_self.copyWith(
+date: null == date ? _self.date : date // ignore: cast_nullable_to_non_nullable
+as String,reviewsCount: null == reviewsCount ? _self.reviewsCount : reviewsCount // ignore: cast_nullable_to_non_nullable
+as int,retentionRate: freezed == retentionRate ? _self.retentionRate : retentionRate // ignore: cast_nullable_to_non_nullable
+as double?,lapses: null == lapses ? _self.lapses : lapses // ignore: cast_nullable_to_non_nullable
+as int,newCardsAdded: null == newCardsAdded ? _self.newCardsAdded : newCardsAdded // ignore: cast_nullable_to_non_nullable
+as int,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [SrsDailyStat].
+extension SrsDailyStatPatterns on SrsDailyStat {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _SrsDailyStat value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _SrsDailyStat() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _SrsDailyStat value)  $default,){
+final _that = this;
+switch (_that) {
+case _SrsDailyStat():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _SrsDailyStat value)?  $default,){
+final _that = this;
+switch (_that) {
+case _SrsDailyStat() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String date, @JsonKey(name: 'reviews_count')  int reviewsCount, @JsonKey(name: 'retention_rate')  double? retentionRate,  int lapses, @JsonKey(name: 'new_cards_added')  int newCardsAdded)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _SrsDailyStat() when $default != null:
+return $default(_that.date,_that.reviewsCount,_that.retentionRate,_that.lapses,_that.newCardsAdded);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String date, @JsonKey(name: 'reviews_count')  int reviewsCount, @JsonKey(name: 'retention_rate')  double? retentionRate,  int lapses, @JsonKey(name: 'new_cards_added')  int newCardsAdded)  $default,) {final _that = this;
+switch (_that) {
+case _SrsDailyStat():
+return $default(_that.date,_that.reviewsCount,_that.retentionRate,_that.lapses,_that.newCardsAdded);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String date, @JsonKey(name: 'reviews_count')  int reviewsCount, @JsonKey(name: 'retention_rate')  double? retentionRate,  int lapses, @JsonKey(name: 'new_cards_added')  int newCardsAdded)?  $default,) {final _that = this;
+switch (_that) {
+case _SrsDailyStat() when $default != null:
+return $default(_that.date,_that.reviewsCount,_that.retentionRate,_that.lapses,_that.newCardsAdded);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _SrsDailyStat implements SrsDailyStat {
+  const _SrsDailyStat({required this.date, @JsonKey(name: 'reviews_count') this.reviewsCount = 0, @JsonKey(name: 'retention_rate') this.retentionRate, this.lapses = 0, @JsonKey(name: 'new_cards_added') this.newCardsAdded = 0});
+  factory _SrsDailyStat.fromJson(Map<String, dynamic> json) => _$SrsDailyStatFromJson(json);
+
+@override final  String date;
+@override@JsonKey(name: 'reviews_count') final  int reviewsCount;
+@override@JsonKey(name: 'retention_rate') final  double? retentionRate;
+@override@JsonKey() final  int lapses;
+@override@JsonKey(name: 'new_cards_added') final  int newCardsAdded;
+
+/// Create a copy of SrsDailyStat
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$SrsDailyStatCopyWith<_SrsDailyStat> get copyWith => __$SrsDailyStatCopyWithImpl<_SrsDailyStat>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$SrsDailyStatToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SrsDailyStat&&(identical(other.date, date) || other.date == date)&&(identical(other.reviewsCount, reviewsCount) || other.reviewsCount == reviewsCount)&&(identical(other.retentionRate, retentionRate) || other.retentionRate == retentionRate)&&(identical(other.lapses, lapses) || other.lapses == lapses)&&(identical(other.newCardsAdded, newCardsAdded) || other.newCardsAdded == newCardsAdded));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,date,reviewsCount,retentionRate,lapses,newCardsAdded);
+
+@override
+String toString() {
+  return 'SrsDailyStat(date: $date, reviewsCount: $reviewsCount, retentionRate: $retentionRate, lapses: $lapses, newCardsAdded: $newCardsAdded)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$SrsDailyStatCopyWith<$Res> implements $SrsDailyStatCopyWith<$Res> {
+  factory _$SrsDailyStatCopyWith(_SrsDailyStat value, $Res Function(_SrsDailyStat) _then) = __$SrsDailyStatCopyWithImpl;
+@override @useResult
+$Res call({
+ String date,@JsonKey(name: 'reviews_count') int reviewsCount,@JsonKey(name: 'retention_rate') double? retentionRate, int lapses,@JsonKey(name: 'new_cards_added') int newCardsAdded
+});
+
+
+
+
+}
+/// @nodoc
+class __$SrsDailyStatCopyWithImpl<$Res>
+    implements _$SrsDailyStatCopyWith<$Res> {
+  __$SrsDailyStatCopyWithImpl(this._self, this._then);
+
+  final _SrsDailyStat _self;
+  final $Res Function(_SrsDailyStat) _then;
+
+/// Create a copy of SrsDailyStat
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? date = null,Object? reviewsCount = null,Object? retentionRate = freezed,Object? lapses = null,Object? newCardsAdded = null,}) {
+  return _then(_SrsDailyStat(
+date: null == date ? _self.date : date // ignore: cast_nullable_to_non_nullable
+as String,reviewsCount: null == reviewsCount ? _self.reviewsCount : reviewsCount // ignore: cast_nullable_to_non_nullable
+as int,retentionRate: freezed == retentionRate ? _self.retentionRate : retentionRate // ignore: cast_nullable_to_non_nullable
+as double?,lapses: null == lapses ? _self.lapses : lapses // ignore: cast_nullable_to_non_nullable
+as int,newCardsAdded: null == newCardsAdded ? _self.newCardsAdded : newCardsAdded // ignore: cast_nullable_to_non_nullable
+as int,
+  ));
+}
+
+
+}
+
+
+/// @nodoc
+mixin _$ErrorPatternSummary {
+
+@JsonKey(name: 'error_type') String get errorType;@JsonKey(name: 'total_count') int get totalCount;@JsonKey(name: 'last_seen') DateTime? get lastSeen;@JsonKey(name: 'example_original') String? get exampleOriginal;@JsonKey(name: 'example_corrected') String? get exampleCorrected; List<String> get sources;
+/// Create a copy of ErrorPatternSummary
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$ErrorPatternSummaryCopyWith<ErrorPatternSummary> get copyWith => _$ErrorPatternSummaryCopyWithImpl<ErrorPatternSummary>(this as ErrorPatternSummary, _$identity);
+
+  /// Serializes this ErrorPatternSummary to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ErrorPatternSummary&&(identical(other.errorType, errorType) || other.errorType == errorType)&&(identical(other.totalCount, totalCount) || other.totalCount == totalCount)&&(identical(other.lastSeen, lastSeen) || other.lastSeen == lastSeen)&&(identical(other.exampleOriginal, exampleOriginal) || other.exampleOriginal == exampleOriginal)&&(identical(other.exampleCorrected, exampleCorrected) || other.exampleCorrected == exampleCorrected)&&const DeepCollectionEquality().equals(other.sources, sources));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,errorType,totalCount,lastSeen,exampleOriginal,exampleCorrected,const DeepCollectionEquality().hash(sources));
+
+@override
+String toString() {
+  return 'ErrorPatternSummary(errorType: $errorType, totalCount: $totalCount, lastSeen: $lastSeen, exampleOriginal: $exampleOriginal, exampleCorrected: $exampleCorrected, sources: $sources)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $ErrorPatternSummaryCopyWith<$Res>  {
+  factory $ErrorPatternSummaryCopyWith(ErrorPatternSummary value, $Res Function(ErrorPatternSummary) _then) = _$ErrorPatternSummaryCopyWithImpl;
+@useResult
+$Res call({
+@JsonKey(name: 'error_type') String errorType,@JsonKey(name: 'total_count') int totalCount,@JsonKey(name: 'last_seen') DateTime? lastSeen,@JsonKey(name: 'example_original') String? exampleOriginal,@JsonKey(name: 'example_corrected') String? exampleCorrected, List<String> sources
+});
+
+
+
+
+}
+/// @nodoc
+class _$ErrorPatternSummaryCopyWithImpl<$Res>
+    implements $ErrorPatternSummaryCopyWith<$Res> {
+  _$ErrorPatternSummaryCopyWithImpl(this._self, this._then);
+
+  final ErrorPatternSummary _self;
+  final $Res Function(ErrorPatternSummary) _then;
+
+/// Create a copy of ErrorPatternSummary
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? errorType = null,Object? totalCount = null,Object? lastSeen = freezed,Object? exampleOriginal = freezed,Object? exampleCorrected = freezed,Object? sources = null,}) {
+  return _then(_self.copyWith(
+errorType: null == errorType ? _self.errorType : errorType // ignore: cast_nullable_to_non_nullable
+as String,totalCount: null == totalCount ? _self.totalCount : totalCount // ignore: cast_nullable_to_non_nullable
+as int,lastSeen: freezed == lastSeen ? _self.lastSeen : lastSeen // ignore: cast_nullable_to_non_nullable
+as DateTime?,exampleOriginal: freezed == exampleOriginal ? _self.exampleOriginal : exampleOriginal // ignore: cast_nullable_to_non_nullable
+as String?,exampleCorrected: freezed == exampleCorrected ? _self.exampleCorrected : exampleCorrected // ignore: cast_nullable_to_non_nullable
+as String?,sources: null == sources ? _self.sources : sources // ignore: cast_nullable_to_non_nullable
+as List<String>,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [ErrorPatternSummary].
+extension ErrorPatternSummaryPatterns on ErrorPatternSummary {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _ErrorPatternSummary value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _ErrorPatternSummary() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _ErrorPatternSummary value)  $default,){
+final _that = this;
+switch (_that) {
+case _ErrorPatternSummary():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _ErrorPatternSummary value)?  $default,){
+final _that = this;
+switch (_that) {
+case _ErrorPatternSummary() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'error_type')  String errorType, @JsonKey(name: 'total_count')  int totalCount, @JsonKey(name: 'last_seen')  DateTime? lastSeen, @JsonKey(name: 'example_original')  String? exampleOriginal, @JsonKey(name: 'example_corrected')  String? exampleCorrected,  List<String> sources)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _ErrorPatternSummary() when $default != null:
+return $default(_that.errorType,_that.totalCount,_that.lastSeen,_that.exampleOriginal,_that.exampleCorrected,_that.sources);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'error_type')  String errorType, @JsonKey(name: 'total_count')  int totalCount, @JsonKey(name: 'last_seen')  DateTime? lastSeen, @JsonKey(name: 'example_original')  String? exampleOriginal, @JsonKey(name: 'example_corrected')  String? exampleCorrected,  List<String> sources)  $default,) {final _that = this;
+switch (_that) {
+case _ErrorPatternSummary():
+return $default(_that.errorType,_that.totalCount,_that.lastSeen,_that.exampleOriginal,_that.exampleCorrected,_that.sources);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'error_type')  String errorType, @JsonKey(name: 'total_count')  int totalCount, @JsonKey(name: 'last_seen')  DateTime? lastSeen, @JsonKey(name: 'example_original')  String? exampleOriginal, @JsonKey(name: 'example_corrected')  String? exampleCorrected,  List<String> sources)?  $default,) {final _that = this;
+switch (_that) {
+case _ErrorPatternSummary() when $default != null:
+return $default(_that.errorType,_that.totalCount,_that.lastSeen,_that.exampleOriginal,_that.exampleCorrected,_that.sources);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _ErrorPatternSummary implements ErrorPatternSummary {
+  const _ErrorPatternSummary({@JsonKey(name: 'error_type') required this.errorType, @JsonKey(name: 'total_count') this.totalCount = 0, @JsonKey(name: 'last_seen') this.lastSeen, @JsonKey(name: 'example_original') this.exampleOriginal, @JsonKey(name: 'example_corrected') this.exampleCorrected, final  List<String> sources = const <String>[]}): _sources = sources;
+  factory _ErrorPatternSummary.fromJson(Map<String, dynamic> json) => _$ErrorPatternSummaryFromJson(json);
+
+@override@JsonKey(name: 'error_type') final  String errorType;
+@override@JsonKey(name: 'total_count') final  int totalCount;
+@override@JsonKey(name: 'last_seen') final  DateTime? lastSeen;
+@override@JsonKey(name: 'example_original') final  String? exampleOriginal;
+@override@JsonKey(name: 'example_corrected') final  String? exampleCorrected;
+ final  List<String> _sources;
+@override@JsonKey() List<String> get sources {
+  if (_sources is EqualUnmodifiableListView) return _sources;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_sources);
+}
+
+
+/// Create a copy of ErrorPatternSummary
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$ErrorPatternSummaryCopyWith<_ErrorPatternSummary> get copyWith => __$ErrorPatternSummaryCopyWithImpl<_ErrorPatternSummary>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$ErrorPatternSummaryToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ErrorPatternSummary&&(identical(other.errorType, errorType) || other.errorType == errorType)&&(identical(other.totalCount, totalCount) || other.totalCount == totalCount)&&(identical(other.lastSeen, lastSeen) || other.lastSeen == lastSeen)&&(identical(other.exampleOriginal, exampleOriginal) || other.exampleOriginal == exampleOriginal)&&(identical(other.exampleCorrected, exampleCorrected) || other.exampleCorrected == exampleCorrected)&&const DeepCollectionEquality().equals(other._sources, _sources));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,errorType,totalCount,lastSeen,exampleOriginal,exampleCorrected,const DeepCollectionEquality().hash(_sources));
+
+@override
+String toString() {
+  return 'ErrorPatternSummary(errorType: $errorType, totalCount: $totalCount, lastSeen: $lastSeen, exampleOriginal: $exampleOriginal, exampleCorrected: $exampleCorrected, sources: $sources)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$ErrorPatternSummaryCopyWith<$Res> implements $ErrorPatternSummaryCopyWith<$Res> {
+  factory _$ErrorPatternSummaryCopyWith(_ErrorPatternSummary value, $Res Function(_ErrorPatternSummary) _then) = __$ErrorPatternSummaryCopyWithImpl;
+@override @useResult
+$Res call({
+@JsonKey(name: 'error_type') String errorType,@JsonKey(name: 'total_count') int totalCount,@JsonKey(name: 'last_seen') DateTime? lastSeen,@JsonKey(name: 'example_original') String? exampleOriginal,@JsonKey(name: 'example_corrected') String? exampleCorrected, List<String> sources
+});
+
+
+
+
+}
+/// @nodoc
+class __$ErrorPatternSummaryCopyWithImpl<$Res>
+    implements _$ErrorPatternSummaryCopyWith<$Res> {
+  __$ErrorPatternSummaryCopyWithImpl(this._self, this._then);
+
+  final _ErrorPatternSummary _self;
+  final $Res Function(_ErrorPatternSummary) _then;
+
+/// Create a copy of ErrorPatternSummary
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? errorType = null,Object? totalCount = null,Object? lastSeen = freezed,Object? exampleOriginal = freezed,Object? exampleCorrected = freezed,Object? sources = null,}) {
+  return _then(_ErrorPatternSummary(
+errorType: null == errorType ? _self.errorType : errorType // ignore: cast_nullable_to_non_nullable
+as String,totalCount: null == totalCount ? _self.totalCount : totalCount // ignore: cast_nullable_to_non_nullable
+as int,lastSeen: freezed == lastSeen ? _self.lastSeen : lastSeen // ignore: cast_nullable_to_non_nullable
+as DateTime?,exampleOriginal: freezed == exampleOriginal ? _self.exampleOriginal : exampleOriginal // ignore: cast_nullable_to_non_nullable
+as String?,exampleCorrected: freezed == exampleCorrected ? _self.exampleCorrected : exampleCorrected // ignore: cast_nullable_to_non_nullable
+as String?,sources: null == sources ? _self._sources : sources // ignore: cast_nullable_to_non_nullable
+as List<String>,
   ));
 }
 

@@ -1,30 +1,40 @@
 import 'package:flutter/material.dart';
-import '../../../../core/theme/app_colors.dart';
+
+import '../../../core/theme/app_colors.dart';
 import 'package:deutschtiger/data/stats/stats_models.dart';
+import 'error_pattern_labels.dart';
 
+/// Danh sách xem trước lỗi hay gặp (top N) — hiển thị trên màn Thống kê.
+/// Danh sách đầy đủ + sort nằm ở `ErrorPatternsPage`.
 class ErrorPatternsList extends StatelessWidget {
-  final List<ErrorPattern> patterns;
-
   const ErrorPatternsList({super.key, required this.patterns});
+
+  final List<ErrorPatternSummary> patterns;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
-        children: patterns.map((pattern) => _ErrorPatternCard(pattern: pattern)).toList(),
+        children: patterns
+            .map((pattern) => _ErrorPatternCard(pattern: pattern))
+            .toList(),
       ),
     );
   }
 }
 
 class _ErrorPatternCard extends StatelessWidget {
-  final ErrorPattern pattern;
-
   const _ErrorPatternCard({required this.pattern});
+
+  final ErrorPatternSummary pattern;
 
   @override
   Widget build(BuildContext context) {
+    final config = errorTypeLabel(context, pattern.errorType);
+    final hasExample =
+        pattern.exampleOriginal != null || pattern.exampleCorrected != null;
+
     return Card(
       margin: const EdgeInsets.only(bottom: 12),
       child: Padding(
@@ -35,15 +45,18 @@ class _ErrorPatternCard extends StatelessWidget {
             Row(
               children: [
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 4,
+                  ),
                   decoration: BoxDecoration(
-                    color: _getErrorColor(pattern.errorRate).withOpacity(0.1),
+                    color: config.color.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(
-                    pattern.grammarCategoryVi,
+                    config.label,
                     style: TextStyle(
-                      color: _getErrorColor(pattern.errorRate),
+                      color: config.color,
                       fontWeight: FontWeight.bold,
                       fontSize: 12,
                     ),
@@ -51,76 +64,47 @@ class _ErrorPatternCard extends StatelessWidget {
                 ),
                 const Spacer(),
                 Text(
-                  '${pattern.errorRate.toStringAsFixed(1)}% error rate',
+                  '${pattern.totalCount}',
                   style: TextStyle(
-                    color: _getErrorColor(pattern.errorRate),
+                    color: config.color,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
               ],
             ),
-            const SizedBox(height: 12),
-            LinearProgressIndicator(
-              value: pattern.errorRate / 100,
-              backgroundColor: Colors.grey[200],
-              valueColor: AlwaysStoppedAnimation(_getErrorColor(pattern.errorRate)),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              '${pattern.errorCount}/${pattern.totalAttempts} errors',
-              style: TextStyle(color: Colors.grey[600], fontSize: 12),
-            ),
-            if (pattern.exampleErrors.isNotEmpty) ...[
+            if (hasExample) ...[
               const SizedBox(height: 12),
-              const Divider(),
-              const SizedBox(height: 8),
-              const Text(
-                'Examples:',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
-              ),
-              const SizedBox(height: 4),
-              ...pattern.exampleErrors.take(2).map((e) => Padding(
-                padding: const EdgeInsets.only(bottom: 4),
-                child: Text(
-                  '• $e',
-                  style: TextStyle(color: Colors.grey[700], fontSize: 13),
-                ),
-              )),
-            ],
-            if (pattern.suggestions.isNotEmpty) ...[
-              const SizedBox(height: 8),
-              Wrap(
-                spacing: 8,
-                runSpacing: 8,
-                children: pattern.suggestions.take(2).map((s) => Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                  decoration: BoxDecoration(
-                    color: AppColors.success.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Icon(Icons.lightbulb, size: 14, color: AppColors.success),
-                      const SizedBox(width: 4),
-                      Text(
-                        s,
-                        style: const TextStyle(fontSize: 11, color: AppColors.success),
+              Text.rich(
+                TextSpan(
+                  children: [
+                    if (pattern.exampleOriginal != null)
+                      TextSpan(
+                        text: pattern.exampleOriginal,
+                        style: TextStyle(
+                          color: Colors.grey[600],
+                          decoration: TextDecoration.lineThrough,
+                          fontSize: 13,
+                        ),
                       ),
-                    ],
-                  ),
-                )).toList(),
+                    if (pattern.exampleOriginal != null &&
+                        pattern.exampleCorrected != null)
+                      const TextSpan(text: '  →  '),
+                    if (pattern.exampleCorrected != null)
+                      TextSpan(
+                        text: pattern.exampleCorrected,
+                        style: const TextStyle(
+                          color: AppColors.success,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 13,
+                        ),
+                      ),
+                  ],
+                ),
               ),
             ],
           ],
         ),
       ),
     );
-  }
-
-  Color _getErrorColor(double rate) {
-    if (rate < 15) return AppColors.success;
-    if (rate < 25) return Colors.orange;
-    return AppColors.error;
   }
 }

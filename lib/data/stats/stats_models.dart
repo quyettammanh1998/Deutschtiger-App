@@ -3,103 +3,76 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'stats_models.freezed.dart';
 part 'stats_models.g.dart';
 
-/// Error pattern analysis
+/// Tổng lượt ôn FSRS + số từ đã học (reps > 0). `GET /user/review-stats`.
+/// Streak/level/XP hôm nay KHÔNG nằm ở đây — dùng `dashboardProvider`
+/// (đã có sẵn qua `GET /user/dashboard-init`).
 @freezed
-abstract class ErrorPattern with _$ErrorPattern {
-  const factory ErrorPattern({
-    required String id,
-    required String odlId,
-    required String grammarCategory,
-    required String grammarCategoryVi,
-    required int errorCount,
-    required int totalAttempts,
-    @Default(0.0) double errorRate,
-    @Default(<String>[]) List<String> exampleErrors,
-    @Default(<String>[]) List<String> suggestions,
-    DateTime? lastOccurredAt,
-  }) = _ErrorPattern;
+abstract class ReviewStats with _$ReviewStats {
+  const factory ReviewStats({
+    @JsonKey(name: 'total_reviews') @Default(0) int totalReviews,
+    @JsonKey(name: 'words_learned') @Default(0) int wordsLearned,
+  }) = _ReviewStats;
 
-  factory ErrorPattern.fromJson(Map<String, dynamic> json) =>
-      _$ErrorPatternFromJson(json);
+  factory ReviewStats.fromJson(Map<String, dynamic> json) =>
+      _$ReviewStatsFromJson(json);
 }
 
-/// SRS detailed stats
+/// Một điểm XP theo ngày cho biểu đồ tuần. `GET /user/xp-daily-log?days=`.
 @freezed
-abstract class SRSStats with _$SRSStats {
-  const factory SRSStats({
-    required String odlId,
-    @Default(0) int totalReviews,
-    @Default(0) int totalCorrect,
-    @Default(0) int totalIncorrect,
-    @Default(0.0) double retentionRate,
-    @Default(0) int currentStreak,
-    @Default(0) int longestStreak,
-    @Default(0) int totalActiveDays,
-    @Default(0) int cardsLearned,
-    @Default(0) int cardsMature,
-    @Default(0) int cardsYoung,
-    @Default(0) int cardsRelearning,
-    @Default(<String, int>{}) Map<String, int> reviewsByDay,
-    @Default(<String, double>{}) Map<String, double> retentionByDay,
-    @Default(<String, int>{}) Map<String, int> intervalDistribution,
-  }) = _SRSStats;
+abstract class XpDailyLogEntry with _$XpDailyLogEntry {
+  const factory XpDailyLogEntry({
+    @JsonKey(name: 'log_date') required DateTime logDate,
+    @JsonKey(name: 'xp_earned') @Default(0) int xpEarned,
+  }) = _XpDailyLogEntry;
 
-  factory SRSStats.fromJson(Map<String, dynamic> json) =>
-      _$SRSStatsFromJson(json);
+  factory XpDailyLogEntry.fromJson(Map<String, dynamic> json) =>
+      _$XpDailyLogEntryFromJson(json);
 }
 
-/// Near achievement
+/// Phân bố độ nhớ FSRS (mới/đang học/đang nhớ/thuộc lòng). `GET /user/srs/mastery`.
 @freezed
-abstract class NearAchievement with _$NearAchievement {
-  const factory NearAchievement({
-    required String achievementId,
-    required String name,
-    required String nameVi,
-    required String description,
-    required String descriptionVi,
-    @Default('') String icon,
-    @Default(0.0) double progress,
-    @Default(0) int currentValue,
-    @Default(0) int targetValue,
-    @Default(0) int xpReward,
-  }) = _NearAchievement;
+abstract class MasterySummary with _$MasterySummary {
+  const factory MasterySummary({
+    @JsonKey(name: 'new') @Default(0) int newCount,
+    @Default(0) int learning,
+    @Default(0) int young,
+    @Default(0) int mature,
+    @Default(0) int total,
+  }) = _MasterySummary;
 
-  factory NearAchievement.fromJson(Map<String, dynamic> json) =>
-      _$NearAchievementFromJson(json);
+  factory MasterySummary.fromJson(Map<String, dynamic> json) =>
+      _$MasterySummaryFromJson(json);
 }
 
-/// Learning streak info
+/// Một ngày ôn tập từ cron `srs_daily_stats` (rỗng cho tới lần chạy đầu tiên).
+/// `GET /user/srs/stats/daily?days=`.
 @freezed
-abstract class StreakInfo with _$StreakInfo {
-  const factory StreakInfo({
-    required String odlId,
-    @Default(0) int currentStreak,
-    @Default(0) int longestStreak,
-    @Default(0) int totalActiveDays,
-    @Default(0) int weeklyGoal,
-    @Default(0) int weeklyProgress,
-    @Default(<DateTime>[]) List<DateTime> activeDays,
-    DateTime? lastActiveAt,
-  }) = _StreakInfo;
+abstract class SrsDailyStat with _$SrsDailyStat {
+  const factory SrsDailyStat({
+    required String date,
+    @JsonKey(name: 'reviews_count') @Default(0) int reviewsCount,
+    @JsonKey(name: 'retention_rate') double? retentionRate,
+    @Default(0) int lapses,
+    @JsonKey(name: 'new_cards_added') @Default(0) int newCardsAdded,
+  }) = _SrsDailyStat;
 
-  factory StreakInfo.fromJson(Map<String, dynamic> json) =>
-      _$StreakInfoFromJson(json);
+  factory SrsDailyStat.fromJson(Map<String, dynamic> json) =>
+      _$SrsDailyStatFromJson(json);
 }
 
-/// Time spent statistics
+/// Tổng hợp lỗi ngữ pháp theo loại, gộp từ nhiều nguồn (viết/nói/sentence
+/// builder). `GET /user/error-patterns/summary`.
 @freezed
-abstract class TimeStats with _$TimeStats {
-  const factory TimeStats({
-    required String odlId,
-    @Default(0) int totalMinutes,
-    @Default(0) int todayMinutes,
-    @Default(0) int weekMinutes,
-    @Default(0) int monthMinutes,
-    @Default(<String, int>{}) Map<String, int> minutesByFeature,
-    @Default(<String, int>{}) Map<String, int> minutesByDay,
-    @Default(0) double averageMinutesPerDay,
-  }) = _TimeStats;
+abstract class ErrorPatternSummary with _$ErrorPatternSummary {
+  const factory ErrorPatternSummary({
+    @JsonKey(name: 'error_type') required String errorType,
+    @JsonKey(name: 'total_count') @Default(0) int totalCount,
+    @JsonKey(name: 'last_seen') DateTime? lastSeen,
+    @JsonKey(name: 'example_original') String? exampleOriginal,
+    @JsonKey(name: 'example_corrected') String? exampleCorrected,
+    @Default(<String>[]) List<String> sources,
+  }) = _ErrorPatternSummary;
 
-  factory TimeStats.fromJson(Map<String, dynamic> json) =>
-      _$TimeStatsFromJson(json);
+  factory ErrorPatternSummary.fromJson(Map<String, dynamic> json) =>
+      _$ErrorPatternSummaryFromJson(json);
 }
