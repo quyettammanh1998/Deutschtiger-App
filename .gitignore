@@ -50,3 +50,6 @@ app.*.map.json
 # Claude harness internal
 .claude/
 ios/Runner/GoogleService-Info.plist
+
+# Local reference checkouts (backend + web frontend), not part of this repo
+thamkhao/
