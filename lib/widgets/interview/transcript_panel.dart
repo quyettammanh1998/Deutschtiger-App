@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/theme/app_colors.dart';
 import 'package:deutschtiger/data/interview/transcript_models.dart';
 import 'package:deutschtiger/view_models/interview/transcript_provider.dart';
+import 'package:deutschtiger/shared/widgets/word_lookup_sheet.dart';
 
 /// Panel hien thi transcript cua video YouTube.
 /// Hien transcript voi tap-to-seek functionality.
@@ -172,8 +173,8 @@ class _TranscriptList extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        segment.textDe,
+                      _TappableSentence(
+                        text: segment.textDe,
                         style: TextStyle(
                           fontSize: 13,
                           fontWeight: isActive ? FontWeight.w500 : FontWeight.normal,
@@ -199,6 +200,41 @@ class _TranscriptList extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+}
+
+/// Câu transcript với từng từ có thể bấm để tra nghĩa (word lookup), tái dùng
+/// [WordLookupSheet] hiện có (không viết dictionary lookup mới). Bấm vào
+/// khoảng trắng/dấu câu vẫn rơi qua `InkWell` cha (seek video).
+class _TappableSentence extends StatelessWidget {
+  const _TappableSentence({required this.text, required this.style});
+
+  final String text;
+  final TextStyle style;
+
+  static final _wordSplit = RegExp(r'(\s+)');
+  static final _stripPunctuation = RegExp(r'^[^\p{L}]+|[^\p{L}]+$', unicode: true);
+
+  @override
+  Widget build(BuildContext context) {
+    final tokens = text.split(_wordSplit);
+    return Wrap(
+      children: [
+        for (final token in tokens)
+          if (token.trim().isEmpty)
+            Text(token, style: style)
+          else
+            GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTap: () {
+                final word = token.replaceAll(_stripPunctuation, '');
+                if (word.isEmpty) return;
+                showWordLookupSheet(context, word: word);
+              },
+              child: Text(token, style: style),
+            ),
+      ],
     );
   }
 }

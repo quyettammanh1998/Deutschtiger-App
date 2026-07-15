@@ -55,7 +55,7 @@ class VideoNotesRepository {
   /// Xoa ghi chu cua mot video.
   /// API: DELETE /user/youtube/notes/{videoId}
   Future<void> deleteNote(String videoId) async {
-    await _apiClient.delete<Map<String, dynamic>>(
+    await _apiClient.delete<dynamic>(
       '/user/youtube/notes/$videoId',
     );
   }
