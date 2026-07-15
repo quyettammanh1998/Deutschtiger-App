@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../shared/widgets/confetti_overlay.dart';
+import '../../view_models/providers.dart';
 
 /// Modal để claim streak hàng ngày.
-class StreakClaimModal extends StatefulWidget {
+class StreakClaimModal extends ConsumerStatefulWidget {
   const StreakClaimModal({
     super.key,
     required this.open,
@@ -17,22 +20,34 @@ class StreakClaimModal extends StatefulWidget {
   final VoidCallback onClose;
   final bool alreadyClaimed;
   final int heartbeatStreak;
-  final VoidCallback? onClaimed;
+  final ValueChanged<int>? onClaimed;
 
   @override
-  State<StreakClaimModal> createState() => _StreakClaimModalState();
+  ConsumerState<StreakClaimModal> createState() => _StreakClaimModalState();
 }
 
-class _StreakClaimModalState extends State<StreakClaimModal> {
+class _StreakClaimModalState extends ConsumerState<StreakClaimModal>
+    with SingleTickerProviderStateMixin {
   late bool _claimed;
   bool _claiming = false;
   bool _notEnoughTime = false;
   int? _newStreak;
+  late final AnimationController _confettiController;
 
   @override
   void initState() {
     super.initState();
     _claimed = widget.alreadyClaimed;
+    _confettiController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1800),
+    );
+  }
+
+  @override
+  void dispose() {
+    _confettiController.dispose();
+    super.dispose();
   }
 
   @override
@@ -77,17 +92,29 @@ class _StreakClaimModalState extends State<StreakClaimModal> {
 
     setState(() => _claiming = true);
 
-    // Simulate API call
-    await Future.delayed(const Duration(milliseconds: 800));
-
-    if (mounted) {
+    try {
+      final result = await ref
+          .read(apiClientProvider)
+          .post<Map<String, dynamic>>('/user/streak/claim', body: const {});
+      if (!mounted) return;
+      final success = result['success'] as bool? ?? false;
       setState(() {
         _claiming = false;
-        _claimed = true;
-        _notEnoughTime = false;
-        _newStreak = (_newStreak ?? widget.heartbeatStreak) + 1;
+        _claimed = success;
+        _notEnoughTime = !success;
+        if (success) {
+          _newStreak =
+              (result['current_streak'] as num?)?.toInt() ??
+              widget.heartbeatStreak;
+        }
       });
-      widget.onClaimed?.call();
+      if (success) {
+        _confettiController.forward(from: 0);
+        widget.onClaimed?.call(_newStreak!);
+      }
+    } catch (_) {
+      if (!mounted) return;
+      setState(() => _claiming = false);
     }
   }
 
@@ -97,29 +124,37 @@ class _StreakClaimModalState extends State<StreakClaimModal> {
 
     final weekDays = _getWeekDays();
 
-    return GestureDetector(
-      onTap: _claimed ? widget.onClose : null,
-      child: Container(
-        color: Colors.black.withValues(alpha: 0.4),
-        child: BackdropFilter(
-          filter: ColorFilter.mode(Colors.black.withValues(alpha: 0.1), BlendMode.darken),
+    return Stack(
+      children: [
+        ModalBarrier(
+          dismissible: true,
+          onDismiss: widget.onClose,
+          color: Colors.black.withValues(alpha: 0.4),
+        ),
+        BackdropFilter(
+          filter: ColorFilter.mode(
+            Colors.black.withValues(alpha: 0.1),
+            BlendMode.darken,
+          ),
           child: Center(
-            child: GestureDetector(
-              onTap: () {}, // Prevent tap propagation
-              child: Container(
-                margin: const EdgeInsets.all(16),
-                constraints: const BoxConstraints(maxWidth: 340),
-                decoration: BoxDecoration(
-                  color: AppColors.cardBackground,
-                  borderRadius: BorderRadius.circular(24),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.2),
-                      blurRadius: 20,
-                      offset: const Offset(0, 10),
-                    ),
-                  ],
-                ),
+            child: Container(
+              margin: const EdgeInsets.all(16),
+              constraints: BoxConstraints(
+                maxWidth: 340,
+                maxHeight: MediaQuery.sizeOf(context).height * 0.9,
+              ),
+              decoration: BoxDecoration(
+                color: AppColors.cardBackground,
+                borderRadius: BorderRadius.circular(24),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.2),
+                    blurRadius: 20,
+                    offset: const Offset(0, 10),
+                  ),
+                ],
+              ),
+              child: SingleChildScrollView(
                 child: Padding(
                   padding: const EdgeInsets.all(24),
                   child: Column(
@@ -138,7 +173,11 @@ class _StreakClaimModalState extends State<StreakClaimModal> {
                               color: Colors.grey.shade300,
                               shape: BoxShape.circle,
                             ),
-                            child: const Icon(Icons.close, size: 18, color: Colors.white),
+                            child: const Icon(
+                              Icons.close,
+                              size: 18,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                       ),
@@ -177,7 +216,8 @@ class _StreakClaimModalState extends State<StreakClaimModal> {
                           children: weekDays.map((day) {
                             final isActive = day.isToday
                                 ? _claimed
-                                : day.fullDate.isBefore(DateTime.now()) && _claimed;
+                                : day.fullDate.isBefore(DateTime.now()) &&
+                                      _claimed;
                             return _DayItem(day: day, isActive: isActive);
                           }).toList(),
                         ),
@@ -207,16 +247,16 @@ class _StreakClaimModalState extends State<StreakClaimModal> {
                               _claimed
                                   ? 'Đã nhận phần thưởng!'
                                   : _notEnoughTime
-                                      ? 'Chưa đủ thời gian!'
-                                      : 'Nhận phần thưởng!',
+                                  ? 'Chưa đủ thời gian!'
+                                  : 'Nhận phần thưởng!',
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w800,
                                 color: _claimed
                                     ? AppColors.foreground
                                     : _notEnoughTime
-                                        ? Colors.amber.shade700
-                                        : AppColors.foreground,
+                                    ? Colors.amber.shade700
+                                    : AppColors.foreground,
                               ),
                             ),
                             const SizedBox(height: 4),
@@ -226,7 +266,9 @@ class _StreakClaimModalState extends State<StreakClaimModal> {
                                   : 'Bạn đã giữ được streak hôm nay. Nhận ngay nhé.',
                               style: TextStyle(
                                 fontSize: 14,
-                                color: AppColors.foreground.withValues(alpha: 0.7),
+                                color: AppColors.foreground.withValues(
+                                  alpha: 0.7,
+                                ),
                               ),
                             ),
                             if (!_claimed) ...[
@@ -251,8 +293,9 @@ class _StreakClaimModalState extends State<StreakClaimModal> {
                         child: ElevatedButton(
                           onPressed: _claimed ? widget.onClose : _handleClaim,
                           style: ElevatedButton.styleFrom(
-                            backgroundColor:
-                                _claimed ? Colors.grey.shade400 : AppColors.primary,
+                            backgroundColor: _claimed
+                                ? Colors.grey.shade400
+                                : AppColors.primary,
                             foregroundColor: Colors.white,
                             padding: const EdgeInsets.symmetric(vertical: 16),
                             shape: RoundedRectangleBorder(
@@ -264,8 +307,8 @@ class _StreakClaimModalState extends State<StreakClaimModal> {
                             _claiming
                                 ? 'Đang nhận...'
                                 : _claimed
-                                    ? 'Đóng'
-                                    : 'Nhận ngay',
+                                ? 'Đóng'
+                                : 'Nhận ngay',
                             style: const TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
@@ -280,7 +323,10 @@ class _StreakClaimModalState extends State<StreakClaimModal> {
             ),
           ),
         ),
-      ),
+        Positioned.fill(
+          child: ConfettiOverlay(controller: _confettiController),
+        ),
+      ],
     );
   }
 }
@@ -310,16 +356,16 @@ class _DayItem extends StatelessWidget {
     return Column(
       children: [
         Container(
-          width: 40,
-          height: 40,
+          width: 28,
+          height: 28,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             border: Border.all(
               color: day.isToday
                   ? AppColors.primary
                   : isActive
-                      ? Colors.green.shade400
-                      : Colors.grey.shade300,
+                  ? Colors.green.shade400
+                  : Colors.grey.shade300,
               width: 2,
             ),
             color: isActive
@@ -330,8 +376,10 @@ class _DayItem extends StatelessWidget {
             child: isActive
                 ? Icon(
                     Icons.local_fire_department,
-                    size: 18,
-                    color: day.isToday ? AppColors.primary : Colors.green.shade400,
+                    size: 14,
+                    color: day.isToday
+                        ? AppColors.primary
+                        : Colors.green.shade400,
                   )
                 : null,
           ),
@@ -342,9 +390,7 @@ class _DayItem extends StatelessWidget {
           style: TextStyle(
             fontSize: 10,
             fontWeight: day.isToday ? FontWeight.bold : FontWeight.w500,
-            color: day.isToday
-                ? AppColors.primary
-                : Colors.grey.shade500,
+            color: day.isToday ? AppColors.primary : Colors.grey.shade500,
           ),
         ),
         Text(

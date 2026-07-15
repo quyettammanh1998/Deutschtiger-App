@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../l10n/app_localizations.dart';
 
 /// Stats card widget - hiển thị số từ đã học, streak, thời gian học.
 class MobileStatsCard extends StatelessWidget {
@@ -12,6 +13,7 @@ class MobileStatsCard extends StatelessWidget {
     this.onlineSeconds = 0,
     this.onStreakTap,
     this.onDetailsTap,
+    this.showDetails = true,
   });
 
   final int totalWordsLearned;
@@ -20,28 +22,27 @@ class MobileStatsCard extends StatelessWidget {
   final int onlineSeconds;
   final VoidCallback? onStreakTap;
   final VoidCallback? onDetailsTap;
+  final bool showDetails;
 
-  /// Format seconds to "Xh Ym" display.
-  static String formatOnlineTime(int seconds) {
-    if (seconds < 60) return '0 phút';
+  /// Formats elapsed time with the active application locale.
+  static String formatOnlineTime(AppLocalizations l10n, int seconds) {
+    if (seconds < 60) return l10n.zeroMinutes;
     final h = seconds ~/ 3600;
     final m = (seconds % 3600) ~/ 60;
-    if (h == 0) return '$m phút';
-    if (m == 0) return '$h giờ';
-    return '${h}h ${m}m';
+    if (h == 0) return l10n.minutesShort(m);
+    if (m == 0) return l10n.hoursShort(h);
+    return l10n.hoursMinutesShort(h, m);
   }
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Container(
       decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [
-            Colors.blue.shade50,
-            Colors.white,
-          ],
+          colors: [Colors.blue.shade50, Colors.white],
         ),
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
@@ -64,7 +65,7 @@ class MobileStatsCard extends StatelessWidget {
                   child: _StatItem(
                     icon: Icons.menu_book_rounded,
                     iconColor: Colors.blue,
-                    label: 'Số từ đã học',
+                    label: l10n.wordsLearned,
                     value: totalWordsLearned.toString(),
                   ),
                 ),
@@ -73,7 +74,7 @@ class MobileStatsCard extends StatelessWidget {
                   child: _StatItem(
                     icon: Icons.search_rounded,
                     iconColor: Colors.blue,
-                    label: 'Số lượt tra',
+                    label: l10n.lookupCount,
                     value: totalLookups.toString(),
                   ),
                 ),
@@ -86,141 +87,161 @@ class MobileStatsCard extends StatelessWidget {
             Row(
               children: [
                 Expanded(
-                  child: GestureDetector(
+                  child: Semantics(
+                    button: onStreakTap != null,
+                    label: '${l10n.streak}: ${l10n.streakDays(streak)}',
                     onTap: onStreakTap,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [
-                            Colors.orange.shade50,
-                            Colors.amber.shade50,
-                          ],
-                        ),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Row(
-                        children: [
-                          const Text('🔥', style: TextStyle(fontSize: 18)),
-                          const SizedBox(width: 8),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Streak',
-                                  style: TextStyle(
-                                    fontSize: 10,
-                                    color: AppColors.mutedForeground,
-                                  ),
-                                ),
-                                Row(
+                    child: ExcludeSemantics(
+                      child: GestureDetector(
+                        onTap: onStreakTap,
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 10,
+                          ),
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [
+                                Colors.orange.shade50,
+                                Colors.amber.shade50,
+                              ],
+                            ),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Row(
+                            children: [
+                              const Text('🔥', style: TextStyle(fontSize: 18)),
+                              const SizedBox(width: 8),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      '$streak',
-                                      style: const TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.orange,
+                                      l10n.streak,
+                                      style: TextStyle(
+                                        fontSize: 10,
+                                        color: AppColors.mutedForeground,
                                       ),
                                     ),
-                                    Text(
-                                      ' ngày',
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.orange.shade400,
-                                      ),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          l10n.streakDays(streak),
+                                          style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.orange.shade400,
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ],
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
-                        ],
+                        ),
                       ),
                     ),
                   ),
                 ),
                 const SizedBox(width: 8),
                 Expanded(
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [
-                          Colors.green.shade50,
-                          Colors.teal.shade50,
-                        ],
-                      ),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Row(
-                      children: [
-                        Icon(Icons.access_time, color: Colors.green.shade400, size: 18),
-                        const SizedBox(width: 8),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Hôm nay',
-                                style: TextStyle(
-                                  fontSize: 10,
-                                  color: AppColors.mutedForeground,
-                                ),
-                              ),
-                              Text(
-                                formatOnlineTime(onlineSeconds),
-                                style: const TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.green,
-                                ),
-                              ),
-                            ],
-                          ),
+                  child: Semantics(
+                    label:
+                        '${l10n.today}: ${formatOnlineTime(l10n, onlineSeconds)}',
+                    child: ExcludeSemantics(
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 10,
                         ),
-                      ],
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [Colors.green.shade50, Colors.teal.shade50],
+                          ),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.access_time,
+                              color: Colors.green.shade400,
+                              size: 18,
+                            ),
+                            const SizedBox(width: 8),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    l10n.today,
+                                    style: TextStyle(
+                                      fontSize: 10,
+                                      color: AppColors.mutedForeground,
+                                    ),
+                                  ),
+                                  Text(
+                                    formatOnlineTime(l10n, onlineSeconds),
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.green,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
                 ),
               ],
             ),
 
-            const SizedBox(height: 12),
-
-            // View details button
-            GestureDetector(
-              onTap: onDetailsTap,
-              child: Container(
-                width: double.infinity,
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey.shade300),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Xem chi tiết',
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.foreground,
+            if (showDetails) ...[
+              const SizedBox(height: 12),
+              // View details button
+              Semantics(
+                button: onDetailsTap != null,
+                label: l10n.viewDetails,
+                onTap: onDetailsTap,
+                child: ExcludeSemantics(
+                  child: GestureDetector(
+                    onTap: onDetailsTap,
+                    child: Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.grey.shade300),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            l10n.viewDetails,
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              color: AppColors.foreground,
+                            ),
+                          ),
+                          const SizedBox(width: 4),
+                          Icon(
+                            Icons.arrow_forward_ios,
+                            size: 14,
+                            color: AppColors.mutedForeground,
+                          ),
+                        ],
                       ),
                     ),
-                    const SizedBox(width: 4),
-                    Icon(
-                      Icons.arrow_forward_ios,
-                      size: 14,
-                      color: AppColors.mutedForeground,
-                    ),
-                  ],
+                  ),
                 ),
               ),
-            ),
+            ],
           ],
         ),
       ),
@@ -243,40 +264,45 @@ class _StatItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Container(
-          padding: const EdgeInsets.all(8),
-          decoration: BoxDecoration(
-            color: iconColor.withValues(alpha: 0.1),
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: Icon(icon, size: 20, color: iconColor),
-        ),
-        const SizedBox(width: 12),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                label,
-                style: TextStyle(
-                  fontSize: 11,
-                  color: AppColors.mutedForeground,
-                ),
+    return Semantics(
+      label: '$label: $value',
+      child: ExcludeSemantics(
+        child: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: iconColor.withValues(alpha: 0.1),
+                borderRadius: BorderRadius.circular(8),
               ),
-              Text(
-                value,
-                style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.foreground,
-                ),
+              child: Icon(icon, size: 20, color: iconColor),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    label,
+                    style: TextStyle(
+                      fontSize: 11,
+                      color: AppColors.mutedForeground,
+                    ),
+                  ),
+                  Text(
+                    value,
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.foreground,
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 }

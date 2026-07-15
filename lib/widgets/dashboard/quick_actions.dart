@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/theme/app_colors.dart';
+import '../../core/design_tokens.dart';
+import '../../l10n/app_localizations.dart';
 
 /// Quick action item model.
 class QuickActionItem {
@@ -23,68 +24,64 @@ class QuickActionItem {
 
 /// Quick actions grid widget - sync từ web.
 class QuickActions extends StatelessWidget {
-  const QuickActions({super.key, this.onMoreTap});
+  const QuickActions({
+    super.key,
+    required this.onLearnTap,
+    required this.onReviewTap,
+    required this.onExamTap,
+    this.onAiTap,
+    this.showAi = true,
+  });
 
-  final VoidCallback? onMoreTap;
+  final VoidCallback onLearnTap;
+  final VoidCallback onReviewTap;
+  final VoidCallback onExamTap;
+  final VoidCallback? onAiTap;
+  final bool showAi;
 
   /// Default quick actions.
   static List<QuickActionItem> defaultActions({
-    VoidCallback? onVocabTap,
-    VoidCallback? onGrammarTap,
-    VoidCallback? onFlashcardTap,
-    VoidCallback? onQuizTap,
-    VoidCallback? onPronunciationTap,
-    VoidCallback? onMoreTap,
+    required AppLocalizations l10n,
+    VoidCallback? onLearnTap,
+    VoidCallback? onReviewTap,
+    VoidCallback? onExamTap,
+    VoidCallback? onAiTap,
+    bool showAi = true,
   }) {
     return [
       QuickActionItem(
-        title: 'Từ vựng',
-        subtitle: 'Học từ mới',
+        title: l10n.learn,
+        subtitle: l10n.todaySession,
         icon: Icons.menu_book_rounded,
-        iconColor: AppColors.tigerOrange,
-        bgColor: AppColors.tigerOrange.withValues(alpha: 0.1),
-        onTap: onVocabTap ?? () {},
+        iconColor: DesignTokens.tigerOrange,
+        bgColor: DesignTokens.orange100,
+        onTap: onLearnTap ?? () {},
       ),
       QuickActionItem(
-        title: 'Ngữ pháp',
-        subtitle: 'Quy tắc',
-        icon: Icons.school_outlined,
-        iconColor: Colors.purple,
-        bgColor: Colors.purple.withValues(alpha: 0.1),
-        onTap: onGrammarTap ?? () {},
-      ),
-      QuickActionItem(
-        title: 'Flashcard',
-        subtitle: 'Ôn tập',
+        title: l10n.dailyReview,
+        subtitle: l10n.dueWords,
         icon: Icons.style_outlined,
-        iconColor: Colors.teal,
-        bgColor: Colors.teal.withValues(alpha: 0.1),
-        onTap: onFlashcardTap ?? () {},
+        iconColor: DesignTokens.success,
+        bgColor: DesignTokens.accent,
+        onTap: onReviewTap ?? () {},
       ),
       QuickActionItem(
-        title: 'Quiz',
-        subtitle: 'Kiểm tra',
-        icon: Icons.quiz_outlined,
-        iconColor: Colors.blue,
-        bgColor: Colors.blue.withValues(alpha: 0.1),
-        onTap: onQuizTap ?? () {},
+        title: l10n.exam,
+        subtitle: l10n.examPractice,
+        icon: Icons.assignment_outlined,
+        iconColor: DesignTokens.info,
+        bgColor: DesignTokens.muted,
+        onTap: onExamTap ?? () {},
       ),
-      QuickActionItem(
-        title: 'Phát âm',
-        subtitle: 'Luyện nói',
-        icon: Icons.mic_outlined,
-        iconColor: Colors.pink,
-        bgColor: Colors.pink.withValues(alpha: 0.1),
-        onTap: onPronunciationTap ?? () {},
-      ),
-      QuickActionItem(
-        title: 'Xem thêm',
-        subtitle: 'Nhiều hơn',
-        icon: Icons.more_horiz,
-        iconColor: Colors.teal,
-        bgColor: Colors.teal.withValues(alpha: 0.1),
-        onTap: onMoreTap ?? () {},
-      ),
+      if (showAi)
+        QuickActionItem(
+          title: l10n.ai,
+          subtitle: l10n.aiChat,
+          icon: Icons.auto_awesome_outlined,
+          iconColor: DesignTokens.rose600,
+          bgColor: DesignTokens.orange50,
+          onTap: onAiTap ?? () {},
+        ),
     ];
   }
 
@@ -133,7 +130,15 @@ class QuickActions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final actions = defaultActions(onMoreTap: onMoreTap);
+    final l10n = AppLocalizations.of(context);
+    final actions = defaultActions(
+      l10n: l10n,
+      onLearnTap: onLearnTap,
+      onReviewTap: onReviewTap,
+      onExamTap: onExamTap,
+      onAiTap: onAiTap,
+      showAi: showAi,
+    );
 
     return Container(
       padding: const EdgeInsets.all(12),
@@ -141,28 +146,28 @@ class QuickActions extends StatelessWidget {
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [
-            Colors.pink.shade50.withValues(alpha: 0.8),
-            Colors.pink.shade100.withValues(alpha: 0.6),
-          ],
+          colors: [DesignTokens.orange50, DesignTokens.orange100],
         ),
         borderRadius: BorderRadius.circular(16),
       ),
       child: Column(
         children: [
-          GridView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 4,
-              mainAxisSpacing: 8,
-              crossAxisSpacing: 8,
-              childAspectRatio: 0.85,
-            ),
-            itemCount: actions.length,
-            itemBuilder: (context, index) {
-              final action = actions[index];
-              return _QuickActionButton(item: action);
+          LayoutBuilder(
+            builder: (context, constraints) {
+              const spacing = 8.0;
+              final itemWidth = (constraints.maxWidth - spacing) / 2;
+
+              return Wrap(
+                spacing: spacing,
+                runSpacing: spacing,
+                children: [
+                  for (final action in actions)
+                    SizedBox(
+                      width: itemWidth,
+                      child: _QuickActionButton(item: action),
+                    ),
+                ],
+              );
             },
           ),
         ],
@@ -178,54 +183,62 @@ class _QuickActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return Semantics(
+      button: true,
+      label: '${item.title}: ${item.subtitle}',
       onTap: item.onTap,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            width: 48,
-            height: 48,
-            decoration: BoxDecoration(
-              color: item.bgColor,
-              borderRadius: BorderRadius.circular(14),
-              boxShadow: [
-                BoxShadow(
-                  color: item.iconColor.withValues(alpha: 0.1),
-                  blurRadius: 4,
-                  offset: const Offset(0, 2),
+      child: ExcludeSemantics(
+        child: InkWell(
+          onTap: item.onTap,
+          borderRadius: BorderRadius.circular(14),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 12),
+            child: Row(
+              children: [
+                Container(
+                  width: 48,
+                  height: 48,
+                  decoration: BoxDecoration(
+                    color: item.bgColor,
+                    borderRadius: BorderRadius.circular(14),
+                    boxShadow: [
+                      BoxShadow(
+                        color: item.iconColor.withValues(alpha: 0.1),
+                        blurRadius: 4,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  child: Icon(item.icon, color: item.iconColor, size: 24),
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        item.title,
+                        style: const TextStyle(
+                          fontSize: 11,
+                          fontWeight: FontWeight.w600,
+                          color: DesignTokens.foreground,
+                        ),
+                      ),
+                      Text(
+                        item.subtitle,
+                        style: TextStyle(
+                          fontSize: 9,
+                          color: DesignTokens.mutedForeground,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
-            child: Icon(
-              item.icon,
-              color: item.iconColor,
-              size: 24,
-            ),
           ),
-          const SizedBox(height: 6),
-          Text(
-            item.title,
-            style: const TextStyle(
-              fontSize: 11,
-              fontWeight: FontWeight.w600,
-              color: AppColors.foreground,
-            ),
-            textAlign: TextAlign.center,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-          Text(
-            item.subtitle,
-            style: TextStyle(
-              fontSize: 9,
-              color: AppColors.mutedForeground,
-            ),
-            textAlign: TextAlign.center,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-        ],
+        ),
       ),
     );
   }

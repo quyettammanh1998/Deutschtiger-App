@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../l10n/app_localizations.dart';
 
 /// Mobile dashboard header với greeting theo thời gian, streak, XP.
 class MobileDashboardHeader extends StatelessWidget {
@@ -15,6 +16,9 @@ class MobileDashboardHeader extends StatelessWidget {
     this.onSettingsTap,
     this.onMessagesTap,
     this.onProfileTap,
+    this.onNotificationsTap,
+    this.showMessages = true,
+    this.unreadNotificationCount = 0,
   });
 
   final String displayName;
@@ -26,19 +30,25 @@ class MobileDashboardHeader extends StatelessWidget {
   final VoidCallback? onSettingsTap;
   final VoidCallback? onMessagesTap;
   final VoidCallback? onProfileTap;
+  final VoidCallback? onNotificationsTap;
+  final bool showMessages;
+
+  /// `GET /user/unread-counts` — badge shown on the bell icon.
+  final int unreadNotificationCount;
 
   /// Greeting theo giờ trong ngày.
-  static String timeGreeting() {
-    final h = DateTime.now().hour;
-    if (h < 11) return 'Chào buổi sáng';
-    if (h < 14) return 'Chào buổi trưa';
-    if (h < 18) return 'Chào buổi chiều';
-    return 'Chào buổi tối';
+  static String timeGreeting(AppLocalizations l10n, {DateTime? now}) {
+    final hour = (now ?? DateTime.now()).hour;
+    if (hour < 11) return l10n.goodMorning;
+    if (hour < 14) return l10n.goodNoon;
+    if (hour < 18) return l10n.goodAfternoon;
+    return l10n.goodEvening;
   }
 
   @override
   Widget build(BuildContext context) {
-    final greetingLabel = timeGreeting();
+    final l10n = AppLocalizations.of(context);
+    final greetingLabel = timeGreeting(l10n);
     final showXp = dailyXp != null && dailyGoal != null && (dailyGoal ?? 0) > 0;
     final xpReached = showXp && (dailyXp ?? 0) >= (dailyGoal ?? 0);
 
@@ -65,9 +75,20 @@ class MobileDashboardHeader extends StatelessWidget {
               Row(
                 children: [
                   // Avatar
-                  GestureDetector(
+                  Semantics(
+                    button: onProfileTap != null,
+                    label: l10n.profile,
                     onTap: onProfileTap,
-                    child: _buildAvatar(),
+                    child: ExcludeSemantics(
+                      child: GestureDetector(
+                        onTap: onProfileTap,
+                        child: SizedBox(
+                          width: 48,
+                          height: 48,
+                          child: Center(child: _buildAvatar()),
+                        ),
+                      ),
+                    ),
                   ),
                   const SizedBox(width: 12),
                   // Greeting
@@ -99,15 +120,24 @@ class MobileDashboardHeader extends StatelessWidget {
                   Row(
                     children: [
                       _buildIconButton(
-                        icon: Icons.chat_bubble_outline_rounded,
-                        onTap: onMessagesTap ?? () {},
-                        showBadge: false,
+                        icon: Icons.notifications_outlined,
+                        semanticLabel: l10n.notifications,
+                        onTap: onNotificationsTap ?? () {},
+                        badgeCount: unreadNotificationCount,
                       ),
                       const SizedBox(width: 8),
+                      if (showMessages) ...[
+                        _buildIconButton(
+                          icon: Icons.chat_bubble_outline_rounded,
+                          semanticLabel: l10n.messages,
+                          onTap: onMessagesTap ?? () {},
+                        ),
+                        const SizedBox(width: 8),
+                      ],
                       _buildIconButton(
                         icon: Icons.settings_outlined,
+                        semanticLabel: l10n.settings,
                         onTap: onSettingsTap ?? () {},
-                        showBadge: false,
                       ),
                     ],
                   ),
@@ -131,9 +161,7 @@ class MobileDashboardHeader extends StatelessWidget {
                     if (showXp && streak > 0) const SizedBox(width: 8),
                     // Streak pill
                     if (streak > 0)
-                      Expanded(
-                        child: _StreakPill(streak: streak),
-                      ),
+                      Expanded(child: _StreakPill(streak: streak)),
                   ],
                 ),
               ],
@@ -151,7 +179,10 @@ class MobileDashboardHeader extends StatelessWidget {
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         color: Colors.white.withValues(alpha: 0.2),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.5), width: 2),
+        border: Border.all(
+          color: Colors.white.withValues(alpha: 0.5),
+          width: 2,
+        ),
       ),
       child: avatarUrl != null
           ? ClipOval(
@@ -180,39 +211,64 @@ class MobileDashboardHeader extends StatelessWidget {
 
   Widget _buildIconButton({
     required IconData icon,
+    required String semanticLabel,
     required VoidCallback onTap,
-    bool showBadge = false,
+    int badgeCount = 0,
   }) {
-    return GestureDetector(
+    final showBadge = badgeCount > 0;
+    final badgeText = badgeCount > 9 ? '9+' : '$badgeCount';
+    return Semantics(
+      button: true,
+      label: semanticLabel,
       onTap: onTap,
-      child: Container(
-        width: 36,
-        height: 36,
-        decoration: BoxDecoration(
-          color: Colors.white.withValues(alpha: 0.15),
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            Icon(icon, color: Colors.white, size: 20),
-            if (showBadge)
-              Positioned(
-                right: -2,
-                top: -2,
-                child: Container(
-                  padding: const EdgeInsets.all(4),
-                  decoration: const BoxDecoration(
-                    color: Colors.red,
-                    shape: BoxShape.circle,
-                  ),
-                  child: const Text(
-                    '1',
-                    style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Colors.white),
-                  ),
+      child: ExcludeSemantics(
+        child: GestureDetector(
+          onTap: onTap,
+          child: SizedBox(
+            width: 48,
+            height: 48,
+            child: Center(
+              child: Container(
+                width: 36,
+                height: 36,
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.15),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Icon(icon, color: Colors.white, size: 20),
+                    if (showBadge)
+                      Positioned(
+                        right: -2,
+                        top: -2,
+                        child: Container(
+                          padding: const EdgeInsets.all(4),
+                          decoration: const BoxDecoration(
+                            color: Colors.red,
+                            shape: BoxShape.circle,
+                          ),
+                          constraints: const BoxConstraints(
+                            minWidth: 16,
+                            minHeight: 16,
+                          ),
+                          child: Text(
+                            badgeText,
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                              fontSize: 10,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                  ],
                 ),
               ),
-          ],
+            ),
+          ),
         ),
       ),
     );
@@ -221,7 +277,11 @@ class MobileDashboardHeader extends StatelessWidget {
 
 /// XP pill widget.
 class _XpPill extends StatelessWidget {
-  const _XpPill({required this.xp, required this.goal, required this.xpReached});
+  const _XpPill({
+    required this.xp,
+    required this.goal,
+    required this.xpReached,
+  });
 
   final int xp;
   final int goal;
@@ -229,6 +289,7 @@ class _XpPill extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final pct = goal > 0 ? (xp / goal).clamp(0.0, 1.0) : 0.0;
 
     return Container(
@@ -268,7 +329,7 @@ class _XpPill extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'XP hôm nay',
+                  l10n.todayXp,
                   style: TextStyle(
                     fontSize: 10,
                     fontWeight: FontWeight.w500,
@@ -297,7 +358,10 @@ class _XpPill extends StatelessWidget {
                     if (xpReached)
                       const Text(
                         ' ✓',
-                        style: TextStyle(fontSize: 14, color: Colors.greenAccent),
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.greenAccent,
+                        ),
                       ),
                   ],
                 ),
@@ -318,6 +382,7 @@ class _StreakPill extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
       decoration: BoxDecoration(
@@ -333,7 +398,7 @@ class _StreakPill extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Streak',
+                  l10n.streak,
                   style: TextStyle(
                     fontSize: 10,
                     fontWeight: FontWeight.w500,
@@ -342,7 +407,7 @@ class _StreakPill extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  '$streak ngày',
+                  l10n.streakDays(streak),
                   style: const TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.bold,

@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$DashboardData {
 
- Gamification? get gamification; List<Mission> get missions;@JsonKey(name: 'due_review_count') int get dueReviewCount;@JsonKey(name: 'words_learned') int get wordsLearned;@JsonKey(name: 'online_time_today') int get onlineTimeToday;
+ DashboardProfile? get profile; Gamification? get gamification; List<Mission> get missions;@JsonKey(name: 'due_review_count') int get dueReviewCount;@JsonKey(name: 'due_backlog_total') int get dueBacklogTotal;@JsonKey(name: 'reviews_today') int get reviewsToday;@JsonKey(name: 'words_learned') int get wordsLearned;@JsonKey(name: 'lookup_count') int get lookupCount;@JsonKey(name: 'flashcard_deck_count') int get flashcardDeckCount;@JsonKey(name: 'online_time_today') int get onlineTimeToday;
 /// Create a copy of DashboardData
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $DashboardDataCopyWith<DashboardData> get copyWith => _$DashboardDataCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DashboardData&&(identical(other.gamification, gamification) || other.gamification == gamification)&&const DeepCollectionEquality().equals(other.missions, missions)&&(identical(other.dueReviewCount, dueReviewCount) || other.dueReviewCount == dueReviewCount)&&(identical(other.wordsLearned, wordsLearned) || other.wordsLearned == wordsLearned)&&(identical(other.onlineTimeToday, onlineTimeToday) || other.onlineTimeToday == onlineTimeToday));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DashboardData&&(identical(other.profile, profile) || other.profile == profile)&&(identical(other.gamification, gamification) || other.gamification == gamification)&&const DeepCollectionEquality().equals(other.missions, missions)&&(identical(other.dueReviewCount, dueReviewCount) || other.dueReviewCount == dueReviewCount)&&(identical(other.dueBacklogTotal, dueBacklogTotal) || other.dueBacklogTotal == dueBacklogTotal)&&(identical(other.reviewsToday, reviewsToday) || other.reviewsToday == reviewsToday)&&(identical(other.wordsLearned, wordsLearned) || other.wordsLearned == wordsLearned)&&(identical(other.lookupCount, lookupCount) || other.lookupCount == lookupCount)&&(identical(other.flashcardDeckCount, flashcardDeckCount) || other.flashcardDeckCount == flashcardDeckCount)&&(identical(other.onlineTimeToday, onlineTimeToday) || other.onlineTimeToday == onlineTimeToday));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,gamification,const DeepCollectionEquality().hash(missions),dueReviewCount,wordsLearned,onlineTimeToday);
+int get hashCode => Object.hash(runtimeType,profile,gamification,const DeepCollectionEquality().hash(missions),dueReviewCount,dueBacklogTotal,reviewsToday,wordsLearned,lookupCount,flashcardDeckCount,onlineTimeToday);
 
 @override
 String toString() {
-  return 'DashboardData(gamification: $gamification, missions: $missions, dueReviewCount: $dueReviewCount, wordsLearned: $wordsLearned, onlineTimeToday: $onlineTimeToday)';
+  return 'DashboardData(profile: $profile, gamification: $gamification, missions: $missions, dueReviewCount: $dueReviewCount, dueBacklogTotal: $dueBacklogTotal, reviewsToday: $reviewsToday, wordsLearned: $wordsLearned, lookupCount: $lookupCount, flashcardDeckCount: $flashcardDeckCount, onlineTimeToday: $onlineTimeToday)';
 }
 
 
@@ -48,11 +48,11 @@ abstract mixin class $DashboardDataCopyWith<$Res>  {
   factory $DashboardDataCopyWith(DashboardData value, $Res Function(DashboardData) _then) = _$DashboardDataCopyWithImpl;
 @useResult
 $Res call({
- Gamification? gamification, List<Mission> missions,@JsonKey(name: 'due_review_count') int dueReviewCount,@JsonKey(name: 'words_learned') int wordsLearned,@JsonKey(name: 'online_time_today') int onlineTimeToday
+ DashboardProfile? profile, Gamification? gamification, List<Mission> missions,@JsonKey(name: 'due_review_count') int dueReviewCount,@JsonKey(name: 'due_backlog_total') int dueBacklogTotal,@JsonKey(name: 'reviews_today') int reviewsToday,@JsonKey(name: 'words_learned') int wordsLearned,@JsonKey(name: 'lookup_count') int lookupCount,@JsonKey(name: 'flashcard_deck_count') int flashcardDeckCount,@JsonKey(name: 'online_time_today') int onlineTimeToday
 });
 
 
-$GamificationCopyWith<$Res>? get gamification;
+$DashboardProfileCopyWith<$Res>? get profile;$GamificationCopyWith<$Res>? get gamification;
 
 }
 /// @nodoc
@@ -65,17 +65,34 @@ class _$DashboardDataCopyWithImpl<$Res>
 
 /// Create a copy of DashboardData
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? gamification = freezed,Object? missions = null,Object? dueReviewCount = null,Object? wordsLearned = null,Object? onlineTimeToday = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? profile = freezed,Object? gamification = freezed,Object? missions = null,Object? dueReviewCount = null,Object? dueBacklogTotal = null,Object? reviewsToday = null,Object? wordsLearned = null,Object? lookupCount = null,Object? flashcardDeckCount = null,Object? onlineTimeToday = null,}) {
   return _then(_self.copyWith(
-gamification: freezed == gamification ? _self.gamification : gamification // ignore: cast_nullable_to_non_nullable
+profile: freezed == profile ? _self.profile : profile // ignore: cast_nullable_to_non_nullable
+as DashboardProfile?,gamification: freezed == gamification ? _self.gamification : gamification // ignore: cast_nullable_to_non_nullable
 as Gamification?,missions: null == missions ? _self.missions : missions // ignore: cast_nullable_to_non_nullable
 as List<Mission>,dueReviewCount: null == dueReviewCount ? _self.dueReviewCount : dueReviewCount // ignore: cast_nullable_to_non_nullable
+as int,dueBacklogTotal: null == dueBacklogTotal ? _self.dueBacklogTotal : dueBacklogTotal // ignore: cast_nullable_to_non_nullable
+as int,reviewsToday: null == reviewsToday ? _self.reviewsToday : reviewsToday // ignore: cast_nullable_to_non_nullable
 as int,wordsLearned: null == wordsLearned ? _self.wordsLearned : wordsLearned // ignore: cast_nullable_to_non_nullable
+as int,lookupCount: null == lookupCount ? _self.lookupCount : lookupCount // ignore: cast_nullable_to_non_nullable
+as int,flashcardDeckCount: null == flashcardDeckCount ? _self.flashcardDeckCount : flashcardDeckCount // ignore: cast_nullable_to_non_nullable
 as int,onlineTimeToday: null == onlineTimeToday ? _self.onlineTimeToday : onlineTimeToday // ignore: cast_nullable_to_non_nullable
 as int,
   ));
 }
 /// Create a copy of DashboardData
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$DashboardProfileCopyWith<$Res>? get profile {
+    if (_self.profile == null) {
+    return null;
+  }
+
+  return $DashboardProfileCopyWith<$Res>(_self.profile!, (value) {
+    return _then(_self.copyWith(profile: value));
+  });
+}/// Create a copy of DashboardData
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
@@ -169,10 +186,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( Gamification? gamification,  List<Mission> missions, @JsonKey(name: 'due_review_count')  int dueReviewCount, @JsonKey(name: 'words_learned')  int wordsLearned, @JsonKey(name: 'online_time_today')  int onlineTimeToday)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( DashboardProfile? profile,  Gamification? gamification,  List<Mission> missions, @JsonKey(name: 'due_review_count')  int dueReviewCount, @JsonKey(name: 'due_backlog_total')  int dueBacklogTotal, @JsonKey(name: 'reviews_today')  int reviewsToday, @JsonKey(name: 'words_learned')  int wordsLearned, @JsonKey(name: 'lookup_count')  int lookupCount, @JsonKey(name: 'flashcard_deck_count')  int flashcardDeckCount, @JsonKey(name: 'online_time_today')  int onlineTimeToday)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _DashboardData() when $default != null:
-return $default(_that.gamification,_that.missions,_that.dueReviewCount,_that.wordsLearned,_that.onlineTimeToday);case _:
+return $default(_that.profile,_that.gamification,_that.missions,_that.dueReviewCount,_that.dueBacklogTotal,_that.reviewsToday,_that.wordsLearned,_that.lookupCount,_that.flashcardDeckCount,_that.onlineTimeToday);case _:
   return orElse();
 
 }
@@ -190,10 +207,10 @@ return $default(_that.gamification,_that.missions,_that.dueReviewCount,_that.wor
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( Gamification? gamification,  List<Mission> missions, @JsonKey(name: 'due_review_count')  int dueReviewCount, @JsonKey(name: 'words_learned')  int wordsLearned, @JsonKey(name: 'online_time_today')  int onlineTimeToday)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( DashboardProfile? profile,  Gamification? gamification,  List<Mission> missions, @JsonKey(name: 'due_review_count')  int dueReviewCount, @JsonKey(name: 'due_backlog_total')  int dueBacklogTotal, @JsonKey(name: 'reviews_today')  int reviewsToday, @JsonKey(name: 'words_learned')  int wordsLearned, @JsonKey(name: 'lookup_count')  int lookupCount, @JsonKey(name: 'flashcard_deck_count')  int flashcardDeckCount, @JsonKey(name: 'online_time_today')  int onlineTimeToday)  $default,) {final _that = this;
 switch (_that) {
 case _DashboardData():
-return $default(_that.gamification,_that.missions,_that.dueReviewCount,_that.wordsLearned,_that.onlineTimeToday);case _:
+return $default(_that.profile,_that.gamification,_that.missions,_that.dueReviewCount,_that.dueBacklogTotal,_that.reviewsToday,_that.wordsLearned,_that.lookupCount,_that.flashcardDeckCount,_that.onlineTimeToday);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -210,10 +227,10 @@ return $default(_that.gamification,_that.missions,_that.dueReviewCount,_that.wor
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( Gamification? gamification,  List<Mission> missions, @JsonKey(name: 'due_review_count')  int dueReviewCount, @JsonKey(name: 'words_learned')  int wordsLearned, @JsonKey(name: 'online_time_today')  int onlineTimeToday)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( DashboardProfile? profile,  Gamification? gamification,  List<Mission> missions, @JsonKey(name: 'due_review_count')  int dueReviewCount, @JsonKey(name: 'due_backlog_total')  int dueBacklogTotal, @JsonKey(name: 'reviews_today')  int reviewsToday, @JsonKey(name: 'words_learned')  int wordsLearned, @JsonKey(name: 'lookup_count')  int lookupCount, @JsonKey(name: 'flashcard_deck_count')  int flashcardDeckCount, @JsonKey(name: 'online_time_today')  int onlineTimeToday)?  $default,) {final _that = this;
 switch (_that) {
 case _DashboardData() when $default != null:
-return $default(_that.gamification,_that.missions,_that.dueReviewCount,_that.wordsLearned,_that.onlineTimeToday);case _:
+return $default(_that.profile,_that.gamification,_that.missions,_that.dueReviewCount,_that.dueBacklogTotal,_that.reviewsToday,_that.wordsLearned,_that.lookupCount,_that.flashcardDeckCount,_that.onlineTimeToday);case _:
   return null;
 
 }
@@ -225,9 +242,10 @@ return $default(_that.gamification,_that.missions,_that.dueReviewCount,_that.wor
 @JsonSerializable()
 
 class _DashboardData implements DashboardData {
-  const _DashboardData({this.gamification, final  List<Mission> missions = const <Mission>[], @JsonKey(name: 'due_review_count') this.dueReviewCount = 0, @JsonKey(name: 'words_learned') this.wordsLearned = 0, @JsonKey(name: 'online_time_today') this.onlineTimeToday = 0}): _missions = missions;
+  const _DashboardData({this.profile, this.gamification, final  List<Mission> missions = const <Mission>[], @JsonKey(name: 'due_review_count') this.dueReviewCount = 0, @JsonKey(name: 'due_backlog_total') this.dueBacklogTotal = 0, @JsonKey(name: 'reviews_today') this.reviewsToday = 0, @JsonKey(name: 'words_learned') this.wordsLearned = 0, @JsonKey(name: 'lookup_count') this.lookupCount = 0, @JsonKey(name: 'flashcard_deck_count') this.flashcardDeckCount = 0, @JsonKey(name: 'online_time_today') this.onlineTimeToday = 0}): _missions = missions;
   factory _DashboardData.fromJson(Map<String, dynamic> json) => _$DashboardDataFromJson(json);
 
+@override final  DashboardProfile? profile;
 @override final  Gamification? gamification;
  final  List<Mission> _missions;
 @override@JsonKey() List<Mission> get missions {
@@ -237,7 +255,11 @@ class _DashboardData implements DashboardData {
 }
 
 @override@JsonKey(name: 'due_review_count') final  int dueReviewCount;
+@override@JsonKey(name: 'due_backlog_total') final  int dueBacklogTotal;
+@override@JsonKey(name: 'reviews_today') final  int reviewsToday;
 @override@JsonKey(name: 'words_learned') final  int wordsLearned;
+@override@JsonKey(name: 'lookup_count') final  int lookupCount;
+@override@JsonKey(name: 'flashcard_deck_count') final  int flashcardDeckCount;
 @override@JsonKey(name: 'online_time_today') final  int onlineTimeToday;
 
 /// Create a copy of DashboardData
@@ -253,16 +275,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DashboardData&&(identical(other.gamification, gamification) || other.gamification == gamification)&&const DeepCollectionEquality().equals(other._missions, _missions)&&(identical(other.dueReviewCount, dueReviewCount) || other.dueReviewCount == dueReviewCount)&&(identical(other.wordsLearned, wordsLearned) || other.wordsLearned == wordsLearned)&&(identical(other.onlineTimeToday, onlineTimeToday) || other.onlineTimeToday == onlineTimeToday));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DashboardData&&(identical(other.profile, profile) || other.profile == profile)&&(identical(other.gamification, gamification) || other.gamification == gamification)&&const DeepCollectionEquality().equals(other._missions, _missions)&&(identical(other.dueReviewCount, dueReviewCount) || other.dueReviewCount == dueReviewCount)&&(identical(other.dueBacklogTotal, dueBacklogTotal) || other.dueBacklogTotal == dueBacklogTotal)&&(identical(other.reviewsToday, reviewsToday) || other.reviewsToday == reviewsToday)&&(identical(other.wordsLearned, wordsLearned) || other.wordsLearned == wordsLearned)&&(identical(other.lookupCount, lookupCount) || other.lookupCount == lookupCount)&&(identical(other.flashcardDeckCount, flashcardDeckCount) || other.flashcardDeckCount == flashcardDeckCount)&&(identical(other.onlineTimeToday, onlineTimeToday) || other.onlineTimeToday == onlineTimeToday));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,gamification,const DeepCollectionEquality().hash(_missions),dueReviewCount,wordsLearned,onlineTimeToday);
+int get hashCode => Object.hash(runtimeType,profile,gamification,const DeepCollectionEquality().hash(_missions),dueReviewCount,dueBacklogTotal,reviewsToday,wordsLearned,lookupCount,flashcardDeckCount,onlineTimeToday);
 
 @override
 String toString() {
-  return 'DashboardData(gamification: $gamification, missions: $missions, dueReviewCount: $dueReviewCount, wordsLearned: $wordsLearned, onlineTimeToday: $onlineTimeToday)';
+  return 'DashboardData(profile: $profile, gamification: $gamification, missions: $missions, dueReviewCount: $dueReviewCount, dueBacklogTotal: $dueBacklogTotal, reviewsToday: $reviewsToday, wordsLearned: $wordsLearned, lookupCount: $lookupCount, flashcardDeckCount: $flashcardDeckCount, onlineTimeToday: $onlineTimeToday)';
 }
 
 
@@ -273,11 +295,11 @@ abstract mixin class _$DashboardDataCopyWith<$Res> implements $DashboardDataCopy
   factory _$DashboardDataCopyWith(_DashboardData value, $Res Function(_DashboardData) _then) = __$DashboardDataCopyWithImpl;
 @override @useResult
 $Res call({
- Gamification? gamification, List<Mission> missions,@JsonKey(name: 'due_review_count') int dueReviewCount,@JsonKey(name: 'words_learned') int wordsLearned,@JsonKey(name: 'online_time_today') int onlineTimeToday
+ DashboardProfile? profile, Gamification? gamification, List<Mission> missions,@JsonKey(name: 'due_review_count') int dueReviewCount,@JsonKey(name: 'due_backlog_total') int dueBacklogTotal,@JsonKey(name: 'reviews_today') int reviewsToday,@JsonKey(name: 'words_learned') int wordsLearned,@JsonKey(name: 'lookup_count') int lookupCount,@JsonKey(name: 'flashcard_deck_count') int flashcardDeckCount,@JsonKey(name: 'online_time_today') int onlineTimeToday
 });
 
 
-@override $GamificationCopyWith<$Res>? get gamification;
+@override $DashboardProfileCopyWith<$Res>? get profile;@override $GamificationCopyWith<$Res>? get gamification;
 
 }
 /// @nodoc
@@ -290,18 +312,35 @@ class __$DashboardDataCopyWithImpl<$Res>
 
 /// Create a copy of DashboardData
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? gamification = freezed,Object? missions = null,Object? dueReviewCount = null,Object? wordsLearned = null,Object? onlineTimeToday = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? profile = freezed,Object? gamification = freezed,Object? missions = null,Object? dueReviewCount = null,Object? dueBacklogTotal = null,Object? reviewsToday = null,Object? wordsLearned = null,Object? lookupCount = null,Object? flashcardDeckCount = null,Object? onlineTimeToday = null,}) {
   return _then(_DashboardData(
-gamification: freezed == gamification ? _self.gamification : gamification // ignore: cast_nullable_to_non_nullable
+profile: freezed == profile ? _self.profile : profile // ignore: cast_nullable_to_non_nullable
+as DashboardProfile?,gamification: freezed == gamification ? _self.gamification : gamification // ignore: cast_nullable_to_non_nullable
 as Gamification?,missions: null == missions ? _self._missions : missions // ignore: cast_nullable_to_non_nullable
 as List<Mission>,dueReviewCount: null == dueReviewCount ? _self.dueReviewCount : dueReviewCount // ignore: cast_nullable_to_non_nullable
+as int,dueBacklogTotal: null == dueBacklogTotal ? _self.dueBacklogTotal : dueBacklogTotal // ignore: cast_nullable_to_non_nullable
+as int,reviewsToday: null == reviewsToday ? _self.reviewsToday : reviewsToday // ignore: cast_nullable_to_non_nullable
 as int,wordsLearned: null == wordsLearned ? _self.wordsLearned : wordsLearned // ignore: cast_nullable_to_non_nullable
+as int,lookupCount: null == lookupCount ? _self.lookupCount : lookupCount // ignore: cast_nullable_to_non_nullable
+as int,flashcardDeckCount: null == flashcardDeckCount ? _self.flashcardDeckCount : flashcardDeckCount // ignore: cast_nullable_to_non_nullable
 as int,onlineTimeToday: null == onlineTimeToday ? _self.onlineTimeToday : onlineTimeToday // ignore: cast_nullable_to_non_nullable
 as int,
   ));
 }
 
 /// Create a copy of DashboardData
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$DashboardProfileCopyWith<$Res>? get profile {
+    if (_self.profile == null) {
+    return null;
+  }
+
+  return $DashboardProfileCopyWith<$Res>(_self.profile!, (value) {
+    return _then(_self.copyWith(profile: value));
+  });
+}/// Create a copy of DashboardData
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
@@ -314,6 +353,275 @@ $GamificationCopyWith<$Res>? get gamification {
     return _then(_self.copyWith(gamification: value));
   });
 }
+}
+
+
+/// @nodoc
+mixin _$DashboardProfile {
+
+@JsonKey(name: 'display_name') String? get displayName;@JsonKey(name: 'avatar_url') String? get avatarUrl; String? get email;
+/// Create a copy of DashboardProfile
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$DashboardProfileCopyWith<DashboardProfile> get copyWith => _$DashboardProfileCopyWithImpl<DashboardProfile>(this as DashboardProfile, _$identity);
+
+  /// Serializes this DashboardProfile to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DashboardProfile&&(identical(other.displayName, displayName) || other.displayName == displayName)&&(identical(other.avatarUrl, avatarUrl) || other.avatarUrl == avatarUrl)&&(identical(other.email, email) || other.email == email));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,displayName,avatarUrl,email);
+
+@override
+String toString() {
+  return 'DashboardProfile(displayName: $displayName, avatarUrl: $avatarUrl, email: $email)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $DashboardProfileCopyWith<$Res>  {
+  factory $DashboardProfileCopyWith(DashboardProfile value, $Res Function(DashboardProfile) _then) = _$DashboardProfileCopyWithImpl;
+@useResult
+$Res call({
+@JsonKey(name: 'display_name') String? displayName,@JsonKey(name: 'avatar_url') String? avatarUrl, String? email
+});
+
+
+
+
+}
+/// @nodoc
+class _$DashboardProfileCopyWithImpl<$Res>
+    implements $DashboardProfileCopyWith<$Res> {
+  _$DashboardProfileCopyWithImpl(this._self, this._then);
+
+  final DashboardProfile _self;
+  final $Res Function(DashboardProfile) _then;
+
+/// Create a copy of DashboardProfile
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? displayName = freezed,Object? avatarUrl = freezed,Object? email = freezed,}) {
+  return _then(_self.copyWith(
+displayName: freezed == displayName ? _self.displayName : displayName // ignore: cast_nullable_to_non_nullable
+as String?,avatarUrl: freezed == avatarUrl ? _self.avatarUrl : avatarUrl // ignore: cast_nullable_to_non_nullable
+as String?,email: freezed == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [DashboardProfile].
+extension DashboardProfilePatterns on DashboardProfile {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _DashboardProfile value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _DashboardProfile() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _DashboardProfile value)  $default,){
+final _that = this;
+switch (_that) {
+case _DashboardProfile():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _DashboardProfile value)?  $default,){
+final _that = this;
+switch (_that) {
+case _DashboardProfile() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'display_name')  String? displayName, @JsonKey(name: 'avatar_url')  String? avatarUrl,  String? email)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _DashboardProfile() when $default != null:
+return $default(_that.displayName,_that.avatarUrl,_that.email);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'display_name')  String? displayName, @JsonKey(name: 'avatar_url')  String? avatarUrl,  String? email)  $default,) {final _that = this;
+switch (_that) {
+case _DashboardProfile():
+return $default(_that.displayName,_that.avatarUrl,_that.email);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'display_name')  String? displayName, @JsonKey(name: 'avatar_url')  String? avatarUrl,  String? email)?  $default,) {final _that = this;
+switch (_that) {
+case _DashboardProfile() when $default != null:
+return $default(_that.displayName,_that.avatarUrl,_that.email);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _DashboardProfile implements DashboardProfile {
+  const _DashboardProfile({@JsonKey(name: 'display_name') this.displayName, @JsonKey(name: 'avatar_url') this.avatarUrl, this.email});
+  factory _DashboardProfile.fromJson(Map<String, dynamic> json) => _$DashboardProfileFromJson(json);
+
+@override@JsonKey(name: 'display_name') final  String? displayName;
+@override@JsonKey(name: 'avatar_url') final  String? avatarUrl;
+@override final  String? email;
+
+/// Create a copy of DashboardProfile
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$DashboardProfileCopyWith<_DashboardProfile> get copyWith => __$DashboardProfileCopyWithImpl<_DashboardProfile>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$DashboardProfileToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DashboardProfile&&(identical(other.displayName, displayName) || other.displayName == displayName)&&(identical(other.avatarUrl, avatarUrl) || other.avatarUrl == avatarUrl)&&(identical(other.email, email) || other.email == email));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,displayName,avatarUrl,email);
+
+@override
+String toString() {
+  return 'DashboardProfile(displayName: $displayName, avatarUrl: $avatarUrl, email: $email)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$DashboardProfileCopyWith<$Res> implements $DashboardProfileCopyWith<$Res> {
+  factory _$DashboardProfileCopyWith(_DashboardProfile value, $Res Function(_DashboardProfile) _then) = __$DashboardProfileCopyWithImpl;
+@override @useResult
+$Res call({
+@JsonKey(name: 'display_name') String? displayName,@JsonKey(name: 'avatar_url') String? avatarUrl, String? email
+});
+
+
+
+
+}
+/// @nodoc
+class __$DashboardProfileCopyWithImpl<$Res>
+    implements _$DashboardProfileCopyWith<$Res> {
+  __$DashboardProfileCopyWithImpl(this._self, this._then);
+
+  final _DashboardProfile _self;
+  final $Res Function(_DashboardProfile) _then;
+
+/// Create a copy of DashboardProfile
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? displayName = freezed,Object? avatarUrl = freezed,Object? email = freezed,}) {
+  return _then(_DashboardProfile(
+displayName: freezed == displayName ? _self.displayName : displayName // ignore: cast_nullable_to_non_nullable
+as String?,avatarUrl: freezed == avatarUrl ? _self.avatarUrl : avatarUrl // ignore: cast_nullable_to_non_nullable
+as String?,email: freezed == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
+}
+
+
 }
 
 

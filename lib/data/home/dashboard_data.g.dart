@@ -8,6 +8,9 @@ part of 'dashboard_data.dart';
 
 _DashboardData _$DashboardDataFromJson(Map<String, dynamic> json) =>
     _DashboardData(
+      profile: json['profile'] == null
+          ? null
+          : DashboardProfile.fromJson(json['profile'] as Map<String, dynamic>),
       gamification: json['gamification'] == null
           ? null
           : Gamification.fromJson(json['gamification'] as Map<String, dynamic>),
@@ -17,17 +20,40 @@ _DashboardData _$DashboardDataFromJson(Map<String, dynamic> json) =>
               .toList() ??
           const <Mission>[],
       dueReviewCount: (json['due_review_count'] as num?)?.toInt() ?? 0,
+      dueBacklogTotal: (json['due_backlog_total'] as num?)?.toInt() ?? 0,
+      reviewsToday: (json['reviews_today'] as num?)?.toInt() ?? 0,
       wordsLearned: (json['words_learned'] as num?)?.toInt() ?? 0,
+      lookupCount: (json['lookup_count'] as num?)?.toInt() ?? 0,
+      flashcardDeckCount: (json['flashcard_deck_count'] as num?)?.toInt() ?? 0,
       onlineTimeToday: (json['online_time_today'] as num?)?.toInt() ?? 0,
     );
 
 Map<String, dynamic> _$DashboardDataToJson(_DashboardData instance) =>
     <String, dynamic>{
+      'profile': instance.profile,
       'gamification': instance.gamification,
       'missions': instance.missions,
       'due_review_count': instance.dueReviewCount,
+      'due_backlog_total': instance.dueBacklogTotal,
+      'reviews_today': instance.reviewsToday,
       'words_learned': instance.wordsLearned,
+      'lookup_count': instance.lookupCount,
+      'flashcard_deck_count': instance.flashcardDeckCount,
       'online_time_today': instance.onlineTimeToday,
+    };
+
+_DashboardProfile _$DashboardProfileFromJson(Map<String, dynamic> json) =>
+    _DashboardProfile(
+      displayName: json['display_name'] as String?,
+      avatarUrl: json['avatar_url'] as String?,
+      email: json['email'] as String?,
+    );
+
+Map<String, dynamic> _$DashboardProfileToJson(_DashboardProfile instance) =>
+    <String, dynamic>{
+      'display_name': instance.displayName,
+      'avatar_url': instance.avatarUrl,
+      'email': instance.email,
     };
 
 _Gamification _$GamificationFromJson(Map<String, dynamic> json) =>

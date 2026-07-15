@@ -8,15 +8,32 @@ part 'dashboard_data.g.dart';
 @freezed
 abstract class DashboardData with _$DashboardData {
   const factory DashboardData({
+    DashboardProfile? profile,
     Gamification? gamification,
     @Default(<Mission>[]) List<Mission> missions,
     @JsonKey(name: 'due_review_count') @Default(0) int dueReviewCount,
+    @JsonKey(name: 'due_backlog_total') @Default(0) int dueBacklogTotal,
+    @JsonKey(name: 'reviews_today') @Default(0) int reviewsToday,
     @JsonKey(name: 'words_learned') @Default(0) int wordsLearned,
+    @JsonKey(name: 'lookup_count') @Default(0) int lookupCount,
+    @JsonKey(name: 'flashcard_deck_count') @Default(0) int flashcardDeckCount,
     @JsonKey(name: 'online_time_today') @Default(0) int onlineTimeToday,
   }) = _DashboardData;
 
   factory DashboardData.fromJson(Map<String, dynamic> json) =>
       _$DashboardDataFromJson(json);
+}
+
+@freezed
+abstract class DashboardProfile with _$DashboardProfile {
+  const factory DashboardProfile({
+    @JsonKey(name: 'display_name') String? displayName,
+    @JsonKey(name: 'avatar_url') String? avatarUrl,
+    String? email,
+  }) = _DashboardProfile;
+
+  factory DashboardProfile.fromJson(Map<String, dynamic> json) =>
+      _$DashboardProfileFromJson(json);
 }
 
 /// XP / level / streak / mục tiêu ngày.
