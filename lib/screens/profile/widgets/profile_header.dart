@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/identity/app_user.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../l10n/app_localizations.dart';
 
 /// Header hồ sơ: avatar, tên hiển thị, CEFR level + huy hiệu Premium.
 class ProfileHeader extends StatelessWidget {
@@ -11,8 +12,9 @@ class ProfileHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final hasAvatar = user.avatarUrl != null && user.avatarUrl!.isNotEmpty;
-    final name = user.displayName.isEmpty ? 'Học viên' : user.displayName;
+    final name = user.displayName.isEmpty ? l10n.learner : user.displayName;
 
     return Column(
       children: [
@@ -52,8 +54,8 @@ class ProfileHeader extends StatelessWidget {
                 textColor: AppColors.foreground,
               ),
             if (user.isPremium)
-              const _Badge(
-                label: '★ Premium',
+              _Badge(
+                label: '★ ${l10n.premium}',
                 color: AppColors.tigerOrange,
                 textColor: Colors.white,
               ),

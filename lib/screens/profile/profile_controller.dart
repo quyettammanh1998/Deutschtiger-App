@@ -2,7 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:deutschtiger/view_models/providers.dart';
 
-/// Controller các thao tác hồ sơ: cập nhật, đăng xuất, xóa tài khoản.
+/// Controller các thao tác hồ sơ: cập nhật và đăng xuất.
 /// State [AsyncValue] để UI hiện loading/error trên nút.
 /// Sau khi đổi profile, invalidate [myProfileProvider] để màn refetch.
 class ProfileController extends Notifier<AsyncValue<void>> {
@@ -28,20 +28,6 @@ class ProfileController extends Notifier<AsyncValue<void>> {
   /// Đăng xuất — router tự redirect về /welcome khi auth state đổi.
   Future<void> signOut() async {
     await ref.read(authServiceProvider).signOut();
-  }
-
-  /// Xóa tài khoản (App Store 5.1.1v). Sau khi xóa, đăng xuất luôn.
-  Future<bool> deleteAccount() async {
-    state = const AsyncLoading();
-    try {
-      await ref.read(profileRepositoryProvider).deleteAccount();
-      await ref.read(authServiceProvider).signOut();
-      state = const AsyncData(null);
-      return true;
-    } catch (e, st) {
-      state = AsyncError(e, st);
-      return false;
-    }
   }
 }
 

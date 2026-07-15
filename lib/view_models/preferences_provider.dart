@@ -1,5 +1,6 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:riverpod/riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// App preferences model.
@@ -38,7 +39,10 @@ class AppPreferences {
 /// Preferences notifier.
 class PreferencesNotifier extends Notifier<AppPreferences> {
   @override
-  AppPreferences build() => const AppPreferences();
+  AppPreferences build() {
+    unawaited(_loadAsync());
+    return const AppPreferences();
+  }
 
   static const _ttsVolumeKey = 'tts_volume';
   static const _autoPlayKey = 'auto_play_audio';
@@ -46,14 +50,11 @@ class PreferencesNotifier extends Notifier<AppPreferences> {
   static const _reminderMinuteKey = 'reminder_minute';
   static const _languageKey = 'app_language';
 
-  @override
-  AppPreferences get state {
-    _loadAsync();
-    return super.state;
-  }
+  bool _hasLocalMutation = false;
 
   Future<void> _loadAsync() async {
     final prefs = await SharedPreferences.getInstance();
+    if (_hasLocalMutation) return;
     state = AppPreferences(
       ttsVolume: prefs.getDouble(_ttsVolumeKey) ?? 0.8,
       autoPlayAudio: prefs.getBool(_autoPlayKey) ?? true,
@@ -64,18 +65,21 @@ class PreferencesNotifier extends Notifier<AppPreferences> {
   }
 
   Future<void> setTtsVolume(double volume) async {
+    _hasLocalMutation = true;
     state = state.copyWith(ttsVolume: volume);
     final prefs = await SharedPreferences.getInstance();
     await prefs.setDouble(_ttsVolumeKey, volume);
   }
 
   Future<void> setAutoPlayAudio(bool enabled) async {
+    _hasLocalMutation = true;
     state = state.copyWith(autoPlayAudio: enabled);
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool(_autoPlayKey, enabled);
   }
 
   Future<void> setReminderTime(int hour, int minute) async {
+    _hasLocalMutation = true;
     state = state.copyWith(reminderHour: hour, reminderMinute: minute);
     final prefs = await SharedPreferences.getInstance();
     await prefs.setInt(_reminderHourKey, hour);
@@ -83,15 +87,17 @@ class PreferencesNotifier extends Notifier<AppPreferences> {
   }
 
   Future<void> setLanguage(String languageCode) async {
+    _hasLocalMutation = true;
     state = state.copyWith(appLanguage: languageCode);
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(_languageKey, languageCode);
   }
 }
 
-final preferencesProvider = NotifierProvider<PreferencesNotifier, AppPreferences>(
-  PreferencesNotifier.new,
-);
+final preferencesProvider =
+    NotifierProvider<PreferencesNotifier, AppPreferences>(
+      PreferencesNotifier.new,
+    );
 
 /// TTS Volume provider.
 final ttsVolumeProvider = Provider<double>((ref) {

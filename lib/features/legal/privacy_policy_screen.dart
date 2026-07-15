@@ -32,17 +32,12 @@ class PrivacyPolicyScreen extends StatelessWidget {
           children: [
             const Text(
               'Chính sách bảo mật',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
             Text(
               'Cập nhật lần cuối: ${DateTime.now().year}',
-              style: TextStyle(
-                color: AppColors.mutedForeground,
-              ),
+              style: TextStyle(color: AppColors.mutedForeground),
             ),
             const SizedBox(height: 24),
             const _Section(
@@ -63,7 +58,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
             const _Section(
               title: '4. Cookies và công nghệ theo dõi',
               content:
-                  'Chúng tôi sử dụng Firebase Analytics để hiểu cách người dùng sử dụng ứng dụng. Dữ liệu này ẩn danh và không liên kết với danh tính cá nhân của bạn. Bạn có thể tắt tính năng phân tích trong phần Cài đặt.',
+                  'Chúng tôi ghi nhận sự kiện sử dụng dạng mã hành động và số liệu tổng hợp để cải thiện ứng dụng. Khi bạn đăng nhập, các sự kiện này được gửi cùng phiên tài khoản để chúng tôi có thể bảo vệ và cải thiện trải nghiệm của bạn; chúng không được mô tả là dữ liệu ẩn danh. Sự kiện không gửi nội dung học viên, đường dẫn tệp hay URL. Chúng tôi cũng dùng Crashlytics cho chẩn đoán lỗi, chỉ gửi mã lỗi, phiên bản ứng dụng và route; không chủ đích gửi nội dung bản dịch, bài viết hoặc bản ghi âm.',
             ),
             const _Section(
               title: '5. Chia sẻ dữ liệu',
@@ -73,7 +68,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
             const _Section(
               title: '6. Quyền của bạn',
               content:
-                  'Bạn có quyền: (a) truy cập dữ liệu cá nhân của mình; (b) sửa đổi thông tin không chính xác; (c) xóa tài khoản và dữ liệu liên quan; (d) xuất dữ liệu của bạn; (e) phản đối việc xử lý dữ liệu nhất định. Để thực hiện quyền này, hãy liên hệ support@deutschtiger.com.',
+                  'Bạn có quyền: (a) truy cập dữ liệu cá nhân của mình; (b) sửa đổi thông tin không chính xác; (c) yêu cầu xóa tài khoản và dữ liệu liên quan; (d) yêu cầu bản sao dữ liệu của bạn; (e) phản đối việc xử lý dữ liệu nhất định. Tính năng xuất dữ liệu trong ứng dụng chưa khả dụng; để thực hiện các quyền này, hãy liên hệ support@deutschtiger.com.',
             ),
             const _Section(
               title: '7. Thông báo thay đổi',
@@ -118,10 +113,7 @@ class _Section extends StatelessWidget {
         children: [
           Text(
             title,
-            style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-            ),
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 8),
           Text(

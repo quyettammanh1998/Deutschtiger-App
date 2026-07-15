@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import 'package:deutschtiger/view_models/providers.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../../l10n/app_localizations.dart';
 import 'package:deutschtiger/widgets/common/gradient_button.dart';
 import 'package:deutschtiger/screens/auth/widgets/auth_text_field.dart';
 import 'profile_controller.dart';
@@ -51,13 +52,16 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
       context.pop();
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Cập nhật thất bại, thử lại sau.')),
+        SnackBar(
+          content: Text(AppLocalizations.of(context).couldNotUpdateProfile),
+        ),
       );
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final saving = ref.watch(profileControllerProvider).isLoading;
 
     return Scaffold(
@@ -65,9 +69,9 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
       appBar: AppBar(
         backgroundColor: AppColors.authBackground,
         foregroundColor: AppColors.tigerOrange,
-        title: const Text(
-          'Sửa hồ sơ',
-          style: TextStyle(
+        title: Text(
+          l10n.editProfile,
+          style: const TextStyle(
             fontWeight: FontWeight.bold,
             color: AppColors.tigerOrange,
             fontSize: 17,
@@ -84,21 +88,21 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
               children: [
                 AuthTextField(
                   controller: _nameCtrl,
-                  label: 'Tên hiển thị',
-                  hint: 'Nhập tên của bạn',
+                  label: l10n.displayName,
+                  hint: l10n.yourName,
                   textInputAction: TextInputAction.next,
-                  validator: AuthValidators.displayName,
+                  validator: (value) => AuthValidators.displayName(value, l10n),
                 ),
                 const SizedBox(height: 16),
                 AuthTextField(
                   controller: _avatarCtrl,
-                  label: 'URL ảnh đại diện (tùy chọn)',
+                  label: l10n.avatarUrlOptional,
                   hint: 'https://...',
                   keyboardType: TextInputType.url,
                 ),
                 const SizedBox(height: 24),
                 GradientButton(
-                  label: 'Lưu thay đổi',
+                  label: l10n.saveChanges,
                   loading: saving,
                   onPressed: saving ? null : _save,
                 ),

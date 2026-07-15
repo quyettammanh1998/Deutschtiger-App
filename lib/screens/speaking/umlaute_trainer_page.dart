@@ -17,7 +17,6 @@ class _UmlauteTrainerPageState extends ConsumerState<UmlauteTrainerPage> {
   double _totalScore = 0;
   int _attempts = 0;
   List<TrainerExercise> _exercises = [];
-  bool _showMinimalPair = false;
   String? _selectedAnswer;
   bool _showResult = false;
 
@@ -127,7 +126,7 @@ class _UmlauteTrainerPageState extends ConsumerState<UmlauteTrainerPage> {
       children: [
         Container(
           padding: const EdgeInsets.all(16),
-          color: Colors.purple.withOpacity(0.1),
+          color: Colors.purple.withValues(alpha: 0.1),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -172,7 +171,7 @@ class _UmlauteTrainerPageState extends ConsumerState<UmlauteTrainerPage> {
       children: [
         Container(
           padding: const EdgeInsets.all(16),
-          color: Colors.purple.withOpacity(0.1),
+          color: Colors.purple.withValues(alpha: 0.1),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -195,7 +194,7 @@ class _UmlauteTrainerPageState extends ConsumerState<UmlauteTrainerPage> {
                 Container(
                   padding: const EdgeInsets.all(24),
                   decoration: BoxDecoration(
-                    color: Colors.purple.withOpacity(0.05),
+                    color: Colors.purple.withValues(alpha: 0.05),
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Column(
@@ -276,11 +275,11 @@ class _UmlauteTrainerPageState extends ConsumerState<UmlauteTrainerPage> {
 
     if (_showResult) {
       if (_selectedAnswer == word) {
-        backgroundColor = hasUmlaut ? Colors.green.withOpacity(0.2) : Colors.red.withOpacity(0.2);
+        backgroundColor = hasUmlaut ? Colors.green.withValues(alpha: 0.2) : Colors.red.withValues(alpha: 0.2);
         borderColor = hasUmlaut ? Colors.green : Colors.red;
         textColor = hasUmlaut ? Colors.green : Colors.red;
       } else if (hasUmlaut) {
-        backgroundColor = Colors.green.withOpacity(0.1);
+        backgroundColor = Colors.green.withValues(alpha: 0.1);
         borderColor = Colors.green;
       }
     }
@@ -324,7 +323,7 @@ class _UmlauteTrainerPageState extends ConsumerState<UmlauteTrainerPage> {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: isCorrect ? Colors.green.withOpacity(0.1) : Colors.red.withOpacity(0.1),
+        color: isCorrect ? Colors.green.withValues(alpha: 0.1) : Colors.red.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Row(
@@ -361,7 +360,7 @@ class _UmlauteTrainerPageState extends ConsumerState<UmlauteTrainerPage> {
         color: Colors.white,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, -4),
           ),

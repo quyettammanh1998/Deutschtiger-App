@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../l10n/app_localizations.dart';
 import 'package:deutschtiger/view_models/providers.dart';
 import '../../../core/theme/app_colors.dart';
 import 'package:deutschtiger/widgets/common/async_state_views.dart';
@@ -9,22 +10,22 @@ import 'profile_controller.dart';
 import 'widgets/profile_header.dart';
 import 'widgets/profile_stats_grid.dart';
 
-/// Màn Hồ sơ (tab Profile): thông tin + thống kê + sửa hồ sơ, đăng xuất,
-/// xóa tài khoản.
+/// Màn Hồ sơ (tab Profile): thông tin + thống kê + sửa hồ sơ, đăng xuất.
 class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final profile = ref.watch(myProfileProvider);
+    final l10n = AppLocalizations.of(context);
 
     return Scaffold(
       backgroundColor: AppColors.authBackground,
       appBar: AppBar(
         backgroundColor: AppColors.authBackground,
-        title: const Text(
-          'Hồ sơ',
-          style: TextStyle(
+        title: Text(
+          l10n.profile,
+          style: const TextStyle(
             fontWeight: FontWeight.bold,
             color: AppColors.tigerOrange,
             fontSize: 18,
@@ -34,14 +35,14 @@ class ProfileScreen extends ConsumerWidget {
           IconButton(
             icon: const Icon(Icons.settings_outlined),
             onPressed: () => context.push('/settings'),
-            tooltip: 'Cài đặt',
+            tooltip: l10n.settings,
           ),
         ],
       ),
       body: profile.when(
         loading: () => const LoadingView(),
         error: (e, _) => ErrorView(
-          message: 'Không tải được hồ sơ.',
+          message: l10n.couldNotLoadProfile,
           onRetry: () => ref.invalidate(myProfileProvider),
         ),
         data: (user) => RefreshIndicator(
@@ -57,26 +58,26 @@ class ProfileScreen extends ConsumerWidget {
               const SizedBox(height: 24),
               _ActionTile(
                 icon: Icons.edit_outlined,
-                label: 'Sửa hồ sơ',
+                label: l10n.editProfile,
                 onTap: () => context.push('/profile/edit'),
               ),
               _ActionTile(
                 icon: Icons.settings_outlined,
-                label: 'Cài đặt',
+                label: l10n.settings,
                 onTap: () => context.push('/settings'),
               ),
               const SizedBox(height: 8),
               _ActionTile(
                 icon: Icons.logout,
-                label: 'Đăng xuất',
+                label: l10n.signOut,
                 onTap: () => _confirmSignOut(context, ref),
               ),
               const SizedBox(height: 8),
               _ActionTile(
                 icon: Icons.delete_outline,
-                label: 'Xóa tài khoản',
+                label: l10n.deleteAccount,
                 destructive: true,
-                onTap: () => _confirmDelete(context, ref),
+                onTap: () => context.push('/settings/delete-account'),
               ),
             ],
           ),
@@ -86,34 +87,14 @@ class ProfileScreen extends ConsumerWidget {
   }
 
   Future<void> _confirmSignOut(BuildContext context, WidgetRef ref) async {
+    final l10n = AppLocalizations.of(context);
     final ok = await _confirmDialog(
       context,
-      title: 'Đăng xuất',
-      message: 'Bạn chắc chắn muốn đăng xuất?',
-      confirmLabel: 'Đăng xuất',
+      title: l10n.signOut,
+      message: l10n.signOutConfirm,
+      confirmLabel: l10n.signOut,
     );
     if (ok) await ref.read(profileControllerProvider.notifier).signOut();
-  }
-
-  Future<void> _confirmDelete(BuildContext context, WidgetRef ref) async {
-    final ok = await _confirmDialog(
-      context,
-      title: 'Xóa tài khoản',
-      message:
-          'Toàn bộ dữ liệu học tập sẽ bị xóa vĩnh viễn và không thể khôi phục. '
-          'Bạn chắc chắn?',
-      confirmLabel: 'Xóa vĩnh viễn',
-      destructive: true,
-    );
-    if (!ok) return;
-    final success = await ref
-        .read(profileControllerProvider.notifier)
-        .deleteAccount();
-    if (!success && context.mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Xóa tài khoản thất bại, thử lại sau.')),
-      );
-    }
   }
 
   Future<bool> _confirmDialog(
@@ -131,7 +112,7 @@ class ProfileScreen extends ConsumerWidget {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
-            child: const Text('Hủy'),
+            child: Text(AppLocalizations.of(ctx).cancel),
           ),
           TextButton(
             onPressed: () => Navigator.pop(ctx, true),

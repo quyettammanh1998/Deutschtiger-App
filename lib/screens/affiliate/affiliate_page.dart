@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../core/theme/app_colors.dart';
-import 'package:deutschtiger/repositories/affiliate/affiliate_repository.dart';
 import 'package:deutschtiger/data/affiliate/affiliate_models.dart';
 import 'package:deutschtiger/view_models/affiliate/affiliate_provider.dart';
 
@@ -126,13 +125,13 @@ class _ReferralCodeCard extends StatelessWidget {
           end: Alignment.bottomRight,
           colors: [
             AppColors.primary,
-            AppColors.primary.withOpacity(0.8),
+            AppColors.primary.withValues(alpha: 0.8),
           ],
         ),
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: AppColors.primary.withOpacity(0.3),
+            color: AppColors.primary.withValues(alpha: 0.3),
             blurRadius: 15,
             offset: const Offset(0, 8),
           ),
@@ -236,7 +235,7 @@ class _CommissionStatsCard extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: AppColors.success.withOpacity(0.1),
+                    color: AppColors.success.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: const Icon(Icons.insights, color: AppColors.success),
@@ -330,7 +329,7 @@ class _StatItem extends StatelessWidget {
         Container(
           padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
-            color: color.withOpacity(0.1),
+            color: color.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(10),
           ),
           child: Icon(icon, color: color, size: 22),
@@ -376,7 +375,7 @@ class _ReferralsListCard extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: AppColors.primary.withOpacity(0.1),
+                    color: AppColors.primary.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: const Icon(Icons.people_alt, color: AppColors.primary),
@@ -394,7 +393,7 @@ class _ReferralsListCard extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                     decoration: BoxDecoration(
-                      color: AppColors.primary.withOpacity(0.1),
+                      color: AppColors.primary.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Text(
@@ -452,7 +451,7 @@ class _ReferralItem extends StatelessWidget {
       child: Row(
         children: [
           CircleAvatar(
-            backgroundColor: AppColors.primary.withOpacity(0.2),
+            backgroundColor: AppColors.primary.withValues(alpha: 0.2),
             child: Text(
               referral.refereeName.isNotEmpty ? referral.refereeName[0] : '?',
               style: const TextStyle(
@@ -574,7 +573,7 @@ class _HowItWorksCard extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: AppColors.tigerOrange.withOpacity(0.1),
+                    color: AppColors.tigerOrange.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: const Icon(Icons.help_outline, color: AppColors.tigerOrange),
@@ -651,7 +650,7 @@ class _HowItWorksStep extends StatelessWidget {
           width: 36,
           height: 36,
           decoration: BoxDecoration(
-            color: color.withOpacity(0.1),
+            color: color.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(18),
           ),
           child: Center(
@@ -669,7 +668,7 @@ class _HowItWorksStep extends StatelessWidget {
         Container(
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            color: color.withOpacity(0.1),
+            color: color.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(8),
           ),
           child: Icon(icon, color: color, size: 20),
@@ -755,7 +754,7 @@ class _ActivityItem extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
-                color: _getTypeColor(activity.type).withOpacity(0.1),
+                color: _getTypeColor(activity.type).withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Icon(
@@ -784,7 +783,7 @@ class _ActivityItem extends StatelessWidget {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
               decoration: BoxDecoration(
-                color: AppColors.success.withOpacity(0.1),
+                color: AppColors.success.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Text(
@@ -908,7 +907,7 @@ class _PayoutInfoCardState extends State<_PayoutInfoCard> {
                 Container(
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: Colors.green.withOpacity(0.1),
+                    color: Colors.green.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: const Icon(Icons.account_balance, color: Colors.green),
@@ -1144,7 +1143,7 @@ class _MethodOption extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
-          color: isSelected ? AppColors.primary.withOpacity(0.1) : Colors.grey[100],
+          color: isSelected ? AppColors.primary.withValues(alpha: 0.1) : Colors.grey[100],
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
             color: isSelected ? AppColors.primary : Colors.transparent,
@@ -1187,7 +1186,7 @@ class _CommissionHistoryCard extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: Colors.blue.withOpacity(0.1),
+                    color: Colors.blue.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: const Icon(Icons.receipt_long, color: Colors.blue),
@@ -1249,7 +1248,7 @@ class _CommissionHistoryItem extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: status == 'completed' ? Colors.green.withOpacity(0.1) : Colors.orange.withOpacity(0.1),
+              color: status == 'completed' ? Colors.green.withValues(alpha: 0.1) : Colors.orange.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(8),
             ),
             child: Icon(
@@ -1305,7 +1304,7 @@ class _TiersCard extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: Colors.purple.withOpacity(0.1),
+                    color: Colors.purple.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: const Icon(Icons.stars, color: Colors.purple),
@@ -1349,11 +1348,11 @@ class _TierItem extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: tier.isUnlocked
-            ? Colors.green.withOpacity(0.05)
+            ? Colors.green.withValues(alpha: 0.05)
             : Colors.grey[100],
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: tier.isUnlocked ? Colors.green.withOpacity(0.3) : Colors.transparent,
+          color: tier.isUnlocked ? Colors.green.withValues(alpha: 0.3) : Colors.transparent,
         ),
       ),
       child: Row(
@@ -1362,7 +1361,7 @@ class _TierItem extends StatelessWidget {
             width: 40,
             height: 40,
             decoration: BoxDecoration(
-              color: tier.isUnlocked ? Colors.green.withOpacity(0.2) : Colors.grey[300],
+              color: tier.isUnlocked ? Colors.green.withValues(alpha: 0.2) : Colors.grey[300],
               borderRadius: BorderRadius.circular(20),
             ),
             child: Center(
@@ -1426,7 +1425,7 @@ class _TierItem extends StatelessWidget {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
               decoration: BoxDecoration(
-                color: tier.isUnlocked ? Colors.green.withOpacity(0.1) : Colors.grey[200],
+                color: tier.isUnlocked ? Colors.green.withValues(alpha: 0.1) : Colors.grey[200],
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Text(

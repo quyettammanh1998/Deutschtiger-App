@@ -25,7 +25,7 @@ class PronunciationTrainerCard extends StatelessWidget {
                     width: 60,
                     height: 60,
                     decoration: BoxDecoration(
-                      color: _getTrainerColor(trainer.type).withOpacity(0.1),
+                      color: _getTrainerColor(trainer.type).withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Center(

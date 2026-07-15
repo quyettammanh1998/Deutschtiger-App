@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../core/theme/app_colors.dart';
+import '../../core/design_tokens.dart';
 
 /// Màn Privacy Policy - bắt buộc cho Apple App Store Review.
 class PrivacyPolicyScreen extends StatelessWidget {
@@ -9,14 +9,14 @@ class PrivacyPolicyScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.authBackground,
+      backgroundColor: DesignTokens.authBackground,
       appBar: AppBar(
-        backgroundColor: AppColors.authBackground,
+        backgroundColor: DesignTokens.authBackground,
         title: const Text(
           'Chính sách bảo mật',
           style: TextStyle(
             fontWeight: FontWeight.bold,
-            color: AppColors.tigerOrange,
+            color: DesignTokens.tigerOrange,
             fontSize: 18,
           ),
         ),
@@ -26,25 +26,22 @@ class PrivacyPolicyScreen extends StatelessWidget {
         ),
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(24),
+        padding: const EdgeInsets.all(DesignTokens.spacingLg),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
               'Chính sách bảo mật',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: DesignTokens.spacingSm),
             Text(
               'Cập nhật lần cuối: ${DateTime.now().year}',
-              style: TextStyle(
-                color: AppColors.mutedForeground,
+              style: DesignTokens.bodySmall.copyWith(
+                color: DesignTokens.mutedForeground,
               ),
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: DesignTokens.spacingLg),
             const _Section(
               title: '1. Thông tin chúng tôi thu thập',
               content:
@@ -58,12 +55,12 @@ class PrivacyPolicyScreen extends StatelessWidget {
             const _Section(
               title: '3. Lưu trữ và bảo mật dữ liệu',
               content:
-                  'Dữ liệu của bạn được lưu trữ an toàn trên server của chúng tôi sử dụng Supabase (Firebase alternative). Chúng tôi áp dụng các biện pháp bảo mật industry-standard bao gồm mã hóa HTTPS, hash password, và kiểm soát truy cập nghiêm ngặt.',
+                  'Dữ liệu của bạn được lưu trữ an toàn trên server của chúng tôi. Chúng tôi áp dụng các biện pháp bảo mật industry-standard bao gồm mã hóa HTTPS, hash password, và kiểm soát truy cập nghiêm ngặt.',
             ),
             const _Section(
               title: '4. Cookies và công nghệ theo dõi',
               content:
-                  'Chúng tôi sử dụng Firebase Analytics để hiểu cách người dùng sử dụng ứng dụng. Dữ liệu này ẩn danh và không liên kết với danh tính cá nhân của bạn. Bạn có thể tắt tính năng phân tích trong phần Cài đặt.',
+                  'Chúng tôi ghi nhận sự kiện sử dụng dạng mã hành động và số liệu tổng hợp để cải thiện ứng dụng. Khi bạn đăng nhập, các sự kiện này được gửi cùng phiên tài khoản để chúng tôi có thể bảo vệ và cải thiện trải nghiệm của bạn; chúng không được mô tả là dữ liệu ẩn danh. Sự kiện không gửi nội dung học viên, đường dẫn tệp hay URL. Chúng tôi cũng dùng Crashlytics cho chẩn đoán lỗi, chỉ gửi mã lỗi, phiên bản ứng dụng và route; không chủ đích gửi nội dung bản dịch, bài viết hoặc bản ghi âm.',
             ),
             const _Section(
               title: '5. Chia sẻ dữ liệu',
@@ -73,7 +70,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
             const _Section(
               title: '6. Quyền của bạn',
               content:
-                  'Bạn có quyền: (a) truy cập dữ liệu cá nhân của mình; (b) sửa đổi thông tin không chính xác; (c) xóa tài khoản và dữ liệu liên quan; (d) xuất dữ liệu của bạn; (e) phản đối việc xử lý dữ liệu nhất định. Để thực hiện quyền này, hãy liên hệ support@deutschtiger.com.',
+                  'Bạn có quyền: (a) truy cập dữ liệu cá nhân của mình; (b) sửa đổi thông tin không chính xác; (c) yêu cầu xóa tài khoản và dữ liệu liên quan; (d) yêu cầu bản sao dữ liệu của bạn; (e) phản đối việc xử lý dữ liệu nhất định. Tính năng xuất dữ liệu trong ứng dụng chưa khả dụng; để thực hiện các quyền này, hãy liên hệ support@deutschtiger.com.',
             ),
             const _Section(
               title: '7. Thông báo thay đổi',
@@ -83,19 +80,18 @@ class PrivacyPolicyScreen extends StatelessWidget {
             const _Section(
               title: '8. Liên hệ',
               content:
-                  'Nếu bạn có câu hỏi về chính sách bảo mật này, vui lòng liên hệ:\n\n📧 Email: support@deutschtiger.com\n🌐 Website: https://deutschtiger.com\n📍 Địa chỉ: [Company Address]',
+                  'Nếu bạn có câu hỏi về chính sách bảo mật này, vui lòng liên hệ:\n\n📧 Email: support@deutschtiger.com\n🌐 Website: https://deutschtiger.com',
             ),
-            const SizedBox(height: 32),
+            const SizedBox(height: DesignTokens.spacingXl),
             Center(
               child: Text(
                 '© ${DateTime.now().year} DeutschTiger. Mọi quyền được bảo lưu.',
-                style: TextStyle(
-                  color: AppColors.mutedForeground,
-                  fontSize: 12,
+                style: DesignTokens.bodySmall.copyWith(
+                  color: DesignTokens.mutedForeground,
                 ),
               ),
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: DesignTokens.spacingLg),
           ],
         ),
       ),
@@ -118,18 +114,16 @@ class _Section extends StatelessWidget {
         children: [
           Text(
             title,
-            style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
+            style: DesignTokens.titleMedium.copyWith(
+              fontWeight: FontWeight.w700,
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: DesignTokens.spacingSm),
           Text(
             content,
-            style: TextStyle(
-              fontSize: 14,
+            style: DesignTokens.bodyMedium.copyWith(
               height: 1.6,
-              color: AppColors.foreground.withValues(alpha: 0.8),
+              color: DesignTokens.foreground.withValues(alpha: 0.8),
             ),
           ),
         ],

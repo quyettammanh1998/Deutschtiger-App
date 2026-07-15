@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/identity/app_user.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../l10n/app_localizations.dart';
 
 /// Lưới 2x2 thống kê học tập: Level · Tổng XP · Streak hiện tại · Từ đã học.
 class ProfileStatsGrid extends StatelessWidget {
@@ -11,11 +12,17 @@ class ProfileStatsGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final textScale = MediaQuery.textScalerOf(context).scale(1);
     final items = [
-      (Icons.military_tech_outlined, 'Cấp độ', '${user.level}'),
-      (Icons.bolt_outlined, 'Tổng XP', '${user.totalXp}'),
-      (Icons.local_fire_department_outlined, 'Streak', '${user.currentStreak}'),
-      (Icons.school_outlined, 'Từ đã học', '${user.wordsLearned}'),
+      (Icons.military_tech_outlined, l10n.level, '${user.level}'),
+      (Icons.bolt_outlined, l10n.totalXp, '${user.totalXp}'),
+      (
+        Icons.local_fire_department_outlined,
+        l10n.streak,
+        '${user.currentStreak}',
+      ),
+      (Icons.school_outlined, l10n.wordsLearned, '${user.wordsLearned}'),
     ];
 
     return GridView.count(
@@ -24,7 +31,7 @@ class ProfileStatsGrid extends StatelessWidget {
       physics: const NeverScrollableScrollPhysics(),
       crossAxisSpacing: 12,
       mainAxisSpacing: 12,
-      childAspectRatio: 2.4,
+      childAspectRatio: textScale >= 1.6 ? 1.2 : 2.4,
       children: [
         for (final (icon, label, value) in items)
           _StatCard(icon: icon, label: label, value: value),
@@ -57,26 +64,30 @@ class _StatCard extends StatelessWidget {
         children: [
           Icon(icon, color: AppColors.tigerOrange, size: 26),
           const SizedBox(width: 12),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                value,
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.foreground,
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  value,
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.foreground,
+                  ),
                 ),
-              ),
-              Text(
-                label,
-                style: const TextStyle(
-                  fontSize: 12,
-                  color: AppColors.mutedForeground,
+                Text(
+                  label,
+                  maxLines: 2,
+                  softWrap: true,
+                  style: const TextStyle(
+                    fontSize: 12,
+                    color: AppColors.mutedForeground,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ],
       ),

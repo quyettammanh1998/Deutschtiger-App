@@ -104,7 +104,7 @@ class _IchAchTrainerPageState extends ConsumerState<IchAchTrainerPage> {
     final avgScore = _attempts > 0 ? _totalScore / _attempts : 0.0;
     return Container(
       padding: const EdgeInsets.all(16),
-      color: Colors.orange.withOpacity(0.1),
+      color: Colors.orange.withValues(alpha: 0.1),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -136,12 +136,12 @@ class _IchAchTrainerPageState extends ConsumerState<IchAchTrainerPage> {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            Colors.orange.withOpacity(0.1),
-            Colors.orange.withOpacity(0.05),
+            Colors.orange.withValues(alpha: 0.1),
+            Colors.orange.withValues(alpha: 0.05),
           ],
         ),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.orange.withOpacity(0.2)),
+        border: Border.all(color: Colors.orange.withValues(alpha: 0.2)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -197,9 +197,9 @@ class _IchAchTrainerPageState extends ConsumerState<IchAchTrainerPage> {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.1),
+        color: color.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: color.withOpacity(0.3)),
+        border: Border.all(color: color.withValues(alpha: 0.3)),
       ),
       child: Column(
         children: [
@@ -241,7 +241,7 @@ class _IchAchTrainerPageState extends ConsumerState<IchAchTrainerPage> {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
           ),
         ],
@@ -283,11 +283,11 @@ class _IchAchTrainerPageState extends ConsumerState<IchAchTrainerPage> {
 
     if (_showResult) {
       if (_selectedAnswer == label) {
-        backgroundColor = isCorrect ? Colors.green.withOpacity(0.2) : Colors.red.withOpacity(0.2);
+        backgroundColor = isCorrect ? Colors.green.withValues(alpha: 0.2) : Colors.red.withValues(alpha: 0.2);
         borderColor = isCorrect ? Colors.green : Colors.red;
         textColor = isCorrect ? Colors.green : Colors.red;
       } else if (isCorrect) {
-        backgroundColor = Colors.green.withOpacity(0.1);
+        backgroundColor = Colors.green.withValues(alpha: 0.1);
         borderColor = Colors.green;
       }
     }
@@ -326,7 +326,7 @@ class _IchAchTrainerPageState extends ConsumerState<IchAchTrainerPage> {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: isCorrect ? Colors.green.withOpacity(0.1) : Colors.red.withOpacity(0.1),
+        color: isCorrect ? Colors.green.withValues(alpha: 0.1) : Colors.red.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(8),
       ),
       child: Row(
@@ -376,7 +376,7 @@ class _IchAchTrainerPageState extends ConsumerState<IchAchTrainerPage> {
         color: Colors.white,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, -4),
           ),

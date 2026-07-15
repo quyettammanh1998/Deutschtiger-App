@@ -132,7 +132,7 @@ class _ShadowingPageState extends ConsumerState<ShadowingPage> {
         color: Colors.white,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, -4),
           ),
@@ -216,12 +216,12 @@ class _GermanSentenceCard extends StatelessWidget {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            AppColors.primary.withOpacity(0.1),
-            AppColors.tigerOrange.withOpacity(0.1),
+            AppColors.primary.withValues(alpha: 0.1),
+            AppColors.tigerOrange.withValues(alpha: 0.1),
           ],
         ),
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: AppColors.primary.withOpacity(0.2)),
+        border: Border.all(color: AppColors.primary.withValues(alpha: 0.2)),
       ),
       child: Column(
         children: [
@@ -286,7 +286,7 @@ class _WordByWordViewState extends State<_WordByWordView> {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
           ),
         ],
@@ -328,7 +328,7 @@ class _WordByWordViewState extends State<_WordByWordView> {
                     color: isActive
                         ? AppColors.primary
                         : isCompleted
-                            ? AppColors.success.withOpacity(0.2)
+                            ? AppColors.success.withValues(alpha: 0.2)
                             : Colors.grey[100],
                     borderRadius: BorderRadius.circular(8),
                     border: isActive

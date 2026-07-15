@@ -96,7 +96,7 @@ class _StatItem extends StatelessWidget {
           width: 40,
           height: 40,
           decoration: BoxDecoration(
-            color: (color ?? Colors.grey).withOpacity(0.1),
+            color: (color ?? Colors.grey).withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(8),
           ),
           child: Icon(icon, color: color ?? Colors.grey, size: 20),
@@ -173,7 +173,7 @@ class _TierRow extends StatelessWidget {
             height: 40,
             decoration: BoxDecoration(
               color: tier.isUnlocked
-                  ? AppColors.success.withOpacity(0.1)
+                  ? AppColors.success.withValues(alpha: 0.1)
                   : Colors.grey[200],
               borderRadius: BorderRadius.circular(8),
             ),
@@ -212,7 +212,7 @@ class _TierRow extends StatelessWidget {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
               decoration: BoxDecoration(
-                color: AppColors.primary.withOpacity(0.1),
+                color: AppColors.primary.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Text(

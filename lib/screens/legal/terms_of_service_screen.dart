@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../core/theme/app_colors.dart';
+import '../../core/design_tokens.dart';
 
 /// Màn Terms of Service - bắt buộc cho Apple App Store Review.
 class TermsOfServiceScreen extends StatelessWidget {
@@ -9,14 +9,14 @@ class TermsOfServiceScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.authBackground,
+      backgroundColor: DesignTokens.authBackground,
       appBar: AppBar(
-        backgroundColor: AppColors.authBackground,
+        backgroundColor: DesignTokens.authBackground,
         title: const Text(
           'Điều khoản dịch vụ',
           style: TextStyle(
             fontWeight: FontWeight.bold,
-            color: AppColors.tigerOrange,
+            color: DesignTokens.tigerOrange,
             fontSize: 18,
           ),
         ),
@@ -26,25 +26,22 @@ class TermsOfServiceScreen extends StatelessWidget {
         ),
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(24),
+        padding: const EdgeInsets.all(DesignTokens.spacingLg),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
               'Điều khoản sử dụng',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: DesignTokens.spacingSm),
             Text(
               'Cập nhật lần cuối: ${DateTime.now().year}',
-              style: TextStyle(
-                color: AppColors.mutedForeground,
+              style: DesignTokens.bodySmall.copyWith(
+                color: DesignTokens.mutedForeground,
               ),
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: DesignTokens.spacingLg),
             const _Section(
               title: '1. Chấp nhận điều khoản',
               content:
@@ -90,17 +87,16 @@ class TermsOfServiceScreen extends StatelessWidget {
               content:
                   'Nếu bạn có câu hỏi về điều khoản này, vui lòng liên hệ:\n\n📧 Email: support@deutschtiger.com\n🌐 Website: https://deutschtiger.com',
             ),
-            const SizedBox(height: 32),
+            const SizedBox(height: DesignTokens.spacingXl),
             Center(
               child: Text(
                 '© ${DateTime.now().year} DeutschTiger. Mọi quyền được bảo lưu.',
-                style: TextStyle(
-                  color: AppColors.mutedForeground,
-                  fontSize: 12,
+                style: DesignTokens.bodySmall.copyWith(
+                  color: DesignTokens.mutedForeground,
                 ),
               ),
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: DesignTokens.spacingLg),
           ],
         ),
       ),
@@ -123,18 +119,16 @@ class _Section extends StatelessWidget {
         children: [
           Text(
             title,
-            style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
+            style: DesignTokens.titleMedium.copyWith(
+              fontWeight: FontWeight.w700,
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: DesignTokens.spacingSm),
           Text(
             content,
-            style: TextStyle(
-              fontSize: 14,
+            style: DesignTokens.bodyMedium.copyWith(
               height: 1.6,
-              color: AppColors.foreground.withValues(alpha: 0.8),
+              color: DesignTokens.foreground.withValues(alpha: 0.8),
             ),
           ),
         ],

@@ -130,6 +130,6 @@ final achievementCountProvider = Provider<({int unlocked, int total})>((ref) {
       return (unlocked: unlocked, total: achievements.length);
     },
     loading: () => (unlocked: 0, total: 0),
-    error: (_, __) => (unlocked: 0, total: 0),
+    error: (_, _) => (unlocked: 0, total: 0),
   );
 });

@@ -10,10 +10,12 @@ class ConversationScenarioPage extends ConsumerStatefulWidget {
   const ConversationScenarioPage({super.key, required this.conversationId});
 
   @override
-  ConsumerState<ConversationScenarioPage> createState() => _ConversationScenarioPageState();
+  ConsumerState<ConversationScenarioPage> createState() =>
+      _ConversationScenarioPageState();
 }
 
-class _ConversationScenarioPageState extends ConsumerState<ConversationScenarioPage> {
+class _ConversationScenarioPageState
+    extends ConsumerState<ConversationScenarioPage> {
   AIConversation? _conversation;
   AIConversationHistory? _history;
   bool _isLoading = true;
@@ -55,7 +57,7 @@ class _ConversationScenarioPageState extends ConsumerState<ConversationScenarioP
 
   void _sendMessage() {
     if (_userInput.trim().isEmpty) return;
-    
+
     setState(() {
       _history = _history?.copyWith(
         messages: [
@@ -71,9 +73,9 @@ class _ConversationScenarioPageState extends ConsumerState<ConversationScenarioP
       _userInput = '';
       _inputController.clear();
     });
-    
+
     _scrollToBottom();
-    
+
     Future.delayed(const Duration(seconds: 1), () {
       if (mounted) {
         setState(() {
@@ -143,7 +145,9 @@ class _ConversationScenarioPageState extends ConsumerState<ConversationScenarioP
         actions: [
           IconButton(
             onPressed: () => setState(() => _showVocabPanel = !_showVocabPanel),
-            icon: Icon(_showVocabPanel ? Icons.menu_book : Icons.menu_book_outlined),
+            icon: Icon(
+              _showVocabPanel ? Icons.menu_book : Icons.menu_book_outlined,
+            ),
             tooltip: 'Vocabulary Panel',
           ),
         ],
@@ -152,19 +156,10 @@ class _ConversationScenarioPageState extends ConsumerState<ConversationScenarioP
           ? const Center(child: CircularProgressIndicator())
           : Row(
               children: [
-                Expanded(
-                  flex: 3,
-                  child: _buildChatArea(),
-                ),
+                Expanded(flex: 3, child: _buildChatArea()),
                 if (_showVocabPanel) ...[
-                  Container(
-                    width: 1,
-                    color: Colors.grey[300],
-                  ),
-                  SizedBox(
-                    width: 280,
-                    child: _buildVocabPanel(),
-                  ),
+                  Container(width: 1, color: Colors.grey[300]),
+                  SizedBox(width: 280, child: _buildVocabPanel()),
                 ],
               ],
             ),
@@ -180,10 +175,8 @@ class _ConversationScenarioPageState extends ConsumerState<ConversationScenarioP
             controller: _scrollController,
             padding: const EdgeInsets.all(16),
             itemCount: _history?.messages.length ?? 0,
-            itemBuilder: (context, index) => _buildMessageBubble(
-              _history!.messages[index],
-              index % 2 == 0,
-            ),
+            itemBuilder: (context, index) =>
+                _buildMessageBubble(_history!.messages[index], index % 2 == 0),
           ),
         ),
         _buildInputArea(),
@@ -195,10 +188,8 @@ class _ConversationScenarioPageState extends ConsumerState<ConversationScenarioP
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColors.primary.withOpacity(0.05),
-        border: Border(
-          bottom: BorderSide(color: Colors.grey[200]!),
-        ),
+        color: AppColors.primary.withValues(alpha: 0.05),
+        border: Border(bottom: BorderSide(color: Colors.grey[200]!)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -208,7 +199,7 @@ class _ConversationScenarioPageState extends ConsumerState<ConversationScenarioP
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 decoration: BoxDecoration(
-                  color: AppColors.primary.withOpacity(0.1),
+                  color: AppColors.primary.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(6),
                 ),
                 child: Text(
@@ -240,7 +231,6 @@ class _ConversationScenarioPageState extends ConsumerState<ConversationScenarioP
   }
 
   Widget _buildMessageBubble(AIMessage message, bool isUser) {
-    final isAssistant = message.role == 'assistant';
     return Align(
       alignment: isUser ? Alignment.centerRight : Alignment.centerLeft,
       child: Container(
@@ -259,7 +249,7 @@ class _ConversationScenarioPageState extends ConsumerState<ConversationScenarioP
           ),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.05),
+              color: Colors.black.withValues(alpha: 0.05),
               blurRadius: 5,
               offset: const Offset(0, 2),
             ),
@@ -275,10 +265,14 @@ class _ConversationScenarioPageState extends ConsumerState<ConversationScenarioP
                   Container(
                     padding: const EdgeInsets.all(4),
                     decoration: BoxDecoration(
-                      color: AppColors.primary.withOpacity(0.1),
+                      color: AppColors.primary.withValues(alpha: 0.1),
                       shape: BoxShape.circle,
                     ),
-                    child: const Icon(Icons.smart_toy, size: 14, color: AppColors.primary),
+                    child: const Icon(
+                      Icons.smart_toy,
+                      size: 14,
+                      color: AppColors.primary,
+                    ),
                   ),
                 if (!isUser) const SizedBox(width: 8),
                 Text(
@@ -323,7 +317,7 @@ class _ConversationScenarioPageState extends ConsumerState<ConversationScenarioP
         color: Colors.white,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, -4),
           ),
@@ -340,7 +334,9 @@ class _ConversationScenarioPageState extends ConsumerState<ConversationScenarioP
                 height: 48,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: _isRecording ? Colors.red : AppColors.primary.withOpacity(0.1),
+                  color: _isRecording
+                      ? Colors.red
+                      : AppColors.primary.withValues(alpha: 0.1),
                 ),
                 child: Icon(
                   _isRecording ? Icons.stop : Icons.mic,
@@ -355,7 +351,9 @@ class _ConversationScenarioPageState extends ConsumerState<ConversationScenarioP
                 onChanged: (value) => setState(() => _userInput = value),
                 onSubmitted: (_) => _sendMessage(),
                 decoration: InputDecoration(
-                  hintText: _isRecording ? 'Recording...' : 'Type your message...',
+                  hintText: _isRecording
+                      ? 'Recording...'
+                      : 'Type your message...',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(24),
                     borderSide: BorderSide.none,
@@ -397,10 +395,8 @@ class _ConversationScenarioPageState extends ConsumerState<ConversationScenarioP
           Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: AppColors.primary.withOpacity(0.1),
-              border: Border(
-                bottom: BorderSide(color: Colors.grey[200]!),
-              ),
+              color: AppColors.primary.withValues(alpha: 0.1),
+              border: Border(bottom: BorderSide(color: Colors.grey[200]!)),
             ),
             child: const Row(
               children: [
@@ -424,7 +420,11 @@ class _ConversationScenarioPageState extends ConsumerState<ConversationScenarioP
                 _buildVocabItem('ich möchte', 'I would like', '/ɪç ˈmœçtə/'),
                 _buildVocabItem('bitte', 'please', '/ˈbɪtə/'),
                 _buildVocabItem('einen Kaffee', 'a coffee', '/ˈaɪnən ˈkafe/'),
-                _buildVocabItem('danke schön', 'thank you very much', '/ˈdaŋkə ʃøːn/'),
+                _buildVocabItem(
+                  'danke schön',
+                  'thank you very much',
+                  '/ˈdaŋkə ʃøːn/',
+                ),
                 _buildVocabItem('gerne', 'gladly/with pleasure', '/ˈɡɛʁnə/'),
               ],
             ),

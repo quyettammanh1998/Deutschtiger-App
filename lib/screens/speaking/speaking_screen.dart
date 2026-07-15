@@ -102,7 +102,7 @@ class _AIChatHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(16),
-      color: AppColors.primary.withOpacity(0.1),
+      color: AppColors.primary.withValues(alpha: 0.1),
       child: Column(
         children: [
           const Icon(Icons.chat_bubble, size: 48, color: AppColors.primary),

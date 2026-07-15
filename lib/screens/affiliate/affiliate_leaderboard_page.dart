@@ -1,200 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../repositories/affiliate/affiliate_leaderboard_repository.dart';
+import '../../view_models/providers.dart';
 
-final affiliateLeaderboardProvider = FutureProvider<List<AffiliateLeaderboardEntry>>((ref) async {
-  await Future.delayed(const Duration(milliseconds: 300));
-  return AffiliateLeaderboardRepository.getLeaderboard();
+/// `period` query param sent to `GET /user/affiliate/leaderboard`: 'all' | 'monthly' | 'weekly'.
+final affiliateLeaderboardProvider =
+    FutureProvider.family<AffiliateLeaderboardResult, String>((ref, period) async {
+  final repo = AffiliateLeaderboardRepository(ref.watch(apiClientProvider));
+  return repo.getLeaderboard(period: period);
 });
-
-class AffiliateLeaderboardEntry {
-  final int rank;
-  final String oderId;
-  final String userName;
-  final String? avatarUrl;
-  final int totalReferrals;
-  final double totalEarnings;
-  final int currentStreak;
-  final bool isCurrentUser;
-
-  const AffiliateLeaderboardEntry({
-    required this.rank,
-    required this.oderId,
-    required this.userName,
-    this.avatarUrl,
-    required this.totalReferrals,
-    required this.totalEarnings,
-    required this.currentStreak,
-    this.isCurrentUser = false,
-  });
-}
-
-class AffiliateLeaderboardRepository {
-  static List<AffiliateLeaderboardEntry> getLeaderboard() {
-    return [
-      const AffiliateLeaderboardEntry(
-        rank: 1,
-        oderId: 'user-elite-1',
-        userName: 'Sarah M.',
-        totalReferrals: 156,
-        totalEarnings: 890.50,
-        currentStreak: 365,
-      ),
-      const AffiliateLeaderboardEntry(
-        rank: 2,
-        oderId: 'user-elite-2',
-        userName: 'Max W.',
-        totalReferrals: 124,
-        totalEarnings: 712.00,
-        currentStreak: 289,
-      ),
-      const AffiliateLeaderboardEntry(
-        rank: 3,
-        oderId: 'user-elite-3',
-        userName: 'Emma K.',
-        totalReferrals: 98,
-        totalEarnings: 545.25,
-        currentStreak: 201,
-      ),
-      const AffiliateLeaderboardEntry(
-        rank: 4,
-        oderId: 'user-elite-4',
-        userName: 'Lukas B.',
-        totalReferrals: 87,
-        totalEarnings: 467.75,
-        currentStreak: 156,
-      ),
-      const AffiliateLeaderboardEntry(
-        rank: 5,
-        oderId: 'user-elite-5',
-        userName: 'Anna S.',
-        totalReferrals: 72,
-        totalEarnings: 398.50,
-        currentStreak: 134,
-      ),
-      const AffiliateLeaderboardEntry(
-        rank: 6,
-        oderId: 'user-elite-6',
-        userName: 'Felix R.',
-        totalReferrals: 65,
-        totalEarnings: 356.25,
-        currentStreak: 98,
-      ),
-      const AffiliateLeaderboardEntry(
-        rank: 7,
-        oderId: 'user-elite-7',
-        userName: 'Sophie L.',
-        totalReferrals: 58,
-        totalEarnings: 312.00,
-        currentStreak: 87,
-      ),
-      const AffiliateLeaderboardEntry(
-        rank: 8,
-        oderId: 'user-elite-8',
-        userName: 'Jonas H.',
-        totalReferrals: 51,
-        totalEarnings: 278.50,
-        currentStreak: 76,
-      ),
-      const AffiliateLeaderboardEntry(
-        rank: 9,
-        oderId: 'user-elite-9',
-        userName: 'Mia T.',
-        totalReferrals: 45,
-        totalEarnings: 245.75,
-        currentStreak: 65,
-      ),
-      const AffiliateLeaderboardEntry(
-        rank: 10,
-        oderId: 'user-elite-10',
-        userName: 'Leon F.',
-        totalReferrals: 42,
-        totalEarnings: 228.00,
-        currentStreak: 58,
-      ),
-      const AffiliateLeaderboardEntry(
-        rank: 11,
-        oderId: 'user-elite-11',
-        userName: 'Laura D.',
-        totalReferrals: 38,
-        totalEarnings: 205.50,
-        currentStreak: 45,
-      ),
-      const AffiliateLeaderboardEntry(
-        rank: 12,
-        oderId: 'user-elite-12',
-        userName: 'Paul G.',
-        totalReferrals: 35,
-        totalEarnings: 189.25,
-        currentStreak: 42,
-      ),
-      const AffiliateLeaderboardEntry(
-        rank: 13,
-        oderId: 'user-elite-13',
-        userName: 'Emily N.',
-        totalReferrals: 32,
-        totalEarnings: 172.00,
-        currentStreak: 38,
-      ),
-      const AffiliateLeaderboardEntry(
-        rank: 14,
-        oderId: 'user-elite-14',
-        userName: 'Noah K.',
-        totalReferrals: 28,
-        totalEarnings: 151.75,
-        currentStreak: 32,
-      ),
-      const AffiliateLeaderboardEntry(
-        rank: 15,
-        oderId: 'user-elite-15',
-        userName: 'Hannah W.',
-        totalReferrals: 25,
-        totalEarnings: 135.50,
-        currentStreak: 28,
-      ),
-      const AffiliateLeaderboardEntry(
-        rank: 16,
-        oderId: 'user-elite-16',
-        userName: 'Erik M.',
-        totalReferrals: 22,
-        totalEarnings: 118.25,
-        currentStreak: 25,
-      ),
-      const AffiliateLeaderboardEntry(
-        rank: 17,
-        oderId: 'user-elite-17',
-        userName: 'Julia S.',
-        totalReferrals: 19,
-        totalEarnings: 102.00,
-        currentStreak: 21,
-      ),
-      const AffiliateLeaderboardEntry(
-        rank: 18,
-        oderId: 'user-elite-18',
-        userName: 'Liam B.',
-        totalReferrals: 16,
-        totalEarnings: 86.50,
-        currentStreak: 18,
-      ),
-      const AffiliateLeaderboardEntry(
-        rank: 19,
-        oderId: 'user-elite-19',
-        userName: 'Sofia R.',
-        totalReferrals: 14,
-        totalEarnings: 75.25,
-        currentStreak: 15,
-      ),
-      const AffiliateLeaderboardEntry(
-        rank: 20,
-        oderId: 'user-elite-20',
-        userName: 'Ben H.',
-        totalReferrals: 12,
-        totalEarnings: 64.00,
-        currentStreak: 12,
-      ),
-    ];
-  }
-}
 
 class AffiliateLeaderboardPage extends ConsumerStatefulWidget {
   const AffiliateLeaderboardPage({super.key});
@@ -204,12 +19,24 @@ class AffiliateLeaderboardPage extends ConsumerStatefulWidget {
 }
 
 class _AffiliateLeaderboardPageState extends ConsumerState<AffiliateLeaderboardPage> {
-  String _sortBy = 'referrals';
+  String _sortBy = 'earnings';
   String _timeFilter = 'all';
+
+  /// Maps the UI filter to the backend's `period` query param.
+  String get _period {
+    switch (_timeFilter) {
+      case 'month':
+        return 'monthly';
+      case 'week':
+        return 'weekly';
+      default:
+        return 'all';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    final leaderboardAsync = ref.watch(affiliateLeaderboardProvider);
+    final leaderboardAsync = ref.watch(affiliateLeaderboardProvider(_period));
 
     return Scaffold(
       backgroundColor: AppColors.authBackground,
@@ -241,45 +68,68 @@ class _AffiliateLeaderboardPageState extends ConsumerState<AffiliateLeaderboardP
               Text('Error loading leaderboard: $e'),
               const SizedBox(height: 16),
               ElevatedButton(
-                onPressed: () => ref.invalidate(affiliateLeaderboardProvider),
+                onPressed: () => ref.invalidate(affiliateLeaderboardProvider(_period)),
                 child: const Text('Retry'),
               ),
             ],
           ),
         ),
-        data: (entries) => _buildLeaderboardContent(entries),
+        data: (result) => _buildLeaderboardContent(result),
       ),
     );
   }
 
-  Widget _buildLeaderboardContent(List<AffiliateLeaderboardEntry> entries) {
+  Widget _buildLeaderboardContent(AffiliateLeaderboardResult result) {
+    final entries = result.entries;
+    if (entries.isEmpty) {
+      return RefreshIndicator(
+        onRefresh: () async => ref.invalidate(affiliateLeaderboardProvider(_period)),
+        child: ListView(
+          children: [
+            const SizedBox(height: 120),
+            Icon(Icons.leaderboard_outlined, size: 64, color: Colors.grey[400]),
+            const SizedBox(height: 16),
+            Center(
+              child: Text(
+                'Chưa có dữ liệu bảng xếp hạng',
+                style: TextStyle(color: Colors.grey[600]),
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
     final sortedEntries = _sortEntries(entries);
 
-    return CustomScrollView(
-      slivers: [
-        SliverToBoxAdapter(
-          child: _buildTopThree(sortedEntries.take(3).toList()),
-        ),
-        SliverToBoxAdapter(
-          child: _buildStatsSummary(sortedEntries),
-        ),
-        SliverToBoxAdapter(
-          child: _buildSortOptions(),
-        ),
-        SliverList(
-          delegate: SliverChildBuilderDelegate(
-            (context, index) {
-              final entry = sortedEntries[index + 3];
-              return _LeaderboardItem(
-                entry: entry,
-                previousRank: index + 4,
-              );
-            },
-            childCount: (sortedEntries.length - 3).clamp(0, sortedEntries.length),
+    return RefreshIndicator(
+      onRefresh: () async => ref.invalidate(affiliateLeaderboardProvider(_period)),
+      child: CustomScrollView(
+        slivers: [
+          SliverToBoxAdapter(
+            child: _buildTopThree(sortedEntries.take(3).toList()),
           ),
-        ),
-        const SliverToBoxAdapter(child: SizedBox(height: 32)),
-      ],
+          SliverToBoxAdapter(
+            child: _buildStatsSummary(sortedEntries),
+          ),
+          SliverToBoxAdapter(
+            child: _buildSortOptions(),
+          ),
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (context, index) {
+                final entry = sortedEntries[index + 3];
+                return _LeaderboardItem(
+                  entry: entry,
+                  previousRank: index + 4,
+                );
+              },
+              childCount: (sortedEntries.length - 3).clamp(0, sortedEntries.length),
+            ),
+          ),
+          const SliverToBoxAdapter(child: SizedBox(height: 32)),
+        ],
+      ),
     );
   }
 
@@ -305,9 +155,9 @@ class _AffiliateLeaderboardPageState extends ConsumerState<AffiliateLeaderboardP
   }
 
   Widget _buildStatsSummary(List<AffiliateLeaderboardEntry> entries) {
-    final totalReferrals = entries.fold<int>(0, (sum, e) => sum + e.totalReferrals);
-    final totalEarnings = entries.fold<double>(0, (sum, e) => sum + e.totalEarnings);
-    final avgReferrals = entries.isNotEmpty ? (totalReferrals / entries.length).round() : 0;
+    final totalConversions = entries.fold<int>(0, (sum, e) => sum + e.conversions);
+    final totalEarned = entries.fold<int>(0, (sum, e) => sum + e.totalEarned);
+    final avgConversions = entries.isNotEmpty ? (totalConversions / entries.length).round() : 0;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -319,7 +169,7 @@ class _AffiliateLeaderboardPageState extends ConsumerState<AffiliateLeaderboardP
               Expanded(
                 child: _SummaryItem(
                   icon: Icons.people,
-                  value: '$totalReferrals',
+                  value: '$totalConversions',
                   label: 'Tổng giới thiệu',
                   color: AppColors.primary,
                 ),
@@ -328,7 +178,7 @@ class _AffiliateLeaderboardPageState extends ConsumerState<AffiliateLeaderboardP
               Expanded(
                 child: _SummaryItem(
                   icon: Icons.attach_money,
-                  value: '\$${totalEarnings.toStringAsFixed(0)}',
+                  value: '\$$totalEarned',
                   label: 'Tổng thu nhập',
                   color: Colors.green,
                 ),
@@ -337,7 +187,7 @@ class _AffiliateLeaderboardPageState extends ConsumerState<AffiliateLeaderboardP
               Expanded(
                 child: _SummaryItem(
                   icon: Icons.trending_up,
-                  value: '$avgReferrals',
+                  value: '$avgConversions',
                   label: 'Trung bình',
                   color: Colors.orange,
                 ),
@@ -377,13 +227,6 @@ class _AffiliateLeaderboardPageState extends ConsumerState<AffiliateLeaderboardP
                     selected: _sortBy == 'earnings',
                     onTap: () => setState(() => _sortBy = 'earnings'),
                   ),
-                  const SizedBox(width: 8),
-                  _SortChip(
-                    label: 'Streak',
-                    icon: Icons.local_fire_department,
-                    selected: _sortBy == 'streak',
-                    onTap: () => setState(() => _sortBy = 'streak'),
-                  ),
                 ],
               ),
             ),
@@ -397,27 +240,14 @@ class _AffiliateLeaderboardPageState extends ConsumerState<AffiliateLeaderboardP
     final sorted = List<AffiliateLeaderboardEntry>.from(entries);
     switch (_sortBy) {
       case 'referrals':
-        sorted.sort((a, b) => b.totalReferrals.compareTo(a.totalReferrals));
+        sorted.sort((a, b) => b.conversions.compareTo(a.conversions));
         break;
       case 'earnings':
-        sorted.sort((a, b) => b.totalEarnings.compareTo(a.totalEarnings));
-        break;
-      case 'streak':
-        sorted.sort((a, b) => b.currentStreak.compareTo(a.currentStreak));
+        sorted.sort((a, b) => b.totalEarned.compareTo(a.totalEarned));
         break;
     }
     return sorted.asMap().entries.map((e) {
-      final entry = e.value;
-      return AffiliateLeaderboardEntry(
-        rank: e.key + 1,
-        oderId: entry.oderId,
-        userName: entry.userName,
-        avatarUrl: entry.avatarUrl,
-        totalReferrals: entry.totalReferrals,
-        totalEarnings: entry.totalEarnings,
-        currentStreak: entry.currentStreak,
-        isCurrentUser: entry.isCurrentUser,
-      );
+      return e.value.copyWith(rank: e.key + 1);
     }).toList();
   }
 
@@ -517,7 +347,7 @@ class _TopThreeCard extends StatelessWidget {
                   boxShadow: isFirst
                       ? [
                           BoxShadow(
-                            color: _getRankColors(rank)[0].withOpacity(0.4),
+                            color: _getRankColors(rank)[0].withValues(alpha: 0.4),
                             blurRadius: 20,
                             offset: const Offset(0, 8),
                           ),
@@ -530,12 +360,12 @@ class _TopThreeCard extends StatelessWidget {
                       width: isFirst ? 60 : 48,
                       height: isFirst ? 60 : 48,
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.2),
+                        color: Colors.white.withValues(alpha: 0.2),
                         borderRadius: BorderRadius.circular(isFirst ? 30 : 24),
                       ),
                       child: Center(
                         child: Text(
-                          entry.userName.isNotEmpty ? entry.userName[0] : '?',
+                          entry.displayName.isNotEmpty ? entry.displayName[0] : '?',
                           style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
@@ -546,7 +376,7 @@ class _TopThreeCard extends StatelessWidget {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      entry.userName,
+                      entry.displayName,
                       style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
@@ -556,16 +386,16 @@ class _TopThreeCard extends StatelessWidget {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      '${entry.totalReferrals} refs',
+                      '${entry.conversions} refs',
                       style: TextStyle(
-                        color: Colors.white.withOpacity(0.9),
+                        color: Colors.white.withValues(alpha: 0.9),
                         fontSize: isFirst ? 13 : 11,
                       ),
                     ),
                     Text(
-                      '\$${entry.totalEarnings.toStringAsFixed(0)}',
+                      '\$${entry.totalEarned}',
                       style: TextStyle(
-                        color: Colors.white.withOpacity(0.9),
+                        color: Colors.white.withValues(alpha: 0.9),
                         fontWeight: FontWeight.w600,
                         fontSize: isFirst ? 14 : 12,
                       ),
@@ -618,7 +448,7 @@ class _TopThreeCard extends StatelessWidget {
       case 3:
         return [const Color(0xFFCD7F32), const Color(0xFFB87333)];
       default:
-        return [AppColors.primary, AppColors.primary.withOpacity(0.8)];
+        return [AppColors.primary, AppColors.primary.withValues(alpha: 0.8)];
     }
   }
 
@@ -781,13 +611,12 @@ class _LeaderboardItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final rankChange = entry.rank - previousRank;
-    final isTop20 = entry.rank <= 20;
 
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
       decoration: BoxDecoration(
         color: entry.isCurrentUser
-            ? AppColors.primary.withOpacity(0.1)
+            ? AppColors.primary.withValues(alpha: 0.1)
             : Colors.white,
         borderRadius: BorderRadius.circular(12),
         border: entry.isCurrentUser
@@ -795,7 +624,7 @@ class _LeaderboardItem extends StatelessWidget {
             : null,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 5,
             offset: const Offset(0, 2),
           ),
@@ -845,9 +674,9 @@ class _LeaderboardItem extends StatelessWidget {
           children: [
             CircleAvatar(
               radius: 18,
-              backgroundColor: AppColors.primary.withOpacity(0.2),
+              backgroundColor: AppColors.primary.withValues(alpha: 0.2),
               child: Text(
-                entry.userName.isNotEmpty ? entry.userName[0] : '?',
+                entry.displayName.isNotEmpty ? entry.displayName[0] : '?',
                 style: const TextStyle(
                   color: AppColors.primary,
                   fontWeight: FontWeight.bold,
@@ -861,9 +690,12 @@ class _LeaderboardItem extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Text(
-                        entry.userName,
-                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      Expanded(
+                        child: Text(
+                          entry.displayName,
+                          style: const TextStyle(fontWeight: FontWeight.bold),
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
                       if (entry.isCurrentUser) ...[
                         const SizedBox(width: 8),
@@ -885,24 +717,6 @@ class _LeaderboardItem extends StatelessWidget {
                       ],
                     ],
                   ),
-                  const SizedBox(height: 2),
-                  Row(
-                    children: [
-                      Icon(
-                        Icons.local_fire_department,
-                        size: 12,
-                        color: Colors.orange,
-                      ),
-                      const SizedBox(width: 2),
-                      Text(
-                        '${entry.currentStreak} days',
-                        style: TextStyle(
-                          fontSize: 11,
-                          color: Colors.grey[600],
-                        ),
-                      ),
-                    ],
-                  ),
                 ],
               ),
             ),
@@ -913,7 +727,7 @@ class _LeaderboardItem extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Text(
-              '${entry.totalReferrals}',
+              '${entry.conversions}',
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 18,
@@ -929,7 +743,7 @@ class _LeaderboardItem extends StatelessWidget {
             ),
             const SizedBox(height: 2),
             Text(
-              '\$${entry.totalEarnings.toStringAsFixed(2)}',
+              '\$${entry.totalEarned}',
               style: const TextStyle(
                 fontWeight: FontWeight.w600,
                 fontSize: 12,
@@ -943,8 +757,8 @@ class _LeaderboardItem extends StatelessWidget {
   }
 
   Color _getRankBgColor(int rank) {
-    if (rank <= 10) return AppColors.primary.withOpacity(0.1);
-    if (rank <= 20) return Colors.orange.withOpacity(0.1);
+    if (rank <= 10) return AppColors.primary.withValues(alpha: 0.1);
+    if (rank <= 20) return Colors.orange.withValues(alpha: 0.1);
     return Colors.grey[100]!;
   }
 
