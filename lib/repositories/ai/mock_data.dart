@@ -1,141 +1,88 @@
+import 'dart:math';
+
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../../data/ai/ai_models.dart';
 
-/// Mock data for AI features
-class AIMockData {
-  static const List<AISession> mockSessions = [
-    AISession(
-      id: 'session-1',
-      title: 'Grammar Practice - Nebensatz',
-      mode: 'grammar',
-      messageCount: 12,
-      tokensUsed: 1850,
-      createdAt: null,
-      lastMessageAt: null,
-      messages: [
-        const AIChatMessage(
-          id: 'msg-1-1',
-          sessionId: 'session-1',
-          role: 'assistant',
-          content: 'Hallo! Willkommen zu deiner Grammatik-Übung. Heute üben wir Nebensätze mit "dass".',
-          translation: 'Hello! Welcome to your grammar practice. Today we practice subordinate clauses with "dass".',
-          vocabularyHighlight: ['Nebensatz', 'dass', 'Übung'],
-        ),
-        const AIChatMessage(
-          id: 'msg-1-2',
-          sessionId: 'session-1',
-          role: 'user',
-          content: 'Ich weiß, dass du Deutsch lernst.',
-          translation: 'I know that you are learning German.',
-        ),
-        const AIChatMessage(
-          id: 'msg-1-3',
-          sessionId: 'session-1',
-          role: 'assistant',
-          content: 'Sehr gut! Dein Satz ist perfekt. Das Verb "lernst" steht am Ende des Nebensatzes, wie es sein sollte.',
-          translation: 'Very good! Your sentence is perfect. The verb "lernst" is at the end of the subordinate clause, as it should be.',
-          vocabularyHighlight: ['Verb', 'Ende', 'Nebensatz'],
-          grammarCorrections: [],
-        ),
-      ],
-    ),
-    AISession(
-      id: 'session-2',
-      title: 'Conversation - Alltag',
-      mode: 'conversation',
-      messageCount: 8,
-      tokensUsed: 1200,
-      createdAt: null,
-      lastMessageAt: null,
-    ),
-    AISession(
-      id: 'session-3',
-      title: 'Vocabulary - Berufe',
-      mode: 'vocabulary',
-      messageCount: 15,
-      tokensUsed: 2100,
-      createdAt: null,
-      lastMessageAt: null,
-    ),
-    AISession(
-      id: 'session-4',
-      title: 'Exam Prep - B2',
-      mode: 'exam',
-      messageCount: 25,
-      tokensUsed: 3500,
-      createdAt: null,
-      lastMessageAt: null,
-    ),
-  ];
+/// Writing-practice remains mock: Schreiben grading has no confirmed backend
+/// contract in this phase (see `docs/api-changelog.md` — AI chat/sessions/
+/// memory/profile are live via `AIRepository`, writing-practice grading is a
+/// later phase). Kept isolated here so it is easy to delete once that
+/// endpoint exists.
+class AIWritingMockRepository {
+  Future<List<WritingPractice>> getWritingPractices() async {
+    await Future.delayed(const Duration(milliseconds: 300));
+    return _mockWritingPractices;
+  }
 
-  static const List<ChatHistoryItem> mockHistory = [
-    ChatHistoryItem(
-      id: 'session-1',
-      title: 'Grammar Practice - Nebensatz',
-      mode: 'grammar',
-      messageCount: 12,
-      lastMessageAt: null,
-    ),
-    ChatHistoryItem(
-      id: 'session-2',
-      title: 'Conversation - Alltag',
-      mode: 'conversation',
-      messageCount: 8,
-      lastMessageAt: null,
-    ),
-    ChatHistoryItem(
-      id: 'session-3',
-      title: 'Vocabulary - Berufe',
-      mode: 'vocabulary',
-      messageCount: 15,
-      lastMessageAt: null,
-    ),
-  ];
+  Future<WritingPractice> submitWriting({
+    required String practiceId,
+    required String content,
+  }) async {
+    await Future.delayed(const Duration(seconds: 2));
 
-  static const List<AIMode> mockModes = [
-    AIMode(
-      id: 'grammar',
-      name: 'Grammar Teacher',
-      nameVi: 'Giáo viên Ngữ pháp',
-      description: 'A patient teacher who explains grammar rules clearly with examples',
-      descriptionVi: 'Một giáo viên kiên nhẫn giải thích ngữ pháp rõ ràng với ví dụ',
-      avatar: 'teacher',
-      tone: 'formal',
-      focus: 'grammar',
-    ),
-    AIMode(
-      id: 'conversation',
-      name: 'Conversation Partner',
-      nameVi: 'Bạn đối thoại',
-      description: 'Practice German conversations naturally and fluently',
-      descriptionVi: 'Thực hành đối thoại tiếng Đức một cách tự nhiên',
-      avatar: 'chat',
-      tone: 'casual',
-      focus: 'conversation',
-    ),
-    AIMode(
-      id: 'vocabulary',
-      name: 'Vocabulary Builder',
-      nameVi: 'Xây dựng Từ vựng',
-      description: 'Learn new words and phrases in context',
-      descriptionVi: 'Học từ mới và cụm từ trong ngữ cảnh',
-      avatar: 'books',
-      tone: 'encouraging',
-      focus: 'vocabulary',
-    ),
-    AIMode(
-      id: 'exam',
-      name: 'Exam Preparation',
-      nameVi: 'Luyện thi',
-      description: 'Prepare for Goethe, TELC, or ÖSD exams',
-      descriptionVi: 'Chuẩn bị cho các kỳ thi Goethe, TELC hoặc ÖSD',
-      avatar: 'exam',
-      tone: 'formal',
-      focus: 'exam',
-      isExamContext: true,
-    ),
-  ];
+    final practice = _mockWritingPractices.firstWhere(
+      (p) => p.id == practiceId,
+      orElse: () => _mockWritingPractices.first,
+    );
+    return practice.copyWith(
+      userText: content,
+      isCompleted: true,
+      overallScore: 75.0 + Random().nextDouble() * 20,
+      grammarScore: 70.0 + Random().nextDouble() * 20,
+      vocabularyScore: 75.0 + Random().nextDouble() * 20,
+      coherenceScore: 72.0 + Random().nextDouble() * 20,
+      submittedAt: DateTime.now(),
+      feedback: _generateWritingFeedback(content),
+    );
+  }
 
-  static const List<WritingPractice> mockWritingPractices = [
+  List<WritingFeedback> _generateWritingFeedback(String content) {
+    final feedback = <WritingFeedback>[];
+    final words = content.split(RegExp(r'\s+'));
+
+    if (words.length < 50) {
+      feedback.add(
+        const WritingFeedback(
+          id: 'wf-1',
+          type: 'length',
+          original: '',
+          suggestion: 'Versuchen Sie, längere Sätze zu schreiben (mindestens 100 Wörter).',
+          explanation: 'Your text is too short. Try to write more detailed sentences.',
+          category: 'content',
+        ),
+      );
+    }
+
+    if (!content.contains('.') && !content.contains(',')) {
+      feedback.add(
+        const WritingFeedback(
+          id: 'wf-2',
+          type: 'punctuation',
+          original: '',
+          suggestion: 'Fügen Sie mehr Satzzeichen hinzu: Kommas und Punkte.',
+          explanation: 'Use proper punctuation to structure your text.',
+          category: 'format',
+        ),
+      );
+    }
+
+    feedback.add(
+      const WritingFeedback(
+        id: 'wf-3',
+        type: 'general',
+        original: '',
+        suggestion:
+            'Gut gemacht! Versuchen Sie, mehr connectors wie "außerdem", "deshalb", "jedoch" zu verwenden.',
+        explanation: 'Good attempt! Consider adding more connecting words.',
+        category: 'coherence',
+      ),
+    );
+
+    return feedback;
+  }
+
+  static const List<WritingPractice> _mockWritingPractices = [
     WritingPractice(
       id: 'practice-1',
       title: 'Mein Alltag',
@@ -181,14 +128,8 @@ class AIMockData {
       createdAt: null,
     ),
   ];
-
-  static const AISettings mockSettings = AISettings(
-    userLevel: 'B1',
-    learningGoals: ['Grammar', 'Conversation', 'Exam Prep'],
-    includeTranslations: true,
-    showGrammarHints: true,
-    showVocabularyHighlights: true,
-    focusExam: 'Goethe B1',
-    maxTokensPerResponse: 500,
-  );
 }
+
+final aiWritingMockRepositoryProvider = Provider<AIWritingMockRepository>(
+  (ref) => AIWritingMockRepository(),
+);

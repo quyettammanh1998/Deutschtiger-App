@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../core/theme/app_colors.dart';
-import 'package:deutschtiger/view_models/ai/ai_provider.dart';
-import 'package:deutschtiger/data/ai/ai_models.dart';
 
-class ChatHistorySidebar extends ConsumerWidget {
-  final Function(ChatHistoryItem) onSessionSelected;
+import '../../../core/theme/app_colors.dart';
+import 'package:deutschtiger/data/ai/ai_chat_live_models.dart';
+import 'package:deutschtiger/view_models/ai/ai_provider.dart';
+
+/// Chat history sidebar backed by the live `GET /ai/sessions` list.
+class ChatHistorySidebar extends ConsumerStatefulWidget {
+  final ValueChanged<ChatSessionSummary> onSessionSelected;
   final String? currentSessionId;
   final VoidCallback onClose;
 
@@ -17,15 +19,26 @@ class ChatHistorySidebar extends ConsumerWidget {
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final historyAsync = ref.watch(aiChatHistoryProvider);
+  ConsumerState<ChatHistorySidebar> createState() => _ChatHistorySidebarState();
+}
+
+class _ChatHistorySidebarState extends ConsumerState<ChatHistorySidebar> {
+  @override
+  void initState() {
+    super.initState();
+    Future.microtask(() => ref.read(aiChatNotifierProvider.notifier).loadSessions());
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final state = ref.watch(aiChatNotifierProvider);
 
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: Colors.black.withValues(alpha: 0.1),
             blurRadius: 8,
             offset: const Offset(2, 0),
           ),
@@ -33,23 +46,17 @@ class ChatHistorySidebar extends ConsumerWidget {
       ),
       child: Column(
         children: [
-          _SidebarHeader(onClose: onClose),
+          _SidebarHeader(onClose: widget.onClose),
           Expanded(
-            child: historyAsync.when(
-              data: (history) => history.isEmpty
-                  ? _EmptyHistory()
-                  : _HistoryList(
-                      history: history,
-                      currentSessionId: currentSessionId,
-                      onSessionSelected: onSessionSelected,
-                    ),
-              loading: () => const Center(
-                child: CircularProgressIndicator(),
-              ),
-              error: (e, _) => Center(
-                child: Text('Error: $e'),
-              ),
-            ),
+            child: state.sessionsLoading
+                ? const Center(child: CircularProgressIndicator())
+                : state.sessions.isEmpty
+                ? const _EmptyHistory()
+                : _HistoryList(
+                    sessions: state.sessions,
+                    currentSessionId: widget.currentSessionId,
+                    onSessionSelected: widget.onSessionSelected,
+                  ),
           ),
         ],
       ),
@@ -67,10 +74,8 @@ class _SidebarHeader extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColors.primary.withOpacity(0.1),
-        border: Border(
-          bottom: BorderSide(color: Colors.grey[200]!),
-        ),
+        color: AppColors.primary.withValues(alpha: 0.1),
+        border: Border(bottom: BorderSide(color: Colors.grey[200]!)),
       ),
       child: Row(
         children: [
@@ -79,17 +84,10 @@ class _SidebarHeader extends StatelessWidget {
           const Expanded(
             child: Text(
               'Chat History',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
           ),
-          IconButton(
-            icon: const Icon(Icons.close),
-            onPressed: onClose,
-            iconSize: 20,
-          ),
+          IconButton(icon: const Icon(Icons.close), onPressed: onClose, iconSize: 20),
         ],
       ),
     );
@@ -97,6 +95,8 @@ class _SidebarHeader extends StatelessWidget {
 }
 
 class _EmptyHistory extends StatelessWidget {
+  const _EmptyHistory();
+
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -105,26 +105,13 @@ class _EmptyHistory extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              Icons.chat_bubble_outline,
-              size: 48,
-              color: Colors.grey[300],
-            ),
+            Icon(Icons.chat_bubble_outline, size: 48, color: Colors.grey[300]),
             const SizedBox(height: 16),
-            Text(
-              'No chat history yet',
-              style: TextStyle(
-                color: Colors.grey[600],
-                fontSize: 14,
-              ),
-            ),
+            Text('No chat history yet', style: TextStyle(color: Colors.grey[600], fontSize: 14)),
             const SizedBox(height: 8),
             Text(
               'Start a conversation to see it here',
-              style: TextStyle(
-                color: Colors.grey[400],
-                fontSize: 12,
-              ),
+              style: TextStyle(color: Colors.grey[400], fontSize: 12),
               textAlign: TextAlign.center,
             ),
           ],
@@ -135,12 +122,12 @@ class _EmptyHistory extends StatelessWidget {
 }
 
 class _HistoryList extends StatelessWidget {
-  final List<ChatHistoryItem> history;
+  final List<ChatSessionSummary> sessions;
   final String? currentSessionId;
-  final Function(ChatHistoryItem) onSessionSelected;
+  final ValueChanged<ChatSessionSummary> onSessionSelected;
 
   const _HistoryList({
-    required this.history,
+    required this.sessions,
     this.currentSessionId,
     required this.onSessionSelected,
   });
@@ -149,15 +136,12 @@ class _HistoryList extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.separated(
       padding: const EdgeInsets.symmetric(vertical: 8),
-      itemCount: history.length,
-      separatorBuilder: (_, __) => Divider(
-        height: 1,
-        color: Colors.grey[200],
-      ),
+      itemCount: sessions.length,
+      separatorBuilder: (_, _) => Divider(height: 1, color: Colors.grey[200]),
       itemBuilder: (context, index) {
-        final item = history[index];
+        final item = sessions[index];
         final isSelected = item.id == currentSessionId;
-        
+
         return _HistoryItem(
           item: item,
           isSelected: isSelected,
@@ -169,15 +153,11 @@ class _HistoryList extends StatelessWidget {
 }
 
 class _HistoryItem extends StatelessWidget {
-  final ChatHistoryItem item;
+  final ChatSessionSummary item;
   final bool isSelected;
   final VoidCallback onTap;
 
-  const _HistoryItem({
-    required this.item,
-    required this.isSelected,
-    required this.onTap,
-  });
+  const _HistoryItem({required this.item, required this.isSelected, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -186,7 +166,7 @@ class _HistoryItem extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         decoration: BoxDecoration(
-          color: isSelected ? AppColors.primary.withOpacity(0.1) : null,
+          color: isSelected ? AppColors.primary.withValues(alpha: 0.1) : null,
           border: isSelected
               ? Border(left: BorderSide(color: AppColors.primary, width: 3))
               : null,
@@ -196,14 +176,10 @@ class _HistoryItem extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: _getModeColor(item.mode).withOpacity(0.1),
+                color: AppColors.primary.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: Icon(
-                _getModeIcon(item.mode),
-                size: 18,
-                color: _getModeColor(item.mode),
-              ),
+              child: const Icon(Icons.smart_toy_outlined, size: 18, color: AppColors.primary),
             ),
             const SizedBox(width: 12),
             Expanded(
@@ -211,7 +187,7 @@ class _HistoryItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    item.title,
+                    item.title.isEmpty ? 'Cuộc trò chuyện' : item.title,
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
@@ -223,32 +199,22 @@ class _HistoryItem extends StatelessWidget {
                   const SizedBox(height: 4),
                   Row(
                     children: [
-                      Icon(
-                        Icons.chat_bubble_outline,
-                        size: 12,
-                        color: Colors.grey[500],
-                      ),
+                      Icon(Icons.chat_bubble_outline, size: 12, color: Colors.grey[500]),
                       const SizedBox(width: 4),
                       Text(
                         '${item.messageCount} messages',
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Colors.grey[500],
-                        ),
+                        style: TextStyle(fontSize: 12, color: Colors.grey[500]),
                       ),
                     ],
                   ),
                 ],
               ),
             ),
-            if (item.lastMessageAt != null) ...[
+            if (item.updatedAt != null) ...[
               const SizedBox(width: 8),
               Text(
-                _formatDate(item.lastMessageAt!),
-                style: TextStyle(
-                  fontSize: 11,
-                  color: Colors.grey[400],
-                ),
+                _formatDate(item.updatedAt!),
+                style: TextStyle(fontSize: 11, color: Colors.grey[400]),
               ),
             ],
           ],
@@ -257,40 +223,10 @@ class _HistoryItem extends StatelessWidget {
     );
   }
 
-  IconData _getModeIcon(String mode) {
-    switch (mode) {
-      case 'grammar':
-        return Icons.school;
-      case 'conversation':
-        return Icons.chat;
-      case 'vocabulary':
-        return Icons.book;
-      case 'exam':
-        return Icons.assignment;
-      default:
-        return Icons.psychology;
-    }
-  }
-
-  Color _getModeColor(String mode) {
-    switch (mode) {
-      case 'grammar':
-        return Colors.blue;
-      case 'conversation':
-        return Colors.green;
-      case 'vocabulary':
-        return Colors.orange;
-      case 'exam':
-        return Colors.purple;
-      default:
-        return AppColors.primary;
-    }
-  }
-
   String _formatDate(DateTime date) {
     final now = DateTime.now();
     final diff = now.difference(date);
-    
+
     if (diff.inDays == 0) {
       return 'Today';
     } else if (diff.inDays == 1) {
