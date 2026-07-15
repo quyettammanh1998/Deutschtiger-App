@@ -1,103 +1,48 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../repositories/listening/podcast_repository.dart';
+
+import 'package:deutschtiger/services/config/app_config.dart';
+import 'package:deutschtiger/view_models/providers.dart';
 import '../../data/listening/podcast_models.dart';
+import '../../repositories/listening/podcast_repository.dart';
 
 final podcastRepositoryProvider = Provider<PodcastRepository>((ref) {
-  return PodcastRepository();
+  return PodcastRepository(ref.watch(apiClientProvider), AppConfig.webviewBaseUrl);
 });
 
-final podcastSeriesProvider = FutureProvider<List<PodcastSeries>>((ref) async {
-  final repo = ref.watch(podcastRepositoryProvider);
-  return repo.getPodcastSeries();
+/// Toàn bộ index Easy German Podcast (file tĩnh, không có transcript).
+final podcastIndexProvider = FutureProvider<List<PodcastEpisode>>((ref) {
+  return ref.watch(podcastRepositoryProvider).fetchIndex();
 });
 
-final podcastEpisodesProvider = FutureProvider.family<List<PodcastEpisode>, String>((ref, seriesId) async {
-  final repo = ref.watch(podcastRepositoryProvider);
-  return repo.getEpisodes(seriesId);
+/// 1 tập đầy đủ theo slug (mp3 url + transcript).
+final podcastEpisodeProvider =
+    FutureProvider.family<PodcastEpisodeDetail, String>((ref, slug) {
+  return ref.watch(podcastRepositoryProvider).fetchEpisode(slug);
 });
 
-final audiobooksProvider = FutureProvider<List<Audiobook>>((ref) async {
-  final repo = ref.watch(podcastRepositoryProvider);
-  return repo.getAudiobooks();
+/// Danh sách slug đã nghe xong. Rỗng khi chưa đăng nhập hoặc lỗi mạng — UI
+/// vẫn hiển thị danh sách tập bình thường, chỉ ẩn trạng thái tiến độ.
+final podcastCompletedIdsProvider = FutureProvider<List<String>>((ref) async {
+  ref.watch(authStateProvider);
+  return ref.watch(podcastRepositoryProvider).fetchCompletedEpisodeIds();
 });
 
-final dictationsProvider = FutureProvider<List<Dictation>>((ref) async {
-  final repo = ref.watch(podcastRepositoryProvider);
-  return repo.getDictations();
+/// Bảng xếp hạng podcast công khai (top N).
+final podcastLeaderboardProvider =
+    FutureProvider<List<PodcastLeaderboardEntry>>((ref) {
+  return ref.watch(podcastRepositoryProvider).fetchLeaderboard();
 });
 
-final dictationSentencesProvider = FutureProvider.family<List<DictationSentence>, String>((ref, dictationId) async {
-  final repo = ref.watch(podcastRepositoryProvider);
-  return repo.getDictationSentences(dictationId);
+/// Vị trí của user hiện tại. `null` khi chưa đăng nhập hoặc chưa có dữ liệu.
+final podcastUserRankProvider = FutureProvider<PodcastLeaderboardEntry?>((ref) {
+  ref.watch(authStateProvider);
+  return ref.watch(podcastRepositoryProvider).fetchUserRank();
 });
 
-final selectedPodcastSeriesProvider = StateProvider<PodcastSeries?>((ref) => null);
-final selectedEpisodeProvider = StateProvider<PodcastEpisode?>((ref) => null);
-final selectedDictationProvider = StateProvider<Dictation?>((ref) => null);
-
-class PodcastNotifier extends StateNotifier<AudioPlayerState> {
-  final PodcastRepository _repo;
-  
-  PodcastNotifier(this._repo) : super(AudioPlayerState());
-  
-  Future<void> loadEpisode(String seriesId, String episodeId) async {
-    state = state.copyWith(isLoading: true);
-    try {
-      final episodes = await _repo.getEpisodes(seriesId);
-      final episode = episodes.firstWhere((e) => e.id == episodeId);
-      state = state.copyWith(
-        currentEpisode: episode,
-        isLoading: false,
-        position: Duration.zero,
-        duration: Duration(seconds: episode.durationSeconds),
-      );
-    } catch (e) {
-      state = state.copyWith(isLoading: false, error: e.toString());
-    }
-  }
-  
-  void play() => state = state.copyWith(isPlaying: true);
-  void pause() => state = state.copyWith(isPlaying: false);
-  void seek(Duration position) => state = state.copyWith(position: position);
+/// Đánh dấu hoàn thành + invalidate progress/leaderboard để UI cập nhật ngay.
+Future<void> markPodcastEpisodeComplete(WidgetRef ref, String slug) async {
+  await ref.read(podcastRepositoryProvider).markComplete(slug);
+  ref.invalidate(podcastCompletedIdsProvider);
+  ref.invalidate(podcastLeaderboardProvider);
+  ref.invalidate(podcastUserRankProvider);
 }
-
-class AudioPlayerState {
-  final PodcastEpisode? currentEpisode;
-  final bool isPlaying;
-  final Duration position;
-  final Duration duration;
-  final bool isLoading;
-  final String? error;
-  
-  AudioPlayerState({
-    this.currentEpisode,
-    this.isPlaying = false,
-    this.position = Duration.zero,
-    this.duration = Duration.zero,
-    this.isLoading = false,
-    this.error,
-  });
-  
-  AudioPlayerState copyWith({
-    PodcastEpisode? currentEpisode,
-    bool? isPlaying,
-    Duration? position,
-    Duration? duration,
-    bool? isLoading,
-    String? error,
-  }) {
-    return AudioPlayerState(
-      currentEpisode: currentEpisode ?? this.currentEpisode,
-      isPlaying: isPlaying ?? this.isPlaying,
-      position: position ?? this.position,
-      duration: duration ?? this.duration,
-      isLoading: isLoading ?? this.isLoading,
-      error: error ?? this.error,
-    );
-  }
-}
-
-final audioPlayerProvider = StateNotifierProvider<PodcastNotifier, AudioPlayerState>((ref) {
-  return PodcastNotifier(ref.watch(podcastRepositoryProvider));
-});

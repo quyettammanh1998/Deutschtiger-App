@@ -1,54 +1,63 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import '../../../core/theme/app_colors.dart';
+import '../../core/theme/app_colors.dart';
 import 'package:deutschtiger/view_models/listening/podcast_provider.dart';
-import 'widgets/podcast_series_card.dart';
-import 'widgets/audiobook_list.dart';
-import 'widgets/dictation_list.dart';
 
-/// Listening Hub Screen - Main entry point for all listening content.
-class ListeningHubScreen extends ConsumerStatefulWidget {
+/// Listening Hub — entry point cho các nguồn luyện nghe.
+///
+/// Phạm vi hiện tại chỉ có Easy German Podcast (live). Sprechen B1/B2 (video
+/// YouTube) chưa được wire trong app này — điều hướng tới màn "sắp ra mắt".
+class ListeningHubScreen extends ConsumerWidget {
   const ListeningHubScreen({super.key});
 
   @override
-  ConsumerState<ListeningHubScreen> createState() => _ListeningHubScreenState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final indexAsync = ref.watch(podcastIndexProvider);
+    final completedAsync = ref.watch(podcastCompletedIdsProvider);
 
-class _ListeningHubScreenState extends ConsumerState<ListeningHubScreen>
-    with SingleTickerProviderStateMixin {
-  late TabController _tabController;
-
-  @override
-  void initState() {
-    super.initState();
-    _tabController = TabController(length: 3, vsync: this);
-  }
-
-  @override
-  void dispose() {
-    _tabController.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.authBackground,
       body: SafeArea(
         child: Column(
           children: [
-            _buildHeader(),
-            _buildUserStats(),
-            _buildSearchBar(),
-            _buildCategoryTabs(),
+            _buildHeader(context),
             Expanded(
-              child: TabBarView(
-                controller: _tabController,
+              child: ListView(
+                padding: const EdgeInsets.fromLTRB(20, 8, 20, 24),
                 children: [
-                  _PodcastTab(onTabSelected: (index) => _tabController.animateTo(index)),
-                  _AudiobookTab(),
-                  _DictationTab(),
+                  _buildStats(
+                    total: indexAsync.maybeWhen(data: (v) => v.length, orElse: () => 0),
+                    completed: completedAsync.maybeWhen(data: (v) => v.length, orElse: () => 0),
+                  ),
+                  const SizedBox(height: 16),
+                  _SourceCard(
+                    icon: Icons.podcasts,
+                    title: 'Easy German Podcast',
+                    subtitle: 'Podcast tiếng Đức đời thường — A2/B1',
+                    gradient: const [AppColors.primary, AppColors.tigerOrange],
+                    trailing: indexAsync.maybeWhen(
+                      data: (episodes) => '${episodes.length} tập',
+                      orElse: () => null,
+                    ),
+                    onTap: () => context.push('/listening/easy-german'),
+                  ),
+                  const SizedBox(height: 12),
+                  _SourceCard(
+                    icon: Icons.chat_bubble_outline,
+                    title: 'Sprechen B1',
+                    subtitle: 'Video luyện nghe — sắp ra mắt',
+                    gradient: [Colors.orange.shade400, Colors.orange.shade600],
+                    onTap: () => context.push('/listening/sprechen-b1'),
+                  ),
+                  const SizedBox(height: 12),
+                  _SourceCard(
+                    icon: Icons.work_outline,
+                    title: 'Sprechen B2',
+                    subtitle: 'Video luyện nghe — sắp ra mắt',
+                    gradient: [Colors.red.shade400, Colors.red.shade600],
+                    onTap: () => context.push('/listening/sprechen-b2'),
+                  ),
                 ],
               ),
             ),
@@ -58,7 +67,7 @@ class _ListeningHubScreenState extends ConsumerState<ListeningHubScreen>
     );
   }
 
-  Widget _buildHeader() {
+  Widget _buildHeader(BuildContext context) {
     return Container(
       padding: const EdgeInsets.fromLTRB(20, 16, 20, 8),
       child: Row(
@@ -94,11 +103,8 @@ class _ListeningHubScreenState extends ConsumerState<ListeningHubScreen>
                   ),
                 ),
                 Text(
-                  'Podcast, Audiobook, Dictation',
-                  style: TextStyle(
-                    fontSize: 13,
-                    color: AppColors.mutedForeground,
-                  ),
+                  'Podcast tiếng Đức',
+                  style: TextStyle(fontSize: 13, color: AppColors.mutedForeground),
                 ),
               ],
             ),
@@ -108,9 +114,8 @@ class _ListeningHubScreenState extends ConsumerState<ListeningHubScreen>
     );
   }
 
-  Widget _buildUserStats() {
+  Widget _buildStats({required int total, required int completed}) {
     return Container(
-      margin: const EdgeInsets.fromLTRB(20, 8, 20, 16),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         gradient: LinearGradient(
@@ -126,100 +131,93 @@ class _ListeningHubScreenState extends ConsumerState<ListeningHubScreen>
         children: [
           _StatBadge(
             icon: Icons.headphones,
-            value: '42',
+            value: '$completed',
             label: 'Đã nghe',
             color: Colors.blue,
           ),
           _StatBadge(
-            icon: Icons.timer,
-            value: '12h',
-            label: 'Thời gian',
+            icon: Icons.library_music,
+            value: '$total',
+            label: 'Tổng số tập',
             color: Colors.orange,
           ),
-          _StatBadge(
-            icon: Icons.trending_up,
-            value: 'A2',
-            label: 'Cấp độ',
-            color: Colors.green,
-          ),
         ],
       ),
     );
   }
+}
 
-  Widget _buildSearchBar() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(12),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.05),
-              blurRadius: 10,
-              offset: const Offset(0, 2),
-            ),
-          ],
-        ),
-        child: const TextField(
-          decoration: InputDecoration(
-            hintText: 'Tìm kiếm podcast, audiobook...',
-            hintStyle: TextStyle(color: AppColors.mutedForeground),
-            prefixIcon: Icon(Icons.search, color: AppColors.mutedForeground),
-            border: InputBorder.none,
-            contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-          ),
-        ),
-      ),
-    );
-  }
+class _SourceCard extends StatelessWidget {
+  const _SourceCard({
+    required this.icon,
+    required this.title,
+    required this.subtitle,
+    required this.gradient,
+    required this.onTap,
+    this.trailing,
+  });
 
-  Widget _buildCategoryTabs() {
-    return Container(
-      margin: const EdgeInsets.only(top: 16),
-      height: 50,
-      child: TabBar(
-        controller: _tabController,
-        labelColor: AppColors.primary,
-        unselectedLabelColor: AppColors.mutedForeground,
-        indicatorColor: AppColors.primary,
-        indicatorSize: TabBarIndicatorSize.label,
-        labelStyle: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
-        unselectedLabelStyle:
-            const TextStyle(fontWeight: FontWeight.normal, fontSize: 14),
-        tabs: const [
-          Tab(
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(Icons.podcasts, size: 18),
-                SizedBox(width: 6),
-                Text('Podcasts'),
+  final IconData icon;
+  final String title;
+  final String subtitle;
+  final List<Color> gradient;
+  final VoidCallback onTap;
+  final String? trailing;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(16),
+      clipBehavior: Clip.antiAlias,
+      elevation: 1,
+      child: InkWell(
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Row(
+            children: [
+              Container(
+                width: 52,
+                height: 52,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(colors: gradient),
+                  borderRadius: BorderRadius.circular(14),
+                ),
+                child: Icon(icon, color: Colors.white, size: 26),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.foreground,
+                      ),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      subtitle,
+                      style: TextStyle(fontSize: 13, color: Colors.grey[600]),
+                    ),
+                  ],
+                ),
+              ),
+              if (trailing != null) ...[
+                Text(
+                  trailing!,
+                  style: TextStyle(fontSize: 12, color: Colors.grey[500]),
+                ),
+                const SizedBox(width: 8),
               ],
-            ),
+              const Icon(Icons.chevron_right, color: AppColors.mutedForeground),
+            ],
           ),
-          Tab(
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(Icons.headphones, size: 18),
-                SizedBox(width: 6),
-                Text('Audiobooks'),
-              ],
-            ),
-          ),
-          Tab(
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(Icons.edit_note, size: 18),
-                SizedBox(width: 6),
-                Text('Dictation'),
-              ],
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }
@@ -254,67 +252,13 @@ class _StatBadge extends StatelessWidget {
         const SizedBox(height: 6),
         Text(
           value,
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-            color: color,
-          ),
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: color),
         ),
         Text(
           label,
-          style: const TextStyle(
-            fontSize: 11,
-            color: AppColors.mutedForeground,
-          ),
+          style: const TextStyle(fontSize: 11, color: AppColors.mutedForeground),
         ),
       ],
-    );
-  }
-}
-
-class _PodcastTab extends ConsumerWidget {
-  final Function(int) onTabSelected;
-
-  const _PodcastTab({required this.onTabSelected});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final seriesAsync = ref.watch(podcastSeriesProvider);
-
-    return seriesAsync.when(
-      loading: () => const Center(child: CircularProgressIndicator()),
-      error: (e, _) => Center(child: Text('Error: $e')),
-      data: (series) => ListView.builder(
-        padding: const EdgeInsets.all(20),
-        itemCount: series.length,
-        itemBuilder: (context, index) => PodcastSeriesCard(series: series[index]),
-      ),
-    );
-  }
-}
-
-class _AudiobookTab extends ConsumerWidget {
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final audiobooksAsync = ref.watch(audiobooksProvider);
-
-    return audiobooksAsync.when(
-      loading: () => const Center(child: CircularProgressIndicator()),
-      error: (e, _) => Center(child: Text('Error: $e')),
-      data: (audiobooks) => AudiobookList(audiobooks: audiobooks),
-    );
-  }
-}
-
-class _DictationTab extends ConsumerWidget {
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final dictationsAsync = ref.watch(dictationsProvider);
-
-    return dictationsAsync.when(
-      loading: () => const Center(child: CircularProgressIndicator()),
-      error: (e, _) => Center(child: Text('Error: $e')),
-      data: (dictations) => DictationList(dictations: dictations),
     );
   }
 }

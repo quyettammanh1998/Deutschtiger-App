@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import '../../../core/theme/app_colors.dart';
+import '../../core/theme/app_colors.dart';
 import 'package:deutschtiger/data/listening/podcast_models.dart';
 import 'package:deutschtiger/view_models/listening/podcast_provider.dart';
 
-/// Easy German Podcast Episode Index Page - Lists all episodes.
+/// Easy German Podcast Episode Index Page — danh sách toàn bộ tập, bind vào
+/// index tĩnh + trạng thái hoàn thành từ backend.
 class EasyGermanPodcastPage extends ConsumerStatefulWidget {
   const EasyGermanPodcastPage({super.key});
 
@@ -19,32 +20,27 @@ class _EasyGermanPodcastPageState extends ConsumerState<EasyGermanPodcastPage> {
 
   @override
   Widget build(BuildContext context) {
-    final seriesAsync = ref.watch(podcastSeriesProvider);
+    final indexAsync = ref.watch(podcastIndexProvider);
+    final completedAsync = ref.watch(podcastCompletedIdsProvider);
 
     return Scaffold(
       backgroundColor: AppColors.authBackground,
       body: SafeArea(
         child: Column(
           children: [
-            _buildHeader(),
+            _buildHeader(context),
             _buildSearchBar(),
             _buildFilterChips(),
             Expanded(
-              child: seriesAsync.when(
+              child: indexAsync.when(
                 loading: () => const Center(child: CircularProgressIndicator()),
-                error: (e, _) => Center(child: Text('Error: $e')),
-                data: (series) {
-                  final easyGerman = series.firstWhere(
-                    (s) => s.id == 'easy-german',
-                    orElse: () => const PodcastSeries(
-                      id: 'easy-german',
-                      title: 'Easy German Podcast',
-                      titleVi: 'Podcast Tiếng Đức Dễ',
-                      totalEpisodes: 0,
-                      episodes: [],
-                    ),
+                error: (e, _) => _buildError(),
+                data: (episodes) {
+                  final completed = completedAsync.maybeWhen(
+                    data: (ids) => ids.toSet(),
+                    orElse: () => <String>{},
                   );
-                  return _buildEpisodeList(easyGerman);
+                  return _buildEpisodeList(episodes, completed);
                 },
               ),
             ),
@@ -54,7 +50,7 @@ class _EasyGermanPodcastPageState extends ConsumerState<EasyGermanPodcastPage> {
     );
   }
 
-  Widget _buildHeader() {
+  Widget _buildHeader(BuildContext context) {
     return Container(
       padding: const EdgeInsets.fromLTRB(20, 16, 20, 8),
       child: Row(
@@ -91,10 +87,7 @@ class _EasyGermanPodcastPageState extends ConsumerState<EasyGermanPodcastPage> {
                 ),
                 Text(
                   'Podcast tiếng Đức dễ - A2/B1',
-                  style: TextStyle(
-                    fontSize: 13,
-                    color: Colors.grey[600],
-                  ),
+                  style: TextStyle(fontSize: 13, color: Colors.grey[600]),
                 ),
               ],
             ),
@@ -166,22 +159,40 @@ class _EasyGermanPodcastPageState extends ConsumerState<EasyGermanPodcastPage> {
     );
   }
 
-  Widget _buildEpisodeList(PodcastSeries series) {
-    var episodes = series.episodes.toList();
+  Widget _buildError() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(Icons.wifi_off, size: 64, color: Colors.grey[300]),
+          const SizedBox(height: 16),
+          Text(
+            'Không thể tải danh sách tập. Vui lòng thử lại sau.',
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 15, color: Colors.grey[600]),
+          ),
+          const SizedBox(height: 16),
+          TextButton(
+            onPressed: () => ref.invalidate(podcastIndexProvider),
+            child: const Text('Thử lại'),
+          ),
+        ],
+      ),
+    );
+  }
 
-    // Apply filters
+  Widget _buildEpisodeList(List<PodcastEpisode> allEpisodes, Set<String> completedIds) {
+    var episodes = allEpisodes;
+
     if (_searchQuery.isNotEmpty) {
-      episodes = episodes
-          .where((e) =>
-              e.title.toLowerCase().contains(_searchQuery.toLowerCase()) ||
-              e.titleVi.toLowerCase().contains(_searchQuery.toLowerCase()))
-          .toList();
+      final q = _searchQuery.toLowerCase();
+      episodes = episodes.where((e) => e.title.toLowerCase().contains(q)).toList();
     }
 
     if (_filterCompleted == 'completed') {
-      episodes = episodes.where((e) => e.isCompleted).toList();
+      episodes = episodes.where((e) => completedIds.contains(e.slug)).toList();
     } else if (_filterCompleted == 'in-progress') {
-      episodes = episodes.where((e) => !e.isCompleted && e.progressPercent > 0).toList();
+      episodes = episodes.where((e) => !completedIds.contains(e.slug)).toList();
     }
 
     if (episodes.isEmpty) {
@@ -193,10 +204,7 @@ class _EasyGermanPodcastPageState extends ConsumerState<EasyGermanPodcastPage> {
             const SizedBox(height: 16),
             Text(
               'Không tìm thấy tập nào',
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.grey[500],
-              ),
+              style: TextStyle(fontSize: 16, color: Colors.grey[500]),
             ),
           ],
         ),
@@ -209,11 +217,10 @@ class _EasyGermanPodcastPageState extends ConsumerState<EasyGermanPodcastPage> {
       itemBuilder: (context, index) {
         final episode = episodes[index];
         return _EpisodeCard(
+          index: allEpisodes.indexOf(episode),
           episode: episode,
-          onTap: () => context.push(
-            '/listening/easy-german/episode/${episode.id}',
-            extra: {'seriesId': series.id, 'episode': episode},
-          ),
+          completed: completedIds.contains(episode.slug),
+          onTap: () => context.push('/listening/easy-german/episode/${episode.slug}'),
         );
       },
     );
@@ -221,11 +228,7 @@ class _EasyGermanPodcastPageState extends ConsumerState<EasyGermanPodcastPage> {
 }
 
 class _FilterChip extends StatelessWidget {
-  const _FilterChip({
-    required this.label,
-    required this.isSelected,
-    required this.onTap,
-  });
+  const _FilterChip({required this.label, required this.isSelected, required this.onTap});
 
   final String label;
   final bool isSelected;
@@ -240,9 +243,7 @@ class _FilterChip extends StatelessWidget {
         decoration: BoxDecoration(
           color: isSelected ? AppColors.primary : Colors.white,
           borderRadius: BorderRadius.circular(20),
-          border: Border.all(
-            color: isSelected ? AppColors.primary : Colors.grey[300]!,
-          ),
+          border: Border.all(color: isSelected ? AppColors.primary : Colors.grey[300]!),
         ),
         child: Text(
           label,
@@ -259,11 +260,15 @@ class _FilterChip extends StatelessWidget {
 
 class _EpisodeCard extends StatelessWidget {
   const _EpisodeCard({
+    required this.index,
     required this.episode,
+    required this.completed,
     required this.onTap,
   });
 
+  final int index;
   final PodcastEpisode episode;
+  final bool completed;
   final VoidCallback onTap;
 
   String _formatDuration(int seconds) {
@@ -293,7 +298,6 @@ class _EpisodeCard extends StatelessWidget {
           padding: const EdgeInsets.all(16),
           child: Row(
             children: [
-              // Episode number badge
               Container(
                 width: 50,
                 height: 50,
@@ -309,40 +313,31 @@ class _EpisodeCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Center(
-                  child: Text(
-                    episode.episodeNumber,
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.tigerOrange,
-                    ),
-                  ),
+                  child: completed
+                      ? const Icon(Icons.check_circle, color: AppColors.success, size: 24)
+                      : Text(
+                          '${index + 1}',
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.tigerOrange,
+                          ),
+                        ),
                 ),
               ),
               const SizedBox(width: 16),
-              // Episode info
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      episode.titleVi,
+                      episode.title,
                       style: const TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w600,
                         color: AppColors.foreground,
                       ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      episode.descriptionVi,
-                      style: TextStyle(
-                        fontSize: 13,
-                        color: Colors.grey[600],
-                      ),
-                      maxLines: 1,
+                      maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
                     const SizedBox(height: 8),
@@ -351,61 +346,21 @@ class _EpisodeCard extends StatelessWidget {
                         Icon(Icons.timer, size: 14, color: Colors.grey[500]),
                         const SizedBox(width: 4),
                         Text(
-                          _formatDuration(episode.durationSeconds),
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.grey[500],
-                          ),
+                          _formatDuration(episode.duration),
+                          style: TextStyle(fontSize: 12, color: Colors.grey[500]),
                         ),
-                        if (episode.isCompleted) ...[
-                          const SizedBox(width: 12),
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 8,
-                              vertical: 2,
-                            ),
-                            decoration: BoxDecoration(
-                              color: AppColors.success.withValues(alpha: 0.1),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: const Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Icon(
-                                  Icons.check_circle,
-                                  size: 12,
-                                  color: AppColors.success,
-                                ),
-                                SizedBox(width: 4),
-                                Text(
-                                  'Đã nghe',
-                                  style: TextStyle(
-                                    fontSize: 11,
-                                    color: AppColors.success,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ] else if (episode.progressPercent > 0) ...[
-                          const SizedBox(width: 12),
-                          Expanded(
-                            child: LinearProgressIndicator(
-                              value: episode.progressPercent,
-                              backgroundColor: Colors.grey[200],
-                              valueColor: const AlwaysStoppedAnimation(
-                                AppColors.tigerOrange,
-                              ),
-                            ),
-                          ),
-                        ],
+                        const SizedBox(width: 12),
+                        Icon(Icons.short_text, size: 14, color: Colors.grey[500]),
+                        const SizedBox(width: 4),
+                        Text(
+                          '${episode.segments} câu',
+                          style: TextStyle(fontSize: 12, color: Colors.grey[500]),
+                        ),
                       ],
                     ),
                   ],
                 ),
               ),
-              // Play button
               Container(
                 width: 40,
                 height: 40,
@@ -415,11 +370,7 @@ class _EpisodeCard extends StatelessWidget {
                   ),
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: const Icon(
-                  Icons.play_arrow,
-                  color: Colors.white,
-                  size: 24,
-                ),
+                child: const Icon(Icons.play_arrow, color: Colors.white, size: 24),
               ),
             ],
           ),

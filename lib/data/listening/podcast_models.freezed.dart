@@ -13,308 +13,9 @@ part of 'podcast_models.dart';
 T _$identity<T>(T value) => value;
 
 /// @nodoc
-mixin _$PodcastSeries {
-
- String get id; String get title; String get titleVi; String get description; String get descriptionVi; String get imageUrl; String get level; String get language; int get totalEpisodes; int get completedEpisodes; List<PodcastEpisode> get episodes;
-/// Create a copy of PodcastSeries
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$PodcastSeriesCopyWith<PodcastSeries> get copyWith => _$PodcastSeriesCopyWithImpl<PodcastSeries>(this as PodcastSeries, _$identity);
-
-  /// Serializes this PodcastSeries to a JSON map.
-  Map<String, dynamic> toJson();
-
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is PodcastSeries&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&(identical(other.titleVi, titleVi) || other.titleVi == titleVi)&&(identical(other.description, description) || other.description == description)&&(identical(other.descriptionVi, descriptionVi) || other.descriptionVi == descriptionVi)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl)&&(identical(other.level, level) || other.level == level)&&(identical(other.language, language) || other.language == language)&&(identical(other.totalEpisodes, totalEpisodes) || other.totalEpisodes == totalEpisodes)&&(identical(other.completedEpisodes, completedEpisodes) || other.completedEpisodes == completedEpisodes)&&const DeepCollectionEquality().equals(other.episodes, episodes));
-}
-
-@JsonKey(includeFromJson: false, includeToJson: false)
-@override
-int get hashCode => Object.hash(runtimeType,id,title,titleVi,description,descriptionVi,imageUrl,level,language,totalEpisodes,completedEpisodes,const DeepCollectionEquality().hash(episodes));
-
-@override
-String toString() {
-  return 'PodcastSeries(id: $id, title: $title, titleVi: $titleVi, description: $description, descriptionVi: $descriptionVi, imageUrl: $imageUrl, level: $level, language: $language, totalEpisodes: $totalEpisodes, completedEpisodes: $completedEpisodes, episodes: $episodes)';
-}
-
-
-}
-
-/// @nodoc
-abstract mixin class $PodcastSeriesCopyWith<$Res>  {
-  factory $PodcastSeriesCopyWith(PodcastSeries value, $Res Function(PodcastSeries) _then) = _$PodcastSeriesCopyWithImpl;
-@useResult
-$Res call({
- String id, String title, String titleVi, String description, String descriptionVi, String imageUrl, String level, String language, int totalEpisodes, int completedEpisodes, List<PodcastEpisode> episodes
-});
-
-
-
-
-}
-/// @nodoc
-class _$PodcastSeriesCopyWithImpl<$Res>
-    implements $PodcastSeriesCopyWith<$Res> {
-  _$PodcastSeriesCopyWithImpl(this._self, this._then);
-
-  final PodcastSeries _self;
-  final $Res Function(PodcastSeries) _then;
-
-/// Create a copy of PodcastSeries
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? title = null,Object? titleVi = null,Object? description = null,Object? descriptionVi = null,Object? imageUrl = null,Object? level = null,Object? language = null,Object? totalEpisodes = null,Object? completedEpisodes = null,Object? episodes = null,}) {
-  return _then(_self.copyWith(
-id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as String,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
-as String,titleVi: null == titleVi ? _self.titleVi : titleVi // ignore: cast_nullable_to_non_nullable
-as String,description: null == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
-as String,descriptionVi: null == descriptionVi ? _self.descriptionVi : descriptionVi // ignore: cast_nullable_to_non_nullable
-as String,imageUrl: null == imageUrl ? _self.imageUrl : imageUrl // ignore: cast_nullable_to_non_nullable
-as String,level: null == level ? _self.level : level // ignore: cast_nullable_to_non_nullable
-as String,language: null == language ? _self.language : language // ignore: cast_nullable_to_non_nullable
-as String,totalEpisodes: null == totalEpisodes ? _self.totalEpisodes : totalEpisodes // ignore: cast_nullable_to_non_nullable
-as int,completedEpisodes: null == completedEpisodes ? _self.completedEpisodes : completedEpisodes // ignore: cast_nullable_to_non_nullable
-as int,episodes: null == episodes ? _self.episodes : episodes // ignore: cast_nullable_to_non_nullable
-as List<PodcastEpisode>,
-  ));
-}
-
-}
-
-
-/// Adds pattern-matching-related methods to [PodcastSeries].
-extension PodcastSeriesPatterns on PodcastSeries {
-/// A variant of `map` that fallback to returning `orElse`.
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case final Subclass value:
-///     return ...;
-///   case _:
-///     return orElse();
-/// }
-/// ```
-
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _PodcastSeries value)?  $default,{required TResult orElse(),}){
-final _that = this;
-switch (_that) {
-case _PodcastSeries() when $default != null:
-return $default(_that);case _:
-  return orElse();
-
-}
-}
-/// A `switch`-like method, using callbacks.
-///
-/// Callbacks receives the raw object, upcasted.
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case final Subclass value:
-///     return ...;
-///   case final Subclass2 value:
-///     return ...;
-/// }
-/// ```
-
-@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _PodcastSeries value)  $default,){
-final _that = this;
-switch (_that) {
-case _PodcastSeries():
-return $default(_that);case _:
-  throw StateError('Unexpected subclass');
-
-}
-}
-/// A variant of `map` that fallback to returning `null`.
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case final Subclass value:
-///     return ...;
-///   case _:
-///     return null;
-/// }
-/// ```
-
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _PodcastSeries value)?  $default,){
-final _that = this;
-switch (_that) {
-case _PodcastSeries() when $default != null:
-return $default(_that);case _:
-  return null;
-
-}
-}
-/// A variant of `when` that fallback to an `orElse` callback.
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case Subclass(:final field):
-///     return ...;
-///   case _:
-///     return orElse();
-/// }
-/// ```
-
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String title,  String titleVi,  String description,  String descriptionVi,  String imageUrl,  String level,  String language,  int totalEpisodes,  int completedEpisodes,  List<PodcastEpisode> episodes)?  $default,{required TResult orElse(),}) {final _that = this;
-switch (_that) {
-case _PodcastSeries() when $default != null:
-return $default(_that.id,_that.title,_that.titleVi,_that.description,_that.descriptionVi,_that.imageUrl,_that.level,_that.language,_that.totalEpisodes,_that.completedEpisodes,_that.episodes);case _:
-  return orElse();
-
-}
-}
-/// A `switch`-like method, using callbacks.
-///
-/// As opposed to `map`, this offers destructuring.
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case Subclass(:final field):
-///     return ...;
-///   case Subclass2(:final field2):
-///     return ...;
-/// }
-/// ```
-
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String title,  String titleVi,  String description,  String descriptionVi,  String imageUrl,  String level,  String language,  int totalEpisodes,  int completedEpisodes,  List<PodcastEpisode> episodes)  $default,) {final _that = this;
-switch (_that) {
-case _PodcastSeries():
-return $default(_that.id,_that.title,_that.titleVi,_that.description,_that.descriptionVi,_that.imageUrl,_that.level,_that.language,_that.totalEpisodes,_that.completedEpisodes,_that.episodes);case _:
-  throw StateError('Unexpected subclass');
-
-}
-}
-/// A variant of `when` that fallback to returning `null`
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case Subclass(:final field):
-///     return ...;
-///   case _:
-///     return null;
-/// }
-/// ```
-
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String title,  String titleVi,  String description,  String descriptionVi,  String imageUrl,  String level,  String language,  int totalEpisodes,  int completedEpisodes,  List<PodcastEpisode> episodes)?  $default,) {final _that = this;
-switch (_that) {
-case _PodcastSeries() when $default != null:
-return $default(_that.id,_that.title,_that.titleVi,_that.description,_that.descriptionVi,_that.imageUrl,_that.level,_that.language,_that.totalEpisodes,_that.completedEpisodes,_that.episodes);case _:
-  return null;
-
-}
-}
-
-}
-
-/// @nodoc
-@JsonSerializable()
-
-class _PodcastSeries implements PodcastSeries {
-  const _PodcastSeries({required this.id, required this.title, required this.titleVi, this.description = '', this.descriptionVi = '', this.imageUrl = '', this.level = '', this.language = '', this.totalEpisodes = 0, this.completedEpisodes = 0, final  List<PodcastEpisode> episodes = const <PodcastEpisode>[]}): _episodes = episodes;
-  factory _PodcastSeries.fromJson(Map<String, dynamic> json) => _$PodcastSeriesFromJson(json);
-
-@override final  String id;
-@override final  String title;
-@override final  String titleVi;
-@override@JsonKey() final  String description;
-@override@JsonKey() final  String descriptionVi;
-@override@JsonKey() final  String imageUrl;
-@override@JsonKey() final  String level;
-@override@JsonKey() final  String language;
-@override@JsonKey() final  int totalEpisodes;
-@override@JsonKey() final  int completedEpisodes;
- final  List<PodcastEpisode> _episodes;
-@override@JsonKey() List<PodcastEpisode> get episodes {
-  if (_episodes is EqualUnmodifiableListView) return _episodes;
-  // ignore: implicit_dynamic_type
-  return EqualUnmodifiableListView(_episodes);
-}
-
-
-/// Create a copy of PodcastSeries
-/// with the given fields replaced by the non-null parameter values.
-@override @JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-_$PodcastSeriesCopyWith<_PodcastSeries> get copyWith => __$PodcastSeriesCopyWithImpl<_PodcastSeries>(this, _$identity);
-
-@override
-Map<String, dynamic> toJson() {
-  return _$PodcastSeriesToJson(this, );
-}
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PodcastSeries&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&(identical(other.titleVi, titleVi) || other.titleVi == titleVi)&&(identical(other.description, description) || other.description == description)&&(identical(other.descriptionVi, descriptionVi) || other.descriptionVi == descriptionVi)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl)&&(identical(other.level, level) || other.level == level)&&(identical(other.language, language) || other.language == language)&&(identical(other.totalEpisodes, totalEpisodes) || other.totalEpisodes == totalEpisodes)&&(identical(other.completedEpisodes, completedEpisodes) || other.completedEpisodes == completedEpisodes)&&const DeepCollectionEquality().equals(other._episodes, _episodes));
-}
-
-@JsonKey(includeFromJson: false, includeToJson: false)
-@override
-int get hashCode => Object.hash(runtimeType,id,title,titleVi,description,descriptionVi,imageUrl,level,language,totalEpisodes,completedEpisodes,const DeepCollectionEquality().hash(_episodes));
-
-@override
-String toString() {
-  return 'PodcastSeries(id: $id, title: $title, titleVi: $titleVi, description: $description, descriptionVi: $descriptionVi, imageUrl: $imageUrl, level: $level, language: $language, totalEpisodes: $totalEpisodes, completedEpisodes: $completedEpisodes, episodes: $episodes)';
-}
-
-
-}
-
-/// @nodoc
-abstract mixin class _$PodcastSeriesCopyWith<$Res> implements $PodcastSeriesCopyWith<$Res> {
-  factory _$PodcastSeriesCopyWith(_PodcastSeries value, $Res Function(_PodcastSeries) _then) = __$PodcastSeriesCopyWithImpl;
-@override @useResult
-$Res call({
- String id, String title, String titleVi, String description, String descriptionVi, String imageUrl, String level, String language, int totalEpisodes, int completedEpisodes, List<PodcastEpisode> episodes
-});
-
-
-
-
-}
-/// @nodoc
-class __$PodcastSeriesCopyWithImpl<$Res>
-    implements _$PodcastSeriesCopyWith<$Res> {
-  __$PodcastSeriesCopyWithImpl(this._self, this._then);
-
-  final _PodcastSeries _self;
-  final $Res Function(_PodcastSeries) _then;
-
-/// Create a copy of PodcastSeries
-/// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? title = null,Object? titleVi = null,Object? description = null,Object? descriptionVi = null,Object? imageUrl = null,Object? level = null,Object? language = null,Object? totalEpisodes = null,Object? completedEpisodes = null,Object? episodes = null,}) {
-  return _then(_PodcastSeries(
-id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as String,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
-as String,titleVi: null == titleVi ? _self.titleVi : titleVi // ignore: cast_nullable_to_non_nullable
-as String,description: null == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
-as String,descriptionVi: null == descriptionVi ? _self.descriptionVi : descriptionVi // ignore: cast_nullable_to_non_nullable
-as String,imageUrl: null == imageUrl ? _self.imageUrl : imageUrl // ignore: cast_nullable_to_non_nullable
-as String,level: null == level ? _self.level : level // ignore: cast_nullable_to_non_nullable
-as String,language: null == language ? _self.language : language // ignore: cast_nullable_to_non_nullable
-as String,totalEpisodes: null == totalEpisodes ? _self.totalEpisodes : totalEpisodes // ignore: cast_nullable_to_non_nullable
-as int,completedEpisodes: null == completedEpisodes ? _self.completedEpisodes : completedEpisodes // ignore: cast_nullable_to_non_nullable
-as int,episodes: null == episodes ? _self._episodes : episodes // ignore: cast_nullable_to_non_nullable
-as List<PodcastEpisode>,
-  ));
-}
-
-
-}
-
-
-/// @nodoc
 mixin _$PodcastEpisode {
 
- String get id; String get seriesId; String get episodeNumber; String get title; String get titleVi; String get description; String get descriptionVi; String get audioUrl; int get durationSeconds; String get transcript; String get transcriptUrl; bool get isCompleted; int get listenCount; double get progressPercent; DateTime? get lastListenedAt;
+ String get slug; String get title; int get duration; int get segments;
 /// Create a copy of PodcastEpisode
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -327,16 +28,16 @@ $PodcastEpisodeCopyWith<PodcastEpisode> get copyWith => _$PodcastEpisodeCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is PodcastEpisode&&(identical(other.id, id) || other.id == id)&&(identical(other.seriesId, seriesId) || other.seriesId == seriesId)&&(identical(other.episodeNumber, episodeNumber) || other.episodeNumber == episodeNumber)&&(identical(other.title, title) || other.title == title)&&(identical(other.titleVi, titleVi) || other.titleVi == titleVi)&&(identical(other.description, description) || other.description == description)&&(identical(other.descriptionVi, descriptionVi) || other.descriptionVi == descriptionVi)&&(identical(other.audioUrl, audioUrl) || other.audioUrl == audioUrl)&&(identical(other.durationSeconds, durationSeconds) || other.durationSeconds == durationSeconds)&&(identical(other.transcript, transcript) || other.transcript == transcript)&&(identical(other.transcriptUrl, transcriptUrl) || other.transcriptUrl == transcriptUrl)&&(identical(other.isCompleted, isCompleted) || other.isCompleted == isCompleted)&&(identical(other.listenCount, listenCount) || other.listenCount == listenCount)&&(identical(other.progressPercent, progressPercent) || other.progressPercent == progressPercent)&&(identical(other.lastListenedAt, lastListenedAt) || other.lastListenedAt == lastListenedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PodcastEpisode&&(identical(other.slug, slug) || other.slug == slug)&&(identical(other.title, title) || other.title == title)&&(identical(other.duration, duration) || other.duration == duration)&&(identical(other.segments, segments) || other.segments == segments));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,seriesId,episodeNumber,title,titleVi,description,descriptionVi,audioUrl,durationSeconds,transcript,transcriptUrl,isCompleted,listenCount,progressPercent,lastListenedAt);
+int get hashCode => Object.hash(runtimeType,slug,title,duration,segments);
 
 @override
 String toString() {
-  return 'PodcastEpisode(id: $id, seriesId: $seriesId, episodeNumber: $episodeNumber, title: $title, titleVi: $titleVi, description: $description, descriptionVi: $descriptionVi, audioUrl: $audioUrl, durationSeconds: $durationSeconds, transcript: $transcript, transcriptUrl: $transcriptUrl, isCompleted: $isCompleted, listenCount: $listenCount, progressPercent: $progressPercent, lastListenedAt: $lastListenedAt)';
+  return 'PodcastEpisode(slug: $slug, title: $title, duration: $duration, segments: $segments)';
 }
 
 
@@ -347,7 +48,7 @@ abstract mixin class $PodcastEpisodeCopyWith<$Res>  {
   factory $PodcastEpisodeCopyWith(PodcastEpisode value, $Res Function(PodcastEpisode) _then) = _$PodcastEpisodeCopyWithImpl;
 @useResult
 $Res call({
- String id, String seriesId, String episodeNumber, String title, String titleVi, String description, String descriptionVi, String audioUrl, int durationSeconds, String transcript, String transcriptUrl, bool isCompleted, int listenCount, double progressPercent, DateTime? lastListenedAt
+ String slug, String title, int duration, int segments
 });
 
 
@@ -364,24 +65,13 @@ class _$PodcastEpisodeCopyWithImpl<$Res>
 
 /// Create a copy of PodcastEpisode
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? seriesId = null,Object? episodeNumber = null,Object? title = null,Object? titleVi = null,Object? description = null,Object? descriptionVi = null,Object? audioUrl = null,Object? durationSeconds = null,Object? transcript = null,Object? transcriptUrl = null,Object? isCompleted = null,Object? listenCount = null,Object? progressPercent = null,Object? lastListenedAt = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? slug = null,Object? title = null,Object? duration = null,Object? segments = null,}) {
   return _then(_self.copyWith(
-id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as String,seriesId: null == seriesId ? _self.seriesId : seriesId // ignore: cast_nullable_to_non_nullable
-as String,episodeNumber: null == episodeNumber ? _self.episodeNumber : episodeNumber // ignore: cast_nullable_to_non_nullable
+slug: null == slug ? _self.slug : slug // ignore: cast_nullable_to_non_nullable
 as String,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
-as String,titleVi: null == titleVi ? _self.titleVi : titleVi // ignore: cast_nullable_to_non_nullable
-as String,description: null == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
-as String,descriptionVi: null == descriptionVi ? _self.descriptionVi : descriptionVi // ignore: cast_nullable_to_non_nullable
-as String,audioUrl: null == audioUrl ? _self.audioUrl : audioUrl // ignore: cast_nullable_to_non_nullable
-as String,durationSeconds: null == durationSeconds ? _self.durationSeconds : durationSeconds // ignore: cast_nullable_to_non_nullable
-as int,transcript: null == transcript ? _self.transcript : transcript // ignore: cast_nullable_to_non_nullable
-as String,transcriptUrl: null == transcriptUrl ? _self.transcriptUrl : transcriptUrl // ignore: cast_nullable_to_non_nullable
-as String,isCompleted: null == isCompleted ? _self.isCompleted : isCompleted // ignore: cast_nullable_to_non_nullable
-as bool,listenCount: null == listenCount ? _self.listenCount : listenCount // ignore: cast_nullable_to_non_nullable
-as int,progressPercent: null == progressPercent ? _self.progressPercent : progressPercent // ignore: cast_nullable_to_non_nullable
-as double,lastListenedAt: freezed == lastListenedAt ? _self.lastListenedAt : lastListenedAt // ignore: cast_nullable_to_non_nullable
-as DateTime?,
+as String,duration: null == duration ? _self.duration : duration // ignore: cast_nullable_to_non_nullable
+as int,segments: null == segments ? _self.segments : segments // ignore: cast_nullable_to_non_nullable
+as int,
   ));
 }
 
@@ -466,10 +156,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String seriesId,  String episodeNumber,  String title,  String titleVi,  String description,  String descriptionVi,  String audioUrl,  int durationSeconds,  String transcript,  String transcriptUrl,  bool isCompleted,  int listenCount,  double progressPercent,  DateTime? lastListenedAt)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String slug,  String title,  int duration,  int segments)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _PodcastEpisode() when $default != null:
-return $default(_that.id,_that.seriesId,_that.episodeNumber,_that.title,_that.titleVi,_that.description,_that.descriptionVi,_that.audioUrl,_that.durationSeconds,_that.transcript,_that.transcriptUrl,_that.isCompleted,_that.listenCount,_that.progressPercent,_that.lastListenedAt);case _:
+return $default(_that.slug,_that.title,_that.duration,_that.segments);case _:
   return orElse();
 
 }
@@ -487,10 +177,10 @@ return $default(_that.id,_that.seriesId,_that.episodeNumber,_that.title,_that.ti
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String seriesId,  String episodeNumber,  String title,  String titleVi,  String description,  String descriptionVi,  String audioUrl,  int durationSeconds,  String transcript,  String transcriptUrl,  bool isCompleted,  int listenCount,  double progressPercent,  DateTime? lastListenedAt)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String slug,  String title,  int duration,  int segments)  $default,) {final _that = this;
 switch (_that) {
 case _PodcastEpisode():
-return $default(_that.id,_that.seriesId,_that.episodeNumber,_that.title,_that.titleVi,_that.description,_that.descriptionVi,_that.audioUrl,_that.durationSeconds,_that.transcript,_that.transcriptUrl,_that.isCompleted,_that.listenCount,_that.progressPercent,_that.lastListenedAt);case _:
+return $default(_that.slug,_that.title,_that.duration,_that.segments);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -507,10 +197,10 @@ return $default(_that.id,_that.seriesId,_that.episodeNumber,_that.title,_that.ti
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String seriesId,  String episodeNumber,  String title,  String titleVi,  String description,  String descriptionVi,  String audioUrl,  int durationSeconds,  String transcript,  String transcriptUrl,  bool isCompleted,  int listenCount,  double progressPercent,  DateTime? lastListenedAt)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String slug,  String title,  int duration,  int segments)?  $default,) {final _that = this;
 switch (_that) {
 case _PodcastEpisode() when $default != null:
-return $default(_that.id,_that.seriesId,_that.episodeNumber,_that.title,_that.titleVi,_that.description,_that.descriptionVi,_that.audioUrl,_that.durationSeconds,_that.transcript,_that.transcriptUrl,_that.isCompleted,_that.listenCount,_that.progressPercent,_that.lastListenedAt);case _:
+return $default(_that.slug,_that.title,_that.duration,_that.segments);case _:
   return null;
 
 }
@@ -522,24 +212,13 @@ return $default(_that.id,_that.seriesId,_that.episodeNumber,_that.title,_that.ti
 @JsonSerializable()
 
 class _PodcastEpisode implements PodcastEpisode {
-  const _PodcastEpisode({required this.id, required this.seriesId, required this.episodeNumber, required this.title, required this.titleVi, this.description = '', this.descriptionVi = '', this.audioUrl = '', this.durationSeconds = 0, this.transcript = '', this.transcriptUrl = '', this.isCompleted = false, this.listenCount = 0, this.progressPercent = 0.0, this.lastListenedAt});
+  const _PodcastEpisode({required this.slug, required this.title, this.duration = 0, this.segments = 0});
   factory _PodcastEpisode.fromJson(Map<String, dynamic> json) => _$PodcastEpisodeFromJson(json);
 
-@override final  String id;
-@override final  String seriesId;
-@override final  String episodeNumber;
+@override final  String slug;
 @override final  String title;
-@override final  String titleVi;
-@override@JsonKey() final  String description;
-@override@JsonKey() final  String descriptionVi;
-@override@JsonKey() final  String audioUrl;
-@override@JsonKey() final  int durationSeconds;
-@override@JsonKey() final  String transcript;
-@override@JsonKey() final  String transcriptUrl;
-@override@JsonKey() final  bool isCompleted;
-@override@JsonKey() final  int listenCount;
-@override@JsonKey() final  double progressPercent;
-@override final  DateTime? lastListenedAt;
+@override@JsonKey() final  int duration;
+@override@JsonKey() final  int segments;
 
 /// Create a copy of PodcastEpisode
 /// with the given fields replaced by the non-null parameter values.
@@ -554,16 +233,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PodcastEpisode&&(identical(other.id, id) || other.id == id)&&(identical(other.seriesId, seriesId) || other.seriesId == seriesId)&&(identical(other.episodeNumber, episodeNumber) || other.episodeNumber == episodeNumber)&&(identical(other.title, title) || other.title == title)&&(identical(other.titleVi, titleVi) || other.titleVi == titleVi)&&(identical(other.description, description) || other.description == description)&&(identical(other.descriptionVi, descriptionVi) || other.descriptionVi == descriptionVi)&&(identical(other.audioUrl, audioUrl) || other.audioUrl == audioUrl)&&(identical(other.durationSeconds, durationSeconds) || other.durationSeconds == durationSeconds)&&(identical(other.transcript, transcript) || other.transcript == transcript)&&(identical(other.transcriptUrl, transcriptUrl) || other.transcriptUrl == transcriptUrl)&&(identical(other.isCompleted, isCompleted) || other.isCompleted == isCompleted)&&(identical(other.listenCount, listenCount) || other.listenCount == listenCount)&&(identical(other.progressPercent, progressPercent) || other.progressPercent == progressPercent)&&(identical(other.lastListenedAt, lastListenedAt) || other.lastListenedAt == lastListenedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PodcastEpisode&&(identical(other.slug, slug) || other.slug == slug)&&(identical(other.title, title) || other.title == title)&&(identical(other.duration, duration) || other.duration == duration)&&(identical(other.segments, segments) || other.segments == segments));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,seriesId,episodeNumber,title,titleVi,description,descriptionVi,audioUrl,durationSeconds,transcript,transcriptUrl,isCompleted,listenCount,progressPercent,lastListenedAt);
+int get hashCode => Object.hash(runtimeType,slug,title,duration,segments);
 
 @override
 String toString() {
-  return 'PodcastEpisode(id: $id, seriesId: $seriesId, episodeNumber: $episodeNumber, title: $title, titleVi: $titleVi, description: $description, descriptionVi: $descriptionVi, audioUrl: $audioUrl, durationSeconds: $durationSeconds, transcript: $transcript, transcriptUrl: $transcriptUrl, isCompleted: $isCompleted, listenCount: $listenCount, progressPercent: $progressPercent, lastListenedAt: $lastListenedAt)';
+  return 'PodcastEpisode(slug: $slug, title: $title, duration: $duration, segments: $segments)';
 }
 
 
@@ -574,7 +253,7 @@ abstract mixin class _$PodcastEpisodeCopyWith<$Res> implements $PodcastEpisodeCo
   factory _$PodcastEpisodeCopyWith(_PodcastEpisode value, $Res Function(_PodcastEpisode) _then) = __$PodcastEpisodeCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String seriesId, String episodeNumber, String title, String titleVi, String description, String descriptionVi, String audioUrl, int durationSeconds, String transcript, String transcriptUrl, bool isCompleted, int listenCount, double progressPercent, DateTime? lastListenedAt
+ String slug, String title, int duration, int segments
 });
 
 
@@ -591,24 +270,13 @@ class __$PodcastEpisodeCopyWithImpl<$Res>
 
 /// Create a copy of PodcastEpisode
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? seriesId = null,Object? episodeNumber = null,Object? title = null,Object? titleVi = null,Object? description = null,Object? descriptionVi = null,Object? audioUrl = null,Object? durationSeconds = null,Object? transcript = null,Object? transcriptUrl = null,Object? isCompleted = null,Object? listenCount = null,Object? progressPercent = null,Object? lastListenedAt = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? slug = null,Object? title = null,Object? duration = null,Object? segments = null,}) {
   return _then(_PodcastEpisode(
-id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as String,seriesId: null == seriesId ? _self.seriesId : seriesId // ignore: cast_nullable_to_non_nullable
-as String,episodeNumber: null == episodeNumber ? _self.episodeNumber : episodeNumber // ignore: cast_nullable_to_non_nullable
+slug: null == slug ? _self.slug : slug // ignore: cast_nullable_to_non_nullable
 as String,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
-as String,titleVi: null == titleVi ? _self.titleVi : titleVi // ignore: cast_nullable_to_non_nullable
-as String,description: null == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
-as String,descriptionVi: null == descriptionVi ? _self.descriptionVi : descriptionVi // ignore: cast_nullable_to_non_nullable
-as String,audioUrl: null == audioUrl ? _self.audioUrl : audioUrl // ignore: cast_nullable_to_non_nullable
-as String,durationSeconds: null == durationSeconds ? _self.durationSeconds : durationSeconds // ignore: cast_nullable_to_non_nullable
-as int,transcript: null == transcript ? _self.transcript : transcript // ignore: cast_nullable_to_non_nullable
-as String,transcriptUrl: null == transcriptUrl ? _self.transcriptUrl : transcriptUrl // ignore: cast_nullable_to_non_nullable
-as String,isCompleted: null == isCompleted ? _self.isCompleted : isCompleted // ignore: cast_nullable_to_non_nullable
-as bool,listenCount: null == listenCount ? _self.listenCount : listenCount // ignore: cast_nullable_to_non_nullable
-as int,progressPercent: null == progressPercent ? _self.progressPercent : progressPercent // ignore: cast_nullable_to_non_nullable
-as double,lastListenedAt: freezed == lastListenedAt ? _self.lastListenedAt : lastListenedAt // ignore: cast_nullable_to_non_nullable
-as DateTime?,
+as String,duration: null == duration ? _self.duration : duration // ignore: cast_nullable_to_non_nullable
+as int,segments: null == segments ? _self.segments : segments // ignore: cast_nullable_to_non_nullable
+as int,
   ));
 }
 
@@ -617,42 +285,42 @@ as DateTime?,
 
 
 /// @nodoc
-mixin _$Audiobook {
+mixin _$PodcastWord {
 
- String get id; String get title; String get titleVi; String get author; String get description; String get imageUrl; String get level; int get totalChapters; int get completedChapters; List<AudiobookChapter> get chapters;
-/// Create a copy of Audiobook
+@JsonKey(name: 'w') String get text;@JsonKey(name: 's') double get start;@JsonKey(name: 'e') double get end;
+/// Create a copy of PodcastWord
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$AudiobookCopyWith<Audiobook> get copyWith => _$AudiobookCopyWithImpl<Audiobook>(this as Audiobook, _$identity);
+$PodcastWordCopyWith<PodcastWord> get copyWith => _$PodcastWordCopyWithImpl<PodcastWord>(this as PodcastWord, _$identity);
 
-  /// Serializes this Audiobook to a JSON map.
+  /// Serializes this PodcastWord to a JSON map.
   Map<String, dynamic> toJson();
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Audiobook&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&(identical(other.titleVi, titleVi) || other.titleVi == titleVi)&&(identical(other.author, author) || other.author == author)&&(identical(other.description, description) || other.description == description)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl)&&(identical(other.level, level) || other.level == level)&&(identical(other.totalChapters, totalChapters) || other.totalChapters == totalChapters)&&(identical(other.completedChapters, completedChapters) || other.completedChapters == completedChapters)&&const DeepCollectionEquality().equals(other.chapters, chapters));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PodcastWord&&(identical(other.text, text) || other.text == text)&&(identical(other.start, start) || other.start == start)&&(identical(other.end, end) || other.end == end));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,title,titleVi,author,description,imageUrl,level,totalChapters,completedChapters,const DeepCollectionEquality().hash(chapters));
+int get hashCode => Object.hash(runtimeType,text,start,end);
 
 @override
 String toString() {
-  return 'Audiobook(id: $id, title: $title, titleVi: $titleVi, author: $author, description: $description, imageUrl: $imageUrl, level: $level, totalChapters: $totalChapters, completedChapters: $completedChapters, chapters: $chapters)';
+  return 'PodcastWord(text: $text, start: $start, end: $end)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class $AudiobookCopyWith<$Res>  {
-  factory $AudiobookCopyWith(Audiobook value, $Res Function(Audiobook) _then) = _$AudiobookCopyWithImpl;
+abstract mixin class $PodcastWordCopyWith<$Res>  {
+  factory $PodcastWordCopyWith(PodcastWord value, $Res Function(PodcastWord) _then) = _$PodcastWordCopyWithImpl;
 @useResult
 $Res call({
- String id, String title, String titleVi, String author, String description, String imageUrl, String level, int totalChapters, int completedChapters, List<AudiobookChapter> chapters
+@JsonKey(name: 'w') String text,@JsonKey(name: 's') double start,@JsonKey(name: 'e') double end
 });
 
 
@@ -660,36 +328,29 @@ $Res call({
 
 }
 /// @nodoc
-class _$AudiobookCopyWithImpl<$Res>
-    implements $AudiobookCopyWith<$Res> {
-  _$AudiobookCopyWithImpl(this._self, this._then);
+class _$PodcastWordCopyWithImpl<$Res>
+    implements $PodcastWordCopyWith<$Res> {
+  _$PodcastWordCopyWithImpl(this._self, this._then);
 
-  final Audiobook _self;
-  final $Res Function(Audiobook) _then;
+  final PodcastWord _self;
+  final $Res Function(PodcastWord) _then;
 
-/// Create a copy of Audiobook
+/// Create a copy of PodcastWord
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? title = null,Object? titleVi = null,Object? author = null,Object? description = null,Object? imageUrl = null,Object? level = null,Object? totalChapters = null,Object? completedChapters = null,Object? chapters = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? text = null,Object? start = null,Object? end = null,}) {
   return _then(_self.copyWith(
-id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as String,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
-as String,titleVi: null == titleVi ? _self.titleVi : titleVi // ignore: cast_nullable_to_non_nullable
-as String,author: null == author ? _self.author : author // ignore: cast_nullable_to_non_nullable
-as String,description: null == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
-as String,imageUrl: null == imageUrl ? _self.imageUrl : imageUrl // ignore: cast_nullable_to_non_nullable
-as String,level: null == level ? _self.level : level // ignore: cast_nullable_to_non_nullable
-as String,totalChapters: null == totalChapters ? _self.totalChapters : totalChapters // ignore: cast_nullable_to_non_nullable
-as int,completedChapters: null == completedChapters ? _self.completedChapters : completedChapters // ignore: cast_nullable_to_non_nullable
-as int,chapters: null == chapters ? _self.chapters : chapters // ignore: cast_nullable_to_non_nullable
-as List<AudiobookChapter>,
+text: null == text ? _self.text : text // ignore: cast_nullable_to_non_nullable
+as String,start: null == start ? _self.start : start // ignore: cast_nullable_to_non_nullable
+as double,end: null == end ? _self.end : end // ignore: cast_nullable_to_non_nullable
+as double,
   ));
 }
 
 }
 
 
-/// Adds pattern-matching-related methods to [Audiobook].
-extension AudiobookPatterns on Audiobook {
+/// Adds pattern-matching-related methods to [PodcastWord].
+extension PodcastWordPatterns on PodcastWord {
 /// A variant of `map` that fallback to returning `orElse`.
 ///
 /// It is equivalent to doing:
@@ -702,10 +363,10 @@ extension AudiobookPatterns on Audiobook {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _Audiobook value)?  $default,{required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _PodcastWord value)?  $default,{required TResult orElse(),}){
 final _that = this;
 switch (_that) {
-case _Audiobook() when $default != null:
+case _PodcastWord() when $default != null:
 return $default(_that);case _:
   return orElse();
 
@@ -724,10 +385,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _Audiobook value)  $default,){
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _PodcastWord value)  $default,){
 final _that = this;
 switch (_that) {
-case _Audiobook():
+case _PodcastWord():
 return $default(_that);case _:
   throw StateError('Unexpected subclass');
 
@@ -745,10 +406,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _Audiobook value)?  $default,){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _PodcastWord value)?  $default,){
 final _that = this;
 switch (_that) {
-case _Audiobook() when $default != null:
+case _PodcastWord() when $default != null:
 return $default(_that);case _:
   return null;
 
@@ -766,10 +427,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String title,  String titleVi,  String author,  String description,  String imageUrl,  String level,  int totalChapters,  int completedChapters,  List<AudiobookChapter> chapters)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'w')  String text, @JsonKey(name: 's')  double start, @JsonKey(name: 'e')  double end)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
-case _Audiobook() when $default != null:
-return $default(_that.id,_that.title,_that.titleVi,_that.author,_that.description,_that.imageUrl,_that.level,_that.totalChapters,_that.completedChapters,_that.chapters);case _:
+case _PodcastWord() when $default != null:
+return $default(_that.text,_that.start,_that.end);case _:
   return orElse();
 
 }
@@ -787,10 +448,10 @@ return $default(_that.id,_that.title,_that.titleVi,_that.author,_that.descriptio
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String title,  String titleVi,  String author,  String description,  String imageUrl,  String level,  int totalChapters,  int completedChapters,  List<AudiobookChapter> chapters)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'w')  String text, @JsonKey(name: 's')  double start, @JsonKey(name: 'e')  double end)  $default,) {final _that = this;
 switch (_that) {
-case _Audiobook():
-return $default(_that.id,_that.title,_that.titleVi,_that.author,_that.description,_that.imageUrl,_that.level,_that.totalChapters,_that.completedChapters,_that.chapters);case _:
+case _PodcastWord():
+return $default(_that.text,_that.start,_that.end);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -807,10 +468,10 @@ return $default(_that.id,_that.title,_that.titleVi,_that.author,_that.descriptio
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String title,  String titleVi,  String author,  String description,  String imageUrl,  String level,  int totalChapters,  int completedChapters,  List<AudiobookChapter> chapters)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'w')  String text, @JsonKey(name: 's')  double start, @JsonKey(name: 'e')  double end)?  $default,) {final _that = this;
 switch (_that) {
-case _Audiobook() when $default != null:
-return $default(_that.id,_that.title,_that.titleVi,_that.author,_that.description,_that.imageUrl,_that.level,_that.totalChapters,_that.completedChapters,_that.chapters);case _:
+case _PodcastWord() when $default != null:
+return $default(_that.text,_that.start,_that.end);case _:
   return null;
 
 }
@@ -821,61 +482,327 @@ return $default(_that.id,_that.title,_that.titleVi,_that.author,_that.descriptio
 /// @nodoc
 @JsonSerializable()
 
-class _Audiobook implements Audiobook {
-  const _Audiobook({required this.id, required this.title, required this.titleVi, this.author = '', this.description = '', this.imageUrl = '', this.level = '', this.totalChapters = 0, this.completedChapters = 0, final  List<AudiobookChapter> chapters = const <AudiobookChapter>[]}): _chapters = chapters;
-  factory _Audiobook.fromJson(Map<String, dynamic> json) => _$AudiobookFromJson(json);
+class _PodcastWord implements PodcastWord {
+  const _PodcastWord({@JsonKey(name: 'w') this.text = '', @JsonKey(name: 's') this.start = 0.0, @JsonKey(name: 'e') this.end = 0.0});
+  factory _PodcastWord.fromJson(Map<String, dynamic> json) => _$PodcastWordFromJson(json);
 
-@override final  String id;
-@override final  String title;
-@override final  String titleVi;
-@override@JsonKey() final  String author;
-@override@JsonKey() final  String description;
-@override@JsonKey() final  String imageUrl;
-@override@JsonKey() final  String level;
-@override@JsonKey() final  int totalChapters;
-@override@JsonKey() final  int completedChapters;
- final  List<AudiobookChapter> _chapters;
-@override@JsonKey() List<AudiobookChapter> get chapters {
-  if (_chapters is EqualUnmodifiableListView) return _chapters;
+@override@JsonKey(name: 'w') final  String text;
+@override@JsonKey(name: 's') final  double start;
+@override@JsonKey(name: 'e') final  double end;
+
+/// Create a copy of PodcastWord
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$PodcastWordCopyWith<_PodcastWord> get copyWith => __$PodcastWordCopyWithImpl<_PodcastWord>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$PodcastWordToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PodcastWord&&(identical(other.text, text) || other.text == text)&&(identical(other.start, start) || other.start == start)&&(identical(other.end, end) || other.end == end));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,text,start,end);
+
+@override
+String toString() {
+  return 'PodcastWord(text: $text, start: $start, end: $end)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$PodcastWordCopyWith<$Res> implements $PodcastWordCopyWith<$Res> {
+  factory _$PodcastWordCopyWith(_PodcastWord value, $Res Function(_PodcastWord) _then) = __$PodcastWordCopyWithImpl;
+@override @useResult
+$Res call({
+@JsonKey(name: 'w') String text,@JsonKey(name: 's') double start,@JsonKey(name: 'e') double end
+});
+
+
+
+
+}
+/// @nodoc
+class __$PodcastWordCopyWithImpl<$Res>
+    implements _$PodcastWordCopyWith<$Res> {
+  __$PodcastWordCopyWithImpl(this._self, this._then);
+
+  final _PodcastWord _self;
+  final $Res Function(_PodcastWord) _then;
+
+/// Create a copy of PodcastWord
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? text = null,Object? start = null,Object? end = null,}) {
+  return _then(_PodcastWord(
+text: null == text ? _self.text : text // ignore: cast_nullable_to_non_nullable
+as String,start: null == start ? _self.start : start // ignore: cast_nullable_to_non_nullable
+as double,end: null == end ? _self.end : end // ignore: cast_nullable_to_non_nullable
+as double,
+  ));
+}
+
+
+}
+
+
+/// @nodoc
+mixin _$PodcastSentence {
+
+ String get text;@JsonKey(name: 'text_vi') String get textVi; double get start; double get end; List<PodcastWord> get words;
+/// Create a copy of PodcastSentence
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$PodcastSentenceCopyWith<PodcastSentence> get copyWith => _$PodcastSentenceCopyWithImpl<PodcastSentence>(this as PodcastSentence, _$identity);
+
+  /// Serializes this PodcastSentence to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PodcastSentence&&(identical(other.text, text) || other.text == text)&&(identical(other.textVi, textVi) || other.textVi == textVi)&&(identical(other.start, start) || other.start == start)&&(identical(other.end, end) || other.end == end)&&const DeepCollectionEquality().equals(other.words, words));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,text,textVi,start,end,const DeepCollectionEquality().hash(words));
+
+@override
+String toString() {
+  return 'PodcastSentence(text: $text, textVi: $textVi, start: $start, end: $end, words: $words)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $PodcastSentenceCopyWith<$Res>  {
+  factory $PodcastSentenceCopyWith(PodcastSentence value, $Res Function(PodcastSentence) _then) = _$PodcastSentenceCopyWithImpl;
+@useResult
+$Res call({
+ String text,@JsonKey(name: 'text_vi') String textVi, double start, double end, List<PodcastWord> words
+});
+
+
+
+
+}
+/// @nodoc
+class _$PodcastSentenceCopyWithImpl<$Res>
+    implements $PodcastSentenceCopyWith<$Res> {
+  _$PodcastSentenceCopyWithImpl(this._self, this._then);
+
+  final PodcastSentence _self;
+  final $Res Function(PodcastSentence) _then;
+
+/// Create a copy of PodcastSentence
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? text = null,Object? textVi = null,Object? start = null,Object? end = null,Object? words = null,}) {
+  return _then(_self.copyWith(
+text: null == text ? _self.text : text // ignore: cast_nullable_to_non_nullable
+as String,textVi: null == textVi ? _self.textVi : textVi // ignore: cast_nullable_to_non_nullable
+as String,start: null == start ? _self.start : start // ignore: cast_nullable_to_non_nullable
+as double,end: null == end ? _self.end : end // ignore: cast_nullable_to_non_nullable
+as double,words: null == words ? _self.words : words // ignore: cast_nullable_to_non_nullable
+as List<PodcastWord>,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [PodcastSentence].
+extension PodcastSentencePatterns on PodcastSentence {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _PodcastSentence value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _PodcastSentence() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _PodcastSentence value)  $default,){
+final _that = this;
+switch (_that) {
+case _PodcastSentence():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _PodcastSentence value)?  $default,){
+final _that = this;
+switch (_that) {
+case _PodcastSentence() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String text, @JsonKey(name: 'text_vi')  String textVi,  double start,  double end,  List<PodcastWord> words)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _PodcastSentence() when $default != null:
+return $default(_that.text,_that.textVi,_that.start,_that.end,_that.words);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String text, @JsonKey(name: 'text_vi')  String textVi,  double start,  double end,  List<PodcastWord> words)  $default,) {final _that = this;
+switch (_that) {
+case _PodcastSentence():
+return $default(_that.text,_that.textVi,_that.start,_that.end,_that.words);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String text, @JsonKey(name: 'text_vi')  String textVi,  double start,  double end,  List<PodcastWord> words)?  $default,) {final _that = this;
+switch (_that) {
+case _PodcastSentence() when $default != null:
+return $default(_that.text,_that.textVi,_that.start,_that.end,_that.words);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _PodcastSentence implements PodcastSentence {
+  const _PodcastSentence({this.text = '', @JsonKey(name: 'text_vi') this.textVi = '', this.start = 0.0, this.end = 0.0, final  List<PodcastWord> words = const <PodcastWord>[]}): _words = words;
+  factory _PodcastSentence.fromJson(Map<String, dynamic> json) => _$PodcastSentenceFromJson(json);
+
+@override@JsonKey() final  String text;
+@override@JsonKey(name: 'text_vi') final  String textVi;
+@override@JsonKey() final  double start;
+@override@JsonKey() final  double end;
+ final  List<PodcastWord> _words;
+@override@JsonKey() List<PodcastWord> get words {
+  if (_words is EqualUnmodifiableListView) return _words;
   // ignore: implicit_dynamic_type
-  return EqualUnmodifiableListView(_chapters);
+  return EqualUnmodifiableListView(_words);
 }
 
 
-/// Create a copy of Audiobook
+/// Create a copy of PodcastSentence
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-_$AudiobookCopyWith<_Audiobook> get copyWith => __$AudiobookCopyWithImpl<_Audiobook>(this, _$identity);
+_$PodcastSentenceCopyWith<_PodcastSentence> get copyWith => __$PodcastSentenceCopyWithImpl<_PodcastSentence>(this, _$identity);
 
 @override
 Map<String, dynamic> toJson() {
-  return _$AudiobookToJson(this, );
+  return _$PodcastSentenceToJson(this, );
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Audiobook&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&(identical(other.titleVi, titleVi) || other.titleVi == titleVi)&&(identical(other.author, author) || other.author == author)&&(identical(other.description, description) || other.description == description)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl)&&(identical(other.level, level) || other.level == level)&&(identical(other.totalChapters, totalChapters) || other.totalChapters == totalChapters)&&(identical(other.completedChapters, completedChapters) || other.completedChapters == completedChapters)&&const DeepCollectionEquality().equals(other._chapters, _chapters));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PodcastSentence&&(identical(other.text, text) || other.text == text)&&(identical(other.textVi, textVi) || other.textVi == textVi)&&(identical(other.start, start) || other.start == start)&&(identical(other.end, end) || other.end == end)&&const DeepCollectionEquality().equals(other._words, _words));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,title,titleVi,author,description,imageUrl,level,totalChapters,completedChapters,const DeepCollectionEquality().hash(_chapters));
+int get hashCode => Object.hash(runtimeType,text,textVi,start,end,const DeepCollectionEquality().hash(_words));
 
 @override
 String toString() {
-  return 'Audiobook(id: $id, title: $title, titleVi: $titleVi, author: $author, description: $description, imageUrl: $imageUrl, level: $level, totalChapters: $totalChapters, completedChapters: $completedChapters, chapters: $chapters)';
+  return 'PodcastSentence(text: $text, textVi: $textVi, start: $start, end: $end, words: $words)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class _$AudiobookCopyWith<$Res> implements $AudiobookCopyWith<$Res> {
-  factory _$AudiobookCopyWith(_Audiobook value, $Res Function(_Audiobook) _then) = __$AudiobookCopyWithImpl;
+abstract mixin class _$PodcastSentenceCopyWith<$Res> implements $PodcastSentenceCopyWith<$Res> {
+  factory _$PodcastSentenceCopyWith(_PodcastSentence value, $Res Function(_PodcastSentence) _then) = __$PodcastSentenceCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String title, String titleVi, String author, String description, String imageUrl, String level, int totalChapters, int completedChapters, List<AudiobookChapter> chapters
+ String text,@JsonKey(name: 'text_vi') String textVi, double start, double end, List<PodcastWord> words
 });
 
 
@@ -883,28 +810,23 @@ $Res call({
 
 }
 /// @nodoc
-class __$AudiobookCopyWithImpl<$Res>
-    implements _$AudiobookCopyWith<$Res> {
-  __$AudiobookCopyWithImpl(this._self, this._then);
+class __$PodcastSentenceCopyWithImpl<$Res>
+    implements _$PodcastSentenceCopyWith<$Res> {
+  __$PodcastSentenceCopyWithImpl(this._self, this._then);
 
-  final _Audiobook _self;
-  final $Res Function(_Audiobook) _then;
+  final _PodcastSentence _self;
+  final $Res Function(_PodcastSentence) _then;
 
-/// Create a copy of Audiobook
+/// Create a copy of PodcastSentence
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? title = null,Object? titleVi = null,Object? author = null,Object? description = null,Object? imageUrl = null,Object? level = null,Object? totalChapters = null,Object? completedChapters = null,Object? chapters = null,}) {
-  return _then(_Audiobook(
-id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as String,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
-as String,titleVi: null == titleVi ? _self.titleVi : titleVi // ignore: cast_nullable_to_non_nullable
-as String,author: null == author ? _self.author : author // ignore: cast_nullable_to_non_nullable
-as String,description: null == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
-as String,imageUrl: null == imageUrl ? _self.imageUrl : imageUrl // ignore: cast_nullable_to_non_nullable
-as String,level: null == level ? _self.level : level // ignore: cast_nullable_to_non_nullable
-as String,totalChapters: null == totalChapters ? _self.totalChapters : totalChapters // ignore: cast_nullable_to_non_nullable
-as int,completedChapters: null == completedChapters ? _self.completedChapters : completedChapters // ignore: cast_nullable_to_non_nullable
-as int,chapters: null == chapters ? _self._chapters : chapters // ignore: cast_nullable_to_non_nullable
-as List<AudiobookChapter>,
+@override @pragma('vm:prefer-inline') $Res call({Object? text = null,Object? textVi = null,Object? start = null,Object? end = null,Object? words = null,}) {
+  return _then(_PodcastSentence(
+text: null == text ? _self.text : text // ignore: cast_nullable_to_non_nullable
+as String,textVi: null == textVi ? _self.textVi : textVi // ignore: cast_nullable_to_non_nullable
+as String,start: null == start ? _self.start : start // ignore: cast_nullable_to_non_nullable
+as double,end: null == end ? _self.end : end // ignore: cast_nullable_to_non_nullable
+as double,words: null == words ? _self._words : words // ignore: cast_nullable_to_non_nullable
+as List<PodcastWord>,
   ));
 }
 
@@ -913,42 +835,42 @@ as List<AudiobookChapter>,
 
 
 /// @nodoc
-mixin _$AudiobookChapter {
+mixin _$PodcastEpisodeDetail {
 
- String get id; String get audiobookId; String get chapterNumber; String get title; String get titleVi; String get audioUrl; int get durationSeconds; bool get isCompleted;
-/// Create a copy of AudiobookChapter
+ String get slug; String get title;@JsonKey(name: 'mp3_url') String get mp3Url; int get duration; List<PodcastSentence> get sentences;
+/// Create a copy of PodcastEpisodeDetail
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$AudiobookChapterCopyWith<AudiobookChapter> get copyWith => _$AudiobookChapterCopyWithImpl<AudiobookChapter>(this as AudiobookChapter, _$identity);
+$PodcastEpisodeDetailCopyWith<PodcastEpisodeDetail> get copyWith => _$PodcastEpisodeDetailCopyWithImpl<PodcastEpisodeDetail>(this as PodcastEpisodeDetail, _$identity);
 
-  /// Serializes this AudiobookChapter to a JSON map.
+  /// Serializes this PodcastEpisodeDetail to a JSON map.
   Map<String, dynamic> toJson();
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AudiobookChapter&&(identical(other.id, id) || other.id == id)&&(identical(other.audiobookId, audiobookId) || other.audiobookId == audiobookId)&&(identical(other.chapterNumber, chapterNumber) || other.chapterNumber == chapterNumber)&&(identical(other.title, title) || other.title == title)&&(identical(other.titleVi, titleVi) || other.titleVi == titleVi)&&(identical(other.audioUrl, audioUrl) || other.audioUrl == audioUrl)&&(identical(other.durationSeconds, durationSeconds) || other.durationSeconds == durationSeconds)&&(identical(other.isCompleted, isCompleted) || other.isCompleted == isCompleted));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PodcastEpisodeDetail&&(identical(other.slug, slug) || other.slug == slug)&&(identical(other.title, title) || other.title == title)&&(identical(other.mp3Url, mp3Url) || other.mp3Url == mp3Url)&&(identical(other.duration, duration) || other.duration == duration)&&const DeepCollectionEquality().equals(other.sentences, sentences));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,audiobookId,chapterNumber,title,titleVi,audioUrl,durationSeconds,isCompleted);
+int get hashCode => Object.hash(runtimeType,slug,title,mp3Url,duration,const DeepCollectionEquality().hash(sentences));
 
 @override
 String toString() {
-  return 'AudiobookChapter(id: $id, audiobookId: $audiobookId, chapterNumber: $chapterNumber, title: $title, titleVi: $titleVi, audioUrl: $audioUrl, durationSeconds: $durationSeconds, isCompleted: $isCompleted)';
+  return 'PodcastEpisodeDetail(slug: $slug, title: $title, mp3Url: $mp3Url, duration: $duration, sentences: $sentences)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class $AudiobookChapterCopyWith<$Res>  {
-  factory $AudiobookChapterCopyWith(AudiobookChapter value, $Res Function(AudiobookChapter) _then) = _$AudiobookChapterCopyWithImpl;
+abstract mixin class $PodcastEpisodeDetailCopyWith<$Res>  {
+  factory $PodcastEpisodeDetailCopyWith(PodcastEpisodeDetail value, $Res Function(PodcastEpisodeDetail) _then) = _$PodcastEpisodeDetailCopyWithImpl;
 @useResult
 $Res call({
- String id, String audiobookId, String chapterNumber, String title, String titleVi, String audioUrl, int durationSeconds, bool isCompleted
+ String slug, String title,@JsonKey(name: 'mp3_url') String mp3Url, int duration, List<PodcastSentence> sentences
 });
 
 
@@ -956,34 +878,31 @@ $Res call({
 
 }
 /// @nodoc
-class _$AudiobookChapterCopyWithImpl<$Res>
-    implements $AudiobookChapterCopyWith<$Res> {
-  _$AudiobookChapterCopyWithImpl(this._self, this._then);
+class _$PodcastEpisodeDetailCopyWithImpl<$Res>
+    implements $PodcastEpisodeDetailCopyWith<$Res> {
+  _$PodcastEpisodeDetailCopyWithImpl(this._self, this._then);
 
-  final AudiobookChapter _self;
-  final $Res Function(AudiobookChapter) _then;
+  final PodcastEpisodeDetail _self;
+  final $Res Function(PodcastEpisodeDetail) _then;
 
-/// Create a copy of AudiobookChapter
+/// Create a copy of PodcastEpisodeDetail
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? audiobookId = null,Object? chapterNumber = null,Object? title = null,Object? titleVi = null,Object? audioUrl = null,Object? durationSeconds = null,Object? isCompleted = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? slug = null,Object? title = null,Object? mp3Url = null,Object? duration = null,Object? sentences = null,}) {
   return _then(_self.copyWith(
-id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as String,audiobookId: null == audiobookId ? _self.audiobookId : audiobookId // ignore: cast_nullable_to_non_nullable
-as String,chapterNumber: null == chapterNumber ? _self.chapterNumber : chapterNumber // ignore: cast_nullable_to_non_nullable
+slug: null == slug ? _self.slug : slug // ignore: cast_nullable_to_non_nullable
 as String,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
-as String,titleVi: null == titleVi ? _self.titleVi : titleVi // ignore: cast_nullable_to_non_nullable
-as String,audioUrl: null == audioUrl ? _self.audioUrl : audioUrl // ignore: cast_nullable_to_non_nullable
-as String,durationSeconds: null == durationSeconds ? _self.durationSeconds : durationSeconds // ignore: cast_nullable_to_non_nullable
-as int,isCompleted: null == isCompleted ? _self.isCompleted : isCompleted // ignore: cast_nullable_to_non_nullable
-as bool,
+as String,mp3Url: null == mp3Url ? _self.mp3Url : mp3Url // ignore: cast_nullable_to_non_nullable
+as String,duration: null == duration ? _self.duration : duration // ignore: cast_nullable_to_non_nullable
+as int,sentences: null == sentences ? _self.sentences : sentences // ignore: cast_nullable_to_non_nullable
+as List<PodcastSentence>,
   ));
 }
 
 }
 
 
-/// Adds pattern-matching-related methods to [AudiobookChapter].
-extension AudiobookChapterPatterns on AudiobookChapter {
+/// Adds pattern-matching-related methods to [PodcastEpisodeDetail].
+extension PodcastEpisodeDetailPatterns on PodcastEpisodeDetail {
 /// A variant of `map` that fallback to returning `orElse`.
 ///
 /// It is equivalent to doing:
@@ -996,10 +915,10 @@ extension AudiobookChapterPatterns on AudiobookChapter {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _AudiobookChapter value)?  $default,{required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _PodcastEpisodeDetail value)?  $default,{required TResult orElse(),}){
 final _that = this;
 switch (_that) {
-case _AudiobookChapter() when $default != null:
+case _PodcastEpisodeDetail() when $default != null:
 return $default(_that);case _:
   return orElse();
 
@@ -1018,10 +937,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _AudiobookChapter value)  $default,){
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _PodcastEpisodeDetail value)  $default,){
 final _that = this;
 switch (_that) {
-case _AudiobookChapter():
+case _PodcastEpisodeDetail():
 return $default(_that);case _:
   throw StateError('Unexpected subclass');
 
@@ -1039,10 +958,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _AudiobookChapter value)?  $default,){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _PodcastEpisodeDetail value)?  $default,){
 final _that = this;
 switch (_that) {
-case _AudiobookChapter() when $default != null:
+case _PodcastEpisodeDetail() when $default != null:
 return $default(_that);case _:
   return null;
 
@@ -1060,10 +979,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String audiobookId,  String chapterNumber,  String title,  String titleVi,  String audioUrl,  int durationSeconds,  bool isCompleted)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String slug,  String title, @JsonKey(name: 'mp3_url')  String mp3Url,  int duration,  List<PodcastSentence> sentences)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
-case _AudiobookChapter() when $default != null:
-return $default(_that.id,_that.audiobookId,_that.chapterNumber,_that.title,_that.titleVi,_that.audioUrl,_that.durationSeconds,_that.isCompleted);case _:
+case _PodcastEpisodeDetail() when $default != null:
+return $default(_that.slug,_that.title,_that.mp3Url,_that.duration,_that.sentences);case _:
   return orElse();
 
 }
@@ -1081,10 +1000,10 @@ return $default(_that.id,_that.audiobookId,_that.chapterNumber,_that.title,_that
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String audiobookId,  String chapterNumber,  String title,  String titleVi,  String audioUrl,  int durationSeconds,  bool isCompleted)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String slug,  String title, @JsonKey(name: 'mp3_url')  String mp3Url,  int duration,  List<PodcastSentence> sentences)  $default,) {final _that = this;
 switch (_that) {
-case _AudiobookChapter():
-return $default(_that.id,_that.audiobookId,_that.chapterNumber,_that.title,_that.titleVi,_that.audioUrl,_that.durationSeconds,_that.isCompleted);case _:
+case _PodcastEpisodeDetail():
+return $default(_that.slug,_that.title,_that.mp3Url,_that.duration,_that.sentences);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -1101,10 +1020,10 @@ return $default(_that.id,_that.audiobookId,_that.chapterNumber,_that.title,_that
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String audiobookId,  String chapterNumber,  String title,  String titleVi,  String audioUrl,  int durationSeconds,  bool isCompleted)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String slug,  String title, @JsonKey(name: 'mp3_url')  String mp3Url,  int duration,  List<PodcastSentence> sentences)?  $default,) {final _that = this;
 switch (_that) {
-case _AudiobookChapter() when $default != null:
-return $default(_that.id,_that.audiobookId,_that.chapterNumber,_that.title,_that.titleVi,_that.audioUrl,_that.durationSeconds,_that.isCompleted);case _:
+case _PodcastEpisodeDetail() when $default != null:
+return $default(_that.slug,_that.title,_that.mp3Url,_that.duration,_that.sentences);case _:
   return null;
 
 }
@@ -1115,53 +1034,56 @@ return $default(_that.id,_that.audiobookId,_that.chapterNumber,_that.title,_that
 /// @nodoc
 @JsonSerializable()
 
-class _AudiobookChapter implements AudiobookChapter {
-  const _AudiobookChapter({required this.id, required this.audiobookId, required this.chapterNumber, required this.title, required this.titleVi, this.audioUrl = '', this.durationSeconds = 0, this.isCompleted = false});
-  factory _AudiobookChapter.fromJson(Map<String, dynamic> json) => _$AudiobookChapterFromJson(json);
+class _PodcastEpisodeDetail implements PodcastEpisodeDetail {
+  const _PodcastEpisodeDetail({required this.slug, required this.title, @JsonKey(name: 'mp3_url') this.mp3Url = '', this.duration = 0, final  List<PodcastSentence> sentences = const <PodcastSentence>[]}): _sentences = sentences;
+  factory _PodcastEpisodeDetail.fromJson(Map<String, dynamic> json) => _$PodcastEpisodeDetailFromJson(json);
 
-@override final  String id;
-@override final  String audiobookId;
-@override final  String chapterNumber;
+@override final  String slug;
 @override final  String title;
-@override final  String titleVi;
-@override@JsonKey() final  String audioUrl;
-@override@JsonKey() final  int durationSeconds;
-@override@JsonKey() final  bool isCompleted;
+@override@JsonKey(name: 'mp3_url') final  String mp3Url;
+@override@JsonKey() final  int duration;
+ final  List<PodcastSentence> _sentences;
+@override@JsonKey() List<PodcastSentence> get sentences {
+  if (_sentences is EqualUnmodifiableListView) return _sentences;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_sentences);
+}
 
-/// Create a copy of AudiobookChapter
+
+/// Create a copy of PodcastEpisodeDetail
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-_$AudiobookChapterCopyWith<_AudiobookChapter> get copyWith => __$AudiobookChapterCopyWithImpl<_AudiobookChapter>(this, _$identity);
+_$PodcastEpisodeDetailCopyWith<_PodcastEpisodeDetail> get copyWith => __$PodcastEpisodeDetailCopyWithImpl<_PodcastEpisodeDetail>(this, _$identity);
 
 @override
 Map<String, dynamic> toJson() {
-  return _$AudiobookChapterToJson(this, );
+  return _$PodcastEpisodeDetailToJson(this, );
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AudiobookChapter&&(identical(other.id, id) || other.id == id)&&(identical(other.audiobookId, audiobookId) || other.audiobookId == audiobookId)&&(identical(other.chapterNumber, chapterNumber) || other.chapterNumber == chapterNumber)&&(identical(other.title, title) || other.title == title)&&(identical(other.titleVi, titleVi) || other.titleVi == titleVi)&&(identical(other.audioUrl, audioUrl) || other.audioUrl == audioUrl)&&(identical(other.durationSeconds, durationSeconds) || other.durationSeconds == durationSeconds)&&(identical(other.isCompleted, isCompleted) || other.isCompleted == isCompleted));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PodcastEpisodeDetail&&(identical(other.slug, slug) || other.slug == slug)&&(identical(other.title, title) || other.title == title)&&(identical(other.mp3Url, mp3Url) || other.mp3Url == mp3Url)&&(identical(other.duration, duration) || other.duration == duration)&&const DeepCollectionEquality().equals(other._sentences, _sentences));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,audiobookId,chapterNumber,title,titleVi,audioUrl,durationSeconds,isCompleted);
+int get hashCode => Object.hash(runtimeType,slug,title,mp3Url,duration,const DeepCollectionEquality().hash(_sentences));
 
 @override
 String toString() {
-  return 'AudiobookChapter(id: $id, audiobookId: $audiobookId, chapterNumber: $chapterNumber, title: $title, titleVi: $titleVi, audioUrl: $audioUrl, durationSeconds: $durationSeconds, isCompleted: $isCompleted)';
+  return 'PodcastEpisodeDetail(slug: $slug, title: $title, mp3Url: $mp3Url, duration: $duration, sentences: $sentences)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class _$AudiobookChapterCopyWith<$Res> implements $AudiobookChapterCopyWith<$Res> {
-  factory _$AudiobookChapterCopyWith(_AudiobookChapter value, $Res Function(_AudiobookChapter) _then) = __$AudiobookChapterCopyWithImpl;
+abstract mixin class _$PodcastEpisodeDetailCopyWith<$Res> implements $PodcastEpisodeDetailCopyWith<$Res> {
+  factory _$PodcastEpisodeDetailCopyWith(_PodcastEpisodeDetail value, $Res Function(_PodcastEpisodeDetail) _then) = __$PodcastEpisodeDetailCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String audiobookId, String chapterNumber, String title, String titleVi, String audioUrl, int durationSeconds, bool isCompleted
+ String slug, String title,@JsonKey(name: 'mp3_url') String mp3Url, int duration, List<PodcastSentence> sentences
 });
 
 
@@ -1169,26 +1091,23 @@ $Res call({
 
 }
 /// @nodoc
-class __$AudiobookChapterCopyWithImpl<$Res>
-    implements _$AudiobookChapterCopyWith<$Res> {
-  __$AudiobookChapterCopyWithImpl(this._self, this._then);
+class __$PodcastEpisodeDetailCopyWithImpl<$Res>
+    implements _$PodcastEpisodeDetailCopyWith<$Res> {
+  __$PodcastEpisodeDetailCopyWithImpl(this._self, this._then);
 
-  final _AudiobookChapter _self;
-  final $Res Function(_AudiobookChapter) _then;
+  final _PodcastEpisodeDetail _self;
+  final $Res Function(_PodcastEpisodeDetail) _then;
 
-/// Create a copy of AudiobookChapter
+/// Create a copy of PodcastEpisodeDetail
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? audiobookId = null,Object? chapterNumber = null,Object? title = null,Object? titleVi = null,Object? audioUrl = null,Object? durationSeconds = null,Object? isCompleted = null,}) {
-  return _then(_AudiobookChapter(
-id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as String,audiobookId: null == audiobookId ? _self.audiobookId : audiobookId // ignore: cast_nullable_to_non_nullable
-as String,chapterNumber: null == chapterNumber ? _self.chapterNumber : chapterNumber // ignore: cast_nullable_to_non_nullable
+@override @pragma('vm:prefer-inline') $Res call({Object? slug = null,Object? title = null,Object? mp3Url = null,Object? duration = null,Object? sentences = null,}) {
+  return _then(_PodcastEpisodeDetail(
+slug: null == slug ? _self.slug : slug // ignore: cast_nullable_to_non_nullable
 as String,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
-as String,titleVi: null == titleVi ? _self.titleVi : titleVi // ignore: cast_nullable_to_non_nullable
-as String,audioUrl: null == audioUrl ? _self.audioUrl : audioUrl // ignore: cast_nullable_to_non_nullable
-as String,durationSeconds: null == durationSeconds ? _self.durationSeconds : durationSeconds // ignore: cast_nullable_to_non_nullable
-as int,isCompleted: null == isCompleted ? _self.isCompleted : isCompleted // ignore: cast_nullable_to_non_nullable
-as bool,
+as String,mp3Url: null == mp3Url ? _self.mp3Url : mp3Url // ignore: cast_nullable_to_non_nullable
+as String,duration: null == duration ? _self.duration : duration // ignore: cast_nullable_to_non_nullable
+as int,sentences: null == sentences ? _self._sentences : sentences // ignore: cast_nullable_to_non_nullable
+as List<PodcastSentence>,
   ));
 }
 
@@ -1197,42 +1116,42 @@ as bool,
 
 
 /// @nodoc
-mixin _$Dictation {
+mixin _$PodcastLeaderboardEntry {
 
- String get id; String get title; String get titleVi; String get level; int get difficulty; int get totalSentences; int get correctAnswers; bool get isCompleted;
-/// Create a copy of Dictation
+@JsonKey(name: 'user_id') String get userId;@JsonKey(name: 'display_name') String get displayName;@JsonKey(name: 'avatar_url') String get avatarUrl;@JsonKey(name: 'completed_count') int get completedCount; int get rank;
+/// Create a copy of PodcastLeaderboardEntry
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$DictationCopyWith<Dictation> get copyWith => _$DictationCopyWithImpl<Dictation>(this as Dictation, _$identity);
+$PodcastLeaderboardEntryCopyWith<PodcastLeaderboardEntry> get copyWith => _$PodcastLeaderboardEntryCopyWithImpl<PodcastLeaderboardEntry>(this as PodcastLeaderboardEntry, _$identity);
 
-  /// Serializes this Dictation to a JSON map.
+  /// Serializes this PodcastLeaderboardEntry to a JSON map.
   Map<String, dynamic> toJson();
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Dictation&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&(identical(other.titleVi, titleVi) || other.titleVi == titleVi)&&(identical(other.level, level) || other.level == level)&&(identical(other.difficulty, difficulty) || other.difficulty == difficulty)&&(identical(other.totalSentences, totalSentences) || other.totalSentences == totalSentences)&&(identical(other.correctAnswers, correctAnswers) || other.correctAnswers == correctAnswers)&&(identical(other.isCompleted, isCompleted) || other.isCompleted == isCompleted));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PodcastLeaderboardEntry&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.displayName, displayName) || other.displayName == displayName)&&(identical(other.avatarUrl, avatarUrl) || other.avatarUrl == avatarUrl)&&(identical(other.completedCount, completedCount) || other.completedCount == completedCount)&&(identical(other.rank, rank) || other.rank == rank));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,title,titleVi,level,difficulty,totalSentences,correctAnswers,isCompleted);
+int get hashCode => Object.hash(runtimeType,userId,displayName,avatarUrl,completedCount,rank);
 
 @override
 String toString() {
-  return 'Dictation(id: $id, title: $title, titleVi: $titleVi, level: $level, difficulty: $difficulty, totalSentences: $totalSentences, correctAnswers: $correctAnswers, isCompleted: $isCompleted)';
+  return 'PodcastLeaderboardEntry(userId: $userId, displayName: $displayName, avatarUrl: $avatarUrl, completedCount: $completedCount, rank: $rank)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class $DictationCopyWith<$Res>  {
-  factory $DictationCopyWith(Dictation value, $Res Function(Dictation) _then) = _$DictationCopyWithImpl;
+abstract mixin class $PodcastLeaderboardEntryCopyWith<$Res>  {
+  factory $PodcastLeaderboardEntryCopyWith(PodcastLeaderboardEntry value, $Res Function(PodcastLeaderboardEntry) _then) = _$PodcastLeaderboardEntryCopyWithImpl;
 @useResult
 $Res call({
- String id, String title, String titleVi, String level, int difficulty, int totalSentences, int correctAnswers, bool isCompleted
+@JsonKey(name: 'user_id') String userId,@JsonKey(name: 'display_name') String displayName,@JsonKey(name: 'avatar_url') String avatarUrl,@JsonKey(name: 'completed_count') int completedCount, int rank
 });
 
 
@@ -1240,307 +1159,22 @@ $Res call({
 
 }
 /// @nodoc
-class _$DictationCopyWithImpl<$Res>
-    implements $DictationCopyWith<$Res> {
-  _$DictationCopyWithImpl(this._self, this._then);
+class _$PodcastLeaderboardEntryCopyWithImpl<$Res>
+    implements $PodcastLeaderboardEntryCopyWith<$Res> {
+  _$PodcastLeaderboardEntryCopyWithImpl(this._self, this._then);
 
-  final Dictation _self;
-  final $Res Function(Dictation) _then;
+  final PodcastLeaderboardEntry _self;
+  final $Res Function(PodcastLeaderboardEntry) _then;
 
-/// Create a copy of Dictation
+/// Create a copy of PodcastLeaderboardEntry
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? title = null,Object? titleVi = null,Object? level = null,Object? difficulty = null,Object? totalSentences = null,Object? correctAnswers = null,Object? isCompleted = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? userId = null,Object? displayName = null,Object? avatarUrl = null,Object? completedCount = null,Object? rank = null,}) {
   return _then(_self.copyWith(
-id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as String,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
-as String,titleVi: null == titleVi ? _self.titleVi : titleVi // ignore: cast_nullable_to_non_nullable
-as String,level: null == level ? _self.level : level // ignore: cast_nullable_to_non_nullable
-as String,difficulty: null == difficulty ? _self.difficulty : difficulty // ignore: cast_nullable_to_non_nullable
-as int,totalSentences: null == totalSentences ? _self.totalSentences : totalSentences // ignore: cast_nullable_to_non_nullable
-as int,correctAnswers: null == correctAnswers ? _self.correctAnswers : correctAnswers // ignore: cast_nullable_to_non_nullable
-as int,isCompleted: null == isCompleted ? _self.isCompleted : isCompleted // ignore: cast_nullable_to_non_nullable
-as bool,
-  ));
-}
-
-}
-
-
-/// Adds pattern-matching-related methods to [Dictation].
-extension DictationPatterns on Dictation {
-/// A variant of `map` that fallback to returning `orElse`.
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case final Subclass value:
-///     return ...;
-///   case _:
-///     return orElse();
-/// }
-/// ```
-
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _Dictation value)?  $default,{required TResult orElse(),}){
-final _that = this;
-switch (_that) {
-case _Dictation() when $default != null:
-return $default(_that);case _:
-  return orElse();
-
-}
-}
-/// A `switch`-like method, using callbacks.
-///
-/// Callbacks receives the raw object, upcasted.
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case final Subclass value:
-///     return ...;
-///   case final Subclass2 value:
-///     return ...;
-/// }
-/// ```
-
-@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _Dictation value)  $default,){
-final _that = this;
-switch (_that) {
-case _Dictation():
-return $default(_that);case _:
-  throw StateError('Unexpected subclass');
-
-}
-}
-/// A variant of `map` that fallback to returning `null`.
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case final Subclass value:
-///     return ...;
-///   case _:
-///     return null;
-/// }
-/// ```
-
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _Dictation value)?  $default,){
-final _that = this;
-switch (_that) {
-case _Dictation() when $default != null:
-return $default(_that);case _:
-  return null;
-
-}
-}
-/// A variant of `when` that fallback to an `orElse` callback.
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case Subclass(:final field):
-///     return ...;
-///   case _:
-///     return orElse();
-/// }
-/// ```
-
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String title,  String titleVi,  String level,  int difficulty,  int totalSentences,  int correctAnswers,  bool isCompleted)?  $default,{required TResult orElse(),}) {final _that = this;
-switch (_that) {
-case _Dictation() when $default != null:
-return $default(_that.id,_that.title,_that.titleVi,_that.level,_that.difficulty,_that.totalSentences,_that.correctAnswers,_that.isCompleted);case _:
-  return orElse();
-
-}
-}
-/// A `switch`-like method, using callbacks.
-///
-/// As opposed to `map`, this offers destructuring.
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case Subclass(:final field):
-///     return ...;
-///   case Subclass2(:final field2):
-///     return ...;
-/// }
-/// ```
-
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String title,  String titleVi,  String level,  int difficulty,  int totalSentences,  int correctAnswers,  bool isCompleted)  $default,) {final _that = this;
-switch (_that) {
-case _Dictation():
-return $default(_that.id,_that.title,_that.titleVi,_that.level,_that.difficulty,_that.totalSentences,_that.correctAnswers,_that.isCompleted);case _:
-  throw StateError('Unexpected subclass');
-
-}
-}
-/// A variant of `when` that fallback to returning `null`
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case Subclass(:final field):
-///     return ...;
-///   case _:
-///     return null;
-/// }
-/// ```
-
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String title,  String titleVi,  String level,  int difficulty,  int totalSentences,  int correctAnswers,  bool isCompleted)?  $default,) {final _that = this;
-switch (_that) {
-case _Dictation() when $default != null:
-return $default(_that.id,_that.title,_that.titleVi,_that.level,_that.difficulty,_that.totalSentences,_that.correctAnswers,_that.isCompleted);case _:
-  return null;
-
-}
-}
-
-}
-
-/// @nodoc
-@JsonSerializable()
-
-class _Dictation implements Dictation {
-  const _Dictation({required this.id, required this.title, required this.titleVi, this.level = '', this.difficulty = 0, this.totalSentences = 0, this.correctAnswers = 0, this.isCompleted = false});
-  factory _Dictation.fromJson(Map<String, dynamic> json) => _$DictationFromJson(json);
-
-@override final  String id;
-@override final  String title;
-@override final  String titleVi;
-@override@JsonKey() final  String level;
-@override@JsonKey() final  int difficulty;
-@override@JsonKey() final  int totalSentences;
-@override@JsonKey() final  int correctAnswers;
-@override@JsonKey() final  bool isCompleted;
-
-/// Create a copy of Dictation
-/// with the given fields replaced by the non-null parameter values.
-@override @JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-_$DictationCopyWith<_Dictation> get copyWith => __$DictationCopyWithImpl<_Dictation>(this, _$identity);
-
-@override
-Map<String, dynamic> toJson() {
-  return _$DictationToJson(this, );
-}
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Dictation&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&(identical(other.titleVi, titleVi) || other.titleVi == titleVi)&&(identical(other.level, level) || other.level == level)&&(identical(other.difficulty, difficulty) || other.difficulty == difficulty)&&(identical(other.totalSentences, totalSentences) || other.totalSentences == totalSentences)&&(identical(other.correctAnswers, correctAnswers) || other.correctAnswers == correctAnswers)&&(identical(other.isCompleted, isCompleted) || other.isCompleted == isCompleted));
-}
-
-@JsonKey(includeFromJson: false, includeToJson: false)
-@override
-int get hashCode => Object.hash(runtimeType,id,title,titleVi,level,difficulty,totalSentences,correctAnswers,isCompleted);
-
-@override
-String toString() {
-  return 'Dictation(id: $id, title: $title, titleVi: $titleVi, level: $level, difficulty: $difficulty, totalSentences: $totalSentences, correctAnswers: $correctAnswers, isCompleted: $isCompleted)';
-}
-
-
-}
-
-/// @nodoc
-abstract mixin class _$DictationCopyWith<$Res> implements $DictationCopyWith<$Res> {
-  factory _$DictationCopyWith(_Dictation value, $Res Function(_Dictation) _then) = __$DictationCopyWithImpl;
-@override @useResult
-$Res call({
- String id, String title, String titleVi, String level, int difficulty, int totalSentences, int correctAnswers, bool isCompleted
-});
-
-
-
-
-}
-/// @nodoc
-class __$DictationCopyWithImpl<$Res>
-    implements _$DictationCopyWith<$Res> {
-  __$DictationCopyWithImpl(this._self, this._then);
-
-  final _Dictation _self;
-  final $Res Function(_Dictation) _then;
-
-/// Create a copy of Dictation
-/// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? title = null,Object? titleVi = null,Object? level = null,Object? difficulty = null,Object? totalSentences = null,Object? correctAnswers = null,Object? isCompleted = null,}) {
-  return _then(_Dictation(
-id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as String,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
-as String,titleVi: null == titleVi ? _self.titleVi : titleVi // ignore: cast_nullable_to_non_nullable
-as String,level: null == level ? _self.level : level // ignore: cast_nullable_to_non_nullable
-as String,difficulty: null == difficulty ? _self.difficulty : difficulty // ignore: cast_nullable_to_non_nullable
-as int,totalSentences: null == totalSentences ? _self.totalSentences : totalSentences // ignore: cast_nullable_to_non_nullable
-as int,correctAnswers: null == correctAnswers ? _self.correctAnswers : correctAnswers // ignore: cast_nullable_to_non_nullable
-as int,isCompleted: null == isCompleted ? _self.isCompleted : isCompleted // ignore: cast_nullable_to_non_nullable
-as bool,
-  ));
-}
-
-
-}
-
-
-/// @nodoc
-mixin _$DictationSentence {
-
- String get id; String get dictationId; String get sentence; List<String> get blanks; int get attempts; int get correctAttempts;
-/// Create a copy of DictationSentence
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$DictationSentenceCopyWith<DictationSentence> get copyWith => _$DictationSentenceCopyWithImpl<DictationSentence>(this as DictationSentence, _$identity);
-
-  /// Serializes this DictationSentence to a JSON map.
-  Map<String, dynamic> toJson();
-
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DictationSentence&&(identical(other.id, id) || other.id == id)&&(identical(other.dictationId, dictationId) || other.dictationId == dictationId)&&(identical(other.sentence, sentence) || other.sentence == sentence)&&const DeepCollectionEquality().equals(other.blanks, blanks)&&(identical(other.attempts, attempts) || other.attempts == attempts)&&(identical(other.correctAttempts, correctAttempts) || other.correctAttempts == correctAttempts));
-}
-
-@JsonKey(includeFromJson: false, includeToJson: false)
-@override
-int get hashCode => Object.hash(runtimeType,id,dictationId,sentence,const DeepCollectionEquality().hash(blanks),attempts,correctAttempts);
-
-@override
-String toString() {
-  return 'DictationSentence(id: $id, dictationId: $dictationId, sentence: $sentence, blanks: $blanks, attempts: $attempts, correctAttempts: $correctAttempts)';
-}
-
-
-}
-
-/// @nodoc
-abstract mixin class $DictationSentenceCopyWith<$Res>  {
-  factory $DictationSentenceCopyWith(DictationSentence value, $Res Function(DictationSentence) _then) = _$DictationSentenceCopyWithImpl;
-@useResult
-$Res call({
- String id, String dictationId, String sentence, List<String> blanks, int attempts, int correctAttempts
-});
-
-
-
-
-}
-/// @nodoc
-class _$DictationSentenceCopyWithImpl<$Res>
-    implements $DictationSentenceCopyWith<$Res> {
-  _$DictationSentenceCopyWithImpl(this._self, this._then);
-
-  final DictationSentence _self;
-  final $Res Function(DictationSentence) _then;
-
-/// Create a copy of DictationSentence
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? dictationId = null,Object? sentence = null,Object? blanks = null,Object? attempts = null,Object? correctAttempts = null,}) {
-  return _then(_self.copyWith(
-id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as String,dictationId: null == dictationId ? _self.dictationId : dictationId // ignore: cast_nullable_to_non_nullable
-as String,sentence: null == sentence ? _self.sentence : sentence // ignore: cast_nullable_to_non_nullable
-as String,blanks: null == blanks ? _self.blanks : blanks // ignore: cast_nullable_to_non_nullable
-as List<String>,attempts: null == attempts ? _self.attempts : attempts // ignore: cast_nullable_to_non_nullable
-as int,correctAttempts: null == correctAttempts ? _self.correctAttempts : correctAttempts // ignore: cast_nullable_to_non_nullable
+userId: null == userId ? _self.userId : userId // ignore: cast_nullable_to_non_nullable
+as String,displayName: null == displayName ? _self.displayName : displayName // ignore: cast_nullable_to_non_nullable
+as String,avatarUrl: null == avatarUrl ? _self.avatarUrl : avatarUrl // ignore: cast_nullable_to_non_nullable
+as String,completedCount: null == completedCount ? _self.completedCount : completedCount // ignore: cast_nullable_to_non_nullable
+as int,rank: null == rank ? _self.rank : rank // ignore: cast_nullable_to_non_nullable
 as int,
   ));
 }
@@ -1548,8 +1182,8 @@ as int,
 }
 
 
-/// Adds pattern-matching-related methods to [DictationSentence].
-extension DictationSentencePatterns on DictationSentence {
+/// Adds pattern-matching-related methods to [PodcastLeaderboardEntry].
+extension PodcastLeaderboardEntryPatterns on PodcastLeaderboardEntry {
 /// A variant of `map` that fallback to returning `orElse`.
 ///
 /// It is equivalent to doing:
@@ -1562,10 +1196,10 @@ extension DictationSentencePatterns on DictationSentence {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _DictationSentence value)?  $default,{required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _PodcastLeaderboardEntry value)?  $default,{required TResult orElse(),}){
 final _that = this;
 switch (_that) {
-case _DictationSentence() when $default != null:
+case _PodcastLeaderboardEntry() when $default != null:
 return $default(_that);case _:
   return orElse();
 
@@ -1584,10 +1218,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _DictationSentence value)  $default,){
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _PodcastLeaderboardEntry value)  $default,){
 final _that = this;
 switch (_that) {
-case _DictationSentence():
+case _PodcastLeaderboardEntry():
 return $default(_that);case _:
   throw StateError('Unexpected subclass');
 
@@ -1605,10 +1239,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _DictationSentence value)?  $default,){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _PodcastLeaderboardEntry value)?  $default,){
 final _that = this;
 switch (_that) {
-case _DictationSentence() when $default != null:
+case _PodcastLeaderboardEntry() when $default != null:
 return $default(_that);case _:
   return null;
 
@@ -1626,10 +1260,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String dictationId,  String sentence,  List<String> blanks,  int attempts,  int correctAttempts)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'user_id')  String userId, @JsonKey(name: 'display_name')  String displayName, @JsonKey(name: 'avatar_url')  String avatarUrl, @JsonKey(name: 'completed_count')  int completedCount,  int rank)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
-case _DictationSentence() when $default != null:
-return $default(_that.id,_that.dictationId,_that.sentence,_that.blanks,_that.attempts,_that.correctAttempts);case _:
+case _PodcastLeaderboardEntry() when $default != null:
+return $default(_that.userId,_that.displayName,_that.avatarUrl,_that.completedCount,_that.rank);case _:
   return orElse();
 
 }
@@ -1647,10 +1281,10 @@ return $default(_that.id,_that.dictationId,_that.sentence,_that.blanks,_that.att
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String dictationId,  String sentence,  List<String> blanks,  int attempts,  int correctAttempts)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'user_id')  String userId, @JsonKey(name: 'display_name')  String displayName, @JsonKey(name: 'avatar_url')  String avatarUrl, @JsonKey(name: 'completed_count')  int completedCount,  int rank)  $default,) {final _that = this;
 switch (_that) {
-case _DictationSentence():
-return $default(_that.id,_that.dictationId,_that.sentence,_that.blanks,_that.attempts,_that.correctAttempts);case _:
+case _PodcastLeaderboardEntry():
+return $default(_that.userId,_that.displayName,_that.avatarUrl,_that.completedCount,_that.rank);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -1667,10 +1301,10 @@ return $default(_that.id,_that.dictationId,_that.sentence,_that.blanks,_that.att
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String dictationId,  String sentence,  List<String> blanks,  int attempts,  int correctAttempts)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'user_id')  String userId, @JsonKey(name: 'display_name')  String displayName, @JsonKey(name: 'avatar_url')  String avatarUrl, @JsonKey(name: 'completed_count')  int completedCount,  int rank)?  $default,) {final _that = this;
 switch (_that) {
-case _DictationSentence() when $default != null:
-return $default(_that.id,_that.dictationId,_that.sentence,_that.blanks,_that.attempts,_that.correctAttempts);case _:
+case _PodcastLeaderboardEntry() when $default != null:
+return $default(_that.userId,_that.displayName,_that.avatarUrl,_that.completedCount,_that.rank);case _:
   return null;
 
 }
@@ -1681,57 +1315,50 @@ return $default(_that.id,_that.dictationId,_that.sentence,_that.blanks,_that.att
 /// @nodoc
 @JsonSerializable()
 
-class _DictationSentence implements DictationSentence {
-  const _DictationSentence({required this.id, required this.dictationId, required this.sentence, required final  List<String> blanks, this.attempts = 0, this.correctAttempts = 0}): _blanks = blanks;
-  factory _DictationSentence.fromJson(Map<String, dynamic> json) => _$DictationSentenceFromJson(json);
+class _PodcastLeaderboardEntry implements PodcastLeaderboardEntry {
+  const _PodcastLeaderboardEntry({@JsonKey(name: 'user_id') this.userId = '', @JsonKey(name: 'display_name') this.displayName = '', @JsonKey(name: 'avatar_url') this.avatarUrl = '', @JsonKey(name: 'completed_count') this.completedCount = 0, this.rank = 0});
+  factory _PodcastLeaderboardEntry.fromJson(Map<String, dynamic> json) => _$PodcastLeaderboardEntryFromJson(json);
 
-@override final  String id;
-@override final  String dictationId;
-@override final  String sentence;
- final  List<String> _blanks;
-@override List<String> get blanks {
-  if (_blanks is EqualUnmodifiableListView) return _blanks;
-  // ignore: implicit_dynamic_type
-  return EqualUnmodifiableListView(_blanks);
-}
+@override@JsonKey(name: 'user_id') final  String userId;
+@override@JsonKey(name: 'display_name') final  String displayName;
+@override@JsonKey(name: 'avatar_url') final  String avatarUrl;
+@override@JsonKey(name: 'completed_count') final  int completedCount;
+@override@JsonKey() final  int rank;
 
-@override@JsonKey() final  int attempts;
-@override@JsonKey() final  int correctAttempts;
-
-/// Create a copy of DictationSentence
+/// Create a copy of PodcastLeaderboardEntry
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-_$DictationSentenceCopyWith<_DictationSentence> get copyWith => __$DictationSentenceCopyWithImpl<_DictationSentence>(this, _$identity);
+_$PodcastLeaderboardEntryCopyWith<_PodcastLeaderboardEntry> get copyWith => __$PodcastLeaderboardEntryCopyWithImpl<_PodcastLeaderboardEntry>(this, _$identity);
 
 @override
 Map<String, dynamic> toJson() {
-  return _$DictationSentenceToJson(this, );
+  return _$PodcastLeaderboardEntryToJson(this, );
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DictationSentence&&(identical(other.id, id) || other.id == id)&&(identical(other.dictationId, dictationId) || other.dictationId == dictationId)&&(identical(other.sentence, sentence) || other.sentence == sentence)&&const DeepCollectionEquality().equals(other._blanks, _blanks)&&(identical(other.attempts, attempts) || other.attempts == attempts)&&(identical(other.correctAttempts, correctAttempts) || other.correctAttempts == correctAttempts));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PodcastLeaderboardEntry&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.displayName, displayName) || other.displayName == displayName)&&(identical(other.avatarUrl, avatarUrl) || other.avatarUrl == avatarUrl)&&(identical(other.completedCount, completedCount) || other.completedCount == completedCount)&&(identical(other.rank, rank) || other.rank == rank));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,dictationId,sentence,const DeepCollectionEquality().hash(_blanks),attempts,correctAttempts);
+int get hashCode => Object.hash(runtimeType,userId,displayName,avatarUrl,completedCount,rank);
 
 @override
 String toString() {
-  return 'DictationSentence(id: $id, dictationId: $dictationId, sentence: $sentence, blanks: $blanks, attempts: $attempts, correctAttempts: $correctAttempts)';
+  return 'PodcastLeaderboardEntry(userId: $userId, displayName: $displayName, avatarUrl: $avatarUrl, completedCount: $completedCount, rank: $rank)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class _$DictationSentenceCopyWith<$Res> implements $DictationSentenceCopyWith<$Res> {
-  factory _$DictationSentenceCopyWith(_DictationSentence value, $Res Function(_DictationSentence) _then) = __$DictationSentenceCopyWithImpl;
+abstract mixin class _$PodcastLeaderboardEntryCopyWith<$Res> implements $PodcastLeaderboardEntryCopyWith<$Res> {
+  factory _$PodcastLeaderboardEntryCopyWith(_PodcastLeaderboardEntry value, $Res Function(_PodcastLeaderboardEntry) _then) = __$PodcastLeaderboardEntryCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String dictationId, String sentence, List<String> blanks, int attempts, int correctAttempts
+@JsonKey(name: 'user_id') String userId,@JsonKey(name: 'display_name') String displayName,@JsonKey(name: 'avatar_url') String avatarUrl,@JsonKey(name: 'completed_count') int completedCount, int rank
 });
 
 
@@ -1739,23 +1366,22 @@ $Res call({
 
 }
 /// @nodoc
-class __$DictationSentenceCopyWithImpl<$Res>
-    implements _$DictationSentenceCopyWith<$Res> {
-  __$DictationSentenceCopyWithImpl(this._self, this._then);
+class __$PodcastLeaderboardEntryCopyWithImpl<$Res>
+    implements _$PodcastLeaderboardEntryCopyWith<$Res> {
+  __$PodcastLeaderboardEntryCopyWithImpl(this._self, this._then);
 
-  final _DictationSentence _self;
-  final $Res Function(_DictationSentence) _then;
+  final _PodcastLeaderboardEntry _self;
+  final $Res Function(_PodcastLeaderboardEntry) _then;
 
-/// Create a copy of DictationSentence
+/// Create a copy of PodcastLeaderboardEntry
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? dictationId = null,Object? sentence = null,Object? blanks = null,Object? attempts = null,Object? correctAttempts = null,}) {
-  return _then(_DictationSentence(
-id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as String,dictationId: null == dictationId ? _self.dictationId : dictationId // ignore: cast_nullable_to_non_nullable
-as String,sentence: null == sentence ? _self.sentence : sentence // ignore: cast_nullable_to_non_nullable
-as String,blanks: null == blanks ? _self._blanks : blanks // ignore: cast_nullable_to_non_nullable
-as List<String>,attempts: null == attempts ? _self.attempts : attempts // ignore: cast_nullable_to_non_nullable
-as int,correctAttempts: null == correctAttempts ? _self.correctAttempts : correctAttempts // ignore: cast_nullable_to_non_nullable
+@override @pragma('vm:prefer-inline') $Res call({Object? userId = null,Object? displayName = null,Object? avatarUrl = null,Object? completedCount = null,Object? rank = null,}) {
+  return _then(_PodcastLeaderboardEntry(
+userId: null == userId ? _self.userId : userId // ignore: cast_nullable_to_non_nullable
+as String,displayName: null == displayName ? _self.displayName : displayName // ignore: cast_nullable_to_non_nullable
+as String,avatarUrl: null == avatarUrl ? _self.avatarUrl : avatarUrl // ignore: cast_nullable_to_non_nullable
+as String,completedCount: null == completedCount ? _self.completedCount : completedCount // ignore: cast_nullable_to_non_nullable
+as int,rank: null == rank ? _self.rank : rank // ignore: cast_nullable_to_non_nullable
 as int,
   ));
 }

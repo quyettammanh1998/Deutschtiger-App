@@ -1,185 +1,91 @@
+import 'package:deutschtiger/services/api_client.dart';
 import '../../data/listening/podcast_models.dart';
 
+/// Repository cho Easy German Podcast (listening surface).
+///
+/// Index + nội dung tập là file JSON tĩnh NGOÀI `/api/v1`, fetch bằng dio raw
+/// qua [_staticBaseUrl] — cùng lộ trình với `GrammarRepository` (xem
+/// `lib/repositories/grammar/grammar_repository.dart`). Progress + audio +
+/// leaderboard đi qua Go API (`/api/v1/...`).
 class PodcastRepository {
-  static final List<PodcastSeries> _mockSeries = [
-    const PodcastSeries(
-      id: 'easy-german',
-      title: 'Easy German Podcast',
-      titleVi: 'Podcast Tiếng Đức Dễ',
-      description: 'Learn German with real conversations on the streets of Germany',
-      descriptionVi: 'Học tiếng Đức qua các cuộc trò chuyện thực tế trên đường phố Đức',
-      level: 'A2-B1',
-      language: 'German',
-      imageUrl: 'https://picsum.photos/seed/easy-german/400/300',
-      totalEpisodes: 100,
-      episodes: [],
-    ),
-    const PodcastSeries(
-      id: 'sprechen-b1',
-      title: 'Sprechen B1',
-      titleVi: 'Sprechen B1',
-      description: 'German conversations at B1 level',
-      descriptionVi: 'Các cuộc trò chuyện tiếng Đức cấp độ B1',
-      level: 'B1',
-      language: 'German',
-      imageUrl: 'https://picsum.photos/seed/sprechen-b1/400/300',
-      totalEpisodes: 50,
-      episodes: [],
-    ),
-    const PodcastSeries(
-      id: 'sprechen-b2',
-      title: 'Sprechen B2',
-      titleVi: 'Sprechen B2',
-      description: 'Advanced German conversations at B2 level',
-      descriptionVi: 'Các cuộc trò chuyện nâng cao tiếng Đức cấp độ B2',
-      level: 'B2',
-      language: 'German',
-      imageUrl: 'https://picsum.photos/seed/sprechen-b2/400/300',
-      totalEpisodes: 50,
-      episodes: [],
-    ),
-  ];
+  PodcastRepository(this._api, this._staticBaseUrl);
 
-  static final List<Audiobook> _mockAudiobooks = [
-    const Audiobook(
-      id: 'audiobook-1',
-      title: 'Die Chefin',
-      titleVi: 'The Chief',
-      author: 'Hans Beer',
-      description: 'A detective story in simple German - Một câu chuyện trinh thám bằng tiếng Đức đơn giản',
-      level: 'A2',
-      imageUrl: 'https://picsum.photos/seed/audiobook1/400/600',
-      totalChapters: 20,
-    ),
-  ];
+  final ApiClient _api;
+  final String _staticBaseUrl;
 
-  static final List<Dictation> _mockDictations = [
-    const Dictation(
-      id: 'dict-a1',
-      title: 'Dictation A1',
-      titleVi: 'Nghe viết A1',
-      level: 'A1',
-      difficulty: 1,
-      totalSentences: 10,
-    ),
-    const Dictation(
-      id: 'dict-a2',
-      title: 'Dictation A2',
-      titleVi: 'Nghe viết A2',
-      level: 'A2',
-      difficulty: 2,
-      totalSentences: 10,
-    ),
-    const Dictation(
-      id: 'dict-b1',
-      title: 'Dictation B1',
-      titleVi: 'Nghe viết B1',
-      level: 'B1',
-      difficulty: 3,
-      totalSentences: 10,
-    ),
-  ];
+  static const _staticBasePath = '/data/listening/podcast/easy_german';
 
-  Future<List<PodcastSeries>> getPodcastSeries() async {
-    await Future.delayed(const Duration(milliseconds: 300));
-    return _mockSeries;
+  /// File tĩnh `index.json` — toàn bộ danh sách tập (không có transcript).
+  Future<List<PodcastEpisode>> fetchIndex() async {
+    final res = await _api.raw.get<List<dynamic>>(
+      '$_staticBaseUrl$_staticBasePath/index.json',
+    );
+    final data = res.data ?? const <dynamic>[];
+    return data
+        .whereType<Map<String, dynamic>>()
+        .map(PodcastEpisode.fromJson)
+        .toList();
   }
 
-  Future<List<PodcastEpisode>> getEpisodes(String seriesId) async {
-    await Future.delayed(const Duration(milliseconds: 300));
-    return List.generate(
-      20,
-      (i) => PodcastEpisode(
-        id: '$seriesId-ep-${i + 1}',
-        seriesId: seriesId,
-        episodeNumber: '${i + 1}',
-        title: 'Episode ${i + 1}: ${_episodeTitles[i % _episodeTitles.length]}',
-        titleVi: 'Tập ${i + 1}: ${_episodeTitlesVi[i % _episodeTitlesVi.length]}',
-        durationSeconds: 600 + (i * 30),
-        transcript: _sampleTranscript,
-      ),
+  /// File tĩnh `{slug}.json` — 1 tập đầy đủ (mp3 url + transcript có timestamp).
+  Future<PodcastEpisodeDetail> fetchEpisode(String slug) async {
+    final res = await _api.raw.get<Map<String, dynamic>>(
+      '$_staticBaseUrl$_staticBasePath/${Uri.encodeComponent(slug)}.json',
+    );
+    return PodcastEpisodeDetail.fromJson(res.data ?? const <String, dynamic>{});
+  }
+
+  /// URL audio (public, không cần JWT) —
+  /// `GET /api/v1/listening/podcast/easy_german/audio/{slug}`.
+  String audioUrl(String slug) =>
+      '${_api.raw.options.baseUrl}/listening/podcast/easy_german/audio/'
+      '${Uri.encodeComponent(slug)}';
+
+  /// `GET /user/podcast-progress` — danh sách slug đã nghe xong.
+  /// Chưa đăng nhập / lỗi mạng → trả rỗng, UI vẫn hiển thị danh sách bình thường.
+  Future<List<String>> fetchCompletedEpisodeIds() async {
+    try {
+      final data = await _api.get<Map<String, dynamic>>(
+        '/user/podcast-progress',
+      );
+      return (data['episode_ids'] as List<dynamic>?)
+              ?.map((e) => e.toString())
+              .toList() ??
+          const [];
+    } on ApiException {
+      return const [];
+    }
+  }
+
+  /// `POST /user/podcast-progress` — đánh dấu 1 tập đã nghe xong.
+  Future<void> markComplete(String episodeSlug) {
+    return _api.post<dynamic>(
+      '/user/podcast-progress',
+      body: {'episode_id': episodeSlug},
     );
   }
 
-  Future<List<Audiobook>> getAudiobooks() async {
-    await Future.delayed(const Duration(milliseconds: 300));
-    return _mockAudiobooks;
-  }
-
-  Future<List<Dictation>> getDictations() async {
-    await Future.delayed(const Duration(milliseconds: 300));
-    return _mockDictations;
-  }
-
-  Future<List<DictationSentence>> getDictationSentences(String dictationId) async {
-    await Future.delayed(const Duration(milliseconds: 300));
-    return List.generate(
-      10,
-      (i) => DictationSentence(
-        id: '$dictationId-sentence-$i',
-        dictationId: dictationId,
-        sentence: _dictationSentences[i],
-        blanks: [''],
-      ),
+  /// `GET /podcast-leaderboard?limit=` — bảng xếp hạng công khai.
+  Future<List<PodcastLeaderboardEntry>> fetchLeaderboard({int limit = 10}) async {
+    final data = await _api.get<List<dynamic>>(
+      '/podcast-leaderboard',
+      query: {'limit': limit},
     );
+    return data
+        .whereType<Map<String, dynamic>>()
+        .map(PodcastLeaderboardEntry.fromJson)
+        .toList();
   }
 
-  static const _episodeTitles = [
-    'At the Supermarket',
-    'At the Restaurant',
-    'At the Train Station',
-    'At the Doctor',
-    'At the Bank',
-    'Job Interview',
-    'Making Friends',
-    'Weekend Plans',
-    'Weather Talk',
-    'Birthday Party',
-  ];
-
-  static const _episodeTitlesVi = [
-    'Ở Siêu thị',
-    'Ở Nhà hàng',
-    'Ở Nhà ga',
-    'Ở Bác sĩ',
-    'Ở Ngân hàng',
-    'Phỏng vấn xin việc',
-    'Kết bạn',
-    'Kế hoạch cuối tuần',
-    'Nói về thời tiết',
-    'Tiệc sinh nhật',
-  ];
-
-  static const _sampleTranscript = '''
-Guten Tag! Willkommen bei Easy German.
-
-Heute sprechen wir über das Thema: Im Restaurant.
-
-- Guten Abend, ich möchte einen Tisch reservieren.
-- Für wie viele Personen?
-- Für zwei Personen, bitte.
-- Möchten Sie drinnen oder draußen sitzen?
-- Draußen wäre schön, wenn möglich.
-
-Die Kellnerin kommt an den Tisch.
-- Guten Abend, haben Sie schon gewählt?
-- Ja, ich nehme das Schnitzel und eine Salat.
-- Und zu trinken?
-- Ein Glas Rotwein, bitte.
-
-Das Essen war sehr lecker!
-''';
-
-  static const _dictationSentences = [
-    'Ich ___ ein Buch.',
-    'Das ist ___ Hund.',
-    'Er ___ nach Hause.',
-    'Sie ___ eine Lehrerin.',
-    'Wir ___ in Berlin.',
-    'Die Kinder ___ in der Schule.',
-    'Ich ___ Kaffee trinken.',
-    'Das ___ ein Auto.',
-    'Er ___ kein Geld.',
-    'Sie ___ gestern angekommen.',
-  ];
+  /// `GET /user/podcast-rank` — vị trí của user hiện tại.
+  /// Chưa đăng nhập / lỗi mạng → trả `null`, UI ẩn phần rank cá nhân.
+  Future<PodcastLeaderboardEntry?> fetchUserRank() async {
+    try {
+      final data = await _api.get<Map<String, dynamic>>('/user/podcast-rank');
+      if (data.isEmpty) return null;
+      return PodcastLeaderboardEntry.fromJson(data);
+    } on ApiException {
+      return null;
+    }
+  }
 }

@@ -3,120 +3,77 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'podcast_models.freezed.dart';
 part 'podcast_models.g.dart';
 
-/// Podcast series (Easy German Podcast, Sprechen B1/B2, etc.)
-@freezed
-abstract class PodcastSeries with _$PodcastSeries {
-  const factory PodcastSeries({
-    required String id,
-    required String title,
-    required String titleVi,
-    @Default('') String description,
-    @Default('') String descriptionVi,
-    @Default('') String imageUrl,
-    @Default('') String level,
-    @Default('') String language,
-    @Default(0) int totalEpisodes,
-    @Default(0) int completedEpisodes,
-    @Default(<PodcastEpisode>[]) List<PodcastEpisode> episodes,
-  }) = _PodcastSeries;
-
-  factory PodcastSeries.fromJson(Map<String, dynamic> json) =>
-      _$PodcastSeriesFromJson(json);
-}
-
-/// Podcast episode
+/// 1 tập trong index Easy German Podcast.
+/// File tĩnh `{staticBaseUrl}/data/listening/podcast/easy_german/index.json`.
 @freezed
 abstract class PodcastEpisode with _$PodcastEpisode {
   const factory PodcastEpisode({
-    required String id,
-    required String seriesId,
-    required String episodeNumber,
+    required String slug,
     required String title,
-    required String titleVi,
-    @Default('') String description,
-    @Default('') String descriptionVi,
-    @Default('') String audioUrl,
-    @Default(0) int durationSeconds,
-    @Default('') String transcript,
-    @Default('') String transcriptUrl,
-    @Default(false) bool isCompleted,
-    @Default(0) int listenCount,
-    @Default(0.0) double progressPercent,
-    DateTime? lastListenedAt,
+    @Default(0) int duration,
+    @Default(0) int segments,
   }) = _PodcastEpisode;
 
   factory PodcastEpisode.fromJson(Map<String, dynamic> json) =>
       _$PodcastEpisodeFromJson(json);
 }
 
-/// Audiobook model
+/// 1 từ trong [PodcastSentence], mang timestamp để highlight khi phát.
+/// Backend dùng field ngắn `w`/`s`/`e` (word/start/end).
 @freezed
-abstract class Audiobook with _$Audiobook {
-  const factory Audiobook({
-    required String id,
-    required String title,
-    required String titleVi,
-    @Default('') String author,
-    @Default('') String description,
-    @Default('') String imageUrl,
-    @Default('') String level,
-    @Default(0) int totalChapters,
-    @Default(0) int completedChapters,
-    @Default(<AudiobookChapter>[]) List<AudiobookChapter> chapters,
-  }) = _Audiobook;
+abstract class PodcastWord with _$PodcastWord {
+  const factory PodcastWord({
+    @JsonKey(name: 'w') @Default('') String text,
+    @JsonKey(name: 's') @Default(0.0) double start,
+    @JsonKey(name: 'e') @Default(0.0) double end,
+  }) = _PodcastWord;
 
-  factory Audiobook.fromJson(Map<String, dynamic> json) =>
-      _$AudiobookFromJson(json);
+  factory PodcastWord.fromJson(Map<String, dynamic> json) =>
+      _$PodcastWordFromJson(json);
 }
 
-/// Audiobook chapter
+/// 1 câu trong transcript, có bản dịch tiếng Việt + timestamp theo giây.
 @freezed
-abstract class AudiobookChapter with _$AudiobookChapter {
-  const factory AudiobookChapter({
-    required String id,
-    required String audiobookId,
-    required String chapterNumber,
-    required String title,
-    required String titleVi,
-    @Default('') String audioUrl,
-    @Default(0) int durationSeconds,
-    @Default(false) bool isCompleted,
-  }) = _AudiobookChapter;
+abstract class PodcastSentence with _$PodcastSentence {
+  const factory PodcastSentence({
+    @Default('') String text,
+    @JsonKey(name: 'text_vi') @Default('') String textVi,
+    @Default(0.0) double start,
+    @Default(0.0) double end,
+    @Default(<PodcastWord>[]) List<PodcastWord> words,
+  }) = _PodcastSentence;
 
-  factory AudiobookChapter.fromJson(Map<String, dynamic> json) =>
-      _$AudiobookChapterFromJson(json);
+  factory PodcastSentence.fromJson(Map<String, dynamic> json) =>
+      _$PodcastSentenceFromJson(json);
 }
 
-/// Dictation exercise
+/// 1 tập podcast đầy đủ (transcript + mp3), file tĩnh `{slug}.json`.
 @freezed
-abstract class Dictation with _$Dictation {
-  const factory Dictation({
-    required String id,
+abstract class PodcastEpisodeDetail with _$PodcastEpisodeDetail {
+  const factory PodcastEpisodeDetail({
+    required String slug,
     required String title,
-    required String titleVi,
-    @Default('') String level,
-    @Default(0) int difficulty,
-    @Default(0) int totalSentences,
-    @Default(0) int correctAnswers,
-    @Default(false) bool isCompleted,
-  }) = _Dictation;
+    @JsonKey(name: 'mp3_url') @Default('') String mp3Url,
+    @Default(0) int duration,
+    @Default(<PodcastSentence>[]) List<PodcastSentence> sentences,
+  }) = _PodcastEpisodeDetail;
 
-  factory Dictation.fromJson(Map<String, dynamic> json) =>
-      _$DictationFromJson(json);
+  factory PodcastEpisodeDetail.fromJson(Map<String, dynamic> json) =>
+      _$PodcastEpisodeDetailFromJson(json);
 }
 
-/// Dictation sentence for filling in blanks
+/// 1 dòng trong bảng xếp hạng podcast (`GET /podcast-leaderboard`,
+/// `GET /user/podcast-rank`).
 @freezed
-abstract class DictationSentence with _$DictationSentence {
-  const factory DictationSentence({
-    required String id,
-    required String dictationId,
-    required String sentence,
-    required List<String> blanks,
-    @Default(0) int attempts,
-    @Default(0) int correctAttempts,
-  }) = _DictationSentence;
+abstract class PodcastLeaderboardEntry with _$PodcastLeaderboardEntry {
+  const factory PodcastLeaderboardEntry({
+    @JsonKey(name: 'user_id') @Default('') String userId,
+    @JsonKey(name: 'display_name') @Default('') String displayName,
+    @JsonKey(name: 'avatar_url') @Default('') String avatarUrl,
+    @JsonKey(name: 'completed_count') @Default(0) int completedCount,
+    @Default(0) int rank,
+  }) = _PodcastLeaderboardEntry;
 
-  factory DictationSentence.fromJson(Map<String, dynamic> json) =>
-      _$DictationSentenceFromJson(json);
+  factory PodcastLeaderboardEntry.fromJson(Map<String, dynamic> json) =>
+      _$PodcastLeaderboardEntryFromJson(json);
 }
