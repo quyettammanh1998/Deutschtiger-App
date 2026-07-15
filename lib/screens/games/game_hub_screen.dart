@@ -59,6 +59,7 @@ class _GameHubScreenState extends State<GameHubScreen>
     'writing': [
       GameType.writingWord,
       GameType.writingSentence,
+      GameType.sentenceBuilder,
     ],
   };
 
@@ -75,7 +76,8 @@ class _GameHubScreenState extends State<GameHubScreen>
   }
 
   List<GameMode> get _filteredGames {
-    var games = GameMode.allModes.toList();
+    // GĐ1: only show confirmed games — completely hide GĐ2 games (Apple reject placeholders)
+    var games = GameMode.allModes.where((g) => g.gd1Available).toList();
 
     // Filter by category
     final categoryId = _categories[_tabController.index]['id'] as String;
@@ -191,9 +193,9 @@ class _GameHubScreenState extends State<GameHubScreen>
             child: IconButton(
               icon: const Icon(Icons.shuffle, color: Colors.white),
               onPressed: () {
-                final randomGame = GameMode.allModes[
-                    DateTime.now().millisecondsSinceEpoch %
-                        GameMode.allModes.length];
+                final gd1Games = GameMode.allModes.where((g) => g.gd1Available).toList();
+                final randomGame = gd1Games[
+                    DateTime.now().millisecondsSinceEpoch % gd1Games.length];
                 _navigateToGame(context, randomGame.type);
               },
               tooltip: 'Chơi ngẫu nhiên',
@@ -469,10 +471,9 @@ class _GameHubScreenState extends State<GameHubScreen>
       case GameType.conversation:
         context.push('/games/conversation');
         break;
-      default:
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Game đang được phát triển!')),
-        );
+      case GameType.sentenceBuilder:
+        context.push('/games/sentence-builder');
+        break;
     }
   }
 }

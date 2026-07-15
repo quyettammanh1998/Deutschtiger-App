@@ -1,19 +1,122 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../core/theme/app_colors.dart';
+import '../../core/theme/app_colors.dart';
+import '../../data/games/learning_item_models.dart';
+import '../../view_models/games/learning_item_provider.dart';
+import '../../widgets/common/async_state_views.dart';
 
-/// Fill in blank game.
-class FillBlankGameScreen extends StatefulWidget {
+const _levels = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+const _minQuestions = 6;
+const _sessionSize = 10;
+const _blankRe = '_{2,}';
+
+/// Mạo từ đứng trước danh từ — bỏ đi khi coi 1 item là "1 từ" (đáp án/gợi ý
+/// điền từ chỉ là danh từ, không kèm mạo từ).
+final _articleRe = RegExp(r'^(der|die|das|ein|eine|einen|einem|einer)\s+', caseSensitive: false);
+
+/// Từ đệm dùng khi pool không đủ từ nhiễu (distractor) cùng category — luôn
+/// là từ tiếng Đức thật, mirrors web `PAD_WORDS`
+/// (`src/lib/practice/build-cloze-distractors.ts`).
+const _padWords = ['machen', 'gehen', 'kaufen', 'sehen', 'kommen', 'finden', 'Haus', 'Zeit', 'Tag'];
+
+String? _asSingleWord(String contentDe) {
+  final stripped = contentDe.trim().replaceFirst(_articleRe, '');
+  if (stripped.isEmpty || RegExp(r'\s').hasMatch(stripped)) return null;
+  return stripped;
+}
+
+/// Tìm câu ví dụ có thể tạo cloze (chỗ trống) cho [item] — ưu tiên
+/// `example.cloze` có sẵn, nếu không thì tự thay thế từ mục tiêu trong
+/// `example.de` bằng chỗ trống. Mirrors web `deriveClozeFromExamples`
+/// (`src/lib/vocabulary/vocab-lesson-utils.ts`), rút gọn cho 1 item duy nhất
+/// (không cần đường vòng cloze_words phức tạp).
+String? _deriveClozePrompt(LearningItem item) {
+  final target = item.contentDe.trim();
+  if (target.isEmpty) return null;
+  final wordRe = RegExp(r'\b' + RegExp.escape(target) + r'\b', caseSensitive: false);
+
+  for (final ex in item.examples) {
+    if (ex.cloze != null && ex.cloze!.contains('_')) {
+      return ex.cloze!.replaceAll(RegExp(_blankRe), '___');
+    }
+    if (wordRe.hasMatch(ex.de)) {
+      return ex.de.replaceFirst(wordRe, '___');
+    }
+  }
+  return null;
+}
+
+List<String> _buildDistractors(LearningItem target, List<LearningItem> pool, {int count = 3}) {
+  final answerKey = (_asSingleWord(target.contentDe) ?? target.contentDe).toLowerCase();
+  final seen = <String>{answerKey};
+  final out = <String>[];
+
+  void push(String? word) {
+    if (word == null || out.length >= count) return;
+    final key = word.toLowerCase();
+    if (seen.contains(key)) return;
+    seen.add(key);
+    out.add(word);
+  }
+
+  final passes = <bool Function(LearningItem)>[
+    (i) => i.category == target.category,
+    (i) => true,
+  ];
+  for (final accept in passes) {
+    if (out.length >= count) break;
+    for (final candidate in pool) {
+      if (out.length >= count) break;
+      if (candidate.id == target.id || !accept(candidate)) continue;
+      push(_asSingleWord(candidate.contentDe));
+    }
+  }
+  for (final pad in _padWords) {
+    if (out.length >= count) break;
+    push(pad);
+  }
+  return out.take(count).toList(growable: false);
+}
+
+class _FillBlankQuestion {
+  const _FillBlankQuestion({
+    required this.itemId,
+    required this.sentenceWithBlank,
+    required this.answer,
+    required this.options,
+  });
+
+  final String itemId;
+  final String sentenceWithBlank;
+  final String answer;
+  final List<String> options;
+}
+
+/// Fill-blank (Điền từ) — nguồn dữ liệu thật `GET
+/// /user/learning-items/balanced?type=word`, dựng câu cloze từ `examples`
+/// đính kèm mỗi item (mirrors web `FillBlankMiniGame`'s `ClozeMode` +
+/// `deriveClozeFromExamples`/`buildClozeDistractors`,
+/// `src/components/vocabulary/mini-games/fill-blank-mini-game.tsx`). Web
+/// không có trang game độc lập — nó là 1 mini-game bên trong bài học từ
+/// vựng; ở mobile đây là 1 game riêng trong Game Hub, dùng cùng nguồn corpus.
+/// Item không suy ra được cloze (không câu ví dụ chứa từ mục tiêu) bị bỏ qua.
+class FillBlankGameScreen extends ConsumerStatefulWidget {
   const FillBlankGameScreen({super.key});
 
   @override
-  State<FillBlankGameScreen> createState() => _FillBlankGameScreenState();
+  ConsumerState<FillBlankGameScreen> createState() => _FillBlankGameScreenState();
 }
 
-class _FillBlankGameScreenState extends State<FillBlankGameScreen> {
+class _FillBlankGameScreenState extends ConsumerState<FillBlankGameScreen> {
+  String _level = 'A1';
+  late Future<List<_FillBlankQuestion>> _future;
+
+  List<_FillBlankQuestion> _questions = const [];
   int _currentIndex = 0;
   int _score = 0;
   int _correct = 0;
@@ -21,68 +124,50 @@ class _FillBlankGameScreenState extends State<FillBlankGameScreen> {
   int _timeLeft = 60;
   bool _gameOver = false;
   String? _selectedAnswer;
-  bool? _isCorrect;
   Timer? _timer;
-
-  // Mock questions
-  final _questions = [
-    {
-      'sentence': 'Das ___ ist groß.',
-      'word': 'Haus',
-      'options': ['Haus', 'Buch', 'Auto', 'Tisch'],
-      'blankIndex': 3,
-    },
-    {
-      'sentence': 'Ich trinke ___ .',
-      'word': 'Wasser',
-      'options': ['Buch', 'Wasser', 'Auto', 'Schule'],
-      'blankIndex': 3,
-    },
-    {
-      'sentence': 'Die ___ ist schön.',
-      'word': 'Frau',
-      'options': ['Mann', 'Kind', 'Frau', 'Hund'],
-      'blankIndex': 3,
-    },
-    {
-      'sentence': 'Das ___ läuft schnell.',
-      'word': 'Auto',
-      'options': ['Katze', 'Auto', 'Tisch', 'Buch'],
-      'blankIndex': 3,
-    },
-    {
-      'sentence': 'Der ___ ist in der Schule.',
-      'word': 'Mann',
-      'options': ['Frau', 'Kind', 'Hund', 'Mann'],
-      'blankIndex': 3,
-    },
-    {
-      'sentence': 'Das ___ hat vier Beine.',
-      'word': 'Hund',
-      'options': ['Katze', 'Buch', 'Hund', 'Tisch'],
-      'blankIndex': 3,
-    },
-    {
-      'sentence': 'Die ___ liest ein Buch.',
-      'word': 'Frau',
-      'options': ['Mann', 'Frau', 'Kind', 'Hund'],
-      'blankIndex': 3,
-    },
-    {
-      'sentence': 'Das ___ ist auf dem Tisch.',
-      'word': 'Buch',
-      'options': ['Auto', 'Schule', 'Buch', 'Fenster'],
-      'blankIndex': 3,
-    },
-  ];
 
   @override
   void initState() {
     super.initState();
-    _startTimer();
+    _future = _load();
+  }
+
+  Future<List<_FillBlankQuestion>> _load() async {
+    final items = await ref
+        .read(learningItemRepositoryProvider)
+        .fetchBalanced(userLevel: _level, type: 'word', limit: 60);
+    final questions = _buildQuestions(items);
+    if (questions.isNotEmpty && mounted) {
+      _questions = questions;
+      _startTimer();
+    }
+    return questions;
+  }
+
+  List<_FillBlankQuestion> _buildQuestions(List<LearningItem> items) {
+    final questions = <_FillBlankQuestion>[];
+    for (final item in items) {
+      final prompt = _deriveClozePrompt(item);
+      if (prompt == null) continue;
+      final distractors = _buildDistractors(item, items);
+      if (distractors.length < 3) continue;
+      final answer = _asSingleWord(item.contentDe) ?? item.contentDe.trim();
+      final options = [answer, ...distractors]..shuffle(Random());
+      questions.add(
+        _FillBlankQuestion(
+          itemId: item.id,
+          sentenceWithBlank: prompt,
+          answer: answer,
+          options: options,
+        ),
+      );
+    }
+    questions.shuffle(Random());
+    return questions.take(_sessionSize).toList(growable: false);
   }
 
   void _startTimer() {
+    _timer?.cancel();
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (_timeLeft > 0) {
         setState(() => _timeLeft--);
@@ -95,14 +180,12 @@ class _FillBlankGameScreenState extends State<FillBlankGameScreen> {
   void _selectAnswer(String answer) {
     if (_selectedAnswer != null) return;
 
-    final correctAnswer = _questions[_currentIndex]['word'] as String;
+    final correctAnswer = _questions[_currentIndex].answer;
     final isCorrect = answer == correctAnswer;
 
     setState(() {
       _selectedAnswer = answer;
-      _isCorrect = isCorrect;
       _total++;
-
       if (isCorrect) {
         _correct++;
         _score += 15;
@@ -115,7 +198,6 @@ class _FillBlankGameScreenState extends State<FillBlankGameScreen> {
           setState(() {
             _currentIndex++;
             _selectedAnswer = null;
-            _isCorrect = null;
           });
         } else {
           _endGame();
@@ -127,6 +209,21 @@ class _FillBlankGameScreenState extends State<FillBlankGameScreen> {
   void _endGame() {
     _timer?.cancel();
     setState(() => _gameOver = true);
+  }
+
+  void _restart() {
+    _timer?.cancel();
+    setState(() {
+      _currentIndex = 0;
+      _score = 0;
+      _correct = 0;
+      _total = 0;
+      _timeLeft = 60;
+      _gameOver = false;
+      _selectedAnswer = null;
+      _questions = const [];
+      _future = _load();
+    });
   }
 
   @override
@@ -147,42 +244,67 @@ class _FillBlankGameScreenState extends State<FillBlankGameScreen> {
           onPressed: () => context.pop(),
         ),
         actions: [
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-            margin: const EdgeInsets.only(right: 16),
-            decoration: BoxDecoration(
-              color: _timeLeft <= 10 ? Colors.red : Colors.grey.shade200,
-              borderRadius: BorderRadius.circular(16),
+          if (!_gameOver) ...[
+            _LevelPicker(
+              level: _level,
+              onChanged: (v) {
+                _level = v;
+                _restart();
+              },
             ),
-            child: Row(
-              children: [
-                const Icon(Icons.timer, size: 16),
-                const SizedBox(width: 4),
-                Text('${_timeLeft}s', style: const TextStyle(fontWeight: FontWeight.bold)),
-              ],
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+              margin: const EdgeInsets.only(right: 16, left: 8),
+              decoration: BoxDecoration(
+                color: _timeLeft <= 10 ? Colors.red : Colors.grey.shade200,
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Row(
+                children: [
+                  const Icon(Icons.timer, size: 16),
+                  const SizedBox(width: 4),
+                  Text('${_timeLeft}s', style: const TextStyle(fontWeight: FontWeight.bold)),
+                ],
+              ),
             ),
-          ),
+          ],
         ],
       ),
-      body: _gameOver ? _buildResults() : _buildGame(),
+      body: _gameOver
+          ? _buildResults()
+          : FutureBuilder<List<_FillBlankQuestion>>(
+              future: _future,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState != ConnectionState.done) {
+                  return const LoadingView();
+                }
+                if (snapshot.hasError) {
+                  return ErrorView(onRetry: _restart);
+                }
+                if (_questions.length < _minQuestions) {
+                  return ErrorView(
+                    message:
+                        'Cần ít nhất $_minQuestions câu để luyện tập ở level '
+                        '$_level (hiện có ${_questions.length}).',
+                    onRetry: _restart,
+                  );
+                }
+                return _buildGame();
+              },
+            ),
     );
   }
 
   Widget _buildGame() {
     final question = _questions[_currentIndex];
-    final sentence = question['sentence'] as String;
-    final options = question['options'] as List<String>;
 
     return Column(
       children: [
-        // Progress
         LinearProgressIndicator(
           value: (_currentIndex + 1) / _questions.length,
           backgroundColor: Colors.grey.shade200,
           valueColor: const AlwaysStoppedAnimation<Color>(Colors.cyan),
         ),
-
-        // Header
         Padding(
           padding: const EdgeInsets.all(16),
           child: Row(
@@ -199,10 +321,7 @@ class _FillBlankGameScreenState extends State<FillBlankGameScreen> {
             ],
           ),
         ),
-
         const Spacer(),
-
-        // Sentence card
         Container(
           margin: const EdgeInsets.symmetric(horizontal: 24),
           padding: const EdgeInsets.all(24),
@@ -210,35 +329,24 @@ class _FillBlankGameScreenState extends State<FillBlankGameScreen> {
             color: Colors.white,
             borderRadius: BorderRadius.circular(24),
             boxShadow: [
-              BoxShadow(
-                color: Colors.black.withValues(alpha: 0.1),
-                blurRadius: 20,
-                offset: const Offset(0, 10),
-              ),
+              BoxShadow(color: Colors.black.withValues(alpha: 0.1), blurRadius: 20, offset: const Offset(0, 10)),
             ],
           ),
-          child: Column(
-            children: [
-              RichText(
-                text: TextSpan(
-                  style: const TextStyle(fontSize: 24, color: AppColors.foreground),
-                  children: _buildSentenceParts(sentence),
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ],
+          child: RichText(
+            text: TextSpan(
+              style: const TextStyle(fontSize: 24, color: AppColors.foreground),
+              children: _buildSentenceParts(question),
+            ),
+            textAlign: TextAlign.center,
           ),
         ),
-
         const SizedBox(height: 32),
-
-        // Options
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
           child: Column(
-            children: options.map((option) {
+            children: question.options.map((option) {
               final isSelected = _selectedAnswer == option;
-              final isCorrectAnswer = option == question['word'];
+              final isCorrectAnswer = option == question.answer;
 
               Color bgColor = Colors.white;
               Color borderColor = Colors.grey.shade300;
@@ -270,11 +378,7 @@ class _FillBlankGameScreenState extends State<FillBlankGameScreen> {
                         Expanded(
                           child: Text(
                             option,
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w600,
-                              color: AppColors.foreground,
-                            ),
+                            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: AppColors.foreground),
                           ),
                         ),
                         if (_selectedAnswer != null && isCorrectAnswer)
@@ -289,53 +393,43 @@ class _FillBlankGameScreenState extends State<FillBlankGameScreen> {
             }).toList(),
           ),
         ),
-
         const Spacer(),
       ],
     );
   }
 
-  List<TextSpan> _buildSentenceParts(String sentence) {
+  List<TextSpan> _buildSentenceParts(_FillBlankQuestion question) {
     final parts = <TextSpan>[];
-    final regex = RegExp(r'___');
-    final matches = regex.allMatches(sentence);
+    final matches = RegExp('___').allMatches(question.sentenceWithBlank);
     int lastEnd = 0;
 
     for (final match in matches) {
       if (match.start > lastEnd) {
-        parts.add(TextSpan(text: sentence.substring(lastEnd, match.start)));
+        parts.add(TextSpan(text: question.sentenceWithBlank.substring(lastEnd, match.start)));
       }
 
-      // Check if we have an answer yet
       if (_selectedAnswer != null) {
-        final question = _questions[_currentIndex];
-        final correctAnswer = question['word'] as String;
-        final isCorrect = _selectedAnswer == correctAnswer;
-
-        parts.add(TextSpan(
-          text: _selectedAnswer ?? '___',
-          style: TextStyle(
-            color: isCorrect ? Colors.green : Colors.red,
-            decoration: isCorrect ? null : TextDecoration.lineThrough,
+        final isCorrect = _selectedAnswer == question.answer;
+        parts.add(
+          TextSpan(
+            text: _selectedAnswer ?? '___',
+            style: TextStyle(
+              color: isCorrect ? Colors.green : Colors.red,
+              decoration: isCorrect ? null : TextDecoration.lineThrough,
+            ),
           ),
-        ));
+        );
       } else {
-        parts.add(const TextSpan(
-          text: '___',
-          style: TextStyle(
-            color: Colors.cyan,
-            fontWeight: FontWeight.bold,
-          ),
-        ));
+        parts.add(
+          const TextSpan(text: '___', style: TextStyle(color: Colors.cyan, fontWeight: FontWeight.bold)),
+        );
       }
-
       lastEnd = match.end;
     }
 
-    if (lastEnd < sentence.length) {
-      parts.add(TextSpan(text: sentence.substring(lastEnd)));
+    if (lastEnd < question.sentenceWithBlank.length) {
+      parts.add(TextSpan(text: question.sentenceWithBlank.substring(lastEnd)));
     }
-
     return parts;
   }
 
@@ -350,11 +444,7 @@ class _FillBlankGameScreenState extends State<FillBlankGameScreen> {
           color: Colors.white,
           borderRadius: BorderRadius.circular(24),
           boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.1),
-              blurRadius: 20,
-              offset: const Offset(0, 10),
-            ),
+            BoxShadow(color: Colors.black.withValues(alpha: 0.1), blurRadius: 20, offset: const Offset(0, 10)),
           ],
         ),
         child: Column(
@@ -374,17 +464,18 @@ class _FillBlankGameScreenState extends State<FillBlankGameScreen> {
               ),
             ),
             const SizedBox(height: 16),
-            Text(
-              '$_score',
-              style: const TextStyle(fontSize: 48, fontWeight: FontWeight.bold, color: Colors.cyan),
-            ),
+            Text('$_score', style: const TextStyle(fontSize: 48, fontWeight: FontWeight.bold, color: Colors.cyan)),
             const Text('Điểm', style: TextStyle(fontSize: 16, color: AppColors.mutedForeground)),
             const SizedBox(height: 24),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 _StatItem(label: 'Đúng', value: '$_correct/$_total', color: Colors.green),
-                _StatItem(label: 'Độ chính xác', value: '$accuracy%', color: accuracy >= 70 ? Colors.green : Colors.orange),
+                _StatItem(
+                  label: 'Độ chính xác',
+                  value: '$accuracy%',
+                  color: accuracy >= 70 ? Colors.green : Colors.orange,
+                ),
               ],
             ),
             const SizedBox(height: 24),
@@ -403,19 +494,7 @@ class _FillBlankGameScreenState extends State<FillBlankGameScreen> {
                 const SizedBox(width: 12),
                 Expanded(
                   child: ElevatedButton(
-                    onPressed: () {
-                      setState(() {
-                        _currentIndex = 0;
-                        _score = 0;
-                        _correct = 0;
-                        _total = 0;
-                        _timeLeft = 60;
-                        _gameOver = false;
-                        _selectedAnswer = null;
-                        _isCorrect = null;
-                        _startTimer();
-                      });
-                    },
+                    onPressed: _restart,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.cyan,
                       foregroundColor: Colors.white,
@@ -430,6 +509,25 @@ class _FillBlankGameScreenState extends State<FillBlankGameScreen> {
           ],
         ),
       ),
+    );
+  }
+}
+
+class _LevelPicker extends StatelessWidget {
+  const _LevelPicker({required this.level, required this.onChanged});
+
+  final String level;
+  final ValueChanged<String> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    return DropdownButton<String>(
+      value: level,
+      underline: const SizedBox.shrink(),
+      items: _levels.map((l) => DropdownMenuItem(value: l, child: Text(l))).toList(growable: false),
+      onChanged: (v) {
+        if (v != null) onChanged(v);
+      },
     );
   }
 }

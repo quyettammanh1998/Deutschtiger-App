@@ -40,6 +40,7 @@ class _GameBaseState extends State<GameBase> {
   DateTime? _startTime;
   String? _feedback;
   bool? _isCorrect;
+  int? _selectedIndex;
 
   @override
   void initState() {
@@ -65,11 +66,12 @@ class _GameBaseState extends State<GameBase> {
     if (_gameOver) return;
 
     final isCorrect = selectedIndex == correctIndex;
-    
+
     setState(() {
       _total++;
       _isCorrect = isCorrect;
-      
+      _selectedIndex = selectedIndex;
+
       if (isCorrect) {
         _correct++;
         _streak++;
@@ -91,6 +93,7 @@ class _GameBaseState extends State<GameBase> {
             _currentIndex++;
             _feedback = null;
             _isCorrect = null;
+            _selectedIndex = null;
           });
         } else {
           _endGame();
@@ -119,7 +122,7 @@ class _GameBaseState extends State<GameBase> {
   void _endGame() {
     _timer?.cancel();
     setState(() => _gameOver = true);
-    
+
     final result = GameResult(
       type: widget.gameType,
       score: _score,
@@ -131,7 +134,7 @@ class _GameBaseState extends State<GameBase> {
       wrongItemIds: _wrongIds,
       playedAt: DateTime.now(),
     );
-    
+
     widget.onComplete(result);
   }
 
@@ -146,24 +149,20 @@ class _GameBaseState extends State<GameBase> {
     if (_gameOver) {
       return _buildResults();
     }
-    
+
     return Column(
       children: [
         // Header với timer
-        if (widget.showTimer)
-          _buildHeader(),
-        
+        if (widget.showTimer) _buildHeader(),
+
         // Progress
         _buildProgress(),
-        
+
         // Question content - override in child
-        Expanded(
-          child: _buildQuestion(),
-        ),
-        
+        Expanded(child: _buildQuestion()),
+
         // Feedback
-        if (_feedback != null)
-          _buildFeedback(),
+        if (_feedback != null) _buildFeedback(),
       ],
     );
   }
@@ -190,7 +189,7 @@ class _GameBaseState extends State<GameBase> {
               ),
             ],
           ),
-          
+
           // Timer or question number
           if (widget.timeLimit != null)
             Container(
@@ -204,14 +203,18 @@ class _GameBaseState extends State<GameBase> {
                   Icon(
                     Icons.timer,
                     size: 16,
-                    color: _timeLeft <= 10 ? Colors.white : Colors.grey.shade600,
+                    color: _timeLeft <= 10
+                        ? Colors.white
+                        : Colors.grey.shade600,
                   ),
                   const SizedBox(width: 4),
                   Text(
                     '${_timeLeft}s',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      color: _timeLeft <= 10 ? Colors.white : Colors.grey.shade600,
+                      color: _timeLeft <= 10
+                          ? Colors.white
+                          : Colors.grey.shade600,
                     ),
                   ),
                 ],
@@ -220,12 +223,9 @@ class _GameBaseState extends State<GameBase> {
           else
             Text(
               '${_currentIndex + 1}/${widget.questions.length}',
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-              ),
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
             ),
-          
+
           // Streak
           Row(
             children: [
@@ -252,7 +252,7 @@ class _GameBaseState extends State<GameBase> {
     final progress = widget.questions.isNotEmpty
         ? (_currentIndex + 1) / widget.questions.length
         : 0.0;
-    
+
     return LinearProgressIndicator(
       value: progress,
       backgroundColor: Colors.grey.shade200,
@@ -261,8 +261,69 @@ class _GameBaseState extends State<GameBase> {
   }
 
   Widget _buildQuestion() {
-    // Override in child class
-    return const SizedBox.shrink();
+    if (widget.questions.isEmpty) {
+      return const Center(child: Text('Chưa có câu hỏi.'));
+    }
+
+    final question = widget.questions[_currentIndex];
+    return ListView(
+      padding: const EdgeInsets.all(24),
+      children: [
+        Text(
+          question.word,
+          textAlign: TextAlign.center,
+          style: Theme.of(
+            context,
+          ).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold),
+        ),
+        if (question.translation != null) ...[
+          const SizedBox(height: 8),
+          Text(
+            question.translation!,
+            textAlign: TextAlign.center,
+            style: Theme.of(
+              context,
+            ).textTheme.bodyLarge?.copyWith(color: AppColors.mutedForeground),
+          ),
+        ],
+        const SizedBox(height: 24),
+        ...question.options.asMap().entries.map((entry) {
+          final isSelected = _selectedIndex == entry.key;
+          final isCorrectOption = entry.key == question.correctIndex;
+          final showCorrect = _feedback != null && isCorrectOption;
+          final showWrong = _feedback != null && isSelected && !isCorrectOption;
+
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 12),
+            child: OutlinedButton(
+              onPressed: _feedback == null
+                  ? () => _checkAnswer(
+                      entry.key,
+                      question.correctIndex,
+                      question.id,
+                    )
+                  : null,
+              style: OutlinedButton.styleFrom(
+                foregroundColor: showWrong
+                    ? AppColors.error
+                    : showCorrect
+                    ? AppColors.success
+                    : AppColors.foreground,
+                side: BorderSide(
+                  color: showWrong
+                      ? AppColors.error
+                      : showCorrect
+                      ? AppColors.success
+                      : AppColors.border,
+                ),
+                padding: const EdgeInsets.symmetric(vertical: 16),
+              ),
+              child: Text(entry.value),
+            ),
+          );
+        }),
+      ],
+    );
   }
 
   Widget _buildFeedback() {
@@ -290,7 +351,7 @@ class _GameBaseState extends State<GameBase> {
 
   Widget _buildResults() {
     final accuracy = _total > 0 ? (_correct / _total * 100).round() : 0;
-    
+
     return Center(
       child: Container(
         margin: const EdgeInsets.all(24),
@@ -315,7 +376,9 @@ class _GameBaseState extends State<GameBase> {
               height: 80,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: accuracy >= 70 ? Colors.amber.shade100 : Colors.grey.shade200,
+                color: accuracy >= 70
+                    ? Colors.amber.shade100
+                    : Colors.grey.shade200,
               ),
               child: Icon(
                 accuracy >= 70 ? Icons.emoji_events : Icons.refresh,
@@ -324,7 +387,7 @@ class _GameBaseState extends State<GameBase> {
               ),
             ),
             const SizedBox(height: 16),
-            
+
             // Score
             Text(
               '$_score',
@@ -336,14 +399,11 @@ class _GameBaseState extends State<GameBase> {
             ),
             const Text(
               'Điểm',
-              style: TextStyle(
-                fontSize: 16,
-                color: AppColors.mutedForeground,
-              ),
+              style: TextStyle(fontSize: 16, color: AppColors.mutedForeground),
             ),
-            
+
             const SizedBox(height: 24),
-            
+
             // Stats row
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -365,9 +425,9 @@ class _GameBaseState extends State<GameBase> {
                 ),
               ],
             ),
-            
+
             const SizedBox(height: 24),
-            
+
             // Action buttons
             Row(
               children: [
@@ -397,6 +457,9 @@ class _GameBaseState extends State<GameBase> {
                         _maxCombo = 0;
                         _wrongIds.clear();
                         _gameOver = false;
+                        _feedback = null;
+                        _isCorrect = null;
+                        _selectedIndex = null;
                         _startTime = DateTime.now();
                         _timeLeft = widget.timeLimit ?? 0;
                         if (widget.timeLimit != null) {
@@ -450,10 +513,7 @@ class _StatItem extends StatelessWidget {
         ),
         Text(
           label,
-          style: TextStyle(
-            fontSize: 12,
-            color: AppColors.mutedForeground,
-          ),
+          style: TextStyle(fontSize: 12, color: AppColors.mutedForeground),
         ),
       ],
     );

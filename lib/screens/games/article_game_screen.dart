@@ -1,20 +1,62 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../core/theme/app_colors.dart';
+import '../../core/theme/app_colors.dart';
+import '../../data/games/learning_item_models.dart';
+import '../../view_models/games/learning_item_provider.dart';
+import '../../widgets/common/async_state_views.dart';
 
-/// Der/Die/Das article quiz game với UI đẹp.
-class ArticleGameScreen extends StatefulWidget {
+const _levels = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+const _minNouns = 10;
+const _wordsPerRound = 10;
+const _totalRounds = 3;
+const _totalWords = _wordsPerRound * _totalRounds;
+
+/// der/die/das dựa trên `gender` (m/f/n) của learning item.
+const _genderArticle = {'m': 'der', 'f': 'die', 'n': 'das'};
+
+final _articleRe = RegExp(r'^(der|die|das)\s+', caseSensitive: false);
+
+/// Bỏ mạo từ đứng trước danh từ (data có thể lưu "der Hund") để không lộ đáp
+/// án khi hiển thị.
+String _stripArticle(String text) => text.trim().replaceFirst(_articleRe, '');
+
+class _ArticleWord {
+  const _ArticleWord({
+    required this.itemId,
+    required this.word,
+    required this.meaning,
+    required this.gender,
+  });
+
+  final String itemId;
+  final String word;
+  final String meaning;
+  final String gender; // der/die/das
+}
+
+/// Der/Die/Das article quiz — nguồn dữ liệu thật `GET
+/// /user/learning-items/balanced?type=word` (mirrors web `ArtikelGamePage` +
+/// `ArtikelQuiz`, `src/pages/game/artikel-game-page.tsx`). Lọc danh từ có
+/// `gender` hợp lệ (m/f/n → der/die/das), 30 câu/lượt (10 câu × 3 vòng, lặp
+/// nếu pool nhỏ — cùng cách web làm).
+class ArticleGameScreen extends ConsumerStatefulWidget {
   const ArticleGameScreen({super.key});
 
   @override
-  State<ArticleGameScreen> createState() => _ArticleGameScreenState();
+  ConsumerState<ArticleGameScreen> createState() => _ArticleGameScreenState();
 }
 
-class _ArticleGameScreenState extends State<ArticleGameScreen>
+class _ArticleGameScreenState extends ConsumerState<ArticleGameScreen>
     with TickerProviderStateMixin {
+  String _level = 'A1';
+  late Future<List<_ArticleWord>> _future;
+
+  List<_ArticleWord> _words = const [];
   int _currentIndex = 0;
   int _score = 0;
   int _correct = 0;
@@ -31,30 +73,12 @@ class _ArticleGameScreenState extends State<ArticleGameScreen>
   late AnimationController _bounceController;
   late Animation<double> _bounceAnimation;
 
-  // Mock words with gender
-  final _words = [
-    {'word': 'Haus', 'meaning': 'Nhà', 'gender': 'das'},
-    {'word': 'Buch', 'meaning': 'Sách', 'gender': 'das'},
-    {'word': 'Wasser', 'meaning': 'Nước', 'gender': 'das'},
-    {'word': 'Frau', 'meaning': 'Phụ nữ', 'gender': 'die'},
-    {'word': 'Mann', 'meaning': 'Đàn ông', 'gender': 'der'},
-    {'word': 'Kind', 'meaning': 'Trẻ em', 'gender': 'das'},
-    {'word': 'Katze', 'meaning': 'Con mèo', 'gender': 'die'},
-    {'word': 'Hund', 'meaning': 'Con chó', 'gender': 'der'},
-    {'word': 'Auto', 'meaning': 'Ô tô', 'gender': 'das'},
-    {'word': 'Schule', 'meaning': 'Trường học', 'gender': 'die'},
-    {'word': 'Tisch', 'meaning': 'Cái bàn', 'gender': 'der'},
-    {'word': 'Wasser', 'meaning': 'Nước', 'gender': 'das'},
-    {'word': 'Blume', 'meaning': 'Bông hoa', 'gender': 'die'},
-    {'word': 'Stuhl', 'meaning': 'Cái ghế', 'gender': 'der'},
-    {'word': 'Fenster', 'meaning': 'Cửa sổ', 'gender': 'das'},
-  ];
-
-  Map<String, dynamic> get _currentWord => _words[_currentIndex % _words.length];
+  _ArticleWord get _currentWord => _words[_currentIndex % _words.length];
 
   @override
   void initState() {
     super.initState();
+    _future = _load();
     _bounceController = AnimationController(
       duration: const Duration(milliseconds: 300),
       vsync: this,
@@ -62,10 +86,41 @@ class _ArticleGameScreenState extends State<ArticleGameScreen>
     _bounceAnimation = Tween<double>(begin: 1.0, end: 1.1).animate(
       CurvedAnimation(parent: _bounceController, curve: Curves.easeInOut),
     );
-    _startTimer();
+  }
+
+  Future<List<_ArticleWord>> _load() async {
+    final items = await ref
+        .read(learningItemRepositoryProvider)
+        .fetchBalanced(userLevel: _level, type: 'word', limit: 60);
+    final words = _buildWords(items);
+    if (words.isNotEmpty && mounted) {
+      _words = words;
+      _startTimer();
+    }
+    return words;
+  }
+
+  List<_ArticleWord> _buildWords(List<LearningItem> items) {
+    final nouns = items
+        .where((i) => i.gender != null && _genderArticle.containsKey(i.gender))
+        .toList();
+    if (nouns.length < _minNouns) return const [];
+
+    final rng = Random();
+    nouns.shuffle(rng);
+    return List.generate(_totalWords, (i) {
+      final item = nouns[i % nouns.length];
+      return _ArticleWord(
+        itemId: item.id,
+        word: _stripArticle(item.contentDe),
+        meaning: item.contentVi ?? '',
+        gender: _genderArticle[item.gender]!,
+      );
+    });
   }
 
   void _startTimer() {
+    _timer?.cancel();
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (_timeLeft > 0) {
         setState(() => _timeLeft--);
@@ -78,7 +133,7 @@ class _ArticleGameScreenState extends State<ArticleGameScreen>
   void _selectArticle(String article) {
     if (_showResult) return;
 
-    final correct = _currentWord['gender'] == article;
+    final correct = _currentWord.gender == article;
 
     setState(() {
       _selectedArticle = article;
@@ -117,6 +172,24 @@ class _ArticleGameScreenState extends State<ArticleGameScreen>
     setState(() => _gameOver = true);
   }
 
+  void _restart() {
+    _timer?.cancel();
+    setState(() {
+      _currentIndex = 0;
+      _score = 0;
+      _correct = 0;
+      _total = 0;
+      _streak = 0;
+      _maxCombo = 0;
+      _selectedArticle = null;
+      _showResult = false;
+      _gameOver = false;
+      _timeLeft = 60;
+      _words = const [];
+      _future = _load();
+    });
+  }
+
   @override
   void dispose() {
     _timer?.cancel();
@@ -131,13 +204,32 @@ class _ArticleGameScreenState extends State<ArticleGameScreen>
       body: SafeArea(
         child: Column(
           children: [
-            // Custom header
             _buildHeader(),
-
             if (_gameOver)
               Expanded(child: _buildResults())
             else
-              Expanded(child: _buildGame()),
+              Expanded(
+                child: FutureBuilder<List<_ArticleWord>>(
+                  future: _future,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState != ConnectionState.done) {
+                      return const LoadingView();
+                    }
+                    if (snapshot.hasError) {
+                      return ErrorView(onRetry: _restart);
+                    }
+                    if (_words.isEmpty) {
+                      return ErrorView(
+                        message:
+                            'Cần ít nhất $_minNouns danh từ có giới tính để '
+                            'chơi ở level $_level.',
+                        onRetry: _restart,
+                      );
+                    }
+                    return _buildGame();
+                  },
+                ),
+              ),
           ],
         ),
       ),
@@ -149,13 +241,8 @@ class _ArticleGameScreenState extends State<ArticleGameScreen>
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       child: Row(
         children: [
-          // Back button
-          _HeaderButton(
-            icon: Icons.close,
-            onTap: () => context.pop(),
-          ),
+          _HeaderButton(icon: Icons.close, onTap: () => context.pop()),
           const SizedBox(width: 12),
-          // Title
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -170,19 +257,22 @@ class _ArticleGameScreenState extends State<ArticleGameScreen>
                 ),
                 Text(
                   'Đoán mạo từ',
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: AppColors.mutedForeground,
-                  ),
+                  style: TextStyle(fontSize: 12, color: AppColors.mutedForeground),
                 ),
               ],
             ),
           ),
-          // Timer
-          _TimerBadge(
-            seconds: _timeLeft,
-            isWarning: _timeLeft <= 10,
-          ),
+          if (!_gameOver) ...[
+            _LevelPicker(
+              level: _level,
+              onChanged: (v) {
+                _level = v;
+                _restart();
+              },
+            ),
+            const SizedBox(width: 8),
+            _TimerBadge(seconds: _timeLeft, isWarning: _timeLeft <= 10),
+          ],
         ],
       ),
     );
@@ -191,24 +281,17 @@ class _ArticleGameScreenState extends State<ArticleGameScreen>
   Widget _buildGame() {
     return Column(
       children: [
-        // Progress bar
         _ProgressBar(
           current: _currentIndex + 1,
           total: _words.length,
           color: const Color(0xFF14B8A6),
         ),
-
-        // Stats row
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              _StatBadge(
-                icon: Icons.star,
-                value: '$_score',
-                color: Colors.amber,
-              ),
+              _StatBadge(icon: Icons.star, value: '$_score', color: Colors.amber),
               _StatBadge(
                 icon: Icons.check_circle,
                 value: '$_correct/$_total',
@@ -223,19 +306,13 @@ class _ArticleGameScreenState extends State<ArticleGameScreen>
             ],
           ),
         ),
-
         const Spacer(),
-
-        // Word card
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
           child: AnimatedBuilder(
             animation: _bounceAnimation,
             builder: (context, child) {
-              return Transform.scale(
-                scale: _bounceAnimation.value,
-                child: child,
-              );
+              return Transform.scale(scale: _bounceAnimation.value, child: child);
             },
             child: Container(
               width: double.infinity,
@@ -253,9 +330,8 @@ class _ArticleGameScreenState extends State<ArticleGameScreen>
               ),
               child: Column(
                 children: [
-                  // Word
                   Text(
-                    _currentWord['word'] ?? '',
+                    _currentWord.word,
                     style: const TextStyle(
                       fontSize: 48,
                       fontWeight: FontWeight.bold,
@@ -265,21 +341,15 @@ class _ArticleGameScreenState extends State<ArticleGameScreen>
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    _currentWord['meaning'] ?? '',
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: AppColors.mutedForeground,
-                    ),
+                    _currentWord.meaning,
+                    style: TextStyle(fontSize: 20, color: AppColors.mutedForeground),
                   ),
                 ],
               ),
             ),
           ),
         ),
-
         const Spacer(),
-
-        // Article buttons
         Padding(
           padding: const EdgeInsets.all(24),
           child: Row(
@@ -289,7 +359,7 @@ class _ArticleGameScreenState extends State<ArticleGameScreen>
                   article: 'der',
                   color: Colors.blue,
                   isSelected: _selectedArticle == 'der',
-                  isCorrect: _showResult && _currentWord['gender'] == 'der',
+                  isCorrect: _showResult && _currentWord.gender == 'der',
                   isWrong: _showResult && _selectedArticle == 'der' && !_isCorrect,
                   onTap: () => _selectArticle('der'),
                 ),
@@ -300,7 +370,7 @@ class _ArticleGameScreenState extends State<ArticleGameScreen>
                   article: 'die',
                   color: Colors.pink,
                   isSelected: _selectedArticle == 'die',
-                  isCorrect: _showResult && _currentWord['gender'] == 'die',
+                  isCorrect: _showResult && _currentWord.gender == 'die',
                   isWrong: _showResult && _selectedArticle == 'die' && !_isCorrect,
                   onTap: () => _selectArticle('die'),
                 ),
@@ -311,7 +381,7 @@ class _ArticleGameScreenState extends State<ArticleGameScreen>
                   article: 'das',
                   color: Colors.green,
                   isSelected: _selectedArticle == 'das',
-                  isCorrect: _showResult && _currentWord['gender'] == 'das',
+                  isCorrect: _showResult && _currentWord.gender == 'das',
                   isWrong: _showResult && _selectedArticle == 'das' && !_isCorrect,
                   onTap: () => _selectArticle('das'),
                 ),
@@ -345,17 +415,13 @@ class _ArticleGameScreenState extends State<ArticleGameScreen>
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              // Trophy
               Container(
                 width: 100,
                 height: 100,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   gradient: LinearGradient(
-                    colors: [
-                      Colors.amber.shade400,
-                      Colors.amber.shade600,
-                    ],
+                    colors: [Colors.amber.shade400, Colors.amber.shade600],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
@@ -367,8 +433,6 @@ class _ArticleGameScreenState extends State<ArticleGameScreen>
                 ),
               ),
               const SizedBox(height: 20),
-
-              // Score
               Text(
                 '$_score',
                 style: const TextStyle(
@@ -377,41 +441,21 @@ class _ArticleGameScreenState extends State<ArticleGameScreen>
                   color: Color(0xFF14B8A6),
                 ),
               ),
-              const Text(
-                'Điểm',
-                style: TextStyle(
-                  fontSize: 16,
-                  color: AppColors.mutedForeground,
-                ),
-              ),
-
+              const Text('Điểm', style: TextStyle(fontSize: 16, color: AppColors.mutedForeground)),
               const SizedBox(height: 24),
-
-              // Stats
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  _ResultStat(
-                    label: 'Đúng',
-                    value: '$_correct/$_total',
-                    color: Colors.green,
-                  ),
+                  _ResultStat(label: 'Đúng', value: '$_correct/$_total', color: Colors.green),
                   _ResultStat(
                     label: 'Chính xác',
                     value: '$accuracy%',
                     color: accuracy >= 70 ? Colors.green : Colors.orange,
                   ),
-                  _ResultStat(
-                    label: 'Combo max',
-                    value: 'x$_maxCombo',
-                    color: Colors.orange,
-                  ),
+                  _ResultStat(label: 'Combo max', value: 'x$_maxCombo', color: Colors.orange),
                 ],
               ),
-
               const SizedBox(height: 32),
-
-              // Buttons
               Row(
                 children: [
                   Expanded(
@@ -419,9 +463,7 @@ class _ArticleGameScreenState extends State<ArticleGameScreen>
                       onPressed: () => context.pop(),
                       style: OutlinedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(vertical: 16),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                       ),
                       child: const Text('Về trang chủ'),
                     ),
@@ -429,29 +471,12 @@ class _ArticleGameScreenState extends State<ArticleGameScreen>
                   const SizedBox(width: 12),
                   Expanded(
                     child: ElevatedButton(
-                      onPressed: () {
-                        setState(() {
-                          _currentIndex = 0;
-                          _score = 0;
-                          _correct = 0;
-                          _total = 0;
-                          _streak = 0;
-                          _maxCombo = 0;
-                          _selectedArticle = null;
-                          _showResult = false;
-                          _gameOver = false;
-                          _timeLeft = 60;
-                          _words.shuffle();
-                          _startTimer();
-                        });
-                      },
+                      onPressed: _restart,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF14B8A6),
                         foregroundColor: Colors.white,
                         padding: const EdgeInsets.symmetric(vertical: 16),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                       ),
                       child: const Text('Chơi lại'),
                     ),
@@ -462,6 +487,27 @@ class _ArticleGameScreenState extends State<ArticleGameScreen>
           ),
         ),
       ),
+    );
+  }
+}
+
+class _LevelPicker extends StatelessWidget {
+  const _LevelPicker({required this.level, required this.onChanged});
+
+  final String level;
+  final ValueChanged<String> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    return DropdownButton<String>(
+      value: level,
+      underline: const SizedBox.shrink(),
+      items: _levels
+          .map((l) => DropdownMenuItem(value: l, child: Text(l)))
+          .toList(growable: false),
+      onChanged: (v) {
+        if (v != null) onChanged(v);
+      },
     );
   }
 }
@@ -521,11 +567,7 @@ class _TimerBadge extends StatelessWidget {
           const SizedBox(width: 6),
           Text(
             '${seconds}s',
-            style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
           ),
         ],
       ),
@@ -534,11 +576,7 @@ class _TimerBadge extends StatelessWidget {
 }
 
 class _ProgressBar extends StatelessWidget {
-  const _ProgressBar({
-    required this.current,
-    required this.total,
-    required this.color,
-  });
+  const _ProgressBar({required this.current, required this.total, required this.color});
 
   final int current;
   final int total;
@@ -563,11 +601,7 @@ class _ProgressBar extends StatelessWidget {
               ),
               Text(
                 '${((current / total) * 100).round()}%',
-                style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w500,
-                  color: color,
-                ),
+                style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: color),
               ),
             ],
           ),
@@ -587,11 +621,7 @@ class _ProgressBar extends StatelessWidget {
 }
 
 class _StatBadge extends StatelessWidget {
-  const _StatBadge({
-    required this.icon,
-    required this.value,
-    required this.color,
-  });
+  const _StatBadge({required this.icon, required this.value, required this.color});
 
   final IconData icon;
   final String value;
@@ -610,14 +640,7 @@ class _StatBadge extends StatelessWidget {
         children: [
           Icon(icon, size: 16, color: color),
           const SizedBox(width: 6),
-          Text(
-            value,
-            style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.bold,
-              color: color,
-            ),
-          ),
+          Text(value, style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: color)),
         ],
       ),
     );
@@ -667,11 +690,7 @@ class _ArticleButton extends StatelessWidget {
         child: Center(
           child: Text(
             article,
-            style: const TextStyle(
-              fontSize: 28,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
+            style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.white),
           ),
         ),
       ),
@@ -680,11 +699,7 @@ class _ArticleButton extends StatelessWidget {
 }
 
 class _ResultStat extends StatelessWidget {
-  const _ResultStat({
-    required this.label,
-    required this.value,
-    required this.color,
-  });
+  const _ResultStat({required this.label, required this.value, required this.color});
 
   final String label;
   final String value;
@@ -694,22 +709,9 @@ class _ResultStat extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text(
-          value,
-          style: TextStyle(
-            fontSize: 28,
-            fontWeight: FontWeight.bold,
-            color: color,
-          ),
-        ),
+        Text(value, style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: color)),
         const SizedBox(height: 4),
-        Text(
-          label,
-          style: const TextStyle(
-            fontSize: 12,
-            color: AppColors.mutedForeground,
-          ),
-        ),
+        Text(label, style: const TextStyle(fontSize: 12, color: AppColors.mutedForeground)),
       ],
     );
   }

@@ -1,76 +1,86 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../core/theme/app_colors.dart';
+import '../../core/theme/app_colors.dart';
+import '../../data/vocab/vocab_models.dart';
+import '../../shared/widgets/game_completion_screen.dart';
+import '../../view_models/games/listening_game_provider.dart';
+import '../../view_models/providers.dart';
+import '../../widgets/common/async_state_views.dart';
 
-/// Listening game - Nghe và chọn đáp án.
-class ListeningGameScreen extends StatefulWidget {
+const _kMinWordsRequired = 4;
+
+/// Listening game — nghe và chọn nghĩa đúng. Nguồn từ live:
+/// `GET /vocabulary/learned` (tái dùng [VocabularyRepository], giống Word
+/// Sprint). Audio phát qua [AudioService] (server TTS cache
+/// `/user/tts/vocab-cache` → fallback TTS máy) — không còn audio giả lập.
+class ListeningGameScreen extends ConsumerStatefulWidget {
   const ListeningGameScreen({super.key});
 
   @override
-  State<ListeningGameScreen> createState() => _ListeningGameScreenState();
+  ConsumerState<ListeningGameScreen> createState() =>
+      _ListeningGameScreenState();
 }
 
-class _ListeningGameScreenState extends State<ListeningGameScreen> {
+class _ListeningGameScreenState extends ConsumerState<ListeningGameScreen> {
+  static const _roundSeconds = 60;
+
   int _currentIndex = 0;
   int _score = 0;
   int _correct = 0;
   int _total = 0;
-  int _timeLeft = 60;
+  int _timeLeft = _roundSeconds;
   bool _gameOver = false;
+  bool _started = false;
   bool _isPlaying = false;
   String? _selectedAnswer;
-  bool? _isCorrect;
   Timer? _timer;
 
-  // Mock questions with audio URLs (using placeholder)
-  final _questions = [
-    {'word': 'Haus', 'meaning': 'Nhà', 'audio': null},
-    {'word': 'Buch', 'meaning': 'Sách', 'audio': null},
-    {'word': 'Wasser', 'meaning': 'Nước', 'audio': null},
-    {'word': 'Auto', 'meaning': 'Ô tô', 'audio': null},
-    {'word': 'Schule', 'meaning': 'Trường học', 'audio': null},
-    {'word': 'Tisch', 'meaning': 'Cái bàn', 'audio': null},
-    {'word': 'Stuhl', 'meaning': 'Cái ghế', 'audio': null},
-    {'word': 'Fenster', 'meaning': 'Cửa sổ', 'audio': null},
-  ];
+  List<VocabWord> _words = const [];
+  final _random = Random();
+  List<String> _currentOptions = const [];
 
-  List<String> _currentOptions = [];
-
-  @override
-  void initState() {
-    super.initState();
+  void _startGame(List<VocabWord> words) {
+    if (_started) return;
+    _started = true;
+    _words = List.of(words)..shuffle(_random);
     _generateOptions();
     _startTimer();
+    _playAudio();
   }
 
   void _generateOptions() {
-    final correct = _questions[_currentIndex]['meaning'] as String;
-    final wrongOptions = _questions
-        .where((q) => q['meaning'] != correct)
+    final correct = _words[_currentIndex % _words.length].translation;
+    final wrongOptions = _words
+        .where((w) => w.translation != correct)
         .toList()
-      ..shuffle();
-    
-    final options = [correct, wrongOptions[0]['meaning']!, wrongOptions[1]['meaning']!, wrongOptions[2]['meaning']!];
-    options.shuffle();
+      ..shuffle(_random);
+
+    final options = [
+      correct,
+      wrongOptions[0].translation,
+      wrongOptions[1].translation,
+      wrongOptions[2].translation,
+    ];
+    options.shuffle(_random);
     setState(() => _currentOptions = options);
   }
 
-  void _playAudio() {
+  Future<void> _playAudio() async {
+    final word = _words[_currentIndex % _words.length];
     setState(() => _isPlaying = true);
-    
-    // Simulate audio playback
-    Future.delayed(const Duration(seconds: 2), () {
-      if (mounted) {
-        setState(() => _isPlaying = false);
-      }
-    });
+    await ref
+        .read(audioServiceProvider)
+        .play(text: word.word, audioUrl: word.audioUrl);
+    if (mounted) setState(() => _isPlaying = false);
   }
 
   void _startTimer() {
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+    _timer = Timer.periodic(const Duration(seconds: 1), (_) {
       if (_timeLeft > 0) {
         setState(() => _timeLeft--);
       } else {
@@ -81,40 +91,48 @@ class _ListeningGameScreenState extends State<ListeningGameScreen> {
 
   void _selectAnswer(String answer) {
     if (_selectedAnswer != null) return;
-
-    final correctAnswer = _questions[_currentIndex]['meaning'] as String;
+    final correctAnswer = _words[_currentIndex % _words.length].translation;
     final isCorrect = answer == correctAnswer;
 
     setState(() {
       _selectedAnswer = answer;
-      _isCorrect = isCorrect;
       _total++;
-
       if (isCorrect) {
         _correct++;
         _score += 15;
       }
     });
 
-    Future.delayed(const Duration(milliseconds: 1000), () {
-      if (mounted) {
-        if (_currentIndex < _questions.length - 1) {
-          setState(() {
-            _currentIndex++;
-            _selectedAnswer = null;
-            _isCorrect = null;
-          });
-          _generateOptions();
-        } else {
-          _endGame();
-        }
-      }
+    Future<void>.delayed(const Duration(milliseconds: 1000), () {
+      if (!mounted || _gameOver) return;
+      setState(() {
+        _currentIndex++;
+        _selectedAnswer = null;
+      });
+      _generateOptions();
+      _playAudio();
     });
   }
 
   void _endGame() {
     _timer?.cancel();
     setState(() => _gameOver = true);
+  }
+
+  void _restart() {
+    setState(() {
+      _currentIndex = 0;
+      _score = 0;
+      _correct = 0;
+      _total = 0;
+      _timeLeft = _roundSeconds;
+      _gameOver = false;
+      _selectedAnswer = null;
+    });
+    _words.shuffle(_random);
+    _generateOptions();
+    _startTimer();
+    _playAudio();
   }
 
   @override
@@ -125,6 +143,18 @@ class _ListeningGameScreenState extends State<ListeningGameScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if (_gameOver) {
+      return GameCompletionScreen(
+        score: _score,
+        total: _total > 0 ? _total * 15 : 1,
+        title: 'Hoàn thành!',
+        subtitle: 'Đúng $_correct/$_total câu',
+        onPlayAgain: _restart,
+        onGoHome: () => context.pop(),
+      );
+    }
+
+    final wordsAsync = ref.watch(listeningGameWordsProvider);
     return Scaffold(
       backgroundColor: AppColors.authBackground,
       appBar: AppBar(
@@ -146,27 +176,46 @@ class _ListeningGameScreenState extends State<ListeningGameScreen> {
               children: [
                 const Icon(Icons.timer, size: 16),
                 const SizedBox(width: 4),
-                Text('${_timeLeft}s', style: const TextStyle(fontWeight: FontWeight.bold)),
+                Text(
+                  '${_timeLeft}s',
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
               ],
             ),
           ),
         ],
       ),
-      body: _gameOver ? _buildResults() : _buildGame(),
+      body: SafeArea(
+        child: wordsAsync.when(
+          loading: () => const LoadingView(),
+          error: (_, _) => ErrorView(
+            onRetry: () => ref.invalidate(listeningGameWordsProvider),
+          ),
+          data: (words) {
+            if (words.length < _kMinWordsRequired) {
+              return const ErrorView(
+                message:
+                    'Cần học ít nhất 4 từ vựng trước khi chơi Luyện nghe. '
+                    'Hãy đánh dấu thêm từ đã học ở phần Từ vựng.',
+              );
+            }
+            _startGame(words);
+            return _buildGame();
+          },
+        ),
+      ),
     );
   }
 
   Widget _buildGame() {
-    return Column(
-      children: [
-        // Progress
+    return SingleChildScrollView(
+      child: Column(
+        children: [
         LinearProgressIndicator(
-          value: (_currentIndex + 1) / _questions.length,
+          value: (_currentIndex % _words.length + 1) / _words.length,
           backgroundColor: Colors.grey.shade200,
           valueColor: const AlwaysStoppedAnimation<Color>(Colors.purple),
         ),
-
-        // Header
         Padding(
           padding: const EdgeInsets.all(16),
           child: Row(
@@ -176,17 +225,16 @@ class _ListeningGameScreenState extends State<ListeningGameScreen> {
                 children: [
                   const Icon(Icons.star, color: Colors.purple),
                   const SizedBox(width: 4),
-                  Text('$_score', style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                  Text('$_score',
+                      style: const TextStyle(
+                          fontSize: 20, fontWeight: FontWeight.bold)),
                 ],
               ),
-              Text('${_currentIndex + 1}/${_questions.length}', style: const TextStyle(fontSize: 14)),
+              Text('Đúng $_correct/$_total', style: const TextStyle(fontSize: 14)),
             ],
           ),
         ),
-
-        const Spacer(),
-
-        // Audio card
+        const SizedBox(height: 16),
         Container(
           margin: const EdgeInsets.symmetric(horizontal: 24),
           padding: const EdgeInsets.all(32),
@@ -203,9 +251,8 @@ class _ListeningGameScreenState extends State<ListeningGameScreen> {
           ),
           child: Column(
             children: [
-              // Play button
               GestureDetector(
-                onTap: _playAudio,
+                onTap: _isPlaying ? null : _playAudio,
                 child: Container(
                   width: 100,
                   height: 100,
@@ -223,38 +270,29 @@ class _ListeningGameScreenState extends State<ListeningGameScreen> {
               ),
               const SizedBox(height: 16),
               Text(
-                _isPlaying ? 'Đang phát...' : 'Nhấn để nghe',
-                style: TextStyle(
-                  fontSize: 16,
-                  color: AppColors.mutedForeground,
-                ),
+                _isPlaying ? 'Đang phát...' : 'Nhấn để nghe lại',
+                style: TextStyle(fontSize: 16, color: AppColors.mutedForeground),
               ),
               const SizedBox(height: 8),
               const Text(
                 'Nghe từ và chọn nghĩa đúng',
-                style: TextStyle(
-                  fontSize: 14,
-                  color: AppColors.mutedForeground,
-                ),
+                style: TextStyle(fontSize: 14, color: AppColors.mutedForeground),
               ),
             ],
           ),
         ),
-
         const SizedBox(height: 32),
-
-        // Options
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
           child: Column(
             children: _currentOptions.map((option) {
               final isSelected = _selectedAnswer == option;
-              final correctAnswer = _questions[_currentIndex]['meaning'] as String;
+              final correctAnswer =
+                  _words[_currentIndex % _words.length].translation;
               final isCorrectAnswer = option == correctAnswer;
 
               Color bgColor = Colors.white;
               Color borderColor = Colors.grey.shade300;
-
               if (_selectedAnswer != null) {
                 if (isCorrectAnswer) {
                   bgColor = Colors.green.shade50;
@@ -283,9 +321,7 @@ class _ListeningGameScreenState extends State<ListeningGameScreen> {
                           child: Text(
                             option,
                             style: const TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w600,
-                            ),
+                                fontSize: 18, fontWeight: FontWeight.w600),
                           ),
                         ),
                         if (_selectedAnswer != null && isCorrectAnswer)
@@ -300,123 +336,9 @@ class _ListeningGameScreenState extends State<ListeningGameScreen> {
             }).toList(),
           ),
         ),
-
-        const Spacer(),
-      ],
-    );
-  }
-
-  Widget _buildResults() {
-    final accuracy = _total > 0 ? (_correct / _total * 100).round() : 0;
-
-    return Center(
-      child: Container(
-        margin: const EdgeInsets.all(24),
-        padding: const EdgeInsets.all(24),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(24),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.1),
-              blurRadius: 20,
-              offset: const Offset(0, 10),
-            ),
-          ],
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              width: 80,
-              height: 80,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: accuracy >= 70 ? Colors.green.shade100 : Colors.grey.shade200,
-              ),
-              child: Icon(
-                accuracy >= 70 ? Icons.emoji_events : Icons.refresh,
-                size: 40,
-                color: accuracy >= 70 ? Colors.green : Colors.grey,
-              ),
-            ),
-            const SizedBox(height: 16),
-            Text(
-              '$_score',
-              style: const TextStyle(fontSize: 48, fontWeight: FontWeight.bold, color: Colors.purple),
-            ),
-            const Text('Điểm', style: TextStyle(fontSize: 16, color: AppColors.mutedForeground)),
-            const SizedBox(height: 24),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                _StatItem(label: 'Đúng', value: '$_correct/$_total', color: Colors.green),
-                _StatItem(label: 'Độ chính xác', value: '$accuracy%', color: accuracy >= 70 ? Colors.green : Colors.orange),
-              ],
-            ),
-            const SizedBox(height: 24),
-            Row(
-              children: [
-                Expanded(
-                  child: OutlinedButton(
-                    onPressed: () => context.pop(),
-                    style: OutlinedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(vertical: 14),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                    ),
-                    child: const Text('Về trang chủ'),
-                  ),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: ElevatedButton(
-                    onPressed: () {
-                      setState(() {
-                        _currentIndex = 0;
-                        _score = 0;
-                        _correct = 0;
-                        _total = 0;
-                        _timeLeft = 60;
-                        _gameOver = false;
-                        _selectedAnswer = null;
-                        _isCorrect = null;
-                        _questions.shuffle();
-                        _generateOptions();
-                        _startTimer();
-                      });
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.purple,
-                      foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(vertical: 14),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                    ),
-                    child: const Text('Chơi lại'),
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
+        const SizedBox(height: 24),
+        ],
       ),
-    );
-  }
-}
-
-class _StatItem extends StatelessWidget {
-  const _StatItem({required this.label, required this.value, required this.color});
-
-  final String label;
-  final String value;
-  final Color color;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text(value, style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: color)),
-        Text(label, style: const TextStyle(fontSize: 12, color: AppColors.mutedForeground)),
-      ],
     );
   }
 }

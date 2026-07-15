@@ -1,19 +1,53 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../core/theme/app_colors.dart';
+import '../../core/theme/app_colors.dart';
+import '../../data/games/learning_item_models.dart';
+import '../../view_models/games/learning_item_provider.dart';
+import '../../widgets/common/async_state_views.dart';
 
-/// Word Order game - Xếp từ đúng thứ tự trong câu.
-class WordOrderGameScreen extends StatefulWidget {
+const _levels = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+const _minSentences = 3;
+const _sessionSize = 15;
+
+/// Số từ tối thiểu/tối đa mỗi câu theo level — mirrors web `wordCountRange`
+/// (`src/pages/game/wortstellung-page.tsx`).
+({int min, int max}) _wordCountRange(String level) {
+  if (level == 'A1' || level == 'A2') return (min: 3, max: 7);
+  return (min: 5, max: 12);
+}
+
+class _Sentence {
+  const _Sentence({required this.itemId, required this.words, required this.meaning});
+
+  final String itemId;
+  final List<String> words;
+  final String meaning;
+
+  String get answer => words.join(' ');
+}
+
+/// Word Order / Wortstellung — nguồn dữ liệu thật `GET
+/// /user/learning-items/balanced?type=sentence` (mirrors web
+/// `WortstellungPage` + `WortstellungPuzzle`,
+/// `src/pages/game/wortstellung-page.tsx`). Lọc câu theo số từ phù hợp level,
+/// tối đa 15 câu/phiên (giống `SESSION_SIZE` bên web).
+class WordOrderGameScreen extends ConsumerStatefulWidget {
   const WordOrderGameScreen({super.key});
 
   @override
-  State<WordOrderGameScreen> createState() => _WordOrderGameScreenState();
+  ConsumerState<WordOrderGameScreen> createState() => _WordOrderGameScreenState();
 }
 
-class _WordOrderGameScreenState extends State<WordOrderGameScreen> {
+class _WordOrderGameScreenState extends ConsumerState<WordOrderGameScreen> {
+  String _level = 'A1';
+  late Future<List<_Sentence>> _future;
+
+  List<_Sentence> _sentences = const [];
   int _score = 0;
   int _correct = 0;
   int _total = 0;
@@ -24,81 +58,56 @@ class _WordOrderGameScreenState extends State<WordOrderGameScreen> {
   bool _isCorrect = false;
   Timer? _timer;
 
-  // Mock sentences with scrambled words
-  final _sentences = [
-    {
-      'words': ['Ich', 'lerne', 'Deutsch'],
-      'answer': 'Ich lerne Deutsch.',
-      'meaning': 'Tôi học tiếng Đức',
-    },
-    {
-      'words': ['Das', 'ist', 'ein', 'Buch'],
-      'answer': 'Das ist ein Buch.',
-      'meaning': 'Đây là một cuốn sách',
-    },
-    {
-      'words': ['Ich', 'trinke', 'Wasser'],
-      'answer': 'Ich trinke Wasser.',
-      'meaning': 'Tôi uống nước',
-    },
-    {
-      'words': ['Die', 'Frau', 'liest'],
-      'answer': 'Die Frau liest.',
-      'meaning': 'Người phụ nữ đọc sách',
-    },
-    {
-      'words': ['Ich', 'habe', 'einen', 'Hund'],
-      'answer': 'Ich habe einen Hund.',
-      'meaning': 'Tôi có một con chó',
-    },
-    {
-      'words': ['Das', 'Kind', 'spielt'],
-      'answer': 'Das Kind spielt.',
-      'meaning': 'Đứa trẻ chơi',
-    },
-    {
-      'words': ['Ich', 'gehe', 'zur', 'Schule'],
-      'answer': 'Ich gehe zur Schule.',
-      'meaning': 'Tôi đi đến trường',
-    },
-    {
-      'words': ['Er', 'isst', 'einen', 'Apfel'],
-      'answer': 'Er isst einen Apfel.',
-      'meaning': 'Anh ấy ăn một quả táo',
-    },
-    {
-      'words': ['Sie', 'trinkt', 'Kaffee'],
-      'answer': 'Sie trinkt Kaffee.',
-      'meaning': 'Cô ấy uống cà phê',
-    },
-    {
-      'words': ['Das', 'Auto', 'ist', 'rot'],
-      'answer': 'Das Auto ist rot.',
-      'meaning': 'Chiếc ô tô màu đỏ',
-    },
-  ];
-
-  List<String> _scrambledWords = [];
-  List<String> _userOrder = [];
   List<String> _availableWords = [];
+  List<String> _userOrder = [];
 
   @override
   void initState() {
     super.initState();
-    _loadSentence();
-    _startTimer();
+    _future = _load();
   }
 
-  void _loadSentence() {
-    final sentence = _sentences[_currentIndex];
-    _scrambledWords = List<String>.from(sentence['words'] as List);
-    _scrambledWords.shuffle();
-    _availableWords = List<String>.from(_scrambledWords);
+  Future<List<_Sentence>> _load() async {
+    final items = await ref
+        .read(learningItemRepositoryProvider)
+        .fetchBalanced(userLevel: _level, type: 'sentence', limit: 60);
+    final sentences = _buildSentences(items);
+    if (sentences.isNotEmpty && mounted) {
+      _sentences = sentences;
+      _loadCurrentSentence();
+      _startTimer();
+    }
+    return sentences;
+  }
+
+  List<_Sentence> _buildSentences(List<LearningItem> items) {
+    final range = _wordCountRange(_level);
+    final filtered = items.where((i) {
+      final words = i.contentDe.trim().split(RegExp(r'\s+'));
+      return words.length >= range.min && words.length <= range.max;
+    }).toList();
+    filtered.shuffle(Random());
+    return filtered
+        .take(_sessionSize)
+        .map(
+          (i) => _Sentence(
+            itemId: i.id,
+            words: i.contentDe.trim().replaceAll('.', '').split(RegExp(r'\s+')),
+            meaning: i.contentVi ?? '',
+          ),
+        )
+        .toList(growable: false);
+  }
+
+  void _loadCurrentSentence() {
+    final words = List<String>.from(_sentences[_currentIndex].words);
+    words.shuffle(Random());
+    _availableWords = words;
     _userOrder = [];
-    setState(() {});
   }
 
   void _startTimer() {
+    _timer?.cancel();
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (_timeLeft > 0) {
         setState(() => _timeLeft--);
@@ -124,7 +133,7 @@ class _WordOrderGameScreenState extends State<WordOrderGameScreen> {
 
   void _checkAnswer() {
     final sentence = _sentences[_currentIndex];
-    final correctAnswer = (sentence['answer'] as String).replaceAll('.', '').toLowerCase();
+    final correctAnswer = sentence.answer.toLowerCase();
     final userAnswer = _userOrder.join(' ').toLowerCase();
     final isCorrect = userAnswer == correctAnswer;
 
@@ -132,7 +141,6 @@ class _WordOrderGameScreenState extends State<WordOrderGameScreen> {
       _total++;
       _isCorrect = isCorrect;
       _showResult = true;
-
       if (isCorrect) {
         _correct++;
         _score += 25;
@@ -145,8 +153,8 @@ class _WordOrderGameScreenState extends State<WordOrderGameScreen> {
           setState(() {
             _currentIndex++;
             _showResult = false;
+            _loadCurrentSentence();
           });
-          _loadSentence();
         } else {
           _endGame();
         }
@@ -157,6 +165,21 @@ class _WordOrderGameScreenState extends State<WordOrderGameScreen> {
   void _endGame() {
     _timer?.cancel();
     setState(() => _gameOver = true);
+  }
+
+  void _restart() {
+    _timer?.cancel();
+    setState(() {
+      _score = 0;
+      _correct = 0;
+      _total = 0;
+      _timeLeft = 120;
+      _gameOver = false;
+      _currentIndex = 0;
+      _showResult = false;
+      _sentences = const [];
+      _future = _load();
+    });
   }
 
   @override
@@ -177,24 +200,54 @@ class _WordOrderGameScreenState extends State<WordOrderGameScreen> {
           onPressed: () => context.pop(),
         ),
         actions: [
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-            margin: const EdgeInsets.only(right: 16),
-            decoration: BoxDecoration(
-              color: _timeLeft <= 30 ? Colors.red : Colors.grey.shade200,
-              borderRadius: BorderRadius.circular(16),
+          if (!_gameOver) ...[
+            _LevelPicker(
+              level: _level,
+              onChanged: (v) {
+                _level = v;
+                _restart();
+              },
             ),
-            child: Row(
-              children: [
-                const Icon(Icons.timer, size: 16),
-                const SizedBox(width: 4),
-                Text('${_timeLeft}s', style: const TextStyle(fontWeight: FontWeight.bold)),
-              ],
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+              margin: const EdgeInsets.only(right: 16, left: 8),
+              decoration: BoxDecoration(
+                color: _timeLeft <= 30 ? Colors.red : Colors.grey.shade200,
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Row(
+                children: [
+                  const Icon(Icons.timer, size: 16),
+                  const SizedBox(width: 4),
+                  Text('${_timeLeft}s', style: const TextStyle(fontWeight: FontWeight.bold)),
+                ],
+              ),
             ),
-          ),
+          ],
         ],
       ),
-      body: _gameOver ? _buildResults() : _buildGame(),
+      body: _gameOver
+          ? _buildResults()
+          : FutureBuilder<List<_Sentence>>(
+              future: _future,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState != ConnectionState.done) {
+                  return const LoadingView();
+                }
+                if (snapshot.hasError) {
+                  return ErrorView(onRetry: _restart);
+                }
+                if (_sentences.length < _minSentences) {
+                  return ErrorView(
+                    message:
+                        'Cần ít nhất $_minSentences câu để luyện tập ở level '
+                        '$_level (hiện có ${_sentences.length}).',
+                    onRetry: _restart,
+                  );
+                }
+                return _buildGame();
+              },
+            ),
     );
   }
 
@@ -203,14 +256,11 @@ class _WordOrderGameScreenState extends State<WordOrderGameScreen> {
 
     return Column(
       children: [
-        // Progress
         LinearProgressIndicator(
           value: (_currentIndex + 1) / _sentences.length,
           backgroundColor: Colors.grey.shade200,
           valueColor: const AlwaysStoppedAnimation<Color>(Colors.amber),
         ),
-
-        // Header
         Padding(
           padding: const EdgeInsets.all(16),
           child: Row(
@@ -223,15 +273,10 @@ class _WordOrderGameScreenState extends State<WordOrderGameScreen> {
                   Text('$_score', style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                 ],
               ),
-              Text(
-                '${_currentIndex + 1}/${_sentences.length}',
-                style: const TextStyle(fontSize: 14),
-              ),
+              Text('${_currentIndex + 1}/${_sentences.length}', style: const TextStyle(fontSize: 14)),
             ],
           ),
         ),
-
-        // Meaning hint
         Container(
           margin: const EdgeInsets.symmetric(horizontal: 24),
           padding: const EdgeInsets.all(12),
@@ -245,20 +290,14 @@ class _WordOrderGameScreenState extends State<WordOrderGameScreen> {
               const SizedBox(width: 8),
               Expanded(
                 child: Text(
-                  sentence['meaning'] as String,
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.amber.shade800,
-                  ),
+                  sentence.meaning,
+                  style: TextStyle(fontSize: 14, color: Colors.amber.shade800),
                 ),
               ),
             ],
           ),
         ),
-
         const SizedBox(height: 24),
-
-        // User's answer area
         Container(
           margin: const EdgeInsets.symmetric(horizontal: 24),
           padding: const EdgeInsets.all(16),
@@ -279,28 +318,19 @@ class _WordOrderGameScreenState extends State<WordOrderGameScreen> {
             children: [
               const Text(
                 'Câu của bạn:',
-                style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w500,
-                  color: AppColors.mutedForeground,
-                ),
+                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: AppColors.mutedForeground),
               ),
               const SizedBox(height: 8),
               if (_userOrder.isEmpty)
                 const Text(
                   'Nhấn vào từ bên dưới để xếp câu',
-                  style: TextStyle(
-                    fontStyle: FontStyle.italic,
-                    color: AppColors.mutedForeground,
-                  ),
+                  style: TextStyle(fontStyle: FontStyle.italic, color: AppColors.mutedForeground),
                 )
               else
                 Wrap(
                   spacing: 8,
                   runSpacing: 8,
-                  children: _userOrder.asMap().entries.map((entry) {
-                    final index = entry.key;
-                    final word = entry.value;
+                  children: _userOrder.map((word) {
                     return GestureDetector(
                       onTap: _showResult ? null : () => _removeWord(word),
                       child: Container(
@@ -309,13 +339,7 @@ class _WordOrderGameScreenState extends State<WordOrderGameScreen> {
                           color: Colors.amber.shade100,
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        child: Text(
-                          word,
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
+                        child: Text(word, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
                       ),
                     );
                   }).toList(),
@@ -323,21 +347,14 @@ class _WordOrderGameScreenState extends State<WordOrderGameScreen> {
               if (_showResult && !_isCorrect) ...[
                 const Divider(),
                 Text(
-                  'Đáp án: ${sentence['answer']}',
-                  style: const TextStyle(
-                    fontSize: 14,
-                    color: Colors.green,
-                    fontWeight: FontWeight.w600,
-                  ),
+                  'Đáp án: ${sentence.answer}',
+                  style: const TextStyle(fontSize: 14, color: Colors.green, fontWeight: FontWeight.w600),
                 ),
               ],
             ],
           ),
         ),
-
         const SizedBox(height: 24),
-
-        // Available words
         Container(
           margin: const EdgeInsets.symmetric(horizontal: 24),
           padding: const EdgeInsets.all(16),
@@ -349,11 +366,7 @@ class _WordOrderGameScreenState extends State<WordOrderGameScreen> {
             children: [
               const Text(
                 'Chọn từ:',
-                style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w500,
-                  color: AppColors.mutedForeground,
-                ),
+                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: AppColors.mutedForeground),
               ),
               const SizedBox(height: 12),
               Wrap(
@@ -371,11 +384,7 @@ class _WordOrderGameScreenState extends State<WordOrderGameScreen> {
                       ),
                       child: Text(
                         word,
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white,
-                        ),
+                        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.white),
                       ),
                     ),
                   );
@@ -384,10 +393,7 @@ class _WordOrderGameScreenState extends State<WordOrderGameScreen> {
             ],
           ),
         ),
-
         const Spacer(),
-
-        // Action buttons
         Padding(
           padding: const EdgeInsets.all(24),
           child: _showResult
@@ -398,9 +404,7 @@ class _WordOrderGameScreenState extends State<WordOrderGameScreen> {
                     backgroundColor: Colors.amber,
                     foregroundColor: Colors.white,
                     padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 48),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                   ),
                   child: const Text('Kiểm tra', style: TextStyle(fontSize: 18)),
                 ),
@@ -420,11 +424,7 @@ class _WordOrderGameScreenState extends State<WordOrderGameScreen> {
           color: Colors.white,
           borderRadius: BorderRadius.circular(24),
           boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.1),
-              blurRadius: 20,
-              offset: const Offset(0, 10),
-            ),
+            BoxShadow(color: Colors.black.withValues(alpha: 0.1), blurRadius: 20, offset: const Offset(0, 10)),
           ],
         ),
         child: Column(
@@ -433,28 +433,22 @@ class _WordOrderGameScreenState extends State<WordOrderGameScreen> {
             Container(
               width: 80,
               height: 80,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Colors.amber.shade100,
-              ),
+              decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.amber.shade100),
               child: const Icon(Icons.swap_vert, size: 40, color: Colors.amber),
             ),
             const SizedBox(height: 16),
-            Text(
-              '$_score',
-              style: const TextStyle(
-                fontSize: 48,
-                fontWeight: FontWeight.bold,
-                color: Colors.amber,
-              ),
-            ),
+            Text('$_score', style: const TextStyle(fontSize: 48, fontWeight: FontWeight.bold, color: Colors.amber)),
             const Text('Điểm', style: TextStyle(fontSize: 16, color: AppColors.mutedForeground)),
             const SizedBox(height: 24),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 _StatItem(label: 'Đúng', value: '$_correct/$_total', color: Colors.green),
-                _StatItem(label: 'Độ chính xác', value: '$accuracy%', color: accuracy >= 70 ? Colors.green : Colors.orange),
+                _StatItem(
+                  label: 'Độ chính xác',
+                  value: '$accuracy%',
+                  color: accuracy >= 70 ? Colors.green : Colors.orange,
+                ),
               ],
             ),
             const SizedBox(height: 24),
@@ -473,20 +467,7 @@ class _WordOrderGameScreenState extends State<WordOrderGameScreen> {
                 const SizedBox(width: 12),
                 Expanded(
                   child: ElevatedButton(
-                    onPressed: () {
-                      setState(() {
-                        _score = 0;
-                        _correct = 0;
-                        _total = 0;
-                        _timeLeft = 120;
-                        _gameOver = false;
-                        _currentIndex = 0;
-                        _showResult = false;
-                        _sentences.shuffle();
-                        _loadSentence();
-                        _startTimer();
-                      });
-                    },
+                    onPressed: _restart,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.amber,
                       foregroundColor: Colors.white,
@@ -501,6 +482,25 @@ class _WordOrderGameScreenState extends State<WordOrderGameScreen> {
           ],
         ),
       ),
+    );
+  }
+}
+
+class _LevelPicker extends StatelessWidget {
+  const _LevelPicker({required this.level, required this.onChanged});
+
+  final String level;
+  final ValueChanged<String> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    return DropdownButton<String>(
+      value: level,
+      underline: const SizedBox.shrink(),
+      items: _levels.map((l) => DropdownMenuItem(value: l, child: Text(l))).toList(growable: false),
+      onChanged: (v) {
+        if (v != null) onChanged(v);
+      },
     );
   }
 }

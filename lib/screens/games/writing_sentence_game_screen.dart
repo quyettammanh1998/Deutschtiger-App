@@ -1,82 +1,63 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../core/theme/app_colors.dart';
+import '../../core/theme/app_colors.dart';
+import '../../data/learn/learn_models.dart';
+import '../../data/vocab/vocab_models.dart';
+import '../../shared/widgets/game_completion_screen.dart';
+import '../../view_models/games/word_writing_provider.dart';
+import '../../view_models/learn/learn_provider.dart';
+import '../../widgets/common/async_state_views.dart';
 
-/// Writing Sentence game - Viết câu hoàn chỉnh.
-class WritingSentenceGameScreen extends StatefulWidget {
+const _kMinWordsRequired = 1;
+const _levels = ['A1', 'A2', 'B1', 'B2'];
+
+/// Writing Sentence game — viết câu tiếng Đức có dùng 1 từ đã học. Nguồn từ
+/// live: `GET /vocabulary/learned` (tái dùng [VocabularyRepository], giống
+/// Word Sprint/Writing Word). Chấm qua `POST /ai/grade-sentence` (tái dùng
+/// [LearnRepository.gradeSentence] — cùng endpoint Sentence Builder dùng),
+/// KHÔNG sửa domain `learn` (chỉ import read-only).
+class WritingSentenceGameScreen extends ConsumerStatefulWidget {
   const WritingSentenceGameScreen({super.key});
 
   @override
-  State<WritingSentenceGameScreen> createState() => _WritingSentenceGameScreenState();
+  ConsumerState<WritingSentenceGameScreen> createState() =>
+      _WritingSentenceGameScreenState();
 }
 
-class _WritingSentenceGameScreenState extends State<WritingSentenceGameScreen> {
+class _WritingSentenceGameScreenState
+    extends ConsumerState<WritingSentenceGameScreen> {
+  static const _totalSeconds = 180;
+
   int _score = 0;
   int _correct = 0;
   int _total = 0;
-  int _timeLeft = 180;
+  int _timeLeft = _totalSeconds;
   bool _gameOver = false;
+  bool _started = false;
   int _currentIndex = 0;
   String _userInput = '';
   bool _showResult = false;
-  int _currentScore = 0;
+  bool _grading = false;
+  bool _gradeFailed = false;
+  GradeSentenceResult? _feedback;
+  String _level = 'A1';
   Timer? _timer;
 
-  // Mock sentences with hints
-  final _sentences = [
-    {
-      'prompt': 'Tôi đi đến trường',
-      'answer': 'Ich gehe zur Schule',
-      'hint': 'Ich + gehen + zur + Schule',
-    },
-    {
-      'prompt': 'Anh ấy uống cà phê',
-      'answer': 'Er trinkt Kaffee',
-      'hint': 'Er + trinken (trinkt) + Kaffee',
-    },
-    {
-      'prompt': 'Người phụ nữ đọc sách',
-      'answer': 'Die Frau liest ein Buch',
-      'hint': 'Die + Frau + lesen (liest) + ein + Buch',
-    },
-    {
-      'prompt': 'Tôi có một con chó',
-      'answer': 'Ich habe einen Hund',
-      'hint': 'Ich + haben (habe) + einen + Hund',
-    },
-    {
-      'prompt': 'Đứa trẻ chơi ở công viên',
-      'answer': 'Das Kind spielt im Park',
-      'hint': 'Das + Kind + spielen (spielt) + im + Park',
-    },
-    {
-      'prompt': 'Chúng tôi học tiếng Đức',
-      'answer': 'Wir lernen Deutsch',
-      'hint': 'Wir + lernen + Deutsch',
-    },
-    {
-      'prompt': 'Cô ấy làm việc ở bệnh viện',
-      'answer': 'Sie arbeitet im Krankenhaus',
-      'hint': 'Sie + arbeiten (arbeitet) + im + Krankenhaus',
-    },
-    {
-      'prompt': 'Tôi ăn bánh mì và uống sữa',
-      'answer': 'Ich esse Brot und trinke Milch',
-      'hint': 'Ich + essen (esse) + Brot + und + trinken (trinke) + Milch',
-    },
-  ];
+  List<VocabWord> _words = const [];
 
-  @override
-  void initState() {
-    super.initState();
+  void _startGame(List<VocabWord> words) {
+    if (_started) return;
+    _started = true;
+    _words = List.of(words)..shuffle();
     _startTimer();
   }
 
   void _startTimer() {
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+    _timer = Timer.periodic(const Duration(seconds: 1), (_) {
       if (_timeLeft > 0) {
         setState(() => _timeLeft--);
       } else {
@@ -85,59 +66,76 @@ class _WritingSentenceGameScreenState extends State<WritingSentenceGameScreen> {
     });
   }
 
-  void _checkAnswer() {
-    final sentence = _sentences[_currentIndex];
-    final correctAnswer = (sentence['answer'] as String).toLowerCase().trim();
-    final userAnswer = _userInput.toLowerCase().trim();
-
-    // Calculate similarity score
-    int score = _calculateSimilarity(userAnswer, correctAnswer);
-    bool isCorrect = score >= 70;
-
+  Future<void> _checkAnswer() async {
+    if (_grading || _showResult) return;
+    final sentence = _userInput.trim();
+    if (sentence.length < 3) return;
+    final word = _words[_currentIndex % _words.length];
     setState(() {
-      _total++;
-      _currentScore = score;
-      _showResult = true;
-
-      if (isCorrect) {
-        _correct++;
-        _score += score;
-      }
+      _grading = true;
+      _gradeFailed = false;
     });
-
-    Future.delayed(const Duration(seconds: 2), () {
-      if (mounted && !_gameOver) {
-        if (_currentIndex < _sentences.length - 1) {
-          setState(() {
-            _currentIndex++;
-            _userInput = '';
-            _showResult = false;
-          });
-        } else {
-          _endGame();
+    try {
+      final result = await ref.read(learnRepositoryProvider).gradeSentence(
+            promptWord: word.word,
+            promptMeaning: word.translation,
+            userSentence: sentence,
+            userLevel: _level,
+            targetBlocks: const [],
+          );
+      if (!mounted) return;
+      setState(() {
+        _total++;
+        _feedback = result;
+        _showResult = true;
+        _grading = false;
+        if (result.isCorrect) {
+          _correct++;
+          _score += result.score;
         }
-      }
-    });
+      });
+      _scheduleNext();
+    } catch (_) {
+      if (!mounted) return;
+      setState(() {
+        _grading = false;
+        _gradeFailed = true;
+      });
+    }
   }
 
-  int _calculateSimilarity(String a, String b) {
-    if (a == b) return 100;
-    
-    List<String> aWords = a.split(' ');
-    List<String> bWords = b.split(' ');
-    
-    int matches = 0;
-    for (String word in aWords) {
-      if (bWords.contains(word)) matches++;
-    }
-    
-    double ratio = matches / bWords.length;
-    return (ratio * 100).round();
+  void _scheduleNext() {
+    Future<void>.delayed(const Duration(seconds: 2), () {
+      if (!mounted || _gameOver) return;
+      setState(() {
+        _currentIndex++;
+        _userInput = '';
+        _showResult = false;
+        _feedback = null;
+      });
+    });
   }
 
   void _endGame() {
     _timer?.cancel();
     setState(() => _gameOver = true);
+  }
+
+  void _restart() {
+    setState(() {
+      _score = 0;
+      _correct = 0;
+      _total = 0;
+      _timeLeft = _totalSeconds;
+      _gameOver = false;
+      _currentIndex = 0;
+      _userInput = '';
+      _showResult = false;
+      _gradeFailed = false;
+      _feedback = null;
+    });
+    _words.shuffle();
+    _startTimer();
   }
 
   @override
@@ -148,6 +146,18 @@ class _WritingSentenceGameScreenState extends State<WritingSentenceGameScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if (_gameOver) {
+      return GameCompletionScreen(
+        score: _score,
+        total: _total > 0 ? _total * 100 : 1,
+        title: 'Hoàn thành!',
+        subtitle: 'Đúng $_correct/$_total câu',
+        onPlayAgain: _restart,
+        onGoHome: () => context.pop(),
+      );
+    }
+
+    final wordsAsync = ref.watch(writingWordWordsProvider);
     return Scaffold(
       backgroundColor: AppColors.authBackground,
       appBar: AppBar(
@@ -178,25 +188,41 @@ class _WritingSentenceGameScreenState extends State<WritingSentenceGameScreen> {
           ),
         ],
       ),
-      body: _gameOver ? _buildResults() : _buildGame(),
+      body: SafeArea(
+        child: wordsAsync.when(
+          loading: () => const LoadingView(),
+          error: (_, _) => ErrorView(
+            onRetry: () => ref.invalidate(writingWordWordsProvider),
+          ),
+          data: (words) {
+            if (words.length < _kMinWordsRequired) {
+              return const ErrorView(
+                message:
+                    'Cần học ít nhất 1 từ vựng trước khi chơi. Hãy đánh dấu '
+                    'thêm từ đã học ở phần Từ vựng.',
+              );
+            }
+            _startGame(words);
+            return _buildGame();
+          },
+        ),
+      ),
     );
   }
 
   Widget _buildGame() {
-    final sentence = _sentences[_currentIndex];
+    final word = _words[_currentIndex % _words.length];
+    final feedback = _feedback;
 
     return Column(
       children: [
-        // Progress
         LinearProgressIndicator(
-          value: (_currentIndex + 1) / _sentences.length,
+          value: (_currentIndex % _words.length + 1) / _words.length,
           backgroundColor: Colors.grey.shade200,
           valueColor: const AlwaysStoppedAnimation<Color>(Colors.indigo),
         ),
-
-        // Header
         Padding(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.fromLTRB(16, 12, 16, 4),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -204,17 +230,21 @@ class _WritingSentenceGameScreenState extends State<WritingSentenceGameScreen> {
                 children: [
                   const Icon(Icons.star, color: Colors.indigo),
                   const SizedBox(width: 4),
-                  Text('$_score', style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                  Text('$_score',
+                      style: const TextStyle(
+                          fontSize: 20, fontWeight: FontWeight.bold)),
                 ],
               ),
-              Text('${_currentIndex + 1}/${_sentences.length}', style: const TextStyle(fontSize: 14)),
+              _LevelSelector(
+                level: _level,
+                onChanged: _showResult
+                    ? null
+                    : (v) => setState(() => _level = v),
+              ),
             ],
           ),
         ),
-
         const Spacer(),
-
-        // Prompt card
         Container(
           margin: const EdgeInsets.symmetric(horizontal: 24),
           padding: const EdgeInsets.all(24),
@@ -232,58 +262,32 @@ class _WritingSentenceGameScreenState extends State<WritingSentenceGameScreen> {
           child: Column(
             children: [
               const Icon(Icons.edit_note, size: 40, color: Colors.indigo),
-              const SizedBox(height: 16),
+              const SizedBox(height: 12),
               Text(
-                'Viết câu tiếng Đức:',
+                'Viết câu tiếng Đức có dùng từ:',
                 style: TextStyle(fontSize: 14, color: AppColors.mutedForeground),
               ),
               const SizedBox(height: 8),
               Text(
-                sentence['prompt'] as String,
+                '${word.word} (${word.translation})',
                 style: const TextStyle(
-                  fontSize: 24,
+                  fontSize: 22,
                   fontWeight: FontWeight.bold,
                   color: AppColors.foreground,
                 ),
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 16),
-              // Hint
-              Container(
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: Colors.indigo.shade50,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Row(
-                  children: [
-                    Icon(Icons.lightbulb_outline, color: Colors.indigo.shade400, size: 20),
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: Text(
-                        sentence['hint'] as String,
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Colors.indigo.shade700,
-                          fontStyle: FontStyle.italic,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
             ],
           ),
         ),
-
         const SizedBox(height: 24),
-
-        // Input field
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
           child: TextField(
+            key: ValueKey(_currentIndex),
             textAlign: TextAlign.center,
             style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+            maxLines: 2,
             decoration: InputDecoration(
               hintText: 'Viết câu tiếng Đức...',
               hintStyle: TextStyle(color: Colors.grey.shade400),
@@ -298,55 +302,91 @@ class _WritingSentenceGameScreenState extends State<WritingSentenceGameScreen> {
                 borderSide: BorderSide(color: Colors.indigo.shade200),
               ),
             ),
-            enabled: !_showResult,
+            enabled: !_showResult && !_grading,
             onChanged: (value) => _userInput = value,
             onSubmitted: (_) => _checkAnswer(),
           ),
         ),
-
-        if (_showResult) ...[
+        if (_grading) ...[
+          const SizedBox(height: 16),
+          const Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: 18,
+                height: 18,
+                child: CircularProgressIndicator(strokeWidth: 2),
+              ),
+              SizedBox(width: 10),
+              Text('Đang chấm...'),
+            ],
+          ),
+        ],
+        if (_gradeFailed) ...[
+          const SizedBox(height: 16),
+          const Text(
+            'Không thể chấm bài. Vui lòng thử lại.',
+            style: TextStyle(color: Colors.red),
+          ),
+        ],
+        if (feedback != null) ...[
           const SizedBox(height: 16),
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 24),
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: _currentScore >= 70 ? Colors.green.shade50 : Colors.orange.shade50,
+              color: feedback.isCorrect
+                  ? Colors.green.shade50
+                  : Colors.orange.shade50,
               borderRadius: BorderRadius.circular(12),
             ),
             child: Column(
               children: [
                 Text(
-                  'Điểm: $_currentScore%',
+                  'Điểm: ${feedback.score}%',
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
-                    color: _currentScore >= 70 ? Colors.green : Colors.orange,
+                    color: feedback.isCorrect ? Colors.green : Colors.orange,
                   ),
                 ),
-                const SizedBox(height: 8),
-                Text(
-                  'Đáp án: ${sentence['answer']}',
-                  style: const TextStyle(fontSize: 14, color: Colors.green),
-                ),
+                if (feedback.summaryVi.isNotEmpty) ...[
+                  const SizedBox(height: 8),
+                  Text(
+                    feedback.summaryVi,
+                    style: const TextStyle(fontSize: 13),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+                if (feedback.correctedSentence.isNotEmpty &&
+                    !feedback.isCorrect) ...[
+                  const SizedBox(height: 8),
+                  Text(
+                    '"${feedback.correctedSentence}"',
+                    style: const TextStyle(fontSize: 14, color: Colors.green),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
               ],
             ),
           ),
         ],
-
         const Spacer(),
-
-        // Action buttons
         Padding(
           padding: const EdgeInsets.all(24),
           child: _showResult
               ? const SizedBox.shrink()
               : ElevatedButton(
-                  onPressed: _userInput.isNotEmpty ? _checkAnswer : null,
+                  onPressed: _userInput.trim().length >= 3 && !_grading
+                      ? _checkAnswer
+                      : null,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.indigo,
                     foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 48),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 16, horizontal: 48),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12)),
                   ),
                   child: const Text('Kiểm tra', style: TextStyle(fontSize: 18)),
                 ),
@@ -354,113 +394,27 @@ class _WritingSentenceGameScreenState extends State<WritingSentenceGameScreen> {
       ],
     );
   }
-
-  Widget _buildResults() {
-    final accuracy = _total > 0 ? (_correct / _total * 100).round() : 0;
-
-    return Center(
-      child: Container(
-        margin: const EdgeInsets.all(24),
-        padding: const EdgeInsets.all(24),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(24),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.1),
-              blurRadius: 20,
-              offset: const Offset(0, 10),
-            ),
-          ],
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              width: 80,
-              height: 80,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Colors.indigo.shade100,
-              ),
-              child: const Icon(Icons.edit_note, size: 40, color: Colors.indigo),
-            ),
-            const SizedBox(height: 16),
-            Text(
-              '$_score',
-              style: const TextStyle(fontSize: 48, fontWeight: FontWeight.bold, color: Colors.indigo),
-            ),
-            const Text('Điểm', style: TextStyle(fontSize: 16, color: AppColors.mutedForeground)),
-            const SizedBox(height: 24),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                _StatItem(label: 'Đúng', value: '$_correct/$_total', color: Colors.green),
-                _StatItem(label: 'Độ chính xác', value: '$accuracy%', color: accuracy >= 70 ? Colors.green : Colors.orange),
-              ],
-            ),
-            const SizedBox(height: 24),
-            Row(
-              children: [
-                Expanded(
-                  child: OutlinedButton(
-                    onPressed: () => context.pop(),
-                    style: OutlinedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(vertical: 14),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                    ),
-                    child: const Text('Về trang chủ'),
-                  ),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: ElevatedButton(
-                    onPressed: () {
-                      setState(() {
-                        _score = 0;
-                        _correct = 0;
-                        _total = 0;
-                        _timeLeft = 180;
-                        _gameOver = false;
-                        _currentIndex = 0;
-                        _userInput = '';
-                        _showResult = false;
-                        _sentences.shuffle();
-                        _startTimer();
-                      });
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.indigo,
-                      foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(vertical: 14),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                    ),
-                    child: const Text('Chơi lại'),
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
 }
 
-class _StatItem extends StatelessWidget {
-  const _StatItem({required this.label, required this.value, required this.color});
+class _LevelSelector extends StatelessWidget {
+  const _LevelSelector({required this.level, required this.onChanged});
 
-  final String label;
-  final String value;
-  final Color color;
+  final String level;
+  final ValueChanged<String>? onChanged;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text(value, style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: color)),
-        Text(label, style: const TextStyle(fontSize: 12, color: AppColors.mutedForeground)),
-      ],
+    return DropdownButton<String>(
+      value: level,
+      underline: const SizedBox.shrink(),
+      items: _levels
+          .map((l) => DropdownMenuItem(value: l, child: Text(l)))
+          .toList(),
+      onChanged: onChanged == null
+          ? null
+          : (v) {
+              if (v != null) onChanged!(v);
+            },
     );
   }
 }

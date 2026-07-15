@@ -20,7 +20,6 @@ class _ConversationGameScreenState extends State<ConversationGameScreen> {
   bool _gameOver = false;
   int _currentIndex = 0;
   String? _selectedAnswer;
-  bool? _isCorrect;
 
   // Mock conversation scenarios
   final _scenarios = [
@@ -155,7 +154,6 @@ class _ConversationGameScreenState extends State<ConversationGameScreen> {
 
     setState(() {
       _selectedAnswer = (scenario['options'] as List)[index] as String;
-      _isCorrect = correct;
       _total++;
 
       if (correct) {
@@ -170,7 +168,6 @@ class _ConversationGameScreenState extends State<ConversationGameScreen> {
           setState(() {
             _currentIndex++;
             _selectedAnswer = null;
-            _isCorrect = null;
           });
         } else {
           _endGame();
@@ -201,7 +198,8 @@ class _ConversationGameScreenState extends State<ConversationGameScreen> {
 
   Widget _buildGame() {
     final scenario = _scenarios[_currentIndex];
-    final situationColor = _situationColors[scenario['situation']] ?? Colors.pink;
+    final situationColor =
+        _situationColors[scenario['situation']] ?? Colors.pink;
 
     return Column(
       children: [
@@ -223,7 +221,13 @@ class _ConversationGameScreenState extends State<ConversationGameScreen> {
                 children: [
                   const Icon(Icons.star, color: Colors.pink),
                   const SizedBox(width: 4),
-                  Text('$_score', style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                  Text(
+                    '$_score',
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ],
               ),
               Text(
@@ -250,7 +254,11 @@ class _ConversationGameScreenState extends State<ConversationGameScreen> {
                   color: situationColor,
                   borderRadius: BorderRadius.circular(8),
                 ),
-                child: const Icon(Icons.location_on, color: Colors.white, size: 20),
+                child: const Icon(
+                  Icons.location_on,
+                  color: Colors.white,
+                  size: 20,
+                ),
               ),
               const SizedBox(width: 12),
               Expanded(
@@ -433,15 +441,30 @@ class _ConversationGameScreenState extends State<ConversationGameScreen> {
             const SizedBox(height: 16),
             Text(
               '$_score',
-              style: const TextStyle(fontSize: 48, fontWeight: FontWeight.bold, color: Colors.pink),
+              style: const TextStyle(
+                fontSize: 48,
+                fontWeight: FontWeight.bold,
+                color: Colors.pink,
+              ),
             ),
-            const Text('Điểm', style: TextStyle(fontSize: 16, color: AppColors.mutedForeground)),
+            const Text(
+              'Điểm',
+              style: TextStyle(fontSize: 16, color: AppColors.mutedForeground),
+            ),
             const SizedBox(height: 24),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                _StatItem(label: 'Đúng', value: '$_correct/$_total', color: Colors.green),
-                _StatItem(label: 'Độ chính xác', value: '$accuracy%', color: accuracy >= 70 ? Colors.green : Colors.orange),
+                _StatItem(
+                  label: 'Đúng',
+                  value: '$_correct/$_total',
+                  color: Colors.green,
+                ),
+                _StatItem(
+                  label: 'Độ chính xác',
+                  value: '$accuracy%',
+                  color: accuracy >= 70 ? Colors.green : Colors.orange,
+                ),
               ],
             ),
             const SizedBox(height: 24),
@@ -452,7 +475,9 @@ class _ConversationGameScreenState extends State<ConversationGameScreen> {
                     onPressed: () => context.pop(),
                     style: OutlinedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 14),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
                     ),
                     child: const Text('Về trang chủ'),
                   ),
@@ -468,7 +493,6 @@ class _ConversationGameScreenState extends State<ConversationGameScreen> {
                         _gameOver = false;
                         _currentIndex = 0;
                         _selectedAnswer = null;
-                        _isCorrect = null;
                         _scenarios.shuffle();
                       });
                     },
@@ -476,7 +500,9 @@ class _ConversationGameScreenState extends State<ConversationGameScreen> {
                       backgroundColor: Colors.pink,
                       foregroundColor: Colors.white,
                       padding: const EdgeInsets.symmetric(vertical: 14),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
                     ),
                     child: const Text('Chơi lại'),
                   ),
@@ -491,7 +517,11 @@ class _ConversationGameScreenState extends State<ConversationGameScreen> {
 }
 
 class _StatItem extends StatelessWidget {
-  const _StatItem({required this.label, required this.value, required this.color});
+  const _StatItem({
+    required this.label,
+    required this.value,
+    required this.color,
+  });
 
   final String label;
   final String value;
@@ -501,8 +531,21 @@ class _StatItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text(value, style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: color)),
-        Text(label, style: const TextStyle(fontSize: 12, color: AppColors.mutedForeground)),
+        Text(
+          value,
+          style: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+            color: color,
+          ),
+        ),
+        Text(
+          label,
+          style: const TextStyle(
+            fontSize: 12,
+            color: AppColors.mutedForeground,
+          ),
+        ),
       ],
     );
   }

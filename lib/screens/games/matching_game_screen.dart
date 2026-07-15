@@ -36,8 +36,8 @@ class _MatchingGameScreenState extends State<MatchingGameScreen> {
 
   List<Map<String, String>> _germanWords = [];
   List<Map<String, String>> _vietnameseWords = [];
-  Set<int> _matchedGerman = {};
-  Set<int> _matchedVietnamese = {};
+  final Set<int> _matchedGerman = {};
+  final Set<int> _matchedVietnamese = {};
   int? _selectedGermanIndex;
   int? _selectedVietnameseIndex;
 

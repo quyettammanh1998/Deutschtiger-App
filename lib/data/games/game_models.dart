@@ -127,6 +127,8 @@ class GameMode {
   final GameDifficulty difficulty;
   final int? timeLimit; // seconds, null = no limit
   final bool needsAudio;
+  // GĐ1: chỉ hiện games được xác nhận (Apple reject "coming soon" placeholders)
+  final bool gd1Available;
 
   const GameMode({
     required this.type,
@@ -137,9 +139,12 @@ class GameMode {
     this.difficulty = GameDifficulty.medium,
     this.timeLimit,
     this.needsAudio = false,
+    this.gd1Available = false,
   });
 
   static const List<GameMode> allModes = [
+    // Nguồn live: GET /user/learning-items/balanced?type=word (lọc danh từ
+    // có gender m/f/n → der/die/das). Tái dùng LearningItemRepository.
     GameMode(
       type: GameType.article,
       title: 'Der/Die/Das',
@@ -147,7 +152,9 @@ class GameMode {
       iconName: 'book',
       color: 0xFF14B8A6,
       difficulty: GameDifficulty.easy,
+      gd1Available: true,
     ),
+    // Nguồn live: GET /vocabulary/learned (VocabularyRepository, tái dùng).
     GameMode(
       type: GameType.wordSprint,
       title: 'Word Sprint',
@@ -156,6 +163,7 @@ class GameMode {
       color: 0xFFF59E0B,
       timeLimit: 60,
       difficulty: GameDifficulty.hard,
+      gd1Available: true,
     ),
     GameMode(
       type: GameType.matching,
@@ -164,7 +172,10 @@ class GameMode {
       iconName: 'link',
       color: 0xFFEC4899,
       difficulty: GameDifficulty.easy,
+      gd1Available: true,
     ),
+    // Nguồn live: GET /user/learning-items/balanced?type=word, cloze dựng từ
+    // examples đính kèm (tái dùng LearningItemRepository, giống Artikel).
     GameMode(
       type: GameType.fillBlank,
       title: 'Điền từ',
@@ -172,7 +183,10 @@ class GameMode {
       iconName: 'edit_note',
       color: 0xFF06B6D4,
       difficulty: GameDifficulty.medium,
+      gd1Available: true,
     ),
+    // Nguồn live: GET /vocabulary/learned (tái dùng VocabularyRepository) +
+    // audio qua AudioService (server TTS cache /user/tts/vocab-cache).
     GameMode(
       type: GameType.listening,
       title: 'Luyện nghe',
@@ -181,7 +195,10 @@ class GameMode {
       color: 0xFF8B5CF6,
       needsAudio: true,
       difficulty: GameDifficulty.medium,
+      gd1Available: true,
     ),
+    // Nguồn live: GET /user/srs/queue + POST /user/srs/review (tái dùng
+    // ReviewRepository/reviewSessionProvider, giống màn "Ôn từ").
     GameMode(
       type: GameType.flashcard,
       title: 'Flashcards',
@@ -189,7 +206,9 @@ class GameMode {
       iconName: 'style',
       color: 0xFFA855F7,
       difficulty: GameDifficulty.easy,
+      gd1Available: true,
     ),
+    // Nguồn live: GET /vocabulary/learned (tái dùng VocabularyRepository).
     GameMode(
       type: GameType.runner,
       title: 'Deutsch Runner',
@@ -197,16 +216,22 @@ class GameMode {
       iconName: 'directions_run',
       color: 0xFF3B82F6,
       difficulty: GameDifficulty.medium,
+      gd1Available: true,
     ),
+    // Nguồn live: GET /user/typing/sentences + POST /user/typing/results
+    // (backend chấm điểm + trả XP). gd1Available true kể từ khi chuyển live.
     GameMode(
       type: GameType.typingSprint,
       title: 'Typing Sprint',
-      description: 'Gõ từ trong 60s',
+      description: 'Gõ câu trong 60s',
       iconName: 'keyboard',
       color: 0xFF0EA5E9,
       timeLimit: 60,
       difficulty: GameDifficulty.hard,
+      gd1Available: true,
     ),
+    // Nguồn live: GET /vocabulary/learned (tái dùng VocabularyRepository) +
+    // chấm qua POST /ai/grade-word-writing (tái dùng, đã live cho bài học).
     GameMode(
       type: GameType.writingWord,
       title: 'Viết từ',
@@ -214,7 +239,10 @@ class GameMode {
       iconName: 'edit',
       color: 0xFF22C55E,
       difficulty: GameDifficulty.medium,
+      gd1Available: true,
     ),
+    // Nguồn live: GET /user/learning-items/balanced?type=sentence (tái dùng
+    // LearningItemRepository, giống Artikel).
     GameMode(
       type: GameType.wordOrder,
       title: 'Wortstellung',
@@ -222,7 +250,10 @@ class GameMode {
       iconName: 'swap_vert',
       color: 0xFFEAB308,
       difficulty: GameDifficulty.medium,
+      gd1Available: true,
     ),
+    // Nguồn live: GET /vocabulary/learned + chấm qua POST /ai/grade-sentence
+    // (tái dùng LearnRepository.gradeSentence, cùng endpoint Sentence Builder).
     GameMode(
       type: GameType.writingSentence,
       title: 'Viết câu',
@@ -230,6 +261,7 @@ class GameMode {
       iconName: 'edit_note',
       color: 0xFF6366F1,
       difficulty: GameDifficulty.hard,
+      gd1Available: true,
     ),
     GameMode(
       type: GameType.speaking,
@@ -240,6 +272,9 @@ class GameMode {
       needsAudio: true,
       difficulty: GameDifficulty.medium,
     ),
+    // Nguồn live: /user/cases/{akk-dat,adjektiv,wechselprep,verb-case} +
+    // /user/grammar-drill/results (Leitner progress). Hub điều hướng tới 4
+    // sub-game riêng dưới /games/cases/*.
     GameMode(
       type: GameType.cases,
       title: 'Cases Mastery',
@@ -247,7 +282,10 @@ class GameMode {
       iconName: 'school',
       color: 0xFF3B82F6,
       difficulty: GameDifficulty.hard,
+      gd1Available: true,
     ),
+    // Nguồn live: /user/conjugation/exercise (cá nhân hoá theo vốn từ đã
+    // học) + /user/grammar-drill/results.
     GameMode(
       type: GameType.conjugation,
       title: 'Konjugation',
@@ -255,6 +293,7 @@ class GameMode {
       iconName: 'edit_note',
       color: 0xFF14B8A6,
       difficulty: GameDifficulty.hard,
+      gd1Available: true,
     ),
     GameMode(
       type: GameType.pronunciation,
@@ -271,6 +310,18 @@ class GameMode {
       iconName: 'chat',
       color: 0xFF8B5CF6,
       difficulty: GameDifficulty.medium,
+    ),
+    // Nguồn live: /sentence-builder/topics + /sentence-builder/session +
+    // /ai/grade-sentence (tái dùng). Các game khác trong danh sách trên vẫn
+    // mock — gd1Available giữ false cho tới khi có nguồn thật.
+    GameMode(
+      type: GameType.sentenceBuilder,
+      title: 'Viết câu AI',
+      description: 'Viết câu theo chủ đề, AI chấm điểm',
+      iconName: 'edit_note',
+      color: 0xFFF97316,
+      difficulty: GameDifficulty.medium,
+      gd1Available: true,
     ),
   ];
 }
