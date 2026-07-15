@@ -1,70 +1,66 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../core/theme/app_colors.dart';
-import 'package:deutschtiger/data/social/social_models.dart';
-import 'package:deutschtiger/view_models/social/social_provider.dart';
+import 'package:go_router/go_router.dart';
 
-class MomentsPage extends ConsumerStatefulWidget {
+import 'package:deutschtiger/core/theme/app_colors.dart';
+import 'package:deutschtiger/data/social/moment_models.dart';
+import 'package:deutschtiger/l10n/app_localizations.dart';
+import 'package:deutschtiger/view_models/social/moments_provider.dart';
+
+/// Moments feed — read + like only (`GET /moments/feed`,
+/// `POST/DELETE /user/moments/{id}/like`). Comment list is read-only;
+/// there is no compose UI for moments/comments in this phase (public UGC
+/// write needs moderation first — see phase-03 spec).
+class MomentsPage extends ConsumerWidget {
   const MomentsPage({super.key});
 
   @override
-  ConsumerState<MomentsPage> createState() => _MomentsPageState();
-}
-
-class _MomentsPageState extends ConsumerState<MomentsPage> {
-  @override
-  void initState() {
-    super.initState();
-    Future.microtask(() => ref.read(socialNotifierProvider.notifier).loadMoments());
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final socialState = ref.watch(socialNotifierProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
+    final feedAsync = ref.watch(momentsFeedProvider);
 
     return Scaffold(
       backgroundColor: AppColors.authBackground,
       appBar: AppBar(
         backgroundColor: AppColors.authBackground,
-        title: const Text(
-          'Moments',
-          style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.tigerOrange, fontSize: 18),
-        ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.notifications_outlined),
-            onPressed: () {},
+        title: Text(
+          l10n.socialMomentsTitle,
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+            color: AppColors.tigerOrange,
+            fontSize: 18,
           ),
-        ],
+        ),
       ),
-      body: socialState.isLoading && socialState.moments.isEmpty
-          ? const Center(child: CircularProgressIndicator())
-          : socialState.error != null && socialState.moments.isEmpty
-              ? Center(child: Text('Error: ${socialState.error}'))
-              : socialState.moments.isEmpty
-                  ? _buildEmptyState()
-                  : RefreshIndicator(
-                      onRefresh: () => ref.read(socialNotifierProvider.notifier).loadMoments(),
-                      child: ListView.builder(
-                        padding: const EdgeInsets.all(16),
-                        itemCount: socialState.moments.length,
-                        itemBuilder: (context, index) => _MomentCard(
-                          moment: socialState.moments[index],
-                          onLike: () => ref.read(socialNotifierProvider.notifier).likeMoment(
-                                socialState.moments[index].id,
-                              ),
-                        ),
-                      ),
-                    ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: AppColors.tigerOrange,
-        onPressed: () => _showCreateMomentSheet(context),
-        child: const Icon(Icons.add, color: Colors.white),
+      body: feedAsync.when(
+        loading: () => const Center(child: CircularProgressIndicator()),
+        error: (e, _) => Center(child: Text(l10n.socialLoadMomentsError)),
+        data: (moments) {
+          if (moments.isEmpty) {
+            return _buildEmptyState(l10n);
+          }
+          return RefreshIndicator(
+            onRefresh: () => ref.read(momentsFeedProvider.notifier).refresh(),
+            child: ListView.builder(
+              padding: const EdgeInsets.all(16),
+              itemCount: moments.length,
+              itemBuilder: (context, index) => _MomentCard(
+                moment: moments[index],
+                onLike: () =>
+                    ref.read(momentsFeedProvider.notifier).toggleLike(moments[index]),
+                onOpenComments: () =>
+                    _showComments(context, moments[index].id),
+                onOpenProfile: () =>
+                    context.push('/social/profile/${moments[index].userId}'),
+              ),
+            ),
+          );
+        },
       ),
     );
   }
 
-  Widget _buildEmptyState() {
+  Widget _buildEmptyState(AppLocalizations l10n) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -72,33 +68,35 @@ class _MomentsPageState extends ConsumerState<MomentsPage> {
           Icon(Icons.dynamic_feed, size: 64, color: Colors.grey[400]),
           const SizedBox(height: 16),
           Text(
-            'No moments yet',
+            l10n.socialNoMomentsYet,
             style: TextStyle(color: Colors.grey[600], fontSize: 16),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            'Be the first to share!',
-            style: TextStyle(color: Colors.grey[500]),
           ),
         ],
       ),
     );
   }
 
-  void _showCreateMomentSheet(BuildContext context) {
+  void _showComments(BuildContext context, String momentId) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      builder: (context) => const _CreateMomentSheet(),
+      builder: (context) => _CommentsSheet(momentId: momentId),
     );
   }
 }
 
 class _MomentCard extends StatelessWidget {
-  final SocialMoment moment;
-  final VoidCallback onLike;
+  const _MomentCard({
+    required this.moment,
+    required this.onLike,
+    required this.onOpenComments,
+    required this.onOpenProfile,
+  });
 
-  const _MomentCard({required this.moment, required this.onLike});
+  final Moment moment;
+  final VoidCallback onLike;
+  final VoidCallback onOpenComments;
+  final VoidCallback onOpenProfile;
 
   @override
   Widget build(BuildContext context) {
@@ -111,23 +109,28 @@ class _MomentCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ListTile(
+            onTap: onOpenProfile,
             leading: CircleAvatar(
-              backgroundImage: moment.userAvatar.isNotEmpty
-                  ? NetworkImage(moment.userAvatar)
+              backgroundImage: moment.avatarUrl.isNotEmpty
+                  ? NetworkImage(moment.avatarUrl)
                   : null,
               backgroundColor: AppColors.muted,
-              child: moment.userAvatar.isEmpty
-                  ? Text(moment.username[0].toUpperCase(), style: const TextStyle(fontWeight: FontWeight.bold))
+              child: moment.avatarUrl.isEmpty
+                  ? Text(
+                      moment.displayName.isNotEmpty
+                          ? moment.displayName[0].toUpperCase()
+                          : '?',
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    )
                   : null,
             ),
             title: Text(
-              moment.username,
+              moment.displayName,
               style: const TextStyle(fontWeight: FontWeight.bold),
             ),
-            subtitle: Text(_formatTime(moment.createdAt), style: TextStyle(fontSize: 12, color: AppColors.mutedForeground)),
-            trailing: IconButton(
-              icon: const Icon(Icons.more_horiz),
-              onPressed: () {},
+            subtitle: Text(
+              _formatTime(moment.createdAt),
+              style: TextStyle(fontSize: 12, color: AppColors.mutedForeground),
             ),
           ),
           if (moment.content.isNotEmpty)
@@ -135,26 +138,8 @@ class _MomentCard extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Text(moment.content, style: const TextStyle(fontSize: 14)),
             ),
-          if (moment.imageUrl.isNotEmpty)
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(12),
-                child: Image.network(
-                  moment.imageUrl,
-                  fit: BoxFit.cover,
-                  width: double.infinity,
-                  height: 200,
-                  errorBuilder: (context, error, stackTrace) => Container(
-                    height: 200,
-                    color: AppColors.muted,
-                    child: const Center(child: Icon(Icons.image, size: 48, color: AppColors.mutedForeground)),
-                  ),
-                ),
-              ),
-            ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
             child: Row(
               children: [
                 IconButton(
@@ -164,130 +149,89 @@ class _MomentCard extends StatelessWidget {
                   ),
                   onPressed: onLike,
                 ),
-                Text('${moment.likes}', style: const TextStyle(fontSize: 13)),
+                Text('${moment.likeCount}', style: const TextStyle(fontSize: 13)),
                 const SizedBox(width: 16),
                 IconButton(
                   icon: const Icon(Icons.chat_bubble_outline),
-                  onPressed: () {},
+                  onPressed: onOpenComments,
                 ),
-                Text('${moment.comments}', style: const TextStyle(fontSize: 13)),
-                const Spacer(),
-                IconButton(
-                  icon: const Icon(Icons.share_outlined),
-                  onPressed: () {},
-                ),
+                Text('${moment.commentCount}', style: const TextStyle(fontSize: 13)),
               ],
             ),
           ),
-          const SizedBox(height: 8),
         ],
       ),
     );
   }
 
-  String _formatTime(DateTime? time) {
-    if (time == null) return '';
+  String _formatTime(DateTime time) {
     final diff = DateTime.now().difference(time);
-    if (diff.inMinutes < 60) return '${diff.inMinutes}m ago';
-    if (diff.inHours < 24) return '${diff.inHours}h ago';
-    if (diff.inDays < 7) return '${diff.inDays}d ago';
+    if (diff.inMinutes < 60) return '${diff.inMinutes}m';
+    if (diff.inHours < 24) return '${diff.inHours}h';
+    if (diff.inDays < 7) return '${diff.inDays}d';
     return '${time.day}/${time.month}';
   }
 }
 
-class _CreateMomentSheet extends ConsumerStatefulWidget {
-  const _CreateMomentSheet();
+class _CommentsSheet extends ConsumerWidget {
+  const _CommentsSheet({required this.momentId});
+
+  final String momentId;
 
   @override
-  ConsumerState<_CreateMomentSheet> createState() => _CreateMomentSheetState();
-}
-
-class _CreateMomentSheetState extends ConsumerState<_CreateMomentSheet> {
-  final _controller = TextEditingController();
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
-      padding: EdgeInsets.only(
-        bottom: MediaQuery.of(context).viewInsets.bottom,
-        left: 16,
-        right: 16,
-        top: 16,
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
+    final commentsAsync = ref.watch(momentCommentsProvider(momentId));
+    return DraggableScrollableSheet(
+      initialChildSize: 0.6,
+      minChildSize: 0.3,
+      maxChildSize: 0.9,
+      expand: false,
+      builder: (context, scrollController) => Column(
         children: [
-          Row(
-            children: [
-              const Text(
-                'Share your progress',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-              const Spacer(),
-              IconButton(
-                icon: const Icon(Icons.close),
-                onPressed: () => Navigator.pop(context),
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          TextField(
-            controller: _controller,
-            maxLines: 4,
-            decoration: InputDecoration(
-              hintText: 'What did you learn today?',
-              hintStyle: TextStyle(color: AppColors.mutedForeground),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide(color: AppColors.border),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: const BorderSide(color: AppColors.tigerOrange),
-              ),
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Text(
+              l10n.socialCommentsTitle,
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
           ),
-          const SizedBox(height: 16),
-          Row(
-            children: [
-              IconButton(
-                icon: const Icon(Icons.image),
-                onPressed: () {},
-              ),
-              IconButton(
-                icon: const Icon(Icons.emoji_emotions),
-                onPressed: () {},
-              ),
-              const Spacer(),
-              ElevatedButton(
-                onPressed: () {
-                  if (_controller.text.isNotEmpty) {
-                    ref.read(socialNotifierProvider.notifier).createMoment(_controller.text);
-                    Navigator.pop(context);
-                  }
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.tigerOrange,
-                  foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-                ),
-                child: const Text('Post'),
-              ),
-            ],
+          Expanded(
+            child: commentsAsync.when(
+              loading: () => const Center(child: CircularProgressIndicator()),
+              error: (e, _) => Center(child: Text(l10n.socialLoadCommentsError)),
+              data: (comments) {
+                if (comments.isEmpty) {
+                  return Center(
+                    child: Text(
+                      l10n.socialNoCommentsYet,
+                      style: TextStyle(color: Colors.grey[600]),
+                    ),
+                  );
+                }
+                return ListView.builder(
+                  controller: scrollController,
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  itemCount: comments.length,
+                  itemBuilder: (context, index) {
+                    final c = comments[index];
+                    return ListTile(
+                      leading: CircleAvatar(
+                        backgroundImage: c.avatarUrl.isNotEmpty
+                            ? NetworkImage(c.avatarUrl)
+                            : null,
+                        child: c.avatarUrl.isEmpty
+                            ? Text(c.displayName.isNotEmpty ? c.displayName[0] : '?')
+                            : null,
+                      ),
+                      title: Text(c.displayName),
+                      subtitle: Text(c.content),
+                    );
+                  },
+                );
+              },
+            ),
           ),
-          const SizedBox(height: 16),
         ],
       ),
     );

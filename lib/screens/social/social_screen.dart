@@ -1,153 +1,77 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+
 import 'package:deutschtiger/core/theme/app_colors.dart';
-import 'package:deutschtiger/screens/social/widgets/challenges_list.dart';
+import 'package:deutschtiger/l10n/app_localizations.dart';
 import 'package:deutschtiger/screens/social/widgets/friends_list.dart';
 import 'package:deutschtiger/screens/social/widgets/moments_feed.dart';
-import 'package:deutschtiger/screens/social/widgets/study_groups_list.dart';
-import 'package:deutschtiger/view_models/social/social_provider.dart';
+import 'package:deutschtiger/view_models/social/friends_provider.dart';
+import 'package:deutschtiger/view_models/social/messages_provider.dart';
+import 'package:deutschtiger/view_models/social/moments_provider.dart';
 
+/// Social hub. Only the live surfaces (Moments feed, Friends) are tabs here;
+/// Groups/Challenges/Duels stay gated (see `docs/flutter-live-data-inventory.md`)
+/// and are not linked from this hub. Messages and Announcements are
+/// entry-point actions in the app bar.
 class SocialScreen extends ConsumerWidget {
   const SocialScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final selectedTab = ref.watch(selectedTabProvider);
+    final l10n = AppLocalizations.of(context);
+    final unreadAsync = ref.watch(unreadCountsProvider);
+    final unreadMessages = unreadAsync.valueOrNull?.messages ?? 0;
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Community'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.notifications_outlined),
-            onPressed: () {},
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(l10n.socialHubTitle),
+          bottom: TabBar(
+            tabs: [
+              Tab(text: l10n.socialTabMoments),
+              Tab(text: l10n.socialTabFriends),
+            ],
           ),
-        ],
-      ),
-      body: Column(
-        children: [
-          _TabBar(selectedTab: selectedTab, onTabChanged: (index) {
-            ref.read(socialNotifierProvider.notifier).setSelectedTab(index);
-          }),
-          Expanded(
-            child: IndexedStack(
-              index: selectedTab,
-              children: const [
-                _MomentsTab(),
-                _GroupsTab(),
-                _ChallengesTab(),
-                _FriendsTab(),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.campaign_outlined),
+              tooltip: l10n.socialAnnouncementsTitle,
+              onPressed: () => context.push('/social/announcements'),
+            ),
+            Stack(
+              alignment: Alignment.center,
+              children: [
+                IconButton(
+                  icon: const Icon(Icons.chat_bubble_outline),
+                  tooltip: l10n.socialMessagesTitle,
+                  onPressed: () => context.push('/social/messages'),
+                ),
+                if (unreadMessages > 0)
+                  Positioned(
+                    right: 6,
+                    top: 6,
+                    child: Container(
+                      padding: const EdgeInsets.all(3),
+                      decoration: const BoxDecoration(
+                        color: AppColors.tigerOrange,
+                        shape: BoxShape.circle,
+                      ),
+                      constraints: const BoxConstraints(minWidth: 16, minHeight: 16),
+                      child: Text(
+                        unreadMessages > 99 ? '99+' : '$unreadMessages',
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(color: Colors.white, fontSize: 9),
+                      ),
+                    ),
+                  ),
               ],
             ),
-          ),
-        ],
-      ),
-      floatingActionButton: selectedTab == 0
-          ? FloatingActionButton(
-              onPressed: () => _showCreateMomentSheet(context, ref),
-              child: const Icon(Icons.add),
-            )
-          : null,
-    );
-  }
-
-  void _showCreateMomentSheet(BuildContext context, WidgetRef ref) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      builder: (context) => const _CreateMomentSheet(),
-    );
-  }
-}
-
-class _TabBar extends StatelessWidget {
-  final int selectedTab;
-  final Function(int) onTabChanged;
-
-  const _TabBar({required this.selectedTab, required this.onTabChanged});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          children: [
-            _TabButton(
-              icon: Icons.dynamic_feed,
-              label: 'Moments',
-              isSelected: selectedTab == 0,
-              onTap: () => onTabChanged(0),
-            ),
-            const SizedBox(width: 8),
-            _TabButton(
-              icon: Icons.group,
-              label: 'Groups',
-              isSelected: selectedTab == 1,
-              onTap: () => onTabChanged(1),
-            ),
-            const SizedBox(width: 8),
-            _TabButton(
-              icon: Icons.emoji_events,
-              label: 'Challenges',
-              isSelected: selectedTab == 2,
-              onTap: () => onTabChanged(2),
-            ),
-            const SizedBox(width: 8),
-            _TabButton(
-              icon: Icons.people,
-              label: 'Friends',
-              isSelected: selectedTab == 3,
-              onTap: () => onTabChanged(3),
-            ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class _TabButton extends StatelessWidget {
-  final IconData icon;
-  final String label;
-  final bool isSelected;
-  final VoidCallback onTap;
-
-  const _TabButton({
-    required this.icon,
-    required this.label,
-    required this.isSelected,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(20),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        decoration: BoxDecoration(
-          color: isSelected ? AppColors.primary : Colors.grey[200],
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: Row(
-          children: [
-            Icon(
-              icon,
-              size: 18,
-              color: isSelected ? Colors.white : Colors.grey[700],
-            ),
-            const SizedBox(width: 6),
-            Text(
-              label,
-              style: TextStyle(
-                color: isSelected ? Colors.white : Colors.grey[700],
-                fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-              ),
-            ),
-          ],
+        body: const TabBarView(
+          children: [_MomentsTab(), _FriendsTab()],
         ),
       ),
     );
@@ -159,42 +83,14 @@ class _MomentsTab extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final momentsAsync = ref.watch(momentsProvider(1));
-
+    final momentsAsync = ref.watch(momentsFeedProvider);
     return momentsAsync.when(
       loading: () => const Center(child: CircularProgressIndicator()),
-      error: (e, _) => Center(child: Text('Error: $e')),
-      data: (moments) => MomentsFeed(moments: moments),
-    );
-  }
-}
-
-class _GroupsTab extends ConsumerWidget {
-  const _GroupsTab();
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final groupsAsync = ref.watch(studyGroupsProvider);
-
-    return groupsAsync.when(
-      loading: () => const Center(child: CircularProgressIndicator()),
-      error: (e, _) => Center(child: Text('Error: $e')),
-      data: (groups) => StudyGroupsList(groups: groups),
-    );
-  }
-}
-
-class _ChallengesTab extends ConsumerWidget {
-  const _ChallengesTab();
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final challengesAsync = ref.watch(challengesProvider);
-
-    return challengesAsync.when(
-      loading: () => const Center(child: CircularProgressIndicator()),
-      error: (e, _) => Center(child: Text('Error: $e')),
-      data: (challenges) => ChallengesList(challenges: challenges),
+      error: (e, _) => Center(child: Text(AppLocalizations.of(context).socialLoadMomentsError)),
+      data: (moments) => RefreshIndicator(
+        onRefresh: () => ref.read(momentsFeedProvider.notifier).refresh(),
+        child: MomentsFeed(moments: moments),
+      ),
     );
   }
 }
@@ -205,93 +101,12 @@ class _FriendsTab extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final friendsAsync = ref.watch(friendsProvider);
-
     return friendsAsync.when(
       loading: () => const Center(child: CircularProgressIndicator()),
-      error: (e, _) => Center(child: Text('Error: $e')),
-      data: (friends) => FriendsList(friends: friends),
-    );
-  }
-}
-
-class _CreateMomentSheet extends ConsumerStatefulWidget {
-  const _CreateMomentSheet();
-
-  @override
-  ConsumerState<_CreateMomentSheet> createState() => _CreateMomentSheetState();
-}
-
-class _CreateMomentSheetState extends ConsumerState<_CreateMomentSheet> {
-  final _controller = TextEditingController();
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(
-        bottom: MediaQuery.of(context).viewInsets.bottom,
-        left: 16,
-        right: 16,
-        top: 16,
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              const Text(
-                'Share your progress',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-              const Spacer(),
-              IconButton(
-                icon: const Icon(Icons.close),
-                onPressed: () => Navigator.pop(context),
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          TextField(
-            controller: _controller,
-            maxLines: 4,
-            decoration: InputDecoration(
-              hintText: 'What did you learn today?',
-              border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-            ),
-          ),
-          const SizedBox(height: 16),
-          Row(
-            children: [
-              IconButton(
-                icon: const Icon(Icons.image),
-                onPressed: () {},
-              ),
-              IconButton(
-                icon: const Icon(Icons.emoji_emotions),
-                onPressed: () {},
-              ),
-              const Spacer(),
-              ElevatedButton(
-                onPressed: () {
-                  ref.read(socialNotifierProvider.notifier).createMoment(_controller.text);
-                  Navigator.pop(context);
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primary,
-                  foregroundColor: Colors.white,
-                ),
-                child: const Text('Post'),
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-        ],
+      error: (e, _) => Center(child: Text(AppLocalizations.of(context).socialLoadFriendsError)),
+      data: (friends) => RefreshIndicator(
+        onRefresh: () async => ref.invalidate(friendsProvider),
+        child: FriendsList(friends: friends),
       ),
     );
   }

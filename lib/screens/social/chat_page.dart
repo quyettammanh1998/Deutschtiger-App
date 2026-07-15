@@ -1,109 +1,71 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import '../../../core/theme/app_colors.dart';
-import 'package:deutschtiger/data/social/social_models.dart';
-import 'package:deutschtiger/view_models/social/social_provider.dart';
 
+import 'package:deutschtiger/core/theme/app_colors.dart';
+import 'package:deutschtiger/data/social/message_models.dart';
+import 'package:deutschtiger/l10n/app_localizations.dart';
+import 'package:deutschtiger/view_models/providers.dart';
+import 'package:deutschtiger/view_models/social/friends_provider.dart';
+import 'package:deutschtiger/view_models/social/messages_provider.dart';
+import 'package:deutschtiger/view_models/social/public_profile_provider.dart';
+
+/// DM thread with one friend, keyed by `friendId` (`GET/POST
+/// /user/messages/{friendId}`). Poll-based refresh only: manual pull, and on
+/// app resume — no realtime transport, no background timer.
 class ChatPage extends ConsumerStatefulWidget {
-  final String conversationId;
+  const ChatPage({super.key, required this.friendId});
 
-  const ChatPage({super.key, required this.conversationId});
+  final String friendId;
 
   @override
   ConsumerState<ChatPage> createState() => _ChatPageState();
 }
 
-class _ChatPageState extends ConsumerState<ChatPage> {
+class _ChatPageState extends ConsumerState<ChatPage>
+    with WidgetsBindingObserver {
   final _messageController = TextEditingController();
   final _scrollController = ScrollController();
-  List<ChatMessage> _messages = [];
-  String _participantName = '';
-  String _participantAvatar = '';
+  bool _sending = false;
 
   @override
   void initState() {
     super.initState();
-    _loadMessages();
-  }
-
-  void _loadMessages() {
-    final conversationsAsync = ref.read(conversationsProvider);
-    conversationsAsync.whenData((conversations) {
-      final conversation = conversations.firstWhere(
-        (c) => c.id == widget.conversationId,
-        orElse: () => ChatConversation(
-          id: widget.conversationId,
-          participantId: 'user2',
-          participantName: 'User',
-          messages: [],
-        ),
-      );
-      setState(() {
-        _messages = List.from(conversation.messages);
-        _participantName = conversation.participantName;
-        _participantAvatar = conversation.participantAvatar;
-      });
-    });
+    WidgetsBinding.instance.addObserver(this);
   }
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     _messageController.dispose();
     _scrollController.dispose();
     super.dispose();
   }
 
-  void _sendMessage() {
-    final text = _messageController.text.trim();
-    if (text.isEmpty) return;
-
-    final newMessage = ChatMessage(
-      id: 'msg-${DateTime.now().millisecondsSinceEpoch}',
-      conversationId: widget.conversationId,
-      senderId: 'currentUser',
-      receiverId: _participantName,
-      content: text,
-      sentAt: DateTime.now(),
-    );
-
-    setState(() {
-      _messages.add(newMessage);
-    });
-
-    _messageController.clear();
-    _scrollToBottom();
-
-    // Simulate reply after delay
-    Future.delayed(const Duration(seconds: 2), () {
-      if (mounted) {
-        _simulateReply();
-      }
-    });
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      ref.read(chatActionsProvider).refresh(widget.friendId);
+    }
   }
 
-  void _simulateReply() {
-    final replies = [
-      'Das klingt gut!',
-      'Ich verstehe.',
-      'Ja, das macht Sinn!',
-      'Super, danke!',
-      'Wie geht es dir?',
-    ];
-
-    final reply = ChatMessage(
-      id: 'msg-${DateTime.now().millisecondsSinceEpoch}',
-      conversationId: widget.conversationId,
-      senderId: _participantName,
-      receiverId: 'currentUser',
-      content: replies[DateTime.now().second % replies.length],
-      sentAt: DateTime.now(),
-    );
-
-    setState(() {
-      _messages.add(reply);
-    });
-    _scrollToBottom();
+  Future<void> _sendMessage() async {
+    final text = _messageController.text.trim();
+    if (text.isEmpty || _sending) return;
+    setState(() => _sending = true);
+    _messageController.clear();
+    try {
+      await ref.read(chatActionsProvider).sendMessage(widget.friendId, text);
+      _scrollToBottom();
+    } catch (_) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(AppLocalizations.of(context).socialSendMessageError)),
+        );
+      }
+    } finally {
+      if (mounted) setState(() => _sending = false);
+    }
   }
 
   void _scrollToBottom() {
@@ -120,6 +82,11 @@ class _ChatPageState extends ConsumerState<ChatPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final profileAsync = ref.watch(publicProfileProvider(widget.friendId));
+    final messagesAsync = ref.watch(chatMessagesProvider(widget.friendId));
+    final myId = ref.watch(myProfileProvider).valueOrNull?.id;
+
     return Scaffold(
       backgroundColor: AppColors.authBackground,
       appBar: AppBar(
@@ -129,110 +96,124 @@ class _ChatPageState extends ConsumerState<ChatPage> {
           icon: const Icon(Icons.arrow_back),
           onPressed: () => context.pop(),
         ),
-        title: Row(
-          children: [
-            Stack(
-              children: [
-                CircleAvatar(
-                  radius: 18,
-                  backgroundImage: _participantAvatar.isNotEmpty
-                      ? NetworkImage(_participantAvatar)
-                      : null,
-                  backgroundColor: AppColors.muted,
-                  child: _participantAvatar.isEmpty
-                      ? Text(
-                          _participantName.isNotEmpty ? _participantName[0].toUpperCase() : '?',
-                          style: const TextStyle(fontWeight: FontWeight.bold),
-                        )
-                      : null,
-                ),
-                Positioned(
-                  right: 0,
-                  bottom: 0,
-                  child: Container(
-                    width: 10,
-                    height: 10,
-                    decoration: BoxDecoration(
-                      color: AppColors.success,
-                      shape: BoxShape.circle,
-                      border: Border.all(color: Colors.white, width: 2),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(width: 12),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  _participantName,
-                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                ),
-                const Text(
-                  'Online',
-                  style: TextStyle(fontSize: 11, color: AppColors.success),
-                ),
-              ],
-            ),
-          ],
+        title: GestureDetector(
+          onTap: () => context.push('/social/profile/${widget.friendId}'),
+          child: Row(
+            children: [
+              CircleAvatar(
+                radius: 18,
+                backgroundColor: AppColors.muted,
+                backgroundImage: profileAsync.valueOrNull?.avatarUrl != null
+                    ? NetworkImage(profileAsync.valueOrNull!.avatarUrl!)
+                    : null,
+                child: profileAsync.valueOrNull?.avatarUrl == null
+                    ? const Icon(Icons.person)
+                    : null,
+              ),
+              const SizedBox(width: 12),
+              Text(
+                profileAsync.valueOrNull?.displayName ?? '…',
+                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+            ],
+          ),
         ),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.videocam),
-            onPressed: () {},
-          ),
-          IconButton(
-            icon: const Icon(Icons.more_vert),
-            onPressed: () {},
+          PopupMenuButton<String>(
+            onSelected: (value) async {
+              if (value == 'profile') {
+                context.push('/social/profile/${widget.friendId}');
+              } else if (value == 'block') {
+                await _confirmAndBlock(context, ref, l10n);
+              }
+            },
+            itemBuilder: (context) => [
+              PopupMenuItem(value: 'profile', child: Text(l10n.socialViewProfile)),
+              PopupMenuItem(
+                value: 'block',
+                child: Text(
+                  l10n.socialBlockUser,
+                  style: const TextStyle(color: AppColors.destructive),
+                ),
+              ),
+            ],
           ),
         ],
       ),
       body: Column(
         children: [
           Expanded(
-            child: _messages.isEmpty
-                ? _buildEmptyChat()
-                : ListView.builder(
-                    controller: _scrollController,
-                    padding: const EdgeInsets.all(16),
-                    itemCount: _messages.length,
-                    itemBuilder: (context, index) => _MessageBubble(
-                      message: _messages[index],
-                      isMe: _messages[index].senderId == 'currentUser',
-                    ),
-                  ),
-          ),
-          _buildMessageInput(),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildEmptyChat() {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          CircleAvatar(
-            radius: 40,
-            backgroundColor: AppColors.muted,
-            child: Text(
-              _participantName.isNotEmpty ? _participantName[0].toUpperCase() : '?',
-              style: const TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+            child: RefreshIndicator(
+              onRefresh: () => ref.read(chatActionsProvider).refresh(widget.friendId),
+              child: messagesAsync.when(
+                loading: () => const Center(child: CircularProgressIndicator()),
+                error: (e, _) => ListView(
+                  children: [
+                    const SizedBox(height: 80),
+                    Center(child: Text(l10n.socialLoadMessagesError)),
+                  ],
+                ),
+                data: (messages) => messages.isEmpty
+                    ? ListView(
+                        children: [
+                          const SizedBox(height: 80),
+                          Center(
+                            child: Text(
+                              l10n.socialStartChatting,
+                              style: TextStyle(color: AppColors.mutedForeground),
+                            ),
+                          ),
+                        ],
+                      )
+                    : ListView.builder(
+                        controller: _scrollController,
+                        padding: const EdgeInsets.all(16),
+                        itemCount: messages.length,
+                        itemBuilder: (context, index) => _MessageBubble(
+                          message: messages[index],
+                          isMe: myId != null && messages[index].senderId == myId,
+                        ),
+                      ),
+              ),
             ),
           ),
-          const SizedBox(height: 16),
-          Text(
-            'Start chatting with $_participantName',
-            style: TextStyle(color: AppColors.mutedForeground, fontSize: 16),
-          ),
+          _buildMessageInput(l10n),
         ],
       ),
     );
   }
 
-  Widget _buildMessageInput() {
+  Future<void> _confirmAndBlock(
+    BuildContext context,
+    WidgetRef ref,
+    AppLocalizations l10n,
+  ) async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(l10n.socialBlockUser),
+        content: Text(l10n.socialBlockUserConfirmGeneric),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: Text(l10n.cancel),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: Text(
+              l10n.socialBlockUser,
+              style: const TextStyle(color: AppColors.destructive),
+            ),
+          ),
+        ],
+      ),
+    );
+    if (confirmed != true || !context.mounted) return;
+    await ref.read(friendsActionsProvider).blockUser(widget.friendId);
+    if (context.mounted) context.pop();
+  }
+
+  Widget _buildMessageInput(AppLocalizations l10n) {
     return Container(
       padding: EdgeInsets.only(
         left: 16,
@@ -252,44 +233,38 @@ class _ChatPageState extends ConsumerState<ChatPage> {
       ),
       child: Row(
         children: [
-          IconButton(
-            icon: const Icon(Icons.add_circle_outline),
-            onPressed: () {},
-            color: AppColors.mutedForeground,
-          ),
           Expanded(
             child: Container(
               decoration: BoxDecoration(
                 color: AppColors.muted,
                 borderRadius: BorderRadius.circular(24),
               ),
-              child: Row(
-                children: [
-                  IconButton(
-                    icon: const Icon(Icons.emoji_emotions_outlined),
-                    onPressed: () {},
-                    color: AppColors.mutedForeground,
+              child: TextField(
+                controller: _messageController,
+                decoration: InputDecoration(
+                  hintText: l10n.socialTypeMessageHint,
+                  border: InputBorder.none,
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 10,
                   ),
-                  Expanded(
-                    child: TextField(
-                      controller: _messageController,
-                      decoration: const InputDecoration(
-                        hintText: 'Type a message...',
-                        border: InputBorder.none,
-                        contentPadding: EdgeInsets.symmetric(vertical: 10),
-                      ),
-                      textCapitalization: TextCapitalization.sentences,
-                      onSubmitted: (_) => _sendMessage(),
-                    ),
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.send),
-                    onPressed: _sendMessage,
-                    color: AppColors.tigerOrange,
-                  ),
-                ],
+                ),
+                textCapitalization: TextCapitalization.sentences,
+                onSubmitted: (_) => _sendMessage(),
               ),
             ),
+          ),
+          const SizedBox(width: 8),
+          IconButton(
+            icon: _sending
+                ? const SizedBox(
+                    width: 20,
+                    height: 20,
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  )
+                : const Icon(Icons.send),
+            onPressed: _sending ? null : _sendMessage,
+            color: AppColors.tigerOrange,
           ),
         ],
       ),
@@ -298,10 +273,10 @@ class _ChatPageState extends ConsumerState<ChatPage> {
 }
 
 class _MessageBubble extends StatelessWidget {
+  const _MessageBubble({required this.message, required this.isMe});
+
   final ChatMessage message;
   final bool isMe;
-
-  const _MessageBubble({required this.message, required this.isMe});
 
   @override
   Widget build(BuildContext context) {
@@ -324,17 +299,14 @@ class _MessageBubble extends StatelessWidget {
                 bottomRight: Radius.circular(isMe ? 4 : 16),
               ),
               boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.05),
-                  blurRadius: 5,
-                ),
+                BoxShadow(color: Colors.black.withValues(alpha: 0.05), blurRadius: 5),
               ],
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(
-                  message.content,
+                  message.content ?? '',
                   style: TextStyle(
                     color: isMe ? Colors.white : AppColors.foreground,
                     fontSize: 15,
@@ -345,7 +317,7 @@ class _MessageBubble extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      _formatTime(message.sentAt),
+                      _formatTime(message.createdAt),
                       style: TextStyle(
                         fontSize: 10,
                         color: isMe ? Colors.white70 : AppColors.mutedForeground,
@@ -354,7 +326,7 @@ class _MessageBubble extends StatelessWidget {
                     if (isMe) ...[
                       const SizedBox(width: 4),
                       Icon(
-                        message.isRead ? Icons.done_all : Icons.done,
+                        message.readAt != null ? Icons.done_all : Icons.done,
                         size: 14,
                         color: Colors.white70,
                       ),
@@ -369,8 +341,6 @@ class _MessageBubble extends StatelessWidget {
     );
   }
 
-  String _formatTime(DateTime? time) {
-    if (time == null) return '';
-    return '${time.hour}:${time.minute.toString().padLeft(2, '0')}';
-  }
+  String _formatTime(DateTime time) =>
+      '${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}';
 }

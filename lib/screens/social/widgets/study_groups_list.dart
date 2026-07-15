@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:deutschtiger/core/theme/app_colors.dart';
-import 'package:deutschtiger/data/social/social_models.dart';
+import 'package:deutschtiger/data/social/social_legacy_mock_models.dart';
 
 class StudyGroupsList extends StatelessWidget {
   final List<StudyGroup> groups;
@@ -39,27 +39,43 @@ class StudyGroupsList extends StatelessWidget {
                         children: [
                           Text(
                             group.name,
-                            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                           Row(
                             children: [
                               Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 6,
+                                  vertical: 2,
+                                ),
                                 decoration: BoxDecoration(
                                   color: AppColors.secondary,
                                   borderRadius: BorderRadius.circular(4),
                                 ),
                                 child: Text(
                                   group.level,
-                                  style: const TextStyle(fontSize: 10, color: AppColors.secondary),
+                                  style: const TextStyle(
+                                    fontSize: 10,
+                                    color: AppColors.secondary,
+                                  ),
                                 ),
                               ),
                               const SizedBox(width: 8),
-                              Icon(Icons.people, size: 14, color: Colors.grey[600]),
+                              Icon(
+                                Icons.people,
+                                size: 14,
+                                color: Colors.grey[600],
+                              ),
                               const SizedBox(width: 4),
                               Text(
                                 '${group.memberCount}/${group.maxMembers}',
-                                style: TextStyle(color: Colors.grey[600], fontSize: 12),
+                                style: TextStyle(
+                                  color: Colors.grey[600],
+                                  fontSize: 12,
+                                ),
                               ),
                             ],
                           ),
@@ -83,7 +99,9 @@ class StudyGroupsList extends StatelessWidget {
                               child: const Text('Open'),
                             )
                           : ElevatedButton(
-                              onPressed: group.memberCount < group.maxMembers ? () {} : null,
+                              onPressed: group.memberCount < group.maxMembers
+                                  ? () {}
+                                  : null,
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: AppColors.primary,
                                 foregroundColor: Colors.white,
@@ -102,10 +120,10 @@ class StudyGroupsList extends StatelessWidget {
   }
 }
 
-class _GroupChallengesList extends StatelessWidget {
+class GroupChallengesList extends StatelessWidget {
   final List<Challenge> challenges;
 
-  const _GroupChallengesList({required this.challenges});
+  const GroupChallengesList({super.key, required this.challenges});
 
   @override
   Widget build(BuildContext context) {
@@ -131,7 +149,8 @@ class _GroupChallengesList extends StatelessWidget {
     return ListView.builder(
       padding: const EdgeInsets.all(16),
       itemCount: challenges.length,
-      itemBuilder: (context, index) => _ChallengeCard(challenge: challenges[index]),
+      itemBuilder: (context, index) =>
+          _ChallengeCard(challenge: challenges[index]),
     );
   }
 }
@@ -166,7 +185,10 @@ class _ChallengeCard extends StatelessWidget {
                       const SizedBox(height: 8),
                       Text(
                         challenge.challengerName,
-                        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 12,
+                        ),
                       ),
                     ],
                   ),
@@ -179,18 +201,28 @@ class _ChallengeCard extends StatelessWidget {
                     ),
                     const SizedBox(height: 4),
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 4,
+                      ),
                       decoration: BoxDecoration(
                         color: AppColors.primary.withAlpha(25),
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Row(
                         children: [
-                          const Icon(Icons.star, size: 16, color: AppColors.primary),
+                          const Icon(
+                            Icons.star,
+                            size: 16,
+                            color: AppColors.primary,
+                          ),
                           const SizedBox(width: 4),
                           Text(
                             '+${challenge.xpReward} XP',
-                            style: const TextStyle(color: AppColors.primary, fontWeight: FontWeight.bold),
+                            style: const TextStyle(
+                              color: AppColors.primary,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ],
                       ),
@@ -212,7 +244,10 @@ class _ChallengeCard extends StatelessWidget {
                       const SizedBox(height: 8),
                       Text(
                         challenge.challengedName,
-                        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 12,
+                        ),
                       ),
                     ],
                   ),
@@ -287,7 +322,11 @@ class _StatusChip extends StatelessWidget {
       ),
       child: Text(
         label,
-        style: TextStyle(color: color, fontWeight: FontWeight.bold, fontSize: 12),
+        style: TextStyle(
+          color: color,
+          fontWeight: FontWeight.bold,
+          fontSize: 12,
+        ),
       ),
     );
   }

@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:deutschtiger/data/social/social_models.dart';
+import 'package:go_router/go_router.dart';
 
+import 'package:deutschtiger/data/social/moment_models.dart';
+
+/// Compact read-only moments feed used by the Social hub's Moments tab.
+/// Full feed (with like + comments) lives at `/social/moments`.
 class MomentsFeed extends StatelessWidget {
-  final List<SocialMoment> moments;
-
   const MomentsFeed({super.key, required this.moments});
+
+  final List<Moment> moments;
 
   @override
   Widget build(BuildContext context) {
@@ -15,15 +19,7 @@ class MomentsFeed extends StatelessWidget {
           children: [
             Icon(Icons.dynamic_feed, size: 64, color: Colors.grey[400]),
             const SizedBox(height: 16),
-            Text(
-              'No moments yet',
-              style: TextStyle(color: Colors.grey[600], fontSize: 16),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              'Be the first to share!',
-              style: TextStyle(color: Colors.grey[500]),
-            ),
+            Text('No moments yet', style: TextStyle(color: Colors.grey[600], fontSize: 16)),
           ],
         ),
       );
@@ -38,9 +34,9 @@ class MomentsFeed extends StatelessWidget {
 }
 
 class _MomentCard extends StatelessWidget {
-  final SocialMoment moment;
-
   const _MomentCard({required this.moment});
+
+  final Moment moment;
 
   @override
   Widget build(BuildContext context) {
@@ -50,65 +46,37 @@ class _MomentCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ListTile(
+            onTap: () => context.push('/social/profile/${moment.userId}'),
             leading: CircleAvatar(
-              backgroundImage: moment.userAvatar.isNotEmpty
-                  ? NetworkImage(moment.userAvatar)
+              backgroundImage: moment.avatarUrl.isNotEmpty
+                  ? NetworkImage(moment.avatarUrl)
                   : null,
-              child: moment.userAvatar.isEmpty
-                  ? Text(moment.username[0].toUpperCase())
+              child: moment.avatarUrl.isEmpty
+                  ? Text(moment.displayName.isNotEmpty ? moment.displayName[0].toUpperCase() : '?')
                   : null,
             ),
-            title: Text(
-              moment.username,
-              style: const TextStyle(fontWeight: FontWeight.bold),
-            ),
+            title: Text(moment.displayName, style: const TextStyle(fontWeight: FontWeight.bold)),
             subtitle: Text(_formatTime(moment.createdAt)),
-            trailing: IconButton(
-              icon: const Icon(Icons.more_horiz),
-              onPressed: () {},
-            ),
           ),
           if (moment.content.isNotEmpty)
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Text(moment.content),
             ),
-          if (moment.imageUrl.isNotEmpty)
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(12),
-                child: Image.network(
-                  moment.imageUrl,
-                  fit: BoxFit.cover,
-                  width: double.infinity,
-                  height: 200,
-                ),
-              ),
-            ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8),
             child: Row(
               children: [
-                IconButton(
-                  icon: Icon(
-                    moment.isLiked ? Icons.favorite : Icons.favorite_border,
-                    color: moment.isLiked ? Colors.red : null,
-                  ),
-                  onPressed: () {},
+                Icon(
+                  moment.isLiked ? Icons.favorite : Icons.favorite_border,
+                  color: moment.isLiked ? Colors.red : null,
                 ),
-                Text('${moment.likes}'),
+                const SizedBox(width: 4),
+                Text('${moment.likeCount}'),
                 const SizedBox(width: 16),
-                IconButton(
-                  icon: const Icon(Icons.chat_bubble_outline),
-                  onPressed: () {},
-                ),
-                Text('${moment.comments}'),
-                const Spacer(),
-                IconButton(
-                  icon: const Icon(Icons.share_outlined),
-                  onPressed: () {},
-                ),
+                const Icon(Icons.chat_bubble_outline),
+                const SizedBox(width: 4),
+                Text('${moment.commentCount}'),
               ],
             ),
           ),
@@ -118,8 +86,7 @@ class _MomentCard extends StatelessWidget {
     );
   }
 
-  String _formatTime(DateTime? time) {
-    if (time == null) return '';
+  String _formatTime(DateTime time) {
     final diff = DateTime.now().difference(time);
     if (diff.inMinutes < 60) return '${diff.inMinutes}m ago';
     if (diff.inHours < 24) return '${diff.inHours}h ago';

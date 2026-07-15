@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:deutschtiger/core/theme/app_colors.dart';
-import 'package:deutschtiger/data/social/social_models.dart';
+import 'package:deutschtiger/data/social/social_legacy_mock_models.dart';
 
 class ChallengesList extends StatelessWidget {
   final List<Challenge> challenges;

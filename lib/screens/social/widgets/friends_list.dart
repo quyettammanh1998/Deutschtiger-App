@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+
 import 'package:deutschtiger/core/theme/app_colors.dart';
-import 'package:deutschtiger/data/social/social_models.dart';
+import 'package:deutschtiger/data/social/friend_models.dart';
 
+/// Compact friends list used by the Social hub's Friends tab. Tapping a row
+/// opens the public profile (`/social/profile/:id`).
 class FriendsList extends StatelessWidget {
-  final List<Friend> friends;
-
   const FriendsList({super.key, required this.friends});
+
+  final List<FriendProfile> friends;
 
   @override
   Widget build(BuildContext context) {
@@ -17,14 +21,15 @@ class FriendsList extends StatelessWidget {
         return Card(
           margin: const EdgeInsets.only(bottom: 8),
           child: ListTile(
+            onTap: () => context.push('/social/profile/${friend.id}'),
             leading: Stack(
               children: [
                 CircleAvatar(
-                  backgroundImage: friend.avatar.isNotEmpty
-                      ? NetworkImage(friend.avatar)
+                  backgroundImage: friend.avatarUrl.isNotEmpty
+                      ? NetworkImage(friend.avatarUrl)
                       : null,
-                  child: friend.avatar.isEmpty
-                      ? Text(friend.username[0])
+                  child: friend.avatarUrl.isEmpty
+                      ? Text(friend.displayName.isNotEmpty ? friend.displayName[0] : '?')
                       : null,
                 ),
                 Positioned(
@@ -34,7 +39,9 @@ class FriendsList extends StatelessWidget {
                     width: 14,
                     height: 14,
                     decoration: BoxDecoration(
-                      color: friend.status == 'online' ? AppColors.success : Colors.grey,
+                      color: (friend.isOnline ?? false)
+                          ? AppColors.success
+                          : Colors.grey,
                       shape: BoxShape.circle,
                       border: Border.all(color: Colors.white, width: 2),
                     ),
@@ -42,21 +49,17 @@ class FriendsList extends StatelessWidget {
                 ),
               ],
             ),
-            title: Text(friend.username),
+            title: Text(friend.displayName),
             subtitle: Row(
               children: [
-                const Icon(Icons.star, size: 14, color: Colors.amber),
+                const Icon(Icons.local_fire_department, size: 14, color: Colors.orange),
                 const SizedBox(width: 4),
-                Text('Level ${friend.level}'),
-                const SizedBox(width: 12),
-                Icon(Icons.local_fire_department, size: 14, color: Colors.orange[600]),
-                const SizedBox(width: 4),
-                Text('${friend.streakDays} days'),
+                Text('${friend.currentStreak}'),
               ],
             ),
             trailing: IconButton(
               icon: const Icon(Icons.chat),
-              onPressed: () {},
+              onPressed: () => context.push('/social/chat/${friend.id}'),
             ),
           ),
         );
