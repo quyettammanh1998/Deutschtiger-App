@@ -66,7 +66,7 @@ class VocabularyRepository {
   /// Bo danh dau tu da hoc.
   /// API: DELETE /api/v1/vocabulary/{wordId}/learn
   Future<void> unmarkLearned(String wordId) async {
-    await _apiClient.delete<Map<String, dynamic>>(
+    await _apiClient.delete<dynamic>(
       '/api/v1/vocabulary/$wordId/learn',
     );
   }

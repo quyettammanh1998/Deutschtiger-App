@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$ReviewItem {
 
- String get id;@JsonKey(name: 'learning_item_id') String get learningItemId;@JsonKey(name: 'flashcard_id') String? get flashcardId;@JsonKey(name: 'content_de') String get contentDe;@JsonKey(name: 'content_vi') String get contentVi;@JsonKey(name: 'audio_url') String? get audioUrl; String? get level; List<ReviewExample> get examples;
+@JsonKey(name: 'card_review_id') String? get cardReviewId;@JsonKey(name: 'learning_item_id') String? get learningItemId;@JsonKey(name: 'source_flashcard_id') String? get sourceFlashcardId; int get state; DateTime? get due;@JsonKey(name: 'content_de') String? get contentDe;@JsonKey(name: 'content_vi') String? get contentVi;@JsonKey(name: 'audio_url') String? get audioUrl; String? get level;@JsonKey(name: 'word_de') String? get wordDe;@JsonKey(name: 'word_vi') String? get wordVi;@JsonKey(name: 'flashcard_audio_url') String? get flashcardAudioUrl; List<ReviewExample> get examples;
 /// Create a copy of ReviewItem
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $ReviewItemCopyWith<ReviewItem> get copyWith => _$ReviewItemCopyWithImpl<ReviewI
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ReviewItem&&(identical(other.id, id) || other.id == id)&&(identical(other.learningItemId, learningItemId) || other.learningItemId == learningItemId)&&(identical(other.flashcardId, flashcardId) || other.flashcardId == flashcardId)&&(identical(other.contentDe, contentDe) || other.contentDe == contentDe)&&(identical(other.contentVi, contentVi) || other.contentVi == contentVi)&&(identical(other.audioUrl, audioUrl) || other.audioUrl == audioUrl)&&(identical(other.level, level) || other.level == level)&&const DeepCollectionEquality().equals(other.examples, examples));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ReviewItem&&(identical(other.cardReviewId, cardReviewId) || other.cardReviewId == cardReviewId)&&(identical(other.learningItemId, learningItemId) || other.learningItemId == learningItemId)&&(identical(other.sourceFlashcardId, sourceFlashcardId) || other.sourceFlashcardId == sourceFlashcardId)&&(identical(other.state, state) || other.state == state)&&(identical(other.due, due) || other.due == due)&&(identical(other.contentDe, contentDe) || other.contentDe == contentDe)&&(identical(other.contentVi, contentVi) || other.contentVi == contentVi)&&(identical(other.audioUrl, audioUrl) || other.audioUrl == audioUrl)&&(identical(other.level, level) || other.level == level)&&(identical(other.wordDe, wordDe) || other.wordDe == wordDe)&&(identical(other.wordVi, wordVi) || other.wordVi == wordVi)&&(identical(other.flashcardAudioUrl, flashcardAudioUrl) || other.flashcardAudioUrl == flashcardAudioUrl)&&const DeepCollectionEquality().equals(other.examples, examples));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,learningItemId,flashcardId,contentDe,contentVi,audioUrl,level,const DeepCollectionEquality().hash(examples));
+int get hashCode => Object.hash(runtimeType,cardReviewId,learningItemId,sourceFlashcardId,state,due,contentDe,contentVi,audioUrl,level,wordDe,wordVi,flashcardAudioUrl,const DeepCollectionEquality().hash(examples));
 
 @override
 String toString() {
-  return 'ReviewItem(id: $id, learningItemId: $learningItemId, flashcardId: $flashcardId, contentDe: $contentDe, contentVi: $contentVi, audioUrl: $audioUrl, level: $level, examples: $examples)';
+  return 'ReviewItem(cardReviewId: $cardReviewId, learningItemId: $learningItemId, sourceFlashcardId: $sourceFlashcardId, state: $state, due: $due, contentDe: $contentDe, contentVi: $contentVi, audioUrl: $audioUrl, level: $level, wordDe: $wordDe, wordVi: $wordVi, flashcardAudioUrl: $flashcardAudioUrl, examples: $examples)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $ReviewItemCopyWith<$Res>  {
   factory $ReviewItemCopyWith(ReviewItem value, $Res Function(ReviewItem) _then) = _$ReviewItemCopyWithImpl;
 @useResult
 $Res call({
- String id,@JsonKey(name: 'learning_item_id') String learningItemId,@JsonKey(name: 'flashcard_id') String? flashcardId,@JsonKey(name: 'content_de') String contentDe,@JsonKey(name: 'content_vi') String contentVi,@JsonKey(name: 'audio_url') String? audioUrl, String? level, List<ReviewExample> examples
+@JsonKey(name: 'card_review_id') String? cardReviewId,@JsonKey(name: 'learning_item_id') String? learningItemId,@JsonKey(name: 'source_flashcard_id') String? sourceFlashcardId, int state, DateTime? due,@JsonKey(name: 'content_de') String? contentDe,@JsonKey(name: 'content_vi') String? contentVi,@JsonKey(name: 'audio_url') String? audioUrl, String? level,@JsonKey(name: 'word_de') String? wordDe,@JsonKey(name: 'word_vi') String? wordVi,@JsonKey(name: 'flashcard_audio_url') String? flashcardAudioUrl, List<ReviewExample> examples
 });
 
 
@@ -65,15 +65,20 @@ class _$ReviewItemCopyWithImpl<$Res>
 
 /// Create a copy of ReviewItem
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? learningItemId = null,Object? flashcardId = freezed,Object? contentDe = null,Object? contentVi = null,Object? audioUrl = freezed,Object? level = freezed,Object? examples = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? cardReviewId = freezed,Object? learningItemId = freezed,Object? sourceFlashcardId = freezed,Object? state = null,Object? due = freezed,Object? contentDe = freezed,Object? contentVi = freezed,Object? audioUrl = freezed,Object? level = freezed,Object? wordDe = freezed,Object? wordVi = freezed,Object? flashcardAudioUrl = freezed,Object? examples = null,}) {
   return _then(_self.copyWith(
-id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as String,learningItemId: null == learningItemId ? _self.learningItemId : learningItemId // ignore: cast_nullable_to_non_nullable
-as String,flashcardId: freezed == flashcardId ? _self.flashcardId : flashcardId // ignore: cast_nullable_to_non_nullable
-as String?,contentDe: null == contentDe ? _self.contentDe : contentDe // ignore: cast_nullable_to_non_nullable
-as String,contentVi: null == contentVi ? _self.contentVi : contentVi // ignore: cast_nullable_to_non_nullable
-as String,audioUrl: freezed == audioUrl ? _self.audioUrl : audioUrl // ignore: cast_nullable_to_non_nullable
+cardReviewId: freezed == cardReviewId ? _self.cardReviewId : cardReviewId // ignore: cast_nullable_to_non_nullable
+as String?,learningItemId: freezed == learningItemId ? _self.learningItemId : learningItemId // ignore: cast_nullable_to_non_nullable
+as String?,sourceFlashcardId: freezed == sourceFlashcardId ? _self.sourceFlashcardId : sourceFlashcardId // ignore: cast_nullable_to_non_nullable
+as String?,state: null == state ? _self.state : state // ignore: cast_nullable_to_non_nullable
+as int,due: freezed == due ? _self.due : due // ignore: cast_nullable_to_non_nullable
+as DateTime?,contentDe: freezed == contentDe ? _self.contentDe : contentDe // ignore: cast_nullable_to_non_nullable
+as String?,contentVi: freezed == contentVi ? _self.contentVi : contentVi // ignore: cast_nullable_to_non_nullable
+as String?,audioUrl: freezed == audioUrl ? _self.audioUrl : audioUrl // ignore: cast_nullable_to_non_nullable
 as String?,level: freezed == level ? _self.level : level // ignore: cast_nullable_to_non_nullable
+as String?,wordDe: freezed == wordDe ? _self.wordDe : wordDe // ignore: cast_nullable_to_non_nullable
+as String?,wordVi: freezed == wordVi ? _self.wordVi : wordVi // ignore: cast_nullable_to_non_nullable
+as String?,flashcardAudioUrl: freezed == flashcardAudioUrl ? _self.flashcardAudioUrl : flashcardAudioUrl // ignore: cast_nullable_to_non_nullable
 as String?,examples: null == examples ? _self.examples : examples // ignore: cast_nullable_to_non_nullable
 as List<ReviewExample>,
   ));
@@ -160,10 +165,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id, @JsonKey(name: 'learning_item_id')  String learningItemId, @JsonKey(name: 'flashcard_id')  String? flashcardId, @JsonKey(name: 'content_de')  String contentDe, @JsonKey(name: 'content_vi')  String contentVi, @JsonKey(name: 'audio_url')  String? audioUrl,  String? level,  List<ReviewExample> examples)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'card_review_id')  String? cardReviewId, @JsonKey(name: 'learning_item_id')  String? learningItemId, @JsonKey(name: 'source_flashcard_id')  String? sourceFlashcardId,  int state,  DateTime? due, @JsonKey(name: 'content_de')  String? contentDe, @JsonKey(name: 'content_vi')  String? contentVi, @JsonKey(name: 'audio_url')  String? audioUrl,  String? level, @JsonKey(name: 'word_de')  String? wordDe, @JsonKey(name: 'word_vi')  String? wordVi, @JsonKey(name: 'flashcard_audio_url')  String? flashcardAudioUrl,  List<ReviewExample> examples)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ReviewItem() when $default != null:
-return $default(_that.id,_that.learningItemId,_that.flashcardId,_that.contentDe,_that.contentVi,_that.audioUrl,_that.level,_that.examples);case _:
+return $default(_that.cardReviewId,_that.learningItemId,_that.sourceFlashcardId,_that.state,_that.due,_that.contentDe,_that.contentVi,_that.audioUrl,_that.level,_that.wordDe,_that.wordVi,_that.flashcardAudioUrl,_that.examples);case _:
   return orElse();
 
 }
@@ -181,10 +186,10 @@ return $default(_that.id,_that.learningItemId,_that.flashcardId,_that.contentDe,
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id, @JsonKey(name: 'learning_item_id')  String learningItemId, @JsonKey(name: 'flashcard_id')  String? flashcardId, @JsonKey(name: 'content_de')  String contentDe, @JsonKey(name: 'content_vi')  String contentVi, @JsonKey(name: 'audio_url')  String? audioUrl,  String? level,  List<ReviewExample> examples)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'card_review_id')  String? cardReviewId, @JsonKey(name: 'learning_item_id')  String? learningItemId, @JsonKey(name: 'source_flashcard_id')  String? sourceFlashcardId,  int state,  DateTime? due, @JsonKey(name: 'content_de')  String? contentDe, @JsonKey(name: 'content_vi')  String? contentVi, @JsonKey(name: 'audio_url')  String? audioUrl,  String? level, @JsonKey(name: 'word_de')  String? wordDe, @JsonKey(name: 'word_vi')  String? wordVi, @JsonKey(name: 'flashcard_audio_url')  String? flashcardAudioUrl,  List<ReviewExample> examples)  $default,) {final _that = this;
 switch (_that) {
 case _ReviewItem():
-return $default(_that.id,_that.learningItemId,_that.flashcardId,_that.contentDe,_that.contentVi,_that.audioUrl,_that.level,_that.examples);case _:
+return $default(_that.cardReviewId,_that.learningItemId,_that.sourceFlashcardId,_that.state,_that.due,_that.contentDe,_that.contentVi,_that.audioUrl,_that.level,_that.wordDe,_that.wordVi,_that.flashcardAudioUrl,_that.examples);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -201,10 +206,10 @@ return $default(_that.id,_that.learningItemId,_that.flashcardId,_that.contentDe,
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id, @JsonKey(name: 'learning_item_id')  String learningItemId, @JsonKey(name: 'flashcard_id')  String? flashcardId, @JsonKey(name: 'content_de')  String contentDe, @JsonKey(name: 'content_vi')  String contentVi, @JsonKey(name: 'audio_url')  String? audioUrl,  String? level,  List<ReviewExample> examples)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'card_review_id')  String? cardReviewId, @JsonKey(name: 'learning_item_id')  String? learningItemId, @JsonKey(name: 'source_flashcard_id')  String? sourceFlashcardId,  int state,  DateTime? due, @JsonKey(name: 'content_de')  String? contentDe, @JsonKey(name: 'content_vi')  String? contentVi, @JsonKey(name: 'audio_url')  String? audioUrl,  String? level, @JsonKey(name: 'word_de')  String? wordDe, @JsonKey(name: 'word_vi')  String? wordVi, @JsonKey(name: 'flashcard_audio_url')  String? flashcardAudioUrl,  List<ReviewExample> examples)?  $default,) {final _that = this;
 switch (_that) {
 case _ReviewItem() when $default != null:
-return $default(_that.id,_that.learningItemId,_that.flashcardId,_that.contentDe,_that.contentVi,_that.audioUrl,_that.level,_that.examples);case _:
+return $default(_that.cardReviewId,_that.learningItemId,_that.sourceFlashcardId,_that.state,_that.due,_that.contentDe,_that.contentVi,_that.audioUrl,_that.level,_that.wordDe,_that.wordVi,_that.flashcardAudioUrl,_that.examples);case _:
   return null;
 
 }
@@ -215,17 +220,22 @@ return $default(_that.id,_that.learningItemId,_that.flashcardId,_that.contentDe,
 /// @nodoc
 @JsonSerializable()
 
-class _ReviewItem implements ReviewItem {
-  const _ReviewItem({required this.id, @JsonKey(name: 'learning_item_id') this.learningItemId = '', @JsonKey(name: 'flashcard_id') this.flashcardId, @JsonKey(name: 'content_de') this.contentDe = '', @JsonKey(name: 'content_vi') this.contentVi = '', @JsonKey(name: 'audio_url') this.audioUrl, this.level, final  List<ReviewExample> examples = const <ReviewExample>[]}): _examples = examples;
+class _ReviewItem extends ReviewItem {
+  const _ReviewItem({@JsonKey(name: 'card_review_id') this.cardReviewId, @JsonKey(name: 'learning_item_id') this.learningItemId, @JsonKey(name: 'source_flashcard_id') this.sourceFlashcardId, this.state = 0, this.due, @JsonKey(name: 'content_de') this.contentDe, @JsonKey(name: 'content_vi') this.contentVi, @JsonKey(name: 'audio_url') this.audioUrl, this.level, @JsonKey(name: 'word_de') this.wordDe, @JsonKey(name: 'word_vi') this.wordVi, @JsonKey(name: 'flashcard_audio_url') this.flashcardAudioUrl, final  List<ReviewExample> examples = const <ReviewExample>[]}): _examples = examples,super._();
   factory _ReviewItem.fromJson(Map<String, dynamic> json) => _$ReviewItemFromJson(json);
 
-@override final  String id;
-@override@JsonKey(name: 'learning_item_id') final  String learningItemId;
-@override@JsonKey(name: 'flashcard_id') final  String? flashcardId;
-@override@JsonKey(name: 'content_de') final  String contentDe;
-@override@JsonKey(name: 'content_vi') final  String contentVi;
+@override@JsonKey(name: 'card_review_id') final  String? cardReviewId;
+@override@JsonKey(name: 'learning_item_id') final  String? learningItemId;
+@override@JsonKey(name: 'source_flashcard_id') final  String? sourceFlashcardId;
+@override@JsonKey() final  int state;
+@override final  DateTime? due;
+@override@JsonKey(name: 'content_de') final  String? contentDe;
+@override@JsonKey(name: 'content_vi') final  String? contentVi;
 @override@JsonKey(name: 'audio_url') final  String? audioUrl;
 @override final  String? level;
+@override@JsonKey(name: 'word_de') final  String? wordDe;
+@override@JsonKey(name: 'word_vi') final  String? wordVi;
+@override@JsonKey(name: 'flashcard_audio_url') final  String? flashcardAudioUrl;
  final  List<ReviewExample> _examples;
 @override@JsonKey() List<ReviewExample> get examples {
   if (_examples is EqualUnmodifiableListView) return _examples;
@@ -247,16 +257,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ReviewItem&&(identical(other.id, id) || other.id == id)&&(identical(other.learningItemId, learningItemId) || other.learningItemId == learningItemId)&&(identical(other.flashcardId, flashcardId) || other.flashcardId == flashcardId)&&(identical(other.contentDe, contentDe) || other.contentDe == contentDe)&&(identical(other.contentVi, contentVi) || other.contentVi == contentVi)&&(identical(other.audioUrl, audioUrl) || other.audioUrl == audioUrl)&&(identical(other.level, level) || other.level == level)&&const DeepCollectionEquality().equals(other._examples, _examples));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ReviewItem&&(identical(other.cardReviewId, cardReviewId) || other.cardReviewId == cardReviewId)&&(identical(other.learningItemId, learningItemId) || other.learningItemId == learningItemId)&&(identical(other.sourceFlashcardId, sourceFlashcardId) || other.sourceFlashcardId == sourceFlashcardId)&&(identical(other.state, state) || other.state == state)&&(identical(other.due, due) || other.due == due)&&(identical(other.contentDe, contentDe) || other.contentDe == contentDe)&&(identical(other.contentVi, contentVi) || other.contentVi == contentVi)&&(identical(other.audioUrl, audioUrl) || other.audioUrl == audioUrl)&&(identical(other.level, level) || other.level == level)&&(identical(other.wordDe, wordDe) || other.wordDe == wordDe)&&(identical(other.wordVi, wordVi) || other.wordVi == wordVi)&&(identical(other.flashcardAudioUrl, flashcardAudioUrl) || other.flashcardAudioUrl == flashcardAudioUrl)&&const DeepCollectionEquality().equals(other._examples, _examples));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,learningItemId,flashcardId,contentDe,contentVi,audioUrl,level,const DeepCollectionEquality().hash(_examples));
+int get hashCode => Object.hash(runtimeType,cardReviewId,learningItemId,sourceFlashcardId,state,due,contentDe,contentVi,audioUrl,level,wordDe,wordVi,flashcardAudioUrl,const DeepCollectionEquality().hash(_examples));
 
 @override
 String toString() {
-  return 'ReviewItem(id: $id, learningItemId: $learningItemId, flashcardId: $flashcardId, contentDe: $contentDe, contentVi: $contentVi, audioUrl: $audioUrl, level: $level, examples: $examples)';
+  return 'ReviewItem(cardReviewId: $cardReviewId, learningItemId: $learningItemId, sourceFlashcardId: $sourceFlashcardId, state: $state, due: $due, contentDe: $contentDe, contentVi: $contentVi, audioUrl: $audioUrl, level: $level, wordDe: $wordDe, wordVi: $wordVi, flashcardAudioUrl: $flashcardAudioUrl, examples: $examples)';
 }
 
 
@@ -267,7 +277,7 @@ abstract mixin class _$ReviewItemCopyWith<$Res> implements $ReviewItemCopyWith<$
   factory _$ReviewItemCopyWith(_ReviewItem value, $Res Function(_ReviewItem) _then) = __$ReviewItemCopyWithImpl;
 @override @useResult
 $Res call({
- String id,@JsonKey(name: 'learning_item_id') String learningItemId,@JsonKey(name: 'flashcard_id') String? flashcardId,@JsonKey(name: 'content_de') String contentDe,@JsonKey(name: 'content_vi') String contentVi,@JsonKey(name: 'audio_url') String? audioUrl, String? level, List<ReviewExample> examples
+@JsonKey(name: 'card_review_id') String? cardReviewId,@JsonKey(name: 'learning_item_id') String? learningItemId,@JsonKey(name: 'source_flashcard_id') String? sourceFlashcardId, int state, DateTime? due,@JsonKey(name: 'content_de') String? contentDe,@JsonKey(name: 'content_vi') String? contentVi,@JsonKey(name: 'audio_url') String? audioUrl, String? level,@JsonKey(name: 'word_de') String? wordDe,@JsonKey(name: 'word_vi') String? wordVi,@JsonKey(name: 'flashcard_audio_url') String? flashcardAudioUrl, List<ReviewExample> examples
 });
 
 
@@ -284,15 +294,20 @@ class __$ReviewItemCopyWithImpl<$Res>
 
 /// Create a copy of ReviewItem
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? learningItemId = null,Object? flashcardId = freezed,Object? contentDe = null,Object? contentVi = null,Object? audioUrl = freezed,Object? level = freezed,Object? examples = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? cardReviewId = freezed,Object? learningItemId = freezed,Object? sourceFlashcardId = freezed,Object? state = null,Object? due = freezed,Object? contentDe = freezed,Object? contentVi = freezed,Object? audioUrl = freezed,Object? level = freezed,Object? wordDe = freezed,Object? wordVi = freezed,Object? flashcardAudioUrl = freezed,Object? examples = null,}) {
   return _then(_ReviewItem(
-id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as String,learningItemId: null == learningItemId ? _self.learningItemId : learningItemId // ignore: cast_nullable_to_non_nullable
-as String,flashcardId: freezed == flashcardId ? _self.flashcardId : flashcardId // ignore: cast_nullable_to_non_nullable
-as String?,contentDe: null == contentDe ? _self.contentDe : contentDe // ignore: cast_nullable_to_non_nullable
-as String,contentVi: null == contentVi ? _self.contentVi : contentVi // ignore: cast_nullable_to_non_nullable
-as String,audioUrl: freezed == audioUrl ? _self.audioUrl : audioUrl // ignore: cast_nullable_to_non_nullable
+cardReviewId: freezed == cardReviewId ? _self.cardReviewId : cardReviewId // ignore: cast_nullable_to_non_nullable
+as String?,learningItemId: freezed == learningItemId ? _self.learningItemId : learningItemId // ignore: cast_nullable_to_non_nullable
+as String?,sourceFlashcardId: freezed == sourceFlashcardId ? _self.sourceFlashcardId : sourceFlashcardId // ignore: cast_nullable_to_non_nullable
+as String?,state: null == state ? _self.state : state // ignore: cast_nullable_to_non_nullable
+as int,due: freezed == due ? _self.due : due // ignore: cast_nullable_to_non_nullable
+as DateTime?,contentDe: freezed == contentDe ? _self.contentDe : contentDe // ignore: cast_nullable_to_non_nullable
+as String?,contentVi: freezed == contentVi ? _self.contentVi : contentVi // ignore: cast_nullable_to_non_nullable
+as String?,audioUrl: freezed == audioUrl ? _self.audioUrl : audioUrl // ignore: cast_nullable_to_non_nullable
 as String?,level: freezed == level ? _self.level : level // ignore: cast_nullable_to_non_nullable
+as String?,wordDe: freezed == wordDe ? _self.wordDe : wordDe // ignore: cast_nullable_to_non_nullable
+as String?,wordVi: freezed == wordVi ? _self.wordVi : wordVi // ignore: cast_nullable_to_non_nullable
+as String?,flashcardAudioUrl: freezed == flashcardAudioUrl ? _self.flashcardAudioUrl : flashcardAudioUrl // ignore: cast_nullable_to_non_nullable
 as String?,examples: null == examples ? _self._examples : examples // ignore: cast_nullable_to_non_nullable
 as List<ReviewExample>,
   ));

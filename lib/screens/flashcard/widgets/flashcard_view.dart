@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import 'package:deutschtiger/data/flashcard/review_item.dart';
+import 'package:deutschtiger/l10n/app_localizations.dart';
 
 /// Thẻ từ vựng: mặt trước chỉ tiếng Đức + nút loa; sau khi lật hiện nghĩa
 /// tiếng Việt và các câu ví dụ. Bấm vào thẻ để lật.
@@ -23,6 +24,7 @@ class FlashcardView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return GestureDetector(
       onTap: revealed ? null : onReveal,
       child: Container(
@@ -47,14 +49,14 @@ class FlashcardView extends StatelessWidget {
               _LevelChip(level: item.level!),
             const SizedBox(height: 12),
             _WordRow(
-              text: item.contentDe,
-              onPlay: () => onPlayAudio(item.contentDe, item.audioUrl),
+              text: item.displayDe,
+              onPlay: () => onPlayAudio(item.displayDe, item.displayAudioUrl),
             ),
             if (!revealed) ...[
               const SizedBox(height: 20),
-              const Text(
-                'Chạm để xem nghĩa',
-                style: TextStyle(
+              Text(
+                l10n.tapToShowMeaning,
+                style: const TextStyle(
                   color: AppColors.mutedForeground,
                   fontSize: 13,
                 ),
@@ -99,6 +101,7 @@ class _WordRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -119,7 +122,7 @@ class _WordRow extends StatelessWidget {
           onPressed: onPlay,
           icon: const Icon(Icons.volume_up_rounded),
           color: AppColors.tigerOrange,
-          tooltip: 'Nghe phát âm',
+          tooltip: l10n.listenPronunciation,
         ),
       ],
     );
@@ -139,7 +142,7 @@ class _RevealedContent extends StatelessWidget {
         const Divider(color: AppColors.border),
         const SizedBox(height: 12),
         Text(
-          item.contentVi,
+          item.displayVi,
           textAlign: TextAlign.center,
           style: const TextStyle(
             fontSize: 20,
@@ -149,7 +152,9 @@ class _RevealedContent extends StatelessWidget {
         ),
         if (item.examples.isNotEmpty) ...[
           const SizedBox(height: 16),
-          ...item.examples.map((ex) => _ExampleTile(ex: ex, onPlay: onPlayAudio)),
+          ...item.examples.map(
+            (ex) => _ExampleTile(ex: ex, onPlay: onPlayAudio),
+          ),
         ],
       ],
     );

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../l10n/app_localizations.dart';
 import 'package:deutschtiger/widgets/common/async_state_views.dart';
 import 'package:deutschtiger/repositories/decks/deck_repository.dart';
 import 'package:deutschtiger/data/decks/deck_models.dart';
@@ -15,14 +16,15 @@ class DeckListScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final decks = ref.watch(decksProvider);
+    final l10n = AppLocalizations.of(context);
 
     return Scaffold(
       backgroundColor: AppColors.authBackground,
       appBar: AppBar(
         backgroundColor: AppColors.authBackground,
-        title: const Text(
-          'Bộ từ của tôi',
-          style: TextStyle(
+        title: Text(
+          l10n.myDecks,
+          style: const TextStyle(
             fontWeight: FontWeight.bold,
             color: AppColors.tigerOrange,
             fontSize: 18,
@@ -32,14 +34,14 @@ class DeckListScreen extends ConsumerWidget {
           IconButton(
             icon: const Icon(Icons.add),
             onPressed: () => _showCreateDeckDialog(context, ref),
-            tooltip: 'Tạo bộ từ mới',
+            tooltip: l10n.createNewDeck,
           ),
         ],
       ),
       body: decks.when(
         loading: () => const LoadingView(),
         error: (e, _) => ErrorView(
-          message: 'Không tải được danh sách bộ từ',
+          message: l10n.couldNotLoadDecks,
           onRetry: () => ref.invalidate(decksProvider),
         ),
         data: (deckList) {
@@ -107,18 +109,20 @@ class DeckListScreen extends ConsumerWidget {
     final ok = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Xóa bộ từ'),
-        content: Text('Bạn có chắc muốn xóa "${deck.name}"?'),
+        title: Text(AppLocalizations.of(context).deleteDeck),
+        content: Text(
+          AppLocalizations.of(context).deleteDeckConfirmation(deck.name),
+        ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
-            child: const Text('Hủy'),
+            child: Text(AppLocalizations.of(context).cancel),
           ),
           TextButton(
             onPressed: () => Navigator.pop(context, true),
-            child: const Text(
-              'Xóa',
-              style: TextStyle(color: AppColors.destructive),
+            child: Text(
+              AppLocalizations.of(context).delete,
+              style: const TextStyle(color: AppColors.destructive),
             ),
           ),
         ],
@@ -148,6 +152,7 @@ class _DeckCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final progress = deck.wordCount > 0
         ? deck.learnedCount / deck.wordCount
         : 0.0;
@@ -214,23 +219,31 @@ class _DeckCard extends StatelessWidget {
                       }
                     },
                     itemBuilder: (context) => [
-                      const PopupMenuItem(
+                      PopupMenuItem(
                         value: 'edit',
                         child: Row(
                           children: [
-                            Icon(Icons.edit_outlined),
-                            SizedBox(width: 8),
-                            Text('Sửa'),
+                            const Icon(Icons.edit_outlined),
+                            const SizedBox(width: 8),
+                            Text(l10n.edit),
                           ],
                         ),
                       ),
-                      const PopupMenuItem(
+                      PopupMenuItem(
                         value: 'delete',
                         child: Row(
                           children: [
-                            Icon(Icons.delete_outline, color: AppColors.destructive),
-                            SizedBox(width: 8),
-                            Text('Xóa', style: TextStyle(color: AppColors.destructive)),
+                            const Icon(
+                              Icons.delete_outline,
+                              color: AppColors.destructive,
+                            ),
+                            const SizedBox(width: 8),
+                            Text(
+                              l10n.delete,
+                              style: const TextStyle(
+                                color: AppColors.destructive,
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -242,7 +255,7 @@ class _DeckCard extends StatelessWidget {
               Row(
                 children: [
                   Text(
-                    '${deck.wordCount} từ',
+                    l10n.wordsCount(deck.wordCount),
                     style: TextStyle(
                       fontSize: 13,
                       color: AppColors.mutedForeground,
@@ -251,7 +264,10 @@ class _DeckCard extends StatelessWidget {
                   const Spacer(),
                   if (deck.wordCount > 0)
                     Text(
-                      '${deck.learnedCount}/${deck.wordCount} đã học',
+                      l10n.learnedWordsProgress(
+                        deck.learnedCount,
+                        deck.wordCount,
+                      ),
                       style: TextStyle(
                         fontSize: 13,
                         color: AppColors.mutedForeground,
@@ -267,7 +283,9 @@ class _DeckCard extends StatelessWidget {
                     value: progress,
                     minHeight: 6,
                     backgroundColor: AppColors.border,
-                    valueColor: const AlwaysStoppedAnimation(AppColors.tigerOrange),
+                    valueColor: const AlwaysStoppedAnimation(
+                      AppColors.tigerOrange,
+                    ),
                   ),
                 ),
               ],
@@ -295,6 +313,7 @@ class _EmptyDeckView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(24),
@@ -307,26 +326,21 @@ class _EmptyDeckView extends StatelessWidget {
               color: AppColors.mutedForeground,
             ),
             const SizedBox(height: 16),
-            const Text(
-              'Chưa có bộ từ nào',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
-              ),
+            Text(
+              l10n.noDecks,
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
             ),
             const SizedBox(height: 8),
             Text(
-              'Tạo bộ từ riêng để học theo chủ đề bạn thích',
+              l10n.noDecksDescription,
               textAlign: TextAlign.center,
-              style: TextStyle(
-                color: AppColors.mutedForeground,
-              ),
+              style: TextStyle(color: AppColors.mutedForeground),
             ),
             const SizedBox(height: 24),
             ElevatedButton.icon(
               onPressed: onCreate,
               icon: const Icon(Icons.add),
-              label: const Text('Tạo bộ từ'),
+              label: Text(l10n.createDeck),
             ),
           ],
         ),
@@ -390,25 +404,26 @@ class _CreateDeckDialogState extends State<_CreateDeckDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return AlertDialog(
-      title: Text(widget.isEdit ? 'Sửa bộ từ' : 'Tạo bộ từ mới'),
+      title: Text(widget.isEdit ? l10n.editDeck : l10n.createNewDeck),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           TextField(
             controller: _nameController,
-            decoration: const InputDecoration(
-              labelText: 'Tên bộ từ',
-              hintText: 'Ví dụ: Từ vựng du lịch',
+            decoration: InputDecoration(
+              labelText: l10n.deckName,
+              hintText: l10n.deckNameHint,
             ),
             autofocus: true,
           ),
           const SizedBox(height: 16),
           TextField(
             controller: _descController,
-            decoration: const InputDecoration(
-              labelText: 'Mô tả (tùy chọn)',
-              hintText: 'Mô tả ngắn về bộ từ',
+            decoration: InputDecoration(
+              labelText: l10n.deckDescriptionOptional,
+              hintText: l10n.deckDescriptionHint,
             ),
             maxLines: 2,
           ),
@@ -417,7 +432,7 @@ class _CreateDeckDialogState extends State<_CreateDeckDialog> {
       actions: [
         TextButton(
           onPressed: _loading ? null : () => Navigator.pop(context),
-          child: const Text('Hủy'),
+          child: Text(l10n.cancel),
         ),
         ElevatedButton(
           onPressed: _loading ? null : _save,
@@ -427,7 +442,7 @@ class _CreateDeckDialogState extends State<_CreateDeckDialog> {
                   height: 20,
                   child: CircularProgressIndicator(strokeWidth: 2),
                 )
-              : Text(widget.isEdit ? 'Lưu' : 'Tạo'),
+              : Text(widget.isEdit ? l10n.save : l10n.createDeck),
         ),
       ],
     );

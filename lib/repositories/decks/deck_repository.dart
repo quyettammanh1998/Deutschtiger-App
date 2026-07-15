@@ -1,53 +1,67 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:deutschtiger/view_models/providers.dart';
 import '../../data/decks/deck_models.dart';
+import '../../services/api_client.dart';
 
 /// Repository cho deck management.
 class DeckRepository {
   DeckRepository(this._apiClient);
-  final dynamic _apiClient;
+  final ApiClient _apiClient;
 
   Future<List<Deck>> getDecks() async {
-    try {
-      final response = await _apiClient.get('/user/decks');
-      final decks = (response.data['decks'] as List?)
-          ?.map((e) => Deck.fromJson(e as Map<String, dynamic>))
-          .toList() ?? [];
-      return decks;
-    } catch (e) {
-      debugPrint('getDecks error: $e');
-      return [];
-    }
+    final response = await _apiClient.get<List<dynamic>>(
+      '/user/flashcard-decks',
+    );
+    return response
+        .whereType<Map<String, dynamic>>()
+        .map(Deck.fromJson)
+        .toList(growable: false);
   }
 
-  Future<Deck> createDeck({required String name, String? description, String? coverColor}) async {
+  Future<Deck> createDeck({
+    required String name,
+    String? description,
+    String? coverColor,
+  }) async {
     final data = <String, dynamic>{'name': name};
     if (description != null) data['description'] = description;
     if (coverColor != null) data['cover_color'] = coverColor;
-    
-    final response = await _apiClient.post('/user/decks', body: data);
-    return Deck.fromJson(response.data);
+
+    final response = await _apiClient.post<Map<String, dynamic>>(
+      '/user/flashcard-decks',
+      body: data,
+    );
+    return Deck.fromJson(response);
   }
 
-  Future<Deck> updateDeck(String deckId, {required String name, String? description}) async {
+  Future<Deck> updateDeck(
+    String deckId, {
+    required String name,
+    String? description,
+  }) async {
     final data = <String, dynamic>{'name': name};
     if (description != null) data['description'] = description;
-    
-    final response = await _apiClient.put('/user/decks/$deckId', body: data);
-    return Deck.fromJson(response.data);
+
+    final response = await _apiClient.put<Map<String, dynamic>>(
+      '/user/flashcard-decks/$deckId',
+      body: data,
+    );
+    return Deck.fromJson(response);
   }
 
   Future<void> deleteDeck(String deckId) async {
-    await _apiClient.delete('/user/decks/$deckId');
+    await _apiClient.delete<dynamic>('/user/flashcard-decks/$deckId');
   }
 
   Future<List<DeckWord>> getDeckWords(String deckId) async {
-    final response = await _apiClient.get('/user/decks/$deckId/words');
-    return (response.data['words'] as List?)
-        ?.map((e) => DeckWord.fromJson(e as Map<String, dynamic>))
-        .toList() ?? [];
+    final response = await _apiClient.get<List<dynamic>>(
+      '/user/flashcard-decks/$deckId/cards',
+    );
+    return response
+        .whereType<Map<String, dynamic>>()
+        .map(DeckWord.fromJson)
+        .toList(growable: false);
   }
 }
 

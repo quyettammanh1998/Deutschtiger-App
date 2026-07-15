@@ -7,13 +7,18 @@ part of 'review_item.dart';
 // **************************************************************************
 
 _ReviewItem _$ReviewItemFromJson(Map<String, dynamic> json) => _ReviewItem(
-  id: json['id'] as String,
-  learningItemId: json['learning_item_id'] as String? ?? '',
-  flashcardId: json['flashcard_id'] as String?,
-  contentDe: json['content_de'] as String? ?? '',
-  contentVi: json['content_vi'] as String? ?? '',
+  cardReviewId: json['card_review_id'] as String?,
+  learningItemId: json['learning_item_id'] as String?,
+  sourceFlashcardId: json['source_flashcard_id'] as String?,
+  state: (json['state'] as num?)?.toInt() ?? 0,
+  due: json['due'] == null ? null : DateTime.parse(json['due'] as String),
+  contentDe: json['content_de'] as String?,
+  contentVi: json['content_vi'] as String?,
   audioUrl: json['audio_url'] as String?,
   level: json['level'] as String?,
+  wordDe: json['word_de'] as String?,
+  wordVi: json['word_vi'] as String?,
+  flashcardAudioUrl: json['flashcard_audio_url'] as String?,
   examples:
       (json['examples'] as List<dynamic>?)
           ?.map((e) => ReviewExample.fromJson(e as Map<String, dynamic>))
@@ -23,13 +28,18 @@ _ReviewItem _$ReviewItemFromJson(Map<String, dynamic> json) => _ReviewItem(
 
 Map<String, dynamic> _$ReviewItemToJson(_ReviewItem instance) =>
     <String, dynamic>{
-      'id': instance.id,
+      'card_review_id': instance.cardReviewId,
       'learning_item_id': instance.learningItemId,
-      'flashcard_id': instance.flashcardId,
+      'source_flashcard_id': instance.sourceFlashcardId,
+      'state': instance.state,
+      'due': instance.due?.toIso8601String(),
       'content_de': instance.contentDe,
       'content_vi': instance.contentVi,
       'audio_url': instance.audioUrl,
       'level': instance.level,
+      'word_de': instance.wordDe,
+      'word_vi': instance.wordVi,
+      'flashcard_audio_url': instance.flashcardAudioUrl,
       'examples': instance.examples,
     };
 

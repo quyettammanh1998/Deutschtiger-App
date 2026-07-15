@@ -28,8 +28,12 @@ class Deck {
       coverColor: json['cover_color'] as String?,
       wordCount: json['word_count'] as int? ?? 0,
       learnedCount: json['learned_count'] as int? ?? 0,
-      createdAt: DateTime.tryParse(json['created_at'] as String? ?? '') ?? DateTime.now(),
-      updatedAt: DateTime.tryParse(json['updated_at'] as String? ?? '') ?? DateTime.now(),
+      createdAt:
+          DateTime.tryParse(json['created_at'] as String? ?? '') ??
+          DateTime.fromMillisecondsSinceEpoch(0, isUtc: true),
+      updatedAt:
+          DateTime.tryParse(json['updated_at'] as String? ?? '') ??
+          DateTime.fromMillisecondsSinceEpoch(0, isUtc: true),
     );
   }
 
@@ -70,13 +74,19 @@ class DeckWord {
   factory DeckWord.fromJson(Map<String, dynamic> json) {
     return DeckWord(
       id: json['id'] as String? ?? '',
-      wordId: json['word_id'] as String? ?? '',
-      word: json['word'] as String? ?? '',
-      translation: json['translation'] as String? ?? '',
-      pronunciation: json['pronunciation'] as String?,
-      example: json['example'] as String?,
+      wordId: json['learning_item_id'] as String? ?? '',
+      word: json['word_de'] as String? ?? json['word'] as String? ?? '',
+      translation:
+          json['word_vi'] as String? ?? json['translation'] as String? ?? '',
+      pronunciation: json['ipa'] as String? ?? json['pronunciation'] as String?,
+      example:
+          json['example_sentence'] as String? ?? json['example'] as String?,
       isLearned: json['is_learned'] as bool? ?? false,
-      addedAt: DateTime.tryParse(json['added_at'] as String? ?? '') ?? DateTime.now(),
+      addedAt:
+          DateTime.tryParse(
+            json['created_at'] as String? ?? json['added_at'] as String? ?? '',
+          ) ??
+          DateTime.fromMillisecondsSinceEpoch(0, isUtc: true),
     );
   }
 

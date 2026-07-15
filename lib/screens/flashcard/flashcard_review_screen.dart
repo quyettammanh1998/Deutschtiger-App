@@ -3,27 +3,33 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:deutschtiger/view_models/providers.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../l10n/app_localizations.dart';
 import 'package:deutschtiger/widgets/common/async_state_views.dart';
 import 'package:deutschtiger/widgets/common/gradient_button.dart';
 import 'package:deutschtiger/view_models/flashcard/review_provider.dart';
 import 'widgets/flashcard_view.dart';
 import 'widgets/rating_bar.dart';
+import '../../shared/widgets/game_completion_screen.dart';
 
 /// Màn ôn từ (tab "Ôn từ"): trượt qua các thẻ đến hạn, lật → đánh giá.
 class FlashcardReviewScreen extends ConsumerWidget {
-  const FlashcardReviewScreen({super.key});
+  const FlashcardReviewScreen({super.key, this.deckId});
+
+  final String? deckId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final session = ref.watch(reviewSessionProvider);
+    final l10n = AppLocalizations.of(context);
+    final scope = ReviewSessionScope(mode: 'flashcard', deckId: deckId);
+    final session = ref.watch(reviewSessionProvider(scope));
 
     return Scaffold(
       backgroundColor: AppColors.authBackground,
       appBar: AppBar(
         backgroundColor: AppColors.authBackground,
-        title: const Text(
-          'Ôn từ',
-          style: TextStyle(
+        title: Text(
+          l10n.flashcardReview,
+          style: const TextStyle(
             fontWeight: FontWeight.bold,
             color: AppColors.tigerOrange,
             fontSize: 18,
@@ -34,10 +40,11 @@ class FlashcardReviewScreen extends ConsumerWidget {
         child: session.when(
           loading: () => const LoadingView(),
           error: (e, _) => ErrorView(
-            message: 'Không tải được thẻ ôn tập.',
-            onRetry: () => ref.read(reviewSessionProvider.notifier).restart(),
+            message: l10n.couldNotLoadReviewCards,
+            onRetry: () =>
+                ref.read(reviewSessionProvider(scope).notifier).restart(),
           ),
-          data: (state) => _SessionBody(state: state),
+          data: (state) => _SessionBody(state: state, scope: scope),
         ),
       ),
     );
@@ -45,22 +52,27 @@ class FlashcardReviewScreen extends ConsumerWidget {
 }
 
 class _SessionBody extends ConsumerWidget {
-  const _SessionBody({required this.state});
+  const _SessionBody({required this.state, required this.scope});
   final ReviewSessionState state;
+  final ReviewSessionScope scope;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
     if (state.isEmpty) {
-      return const _DoneView(message: 'Hôm nay không có thẻ nào đến hạn 🎉');
+      return _DoneView(message: l10n.noCardsDueToday);
     }
     if (state.isFinished) {
-      return _DoneView(
-        message: 'Đã ôn xong ${state.total} thẻ! 🐯',
-        onRestart: () => ref.read(reviewSessionProvider.notifier).restart(),
+      return GameCompletionScreen(
+        score: state.correctCount,
+        total: state.total,
+        onPlayAgain: () =>
+            ref.read(reviewSessionProvider(scope).notifier).restart(),
+        onGoHome: () => Navigator.of(context).maybePop(),
       );
     }
 
-    final notifier = ref.read(reviewSessionProvider.notifier);
+    final notifier = ref.read(reviewSessionProvider(scope).notifier);
     final item = state.current!;
 
     void playAudio(String text, String? audioUrl) {
@@ -84,15 +96,29 @@ class _SessionBody extends ConsumerWidget {
         ),
         Padding(
           padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-          child: state.revealed
-              ? RatingBar(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (state.error == ReviewSessionError.ratingNotSaved) ...[
+                Text(
+                  l10n.couldNotSaveReview,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(color: AppColors.destructive),
+                ),
+                const SizedBox(height: 8),
+              ],
+              if (state.revealed)
+                RatingBar(
                   enabled: !state.submitting,
                   onRate: notifier.rateCurrent,
                 )
-              : GradientButton(
-                  label: 'Xem nghĩa',
+              else
+                GradientButton(
+                  label: l10n.showMeaning,
                   onPressed: notifier.reveal,
                 ),
+            ],
+          ),
         ),
       ],
     );
@@ -135,9 +161,8 @@ class _ProgressBar extends StatelessWidget {
 }
 
 class _DoneView extends StatelessWidget {
-  const _DoneView({required this.message, this.onRestart});
+  const _DoneView({required this.message});
   final String message;
-  final VoidCallback? onRestart;
 
   @override
   Widget build(BuildContext context) {
@@ -162,14 +187,6 @@ class _DoneView extends StatelessWidget {
                 color: AppColors.foreground,
               ),
             ),
-            if (onRestart != null) ...[
-              const SizedBox(height: 20),
-              OutlinedButton.icon(
-                onPressed: onRestart,
-                icon: const Icon(Icons.refresh),
-                label: const Text('Ôn tiếp'),
-              ),
-            ],
           ],
         ),
       ),

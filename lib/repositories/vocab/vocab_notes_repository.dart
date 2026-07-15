@@ -49,7 +49,7 @@ class VocabNotesRepository {
   /// Xoa ghi chu cua mot tu.
   /// API: DELETE /user/vocabulary/notes/{wordId}
   Future<void> deleteNote(String wordId) async {
-    await _apiClient.delete<Map<String, dynamic>>(
+    await _apiClient.delete<dynamic>(
       '/user/vocabulary/notes/$wordId',
     );
   }

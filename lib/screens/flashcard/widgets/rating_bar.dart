@@ -2,15 +2,12 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import 'package:deutschtiger/data/flashcard/review_item.dart';
+import 'package:deutschtiger/l10n/app_localizations.dart';
 
 /// Hàng 4 nút đánh giá sau khi lật thẻ: Quên / Khó / Tốt / Dễ.
 /// Màu đi từ đỏ → cam → xanh lá theo độ nhớ (giống web).
 class RatingBar extends StatelessWidget {
-  const RatingBar({
-    super.key,
-    required this.onRate,
-    this.enabled = true,
-  });
+  const RatingBar({super.key, required this.onRate, this.enabled = true});
 
   final void Function(ReviewRating rating) onRate;
   final bool enabled;
@@ -24,12 +21,18 @@ class RatingBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Row(
       children: [
         for (final rating in ReviewRating.values) ...[
           Expanded(
             child: _RatingButton(
-              label: rating.labelVi,
+              label: switch (rating) {
+                ReviewRating.forgot => l10n.ratingAgain,
+                ReviewRating.hard => l10n.ratingHard,
+                ReviewRating.medium => l10n.ratingGood,
+                ReviewRating.easy => l10n.ratingEasy,
+              },
               color: _colors[rating]!,
               onTap: enabled ? () => onRate(rating) : null,
             ),
