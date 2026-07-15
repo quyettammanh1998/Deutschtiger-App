@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../l10n/app_localizations.dart';
 
 /// Loading indicator căn giữa — dùng chung các màn.
 class LoadingView extends StatelessWidget {
@@ -16,17 +17,14 @@ class LoadingView extends StatelessWidget {
 
 /// View lỗi + nút thử lại — dùng chung khi fetch thất bại.
 class ErrorView extends StatelessWidget {
-  const ErrorView({
-    super.key,
-    this.message = 'Không tải được dữ liệu.',
-    this.onRetry,
-  });
+  const ErrorView({super.key, this.message, this.onRetry});
 
-  final String message;
+  final String? message;
   final VoidCallback? onRetry;
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(24),
@@ -40,7 +38,7 @@ class ErrorView extends StatelessWidget {
             ),
             const SizedBox(height: 12),
             Text(
-              message,
+              message ?? l10n.couldNotLoadData,
               textAlign: TextAlign.center,
               style: const TextStyle(color: AppColors.mutedForeground),
             ),
@@ -49,7 +47,7 @@ class ErrorView extends StatelessWidget {
               OutlinedButton.icon(
                 onPressed: onRetry,
                 icon: const Icon(Icons.refresh),
-                label: const Text('Thử lại'),
+                label: Text(l10n.retry),
               ),
             ],
           ],

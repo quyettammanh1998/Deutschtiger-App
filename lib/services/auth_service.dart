@@ -15,14 +15,12 @@ class AuthService {
   AuthService(this._client);
 
   final SupabaseClient _client;
-  
+
   /// Lazy-initialized GoogleSignIn - tránh crash khi ClientID chưa được set
   GoogleSignIn? _googleSignIn;
-  
+
   GoogleSignIn get _googleSignInInstance {
-    _googleSignIn ??= GoogleSignIn(
-      scopes: ['email', 'profile'],
-    );
+    _googleSignIn ??= GoogleSignIn(scopes: ['email', 'profile']);
     return _googleSignIn!;
   }
 
@@ -108,9 +106,13 @@ class AuthService {
 
   /// Tạo nonce ngẫu nhiên cho Apple Sign-In (cryptographically secure)
   String _generateNonce([int length = 32]) {
-    const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    const chars =
+        'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     final random = Random.secure();
-    return List.generate(length, (_) => chars[random.nextInt(chars.length)]).join();
+    return List.generate(
+      length,
+      (_) => chars[random.nextInt(chars.length)],
+    ).join();
   }
 
   /// Mã hóa nonce bằng SHA256
@@ -141,7 +143,10 @@ class AuthService {
   }
 
   Future<void> resetPasswordForEmail(String email) {
-    return _client.auth.resetPasswordForEmail(email);
+    return _client.auth.resetPasswordForEmail(
+      email,
+      redirectTo: 'https://deutschtiger.com/reset-password',
+    );
   }
 
   Future<void> signOut() => _client.auth.signOut();

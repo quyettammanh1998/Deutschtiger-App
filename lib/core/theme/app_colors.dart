@@ -29,9 +29,29 @@ class AppColors {
   static const Color success = DesignTokens.success;
   static const Color error = DesignTokens.error;
   static const Color warning = DesignTokens.warning;
+  static const Color info = DesignTokens.info;
   static const Color brand = DesignTokens.brand;
   static const Color brandDark = DesignTokens.brandDark;
   static const Color sidebar = DesignTokens.sidebar;
+
+  // ===== Shadow tokens (delegated to DesignTokens) =====
+  static const List<BoxShadow> shadowSm = DesignTokens.shadowSm;
+  static const List<BoxShadow> shadowMd = DesignTokens.shadowMd;
+  static const List<BoxShadow> shadowLg = DesignTokens.shadowLg;
+  static const List<BoxShadow> shadowCard = DesignTokens.shadowCard;
+
+  // ===== Layout paddings/heights (delegated to DesignTokens) =====
+  static const double cardPadding = DesignTokens.cardPadding;
+  static const double sectionGap = DesignTokens.sectionGap;
+  static const double screenHorizontalPadding = DesignTokens.screenHorizontalPadding;
+  static const double bottomNavHeight = DesignTokens.bottomNavHeight;
+  static const double appBarHeight = DesignTokens.appBarHeight;
+  static const double headerHeight = DesignTokens.headerHeight;
+
+  // ===== Bottom nav (delegated to DesignTokens) =====
+  static const Color tabActiveColor = DesignTokens.tabActiveColor;
+  static const Color tabInactiveColor = DesignTokens.tabInactiveColor;
+  static const TextStyle bottomNavLabel = DesignTokens.bottomNavLabel;
 
   // ===== Auth colors ===== (delegated to DesignTokens)
   static const Color authBackground = DesignTokens.authBackground;
@@ -49,7 +69,12 @@ class AppColors {
   // ===== Dark theme (delegated to DesignTokens) =====
   static const Color darkBackground = DesignTokens.darkBackground;
   static const Color darkForeground = DesignTokens.darkForeground;
+  static const Color darkMuted = DesignTokens.darkMuted;
+  static const Color darkMutedForeground = DesignTokens.darkMutedForeground;
   static const Color darkCard = DesignTokens.darkCard;
+  static const Color darkCardForeground = DesignTokens.darkCardForeground;
   static const Color darkPrimary = DesignTokens.darkPrimary;
+  static const Color darkSecondary = DesignTokens.darkSecondary;
+  static const Color darkAccent = DesignTokens.darkAccent;
   static const Color darkBorder = DesignTokens.darkBorder;
 }

@@ -1,28 +1,59 @@
+import 'package:flutter_tts/flutter_tts.dart';
 import 'package:just_audio/just_audio.dart';
 
 import 'api_client.dart';
 
 /// Phát âm thanh cho thẻ từ vựng — seam mỏng ở core (KISS).
 ///
-/// Mirror 2 lớp đầu của web (audio_url → tts-cache); bỏ lớp browser-TTS
-/// vì Flutter không cần (server đã có Edge TTS). Lớp 3 (on-device TTS)
-/// để V2 nếu cần.
+/// Chain: recorded URL → server TTS cache → on-device German TTS.
 class AudioService {
-  AudioService(this._api);
+  AudioService(this._api, {AudioPlayer? player, FlutterTts? tts})
+    : _player = player ?? AudioPlayer(),
+      _tts = tts ?? FlutterTts();
 
   final ApiClient _api;
-  final AudioPlayer _player = AudioPlayer();
+  final AudioPlayer _player;
+  final FlutterTts _tts;
 
   /// Phát âm: ưu tiên [audioUrl] có sẵn; nếu không có thì xin server tạo
-  /// qua tts-cache cho [text]. Lỗi được nuốt (best-effort, không chặn UI).
-  Future<void> play({String? audioUrl, required String text}) async {
+  /// qua tts-cache cho [text], cuối cùng dùng TTS có sẵn trên thiết bị.
+  /// Trả `true` khi một tầng playback đã khởi động thành công.
+  Future<bool> play({String? audioUrl, required String text}) async {
+    await stop();
+
+    final recordedUrl = audioUrl?.trim();
+    if (recordedUrl != null && recordedUrl.isNotEmpty) {
+      if (await _playUrl(recordedUrl)) return true;
+    }
+
+    final normalizedText = text.trim();
+    if (normalizedText.isEmpty) return false;
+
     try {
-      final url = audioUrl ?? await _fetchTtsUrl(text);
-      if (url == null || url.isEmpty) return;
+      final cachedUrl = await _fetchTtsUrl(normalizedText);
+      if (cachedUrl != null && cachedUrl.isNotEmpty) {
+        if (await _playUrl(cachedUrl)) return true;
+      }
+    } catch (_) {
+      // Server TTS is optional; continue with on-device TTS.
+    }
+
+    try {
+      await _tts.setLanguage('de-DE');
+      await _tts.setSpeechRate(0.45);
+      return await _tts.speak(normalizedText) == 1;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  Future<bool> _playUrl(String url) async {
+    try {
       await _player.setUrl(url);
       await _player.play();
+      return true;
     } catch (_) {
-      // best-effort: không làm gián đoạn việc học nếu audio lỗi
+      return false;
     }
   }
 
@@ -39,7 +70,13 @@ class AudioService {
     return res['url'] as String?; // fallback nếu backend đổi format
   }
 
-  Future<void> stop() => _player.stop();
+  Future<void> stop() async {
+    await _player.stop();
+    await _tts.stop();
+  }
 
-  void dispose() => _player.dispose();
+  Future<void> dispose() async {
+    await stop();
+    await _player.dispose();
+  }
 }
