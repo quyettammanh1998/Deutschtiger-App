@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/theme/app_colors.dart';
 
 /// Nút đăng nhập mạng xã hội (Google/Apple) với icon và loading state.
-class SocialLoginButton extends ConsumerStatefulWidget {
+class SocialLoginButton extends StatefulWidget {
   const SocialLoginButton({
     super.key,
     required this.provider,
@@ -16,24 +15,24 @@ class SocialLoginButton extends ConsumerStatefulWidget {
   final String provider;
   final String label;
   final Widget icon;
-  final VoidCallback? onPressed;
+  final Future<void> Function()? onPressed;
 
   @override
-  ConsumerState<SocialLoginButton> createState() => _SocialLoginButtonState();
+  State<SocialLoginButton> createState() => _SocialLoginButtonState();
 }
 
-class _SocialLoginButtonState extends ConsumerState<SocialLoginButton> {
+class _SocialLoginButtonState extends State<SocialLoginButton> {
   bool _isLoading = false;
 
   Future<void> _handlePress() async {
     if (_isLoading || widget.onPressed == null) return;
-    
     setState(() => _isLoading = true);
-    widget.onPressed?.call();
-    
-    await Future.delayed(const Duration(seconds: 2));
-    if (mounted) {
-      setState(() => _isLoading = false);
+    try {
+      await widget.onPressed!();
+    } finally {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
     }
   }
 
@@ -113,10 +112,6 @@ class AppleIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Icon(
-      Icons.apple,
-      size: 24,
-      color: Colors.black,
-    );
+    return const Icon(Icons.apple, size: 24, color: Colors.black);
   }
 }

@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../l10n/app_localizations.dart';
 import 'package:deutschtiger/widgets/common/auth_card.dart';
 import 'package:deutschtiger/widgets/common/gradient_button.dart';
 import 'package:deutschtiger/widgets/common/tiger_logo.dart';
@@ -62,13 +63,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final loading = ref.watch(authControllerProvider).isLoading;
 
     ref.listen<AsyncValue<void>>(authControllerProvider, (_, next) {
       if (next.hasError && mounted) {
         ScaffoldMessenger.of(
           context,
-        ).showSnackBar(SnackBar(content: Text('${next.error}')));
+        ).showSnackBar(SnackBar(content: Text(l10n.couldNotCompleteAuth)));
       }
     });
 
@@ -86,8 +88,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   children: [
                     const TigerLogo(width: 96),
                     const SizedBox(height: 6),
-                    const Text(
-                      'Đăng nhập để tiếp tục học',
+                    Text(
+                      l10n.loginToContinue,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 14,
@@ -110,20 +112,21 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     const SizedBox(height: 16),
                     AuthTextField(
                       controller: _email,
-                      label: 'Email',
+                      label: l10n.email,
                       hint: 'deutschtiger@gmail.com',
                       keyboardType: TextInputType.emailAddress,
                       textInputAction: TextInputAction.next,
-                      validator: AuthValidators.email,
+                      validator: (value) => AuthValidators.email(value, l10n),
                     ),
                     const SizedBox(height: 14),
                     AuthTextField(
                       controller: _password,
-                      label: 'Mật khẩu',
-                      hint: 'Nhập mật khẩu',
+                      label: l10n.password,
+                      hint: l10n.enterPassword,
                       obscure: _obscure,
                       textInputAction: TextInputAction.done,
-                      validator: AuthValidators.password,
+                      validator: (value) =>
+                          AuthValidators.password(value, l10n),
                       suffix: IconButton(
                         icon: Icon(
                           _obscure
@@ -146,9 +149,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           minimumSize: Size.zero,
                           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         ),
-                        child: const Text(
-                          'Quên mật khẩu?',
-                          style: TextStyle(
+                        child: Text(
+                          l10n.forgotPassword,
+                          style: const TextStyle(
                             fontSize: 13,
                             color: AppColors.orange500,
                           ),
@@ -157,26 +160,33 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     ),
                     const SizedBox(height: 12),
                     GradientButton(
-                      label: 'Đăng nhập',
+                      label: l10n.logIn,
                       loading: loading,
                       onPressed: loading ? null : _submit,
                     ),
                     const SizedBox(height: 16),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                    Wrap(
+                      alignment: WrapAlignment.center,
+                      crossAxisAlignment: WrapCrossAlignment.center,
                       children: [
-                        const Text(
-                          'Chưa có tài khoản? ',
-                          style: TextStyle(
+                        Text(
+                          l10n.dontHaveAccount,
+                          style: const TextStyle(
                             fontSize: 14,
                             color: AppColors.mutedForeground,
                           ),
                         ),
-                        GestureDetector(
-                          onTap: loading ? null : () => context.push('/signup'),
-                          child: const Text(
-                            'Đăng ký',
-                            style: TextStyle(
+                        TextButton(
+                          onPressed: loading
+                              ? null
+                              : () => context.push('/signup'),
+                          style: TextButton.styleFrom(
+                            minimumSize: const Size(48, 48),
+                            padding: const EdgeInsets.symmetric(horizontal: 6),
+                          ),
+                          child: Text(
+                            l10n.signUp,
+                            style: const TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w600,
                               color: AppColors.orange500,
@@ -203,8 +213,8 @@ class _SocialLoginSection extends StatelessWidget {
     required this.loading,
   });
 
-  final VoidCallback onGoogle;
-  final VoidCallback onApple;
+  final Future<void> Function() onGoogle;
+  final Future<void> Function() onApple;
   final bool loading;
 
   @override
@@ -214,7 +224,7 @@ class _SocialLoginSection extends StatelessWidget {
         // Google login
         SocialLoginButton(
           provider: 'google',
-          label: 'Tiếp tục với Google',
+          label: AppLocalizations.of(context).continueWithGoogle,
           icon: const GoogleIconSimple(),
           onPressed: loading ? null : onGoogle,
         ),
@@ -223,7 +233,7 @@ class _SocialLoginSection extends StatelessWidget {
         if (!kIsWeb && (Platform.isIOS || Platform.isMacOS))
           SocialLoginButton(
             provider: 'apple',
-            label: 'Tiếp tục với Apple',
+            label: AppLocalizations.of(context).continueWithApple,
             icon: const AppleIcon(),
             onPressed: loading ? null : onApple,
           ),
@@ -243,11 +253,8 @@ class _DividerWithText extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Text(
-            'hoặc',
-            style: TextStyle(
-              color: AppColors.mutedForeground,
-              fontSize: 13,
-            ),
+            AppLocalizations.of(context).or,
+            style: TextStyle(color: AppColors.mutedForeground, fontSize: 13),
           ),
         ),
         const Expanded(child: Divider(color: AppColors.border)),

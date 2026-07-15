@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../l10n/app_localizations.dart';
 import 'package:deutschtiger/widgets/common/gradient_button.dart';
 import 'package:deutschtiger/widgets/common/tiger_logo.dart';
 
@@ -11,26 +12,28 @@ import 'package:deutschtiger/widgets/common/tiger_logo.dart';
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
 
-  static const _features = [
+  static List<_Feature> _features(AppLocalizations l10n) => [
     _Feature(
       icon: Icons.style_outlined,
-      title: 'Ôn từ vựng thông minh',
-      desc: 'Flashcard lặp lại đúng lúc bạn sắp quên.',
+      title: l10n.smartVocabularyReview,
+      desc: l10n.smartVocabularyReviewDescription,
     ),
     _Feature(
       icon: Icons.local_fire_department_outlined,
-      title: 'Nhiệm vụ & chuỗi ngày học',
-      desc: 'Mục tiêu mỗi ngày, giữ streak đều đặn.',
+      title: l10n.dailyMissionsAndStreak,
+      desc: l10n.dailyMissionsAndStreakDescription,
     ),
     _Feature(
       icon: Icons.trending_up,
-      title: 'Theo dõi tiến độ',
-      desc: 'XP, cấp độ và số phút học mỗi ngày.',
+      title: l10n.trackProgress,
+      desc: l10n.trackProgressDescription,
     ),
   ];
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+
     return Scaffold(
       backgroundColor: AppColors.authBackground,
       body: SafeArea(
@@ -49,22 +52,22 @@ class WelcomeScreen extends StatelessWidget {
                   // Tagline bám web: "Học tiếng Đức · Chơi. Học. Đỗ!"
                   RichText(
                     textAlign: TextAlign.center,
-                    text: const TextSpan(
-                      style: TextStyle(
+                    text: TextSpan(
+                      style: const TextStyle(
                         fontSize: 26,
                         fontWeight: FontWeight.bold,
                         height: 1.2,
                       ),
                       children: [
                         TextSpan(
-                          text: 'Học tiếng Đức\n',
-                          style: TextStyle(color: AppColors.foreground),
+                          text: '${l10n.welcomeLearnGerman}\n',
+                          style: const TextStyle(color: AppColors.foreground),
                         ),
                         TextSpan(
-                          text: 'mỗi ngày cùng ',
-                          style: TextStyle(color: AppColors.foreground),
+                          text: l10n.welcomeEveryDayWith,
+                          style: const TextStyle(color: AppColors.foreground),
                         ),
-                        TextSpan(
+                        const TextSpan(
                           text: 'DeutschTiger',
                           style: TextStyle(color: AppColors.tigerOrange),
                         ),
@@ -72,9 +75,8 @@ class WelcomeScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 8),
-                  const Text(
-                    'App học tiếng Đức cho người Việt — ôn từ vựng, '
-                    'nhiệm vụ hằng ngày và luyện đọc, viết, phỏng vấn.',
+                  Text(
+                    l10n.welcomeDescription,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 14,
@@ -83,31 +85,36 @@ class WelcomeScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 28),
-                  for (final f in _features) ...[
+                  for (final f in _features(l10n)) ...[
                     _FeatureRow(feature: f),
                     const SizedBox(height: 14),
                   ],
                   const SizedBox(height: 16),
                   GradientButton(
-                    label: 'Bắt đầu học',
-                    onPressed: () => context.push('/signup'),
+                    label: l10n.startLearning,
+                    onPressed: () => context.push('/onboarding'),
                   ),
                   const SizedBox(height: 10),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                  Wrap(
+                    alignment: WrapAlignment.center,
+                    crossAxisAlignment: WrapCrossAlignment.center,
                     children: [
-                      const Text(
-                        'Đã có tài khoản? ',
-                        style: TextStyle(
+                      Text(
+                        l10n.alreadyHaveAccount,
+                        style: const TextStyle(
                           fontSize: 14,
                           color: AppColors.mutedForeground,
                         ),
                       ),
-                      GestureDetector(
-                        onTap: () => context.push('/login'),
-                        child: const Text(
-                          'Đăng nhập',
-                          style: TextStyle(
+                      TextButton(
+                        onPressed: () => context.push('/login'),
+                        style: TextButton.styleFrom(
+                          minimumSize: const Size(48, 48),
+                          padding: const EdgeInsets.symmetric(horizontal: 6),
+                        ),
+                        child: Text(
+                          l10n.logIn,
+                          style: const TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
                             color: AppColors.orange500,

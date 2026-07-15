@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_colors.dart';
+import '../../../../l10n/app_localizations.dart';
 
 /// Ô nhập cho màn auth — style bám web login (label nhỏ phía trên,
 /// input bg orange-50, border orange-100, bo rounded-lg).
@@ -78,29 +79,29 @@ class AuthTextField extends StatelessWidget {
   }
 }
 
-/// Validator tiếng Việt dùng chung.
+/// Validator dùng chung với thông báo lỗi theo locale đang hiển thị.
 class AuthValidators {
   const AuthValidators._();
 
-  static String? email(String? v) {
+  static String? email(String? v, AppLocalizations l10n) {
     final value = (v ?? '').trim();
-    if (value.isEmpty) return 'Vui lòng nhập email.';
+    if (value.isEmpty) return l10n.emailRequired;
     final re = RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$');
-    if (!re.hasMatch(value)) return 'Email không hợp lệ.';
+    if (!re.hasMatch(value)) return l10n.invalidEmail;
     return null;
   }
 
-  static String? password(String? v) {
+  static String? password(String? v, AppLocalizations l10n) {
     final value = v ?? '';
-    if (value.isEmpty) return 'Vui lòng nhập mật khẩu.';
-    if (value.length < 6) return 'Mật khẩu phải có ít nhất 6 ký tự.';
+    if (value.isEmpty) return l10n.passwordRequired;
+    if (value.length < 6) return l10n.passwordTooShort;
     return null;
   }
 
-  static String? displayName(String? v) {
+  static String? displayName(String? v, AppLocalizations l10n) {
     final value = (v ?? '').trim();
-    if (value.isEmpty) return 'Vui lòng nhập tên hiển thị.';
-    if (value.length < 2) return 'Tên quá ngắn.';
+    if (value.isEmpty) return l10n.displayNameRequired;
+    if (value.length < 2) return l10n.displayNameTooShort;
     return null;
   }
 }

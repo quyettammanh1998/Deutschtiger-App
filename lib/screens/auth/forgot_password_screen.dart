@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../l10n/app_localizations.dart';
 import 'package:deutschtiger/widgets/common/auth_card.dart';
 import 'package:deutschtiger/widgets/common/gradient_button.dart';
 import 'package:deutschtiger/widgets/common/tiger_logo.dart';
@@ -36,8 +37,8 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
         .resetPassword(_email.text);
     if (ok && mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Đã gửi email khôi phục. Vui lòng kiểm tra hộp thư.'),
+        SnackBar(
+          content: Text(AppLocalizations.of(context).passwordRecoverySent),
         ),
       );
       context.go('/login');
@@ -46,13 +47,14 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final loading = ref.watch(authControllerProvider).isLoading;
 
     ref.listen<AsyncValue<void>>(authControllerProvider, (_, next) {
       if (next.hasError && mounted) {
         ScaffoldMessenger.of(
           context,
-        ).showSnackBar(SnackBar(content: Text('${next.error}')));
+        ).showSnackBar(SnackBar(content: Text(l10n.couldNotCompleteAuth)));
       }
     });
 
@@ -70,8 +72,8 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
                   children: [
                     const TigerLogo(width: 80),
                     const SizedBox(height: 6),
-                    const Text(
-                      'Khôi phục mật khẩu',
+                    Text(
+                      l10n.passwordRecovery,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 14,
@@ -80,8 +82,8 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
                       ),
                     ),
                     const SizedBox(height: 12),
-                    const Text(
-                      'Nhập email đã đăng ký, chúng tôi sẽ gửi liên kết khôi phục.',
+                    Text(
+                      l10n.passwordRecoveryDescription,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 13,
@@ -91,25 +93,29 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
                     const SizedBox(height: 20),
                     AuthTextField(
                       controller: _email,
-                      label: 'Email',
+                      label: l10n.email,
                       hint: 'deutschtiger@gmail.com',
                       keyboardType: TextInputType.emailAddress,
                       textInputAction: TextInputAction.done,
-                      validator: AuthValidators.email,
+                      validator: (value) => AuthValidators.email(value, l10n),
                     ),
                     const SizedBox(height: 20),
                     GradientButton(
-                      label: 'Gửi email khôi phục',
+                      label: l10n.sendRecoveryEmail,
                       loading: loading,
                       onPressed: loading ? null : _submit,
                     ),
                     const SizedBox(height: 12),
                     Center(
-                      child: GestureDetector(
-                        onTap: loading ? null : () => context.go('/login'),
-                        child: const Text(
-                          'Quay lại đăng nhập',
-                          style: TextStyle(
+                      child: TextButton(
+                        onPressed: loading ? null : () => context.go('/login'),
+                        style: TextButton.styleFrom(
+                          minimumSize: const Size(48, 48),
+                          padding: const EdgeInsets.symmetric(horizontal: 6),
+                        ),
+                        child: Text(
+                          l10n.backToLogin,
+                          style: const TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
                             color: AppColors.orange500,
