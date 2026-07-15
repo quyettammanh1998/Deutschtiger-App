@@ -16,9 +16,6 @@ class _GrammarRoadmapState extends State<GrammarRoadmap> {
   String _searchQuery = '';
   final _searchController = TextEditingController();
 
-  static const _levelFilters = ['ALL', 'A1', 'A2', 'B1', 'B2', 'C1'];
-  static const _topics = ['Mạo từ', 'Động từ', 'Ngữ pháp', 'Giới từ', 'Câu'];
-
   @override
   void dispose() {
     _searchController.dispose();
@@ -71,7 +68,9 @@ class _GrammarRoadmapState extends State<GrammarRoadmap> {
   Widget _buildSearchResults() {
     // Mock search results
     final results = _getMockLessons()
-        .where((l) => l['title']!.toLowerCase().contains(_searchQuery.toLowerCase()))
+        .where(
+          (l) => l['title']!.toLowerCase().contains(_searchQuery.toLowerCase()),
+        )
         .toList();
 
     if (results.isEmpty) {
@@ -132,7 +131,11 @@ class _GrammarRoadmapState extends State<GrammarRoadmap> {
 
   List<Map<String, dynamic>> _getMockLessons() {
     return [
-      {'title': 'Mạo từ xác định: der, die, das', 'level': 'A1', 'isCompleted': true},
+      {
+        'title': 'Mạo từ xác định: der, die, das',
+        'level': 'A1',
+        'isCompleted': true,
+      },
       {'title': 'Động từ sein & haben', 'level': 'A1', 'isCompleted': true},
       {'title': 'Câu trần thuật', 'level': 'A1', 'isCompleted': false},
       {'title': 'Giới từ chỉ nơi chốn', 'level': 'A2', 'isCompleted': false},
@@ -204,7 +207,10 @@ class _SearchBar extends StatelessWidget {
                 )
               : null,
           border: InputBorder.none,
-          contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 16,
+            vertical: 14,
+          ),
         ),
       ),
     );
@@ -234,12 +240,17 @@ class _LevelFilterChips extends StatelessWidget {
             child: GestureDetector(
               onTap: () => onLevelSelected(level),
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 8,
+                ),
                 decoration: BoxDecoration(
                   color: isSelected ? AppColors.tigerOrange : Colors.white,
                   borderRadius: BorderRadius.circular(20),
                   border: Border.all(
-                    color: isSelected ? AppColors.tigerOrange : Colors.grey.shade300,
+                    color: isSelected
+                        ? AppColors.tigerOrange
+                        : Colors.grey.shade300,
                   ),
                 ),
                 child: Text(
@@ -282,9 +293,14 @@ class _TopicFilterChips extends StatelessWidget {
             child: GestureDetector(
               onTap: () => onTopicSelected(isSelected ? null : topic),
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 14,
+                  vertical: 6,
+                ),
                 decoration: BoxDecoration(
-                  color: isSelected ? Colors.purple.withValues(alpha: 0.1) : Colors.grey.shade100,
+                  color: isSelected
+                      ? Colors.purple.withValues(alpha: 0.1)
+                      : Colors.grey.shade100,
                   borderRadius: BorderRadius.circular(16),
                   border: Border.all(
                     color: isSelected ? Colors.purple : Colors.transparent,
@@ -324,7 +340,9 @@ class _TopicGroupCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final completedCount = lessons.where((l) => l['isCompleted'] == true).length;
+    final completedCount = lessons
+        .where((l) => l['isCompleted'] == true)
+        .length;
     final progress = lessons.isNotEmpty ? completedCount / lessons.length : 0.0;
 
     return Container(
@@ -385,7 +403,7 @@ class _TopicGroupCard extends StatelessWidget {
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          '${completedCount}/${lessons.length} bài đã hoàn thành',
+                          '$completedCount/${lessons.length} bài đã hoàn thành',
                           style: TextStyle(
                             fontSize: 12,
                             color: Colors.grey.shade500,
@@ -395,7 +413,9 @@ class _TopicGroupCard extends StatelessWidget {
                         LinearProgressIndicator(
                           value: progress,
                           backgroundColor: Colors.grey.shade200,
-                          valueColor: const AlwaysStoppedAnimation<Color>(Colors.purple),
+                          valueColor: const AlwaysStoppedAnimation<Color>(
+                            Colors.purple,
+                          ),
                         ),
                       ],
                     ),
@@ -403,7 +423,9 @@ class _TopicGroupCard extends StatelessWidget {
                   const SizedBox(width: 12),
                   // Arrow
                   Icon(
-                    isExpanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
+                    isExpanded
+                        ? Icons.keyboard_arrow_up
+                        : Icons.keyboard_arrow_down,
                     color: Colors.grey.shade400,
                   ),
                 ],
@@ -493,15 +515,13 @@ class _LessonTile extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
-                  color: isCompleted ? Colors.grey.shade500 : AppColors.foreground,
+                  color: isCompleted
+                      ? Colors.grey.shade500
+                      : AppColors.foreground,
                 ),
               ),
             ),
-            Icon(
-              Icons.chevron_right,
-              color: Colors.grey.shade400,
-              size: 20,
-            ),
+            Icon(Icons.chevron_right, color: Colors.grey.shade400, size: 20),
           ],
         ),
       ),
