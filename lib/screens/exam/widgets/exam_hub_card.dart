@@ -21,14 +21,14 @@ class ExamHubCard extends StatelessWidget {
             Container(
               height: 120,
               width: double.infinity,
-              color: AppColors.primary.withOpacity(0.1),
+              color: AppColors.primary.withValues(alpha: 0.1),
               child: Stack(
                 children: [
                   Center(
                     child: Icon(
                       _getHubIcon(hub.type),
                       size: 60,
-                      color: AppColors.primary.withOpacity(0.5),
+                      color: AppColors.primary.withValues(alpha: 0.5),
                     ),
                   ),
                   Positioned(
@@ -129,7 +129,7 @@ class _InfoChip extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
-        color: (color ?? Colors.grey).withOpacity(0.1),
+        color: (color ?? Colors.grey).withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Row(

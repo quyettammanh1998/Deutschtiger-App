@@ -732,13 +732,13 @@ class _ActionsSection extends StatelessWidget {
               const Divider(height: 1),
               ListTile(
                 leading: const Icon(Icons.share, color: Colors.green),
-                title: const Text('Share Results'),
-                subtitle: const Text('Share your achievement'),
+                title: const Text('Chia sẻ kết quả'),
+                subtitle: const Text('Chia sẻ thành tích của bạn'),
                 trailing: const Icon(Icons.chevron_right),
                 onTap: () {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
-                      content: Text('Share feature coming soon!'),
+                      content: Text('Tính năng chia sẻ chưa có trong phiên bản này.'),
                     ),
                   );
                 },
