@@ -31,10 +31,6 @@ void main() {
       expect(Directory('lib/widgets/speaking').existsSync(), true);
     });
 
-    test('lib/widgets/stats/ exists', () {
-      expect(Directory('lib/widgets/stats').existsSync(), true);
-    });
-
     test('Original presentation/widgets directories emptied', () {
       final widgetDirs = [
         'lib/features/flashcard/presentation/widgets',

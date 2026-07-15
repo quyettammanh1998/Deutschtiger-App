@@ -26,7 +26,10 @@ void main() {
         'lib/view_models/journey/journey_provider.dart',
         'lib/view_models/listening/podcast_provider.dart',
         'lib/view_models/speaking/speaking_provider.dart',
-        'lib/view_models/social/social_provider.dart',
+        'lib/view_models/social/social_repository_providers.dart',
+        'lib/view_models/social/friends_provider.dart',
+        'lib/view_models/social/messages_provider.dart',
+        'lib/view_models/social/moments_provider.dart',
         'lib/view_models/stats/stats_provider.dart',
       ];
 

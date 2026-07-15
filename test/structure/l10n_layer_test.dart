@@ -7,8 +7,13 @@ void main() {
       expect(Directory('lib/l10n').existsSync(), true);
     });
 
-    test('i18n_service moved to l10n/', () {
-      expect(File('lib/l10n/i18n_service.dart').existsSync(), true);
+    test('generated localization sources replace the legacy string map', () {
+      expect(File('l10n.yaml').existsSync(), true);
+      expect(File('lib/l10n/app_vi.arb').existsSync(), true);
+      expect(File('lib/l10n/app_en.arb').existsSync(), true);
+      expect(File('lib/l10n/app_de.arb').existsSync(), true);
+      expect(File('lib/l10n/app_localizations.dart').existsSync(), true);
+      expect(File('lib/l10n/i18n_service.dart').existsSync(), false);
     });
 
     test('lib/core/i18n/ removed', () {
