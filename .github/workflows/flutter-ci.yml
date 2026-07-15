@@ -1,0 +1,141 @@
+name: Flutter quality
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: flutter-quality-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    name: Analyze, test, build, and scan
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: 3.44.1
+          cache: true
+
+      - name: Create non-secret build configuration
+        run: cp .env.example .env
+
+      - name: Resolve dependencies
+        run: flutter pub get
+
+      - name: Regenerate localization sources
+        run: flutter gen-l10n
+
+      - name: Verify generated localization sources are committed
+        run: |
+          git diff --exit-code -- lib/l10n
+          test -z "$(git status --porcelain -- lib/l10n)"
+
+      - name: Verify formatting of changed Dart files
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+        run: |
+          set -euo pipefail
+          base_sha="${BASE_SHA:-}"
+          if [[ -z "$base_sha" || "$base_sha" == "0000000000000000000000000000000000000000" ]]; then
+            base_sha="$(git rev-parse HEAD^)"
+          fi
+          mapfile -t dart_files < <(git diff --name-only --diff-filter=ACMR "$base_sha" HEAD -- '*.dart')
+          if [[ "${#dart_files[@]}" -gt 0 ]]; then
+            dart format --output=none --set-exit-if-changed "${dart_files[@]}"
+          fi
+
+      - name: Analyze
+        run: flutter analyze
+
+      - name: Run unit and widget tests
+        run: flutter test --reporter expanded
+
+      - name: Build debug APK
+        run: flutter build apk --debug
+
+      - name: Install Gitleaks
+        run: |
+          GOBIN="$RUNNER_TEMP/gitleaks-bin" go install github.com/zricethezav/gitleaks/v8@v8.30.1
+          echo "$RUNNER_TEMP/gitleaks-bin" >> "$GITHUB_PATH"
+
+      - name: Scan mobile source markers and generate dependency report
+        env:
+          MOBILE_REQUIRE_GITLEAKS: "1"
+        run: >-
+          bash scripts/check-mobile-secrets.sh
+          build/app/outputs/flutter-apk/app-debug.apk
+
+      - name: Generate source SBOM
+        uses: anchore/sbom-action@v0
+        with:
+          path: .
+          format: spdx-json
+          output-file: build/security/deutschtiger.spdx.json
+          upload-artifact: false
+          upload-release-assets: false
+
+      - name: Upload dependency report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dart-dependencies-${{ github.run_id }}
+          path: build/security/dart-dependencies.json
+          if-no-files-found: warn
+          retention-days: 14
+
+      - name: Upload SBOM
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: deutschtiger-sbom-${{ github.run_id }}
+          path: build/security/deutschtiger.spdx.json
+          if-no-files-found: warn
+          retention-days: 14
+
+  android-integration:
+    name: Android welcome integration
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v6
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: 3.44.1
+          cache: true
+
+      - name: Create non-secret integration configuration
+        run: cp .env.example .env
+
+      - name: Resolve dependencies
+        run: flutter pub get
+
+      - name: Run welcome integration test on Android emulator
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 35
+          arch: x86_64
+          profile: pixel_6
+          script: >-
+            flutter test integration_test/welcome_flow_test.dart
+            -d emulator-5554 -r compact

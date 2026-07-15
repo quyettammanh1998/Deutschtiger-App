@@ -24,13 +24,12 @@
 		<string>????</string>
 		<key>CFBundleVersion</key>
 		<string>$(FLUTTER_BUILD_NUMBER)</string>
-		<key>LSRequiresIPhoneOS</key>
-		<true/>
-		<key>NSCameraUsageDescription</key>
-		<string>DeutschTiger cần camera để chụp ảnh hồ sơ của bạn.</string>
-		<key>NSPhotoLibraryUsageDescription</key>
-		<string>DeutschTiger cần quyền truy cập ảnh để bạn có thể đặt ảnh hồ sơ.</string>
-		<key>UIApplicationSceneManifest</key>
+<key>LSRequiresIPhoneOS</key>
+	<true/>
+	<!-- GĐ1 không dùng camera/photo. NSCameraUsageDescription và
+	     NSPhotoLibraryUsageDescription sẽ được thêm khi GĐ2 (avatar upload,
+	     speaking record). -->
+	<key>UIApplicationSceneManifest</key>
 		<dict>
 			<key>UIApplicationSupportsMultipleScenes</key>
 			<false/>
@@ -60,17 +59,29 @@
 		<key>UISupportedInterfaceOrientations</key>
 		<array>
 			<string>UIInterfaceOrientationPortrait</string>
-			<string>UIInterfaceOrientationLandscapeLeft</string>
-			<string>UIInterfaceOrientationLandscapeRight</string>
 		</array>
 		<key>UISupportedInterfaceOrientations~ipad</key>
 		<array>
 			<string>UIInterfaceOrientationPortrait</string>
 			<string>UIInterfaceOrientationPortraitUpsideDown</string>
-			<string>UIInterfaceOrientationLandscapeLeft</string>
-			<string>UIInterfaceOrientationLandscapeRight</string>
 		</array>
 		<key>UIStatusBarHidden</key>
 		<false/>
+		<!-- GĐ2: mic permission cho Sprechen + Pronunciation grading.
+		     Mô tả phải rõ ràng (Apple reject mô tả mơ hồ). -->
+		<key>NSMicrophoneUsageDescription</key>
+		<string>DeutschTiger sử dụng micro để ghi âm bài nói của bạn cho bài luyện nói. Bản ghi được tạo trong thư mục tạm thời trên thiết bị và không được gửi âm thanh lên máy chủ trong phiên bản hiện tại.</string>
+		<!-- Custom URL scheme cho Supabase redirect (đăng nhập + reset password) -->
+		<key>CFBundleURLTypes</key>
+		<array>
+			<dict>
+				<key>CFBundleTypeRole</key>
+				<string>Editor</string>
+				<key>CFBundleURLSchemes</key>
+				<array>
+					<string>deutschtiger</string>
+				</array>
+			</dict>
+		</array>
 	</dict>
 </plist>

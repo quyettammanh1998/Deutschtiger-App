@@ -8,5 +8,11 @@
 	<array>
 		<string>Default</string>
 	</array>
+	<!-- Universal Links: xử lý deep link từ email reset mật khẩu Supabase -->
+	<key>com.apple.developer.associated-domains</key>
+	<array>
+		<string>applinks:app.deutschtiger.com</string>
+		<string>applinks:deutschtiger.com</string>
+	</array>
 </dict>
 </plist>

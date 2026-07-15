@@ -1,4 +1,4 @@
-package com.deutschtiger.deutschtiger
+package com.deutschtiger.app
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -36,7 +36,8 @@ void main() async {
     '../../features/home/presentation/': '../screens/home/',
     '../../features/home/presentation/widgets/': '../widgets/home/',
     '../../features/webview/presentation/': '../screens/webview/',
-    '../../features/vocabulary_search/presentation/': '../screens/vocab_search/',
+    '../../features/vocabulary_search/presentation/':
+        '../screens/vocab_search/',
     '../../features/vocabulary_search/widgets/': '../widgets/vocab_search/',
     '../../features/achievements/': '../screens/achievements/',
     '../../features/decks/presentation/': '../screens/decks/',
@@ -52,3 +53,5 @@ void main() async {
   file.writeAsStringSync(content);
   print('Fixed imports in app_router.dart');
 }
+
+// ignore_for_file: avoid_print

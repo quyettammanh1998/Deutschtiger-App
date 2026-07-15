@@ -187,3 +187,5 @@ void main() async {
   print('Files modified: $filesModified');
   print('Total changes: $totalChanges');
 }
+
+// ignore_for_file: avoid_print
