@@ -1,0 +1,96 @@
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+
+import '../../../core/design_tokens.dart';
+import '../../l10n/app_localizations.dart';
+import 'widgets/settings_actions.dart';
+
+/// Shows an honest support path while the backend account-deletion contract
+/// is not available. This screen must not claim an account was deleted.
+class DeleteAccountScreen extends StatelessWidget {
+  const DeleteAccountScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    return Scaffold(
+      backgroundColor: DesignTokens.authBackground,
+      appBar: AppBar(
+        backgroundColor: DesignTokens.authBackground,
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () => context.pop(),
+        ),
+        title: Text(
+          l10n.deleteAccount,
+          style: const TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color: DesignTokens.tigerOrange,
+          ),
+        ),
+        centerTitle: true,
+      ),
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          return SingleChildScrollView(
+            padding: const EdgeInsets.all(DesignTokens.screenHorizontalPadding),
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                minHeight:
+                    constraints.maxHeight -
+                    2 * DesignTokens.screenHorizontalPadding,
+              ),
+              child: Center(
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 560),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      const Icon(
+                        Icons.info_outline,
+                        color: DesignTokens.tigerOrange,
+                        size: 48,
+                      ),
+                      const SizedBox(height: DesignTokens.spacingMd),
+                      Text(
+                        l10n.accountDeletionUnavailableTitle,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w700,
+                          color: DesignTokens.foreground,
+                        ),
+                      ),
+                      const SizedBox(height: DesignTokens.spacingSm),
+                      Text(
+                        l10n.accountDeletionUnavailableBody,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          fontSize: 15,
+                          height: 1.5,
+                          color: DesignTokens.mutedForeground,
+                        ),
+                      ),
+                      const SizedBox(height: DesignTokens.spacingXl),
+                      FilledButton.icon(
+                        onPressed: () => SettingsActions.openUrl(
+                          context,
+                          'mailto:support@deutschtiger.com',
+                        ),
+                        icon: const Icon(Icons.email_outlined),
+                        label: Text(l10n.contactSupport),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
