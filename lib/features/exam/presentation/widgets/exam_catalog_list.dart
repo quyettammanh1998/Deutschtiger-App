@@ -6,33 +6,56 @@ import '../../data/exam_service.dart';
 import '../../../../l10n/app_localizations.dart';
 
 class ExamCatalogList extends StatelessWidget {
-  const ExamCatalogList({super.key, required this.items, this.onRefresh});
+  const ExamCatalogList({
+    super.key,
+    required this.items,
+    this.onRefresh,
+    this.header,
+    this.footer,
+  });
 
   final List<ExamCatalogItem> items;
   final Future<void> Function()? onRefresh;
 
+  /// Content rendered above the catalog cards inside the same scroll view
+  /// (e.g. the exam-landing provider/level cards) — avoids nesting a
+  /// second scrollable inside this one.
+  final Widget? header;
+
+  /// Content rendered below the catalog cards, inside the same scroll view.
+  final Widget? footer;
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    if (items.isEmpty) {
-      return Center(
-        child: Text(
-          l10n.noSupportedExams,
-          style: const TextStyle(color: DesignTokens.mutedForeground),
-        ),
-      );
-    }
-    final list = ListView.separated(
+    final list = ListView(
       padding: const EdgeInsets.fromLTRB(
         DesignTokens.screenHorizontalPadding,
         DesignTokens.spacingMd,
         DesignTokens.screenHorizontalPadding,
         100,
       ),
-      itemCount: items.length,
-      separatorBuilder: (_, _) =>
-          const SizedBox(height: DesignTokens.spacingSm),
-      itemBuilder: (context, index) => _ExamCatalogCard(item: items[index]),
+      children: [
+        ?header,
+        if (items.isEmpty)
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              vertical: DesignTokens.spacingLg,
+            ),
+            child: Center(
+              child: Text(
+                l10n.noSupportedExams,
+                style: const TextStyle(color: DesignTokens.mutedForeground),
+              ),
+            ),
+          )
+        else
+          for (final item in items) ...[
+            _ExamCatalogCard(item: item),
+            const SizedBox(height: DesignTokens.spacingSm),
+          ],
+        ?footer,
+      ],
     );
     return onRefresh == null
         ? list

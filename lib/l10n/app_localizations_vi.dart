@@ -42,7 +42,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get mission => 'Nhiệm vụ';
 
   @override
-  String get searchVocabulary => 'Tìm kiếm từ vựng...';
+  String get searchVocabulary => 'Tìm từ vựng tiếng Đức...';
 
   @override
   String get todayMissions => 'Nhiệm vụ hôm nay';
@@ -52,6 +52,9 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get noBonusMissions => 'Chưa có nhiệm vụ thưởng hôm nay.';
+
+  @override
+  String get dailyMissionsHeading => '🎁 Nhiệm vụ thưởng';
 
   @override
   String get todaySession => 'Phiên hôm nay';
@@ -70,6 +73,12 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get goodEvening => 'Chào buổi tối';
+
+  @override
+  String get headerEncouragement => 'Sẵn sàng chinh phục tiếng Đức? 🚀';
+
+  @override
+  String get headerStreakStart => 'Bắt đầu';
 
   @override
   String get todayXp => 'XP hôm nay';
@@ -113,13 +122,17 @@ class AppLocalizationsVi extends AppLocalizations {
   String get viewDetails => 'Xem chi tiết';
 
   @override
-  String get weeklyLeaderboard => 'Bảng xếp hạng tuần';
+  String get weeklyLeaderboard => '🏆 Tuần này';
 
   @override
-  String get seeFull => 'Xem đầy đủ';
+  String get seeFull => 'Xem đầy đủ →';
 
   @override
-  String get learnMoreToRank => 'Học thêm hôm nay để leo hạng nhé!';
+  String get learnMoreToRank => 'Học thêm hôm nay để leo hạng nhé! 🔥';
+
+  @override
+  String get weeklyLeaderboardInTop3 =>
+      'Bạn đang trong top 3 — giữ phong độ nhé! 🎉';
 
   @override
   String get user => 'Người dùng';
@@ -128,26 +141,135 @@ class AppLocalizationsVi extends AppLocalizations {
   String get noWeeklyLeaderboard => 'Chưa có ai trên bảng tuần này.';
 
   @override
-  String get dailyPathComplete => 'Đã xong lộ trình hôm nay';
+  String get noWeeklyLeaderboardSubtitle =>
+      'Học hôm nay để trở thành người đầu tiên! 🔥';
 
   @override
-  String get dailyPathStart => 'Bắt đầu lộ trình hôm nay';
+  String get qaTabExam => '🎓 Luyện thi';
 
   @override
-  String keepStreak(int count) {
-    return 'Giữ streak $count ngày bằng một bài học thêm';
+  String get qaTabVocab => 'Từ vựng & Ôn tập';
+
+  @override
+  String get qaTabListen => 'Nghe & Xem';
+
+  @override
+  String get qaTabAi => 'Viết & Nói (AI)';
+
+  @override
+  String get qaTabOther => 'Khác';
+
+  @override
+  String get qaTabAll => 'Tất cả →';
+
+  @override
+  String get qaExamTitle => 'Luyện thi';
+
+  @override
+  String get qaExamSubtitle => 'Goethe, telc';
+
+  @override
+  String get qaVocabTitle => 'Kho từ vựng';
+
+  @override
+  String qaVocabSubtitle(int count) {
+    return '$count+ từ';
   }
 
   @override
-  String get learnMoreToReinforce => 'Bạn có thể học thêm để củng cố kiến thức';
+  String get qaNotesTitle => 'Sổ tay';
 
   @override
-  String get dailyProgressHabit => 'Vài phút mỗi ngày để tiến bộ đều đặn';
+  String get qaNotesSubtitle => 'Từ bạn đã lưu';
 
   @override
-  String dailyPathProgress(int done, int total, int minutes) {
-    return '$done/$total bước · còn khoảng $minutes phút';
+  String get qaReviewTitle => 'Ôn tập';
+
+  @override
+  String get qaReviewSubtitle => 'Từ đến hạn ôn';
+
+  @override
+  String get qaYoutubeTitle => 'YouTube';
+
+  @override
+  String get qaYoutubeSubtitle => 'Video song ngữ';
+
+  @override
+  String get qaListenTitle => 'Nghe';
+
+  @override
+  String get qaListenSubtitle => 'Luyện nghe với video';
+
+  @override
+  String get qaNewsTitle => 'Tin tức';
+
+  @override
+  String get qaNewsSubtitle => 'Tin Đức A1–B2';
+
+  @override
+  String get qaSentenceAiTitle => 'Viết câu (AI)';
+
+  @override
+  String get qaSentenceAiSubtitle => 'Ghép & viết câu, AI chấm';
+
+  @override
+  String get qaAiTutorTitle => 'AI Tutor';
+
+  @override
+  String get qaAiTutorSubtitle => 'Trò chuyện cùng AI';
+
+  @override
+  String get qaGamesTitle => 'Trò chơi';
+
+  @override
+  String get qaGamesSubtitle => 'Học qua game, có XP';
+
+  @override
+  String get qaAffiliateTitle => 'Giới thiệu';
+
+  @override
+  String get qaAffiliateSubtitle => 'Nhận hoa hồng';
+
+  @override
+  String get dailyPathHeroTitle => '☀️ Hôm nay học gì tiếp?';
+
+  @override
+  String dailyPathExamBadge(int days, String examLabel) {
+    return 'Còn $days ngày đến thi $examLabel';
   }
+
+  @override
+  String dailyPathPlanSummary(int done, int total) {
+    return 'Kế hoạch hôm nay · $done/$total bước';
+  }
+
+  @override
+  String dailyPathMinutesRemaining(int minutes) {
+    return 'còn ~$minutes phút';
+  }
+
+  @override
+  String dailyPathNextStep(int minutes) {
+    return 'Bước tiếp theo · ~$minutes phút';
+  }
+
+  @override
+  String get dailyPathCompleteCelebration => '🎉 Xong lộ trình hôm nay!';
+
+  @override
+  String dailyPathCompleteCelebrationWithStreak(int count) {
+    return '🎉 Xong lộ trình hôm nay! Giữ streak 🔥$count nhé.';
+  }
+
+  @override
+  String get dailyPathEmptyTitle => 'Bắt đầu lộ trình học hôm nay';
+
+  @override
+  String get dailyPathEmptyDescription =>
+      'Vài phút mỗi ngày để giữ streak và tiến bộ đều đặn.';
+
+  @override
+  String get dailyPathEmptyCta => 'Bắt đầu học';
 
   @override
   String get learnMore => 'Học thêm';
@@ -2194,4 +2316,99 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get socialCommentsTitle => 'Bình luận';
+
+  @override
+  String get pinnedShortcutsTitle => '🔗 Lối tắt';
+
+  @override
+  String get pinnedShortcutConversation => 'Luyện nói AI';
+
+  @override
+  String get pinnedShortcutWriteSentence => 'Viết câu (AI)';
+
+  @override
+  String get pinnedShortcutListening => 'Nghe';
+
+  @override
+  String get pinnedShortcutYoutube => 'YouTube';
+
+  @override
+  String get pinnedShortcutCourse => 'Khóa học';
+
+  @override
+  String get exploreSectionTitle => 'Khám phá';
+
+  @override
+  String get examCornerOverdue => '📅 Đã qua ngày thi';
+
+  @override
+  String examCornerToday(String level) {
+    return '🎯 Thi $level hôm nay!';
+  }
+
+  @override
+  String examCornerCountdown(String provider, String level, int days) {
+    return '🎯 $provider $level · còn $days ngày';
+  }
+
+  @override
+  String get examCornerReadiness => 'Độ sẵn sàng';
+
+  @override
+  String get examCornerChangeGoal => 'Đổi mục tiêu';
+
+  @override
+  String get examCornerContinue => 'Làm đề';
+
+  @override
+  String get examCornerSetNewGoal => 'Đặt mục tiêu mới';
+
+  @override
+  String get examGoalPromptTitle => 'Đặt mục tiêu thi';
+
+  @override
+  String get examGoalPromptSubtitle =>
+      'Đặt ngày thi để theo dõi đếm ngược và luyện đề đúng trình độ.';
+
+  @override
+  String get examGoalPromptCta => 'Đặt ngày thi';
+
+  @override
+  String get examGoalSetterTitle => 'Đặt mục tiêu thi';
+
+  @override
+  String get examGoalSetterProviderLabel => 'Kỳ thi';
+
+  @override
+  String get examGoalSetterLevelLabel => 'Trình độ thi';
+
+  @override
+  String get examGoalSetterDateLabel => 'Ngày thi';
+
+  @override
+  String get examGoalSetterDateRequired => 'Vui lòng chọn ngày thi';
+
+  @override
+  String get examGoalSetterDateInPast => 'Ngày thi không thể trước hôm nay';
+
+  @override
+  String get examGoalSetterSave => 'Lưu mục tiêu';
+
+  @override
+  String get examGoalSetterSaving => 'Đang lưu...';
+
+  @override
+  String get examGoalSetterSaveFailed => 'Lưu thất bại, thử lại sau';
+
+  @override
+  String get premiumBannerCta => 'Nâng cấp Premium — học không giới hạn';
+
+  @override
+  String get communityLinksTitle => 'Cộng đồng Deutsch Tiger';
+
+  @override
+  String get communityZaloDescription => 'Nhóm học tiếng Đức';
+
+  @override
+  String get communityFacebookDescription => 'Deutsch Tiger VN';
 }

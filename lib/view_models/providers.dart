@@ -13,7 +13,9 @@ import 'package:deutschtiger/core/identity/app_user.dart';
 import 'package:deutschtiger/repositories/profile_repository.dart';
 import 'package:deutschtiger/repositories/flashcard/flashcard_quick_save_repository.dart';
 import 'package:deutschtiger/repositories/home/dashboard_repository.dart';
+import 'package:deutschtiger/repositories/learn/learn_goal_repository.dart';
 import 'package:deutschtiger/data/home/dashboard_data.dart';
+import 'package:deutschtiger/data/learn/learn_goal.dart';
 import 'package:deutschtiger/services/api_client.dart';
 import 'package:deutschtiger/services/event_tracking.dart';
 import 'package:deutschtiger/shared/widgets/device_kicked_dialog.dart';
@@ -113,6 +115,17 @@ final dashboardRepositoryProvider = Provider<DashboardRepository>((ref) {
 final dashboardProvider = FutureProvider<DashboardData>((ref) {
   ref.watch(authStateProvider); // refetch khi login/logout
   return ref.watch(dashboardRepositoryProvider).fetchDashboard();
+});
+
+final learnGoalRepositoryProvider = Provider<LearnGoalRepository>((ref) {
+  return LearnGoalRepository(ref.watch(apiClientProvider));
+});
+
+/// Exam goal — GET /api/v1/user/learn/goals. Feeds the dashboard
+/// `ExamCornerCard` countdown strip.
+final learnGoalProvider = FutureProvider<LearnGoal>((ref) {
+  ref.watch(authStateProvider); // refetch khi login/logout
+  return ref.watch(learnGoalRepositoryProvider).fetchGoal();
 });
 
 /// Event tracking buffer (mirrors web `lib/shared/event-tracking.ts`) —

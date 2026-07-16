@@ -24,13 +24,7 @@ class DashboardSearchBar extends StatelessWidget {
         decoration: BoxDecoration(
           color: DesignTokens.card,
           borderRadius: BorderRadius.circular(DesignTokens.radius),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.06),
-              blurRadius: 8,
-              offset: const Offset(0, 2),
-            ),
-          ],
+          boxShadow: DesignTokens.shadowMd,
         ),
         child: Row(
           children: [
@@ -54,21 +48,31 @@ class DashboardSearchBar extends StatelessWidget {
   }
 }
 
-/// "Nhiệm vụ hôm nay" section — title + mission cards from
-/// [DashboardMission] data.
-class DashboardMissionsSection extends StatelessWidget {
-  const DashboardMissionsSection({
-    super.key,
-    this.onSeeAllTap,
-    required this.missions,
-  });
+/// "🎁 Nhiệm vụ thưởng" section — collapsible list of [DashboardMission]s
+/// with an aggregate progress bar. Mirrors web `daily-missions-section.tsx`
+/// (mobile collapse toggle + completedCount/totalCount header).
+class DashboardMissionsSection extends StatefulWidget {
+  const DashboardMissionsSection({super.key, required this.missions});
 
-  final VoidCallback? onSeeAllTap;
   final List<DashboardMission> missions;
+
+  @override
+  State<DashboardMissionsSection> createState() =>
+      _DashboardMissionsSectionState();
+}
+
+class _DashboardMissionsSectionState extends State<DashboardMissionsSection> {
+  bool _collapsed = false;
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+    final missions = widget.missions;
+    final totalCount = missions.length;
+    final completedCount = missions.where((m) => m.isCompleted).length;
+    final allDone = totalCount > 0 && completedCount == totalCount;
+    final progressRatio = totalCount == 0 ? 0.0 : completedCount / totalCount;
+
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: DesignTokens.screenHorizontalPadding,
@@ -76,116 +80,258 @@ class DashboardMissionsSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                l10n.todayMissions,
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: DesignTokens.foreground,
+          InkWell(
+            onTap: totalCount == 0
+                ? null
+                : () => setState(() => _collapsed = !_collapsed),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  l10n.dailyMissionsHeading,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: DesignTokens.foreground,
+                  ),
+                ),
+                if (totalCount > 0)
+                  Row(
+                    children: [
+                      Text(
+                        '$completedCount/$totalCount${allDone ? ' ✓' : ''}',
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          color: allDone
+                              ? DesignTokens.emerald600
+                              : DesignTokens.mutedForeground,
+                        ),
+                      ),
+                      const SizedBox(width: DesignTokens.spacingXs),
+                      AnimatedRotation(
+                        turns: _collapsed ? 0.5 : 0,
+                        duration: DesignTokens.durationFast,
+                        child: const Icon(
+                          Icons.keyboard_arrow_up_rounded,
+                          size: 18,
+                          color: DesignTokens.mutedForeground,
+                        ),
+                      ),
+                    ],
+                  ),
+              ],
+            ),
+          ),
+          if (totalCount > 0) ...[
+            const SizedBox(height: DesignTokens.spacingSm),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(999),
+              child: LinearProgressIndicator(
+                value: progressRatio,
+                minHeight: 6,
+                backgroundColor: DesignTokens.muted,
+                valueColor: AlwaysStoppedAnimation(
+                  allDone ? DesignTokens.emerald600 : const Color(0xFFF59E0B),
                 ),
               ),
-              if (onSeeAllTap != null)
-                TextButton(onPressed: onSeeAllTap, child: Text(l10n.seeAll)),
-            ],
-          ),
+            ),
+          ],
           const SizedBox(height: DesignTokens.spacingSm),
           if (missions.isEmpty)
             Text(
               l10n.noBonusMissions,
               style: const TextStyle(color: DesignTokens.mutedForeground),
-            ),
-          for (var i = 0; i < missions.length; i++) ...[
-            if (i > 0) const SizedBox(height: DesignTokens.spacingSm),
-            DashboardMissionCard(mission: missions[i]),
-          ],
+            )
+          else if (!_collapsed)
+            for (var i = 0; i < missions.length; i++) ...[
+              if (i > 0) const SizedBox(height: DesignTokens.spacingSm),
+              DashboardMissionCard(mission: missions[i], index: i),
+            ],
         ],
       ),
     );
   }
 }
 
+/// Read-only view model for a single mission card. Carries real backend
+/// fields (xpReward/currentProgress/targetCount/isCompleted from
+/// `Mission` in dashboard_data.dart) — no derived/fabricated data.
 class DashboardMission {
   const DashboardMission({
     required this.title,
-    required this.subtitle,
-    required this.progress,
     required this.icon,
-    required this.color,
+    this.xpReward = 0,
+    this.currentProgress = 0,
+    this.targetCount = 0,
+    this.isCompleted = false,
   });
+
   final String title;
-  final String subtitle;
-  final double progress;
   final IconData icon;
-  final Color color;
+  final int xpReward;
+  final int currentProgress;
+  final int targetCount;
+  final bool isCompleted;
+
+  double get progressRatio =>
+      targetCount == 0 ? 0 : (currentProgress / targetCount).clamp(0, 1);
 }
 
+/// Fixed 4-color palette cycling by card index — matches web `CARD_COLORS`
+/// (blue → amber → green → violet) in `daily-missions-section.tsx`.
+class _MissionPalette {
+  const _MissionPalette({
+    required this.bg,
+    required this.border,
+    required this.text,
+    required this.iconBg,
+  });
+
+  final Color bg;
+  final Color border;
+  final Color text;
+  final Color iconBg;
+}
+
+const List<_MissionPalette> _kMissionPalette = [
+  _MissionPalette(
+    bg: Color(0xFFEFF6FF),
+    border: Color(0xFF2563EB),
+    text: Color(0xFF1E40AF),
+    iconBg: Color(0xFFDBEAFE),
+  ),
+  _MissionPalette(
+    bg: Color(0xFFFFF7ED),
+    border: Color(0xFFD97706),
+    text: Color(0xFF92400E),
+    iconBg: Color(0xFFFEF3C7),
+  ),
+  _MissionPalette(
+    bg: Color(0xFFF0FDF4),
+    border: Color(0xFF16A34A),
+    text: Color(0xFF166534),
+    iconBg: Color(0xFFDCFCE7),
+  ),
+  _MissionPalette(
+    bg: Color(0xFFF5F3FF),
+    border: Color(0xFF7C3AED),
+    text: Color(0xFF5B21B6),
+    iconBg: Color(0xFFEDE9FE),
+  ),
+];
+
 class DashboardMissionCard extends StatelessWidget {
-  const DashboardMissionCard({super.key, required this.mission});
+  const DashboardMissionCard({
+    super.key,
+    required this.mission,
+    this.index = 0,
+  });
+
   final DashboardMission mission;
+  final int index;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(DesignTokens.cardPadding),
-      decoration: BoxDecoration(
-        color: DesignTokens.card,
-        borderRadius: BorderRadius.circular(DesignTokens.radius),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Row(
-        children: [
-          Container(
-            width: 48,
-            height: 48,
-            decoration: BoxDecoration(
-              color: mission.color.withValues(alpha: 0.1),
-              borderRadius: BorderRadius.circular(DesignTokens.radiusSm + 4),
+    final palette = _kMissionPalette[index % _kMissionPalette.length];
+    final done = mission.isCompleted;
+
+    return Opacity(
+      opacity: done ? 0.6 : 1,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+        decoration: BoxDecoration(
+          color: palette.bg,
+          borderRadius: BorderRadius.circular(12),
+          border: Border(left: BorderSide(color: palette.border, width: 3)),
+        ),
+        child: Row(
+          children: [
+            Container(
+              width: 32,
+              height: 32,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: palette.iconBg,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Icon(
+                done ? Icons.check_rounded : mission.icon,
+                size: 16,
+                color: done ? DesignTokens.emerald600 : palette.text,
+              ),
             ),
-            child: Icon(mission.icon, color: mission.color, size: 24),
-          ),
-          const SizedBox(width: DesignTokens.spacingMd),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  mission.title,
-                  style: const TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w600,
-                    color: DesignTokens.foreground,
+            const SizedBox(width: DesignTokens.spacingSm + 2),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    mission.title,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      color: palette.text,
+                      decoration: done ? TextDecoration.lineThrough : null,
+                    ),
                   ),
-                ),
-                Text(
-                  mission.subtitle,
-                  style: const TextStyle(
-                    fontSize: 12,
-                    color: DesignTokens.mutedForeground,
-                  ),
-                ),
-                const SizedBox(height: DesignTokens.spacingSm),
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(6),
-                  child: LinearProgressIndicator(
-                    value: mission.progress,
-                    minHeight: 6,
-                    backgroundColor: DesignTokens.muted,
-                    valueColor: AlwaysStoppedAnimation(mission.color),
-                  ),
-                ),
-              ],
+                  if (!done) ...[
+                    const SizedBox(height: 4),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(999),
+                            child: LinearProgressIndicator(
+                              value: mission.progressRatio,
+                              minHeight: 4,
+                              backgroundColor: palette.border.withValues(
+                                alpha: 0.15,
+                              ),
+                              valueColor: AlwaysStoppedAnimation(
+                                palette.border,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: DesignTokens.spacingSm),
+                        Text(
+                          '${mission.currentProgress}/${mission.targetCount}',
+                          style: TextStyle(
+                            fontSize: 10,
+                            fontWeight: FontWeight.w500,
+                            color: palette.text,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ],
+              ),
             ),
-          ),
-        ],
+            const SizedBox(width: DesignTokens.spacingSm),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+              decoration: BoxDecoration(
+                color: done ? DesignTokens.muted : DesignTokens.amber100,
+                borderRadius: BorderRadius.circular(999),
+              ),
+              child: Text(
+                '+${mission.xpReward}',
+                style: TextStyle(
+                  fontSize: 10,
+                  fontWeight: FontWeight.bold,
+                  color: done
+                      ? DesignTokens.mutedForeground
+                      : DesignTokens.amber700,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

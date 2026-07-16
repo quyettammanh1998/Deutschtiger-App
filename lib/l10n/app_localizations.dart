@@ -169,7 +169,7 @@ abstract class AppLocalizations {
   /// No description provided for @searchVocabulary.
   ///
   /// In vi, this message translates to:
-  /// **'Tìm kiếm từ vựng...'**
+  /// **'Tìm từ vựng tiếng Đức...'**
   String get searchVocabulary;
 
   /// No description provided for @todayMissions.
@@ -189,6 +189,12 @@ abstract class AppLocalizations {
   /// In vi, this message translates to:
   /// **'Chưa có nhiệm vụ thưởng hôm nay.'**
   String get noBonusMissions;
+
+  /// No description provided for @dailyMissionsHeading.
+  ///
+  /// In vi, this message translates to:
+  /// **'🎁 Nhiệm vụ thưởng'**
+  String get dailyMissionsHeading;
 
   /// No description provided for @todaySession.
   ///
@@ -225,6 +231,18 @@ abstract class AppLocalizations {
   /// In vi, this message translates to:
   /// **'Chào buổi tối'**
   String get goodEvening;
+
+  /// No description provided for @headerEncouragement.
+  ///
+  /// In vi, this message translates to:
+  /// **'Sẵn sàng chinh phục tiếng Đức? 🚀'**
+  String get headerEncouragement;
+
+  /// No description provided for @headerStreakStart.
+  ///
+  /// In vi, this message translates to:
+  /// **'Bắt đầu'**
+  String get headerStreakStart;
 
   /// No description provided for @todayXp.
   ///
@@ -295,20 +313,26 @@ abstract class AppLocalizations {
   /// No description provided for @weeklyLeaderboard.
   ///
   /// In vi, this message translates to:
-  /// **'Bảng xếp hạng tuần'**
+  /// **'🏆 Tuần này'**
   String get weeklyLeaderboard;
 
   /// No description provided for @seeFull.
   ///
   /// In vi, this message translates to:
-  /// **'Xem đầy đủ'**
+  /// **'Xem đầy đủ →'**
   String get seeFull;
 
   /// No description provided for @learnMoreToRank.
   ///
   /// In vi, this message translates to:
-  /// **'Học thêm hôm nay để leo hạng nhé!'**
+  /// **'Học thêm hôm nay để leo hạng nhé! 🔥'**
   String get learnMoreToRank;
+
+  /// No description provided for @weeklyLeaderboardInTop3.
+  ///
+  /// In vi, this message translates to:
+  /// **'Bạn đang trong top 3 — giữ phong độ nhé! 🎉'**
+  String get weeklyLeaderboardInTop3;
 
   /// No description provided for @user.
   ///
@@ -322,41 +346,239 @@ abstract class AppLocalizations {
   /// **'Chưa có ai trên bảng tuần này.'**
   String get noWeeklyLeaderboard;
 
-  /// No description provided for @dailyPathComplete.
+  /// No description provided for @noWeeklyLeaderboardSubtitle.
   ///
   /// In vi, this message translates to:
-  /// **'Đã xong lộ trình hôm nay'**
-  String get dailyPathComplete;
+  /// **'Học hôm nay để trở thành người đầu tiên! 🔥'**
+  String get noWeeklyLeaderboardSubtitle;
 
-  /// No description provided for @dailyPathStart.
+  /// No description provided for @qaTabExam.
   ///
   /// In vi, this message translates to:
-  /// **'Bắt đầu lộ trình hôm nay'**
-  String get dailyPathStart;
+  /// **'🎓 Luyện thi'**
+  String get qaTabExam;
 
-  /// No description provided for @keepStreak.
+  /// No description provided for @qaTabVocab.
   ///
   /// In vi, this message translates to:
-  /// **'Giữ streak {count} ngày bằng một bài học thêm'**
-  String keepStreak(int count);
+  /// **'Từ vựng & Ôn tập'**
+  String get qaTabVocab;
 
-  /// No description provided for @learnMoreToReinforce.
+  /// No description provided for @qaTabListen.
   ///
   /// In vi, this message translates to:
-  /// **'Bạn có thể học thêm để củng cố kiến thức'**
-  String get learnMoreToReinforce;
+  /// **'Nghe & Xem'**
+  String get qaTabListen;
 
-  /// No description provided for @dailyProgressHabit.
+  /// No description provided for @qaTabAi.
   ///
   /// In vi, this message translates to:
-  /// **'Vài phút mỗi ngày để tiến bộ đều đặn'**
-  String get dailyProgressHabit;
+  /// **'Viết & Nói (AI)'**
+  String get qaTabAi;
 
-  /// No description provided for @dailyPathProgress.
+  /// No description provided for @qaTabOther.
   ///
   /// In vi, this message translates to:
-  /// **'{done}/{total} bước · còn khoảng {minutes} phút'**
-  String dailyPathProgress(int done, int total, int minutes);
+  /// **'Khác'**
+  String get qaTabOther;
+
+  /// No description provided for @qaTabAll.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tất cả →'**
+  String get qaTabAll;
+
+  /// No description provided for @qaExamTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Luyện thi'**
+  String get qaExamTitle;
+
+  /// No description provided for @qaExamSubtitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Goethe, telc'**
+  String get qaExamSubtitle;
+
+  /// No description provided for @qaVocabTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Kho từ vựng'**
+  String get qaVocabTitle;
+
+  /// No description provided for @qaVocabSubtitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'{count}+ từ'**
+  String qaVocabSubtitle(int count);
+
+  /// No description provided for @qaNotesTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Sổ tay'**
+  String get qaNotesTitle;
+
+  /// No description provided for @qaNotesSubtitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Từ bạn đã lưu'**
+  String get qaNotesSubtitle;
+
+  /// No description provided for @qaReviewTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Ôn tập'**
+  String get qaReviewTitle;
+
+  /// No description provided for @qaReviewSubtitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Từ đến hạn ôn'**
+  String get qaReviewSubtitle;
+
+  /// No description provided for @qaYoutubeTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'YouTube'**
+  String get qaYoutubeTitle;
+
+  /// No description provided for @qaYoutubeSubtitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Video song ngữ'**
+  String get qaYoutubeSubtitle;
+
+  /// No description provided for @qaListenTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Nghe'**
+  String get qaListenTitle;
+
+  /// No description provided for @qaListenSubtitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Luyện nghe với video'**
+  String get qaListenSubtitle;
+
+  /// No description provided for @qaNewsTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tin tức'**
+  String get qaNewsTitle;
+
+  /// No description provided for @qaNewsSubtitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tin Đức A1–B2'**
+  String get qaNewsSubtitle;
+
+  /// No description provided for @qaSentenceAiTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Viết câu (AI)'**
+  String get qaSentenceAiTitle;
+
+  /// No description provided for @qaSentenceAiSubtitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Ghép & viết câu, AI chấm'**
+  String get qaSentenceAiSubtitle;
+
+  /// No description provided for @qaAiTutorTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'AI Tutor'**
+  String get qaAiTutorTitle;
+
+  /// No description provided for @qaAiTutorSubtitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Trò chuyện cùng AI'**
+  String get qaAiTutorSubtitle;
+
+  /// No description provided for @qaGamesTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Trò chơi'**
+  String get qaGamesTitle;
+
+  /// No description provided for @qaGamesSubtitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Học qua game, có XP'**
+  String get qaGamesSubtitle;
+
+  /// No description provided for @qaAffiliateTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Giới thiệu'**
+  String get qaAffiliateTitle;
+
+  /// No description provided for @qaAffiliateSubtitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Nhận hoa hồng'**
+  String get qaAffiliateSubtitle;
+
+  /// No description provided for @dailyPathHeroTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'☀️ Hôm nay học gì tiếp?'**
+  String get dailyPathHeroTitle;
+
+  /// No description provided for @dailyPathExamBadge.
+  ///
+  /// In vi, this message translates to:
+  /// **'Còn {days} ngày đến thi {examLabel}'**
+  String dailyPathExamBadge(int days, String examLabel);
+
+  /// No description provided for @dailyPathPlanSummary.
+  ///
+  /// In vi, this message translates to:
+  /// **'Kế hoạch hôm nay · {done}/{total} bước'**
+  String dailyPathPlanSummary(int done, int total);
+
+  /// No description provided for @dailyPathMinutesRemaining.
+  ///
+  /// In vi, this message translates to:
+  /// **'còn ~{minutes} phút'**
+  String dailyPathMinutesRemaining(int minutes);
+
+  /// No description provided for @dailyPathNextStep.
+  ///
+  /// In vi, this message translates to:
+  /// **'Bước tiếp theo · ~{minutes} phút'**
+  String dailyPathNextStep(int minutes);
+
+  /// No description provided for @dailyPathCompleteCelebration.
+  ///
+  /// In vi, this message translates to:
+  /// **'🎉 Xong lộ trình hôm nay!'**
+  String get dailyPathCompleteCelebration;
+
+  /// No description provided for @dailyPathCompleteCelebrationWithStreak.
+  ///
+  /// In vi, this message translates to:
+  /// **'🎉 Xong lộ trình hôm nay! Giữ streak 🔥{count} nhé.'**
+  String dailyPathCompleteCelebrationWithStreak(int count);
+
+  /// No description provided for @dailyPathEmptyTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Bắt đầu lộ trình học hôm nay'**
+  String get dailyPathEmptyTitle;
+
+  /// No description provided for @dailyPathEmptyDescription.
+  ///
+  /// In vi, this message translates to:
+  /// **'Vài phút mỗi ngày để giữ streak và tiến bộ đều đặn.'**
+  String get dailyPathEmptyDescription;
+
+  /// No description provided for @dailyPathEmptyCta.
+  ///
+  /// In vi, this message translates to:
+  /// **'Bắt đầu học'**
+  String get dailyPathEmptyCta;
 
   /// No description provided for @learnMore.
   ///
@@ -4119,6 +4341,186 @@ abstract class AppLocalizations {
   /// In vi, this message translates to:
   /// **'Bình luận'**
   String get socialCommentsTitle;
+
+  /// No description provided for @pinnedShortcutsTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'🔗 Lối tắt'**
+  String get pinnedShortcutsTitle;
+
+  /// No description provided for @pinnedShortcutConversation.
+  ///
+  /// In vi, this message translates to:
+  /// **'Luyện nói AI'**
+  String get pinnedShortcutConversation;
+
+  /// No description provided for @pinnedShortcutWriteSentence.
+  ///
+  /// In vi, this message translates to:
+  /// **'Viết câu (AI)'**
+  String get pinnedShortcutWriteSentence;
+
+  /// No description provided for @pinnedShortcutListening.
+  ///
+  /// In vi, this message translates to:
+  /// **'Nghe'**
+  String get pinnedShortcutListening;
+
+  /// No description provided for @pinnedShortcutYoutube.
+  ///
+  /// In vi, this message translates to:
+  /// **'YouTube'**
+  String get pinnedShortcutYoutube;
+
+  /// No description provided for @pinnedShortcutCourse.
+  ///
+  /// In vi, this message translates to:
+  /// **'Khóa học'**
+  String get pinnedShortcutCourse;
+
+  /// No description provided for @exploreSectionTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Khám phá'**
+  String get exploreSectionTitle;
+
+  /// No description provided for @examCornerOverdue.
+  ///
+  /// In vi, this message translates to:
+  /// **'📅 Đã qua ngày thi'**
+  String get examCornerOverdue;
+
+  /// No description provided for @examCornerToday.
+  ///
+  /// In vi, this message translates to:
+  /// **'🎯 Thi {level} hôm nay!'**
+  String examCornerToday(String level);
+
+  /// No description provided for @examCornerCountdown.
+  ///
+  /// In vi, this message translates to:
+  /// **'🎯 {provider} {level} · còn {days} ngày'**
+  String examCornerCountdown(String provider, String level, int days);
+
+  /// No description provided for @examCornerReadiness.
+  ///
+  /// In vi, this message translates to:
+  /// **'Độ sẵn sàng'**
+  String get examCornerReadiness;
+
+  /// No description provided for @examCornerChangeGoal.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đổi mục tiêu'**
+  String get examCornerChangeGoal;
+
+  /// No description provided for @examCornerContinue.
+  ///
+  /// In vi, this message translates to:
+  /// **'Làm đề'**
+  String get examCornerContinue;
+
+  /// No description provided for @examCornerSetNewGoal.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đặt mục tiêu mới'**
+  String get examCornerSetNewGoal;
+
+  /// No description provided for @examGoalPromptTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đặt mục tiêu thi'**
+  String get examGoalPromptTitle;
+
+  /// No description provided for @examGoalPromptSubtitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đặt ngày thi để theo dõi đếm ngược và luyện đề đúng trình độ.'**
+  String get examGoalPromptSubtitle;
+
+  /// No description provided for @examGoalPromptCta.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đặt ngày thi'**
+  String get examGoalPromptCta;
+
+  /// No description provided for @examGoalSetterTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đặt mục tiêu thi'**
+  String get examGoalSetterTitle;
+
+  /// No description provided for @examGoalSetterProviderLabel.
+  ///
+  /// In vi, this message translates to:
+  /// **'Kỳ thi'**
+  String get examGoalSetterProviderLabel;
+
+  /// No description provided for @examGoalSetterLevelLabel.
+  ///
+  /// In vi, this message translates to:
+  /// **'Trình độ thi'**
+  String get examGoalSetterLevelLabel;
+
+  /// No description provided for @examGoalSetterDateLabel.
+  ///
+  /// In vi, this message translates to:
+  /// **'Ngày thi'**
+  String get examGoalSetterDateLabel;
+
+  /// No description provided for @examGoalSetterDateRequired.
+  ///
+  /// In vi, this message translates to:
+  /// **'Vui lòng chọn ngày thi'**
+  String get examGoalSetterDateRequired;
+
+  /// No description provided for @examGoalSetterDateInPast.
+  ///
+  /// In vi, this message translates to:
+  /// **'Ngày thi không thể trước hôm nay'**
+  String get examGoalSetterDateInPast;
+
+  /// No description provided for @examGoalSetterSave.
+  ///
+  /// In vi, this message translates to:
+  /// **'Lưu mục tiêu'**
+  String get examGoalSetterSave;
+
+  /// No description provided for @examGoalSetterSaving.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đang lưu...'**
+  String get examGoalSetterSaving;
+
+  /// No description provided for @examGoalSetterSaveFailed.
+  ///
+  /// In vi, this message translates to:
+  /// **'Lưu thất bại, thử lại sau'**
+  String get examGoalSetterSaveFailed;
+
+  /// No description provided for @premiumBannerCta.
+  ///
+  /// In vi, this message translates to:
+  /// **'Nâng cấp Premium — học không giới hạn'**
+  String get premiumBannerCta;
+
+  /// No description provided for @communityLinksTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Cộng đồng Deutsch Tiger'**
+  String get communityLinksTitle;
+
+  /// No description provided for @communityZaloDescription.
+  ///
+  /// In vi, this message translates to:
+  /// **'Nhóm học tiếng Đức'**
+  String get communityZaloDescription;
+
+  /// No description provided for @communityFacebookDescription.
+  ///
+  /// In vi, this message translates to:
+  /// **'Deutsch Tiger VN'**
+  String get communityFacebookDescription;
 }
 
 class _AppLocalizationsDelegate

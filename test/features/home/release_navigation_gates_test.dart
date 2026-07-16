@@ -70,32 +70,28 @@ void main() {
       _wrap(
         const Column(
           children: [
-            MobileDashboardHeader(
-              displayName: 'Mai',
-              streak: 0,
-              showMessages: false,
-            ),
+            MobileDashboardHeader(displayName: 'Mai', streak: 0),
             MobileStatsCard(
               totalWordsLearned: 1,
               totalLookups: 1,
               streak: 0,
               showDetails: false,
             ),
-            QuickActions(
-              onLearnTap: _noop,
-              onReviewTap: _noop,
-              onExamTap: _noop,
-              showAi: false,
-            ),
-            DashboardMissionsSection(missions: [], onSeeAllTap: null),
+            QuickActions(totalWords: 1),
+            DashboardMissionsSection(missions: []),
           ],
         ),
       ),
     );
 
-    expect(find.byIcon(Icons.chat_bubble_outline_rounded), findsNothing);
+    // Messages/settings are always visible in the header now (web parity —
+    // the messages icon slot is no longer gated by ReleaseFeatureFlags.social,
+    // see mobile_dashboard_header.dart).
+    expect(find.byIcon(Icons.chat_bubble_outline_rounded), findsOneWidget);
     expect(find.text('Xem chi tiết'), findsNothing);
-    expect(find.text('AI'), findsNothing);
+    // QuickActions dropped the "Xem tất cả" see-all button in favour of a
+    // collapse chevron + completed/total counter (daily-missions-section
+    // parity) — the label must never render.
     expect(find.text('Xem tất cả'), findsNothing);
   });
 
@@ -110,26 +106,19 @@ void main() {
         home: MediaQuery(
           data: const MediaQueryData(textScaler: TextScaler.linear(2)),
           child: Scaffold(
-            body: SingleChildScrollView(
-              child: QuickActions(
-                onLearnTap: _noop,
-                onReviewTap: _noop,
-                onExamTap: _noop,
-                showAi: false,
-              ),
-            ),
+            body: SingleChildScrollView(child: QuickActions(totalWords: 42)),
           ),
         ),
       ),
     );
 
-    expect(find.byType(Wrap), findsOneWidget);
-    expect(find.text('Lernen'), findsOneWidget);
-    expect(find.text('Heutige Lerneinheit'), findsOneWidget);
-    expect(find.text('Tägliche Wiederholung'), findsOneWidget);
-    expect(find.text('Prüfungsvorbereitung'), findsOneWidget);
+    // Lead "Luyện thi" tab is active by default — its tile renders with the
+    // German title/subtitle without overflow exceptions at 200% text scale.
+    expect(find.byType(Wrap), findsWidgets);
+    expect(find.text('🎓 Prüfungsvorbereitung'), findsOneWidget);
+    expect(find.text('Goethe, telc'), findsOneWidget);
     expect(
-      find.bySemanticsLabel('Tägliche Wiederholung: Fällige Wörter'),
+      find.bySemanticsLabel('Prüfungsvorbereitung: Goethe, telc'),
       findsOneWidget,
     );
     expect(tester.takeException(), isNull);
@@ -200,7 +189,6 @@ void main() {
               streak: 0,
               onProfileTap: () => profileTapped = true,
               onSettingsTap: () => settingsTapped = true,
-              showMessages: false,
             ),
           ),
         ),
@@ -228,5 +216,3 @@ void main() {
     semantics.dispose();
   });
 }
-
-void _noop() {}

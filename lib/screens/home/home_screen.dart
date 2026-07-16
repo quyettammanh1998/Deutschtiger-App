@@ -16,7 +16,11 @@ import '../../../features/daily_path/domain/daily_path.dart';
 import '../../../features/daily_path/presentation/daily_path_route_resolver.dart';
 import '../../../features/heartbeat/heartbeat_provider.dart';
 import '../../view_models/notifications/notifications_provider.dart';
+import 'widgets/community_links.dart';
 import 'widgets/dashboard_sections.dart';
+import 'widgets/exam_corner_card.dart';
+import 'widgets/pinned_shortcuts.dart';
+import 'widgets/premium_banner.dart';
 import 'widgets/resume_section.dart';
 import 'widgets/weekly_leaderboard_compact.dart';
 
@@ -87,15 +91,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             displayName: displayName,
                             streak: streak,
                             avatarUrl: dash.profile?.avatarUrl,
-                            dailyXp: dailyXp,
-                            dailyGoal: dailyGoal,
                             onSettingsTap: () => context.push('/settings'),
-                            showMessages: ReleaseFeatureFlags.social,
                             onMessagesTap: ReleaseFeatureFlags.social
                                 ? () => context.push('/social/messages')
                                 : null,
                             onProfileTap: () => context.push('/profile'),
-                            onNotificationsTap: () => context.push('/notifications'),
                             unreadNotificationCount: ref.watch(
                               unreadNotificationCountProvider,
                             ),
@@ -111,6 +111,25 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               onTap: () => context.push('/vocabulary'),
                             ),
                           ),
+                          // Lộ trình hôm nay — THE single "what to study now"
+                          // answer, first content block after header/search.
+                          DashboardContinueLearningSection(
+                            dailyXp: dailyXp ?? 0,
+                            dailyGoal: dailyGoal ?? 0,
+                            streak: streak,
+                            onStart: _openDailyPathStep,
+                          ),
+                          const SizedBox(height: DesignTokens.spacingMd),
+                          // Đích thi — countdown + tiếp tục đề, ngay sau path.
+                          const ExamCornerCard(),
+                          const SizedBox(height: DesignTokens.spacingMd),
+                          // 🔗 Lối tắt — 10 pinned shortcuts.
+                          const PinnedShortcuts(),
+                          const SizedBox(height: DesignTokens.spacingMd),
+                          // 🎁 Nhiệm vụ thưởng — discovery missions below the
+                          // guided path.
+                          DashboardMissionsSection(missions: missions),
+                          const SizedBox(height: DesignTokens.spacingMd),
                           Padding(
                             padding: const EdgeInsets.symmetric(
                               horizontal: DesignTokens.screenHorizontalPadding,
@@ -137,34 +156,35 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             ),
                           ),
                           const SizedBox(height: DesignTokens.spacingMd),
+                          // Khám phá — free-browse grid, demoted below the
+                          // guided path.
                           Padding(
                             padding: const EdgeInsets.symmetric(
                               horizontal: DesignTokens.screenHorizontalPadding,
                             ),
-                            child: QuickActions(
-                              onLearnTap: () => context.push('/learn'),
-                              onReviewTap: () => context.push('/daily-review'),
-                              onExamTap: () => context.push('/exam'),
-                              showAi: ReleaseFeatureFlags.aiTutor,
-                              onAiTap: ReleaseFeatureFlags.aiTutor
-                                  ? () => context.push('/ai-tutor')
-                                  : null,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  l10n.exploreSectionTitle,
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: DesignTokens.foreground,
+                                  ),
+                                ),
+                                const SizedBox(height: DesignTokens.spacingSm),
+                                QuickActions(totalWords: dash.wordsLearned),
+                              ],
                             ),
                           ),
                           const SizedBox(height: DesignTokens.spacingMd),
-                          DashboardMissionsSection(
-                            missions: missions,
-                            onSeeAllTap: ReleaseFeatureFlags.journey
-                                ? () => context.push('/journey')
-                                : null,
+                          PremiumBanner(
+                            isPremiumUser:
+                                profileAsync.valueOrNull?.isPremium ?? false,
                           ),
                           const SizedBox(height: DesignTokens.spacingMd),
-                          DashboardContinueLearningSection(
-                            dailyXp: dailyXp ?? 0,
-                            dailyGoal: dailyGoal ?? 0,
-                            streak: streak,
-                            onStart: _openDailyPathStep,
-                          ),
+                          const CommunityLinks(),
                           const SizedBox(height: 100),
                         ],
                       ),
@@ -198,13 +218,31 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     return missions.map((m) {
       return DashboardMission(
         title: m.titleVi.isNotEmpty ? m.titleVi : l10n.mission,
-        subtitle: '${m.currentProgress}/${m.targetCount} · ${m.xpReward} XP',
-        progress: m.progressRatio,
-        icon: m.isCompleted ? Icons.check_circle : Icons.star_outline,
-        color: m.isCompleted ? DesignTokens.success : DesignTokens.tigerOrange,
+        icon: _missionIcon(m.icon),
+        xpReward: m.xpReward,
+        currentProgress: m.currentProgress,
+        targetCount: m.targetCount,
+        isCompleted: m.isCompleted,
       );
     }).toList();
   }
+
+  /// Maps the backend's semantic `Mission.icon` key (real data, not derived)
+  /// to a close Material icon — mirrors web `ICON_MAP` in
+  /// `daily-missions-section.tsx` (pencil/headphones/cards/book/zap/target/
+  /// play/clipboard/gamepad).
+  IconData _missionIcon(String icon) => switch (icon) {
+    'pencil' => Icons.edit_outlined,
+    'headphones' => Icons.headset_outlined,
+    'cards' => Icons.style_outlined,
+    'book' => Icons.menu_book_outlined,
+    'zap' => Icons.bolt_outlined,
+    'target' => Icons.track_changes_outlined,
+    'play' => Icons.play_circle_outline,
+    'clipboard' => Icons.assignment_outlined,
+    'gamepad' => Icons.sports_esports_outlined,
+    _ => Icons.star_outline,
+  };
 
   void _openStreakModal() {
     if (mounted) setState(() => _showStreakModal = true);

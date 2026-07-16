@@ -73,6 +73,22 @@ class DesignTokens {
   static const Color orange600 = Color(0xFFEA580C);
   static const Color rose600 = Color(0xFFE11D48);
 
+  // ===== Mobile Home — cream header card + daily-path hero =====
+  // Source: thamkhao/deutschtiger-frontend mobile-dashboard-header.tsx +
+  // daily-path-hero-card.tsx — warm cream card replaces the old blue banner.
+  static const Color headerCardBg = Color(0xFFFFF6EE);
+  static const Color headerCardBorder = Color(0xFFF1E4D7);
+  static const Color headerTextDark = Color(0xFF2A2018);
+  static const Color headerMutedBrown = Color(0xFF9A8B7E);
+  static const Color headerAccentOrange = Color(0xFFE14E06);
+  static const Color streakChipBorder = Color(0xFFFDE9D6);
+  static const Color emerald50 = Color(0xFFECFDF5);
+  static const Color emerald100 = Color(0xFFD1FAE5);
+  static const Color emerald600 = Color(0xFF059669);
+  static const Color emerald700 = Color(0xFF047857);
+  static const Color amber100 = Color(0xFFFEF3C7);
+  static const Color amber700 = Color(0xFFB45309);
+
   // ===== Dark Theme Colors =====
   // Source: thamkhao/deutschtiger-frontend/src/index.css `.dark` selector
   // Bản đầy đủ mapping theo light pattern (muted, muted-foreground, card-foreground,

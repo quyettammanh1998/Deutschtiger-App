@@ -147,20 +147,14 @@ void main() {
         locale: const Locale('de'),
         supportedLocales: AppLocalizations.supportedLocales,
         localizationsDelegates: AppLocalizations.localizationsDelegates,
-        home: Scaffold(
-          body: QuickActions(
-            onLearnTap: _noop,
-            onReviewTap: _noop,
-            onExamTap: _noop,
-            showAi: false,
-          ),
-        ),
+        home: const Scaffold(body: QuickActions(totalWords: 100)),
       ),
     );
 
-    expect(find.text('Lernen'), findsOneWidget);
-    expect(find.text('Tägliche Wiederholung'), findsOneWidget);
-    expect(find.text('Prüfung'), findsOneWidget);
+    // Lead "Luyện thi" tab + its tile render with the active locale.
+    expect(find.text('🎓 Prüfungsvorbereitung'), findsOneWidget);
+    expect(find.text('Prüfungsvorbereitung'), findsOneWidget);
+    expect(find.text('Wortschatz & Wiederholung'), findsOneWidget);
   });
 
   testWidgets(

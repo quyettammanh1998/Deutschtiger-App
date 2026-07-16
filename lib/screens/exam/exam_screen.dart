@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../core/design_tokens.dart';
 import '../../features/exam/presentation/exam_player_provider.dart';
 import '../../features/exam/presentation/widgets/exam_catalog_list.dart';
+import '../../features/exam/presentation/widgets/exam_provider_cards.dart';
 import '../../l10n/app_localizations.dart';
 import '../../widgets/common/async_state_views.dart';
 
@@ -41,27 +42,38 @@ class _ExamScreenState extends ConsumerState<ExamScreen> {
             return (_provider == null || item.provider == _provider) &&
                 (_level == null || item.level == _level);
           }).toList();
-          return Column(
-            children: [
-              _EcosystemLinksBar(),
-              _CatalogFilters(
-                providers: providers,
-                levels: levels,
-                provider: _provider,
-                level: _level,
-                onProvider: (value) => setState(() => _provider = value),
-                onLevel: (value) => setState(() => _level = value),
-              ),
-              Expanded(
-                child: ExamCatalogList(
-                  items: filtered,
-                  onRefresh: () async {
-                    ref.invalidate(examCatalogProvider);
-                    await ref.read(examCatalogProvider.future);
-                  },
+          // Web parity (exam-landing-page.tsx mobile view): buddy finder CTA
+          // + provider/level cards sit above the exam catalog, all in one
+          // scroll view. Tapping a level pill sets the filter below instead
+          // of navigating (no per-provider results route exists yet in
+          // Flutter — later wave owns that page).
+          return ExamCatalogList(
+            items: filtered,
+            onRefresh: () async {
+              ref.invalidate(examCatalogProvider);
+              await ref.read(examCatalogProvider.future);
+            },
+            header: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ExamProviderCards(
+                  onLevelSelected: (provider, level) => setState(() {
+                    _provider = provider;
+                    _level = level;
+                  }),
                 ),
-              ),
-            ],
+                const SizedBox(height: DesignTokens.spacingSm),
+                _CatalogFilters(
+                  providers: providers,
+                  levels: levels,
+                  provider: _provider,
+                  level: _level,
+                  onProvider: (value) => setState(() => _provider = value),
+                  onLevel: (value) => setState(() => _level = value),
+                ),
+              ],
+            ),
+            footer: const _MoreExamToolsLinks(),
           );
         },
       ),
@@ -69,33 +81,24 @@ class _ExamScreenState extends ConsumerState<ExamScreen> {
   }
 }
 
-/// Lối vào vành đai Exam ecosystem (PARITY P3): readiness, lịch thi + tìm bạn
-/// ôn thi, đề cộng đồng, nghe chép chính tả. Nằm trên đầu catalog để không
-/// đụng vào `ExamCatalogList` (widget của exam player core).
-class _EcosystemLinksBar extends StatelessWidget {
-  const _EcosystemLinksBar();
+/// Secondary entry points not shown on the web landing (community exams,
+/// dictation) but with no other Flutter surface pointing at them — kept as
+/// a compact links row below the catalog so the features stay reachable.
+/// Readiness + buddy schedule already have their own dedicated spots
+/// (home `ExamCornerCard` and the buddy-finder CTA above) so they are not
+/// duplicated here.
+class _MoreExamToolsLinks extends StatelessWidget {
+  const _MoreExamToolsLinks();
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    return Container(
-      width: double.infinity,
-      color: DesignTokens.card,
-      padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
+    return Padding(
+      padding: const EdgeInsets.only(top: DesignTokens.spacingSm),
       child: Wrap(
         spacing: DesignTokens.spacingSm,
         runSpacing: DesignTokens.spacingXs,
         children: [
-          ActionChip(
-            avatar: const Icon(Icons.speed_outlined, size: 16),
-            label: Text(l10n.examReadinessTitle),
-            onPressed: () => context.push('/exam/readiness'),
-          ),
-          ActionChip(
-            avatar: const Icon(Icons.groups_outlined, size: 16),
-            label: Text(l10n.examScheduleTitle),
-            onPressed: () => context.push('/exam/schedule'),
-          ),
           ActionChip(
             avatar: const Icon(Icons.forum_outlined, size: 16),
             label: Text(l10n.communityExamsTitle),
@@ -134,8 +137,7 @@ class _CatalogFilters extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
-      color: DesignTokens.card,
+      padding: const EdgeInsets.symmetric(vertical: DesignTokens.spacingSm),
       child: Wrap(
         spacing: DesignTokens.spacingSm,
         runSpacing: DesignTokens.spacingXs,

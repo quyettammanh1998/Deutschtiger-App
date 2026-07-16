@@ -54,6 +54,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get noBonusMissions => 'There are no bonus missions today.';
 
   @override
+  String get dailyMissionsHeading => '🎁 Bonus missions';
+
+  @override
   String get todaySession => 'Today\'s session';
 
   @override
@@ -70,6 +73,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get goodEvening => 'Good evening';
+
+  @override
+  String get headerEncouragement => 'Ready to conquer German? 🚀';
+
+  @override
+  String get headerStreakStart => 'Get started';
 
   @override
   String get todayXp => 'XP today';
@@ -113,13 +122,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get viewDetails => 'View details';
 
   @override
-  String get weeklyLeaderboard => 'Weekly leaderboard';
+  String get weeklyLeaderboard => '🏆 This week';
 
   @override
-  String get seeFull => 'See full leaderboard';
+  String get seeFull => 'See full leaderboard →';
 
   @override
-  String get learnMoreToRank => 'Learn more today to climb the leaderboard!';
+  String get learnMoreToRank => 'Learn more today to climb the leaderboard! 🔥';
+
+  @override
+  String get weeklyLeaderboardInTop3 => 'You\'re in the top 3 — keep it up! 🎉';
 
   @override
   String get user => 'User';
@@ -129,28 +141,134 @@ class AppLocalizationsEn extends AppLocalizations {
       'No one is on this week\'s leaderboard yet.';
 
   @override
-  String get dailyPathComplete => 'Today\'s path is complete';
+  String get noWeeklyLeaderboardSubtitle => 'Learn today to be the first! 🔥';
 
   @override
-  String get dailyPathStart => 'Start today\'s path';
+  String get qaTabExam => '🎓 Exam prep';
 
   @override
-  String keepStreak(int count) {
-    return 'Keep your $count-day streak with one more lesson';
+  String get qaTabVocab => 'Vocab & Review';
+
+  @override
+  String get qaTabListen => 'Listen & Watch';
+
+  @override
+  String get qaTabAi => 'Write & Speak (AI)';
+
+  @override
+  String get qaTabOther => 'Other';
+
+  @override
+  String get qaTabAll => 'All →';
+
+  @override
+  String get qaExamTitle => 'Exam prep';
+
+  @override
+  String get qaExamSubtitle => 'Goethe, telc';
+
+  @override
+  String get qaVocabTitle => 'Vocabulary';
+
+  @override
+  String qaVocabSubtitle(int count) {
+    return '$count+ words';
   }
 
   @override
-  String get learnMoreToReinforce =>
-      'You can learn more to reinforce your knowledge';
+  String get qaNotesTitle => 'Notebook';
 
   @override
-  String get dailyProgressHabit =>
-      'A few minutes each day builds steady progress';
+  String get qaNotesSubtitle => 'Words you saved';
 
   @override
-  String dailyPathProgress(int done, int total, int minutes) {
-    return '$done/$total steps · about $minutes minutes left';
+  String get qaReviewTitle => 'Review';
+
+  @override
+  String get qaReviewSubtitle => 'Words due for review';
+
+  @override
+  String get qaYoutubeTitle => 'YouTube';
+
+  @override
+  String get qaYoutubeSubtitle => 'Bilingual videos';
+
+  @override
+  String get qaListenTitle => 'Listening';
+
+  @override
+  String get qaListenSubtitle => 'Practice listening with video';
+
+  @override
+  String get qaNewsTitle => 'News';
+
+  @override
+  String get qaNewsSubtitle => 'German news A1–B2';
+
+  @override
+  String get qaSentenceAiTitle => 'Sentence writing (AI)';
+
+  @override
+  String get qaSentenceAiSubtitle => 'Build & write sentences, AI graded';
+
+  @override
+  String get qaAiTutorTitle => 'AI Tutor';
+
+  @override
+  String get qaAiTutorSubtitle => 'Chat with AI';
+
+  @override
+  String get qaGamesTitle => 'Games';
+
+  @override
+  String get qaGamesSubtitle => 'Learn through games, earn XP';
+
+  @override
+  String get qaAffiliateTitle => 'Refer & earn';
+
+  @override
+  String get qaAffiliateSubtitle => 'Earn commission';
+
+  @override
+  String get dailyPathHeroTitle => '☀️ What\'s next today?';
+
+  @override
+  String dailyPathExamBadge(int days, String examLabel) {
+    return '$days days to the $examLabel exam';
   }
+
+  @override
+  String dailyPathPlanSummary(int done, int total) {
+    return 'Today\'s plan · $done/$total steps';
+  }
+
+  @override
+  String dailyPathMinutesRemaining(int minutes) {
+    return 'about $minutes minutes left';
+  }
+
+  @override
+  String dailyPathNextStep(int minutes) {
+    return 'Next step · ~$minutes min';
+  }
+
+  @override
+  String get dailyPathCompleteCelebration => '🎉 Today\'s path is done!';
+
+  @override
+  String dailyPathCompleteCelebrationWithStreak(int count) {
+    return '🎉 Today\'s path is done! Keep your 🔥$count-day streak going.';
+  }
+
+  @override
+  String get dailyPathEmptyTitle => 'Start today\'s learning path';
+
+  @override
+  String get dailyPathEmptyDescription =>
+      'A few minutes each day keeps your streak and progress going.';
+
+  @override
+  String get dailyPathEmptyCta => 'Start learning';
 
   @override
   String get learnMore => 'Learn more';
@@ -2222,4 +2340,99 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get socialCommentsTitle => 'Comments';
+
+  @override
+  String get pinnedShortcutsTitle => '🔗 Shortcuts';
+
+  @override
+  String get pinnedShortcutConversation => 'AI Speaking';
+
+  @override
+  String get pinnedShortcutWriteSentence => 'Write a sentence (AI)';
+
+  @override
+  String get pinnedShortcutListening => 'Listening';
+
+  @override
+  String get pinnedShortcutYoutube => 'YouTube';
+
+  @override
+  String get pinnedShortcutCourse => 'Course';
+
+  @override
+  String get exploreSectionTitle => 'Explore';
+
+  @override
+  String get examCornerOverdue => '📅 Exam date has passed';
+
+  @override
+  String examCornerToday(String level) {
+    return '🎯 $level exam today!';
+  }
+
+  @override
+  String examCornerCountdown(String provider, String level, int days) {
+    return '🎯 $provider $level · $days days left';
+  }
+
+  @override
+  String get examCornerReadiness => 'Readiness';
+
+  @override
+  String get examCornerChangeGoal => 'Change goal';
+
+  @override
+  String get examCornerContinue => 'Take a test';
+
+  @override
+  String get examCornerSetNewGoal => 'Set a new goal';
+
+  @override
+  String get examGoalPromptTitle => 'Set an exam goal';
+
+  @override
+  String get examGoalPromptSubtitle =>
+      'Set an exam date to track the countdown and practice at the right level.';
+
+  @override
+  String get examGoalPromptCta => 'Set exam date';
+
+  @override
+  String get examGoalSetterTitle => 'Set an exam goal';
+
+  @override
+  String get examGoalSetterProviderLabel => 'Exam provider';
+
+  @override
+  String get examGoalSetterLevelLabel => 'Target level';
+
+  @override
+  String get examGoalSetterDateLabel => 'Exam date';
+
+  @override
+  String get examGoalSetterDateRequired => 'Please choose an exam date';
+
+  @override
+  String get examGoalSetterDateInPast => 'Exam date can\'t be before today';
+
+  @override
+  String get examGoalSetterSave => 'Save goal';
+
+  @override
+  String get examGoalSetterSaving => 'Saving...';
+
+  @override
+  String get examGoalSetterSaveFailed => 'Save failed, try again later';
+
+  @override
+  String get premiumBannerCta => 'Upgrade to Premium — learn without limits';
+
+  @override
+  String get communityLinksTitle => 'Deutsch Tiger Community';
+
+  @override
+  String get communityZaloDescription => 'German learning group';
+
+  @override
+  String get communityFacebookDescription => 'Deutsch Tiger VN';
 }
