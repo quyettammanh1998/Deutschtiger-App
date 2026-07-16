@@ -1,22 +1,26 @@
 import 'package:flutter/material.dart';
 
 import '../design_tokens.dart';
+import 'app_tokens.dart';
 
-/// ThemeData cho app, dựng từ tokens web (xem app_colors.dart).
+/// ThemeData cho app, dựng từ tokens web (xem app_colors.dart + app_tokens.dart).
 ///
-/// Hỗ trợ cả light và dark mode.
+/// Hỗ trợ cả light và dark mode. Màu sắc thật (nguồn chân lý) nằm trong
+/// [AppTokens], được đăng ký vào `ThemeData.extensions` bên dưới — đọc qua
+/// `context.tokens`. `DesignTokens`/`AppColors` static chỉ còn giữ layout
+/// (spacing/radius/shadow) + màu light-only đã `@Deprecated`.
 class AppTheme {
   const AppTheme._();
 
   static ThemeData get light {
     final scheme = ColorScheme.fromSeed(
-      seedColor: DesignTokens.primary,
-      primary: DesignTokens.primary,
-      onPrimary: DesignTokens.primaryForeground,
-      secondary: DesignTokens.brand,
-      surface: DesignTokens.card,
-      onSurface: DesignTokens.cardForeground,
-      error: DesignTokens.destructive,
+      seedColor: AppTokens.light.primary,
+      primary: AppTokens.light.primary,
+      onPrimary: AppTokens.light.primaryForeground,
+      secondary: AppTokens.light.brand,
+      surface: AppTokens.light.card,
+      onSurface: AppTokens.light.cardForeground,
+      error: AppTokens.light.destructive,
       brightness: Brightness.light,
     );
 
@@ -73,18 +77,19 @@ class AppTheme {
         type: BottomNavigationBarType.fixed,
       ),
       dividerColor: DesignTokens.border,
+      extensions: const [AppTokens.light],
     );
   }
 
   static ThemeData get dark {
     final scheme = ColorScheme.fromSeed(
-      seedColor: DesignTokens.darkPrimary,
-      primary: DesignTokens.darkPrimary,
-      onPrimary: Colors.black,
-      secondary: DesignTokens.brand,
-      surface: DesignTokens.darkCard,
-      onSurface: DesignTokens.darkForeground,
-      error: DesignTokens.destructive,
+      seedColor: AppTokens.dark.primary,
+      primary: AppTokens.dark.primary,
+      onPrimary: AppTokens.dark.primaryForeground,
+      secondary: AppTokens.dark.brand,
+      surface: AppTokens.dark.card,
+      onSurface: AppTokens.dark.cardForeground,
+      error: AppTokens.dark.destructive,
       brightness: Brightness.dark,
     );
 
@@ -141,6 +146,7 @@ class AppTheme {
         type: BottomNavigationBarType.fixed,
       ),
       dividerColor: DesignTokens.darkBorder,
+      extensions: const [AppTokens.dark],
     );
   }
 }

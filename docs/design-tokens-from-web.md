@@ -1,59 +1,90 @@
 # Design Tokens — trích từ web `src/index.css`
 
-Dùng để dựng `lib/core/theme/app_colors.dart` + `app_theme.dart` cho Flutter, đảm bảo nhất quán thị giác với web.
+Dùng để dựng `lib/core/theme/app_tokens.dart` (nguồn chân lý runtime) +
+`app_theme.dart` cho Flutter, đảm bảo nhất quán thị giác với web.
 
-## Fonts
-- **Sans (body):** Inter
-- **Display (heading):** Grandstander → fallback Fredoka One
-- **Brand:** Fredoka One
-- **Radius:** `1rem` = 16px (border-radius mặc định)
+## Kiến trúc 2 lớp (2026-07-17)
 
-## Light theme (`:root`)
+1. **`AppTokens`** (`lib/core/theme/app_tokens.dart`) — `ThemeExtension`
+   đăng ký trên cả `ThemeData.light`/`ThemeData.dark` trong `app_theme.dart`.
+   Đây là **nguồn chân lý** — dùng qua `context.tokens.primary`,
+   `context.tokens.background`, v.v. Tự resolve đúng theo `Brightness` hiện
+   tại (light/dark), có `copyWith`/`lerp` chuẩn Flutter theme-extension.
+2. **`DesignTokens`/`AppColors`** (`design_tokens.dart`, `app_colors.dart`) —
+   các static `Color` cũ, **chỉ còn giá trị light-theme và đã bị
+   `@Deprecated`** cho phần màu semantic trùng với `AppTokens` (background,
+   foreground, primary, border, …). Layout tokens (spacing/radius/shadow/
+   gradient/typography) và các màu tiện ích không nằm trong `AppTokens`
+   (orange500/600, emerald*, amber*, exam-*, auth colors) **không** bị
+   deprecate — vẫn dùng bình thường.
 
-| Token | HSL | Hex approx |
+Lý do đóng băng thay vì xoá: 271+ file đang tham chiếu `DesignTokens`/
+`AppColors` trực tiếp; migrate hàng loạt nằm ngoài phạm vi P1. Code mới
+**PHẢI** dùng `context.tokens`; code cũ tiếp tục compile (chỉ hiện info
+"deprecated" khi `flutter analyze`, không phải lỗi).
+
+## Light theme (`:root`) — giá trị ĐÚNG (đã sửa 2026-07-17)
+
+> Trước đây `DesignTokens.primary` bị set nhầm thành hồng `#FF8FA3`
+> (hsl(351,100%,78%)) — đây là dữ liệu **cũ/sai**, không khớp web. Bảng dưới
+> là giá trị đã verify lại từ `thamkhao/deutschtiger-frontend/src/index.css`.
+
+| Token | HSL | Hex (verified) |
 |---|---|---|
-| background | hsl(25, 47%, 97%) | #FBF4EF |
+| background | hsl(25, 47%, 97%) | #FBF7F4 |
 | foreground | hsl(0, 0%, 18%) | #2E2E2E |
-| muted | hsl(25, 10%, 95%) | #F3F1F0 |
-| muted-foreground | hsl(25, 5%, 45%) | #76726F |
+| muted | hsl(25, 10%, 95%) | #F4F2F1 |
+| muted-foreground | hsl(25, 5%, 45%) | #78726D |
 | card | hsl(0, 0%, 100%) | #FFFFFF |
 | card-foreground | hsl(0, 0%, 18%) | #2E2E2E |
-| **primary** (hồng) | hsl(351, 100%, 78%) | #FF8FA3 |
+| **primary** (cam hổ) | hsl(32, 93%, 54%) | #F7911D |
 | primary-foreground | hsl(0, 0%, 100%) | #FFFFFF |
-| secondary | hsl(25, 82%, 89%) | #FAE0CF |
-| accent | hsl(70, 50%, 85%) | #E8EFC9 |
-| border / input | hsl(25, 10%, 90%) | #E8E4E1 |
-| ring | hsl(351, 100%, 78%) | #FF8FA3 |
-| destructive | hsl(0, 84%, 60%) | #EF4444 |
-| sidebar | hsl(351, 60%, 92%) | #F7DCE2 |
-| sidebar-active | hsl(351, 100%, 78%) | #FF8FA3 |
-| success | hsl(142, 71%, 45%) | #22C55E |
-| warning | hsl(38, 92%, 50%) | #F59E0B |
-| **brand** (cam hổ) | hsl(32, 93%, 54%) | #F59E1B |
-| brand-dark | hsl(32, 93%, 46%) | #D9850E |
+| secondary | hsl(25, 82%, 89%) | #FADFCC |
+| secondary-foreground | hsl(0, 0%, 18%) | #2E2E2E |
+| accent | hsl(70, 50%, 85%) | #E6ECC6 |
+| accent-foreground | hsl(0, 0%, 18%) | #2E2E2E |
+| border / input | hsl(25, 10%, 90%) | #E8E5E3 |
+| ring | hsl(32, 93%, 54%) | #F7911D |
+| destructive | hsl(0, 84%, 60%) | #EF4343 |
+| destructive-foreground | hsl(0, 0%, 100%) | #FFFFFF |
+| sidebar | hsl(32, 50%, 95%) | #F9F3EC |
+| sidebar-active | hsl(32, 93%, 54%) | #F7911D |
+| success | hsl(142, 71%, 45%) | #21C45D |
+| warning | hsl(38, 92%, 50%) | #F59F0A |
+| **brand** (cam hổ) | hsl(32, 93%, 54%) | #F7911D |
+| brand-dark | hsl(32, 93%, 46%) | #E27D08 |
+| radius | 1rem | 16px |
 
-## Dark theme (`.dark`)
+## Dark theme (`.dark`) — giá trị ĐÚNG (đã sửa 2026-07-17)
 
-| Token | HSL |
-|---|---|
-| background | hsl(220, 13%, 9%) |
-| foreground | hsl(0, 0%, 98%) |
-| muted | hsl(220, 13%, 22%) |
-| muted-foreground | hsl(220, 9%, 72%) |
-| card | hsl(220, 13%, 14%) |
-| **primary** (xanh) | hsl(200, 85%, 65%) |
-| secondary | hsl(220, 13%, 24%) |
-| accent | hsl(200, 85%, 65%) |
-| border | hsl(220, 13%, 26%) |
-| input | hsl(220, 13%, 24%) |
-| ring | hsl(200, 85%, 65%) |
-| destructive | hsl(0, 63%, 31%) |
-| sidebar | hsl(220, 13%, 12%) |
-| success | hsl(142, 71%, 45%) |
-| warning | hsl(38, 92%, 50%) |
-| brand | hsl(32, 93%, 54%) |
+| Token | HSL | Hex (verified) |
+|---|---|---|
+| background | hsl(220, 13%, 9%) | #14161A |
+| foreground | hsl(0, 0%, 98%) | #FAFAFA |
+| muted | hsl(220, 13%, 22%) | #31363F |
+| muted-foreground | hsl(220, 9%, 72%) | #B1B5BE |
+| card | hsl(220, 13%, 14%) | #1F2228 |
+| **primary** (xanh) | hsl(200, 85%, 65%) | #5ABFF2 |
+| primary-foreground | hsl(0, 0%, 98%) | #FAFAFA |
+| secondary | hsl(220, 13%, 24%) | #353B45 |
+| accent | hsl(200, 85%, 65%) | #5ABFF2 |
+| border / input | hsl(220, 13%, 26%) | #3A3F4B |
+| ring | hsl(200, 85%, 65%) | #5ABFF2 |
+| destructive | hsl(0, 63%, 31%) | #811D1D |
+| sidebar | hsl(220, 13%, 12%) | #1B1D23 |
+| success | hsl(142, 71%, 45%) | #21C45D |
+| warning | hsl(38, 92%, 50%) | #F59F0A |
+| brand | hsl(32, 93%, 54%) | #F7911D |
 
-> Light = hồng/cam ấm (tone con hổ Đức). Dark = primary chuyển xanh. V1 chỉ cần light theme là đủ; dark để sẵn cho version sau.
+> Light = cam hổ Đức. Dark = primary chuyển xanh dương. `AppTokens` đăng ký
+> cả hai trong `app_theme.dart` (`extensions: [AppTokens.light]` /
+> `[AppTokens.dark]`) — dark mode giờ đã dùng được qua `context.tokens`,
+> không còn "để sẵn cho sau" như trước.
+
+`DesignTokens.dark*` statics (deprecated) **không** được verify lại theo
+bảng trên trong lần sửa này (out of scope: chỉ light bị coi là "sai" và cần
+fix). Đừng dùng chúng cho code mới — dùng `AppTokens.dark` qua
+`context.tokens` (Brightness.dark).
 
 ## UI components thật (từ src/pages/auth/login-page.tsx + tiger-logo.tsx)
 

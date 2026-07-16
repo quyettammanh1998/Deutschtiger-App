@@ -40,28 +40,52 @@ class DesignTokens {
   static const Duration durationSlow = Duration(milliseconds: 450);
 
   // ===== Light Theme Colors =====
-  static const Color background = Color(0xFFFBF4EF);
+  // FROZEN 2026-07-17: values below are the correct web `:root` palette
+  // (hsl→hex, verified against thamkhao/deutschtiger-frontend/src/index.css)
+  // but the whole semantic set is @Deprecated — [AppTokens] (app_tokens.dart)
+  // is the source of truth going forward and also resolves dark mode
+  // correctly via `context.tokens`. These statics stay light-only forever.
+  @Deprecated('dùng context.tokens — AppTokens (P1 web fidelity)')
+  static const Color background = Color(0xFFFBF7F4);
+  @Deprecated('dùng context.tokens — AppTokens (P1 web fidelity)')
   static const Color foreground = Color(0xFF2E2E2E);
-  static const Color muted = Color(0xFFF3F1F0);
-  static const Color mutedForeground = Color(0xFF76726F);
+  @Deprecated('dùng context.tokens — AppTokens (P1 web fidelity)')
+  static const Color muted = Color(0xFFF4F2F1);
+  @Deprecated('dùng context.tokens — AppTokens (P1 web fidelity)')
+  static const Color mutedForeground = Color(0xFF78726D);
+  @Deprecated('dùng context.tokens — AppTokens (P1 web fidelity)')
   static const Color card = Color(0xFFFFFFFF);
   static const Color cardBackground = Color(0xFFF5F2EA);
+  @Deprecated('dùng context.tokens — AppTokens (P1 web fidelity)')
   static const Color cardForeground = Color(0xFF2E2E2E);
-  static const Color primary = Color(0xFFFF8FA3);
+  @Deprecated('dùng context.tokens — AppTokens (P1 web fidelity)')
+  static const Color primary = Color(0xFFF7911D);
+  @Deprecated('dùng context.tokens — AppTokens (P1 web fidelity)')
   static const Color primaryForeground = Color(0xFFFFFFFF);
-  static const Color secondary = Color(0xFFFAE0CF);
-  static const Color accent = Color(0xFFE8EFC9);
-  static const Color border = Color(0xFFE8E4E1);
+  @Deprecated('dùng context.tokens — AppTokens (P1 web fidelity)')
+  static const Color secondary = Color(0xFFFADFCC);
+  @Deprecated('dùng context.tokens — AppTokens (P1 web fidelity)')
+  static const Color accent = Color(0xFFE6ECC6);
+  @Deprecated('dùng context.tokens — AppTokens (P1 web fidelity)')
+  static const Color border = Color(0xFFE8E5E3);
+  @Deprecated('dùng context.tokens — AppTokens (P1 web fidelity)')
+  // ignore: deprecated_member_use_from_same_package
   static const Color ring = primary;
-  static const Color destructive = Color(0xFFEF4444);
-  static const Color success = Color(0xFF22C55E);
+  @Deprecated('dùng context.tokens — AppTokens (P1 web fidelity)')
+  static const Color destructive = Color(0xFFEF4343);
+  @Deprecated('dùng context.tokens — AppTokens (P1 web fidelity)')
+  static const Color success = Color(0xFF21C45D);
   static const Color error = Color(0xFFEF4444);
-  static const Color warning = Color(0xFFF59E0B);
+  @Deprecated('dùng context.tokens — AppTokens (P1 web fidelity)')
+  static const Color warning = Color(0xFFF59F0A);
   // Source: thamkhao/deutschtiger-frontend/src/index.css — banner info, xanh dương nhạt
   static const Color info = Color(0xFF3B82F6);
-  static const Color brand = Color(0xFFF59E1B);
-  static const Color brandDark = Color(0xFFD9850E);
-  static const Color sidebar = Color(0xFFF7DCE2);
+  @Deprecated('dùng context.tokens — AppTokens (P1 web fidelity)')
+  static const Color brand = Color(0xFFF7911D);
+  @Deprecated('dùng context.tokens — AppTokens (P1 web fidelity)')
+  static const Color brandDark = Color(0xFFE27D08);
+  @Deprecated('dùng context.tokens — AppTokens (P1 web fidelity)')
+  static const Color sidebar = Color(0xFFF9F3EC);
 
   // ===== Auth Colors =====
   static const Color authBackground = Color(0xFFFFFBF5);
@@ -94,30 +118,53 @@ class DesignTokens {
   // Bản đầy đủ mapping theo light pattern (muted, muted-foreground, card-foreground,
   // secondary, accent, border) — light bump từng L để pairs (card↔bg, border↔card)
   // đạt ~1.5× contrast. Web dùng HSL: bg=220 13% 9%, card=14%, muted=22%, border=26%.
+  // NOTE: values below are NOT re-verified against web `.dark` HSL (out of
+  // scope for the light-fidelity fix) — kept as pre-existing approximations,
+  // but frozen: [AppTokens.dark] is the real source of truth for dark mode.
+  @Deprecated('dùng context.tokens — AppTokens (P1 web fidelity)')
   static const Color darkBackground = Color(0xFF14171F); // hsl(220, 13%, 9%)
+  @Deprecated('dùng context.tokens — AppTokens (P1 web fidelity)')
   static const Color darkForeground = Color(0xFFFAFAFA); // hsl(0, 0%, 98%)
+  @Deprecated('dùng context.tokens — AppTokens (P1 web fidelity)')
   static const Color darkMuted = Color(0xFF383B45); // hsl(220, 13%, 22%)
+  @Deprecated('dùng context.tokens — AppTokens (P1 web fidelity)')
   static const Color darkMutedForeground = Color(
     0xFFB7BCC4,
   ); // hsl(220, 9%, 72%)
+  @Deprecated('dùng context.tokens — AppTokens (P1 web fidelity)')
   static const Color darkCard = Color(0xFF1F242E); // hsl(220, 13%, 14%)
+  // ignore: deprecated_member_use_from_same_package
   static const Color darkCardBackground = darkCard;
+  @Deprecated('dùng context.tokens — AppTokens (P1 web fidelity)')
   static const Color darkCardForeground = Color(0xFFFAFAFA);
+  @Deprecated('dùng context.tokens — AppTokens (P1 web fidelity)')
   static const Color darkPrimary = Color(0xFF5BB8E6); // hsl(200, 85%, 65%)
   static const Color darkPrimaryForeground = Color(0xFF08131A);
+  @Deprecated('dùng context.tokens — AppTokens (P1 web fidelity)')
   static const Color darkSecondary = Color(0xFF3A3F4B); // hsl(220, 13%, 24%)
+  @Deprecated('dùng context.tokens — AppTokens (P1 web fidelity)')
   static const Color darkAccent = Color(
     0xFF5BB8E6,
   ); // hsl(200, 85%, 65%) — same as primary in dark
+  @Deprecated('dùng context.tokens — AppTokens (P1 web fidelity)')
   static const Color darkBorder = Color(0xFF383F4B); // hsl(220, 13%, 26%)
+  @Deprecated('dùng context.tokens — AppTokens (P1 web fidelity)')
+  // ignore: deprecated_member_use_from_same_package
   static const Color darkRing = darkPrimary;
+  @Deprecated('dùng context.tokens — AppTokens (P1 web fidelity)')
   static const Color darkDestructive = Color(0xFFF87171);
+  @Deprecated('dùng context.tokens — AppTokens (P1 web fidelity)')
   static const Color darkSuccess = Color(0xFF4ADE80);
+  // ignore: deprecated_member_use_from_same_package
   static const Color darkError = darkDestructive;
+  @Deprecated('dùng context.tokens — AppTokens (P1 web fidelity)')
   static const Color darkWarning = Color(0xFFFBBF24);
   static const Color darkInfo = Color(0xFF60A5FA);
+  @Deprecated('dùng context.tokens — AppTokens (P1 web fidelity)')
   static const Color darkBrand = Color(0xFFFBBF24);
+  @Deprecated('dùng context.tokens — AppTokens (P1 web fidelity)')
   static const Color darkSidebar = Color(0xFF28202A);
+  // ignore: deprecated_member_use_from_same_package
   static const Color darkAuthBackground = darkBackground;
   static const Color darkTigerOrange = Color(0xFFFB923C);
   static const Color darkOrange50 = Color(0xFF29170C);
@@ -260,7 +307,9 @@ class DesignTokens {
 
   // ===== Bottom Nav / Tab Colors =====
   // Source: web bottom-nav.tsx — primary active, muted-foreground inactive.
+  // ignore: deprecated_member_use_from_same_package
   static const Color tabActiveColor = primary; // orange-500
+  // ignore: deprecated_member_use_from_same_package
   static const Color tabInactiveColor = mutedForeground; // hsl(25, 5%, 45%)
 
   // ===== Gradients =====
@@ -292,6 +341,7 @@ class DesignTokens {
     fontFamily: fontFamily,
     fontSize: 16,
     fontWeight: FontWeight.w400,
+    // ignore: deprecated_member_use_from_same_package
     color: foreground,
   );
 
@@ -299,6 +349,7 @@ class DesignTokens {
     fontFamily: fontFamily,
     fontSize: 14,
     fontWeight: FontWeight.w400,
+    // ignore: deprecated_member_use_from_same_package
     color: foreground,
   );
 
@@ -306,6 +357,7 @@ class DesignTokens {
     fontFamily: fontFamily,
     fontSize: 12,
     fontWeight: FontWeight.w400,
+    // ignore: deprecated_member_use_from_same_package
     color: foreground,
   );
 
@@ -313,6 +365,7 @@ class DesignTokens {
     fontFamily: fontFamily,
     fontSize: 14,
     fontWeight: FontWeight.w500,
+    // ignore: deprecated_member_use_from_same_package
     color: foreground,
   );
 
@@ -320,6 +373,7 @@ class DesignTokens {
     fontFamily: fontFamily,
     fontSize: 22,
     fontWeight: FontWeight.w600,
+    // ignore: deprecated_member_use_from_same_package
     color: foreground,
   );
 
@@ -327,6 +381,7 @@ class DesignTokens {
     fontFamily: fontFamily,
     fontSize: 16,
     fontWeight: FontWeight.w500,
+    // ignore: deprecated_member_use_from_same_package
     color: foreground,
   );
 
@@ -334,6 +389,7 @@ class DesignTokens {
     fontFamily: fontFamily,
     fontSize: 32,
     fontWeight: FontWeight.w700,
+    // ignore: deprecated_member_use_from_same_package
     color: foreground,
   );
 
