@@ -12,6 +12,8 @@ import 'package:go_router/go_router.dart';
 import '../../screens/exam/exam_screen.dart';
 import '../../screens/exam/goethe_b1_hub_page.dart';
 import '../../screens/exam/exam_list_page.dart';
+import '../../screens/exam/exam_section_page.dart';
+import '../../screens/exam/exam_skill_list_screen.dart';
 import '../../features/exam/presentation/exam_practice_page.dart';
 import '../../features/exam/presentation/exam_player_provider.dart';
 import '../../features/exam/presentation/exam_result_page.dart';
@@ -144,6 +146,51 @@ final List<RouteBase> examShellRoutes = [
           level: state.pathParameters['level']!,
           slug: state.pathParameters['slug']!,
         ),
+      ),
+      // Web-parity IA (P8 wave A): landing → section → list/set-detail →
+      // skill-list. `goethe-b1` keeps its dedicated hub above (existing
+      // flow shared with P9's writing/speaking sub-routes) — this generic
+      // branch covers every OTHER provider-level combo (telc-b1, telc-b2,
+      // goethe-a1/a2/b2/c1, osd-b2, …).
+      GoRoute(
+        path: ':providerLevel',
+        builder: (context, state) => ExamSectionPage(
+          providerLevel: state.pathParameters['providerLevel']!,
+        ),
+        routes: [
+          // TELC B1 bundle chooser special-case: "a-rap" = flat list of all
+          // TELC B1 sets (web: `exam-list-page.tsx` comment "A-RAP = all
+          // TELC B1 exams"). Static path wins over the `:slug` sibling.
+          GoRoute(
+            path: 'a-rap',
+            builder: (context, state) => const ExamArapListPage(),
+          ),
+          GoRoute(
+            path: 'skills/:skill',
+            builder: (context, state) {
+              final providerLevel = state.pathParameters['providerLevel']!;
+              final parts = providerLevel.split('-');
+              return ExamSkillListScreen(
+                provider: parts.isNotEmpty ? parts.first : 'telc',
+                level: parts.length > 1 ? parts.sublist(1).join('-') : 'b1',
+                skill: state.pathParameters['skill']!,
+              );
+            },
+          ),
+          GoRoute(
+            path: ':slug',
+            builder: (context, state) {
+              final providerLevel = state.pathParameters['providerLevel']!;
+              final parts = providerLevel.split('-');
+              return ExamListPage(
+                provider: parts.isNotEmpty ? parts.first : 'telc',
+                level: parts.length > 1 ? parts.sublist(1).join('-') : 'b1',
+                slug: state.pathParameters['slug'],
+                parentPath: '/exam/$providerLevel',
+              );
+            },
+          ),
+        ],
       ),
     ],
   ),

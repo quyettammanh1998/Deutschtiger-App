@@ -238,6 +238,12 @@ abstract class AppLocalizations {
   /// **'Sẵn sàng chinh phục tiếng Đức? 🚀'**
   String get headerEncouragement;
 
+  /// No description provided for @headerWordsLearned.
+  ///
+  /// In vi, this message translates to:
+  /// **'📚 Đã học {count} từ vựng'**
+  String headerWordsLearned(int count);
+
   /// No description provided for @headerStreakStart.
   ///
   /// In vi, this message translates to:
@@ -760,6 +766,12 @@ abstract class AppLocalizations {
   /// **'Ít nhất 6 ký tự'**
   String get atLeastSixCharacters;
 
+  /// No description provided for @atLeastEightCharacters.
+  ///
+  /// In vi, this message translates to:
+  /// **'Ít nhất 8 ký tự'**
+  String get atLeastEightCharacters;
+
   /// No description provided for @createAccount.
   ///
   /// In vi, this message translates to:
@@ -831,6 +843,18 @@ abstract class AppLocalizations {
   /// In vi, this message translates to:
   /// **'Mật khẩu phải có ít nhất 6 ký tự.'**
   String get passwordTooShort;
+
+  /// No description provided for @passwordTooShortEight.
+  ///
+  /// In vi, this message translates to:
+  /// **'Mật khẩu phải có ít nhất 8 ký tự.'**
+  String get passwordTooShortEight;
+
+  /// No description provided for @signupSubtitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tạo tài khoản để bắt đầu học tiếng Đức'**
+  String get signupSubtitle;
 
   /// No description provided for @displayNameRequired.
   ///
@@ -951,6 +975,54 @@ abstract class AppLocalizations {
   /// In vi, this message translates to:
   /// **'Mật khẩu xác nhận không khớp.'**
   String get passwordConfirmationMismatch;
+
+  /// No description provided for @verifyingResetLink.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đang xác thực...'**
+  String get verifyingResetLink;
+
+  /// No description provided for @resetLinkInvalid.
+  ///
+  /// In vi, this message translates to:
+  /// **'Link đặt lại mật khẩu không hợp lệ hoặc đã hết hạn.'**
+  String get resetLinkInvalid;
+
+  /// No description provided for @resendResetLink.
+  ///
+  /// In vi, this message translates to:
+  /// **'Gửi lại link đặt lại'**
+  String get resendResetLink;
+
+  /// No description provided for @checkEmailForResetLink.
+  ///
+  /// In vi, this message translates to:
+  /// **'Kiểm tra email {email} để đặt lại mật khẩu.'**
+  String checkEmailForResetLink(String email);
+
+  /// No description provided for @showPasswordTooltip.
+  ///
+  /// In vi, this message translates to:
+  /// **'Hiện mật khẩu'**
+  String get showPasswordTooltip;
+
+  /// No description provided for @hidePasswordTooltip.
+  ///
+  /// In vi, this message translates to:
+  /// **'Ẩn mật khẩu'**
+  String get hidePasswordTooltip;
+
+  /// No description provided for @newPasswordHint.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tối thiểu 8 ký tự'**
+  String get newPasswordHint;
+
+  /// No description provided for @confirmPasswordHint.
+  ///
+  /// In vi, this message translates to:
+  /// **'Nhập lại mật khẩu mới'**
+  String get confirmPasswordHint;
 
   /// No description provided for @avatarUrlOptional.
   ///
@@ -1173,6 +1245,192 @@ abstract class AppLocalizations {
   /// In vi, this message translates to:
   /// **'Ước tính mức sẵn sàng'**
   String get examReadinessBandLabel;
+
+  /// No description provided for @examLandingSubtitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chọn chứng chỉ & cấp độ'**
+  String get examLandingSubtitle;
+
+  /// No description provided for @examBuddyCtaSubtitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Kết nối với người cùng ngày thi để ôn cùng nhau'**
+  String get examBuddyCtaSubtitle;
+
+  /// No description provided for @examShortDescTelc.
+  ///
+  /// In vi, this message translates to:
+  /// **'Visa, định cư, nhập tịch'**
+  String get examShortDescTelc;
+
+  /// No description provided for @examShortDescGoethe.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chứng chỉ quốc tế uy tín'**
+  String get examShortDescGoethe;
+
+  /// No description provided for @examShortDescOsd.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chứng chỉ tiếng Đức Áo'**
+  String get examShortDescOsd;
+
+  /// No description provided for @examRecommendedLabel.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đề xuất'**
+  String get examRecommendedLabel;
+
+  /// No description provided for @examLevelMismatchTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Bạn đang ở trình độ {level}'**
+  String examLevelMismatchTitle(String level);
+
+  /// No description provided for @examLevelMismatchBody.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đề thi {level} có thể quá khó cho trình độ hiện tại. Bạn vẫn muốn tiếp tục?'**
+  String examLevelMismatchBody(String level);
+
+  /// No description provided for @examLevelMismatchCancel.
+  ///
+  /// In vi, this message translates to:
+  /// **'Huỷ'**
+  String get examLevelMismatchCancel;
+
+  /// No description provided for @examLevelMismatchContinue.
+  ///
+  /// In vi, this message translates to:
+  /// **'Vẫn tiếp tục'**
+  String get examLevelMismatchContinue;
+
+  /// No description provided for @examSectionBundleCount.
+  ///
+  /// In vi, this message translates to:
+  /// **'{count} bộ đề'**
+  String examSectionBundleCount(int count);
+
+  /// No description provided for @examBundleArapTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'A-RAP'**
+  String get examBundleArapTitle;
+
+  /// No description provided for @examBundleArapDesc.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đề luyện thi chính thức · Lesen · Hören · Schreiben · Sprachbausteine'**
+  String get examBundleArapDesc;
+
+  /// No description provided for @examBundleSpeakingTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Nói (Sprechen)'**
+  String get examBundleSpeakingTitle;
+
+  /// No description provided for @examBundleSpeakingDesc.
+  ///
+  /// In vi, this message translates to:
+  /// **'Luyện kỹ năng nói theo chủ đề'**
+  String get examBundleSpeakingDesc;
+
+  /// No description provided for @examBundleComingSoon.
+  ///
+  /// In vi, this message translates to:
+  /// **'Sắp có'**
+  String get examBundleComingSoon;
+
+  /// No description provided for @examSetCount.
+  ///
+  /// In vi, this message translates to:
+  /// **'{count} bộ đề'**
+  String examSetCount(int count);
+
+  /// No description provided for @examSetCompletedSuffix.
+  ///
+  /// In vi, this message translates to:
+  /// **'{count} hoàn thành'**
+  String examSetCompletedSuffix(int count);
+
+  /// No description provided for @examSetInProgressSuffix.
+  ///
+  /// In vi, this message translates to:
+  /// **'{count} đang làm'**
+  String examSetInProgressSuffix(int count);
+
+  /// No description provided for @examSetEmptyTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chưa có đề thi'**
+  String get examSetEmptyTitle;
+
+  /// No description provided for @examSetEmptyBody.
+  ///
+  /// In vi, this message translates to:
+  /// **'Hiện tại chưa có đề thi cho chứng chỉ và cấp độ này.'**
+  String get examSetEmptyBody;
+
+  /// No description provided for @examSetPagePrev.
+  ///
+  /// In vi, this message translates to:
+  /// **'Trước'**
+  String get examSetPagePrev;
+
+  /// No description provided for @examSetPageNext.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tiếp'**
+  String get examSetPageNext;
+
+  /// No description provided for @examSetPageIndicator.
+  ///
+  /// In vi, this message translates to:
+  /// **'Trang {current} / {total}'**
+  String examSetPageIndicator(int current, int total);
+
+  /// No description provided for @examPartsCount.
+  ///
+  /// In vi, this message translates to:
+  /// **'{count} phần'**
+  String examPartsCount(int count);
+
+  /// No description provided for @examPartActionTest.
+  ///
+  /// In vi, this message translates to:
+  /// **'Luyện thi'**
+  String get examPartActionTest;
+
+  /// No description provided for @examPartActionPractice.
+  ///
+  /// In vi, this message translates to:
+  /// **'Luyện tập'**
+  String get examPartActionPractice;
+
+  /// No description provided for @examSkillListEmptyTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chưa có đề thi'**
+  String get examSkillListEmptyTitle;
+
+  /// No description provided for @examSkillListEmptyBody.
+  ///
+  /// In vi, this message translates to:
+  /// **'Hiện tại chưa có phần {skill} nào.'**
+  String examSkillListEmptyBody(String skill);
+
+  /// No description provided for @examSkillListVocabChip.
+  ///
+  /// In vi, this message translates to:
+  /// **'Từ vựng'**
+  String get examSkillListVocabChip;
+
+  /// No description provided for @examLocked.
+  ///
+  /// In vi, this message translates to:
+  /// **'Khóa'**
+  String get examLocked;
 
   /// No description provided for @examScheduleTitle.
   ///
@@ -2517,6 +2775,240 @@ abstract class AppLocalizations {
   /// In vi, this message translates to:
   /// **'Học tập & ôn thi'**
   String get goalStudyExam;
+
+  /// No description provided for @goalTechEngineering.
+  ///
+  /// In vi, this message translates to:
+  /// **'Công nghệ & kỹ thuật'**
+  String get goalTechEngineering;
+
+  /// No description provided for @goalShoppingBeauty.
+  ///
+  /// In vi, this message translates to:
+  /// **'Mua sắm & làm đẹp'**
+  String get goalShoppingBeauty;
+
+  /// No description provided for @goalFamilySocial.
+  ///
+  /// In vi, this message translates to:
+  /// **'Gia đình & quan hệ'**
+  String get goalFamilySocial;
+
+  /// No description provided for @goalLeisureCulture.
+  ///
+  /// In vi, this message translates to:
+  /// **'Giải trí & văn hoá'**
+  String get goalLeisureCulture;
+
+  /// No description provided for @goalNatureEnvironment.
+  ///
+  /// In vi, this message translates to:
+  /// **'Thiên nhiên & môi trường'**
+  String get goalNatureEnvironment;
+
+  /// No description provided for @vocabularyMine.
+  ///
+  /// In vi, this message translates to:
+  /// **'Của tôi'**
+  String get vocabularyMine;
+
+  /// No description provided for @vocabularyIntroWhy.
+  ///
+  /// In vi, this message translates to:
+  /// **'Kho từ hệ thống — chọn bộ để học và ôn.'**
+  String get vocabularyIntroWhy;
+
+  /// No description provided for @vocabularyIntroTodo.
+  ///
+  /// In vi, this message translates to:
+  /// **'Mở một bộ từ để học thẻ mới.'**
+  String get vocabularyIntroTodo;
+
+  /// No description provided for @vocabularyIntroNext.
+  ///
+  /// In vi, this message translates to:
+  /// **'Từ đã học sẽ vào lịch Ôn tập.'**
+  String get vocabularyIntroNext;
+
+  /// No description provided for @vocabularyIntroNextLabel.
+  ///
+  /// In vi, this message translates to:
+  /// **'Ôn tập'**
+  String get vocabularyIntroNextLabel;
+
+  /// No description provided for @vocabularyChooseGroupLabel.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chọn nhóm chủ đề'**
+  String get vocabularyChooseGroupLabel;
+
+  /// No description provided for @vocabularyGoalTopicsCount.
+  ///
+  /// In vi, this message translates to:
+  /// **'{count} chủ đề'**
+  String vocabularyGoalTopicsCount(int count);
+
+  /// No description provided for @vocabularyTopicSectionTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'📚 Chủ đề từ vựng'**
+  String get vocabularyTopicSectionTitle;
+
+  /// No description provided for @vocabularyTopicSectionDescription.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chọn nhóm chủ đề rồi mở nhanh từng chủ đề con theo cấp độ.'**
+  String get vocabularyTopicSectionDescription;
+
+  /// No description provided for @vocabularyLevelSectionTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'🎯 Cấp độ CEFR'**
+  String get vocabularyLevelSectionTitle;
+
+  /// No description provided for @vocabularyLevelSectionDescription.
+  ///
+  /// In vi, this message translates to:
+  /// **'Vào từng cấp độ rồi lọc chủ đề; hoặc bấm thẳng chip chủ đề bên dưới.'**
+  String get vocabularyLevelSectionDescription;
+
+  /// No description provided for @vocabularyTipTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Mẹo học tập'**
+  String get vocabularyTipTitle;
+
+  /// No description provided for @vocabularyTipNext.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tiếp'**
+  String get vocabularyTipNext;
+
+  /// No description provided for @wordSprintSectionTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'⚡ Luyện tập với chủ đề'**
+  String get wordSprintSectionTitle;
+
+  /// No description provided for @wordSprintStart.
+  ///
+  /// In vi, this message translates to:
+  /// **'Bắt đầu'**
+  String get wordSprintStart;
+
+  /// No description provided for @wordSprintDescription.
+  ///
+  /// In vi, this message translates to:
+  /// **'60 giây · 4 đáp án · Combo x3'**
+  String get wordSprintDescription;
+
+  /// No description provided for @vocabularySearchHint.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tìm từ...'**
+  String get vocabularySearchHint;
+
+  /// No description provided for @vocabularyWeakFilter.
+  ///
+  /// In vi, this message translates to:
+  /// **'Yếu'**
+  String get vocabularyWeakFilter;
+
+  /// No description provided for @vocabularyMasteredCount.
+  ///
+  /// In vi, this message translates to:
+  /// **'{done}/{total} đã thuộc'**
+  String vocabularyMasteredCount(int done, int total);
+
+  /// No description provided for @vocabularyTabList.
+  ///
+  /// In vi, this message translates to:
+  /// **'Danh sách'**
+  String get vocabularyTabList;
+
+  /// No description provided for @vocabularyTabMyWords.
+  ///
+  /// In vi, this message translates to:
+  /// **'Từ của tôi'**
+  String get vocabularyTabMyWords;
+
+  /// No description provided for @vocabularyStartLesson.
+  ///
+  /// In vi, this message translates to:
+  /// **'Học từ mới'**
+  String get vocabularyStartLesson;
+
+  /// No description provided for @vocabularyNotFound.
+  ///
+  /// In vi, this message translates to:
+  /// **'Không tìm thấy bộ từ'**
+  String get vocabularyNotFound;
+
+  /// No description provided for @vocabularyMasteryMastered.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đã thuộc'**
+  String get vocabularyMasteryMastered;
+
+  /// No description provided for @vocabularyMasteryKnown.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đang nhớ'**
+  String get vocabularyMasteryKnown;
+
+  /// No description provided for @vocabularyMasteryLearning.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đang học'**
+  String get vocabularyMasteryLearning;
+
+  /// No description provided for @vocabularyMasteryNew.
+  ///
+  /// In vi, this message translates to:
+  /// **'Mới'**
+  String get vocabularyMasteryNew;
+
+  /// No description provided for @myWordsGroupReviewing.
+  ///
+  /// In vi, this message translates to:
+  /// **'Trong Ôn tập'**
+  String get myWordsGroupReviewing;
+
+  /// No description provided for @myWordsGroupSaved.
+  ///
+  /// In vi, this message translates to:
+  /// **'Trong Sổ từ'**
+  String get myWordsGroupSaved;
+
+  /// No description provided for @myWordsGroupSeen.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đã gặp'**
+  String get myWordsGroupSeen;
+
+  /// No description provided for @myWordsSourceLabel.
+  ///
+  /// In vi, this message translates to:
+  /// **'nguồn: {source}'**
+  String myWordsSourceLabel(Object source);
+
+  /// No description provided for @myWordsMoreCount.
+  ///
+  /// In vi, this message translates to:
+  /// **'+{count} từ nữa trong nhóm này'**
+  String myWordsMoreCount(int count);
+
+  /// No description provided for @myWordsEmptyTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chưa có từ nào trong kho của bạn'**
+  String get myWordsEmptyTitle;
+
+  /// No description provided for @myWordsEmptyDescription.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tra từ khi đọc/xem video hoặc lưu từ vào Sổ từ — chúng sẽ hiện ở đây.'**
+  String get myWordsEmptyDescription;
 
   /// No description provided for @cefrLevel.
   ///
@@ -3919,7 +4411,7 @@ abstract class AppLocalizations {
   /// No description provided for @practiceListeningPrompt.
   ///
   /// In vi, this message translates to:
-  /// **'Nghe và chọn nghĩa đúng'**
+  /// **'Chạm vào thẻ để lật và xem nghĩa'**
   String get practiceListeningPrompt;
 
   /// No description provided for @practiceFeedbackCorrect.
@@ -3969,6 +4461,84 @@ abstract class AppLocalizations {
   /// In vi, this message translates to:
   /// **'Quay lại bộ thẻ'**
   String get practiceBackToDeck;
+
+  /// No description provided for @practiceBackToGames.
+  ///
+  /// In vi, this message translates to:
+  /// **'Về Game'**
+  String get practiceBackToGames;
+
+  /// No description provided for @practiceNotEnoughWords.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chưa đủ từ để luyện tập lúc này.'**
+  String get practiceNotEnoughWords;
+
+  /// No description provided for @practiceListenPill.
+  ///
+  /// In vi, this message translates to:
+  /// **'Nghe'**
+  String get practiceListenPill;
+
+  /// No description provided for @practiceHintPill.
+  ///
+  /// In vi, this message translates to:
+  /// **'Gợi ý'**
+  String get practiceHintPill;
+
+  /// No description provided for @practiceHintLetter.
+  ///
+  /// In vi, this message translates to:
+  /// **'Bắt đầu bằng \"{letter}\"'**
+  String practiceHintLetter(String letter);
+
+  /// No description provided for @practiceRetryAnswer.
+  ///
+  /// In vi, this message translates to:
+  /// **'Thử lại'**
+  String get practiceRetryAnswer;
+
+  /// No description provided for @practiceMicTooltip.
+  ///
+  /// In vi, this message translates to:
+  /// **'Nói để nhập'**
+  String get practiceMicTooltip;
+
+  /// No description provided for @practiceListeningNotYet.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chưa nhớ'**
+  String get practiceListeningNotYet;
+
+  /// No description provided for @practiceListeningKnown.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đã nhớ'**
+  String get practiceListeningKnown;
+
+  /// No description provided for @practiceListeningTapToFlip.
+  ///
+  /// In vi, this message translates to:
+  /// **'👆 Nhấn để lật'**
+  String get practiceListeningTapToFlip;
+
+  /// No description provided for @practiceListeningMeaningLabel.
+  ///
+  /// In vi, this message translates to:
+  /// **'Nghĩa'**
+  String get practiceListeningMeaningLabel;
+
+  /// No description provided for @practiceMatchingColumnDe.
+  ///
+  /// In vi, this message translates to:
+  /// **'TIẾNG ĐỨC'**
+  String get practiceMatchingColumnDe;
+
+  /// No description provided for @practiceMatchingColumnVi.
+  ///
+  /// In vi, this message translates to:
+  /// **'TIẾNG VIỆT'**
+  String get practiceMatchingColumnVi;
 
   /// No description provided for @subtitleWordsTitle.
   ///
@@ -4593,6 +5163,48 @@ abstract class AppLocalizations {
   /// In vi, this message translates to:
   /// **'Đặt ngày thi'**
   String get examGoalPromptCta;
+
+  /// No description provided for @examHeroTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'🎯 Luyện thi {provider} {level}'**
+  String examHeroTitle(String provider, String level);
+
+  /// No description provided for @examHeroToday.
+  ///
+  /// In vi, this message translates to:
+  /// **'Thi hôm nay!'**
+  String get examHeroToday;
+
+  /// No description provided for @examCornerDaysLeft.
+  ///
+  /// In vi, this message translates to:
+  /// **'Còn {days} ngày'**
+  String examCornerDaysLeft(int days);
+
+  /// No description provided for @examHeroNoAttemptsYet.
+  ///
+  /// In vi, this message translates to:
+  /// **'Làm đề đầu tiên để đo độ sẵn sàng'**
+  String get examHeroNoAttemptsYet;
+
+  /// No description provided for @examHeroBasedOnAttempts.
+  ///
+  /// In vi, this message translates to:
+  /// **'Dựa trên {count} đề đã làm'**
+  String examHeroBasedOnAttempts(int count);
+
+  /// No description provided for @examHeroCta.
+  ///
+  /// In vi, this message translates to:
+  /// **'📝 Làm đề {provider} {level}'**
+  String examHeroCta(String provider, String level);
+
+  /// No description provided for @examHeroReadyLabel.
+  ///
+  /// In vi, this message translates to:
+  /// **'sẵn sàng'**
+  String get examHeroReadyLabel;
 
   /// No description provided for @examGoalSetterTitle.
   ///

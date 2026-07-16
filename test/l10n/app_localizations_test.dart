@@ -14,8 +14,31 @@ import 'package:deutschtiger/widgets/dashboard/quick_actions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+
+/// [ResetPasswordScreen] reads `Supabase.instance.client.auth` directly, so
+/// it needs a real (fake-backed) Supabase instance in widget tests — see
+/// `test/screens/auth/reset_password_screen_test.dart` for the full
+/// rationale.
+Future<void> _ensureSupabaseInitialized() async {
+  try {
+    Supabase.instance;
+    return;
+  } on AssertionError {
+    // Not yet initialized — fall through and initialize below.
+  }
+  SharedPreferences.setMockInitialValues({});
+  await Supabase.initialize(
+    url: 'https://example.supabase.co',
+    anonKey: 'test-anon-key', // ignore: deprecated_member_use — fake anon key is enough for this offline test double.
+    authOptions: const FlutterAuthClientOptions(localStorage: EmptyLocalStorage()),
+  );
+}
 
 void main() {
+  setUpAll(_ensureSupabaseInitialized);
+
   test('generated catalogs resolve the declared application locales', () async {
     final vietnamese = await AppLocalizations.delegate.load(const Locale('vi'));
     final english = await AppLocalizations.delegate.load(const Locale('en'));
@@ -181,9 +204,20 @@ void main() {
   });
 
   testWidgets(
-    'Welcome route localizes and keeps its login action reachable at 200%',
+    'Welcome route keeps its localized login action reachable at 200%',
     (tester) async {
-      final semantics = tester.ensureSemantics();
+      // The welcome/landing page is a full marketing port of the web
+      // welcome page (plan `260716-2324-web-mobile-ui-100-fidelity`
+      // phase-02): its hero copy is long-form Vietnamese marketing text
+      // that intentionally stays inline (not pushed through ARB), matching
+      // the web source verbatim regardless of app locale. The CTA opens an
+      // auth modal whose entry points (Đăng nhập/Log in/Anmelden) DO stay
+      // localized — that's what this test asserts.
+      tester.view.physicalSize = const Size(390, 3200);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+
       await tester.pumpWidget(
         MaterialApp(
           locale: const Locale('de'),
@@ -195,14 +229,20 @@ void main() {
           ),
         ),
       );
+      // Not `pumpAndSettle`: the hero's live-pill dot runs an infinite
+      // repeating animation.
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
 
-      expect(
-        find.textContaining('Deutsch lernen', findRichText: true),
-        findsOneWidget,
-      );
-      expect(find.text('Lernen starten'), findsOneWidget);
-      expect(find.bySemanticsLabel('Anmelden'), findsOneWidget);
-      semantics.dispose();
+      expect(find.text('Học tiếng Đức'), findsOneWidget);
+
+      await tester.tap(find.text('Bắt đầu hành trình').first);
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
+
+      final german = await AppLocalizations.delegate.load(const Locale('de'));
+      expect(find.text(german.logIn), findsOneWidget);
+      expect(find.text(german.signUp), findsOneWidget);
     },
   );
 
@@ -234,25 +274,33 @@ void main() {
     },
   );
 
-  testWidgets('Reset password route localizes its form and recovery action', (
-    tester,
-  ) async {
-    await tester.pumpWidget(
-      MaterialApp(
-        locale: const Locale('de'),
-        supportedLocales: AppLocalizations.supportedLocales,
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
-        home: MediaQuery(
-          data: const MediaQueryData(textScaler: TextScaler.linear(2)),
-          child: const ResetPasswordScreen(),
+  testWidgets(
+    'Reset password route localizes its title and link-verification state',
+    (tester) async {
+      // The dark particle-glass rebuild (plan
+      // `260716-2324-web-mobile-ui-100-fidelity` phase-02) verifies the
+      // Supabase `PASSWORD_RECOVERY` event before showing the password
+      // form — see `test/screens/auth/reset_password_screen_test.dart` for
+      // full state-machine coverage (loading → ready/error → success). This
+      // smoke test only needs the title + initial loading state to prove
+      // German strings resolve on this route.
+      await tester.pumpWidget(
+        MaterialApp(
+          locale: const Locale('de'),
+          supportedLocales: AppLocalizations.supportedLocales,
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          home: MediaQuery(
+            data: const MediaQueryData(textScaler: TextScaler.linear(2)),
+            child: const ResetPasswordScreen(),
+          ),
         ),
-      ),
-    );
+      );
+      await tester.pump();
 
-    expect(find.text('Passwort zurücksetzen'), findsWidgets);
-    expect(find.text('Neues Passwort'), findsOneWidget);
-    expect(find.text('Passwort bestätigen'), findsOneWidget);
-  });
+      expect(find.text('Passwort zurücksetzen'), findsWidgets);
+      expect(find.text('Wird überprüft...'), findsOneWidget);
+    },
+  );
 
   testWidgets('Profile chrome localizes and reflows at 200% text scale', (
     tester,

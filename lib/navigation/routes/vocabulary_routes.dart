@@ -34,12 +34,16 @@ final List<RouteBase> vocabularyRoutes = [
           level: state.uri.queryParameters['level'],
         ),
       ),
+      // Web parity route contract (verified 17/07): `/vocabulary/:slug` with
+      // slug `topic-{key}` / `level-{level}` / plain collection slug,
+      // resolved client-side (see `vocabulary_detail_scope_resolver.dart`).
+      // Declared LAST so the static `lesson/`, `word/`, siblings above win
+      // first — go_router matches routes in declaration order.
       GoRoute(
-        path: 'detail/:topicKey',
+        path: ':slug',
         builder: (context, state) => VocabularyDetailScreen(
-          topicKey: state.pathParameters['topicKey']!,
-          itemId: state.uri.queryParameters['itemId'],
-          level: state.uri.queryParameters['level'],
+          slug: state.pathParameters['slug']!,
+          overlayLevel: state.uri.queryParameters['level'],
         ),
       ),
     ],

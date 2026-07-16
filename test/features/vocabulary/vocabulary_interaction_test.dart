@@ -24,7 +24,7 @@ void main() {
   );
 
   testWidgets(
-    'word screen advances through the queue with a horizontal swipe',
+    'word screen advances through the queue via the "Tiếp theo" bottom bar button',
     (tester) async {
       await tester.pumpWidget(
         const ProviderScope(
@@ -38,7 +38,7 @@ void main() {
       );
 
       expect(find.text('machen'), findsWidgets);
-      await tester.fling(find.byType(Scaffold), const Offset(-500, 0), 1000);
+      await tester.tap(find.text('Tiếp theo'));
       await tester.pumpAndSettle();
 
       expect(find.text('lernen'), findsWidgets);

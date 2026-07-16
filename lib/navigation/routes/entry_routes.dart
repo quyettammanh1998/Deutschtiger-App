@@ -15,7 +15,6 @@ import '../../screens/auth/welcome_screen.dart';
 import '../../screens/home/home_screen.dart';
 import '../../screens/legal/privacy_policy_screen.dart';
 import '../../screens/legal/terms_of_service_screen.dart';
-import '../../features/landing/presentation/landing_screen.dart' as landing;
 
 /// Top-level entry/auth/legal routes (outside the tabbed shell).
 final List<RouteBase> entryRoutes = [
@@ -34,14 +33,10 @@ final List<RouteBase> entryRoutes = [
     path: '/reset-password',
     builder: (context, state) => const ResetPasswordScreen(),
   ),
-  GoRoute(
-    path: '/landing',
-    builder: (context, state) => const landing.LandingScreen(),
-  ),
-  GoRoute(
-    path: '/welcome-full',
-    builder: (context, state) => const landing.WelcomeScreen(),
-  ),
+  // `/landing` and `/welcome-full` (Flutter-only, dead — see
+  // release_redirect.dart) are intentionally NOT registered here; the
+  // top-level release redirect sends them to `/welcome` before go_router
+  // would otherwise 404.
   GoRoute(
     path: '/privacy-policy',
     builder: (context, state) => const PrivacyPolicyScreen(),

@@ -1,4 +1,5 @@
 import '../domain/vocabulary_models.dart';
+import '../domain/graduation_stats.dart';
 import '../../../services/api_client.dart';
 
 /// Vocabulary repository for parsing API responses
@@ -79,6 +80,50 @@ class VocabularyRepository {
       if (level != null && level.isNotEmpty) 'level': level.toUpperCase(),
     },
   );
+
+  /// Mastery aggregate for a scope — existing live endpoints (web
+  /// `srsService.get{Collection,Topic,Level}GraduationStats`), used by the
+  /// detail-page mastery strip. Exactly one of [topic]/[level]/[collectionId]
+  /// should be provided (topic may carry an optional [level] overlay).
+  Future<GraduationStats> fetchGraduationStats({
+    String? topic,
+    String? level,
+    String? collectionId,
+  }) async {
+    final String path;
+    final query = <String, dynamic>{};
+    if (topic != null) {
+      path = '/user/srs/graduated-by-topic';
+      query['topic'] = topic;
+      if (level != null && level.isNotEmpty) query['level'] = level;
+    } else if (level != null) {
+      path = '/user/srs/graduated-by-level';
+      query['level'] = level;
+    } else {
+      path = '/user/srs/graduated';
+      query['collection_id'] = collectionId ?? '';
+    }
+    final json = await _api.get<Map<String, dynamic>>(path, query: query);
+    return GraduationStats.fromJson(json);
+  }
+
+  /// FSRS review-state batch for the given item ids — existing live endpoint
+  /// (web `POST /user/srs/states`), used for the per-row mastery dot + "Yếu"
+  /// filter on the visible page of a topic/level/collection list.
+  Future<Map<String, ItemMasteryState>> fetchItemMasteryStates(
+    List<String> itemIds,
+  ) async {
+    if (itemIds.isEmpty) return const {};
+    final json = await _api.post<List<dynamic>>(
+      '/user/srs/states',
+      body: {'item_ids': itemIds},
+    );
+    return {
+      for (final raw in json.whereType<Map<String, dynamic>>())
+        if (raw['learning_item_id'] is String)
+          raw['learning_item_id'] as String: ItemMasteryState.fromJson(raw),
+    };
+  }
 
   Future<CollectionItemsResult> search({
     required String query,

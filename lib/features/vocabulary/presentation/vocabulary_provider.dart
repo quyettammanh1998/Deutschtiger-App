@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../domain/vocabulary_models.dart';
+import '../domain/graduation_stats.dart';
 import '../data/vocabulary_repository.dart';
 import '../../../view_models/providers.dart';
 
@@ -131,7 +132,74 @@ final searchItemsProvider =
     });
 
 /// View mode for vocabulary page
-enum VocabularyViewMode { goal, level, topic }
+enum VocabularyViewMode { goal, level, topic, mine }
+
+/// Mastery aggregate for a detail-page scope (topic/level/collection).
+final graduationStatsProvider =
+    FutureProvider.family<GraduationStats, GraduationStatsParams>((
+      ref,
+      params,
+    ) {
+      return ref
+          .watch(vocabularyRepositoryProvider)
+          .fetchGraduationStats(
+            topic: params.topic,
+            level: params.level,
+            collectionId: params.collectionId,
+          );
+    });
+
+/// Per-item FSRS mastery state batch for the visible page of a detail list.
+final itemMasteryStatesProvider =
+    FutureProvider.family<Map<String, ItemMasteryState>, ItemMasteryQuery>((
+      ref,
+      query,
+    ) {
+      return ref
+          .watch(vocabularyRepositoryProvider)
+          .fetchItemMasteryStates(query.itemIds);
+    });
+
+/// `List<String>` has identity-based `==`, which would make
+/// `itemMasteryStatesProvider(ids)` cache-miss (and refetch) on every
+/// rebuild since `.toList()` allocates a new list each time. This wraps the
+/// ids with content equality so the family key is stable across rebuilds.
+class ItemMasteryQuery {
+  const ItemMasteryQuery(this.itemIds);
+
+  final List<String> itemIds;
+
+  @override
+  bool operator ==(Object other) {
+    if (other is! ItemMasteryQuery) return false;
+    if (itemIds.length != other.itemIds.length) return false;
+    for (var i = 0; i < itemIds.length; i++) {
+      if (itemIds[i] != other.itemIds[i]) return false;
+    }
+    return true;
+  }
+
+  @override
+  int get hashCode => Object.hashAll(itemIds);
+}
+
+class GraduationStatsParams {
+  const GraduationStatsParams({this.topic, this.level, this.collectionId});
+
+  final String? topic;
+  final String? level;
+  final String? collectionId;
+
+  @override
+  bool operator ==(Object other) =>
+      other is GraduationStatsParams &&
+      other.topic == topic &&
+      other.level == level &&
+      other.collectionId == collectionId;
+
+  @override
+  int get hashCode => Object.hash(topic, level, collectionId);
+}
 
 /// Selected view mode provider
 final vocabularyViewModeProvider = StateProvider<VocabularyViewMode>((ref) {

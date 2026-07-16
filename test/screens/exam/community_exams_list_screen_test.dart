@@ -47,7 +47,9 @@ void main() {
 
     expect(find.text('Meine Familie'), findsOneWidget);
     expect(find.text('Gia đình tôi'), findsOneWidget);
-    expect(find.text('Bình'), findsOneWidget);
+    // Contributor line is rendered as one "👤 <name>" text node (see
+    // `CommunityTopicCard`), not a bare name.
+    expect(find.text('👤 Bình'), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
 

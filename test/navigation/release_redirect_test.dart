@@ -5,8 +5,8 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   test('release redirects cover every feature-gated route family', () {
     final cases = <({String path, bool enabled, String redirect})>[
-      (path: '/landing', enabled: false, redirect: '/home'),
-      (path: '/welcome-full', enabled: false, redirect: '/home'),
+      (path: '/landing', enabled: false, redirect: '/welcome'),
+      (path: '/welcome-full', enabled: false, redirect: '/welcome'),
       (
         path: '/grammar/topic-a1',
         enabled: ReleaseFeatureFlags.grammar,
@@ -39,7 +39,7 @@ void main() {
       ),
       (
         path: '/games/matching',
-        enabled: ReleaseFeatureFlags.games,
+        enabled: ReleaseFeatureFlags.practice,
         redirect: '/learn',
       ),
       (path: '/ai', enabled: ReleaseFeatureFlags.aiTutor, redirect: '/learn'),
@@ -119,10 +119,11 @@ void main() {
     expect(ReleaseFeatureFlags.sentenceBuilder, isTrue);
     expect(resolveReleaseRedirect('/games/sentence-builder'), isNull);
     expect(resolveReleaseRedirect('/games/sentence-builder/play'), isNull);
-    // Sibling mock games remain gated behind the blanket flag regardless.
+    // `/games/matching` (P4 practice-view route) is exempt from the blanket
+    // `games` flag too — gated independently by `practice`.
     expect(
       resolveReleaseRedirect('/games/matching'),
-      ReleaseFeatureFlags.games ? isNull : '/learn',
+      ReleaseFeatureFlags.practice ? isNull : '/learn',
     );
   });
 
@@ -152,20 +153,16 @@ void main() {
   );
 
   test(
-    'flashcard/writing-word/writing-sentence/listening/runner games are '
-    'exempt from the blanket games gate',
+    'writing-sentence/listening/runner games are exempt from the blanket '
+    'games gate',
     () {
-      // Live backend contracts (/user/srs/*, /vocabulary/learned,
-      // /ai/grade-word-writing, /ai/grade-sentence — all tái dùng existing
-      // repositories), independent flags — reachable even though the other
-      // mock games stay gated behind the blanket `games` flag.
-      expect(ReleaseFeatureFlags.flashcardGame, isTrue);
-      expect(ReleaseFeatureFlags.writingWordGame, isTrue);
+      // Live backend contracts (/vocabulary/learned, /ai/grade-sentence —
+      // tái dùng existing repositories), independent flags — reachable even
+      // though the other mock games stay gated behind the blanket `games`
+      // flag.
       expect(ReleaseFeatureFlags.writingSentenceGame, isTrue);
       expect(ReleaseFeatureFlags.listeningGame, isTrue);
       expect(ReleaseFeatureFlags.runnerGame, isTrue);
-      expect(resolveReleaseRedirect('/games/flashcard'), isNull);
-      expect(resolveReleaseRedirect('/games/writing'), isNull);
       expect(resolveReleaseRedirect('/games/writing-sentence'), isNull);
       expect(resolveReleaseRedirect('/games/listening'), isNull);
       expect(resolveReleaseRedirect('/games/runner'), isNull);
@@ -179,18 +176,35 @@ void main() {
   );
 
   test(
-    'article/word-order/fill-blank games are exempt from the blanket games '
-    'gate',
+    'P4 practice-view routes (cloze/flashcards/matching/writing) are exempt '
+    'from the blanket games gate, and old paths redirect to the renamed web '
+    'paths',
+    () {
+      // Live backend contract (/user/learning-items/balanced +
+      // deck/flashcard repos — tái dùng existing repositories), independent
+      // `practice` flag — reachable even though the other mock games stay
+      // gated behind the blanket `games` flag.
+      expect(ReleaseFeatureFlags.practice, isTrue);
+      expect(resolveReleaseRedirect('/games/cloze'), isNull);
+      expect(resolveReleaseRedirect('/games/flashcards'), isNull);
+      expect(resolveReleaseRedirect('/games/matching'), isNull);
+      expect(resolveReleaseRedirect('/games/writing'), isNull);
+      // Legacy paths (deleted screens) redirect to the web-parity rename.
+      expect(resolveReleaseRedirect('/games/fill-blank'), '/games/cloze');
+      expect(resolveReleaseRedirect('/games/flashcard'), '/games/flashcards');
+    },
+  );
+
+  test(
+    'article/word-order games are exempt from the blanket games gate',
     () {
       // Live backend contract (/user/learning-items/balanced, tái dùng
       // LearningItemRepository), independent flags — reachable even though
       // the other mock games stay gated behind the blanket `games` flag.
       expect(ReleaseFeatureFlags.articleGame, isTrue);
       expect(ReleaseFeatureFlags.wordOrderGame, isTrue);
-      expect(ReleaseFeatureFlags.fillBlankGame, isTrue);
       expect(resolveReleaseRedirect('/games/article'), isNull);
       expect(resolveReleaseRedirect('/games/word-order'), isNull);
-      expect(resolveReleaseRedirect('/games/fill-blank'), isNull);
     },
   );
 }

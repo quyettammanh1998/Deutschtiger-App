@@ -4,21 +4,20 @@ import 'package:go_router/go_router.dart';
 
 import '../../../core/design_tokens.dart';
 import '../../../core/release/release_feature_flags.dart';
-import '../../../data/home/dashboard_data.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../view_models/providers.dart';
 import '../../../widgets/common/async_state_views.dart';
 import '../../../widgets/dashboard/mobile_dashboard_header.dart';
-import '../../../widgets/dashboard/mobile_stats_card.dart';
-import '../../../widgets/dashboard/quick_actions.dart';
 import '../../../widgets/dashboard/streak_claim_modal.dart';
 import '../../../features/daily_path/domain/daily_path.dart';
 import '../../../features/daily_path/presentation/daily_path_route_resolver.dart';
 import '../../../features/heartbeat/heartbeat_provider.dart';
 import '../../view_models/notifications/notifications_provider.dart';
 import 'widgets/community_links.dart';
+import 'widgets/dashboard_mission_mapping.dart';
 import 'widgets/dashboard_sections.dart';
 import 'widgets/exam_corner_card.dart';
+import 'widgets/exam_hero_card.dart';
 import 'widgets/pinned_shortcuts.dart';
 import 'widgets/premium_banner.dart';
 import 'widgets/resume_section.dart';
@@ -41,6 +40,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final dashAsync = ref.watch(dashboardProvider);
     final profileAsync = ref.watch(myProfileProvider);
     final heartbeat = ref.watch(heartbeatProvider);
+    final goalAsync = ref.watch(learnGoalProvider);
+    final hasExamGoal = goalAsync.valueOrNull?.targetDate != null;
     final l10n = AppLocalizations.of(context);
 
     if (heartbeat.claimable && !_streakPrompted && !_showStreakModal) {
@@ -70,7 +71,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           final streak = gami?.currentStreak ?? 0;
           final dailyXp = gami?.dailyXpToday;
           final dailyGoal = gami?.dailyGoal;
-          final missions = _mapMissions(dash.missions, l10n);
+          final missions = mapDashboardMissions(dash.missions, l10n);
 
           return RefreshIndicator(
             onRefresh: () async {
@@ -99,6 +100,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             unreadNotificationCount: ref.watch(
                               unreadNotificationCountProvider,
                             ),
+                            wordsLearned: dash.wordsLearned,
                           ),
                           Padding(
                             padding: const EdgeInsets.fromLTRB(
@@ -111,8 +113,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               onTap: () => context.push('/vocabulary'),
                             ),
                           ),
-                          // Lộ trình hôm nay — THE single "what to study now"
-                          // answer, first content block after header/search.
+                          // Exam-goal users get an exam-first hero (real
+                          // behavior: exam pages dominate usage for them);
+                          // everyone else keeps the daily path as hero with
+                          // the compact exam-corner goal-setter strip below
+                          // it. Mirrors web `DashboardHeroSection`.
+                          if (hasExamGoal) ...[
+                            ExamHeroCard(goal: goalAsync.value!),
+                            const SizedBox(height: DesignTokens.spacingMd),
+                          ],
                           DashboardContinueLearningSection(
                             dailyXp: dailyXp ?? 0,
                             dailyGoal: dailyGoal ?? 0,
@@ -120,9 +129,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             onStart: _openDailyPathStep,
                           ),
                           const SizedBox(height: DesignTokens.spacingMd),
-                          // Đích thi — countdown + tiếp tục đề, ngay sau path.
-                          const ExamCornerCard(),
-                          const SizedBox(height: DesignTokens.spacingMd),
+                          if (!hasExamGoal) ...[
+                            // Đích thi — countdown + tiếp tục đề, ngay sau path.
+                            const ExamCornerCard(),
+                            const SizedBox(height: DesignTokens.spacingMd),
+                          ],
                           // 🔗 Lối tắt — 10 pinned shortcuts.
                           const PinnedShortcuts(),
                           const SizedBox(height: DesignTokens.spacingMd),
@@ -130,21 +141,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           // guided path.
                           DashboardMissionsSection(missions: missions),
                           const SizedBox(height: DesignTokens.spacingMd),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: DesignTokens.screenHorizontalPadding,
-                            ),
-                            child: MobileStatsCard(
-                              totalWordsLearned: dash.wordsLearned,
-                              totalLookups: dash.lookupCount,
-                              streak: streak,
-                              onlineSeconds: dash.onlineTimeToday,
-                              onStreakTap: _openStreakModal,
-                              showDetails: ReleaseFeatureFlags.stats,
-                              onDetailsTap: ReleaseFeatureFlags.stats
-                                  ? () => context.push('/stats')
-                                  : null,
-                            ),
+                          // PremiumBanner sits right after missions on web
+                          // (block 5) — moved up from the tail of the page.
+                          PremiumBanner(
+                            isPremiumUser:
+                                profileAsync.valueOrNull?.isPremium ?? false,
                           ),
                           const SizedBox(height: DesignTokens.spacingMd),
                           Padding(
@@ -154,34 +155,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             child: WeeklyLeaderboardCompact(
                               onShowAll: () => context.push('/leaderboard'),
                             ),
-                          ),
-                          const SizedBox(height: DesignTokens.spacingMd),
-                          // Khám phá — free-browse grid, demoted below the
-                          // guided path.
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: DesignTokens.screenHorizontalPadding,
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  l10n.exploreSectionTitle,
-                                  style: const TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                    color: DesignTokens.foreground,
-                                  ),
-                                ),
-                                const SizedBox(height: DesignTokens.spacingSm),
-                                QuickActions(totalWords: dash.wordsLearned),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(height: DesignTokens.spacingMd),
-                          PremiumBanner(
-                            isPremiumUser:
-                                profileAsync.valueOrNull?.isPremium ?? false,
                           ),
                           const SizedBox(height: DesignTokens.spacingMd),
                           const CommunityLinks(),
@@ -209,43 +182,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         },
       ),
     );
-  }
-
-  List<DashboardMission> _mapMissions(
-    List<Mission> missions,
-    AppLocalizations l10n,
-  ) {
-    return missions.map((m) {
-      return DashboardMission(
-        title: m.titleVi.isNotEmpty ? m.titleVi : l10n.mission,
-        icon: _missionIcon(m.icon),
-        xpReward: m.xpReward,
-        currentProgress: m.currentProgress,
-        targetCount: m.targetCount,
-        isCompleted: m.isCompleted,
-      );
-    }).toList();
-  }
-
-  /// Maps the backend's semantic `Mission.icon` key (real data, not derived)
-  /// to a close Material icon — mirrors web `ICON_MAP` in
-  /// `daily-missions-section.tsx` (pencil/headphones/cards/book/zap/target/
-  /// play/clipboard/gamepad).
-  IconData _missionIcon(String icon) => switch (icon) {
-    'pencil' => Icons.edit_outlined,
-    'headphones' => Icons.headset_outlined,
-    'cards' => Icons.style_outlined,
-    'book' => Icons.menu_book_outlined,
-    'zap' => Icons.bolt_outlined,
-    'target' => Icons.track_changes_outlined,
-    'play' => Icons.play_circle_outline,
-    'clipboard' => Icons.assignment_outlined,
-    'gamepad' => Icons.sports_esports_outlined,
-    _ => Icons.star_outline,
-  };
-
-  void _openStreakModal() {
-    if (mounted) setState(() => _showStreakModal = true);
   }
 
   void _closeStreakModal() {

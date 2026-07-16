@@ -21,7 +21,9 @@ void main() {
     offset: 0,
   );
 
-  testWidgets('my words localizes filters and live-data chrome at 200%', (
+  const empty = MyWordsPage(words: [], total: 0, limit: 100, offset: 0);
+
+  testWidgets('my words localizes group headings and live-data chrome at 200%', (
     tester,
   ) async {
     await tester.pumpWidget(
@@ -30,6 +32,12 @@ void main() {
           myWordsProvider(
             MyWordsFilter.saved,
           ).overrideWith((ref) async => page),
+          myWordsProvider(
+            MyWordsFilter.reviewing,
+          ).overrideWith((ref) async => empty),
+          myWordsProvider(
+            MyWordsFilter.seen,
+          ).overrideWith((ref) async => empty),
         ],
         child: MaterialApp(
           locale: const Locale('de'),
@@ -44,11 +52,12 @@ void main() {
     );
     await tester.pumpAndSettle();
 
+    // Web parity: the SegmentedButton filter toggle is gone; saved/seen/
+    // reviewing are emoji-headed groups, and only non-empty ones render.
     expect(find.text('Meine Wörter'), findsOneWidget);
-    expect(find.text('Gespeichert'), findsOneWidget);
-    expect(find.text('Angesehen'), findsOneWidget);
-    expect(find.text('Wiederholen'), findsOneWidget);
-    expect(find.text('1 Wort'), findsOneWidget);
+    expect(find.text('Im Notizbuch'), findsOneWidget);
+    expect(find.text('In Wiederholung'), findsNothing);
+    expect(find.text('Gesehen'), findsNothing);
     expect(find.text('Haus'), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
@@ -59,6 +68,12 @@ void main() {
         overrides: [
           myWordsProvider(
             MyWordsFilter.saved,
+          ).overrideWith((ref) => Future<MyWordsPage>.error('private detail')),
+          myWordsProvider(
+            MyWordsFilter.reviewing,
+          ).overrideWith((ref) => Future<MyWordsPage>.error('private detail')),
+          myWordsProvider(
+            MyWordsFilter.seen,
           ).overrideWith((ref) => Future<MyWordsPage>.error('private detail')),
         ],
         child: MaterialApp(

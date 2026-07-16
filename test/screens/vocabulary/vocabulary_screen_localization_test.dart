@@ -16,6 +16,19 @@ void main() {
           vocabularyPageDataProvider.overrideWith(
             (ref) async => VocabularyPageData(
               levelCounts: const [LevelCount(level: 'A1', count: 10)],
+              // `alltag` is one of the `daily-life` goal's topic keys — needed
+              // so the default-selected goal tab renders its active card
+              // instead of the "no topics" empty state.
+              topicLevelCounts: const [
+                TopicLevelCount(
+                  topicId: 'topic-alltag',
+                  topicKey: 'alltag',
+                  label: 'Everyday life',
+                  labelVi: 'Đời sống hằng ngày',
+                  level: 'A1',
+                  count: 10,
+                ),
+              ],
             ),
           ),
         ],
@@ -33,8 +46,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('Wortschatz'), findsOneWidget);
-    expect(find.text('10 Wörter'), findsOneWidget);
-    expect(find.text('1 CEFR-Stufe'), findsOneWidget);
+    expect(find.text('10 Wörter · 6 CEFR-Stufen'), findsOneWidget);
     expect(find.text('🎯 Nach Zielen'), findsOneWidget);
     expect(find.text('🧭 Nach Niveau'), findsOneWidget);
     expect(find.text('📚 Nach Thema'), findsOneWidget);

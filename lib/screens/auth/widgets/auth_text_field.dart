@@ -98,6 +98,25 @@ class AuthValidators {
     return null;
   }
 
+  /// Signup password rule — web enforces an 8-char minimum (login only
+  /// checks the shorter 6-char rule above, since existing accounts may
+  /// predate this stricter requirement).
+  static String? passwordMin8(String? v, AppLocalizations l10n) {
+    final value = v ?? '';
+    if (value.isEmpty) return l10n.passwordRequired;
+    if (value.length < 8) return l10n.passwordTooShortEight;
+    return null;
+  }
+
+  static String? confirmPassword(
+    String? v,
+    String password,
+    AppLocalizations l10n,
+  ) {
+    if ((v ?? '') != password) return l10n.passwordConfirmationMismatch;
+    return null;
+  }
+
   static String? displayName(String? v, AppLocalizations l10n) {
     final value = (v ?? '').trim();
     if (value.isEmpty) return l10n.displayNameRequired;

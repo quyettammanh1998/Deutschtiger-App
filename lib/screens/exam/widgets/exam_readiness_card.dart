@@ -27,7 +27,9 @@ class ExamReadinessCard extends StatelessWidget {
                             CircularProgressIndicator(
                               value: readiness.overallScore / 100,
                               backgroundColor: Colors.grey[200],
-                              valueColor: AlwaysStoppedAnimation(_getOverallColor()),
+                              valueColor: AlwaysStoppedAnimation(
+                                _getOverallColor(),
+                              ),
                               strokeWidth: 8,
                             ),
                             Center(
@@ -59,13 +61,29 @@ class ExamReadinessCard extends StatelessWidget {
                 Expanded(
                   child: Column(
                     children: [
-                      _ScoreBar(label: 'Reading', score: readiness.readingScore, color: Colors.blue),
+                      _ScoreBar(
+                        label: 'Reading',
+                        score: readiness.readingScore,
+                        color: Colors.blue,
+                      ),
                       const SizedBox(height: 8),
-                      _ScoreBar(label: 'Listening', score: readiness.listeningScore, color: Colors.purple),
+                      _ScoreBar(
+                        label: 'Listening',
+                        score: readiness.listeningScore,
+                        color: Colors.purple,
+                      ),
                       const SizedBox(height: 8),
-                      _ScoreBar(label: 'Writing', score: readiness.writingScore, color: Colors.orange),
+                      _ScoreBar(
+                        label: 'Writing',
+                        score: readiness.writingScore,
+                        color: Colors.orange,
+                      ),
                       const SizedBox(height: 8),
-                      _ScoreBar(label: 'Speaking', score: readiness.speakingScore, color: Colors.teal),
+                      _ScoreBar(
+                        label: 'Speaking',
+                        score: readiness.speakingScore,
+                        color: Colors.teal,
+                      ),
                     ],
                   ),
                 ),
@@ -84,16 +102,33 @@ class ExamReadinessCard extends StatelessWidget {
                       children: [
                         const Row(
                           children: [
-                            Icon(Icons.thumb_up, size: 16, color: AppColors.success),
+                            Icon(
+                              Icons.thumb_up,
+                              size: 16,
+                              color: AppColors.success,
+                            ),
                             SizedBox(width: 4),
-                            Text('Strengths', style: TextStyle(fontWeight: FontWeight.bold)),
+                            Text(
+                              'Strengths',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
                           ],
                         ),
                         const SizedBox(height: 8),
-                        ...readiness.strengths.take(2).map((s) => Padding(
-                          padding: const EdgeInsets.only(bottom: 4),
-                          child: Text('• $s', style: TextStyle(color: Colors.grey[600], fontSize: 13)),
-                        )),
+                        ...readiness.strengths
+                            .take(2)
+                            .map(
+                              (s) => Padding(
+                                padding: const EdgeInsets.only(bottom: 4),
+                                child: Text(
+                                  '• $s',
+                                  style: TextStyle(
+                                    color: Colors.grey[600],
+                                    fontSize: 13,
+                                  ),
+                                ),
+                              ),
+                            ),
                       ],
                     ),
                   ),
@@ -103,16 +138,33 @@ class ExamReadinessCard extends StatelessWidget {
                       children: [
                         const Row(
                           children: [
-                            Icon(Icons.trending_up, size: 16, color: AppColors.error),
+                            Icon(
+                              Icons.trending_up,
+                              size: 16,
+                              color: AppColors.error,
+                            ),
                             SizedBox(width: 4),
-                            Text('Needs Work', style: TextStyle(fontWeight: FontWeight.bold)),
+                            Text(
+                              'Needs Work',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
                           ],
                         ),
                         const SizedBox(height: 8),
-                        ...readiness.weaknesses.take(2).map((w) => Padding(
-                          padding: const EdgeInsets.only(bottom: 4),
-                          child: Text('• $w', style: TextStyle(color: Colors.grey[600], fontSize: 13)),
-                        )),
+                        ...readiness.weaknesses
+                            .take(2)
+                            .map(
+                              (w) => Padding(
+                                padding: const EdgeInsets.only(bottom: 4),
+                                child: Text(
+                                  '• $w',
+                                  style: TextStyle(
+                                    color: Colors.grey[600],
+                                    fontSize: 13,
+                                  ),
+                                ),
+                              ),
+                            ),
                       ],
                     ),
                   ),
@@ -137,7 +189,11 @@ class _ScoreBar extends StatelessWidget {
   final double score;
   final Color color;
 
-  const _ScoreBar({required this.label, required this.score, required this.color});
+  const _ScoreBar({
+    required this.label,
+    required this.score,
+    required this.color,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -159,7 +215,11 @@ class _ScoreBar extends StatelessWidget {
           width: 35,
           child: Text(
             '${score.toStringAsFixed(0)}%',
-            style: TextStyle(fontSize: 11, color: color, fontWeight: FontWeight.bold),
+            style: TextStyle(
+              fontSize: 11,
+              color: color,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
       ],

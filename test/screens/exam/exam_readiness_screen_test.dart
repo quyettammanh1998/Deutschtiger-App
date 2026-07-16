@@ -43,8 +43,11 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('60–75%'), findsOneWidget);
-    expect(find.text('85'), findsOneWidget);
-    expect(find.text('hoeren'), findsOneWidget);
+    // Best-score stat pill renders as "85%" (see `readiness_stat_pills.dart`).
+    expect(find.text('85%'), findsOneWidget);
+    // Raw skill id "hoeren" renders through a display-label map (see
+    // `readiness_skill_bars.dart`).
+    expect(find.text('Nghe (Hören)'), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
 

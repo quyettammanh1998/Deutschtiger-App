@@ -19,6 +19,7 @@ class MobileDashboardHeader extends StatelessWidget {
     this.onMessagesTap,
     this.onProfileTap,
     this.unreadNotificationCount = 0,
+    this.wordsLearned = 0,
   });
 
   final String displayName;
@@ -31,6 +32,10 @@ class MobileDashboardHeader extends StatelessWidget {
 
   /// `GET /user/unread-counts` — badge shown on the Messages icon button.
   final int unreadNotificationCount;
+
+  /// Total distinct words learned — when > 0 the row-2 encouragement text
+  /// switches to "📚 Đã học N từ vựng" (mirrors web header row 2 variant).
+  final int wordsLearned;
 
   /// Greeting theo giờ trong ngày.
   static String timeGreeting(AppLocalizations l10n, {DateTime? now}) {
@@ -135,7 +140,9 @@ class MobileDashboardHeader extends StatelessWidget {
                         children: [
                           Expanded(
                             child: Text(
-                              l10n.headerEncouragement,
+                              wordsLearned > 0
+                                  ? l10n.headerWordsLearned(wordsLearned)
+                                  : l10n.headerEncouragement,
                               style: const TextStyle(
                                 fontSize: 12.5,
                                 fontWeight: FontWeight.w500,

@@ -314,7 +314,7 @@ class VocabPracticeButtons extends StatelessWidget {
       children: [
         Expanded(
           child: OutlinedButton.icon(
-            onPressed: () => context.push('/games/flashcard'),
+            onPressed: () => context.push('/games/flashcards'),
             icon: const Icon(Icons.style),
             label: Text(l10n.flashcardPractice),
             style: OutlinedButton.styleFrom(

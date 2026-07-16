@@ -1,138 +1,121 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
-import '../../core/design_tokens.dart';
+import '../../core/theme/app_tokens.dart';
+import 'widgets/legal_content_widgets.dart';
+import 'widgets/legal_scaffold.dart';
 
-/// Màn Terms of Service - bắt buộc cho Apple App Store Review.
+/// Điều khoản Dịch vụ — nội dung port nguyên văn từ web
+/// `legal/terms-of-service-page.tsx` (9 mục), giữ tiếng Việt inline như web.
 class TermsOfServiceScreen extends StatelessWidget {
   const TermsOfServiceScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: DesignTokens.authBackground,
-      appBar: AppBar(
-        backgroundColor: DesignTokens.authBackground,
-        title: const Text(
-          'Điều khoản dịch vụ',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: DesignTokens.tigerOrange,
-            fontSize: 18,
+    return LegalScaffold(
+      title: 'Điều khoản Dịch vụ',
+      dateLabel: 'Tháng 7, 2026',
+      sections: [
+        const LegalSection(
+          heading: '1. Chấp nhận điều khoản',
+          body: LegalLinkParagraph(
+            before: 'Khi truy cập và sử dụng ',
+            linkText: 'deutschtiger.com',
+            linkUrl: 'https://deutschtiger.com',
+            after: ' ("Dịch vụ"), bạn đồng ý tuân theo các Điều khoản này. Nếu không đồng ý, '
+                'vui lòng ngừng sử dụng Dịch vụ.',
           ),
         ),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () => Navigator.of(context).pop(),
+        const LegalSection(
+          heading: '2. Mô tả dịch vụ',
+          body: LegalParagraph(
+            'Deutsch Tiger là nền tảng học và luyện thi tiếng Đức: flashcard, đề thi mô '
+            'phỏng, chấm viết/nói bằng AI, bài đọc, video và trò chơi. Kết quả chấm AI mang '
+            'tính tham khảo, hỗ trợ luyện tập; không phải chứng chỉ chính thức và không thay '
+            'thế kỳ thi của Goethe/telc/ÖSD.',
+          ),
         ),
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(DesignTokens.spacingLg),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Điều khoản sử dụng',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: DesignTokens.spacingSm),
-            Text(
-              'Cập nhật lần cuối: ${DateTime.now().year}',
-              style: DesignTokens.bodySmall.copyWith(
-                color: DesignTokens.mutedForeground,
-              ),
-            ),
-            const SizedBox(height: DesignTokens.spacingLg),
-            const _Section(
-              title: '1. Chấp nhận điều khoản',
-              content:
-                  'Bằng việc tải và sử dụng ứng dụng DeutschTiger, bạn đồng ý bị ràng buộc bởi các điều khoản này. Nếu bạn không đồng ý với bất kỳ phần nào của điều khoản, vui lòng không sử dụng ứng dụng.',
-            ),
-            const _Section(
-              title: '2. Mô tả dịch vụ',
-              content:
-                  'DeutschTiger là ứng dụng học tiếng Đức cung cấp flashcard, bài tập, và nội dung ngữ pháp. Chúng tôi cố gắng cung cấp nội dung chính xác, nhưng không đảm bảo rằng tất cả nội dung đều không có lỗi. Người dùng nên sử dụng phán đoán riêng khi học ngôn ngữ.',
-            ),
-            const _Section(
-              title: '3. Tài khoản người dùng',
-              content:
-                  'Bạn chịu trách nhiệm bảo mật thông tin tài khoản của mình. Bạn phải đủ 13 tuổi trở lên để tạo tài khoản. Chúng tôi có quyền đình chỉ hoặc xóa tài khoản vi phạm điều khoản này.',
-            ),
-            const _Section(
-              title: '4. Sở hữu trí tuệ',
-              content:
-                  'Nội dung trong ứng dụng (bao gồm text, hình ảnh, thiết kế) thuộc sở hữu của DeutschTiger hoặc các nhà cung cấp nội dung. Bạn không được sao chép, phân phối, hoặc tạo derivative works mà không có sự cho phép.',
-            ),
-            const _Section(
-              title: '5. Mua hàng trong ứng dụng',
-              content:
-                  'Nếu ứng dụng có tính năng premium, các giao dịch được xử lý qua App Store/Google Play. Chính sách hoàn tiền của họ sẽ áp dụng. Đăng ký tự động gia hạn trừ khi hủy ít nhất 24 giờ trước cuối kỳ hiện tại.',
-            ),
-            const _Section(
-              title: '6. Giới hạn trách nhiệm',
-              content:
-                  'Ứng dụng được cung cấp "như có". Chúng tôi không đảm bảo rằng ứng dụng sẽ không bị gián đoạn hoặc không có lỗi. Trong phạm vi tối đa được pháp luật cho phép, chúng tôi không chịu trách nhiệm cho bất kỳ thiệt hại nào phát sinh từ việc sử dụng ứng dụng.',
-            ),
-            const _Section(
-              title: '7. Thay đổi dịch vụ',
-              content:
-                  'Chúng tôi có quyền thay đổi hoặc ngừng cung cấp dịch vụ (hoặc một phần) bất cứ lúc nào, với hoặc không có thông báo trước.',
-            ),
-            const _Section(
-              title: '8. Luật áp dụng',
-              content:
-                  'Các điều khoản này được điều chỉnh bởi luật của Việt Nam. Mọi tranh chấp phát sinh sẽ được giải quyết tại tòa án có thẩm quyền tại Việt Nam.',
-            ),
-            const _Section(
-              title: '9. Liên hệ',
-              content:
-                  'Nếu bạn có câu hỏi về điều khoản này, vui lòng liên hệ:\n\n📧 Email: support@deutschtiger.com\n🌐 Website: https://deutschtiger.com',
-            ),
-            const SizedBox(height: DesignTokens.spacingXl),
-            Center(
-              child: Text(
-                '© ${DateTime.now().year} DeutschTiger. Mọi quyền được bảo lưu.',
-                style: DesignTokens.bodySmall.copyWith(
-                  color: DesignTokens.mutedForeground,
+        const LegalSection(
+          heading: '3. Tài khoản',
+          body: LegalParagraph(
+            'Bạn chịu trách nhiệm bảo mật thông tin đăng nhập và mọi hoạt động dưới tài khoản '
+            'của mình. Vui lòng cung cấp thông tin chính xác và thông báo cho chúng tôi nếu '
+            'phát hiện truy cập trái phép.',
+          ),
+        ),
+        const LegalSection(
+          heading: '4. Gói trả phí, thanh toán và hoàn tiền',
+          body: LegalParagraph(
+            'Một số tính năng yêu cầu gói trả phí. Giá và quyền lợi được hiển thị tại trang '
+            'nâng cấp trước khi thanh toán. Do đặc thù nội dung số được mở khóa ngay sau khi '
+            'thanh toán, các giao dịch về nguyên tắc không hoàn lại, trừ trường hợp lỗi kỹ '
+            'thuật khiến bạn không sử dụng được Dịch vụ — khi đó vui lòng liên hệ hỗ trợ để '
+            'được xử lý theo từng trường hợp.',
+          ),
+        ),
+        const LegalSection(
+          heading: '5. Sử dụng hợp lệ',
+          body: LegalParagraph(
+            'Bạn không được: sao chép, phân phối lại nội dung Dịch vụ vì mục đích thương mại; '
+            'cố gắng phá hoại, dò quét hoặc lạm dụng hệ thống; hoặc dùng các tính năng AI cho '
+            'mục đích trái pháp luật. Chúng tôi có thể áp dụng giới hạn sử dụng hợp lý '
+            '(fair-use) cho các tính năng AI để đảm bảo chất lượng cho mọi người dùng.',
+          ),
+        ),
+        const LegalSection(
+          heading: '6. Sở hữu trí tuệ',
+          body: LegalParagraph(
+            'Nội dung, thương hiệu và mã nguồn của Dịch vụ thuộc quyền sở hữu của Deutsch '
+            'Tiger. Ghi chú, thẻ từ và dữ liệu học tập do bạn tạo vẫn thuộc về bạn.',
+          ),
+        ),
+        const LegalSection(
+          heading: '7. Miễn trừ trách nhiệm',
+          body: LegalParagraph(
+            'Dịch vụ được cung cấp "nguyên trạng". Chúng tôi nỗ lực đảm bảo tính chính xác và '
+            'sẵn sàng nhưng không cam kết Dịch vụ không gián đoạn hay không có lỗi, và không '
+            'chịu trách nhiệm cho kết quả kỳ thi thực tế của bạn.',
+          ),
+        ),
+        const LegalSection(
+          heading: '8. Thay đổi điều khoản',
+          body: LegalParagraph(
+            'Chúng tôi có thể cập nhật Điều khoản này. Bản cập nhật có hiệu lực khi đăng tải; '
+            'việc tiếp tục sử dụng Dịch vụ đồng nghĩa bạn chấp nhận thay đổi.',
+          ),
+        ),
+        LegalSection(
+          heading: '9. Liên hệ',
+          body: Builder(
+            builder: (context) {
+              final tokens = context.tokens;
+              return Text.rich(
+                TextSpan(
+                  style: TextStyle(
+                    fontSize: 14,
+                    height: 1.6,
+                    color: tokens.mutedForeground,
+                  ),
+                  children: [
+                    const TextSpan(
+                      text: 'Mọi thắc mắc về Điều khoản, vui lòng liên hệ qua các kênh hỗ trợ '
+                          'của Deutsch Tiger. Xem thêm ',
+                    ),
+                    TextSpan(
+                      text: 'Chính sách Bảo mật',
+                      style: TextStyle(color: tokens.primary),
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () => context.push('/privacy-policy'),
+                    ),
+                    const TextSpan(text: '.'),
+                  ],
                 ),
-              ),
-            ),
-            const SizedBox(height: DesignTokens.spacingLg),
-          ],
+              );
+            },
+          ),
         ),
-      ),
-    );
-  }
-}
-
-class _Section extends StatelessWidget {
-  const _Section({required this.title, required this.content});
-
-  final String title;
-  final String content;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            title,
-            style: DesignTokens.titleMedium.copyWith(
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-          const SizedBox(height: DesignTokens.spacingSm),
-          Text(
-            content,
-            style: DesignTokens.bodyMedium.copyWith(
-              height: 1.6,
-              color: DesignTokens.foreground.withValues(alpha: 0.8),
-            ),
-          ),
-        ],
-      ),
+      ],
     );
   }
 }

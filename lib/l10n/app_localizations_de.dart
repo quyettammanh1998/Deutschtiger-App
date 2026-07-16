@@ -80,6 +80,11 @@ class AppLocalizationsDe extends AppLocalizations {
   String get headerEncouragement => 'Bereit, Deutsch zu meistern? 🚀';
 
   @override
+  String headerWordsLearned(int count) {
+    return '📚 $count Wörter gelernt';
+  }
+
+  @override
   String get headerStreakStart => 'Loslegen';
 
   @override
@@ -371,6 +376,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get atLeastSixCharacters => 'Mindestens 6 Zeichen';
 
   @override
+  String get atLeastEightCharacters => 'Mindestens 8 Zeichen';
+
+  @override
   String get createAccount => 'Konto erstellen';
 
   @override
@@ -408,6 +416,13 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get passwordTooShort =>
       'Dein Passwort muss mindestens 6 Zeichen haben.';
+
+  @override
+  String get passwordTooShortEight =>
+      'Dein Passwort muss mindestens 8 Zeichen haben.';
+
+  @override
+  String get signupSubtitle => 'Erstelle ein Konto, um Deutsch zu lernen';
 
   @override
   String get displayNameRequired => 'Gib einen Anzeigenamen ein.';
@@ -476,6 +491,33 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get passwordConfirmationMismatch =>
       'Die Passwortbestätigung stimmt nicht überein.';
+
+  @override
+  String get verifyingResetLink => 'Wird überprüft...';
+
+  @override
+  String get resetLinkInvalid =>
+      'Dieser Link zum Zurücksetzen des Passworts ist ungültig oder abgelaufen.';
+
+  @override
+  String get resendResetLink => 'Link erneut senden';
+
+  @override
+  String checkEmailForResetLink(String email) {
+    return 'Prüfe $email, um dein Passwort zurückzusetzen.';
+  }
+
+  @override
+  String get showPasswordTooltip => 'Passwort anzeigen';
+
+  @override
+  String get hidePasswordTooltip => 'Passwort verbergen';
+
+  @override
+  String get newPasswordHint => 'Mindestens 8 Zeichen';
+
+  @override
+  String get confirmPasswordHint => 'Neues Passwort wiederholen';
 
   @override
   String get avatarUrlOptional => 'Profilbild-URL (optional)';
@@ -596,6 +638,120 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get examReadinessBandLabel => 'Geschätzte Bereitschaft';
+
+  @override
+  String get examLandingSubtitle => 'Zertifikat & Niveau wählen';
+
+  @override
+  String get examBuddyCtaSubtitle =>
+      'Verbinde dich mit jemandem, der am selben Tag prüft, um gemeinsam zu lernen';
+
+  @override
+  String get examShortDescTelc => 'Visum, Aufenthalt, Einbürgerung';
+
+  @override
+  String get examShortDescGoethe => 'International anerkanntes Zertifikat';
+
+  @override
+  String get examShortDescOsd => 'Österreichisches Deutschzertifikat';
+
+  @override
+  String get examRecommendedLabel => 'Empfohlen';
+
+  @override
+  String examLevelMismatchTitle(String level) {
+    return 'Du bist aktuell auf Niveau $level';
+  }
+
+  @override
+  String examLevelMismatchBody(String level) {
+    return 'Die Prüfung $level könnte für dein aktuelles Niveau zu schwer sein. Trotzdem fortfahren?';
+  }
+
+  @override
+  String get examLevelMismatchCancel => 'Abbrechen';
+
+  @override
+  String get examLevelMismatchContinue => 'Trotzdem fortfahren';
+
+  @override
+  String examSectionBundleCount(int count) {
+    return '$count Prüfungssätze';
+  }
+
+  @override
+  String get examBundleArapTitle => 'A-RAP';
+
+  @override
+  String get examBundleArapDesc =>
+      'Offizielle Übungsprüfungen · Lesen · Hören · Schreiben · Sprachbausteine';
+
+  @override
+  String get examBundleSpeakingTitle => 'Sprechen';
+
+  @override
+  String get examBundleSpeakingDesc => 'Sprechen nach Themen üben';
+
+  @override
+  String get examBundleComingSoon => 'Bald verfügbar';
+
+  @override
+  String examSetCount(int count) {
+    return '$count Prüfungssätze';
+  }
+
+  @override
+  String examSetCompletedSuffix(int count) {
+    return '$count abgeschlossen';
+  }
+
+  @override
+  String examSetInProgressSuffix(int count) {
+    return '$count in Bearbeitung';
+  }
+
+  @override
+  String get examSetEmptyTitle => 'Noch keine Prüfungen';
+
+  @override
+  String get examSetEmptyBody =>
+      'Für dieses Zertifikat und Niveau gibt es noch keine Prüfungen.';
+
+  @override
+  String get examSetPagePrev => 'Zurück';
+
+  @override
+  String get examSetPageNext => 'Weiter';
+
+  @override
+  String examSetPageIndicator(int current, int total) {
+    return 'Seite $current / $total';
+  }
+
+  @override
+  String examPartsCount(int count) {
+    return '$count Teile';
+  }
+
+  @override
+  String get examPartActionTest => 'Prüfungssimulation';
+
+  @override
+  String get examPartActionPractice => 'Üben';
+
+  @override
+  String get examSkillListEmptyTitle => 'Noch keine Prüfungen';
+
+  @override
+  String examSkillListEmptyBody(String skill) {
+    return 'Es gibt noch keinen Teil $skill.';
+  }
+
+  @override
+  String get examSkillListVocabChip => 'Wortschatz';
+
+  @override
+  String get examLocked => 'Gesperrt';
 
   @override
   String get examScheduleTitle => 'Lernpartner finden';
@@ -1354,6 +1510,136 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get goalStudyExam => 'Lernen & Prüfungsvorbereitung';
+
+  @override
+  String get goalTechEngineering => 'Technik & Ingenieurwesen';
+
+  @override
+  String get goalShoppingBeauty => 'Einkaufen & Schönheit';
+
+  @override
+  String get goalFamilySocial => 'Familie & Beziehungen';
+
+  @override
+  String get goalLeisureCulture => 'Freizeit & Kultur';
+
+  @override
+  String get goalNatureEnvironment => 'Natur & Umwelt';
+
+  @override
+  String get vocabularyMine => 'Meine';
+
+  @override
+  String get vocabularyIntroWhy =>
+      'Der System-Wortschatz — wähle ein Set zum Lernen und Wiederholen.';
+
+  @override
+  String get vocabularyIntroTodo => 'Öffne ein Set, um neue Karten zu lernen.';
+
+  @override
+  String get vocabularyIntroNext =>
+      'Gelernte Wörter kommen in deinen Wiederholungsplan.';
+
+  @override
+  String get vocabularyIntroNextLabel => 'Wiederholung';
+
+  @override
+  String get vocabularyChooseGroupLabel => 'Themengruppe wählen';
+
+  @override
+  String vocabularyGoalTopicsCount(int count) {
+    return '$count Themen';
+  }
+
+  @override
+  String get vocabularyTopicSectionTitle => '📚 Wortschatzthemen';
+
+  @override
+  String get vocabularyTopicSectionDescription =>
+      'Wähle eine Themengruppe und öffne dann jedes Unterthema nach Niveau.';
+
+  @override
+  String get vocabularyLevelSectionTitle => '🎯 GER-Niveaus';
+
+  @override
+  String get vocabularyLevelSectionDescription =>
+      'Öffne ein Niveau und filtere nach Thema, oder tippe unten auf einen Themen-Chip.';
+
+  @override
+  String get vocabularyTipTitle => 'Lerntipp';
+
+  @override
+  String get vocabularyTipNext => 'Weiter';
+
+  @override
+  String get wordSprintSectionTitle => '⚡ Nach Thema üben';
+
+  @override
+  String get wordSprintStart => 'Start';
+
+  @override
+  String get wordSprintDescription => '60 Sekunden · 4 Antworten · Combo x3';
+
+  @override
+  String get vocabularySearchHint => 'Wörter suchen...';
+
+  @override
+  String get vocabularyWeakFilter => 'Schwach';
+
+  @override
+  String vocabularyMasteredCount(int done, int total) {
+    return '$done/$total beherrscht';
+  }
+
+  @override
+  String get vocabularyTabList => 'Liste';
+
+  @override
+  String get vocabularyTabMyWords => 'Meine Wörter';
+
+  @override
+  String get vocabularyStartLesson => 'Neue Wörter lernen';
+
+  @override
+  String get vocabularyNotFound => 'Wortset nicht gefunden';
+
+  @override
+  String get vocabularyMasteryMastered => 'Beherrscht';
+
+  @override
+  String get vocabularyMasteryKnown => 'Bekannt';
+
+  @override
+  String get vocabularyMasteryLearning => 'Lernend';
+
+  @override
+  String get vocabularyMasteryNew => 'Neu';
+
+  @override
+  String get myWordsGroupReviewing => 'In Wiederholung';
+
+  @override
+  String get myWordsGroupSaved => 'Im Notizbuch';
+
+  @override
+  String get myWordsGroupSeen => 'Gesehen';
+
+  @override
+  String myWordsSourceLabel(Object source) {
+    return 'Quelle: $source';
+  }
+
+  @override
+  String myWordsMoreCount(int count) {
+    return '+$count weitere in dieser Gruppe';
+  }
+
+  @override
+  String get myWordsEmptyTitle => 'Noch keine Wörter in deinem Bestand';
+
+  @override
+  String get myWordsEmptyDescription =>
+      'Schlage Wörter beim Lesen/Ansehen nach oder speichere sie in deinem Notizbuch — sie erscheinen hier.';
 
   @override
   String cefrLevel(Object level) {
@@ -2115,7 +2401,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get practiceListeningPrompt =>
-      'Hören und die richtige Bedeutung wählen';
+      'Karte antippen, um sie umzudrehen und die Bedeutung zu sehen';
 
   @override
   String get practiceFeedbackCorrect => 'Richtig!';
@@ -2147,6 +2433,47 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get practiceBackToDeck => 'Zurück zum Set';
+
+  @override
+  String get practiceBackToGames => 'Zurück zu Spielen';
+
+  @override
+  String get practiceNotEnoughWords => 'Gerade nicht genug Wörter zum Üben.';
+
+  @override
+  String get practiceListenPill => 'Anhören';
+
+  @override
+  String get practiceHintPill => 'Tipp';
+
+  @override
+  String practiceHintLetter(String letter) {
+    return 'Beginnt mit \"$letter\"';
+  }
+
+  @override
+  String get practiceRetryAnswer => 'Erneut versuchen';
+
+  @override
+  String get practiceMicTooltip => 'Zum Antworten sprechen';
+
+  @override
+  String get practiceListeningNotYet => 'Noch nicht';
+
+  @override
+  String get practiceListeningKnown => 'Ich wusste es';
+
+  @override
+  String get practiceListeningTapToFlip => '👆 Antippen zum Umdrehen';
+
+  @override
+  String get practiceListeningMeaningLabel => 'Bedeutung';
+
+  @override
+  String get practiceMatchingColumnDe => 'DEUTSCH';
+
+  @override
+  String get practiceMatchingColumnVi => 'VIETNAMESISCH';
 
   @override
   String get subtitleWordsTitle => 'Wörter aus Untertiteln';
@@ -2499,6 +2826,36 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get examGoalPromptCta => 'Prüfungstermin festlegen';
+
+  @override
+  String examHeroTitle(String provider, String level) {
+    return '🎯 Vorbereitung für $provider $level';
+  }
+
+  @override
+  String get examHeroToday => 'Prüfung heute!';
+
+  @override
+  String examCornerDaysLeft(int days) {
+    return 'Noch $days Tage';
+  }
+
+  @override
+  String get examHeroNoAttemptsYet =>
+      'Mach eine Übungsprüfung, um die Bereitschaft zu messen';
+
+  @override
+  String examHeroBasedOnAttempts(int count) {
+    return 'Basierend auf $count absolvierten Prüfungen';
+  }
+
+  @override
+  String examHeroCta(String provider, String level) {
+    return '📝 $provider $level Prüfung machen';
+  }
+
+  @override
+  String get examHeroReadyLabel => 'bereit';
 
   @override
   String get examGoalSetterTitle => 'Prüfungsziel setzen';

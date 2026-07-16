@@ -55,10 +55,7 @@ class _HubContent extends StatelessWidget {
           const SizedBox(height: 24),
           const Text(
             'Exam Sections',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            ),
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 12),
           _SectionCard(
@@ -92,10 +89,7 @@ class _HubContent extends StatelessWidget {
           const SizedBox(height: 24),
           const Text(
             'Practice Materials',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            ),
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 12),
           _PracticeCard(
@@ -137,10 +131,7 @@ class _ReadinessSection extends ConsumerWidget {
       children: [
         const Text(
           'Your Readiness',
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-          ),
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 12),
         readinessAsync.when(
@@ -220,10 +211,7 @@ class _SectionCard extends StatelessWidget {
                   ],
                 ),
               ),
-              const Icon(
-                Icons.chevron_right,
-                color: AppColors.mutedForeground,
-              ),
+              const Icon(Icons.chevron_right, color: AppColors.mutedForeground),
             ],
           ),
         ),
@@ -297,10 +285,7 @@ class _PracticeCard extends StatelessWidget {
                   ],
                 ),
               ),
-              const Icon(
-                Icons.chevron_right,
-                color: AppColors.mutedForeground,
-              ),
+              const Icon(Icons.chevron_right, color: AppColors.mutedForeground),
             ],
           ),
         ),

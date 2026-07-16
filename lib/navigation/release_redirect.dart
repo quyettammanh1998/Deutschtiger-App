@@ -3,8 +3,10 @@ import '../core/release/release_feature_flags.dart';
 /// Prevents a deep link from bypassing a release gate. The redirect is applied
 /// only after authentication redirect has allowed the route.
 String? resolveReleaseRedirect(String path) {
+  // Dead Flutter-only landing/full-welcome screens have been removed (web
+  // parity — the single `/welcome` route now ports the full marketing page).
   if (_matches(path, '/landing') || _matches(path, '/welcome-full')) {
-    return '/home';
+    return '/welcome';
   }
   if (path == '/journey/session') return null;
 
@@ -52,17 +54,21 @@ String? resolveReleaseRedirect(String path) {
   if (_matches(path, '/games/konjugation')) {
     return ReleaseFeatureFlags.konjugation ? null : '/learn';
   }
-  // Flashcard/Writing-word/Writing-sentence/Listening/Runner games also have
-  // live backend contracts (see `docs/flutter-live-data-inventory.md`) — same
-  // per-game exemption pattern.
-  if (_matches(path, '/games/flashcard')) {
-    return ReleaseFeatureFlags.flashcardGame ? null : '/learn';
+  // P4 practice-view routes (web `practice-cloze/listening/matching/writing
+  // -page.tsx`) — old paths (legacy game screens, now deleted) redirect to
+  // the renamed web-parity paths; live paths gated by the shared `practice`
+  // flag (deck-scoped runner + these standalone routes reuse the same live
+  // sources, see `ReleaseFeatureFlags.practice` doc comment).
+  if (_matches(path, '/games/fill-blank')) return '/games/cloze';
+  if (_matches(path, '/games/flashcard')) return '/games/flashcards';
+  if (_matches(path, '/games/cloze') ||
+      _matches(path, '/games/flashcards') ||
+      _matches(path, '/games/matching') ||
+      _matches(path, '/games/writing')) {
+    return ReleaseFeatureFlags.practice ? null : '/learn';
   }
   if (_matches(path, '/games/writing-sentence')) {
     return ReleaseFeatureFlags.writingSentenceGame ? null : '/learn';
-  }
-  if (_matches(path, '/games/writing')) {
-    return ReleaseFeatureFlags.writingWordGame ? null : '/learn';
   }
   if (_matches(path, '/games/listening')) {
     return ReleaseFeatureFlags.listeningGame ? null : '/learn';
@@ -77,9 +83,6 @@ String? resolveReleaseRedirect(String path) {
   }
   if (_matches(path, '/games/word-order')) {
     return ReleaseFeatureFlags.wordOrderGame ? null : '/learn';
-  }
-  if (_matches(path, '/games/fill-blank')) {
-    return ReleaseFeatureFlags.fillBlankGame ? null : '/learn';
   }
   if (_matches(path, '/games') && !ReleaseFeatureFlags.games) {
     return '/learn';
@@ -129,6 +132,12 @@ String? resolveReleaseRedirect(String path) {
   }
   if (_matches(path, '/subtitle-words') && !ReleaseFeatureFlags.practice) {
     return '/vocabulary';
+  }
+  // P4b — old `/vocabulary/detail/{topicKey}` route (single-word-view screen,
+  // rebuilt as the web-parity topic word-list at `/vocabulary/topic-{key}`).
+  const oldDetailPrefix = '/vocabulary/detail/';
+  if (path.startsWith(oldDetailPrefix)) {
+    return '/vocabulary/topic-${path.substring(oldDetailPrefix.length)}';
   }
   return null;
 }

@@ -1,133 +1,105 @@
 import 'package:flutter/material.dart';
 
-import '../../core/design_tokens.dart';
+import 'widgets/legal_content_widgets.dart';
+import 'widgets/legal_scaffold.dart';
 
-/// Màn Privacy Policy - bắt buộc cho Apple App Store Review.
+/// Chính sách Bảo mật — nội dung port nguyên văn từ web
+/// `legal/privacy-policy-page.tsx` (9 mục), giữ tiếng Việt inline như web.
 class PrivacyPolicyScreen extends StatelessWidget {
   const PrivacyPolicyScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: DesignTokens.authBackground,
-      appBar: AppBar(
-        backgroundColor: DesignTokens.authBackground,
-        title: const Text(
-          'Chính sách bảo mật',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: DesignTokens.tigerOrange,
-            fontSize: 18,
+    return LegalScaffold(
+      title: 'Chính sách Bảo mật',
+      dateLabel: 'Tháng 3, 2026',
+      sections: [
+        const LegalSection(
+          heading: '1. Giới thiệu',
+          body: LegalLinkParagraph(
+            before: 'Deutsch Tiger ("chúng tôi") cam kết bảo vệ quyền riêng tư của bạn. '
+                'Chính sách này mô tả cách chúng tôi thu thập, sử dụng và bảo vệ thông tin '
+                'cá nhân khi bạn sử dụng trang web ',
+            linkText: 'deutschtiger.com',
+            linkUrl: 'https://deutschtiger.com',
+            after: '.',
           ),
         ),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () => Navigator.of(context).pop(),
+        const LegalSection(
+          heading: '2. Thông tin chúng tôi thu thập',
+          body: LegalBulletList([
+            '**Thông tin tài khoản:** Email, tên hiển thị khi bạn đăng ký.',
+            '**Tiến độ học tập:** Kết quả bài thi, flashcard, streak học tập để cá nhân hóa trải nghiệm của bạn.',
+            '**Dữ liệu sử dụng:** Các trang bạn truy cập, thời gian học, để cải thiện ứng dụng.',
+            '**Dữ liệu kỹ thuật:** Địa chỉ IP, trình duyệt, thiết bị cho mục đích bảo mật và phân tích.',
+          ]),
         ),
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(DesignTokens.spacingLg),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Chính sách bảo mật',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: DesignTokens.spacingSm),
-            Text(
-              'Cập nhật lần cuối: ${DateTime.now().year}',
-              style: DesignTokens.bodySmall.copyWith(
-                color: DesignTokens.mutedForeground,
+        const LegalSection(
+          heading: '3. Cách chúng tôi sử dụng thông tin',
+          body: LegalBulletList([
+            'Cung cấp và cải thiện dịch vụ học tiếng Đức.',
+            'Lưu tiến độ học tập của bạn để đồng bộ trên nhiều thiết bị.',
+            'Gửi thông báo về tính năng mới (nếu bạn đồng ý).',
+            'Đảm bảo an toàn và bảo mật hệ thống.',
+          ]),
+        ),
+        LegalSection(
+          heading: '4. Chia sẻ thông tin',
+          body: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: const [
+              LegalParagraph(
+                'Chúng tôi không bán thông tin cá nhân của bạn. Thông tin chỉ được chia sẻ với:',
               ),
-            ),
-            const SizedBox(height: DesignTokens.spacingLg),
-            const _Section(
-              title: '1. Thông tin chúng tôi thu thập',
-              content:
-                  'DeutschTiger thu thập thông tin bạn cung cấp khi đăng ký tài khoản, bao gồm: tên, email, và thông tin đăng nhập mạng xã hội (Google, Apple). Chúng tôi cũng thu thập dữ liệu học tập như tiến độ học, từ vựng đã học, và điểm số để cung cấp tính năng Spaced Repetition.',
-            ),
-            const _Section(
-              title: '2. Cách chúng tôi sử dụng thông tin',
-              content:
-                  'Thông tin được sử dụng để: (a) cung cấp và cải thiện dịch vụ học tiếng Đức; (b) cá nhân hóa trải nghiệm học tập; (c) gửi thông báo nhắc nhở học tập (với sự đồng ý của bạn); (d) phân tích và thống kê để cải thiện ứng dụng.',
-            ),
-            const _Section(
-              title: '3. Lưu trữ và bảo mật dữ liệu',
-              content:
-                  'Dữ liệu của bạn được lưu trữ an toàn trên server của chúng tôi. Chúng tôi áp dụng các biện pháp bảo mật industry-standard bao gồm mã hóa HTTPS, hash password, và kiểm soát truy cập nghiêm ngặt.',
-            ),
-            const _Section(
-              title: '4. Cookies và công nghệ theo dõi',
-              content:
-                  'Chúng tôi ghi nhận sự kiện sử dụng dạng mã hành động và số liệu tổng hợp để cải thiện ứng dụng. Khi bạn đăng nhập, các sự kiện này được gửi cùng phiên tài khoản để chúng tôi có thể bảo vệ và cải thiện trải nghiệm của bạn; chúng không được mô tả là dữ liệu ẩn danh. Sự kiện không gửi nội dung học viên, đường dẫn tệp hay URL. Chúng tôi cũng dùng Crashlytics cho chẩn đoán lỗi, chỉ gửi mã lỗi, phiên bản ứng dụng và route; không chủ đích gửi nội dung bản dịch, bài viết hoặc bản ghi âm.',
-            ),
-            const _Section(
-              title: '5. Chia sẻ dữ liệu',
-              content:
-                  'Chúng tôi KHÔNG bán hoặc chia sẻ thông tin cá nhân của bạn với bên thứ ba cho mục đích tiếp thị. Dữ liệu chỉ được chia sẻ khi: (a) được yêu cầu bởi pháp luật; (b) bảo vệ quyền lợi của chúng tôi; (c) với sự đồng ý rõ ràng của bạn.',
-            ),
-            const _Section(
-              title: '6. Quyền của bạn',
-              content:
-                  'Bạn có quyền: (a) truy cập dữ liệu cá nhân của mình; (b) sửa đổi thông tin không chính xác; (c) yêu cầu xóa tài khoản và dữ liệu liên quan; (d) yêu cầu bản sao dữ liệu của bạn; (e) phản đối việc xử lý dữ liệu nhất định. Tính năng xuất dữ liệu trong ứng dụng chưa khả dụng; để thực hiện các quyền này, hãy liên hệ support@deutschtiger.com.',
-            ),
-            const _Section(
-              title: '7. Thông báo thay đổi',
-              content:
-                  'Chúng tôi có thể cập nhật chính sách này định kỳ. Thay đổi sẽ được thông báo qua email hoặc thông báo trong ứng dụng trước khi có hiệu lực. Việc tiếp tục sử dụng ứng dụng sau khi thay đổi có hiệu lực đồng nghĩa với việc bạn chấp nhận chính sách mới.',
-            ),
-            const _Section(
-              title: '8. Liên hệ',
-              content:
-                  'Nếu bạn có câu hỏi về chính sách bảo mật này, vui lòng liên hệ:\n\n📧 Email: support@deutschtiger.com\n🌐 Website: https://deutschtiger.com',
-            ),
-            const SizedBox(height: DesignTokens.spacingXl),
-            Center(
-              child: Text(
-                '© ${DateTime.now().year} DeutschTiger. Mọi quyền được bảo lưu.',
-                style: DesignTokens.bodySmall.copyWith(
-                  color: DesignTokens.mutedForeground,
-                ),
-              ),
-            ),
-            const SizedBox(height: DesignTokens.spacingLg),
-          ],
+              SizedBox(height: 8),
+              LegalBulletList([
+                '**Supabase:** Nhà cung cấp cơ sở dữ liệu và xác thực (tuân thủ GDPR).',
+                '**Cơ quan pháp luật:** Khi có yêu cầu hợp lệ từ cơ quan có thẩm quyền.',
+              ]),
+            ],
+          ),
         ),
-      ),
-    );
-  }
-}
-
-class _Section extends StatelessWidget {
-  const _Section({required this.title, required this.content});
-
-  final String title;
-  final String content;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            title,
-            style: DesignTokens.titleMedium.copyWith(
-              fontWeight: FontWeight.w700,
-            ),
+        const LegalSection(
+          heading: '5. Bảo mật dữ liệu',
+          body: LegalParagraph(
+            'Chúng tôi sử dụng HTTPS cho tất cả kết nối, mã hóa dữ liệu nhạy cảm và giới hạn '
+            'quyền truy cập vào thông tin cá nhân. Tuy nhiên, không có hệ thống nào hoàn toàn '
+            'an toàn — bạn nên sử dụng mật khẩu mạnh và không chia sẻ tài khoản.',
           ),
-          const SizedBox(height: DesignTokens.spacingSm),
-          Text(
-            content,
-            style: DesignTokens.bodyMedium.copyWith(
-              height: 1.6,
-              color: DesignTokens.foreground.withValues(alpha: 0.8),
-            ),
+        ),
+        const LegalSection(
+          heading: '6. Quyền của bạn',
+          body: LegalBulletList([
+            '**Truy cập:** Yêu cầu xem dữ liệu chúng tôi lưu về bạn.',
+            '**Chỉnh sửa:** Cập nhật thông tin không chính xác.',
+            '**Xóa:** Yêu cầu xóa tài khoản và dữ liệu của bạn.',
+            '**Rút đồng ý:** Huỷ đăng ký nhận email bất cứ lúc nào.',
+          ]),
+        ),
+        const LegalSection(
+          heading: '7. Cookie và Local Storage',
+          body: LegalParagraph(
+            'Deutsch Tiger sử dụng localStorage để lưu tiến độ học tập và cài đặt giao diện '
+            '(chế độ tối/sáng, ngôn ngữ). Chúng tôi không dùng cookie quảng cáo hoặc tracking '
+            'từ bên thứ ba.',
           ),
-        ],
-      ),
+        ),
+        const LegalSection(
+          heading: '8. Trẻ em',
+          body: LegalParagraph(
+            'Dịch vụ không dành cho trẻ em dưới 13 tuổi. Nếu bạn phát hiện tài khoản của trẻ '
+            'em dưới 13 tuổi, vui lòng liên hệ chúng tôi để xóa.',
+          ),
+        ),
+        const LegalSection(
+          heading: '9. Liên hệ',
+          body: LegalLinkParagraph(
+            before: 'Nếu có câu hỏi về chính sách bảo mật, vui lòng liên hệ qua email: ',
+            linkText: 'admin@deutschtiger.com',
+            linkUrl: 'mailto:admin@deutschtiger.com',
+          ),
+        ),
+      ],
     );
   }
 }

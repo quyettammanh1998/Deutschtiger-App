@@ -38,6 +38,7 @@ final communityExamListProvider =
             provider: filter.provider,
             level: filter.level,
             skill: filter.skill,
+            teil: filter.teil,
           );
     });
 
@@ -72,21 +73,32 @@ final deThiExamProvider = FutureProvider.family<DeThiExam, String>((
 
 /// Filter cho danh sách đề thi cộng đồng — key cho `family` provider.
 class CommunityExamFilter {
-  const CommunityExamFilter({this.provider, this.level, this.skill});
+  const CommunityExamFilter({
+    this.provider,
+    this.level,
+    this.skill,
+    this.teil,
+  });
 
   final String? provider;
   final String? level;
   final String? skill;
+
+  /// `teil` — accepted by the Go handler's `parseCommunityFilter` (query
+  /// param `teil`, `strconv.Atoi`), confirmed against
+  /// `community_exam_write_handler.go`.
+  final int? teil;
 
   @override
   bool operator ==(Object other) =>
       other is CommunityExamFilter &&
       other.provider == provider &&
       other.level == level &&
-      other.skill == skill;
+      other.skill == skill &&
+      other.teil == teil;
 
   @override
-  int get hashCode => Object.hash(provider, level, skill);
+  int get hashCode => Object.hash(provider, level, skill, teil);
 }
 
 /// Target cho dictation transcript — key cho `family` provider.

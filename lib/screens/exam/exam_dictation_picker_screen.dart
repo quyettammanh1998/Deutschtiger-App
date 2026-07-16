@@ -45,9 +45,7 @@ class ExamDictationPickerScreen extends ConsumerWidget {
             );
           }
           return ListView.separated(
-            padding: const EdgeInsets.all(
-              DesignTokens.screenHorizontalPadding,
-            ),
+            padding: const EdgeInsets.all(DesignTokens.screenHorizontalPadding),
             itemCount: eligible.length,
             separatorBuilder: (_, _) =>
                 const SizedBox(height: DesignTokens.spacingSm),

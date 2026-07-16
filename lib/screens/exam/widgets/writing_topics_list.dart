@@ -42,22 +42,39 @@ class WritingTopicsList extends StatelessWidget {
                           children: [
                             Text(
                               topic.titleVi,
-                              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
                             ),
                             Row(
                               children: [
-                                Icon(Icons.access_time, size: 14, color: Colors.grey[600]),
+                                Icon(
+                                  Icons.access_time,
+                                  size: 14,
+                                  color: Colors.grey[600],
+                                ),
                                 const SizedBox(width: 4),
                                 Text(
                                   '${topic.estimatedMinutes} min',
-                                  style: TextStyle(color: Colors.grey[600], fontSize: 12),
+                                  style: TextStyle(
+                                    color: Colors.grey[600],
+                                    fontSize: 12,
+                                  ),
                                 ),
                                 const SizedBox(width: 12),
-                                Icon(Icons.text_fields, size: 14, color: Colors.grey[600]),
+                                Icon(
+                                  Icons.text_fields,
+                                  size: 14,
+                                  color: Colors.grey[600],
+                                ),
                                 const SizedBox(width: 4),
                                 Text(
                                   '${topic.wordLimit} words',
-                                  style: TextStyle(color: Colors.grey[600], fontSize: 12),
+                                  style: TextStyle(
+                                    color: Colors.grey[600],
+                                    fontSize: 12,
+                                  ),
                                 ),
                               ],
                             ),
@@ -66,18 +83,28 @@ class WritingTopicsList extends StatelessWidget {
                       ),
                       if (topic.attempts > 0)
                         Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 4,
+                          ),
                           decoration: BoxDecoration(
                             color: AppColors.success.withValues(alpha: 0.1),
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: Row(
                             children: [
-                              const Icon(Icons.check, size: 14, color: AppColors.success),
+                              const Icon(
+                                Icons.check,
+                                size: 14,
+                                color: AppColors.success,
+                              ),
                               const SizedBox(width: 4),
                               Text(
                                 '${topic.bestScore.toStringAsFixed(0)}%',
-                                style: const TextStyle(color: AppColors.success, fontWeight: FontWeight.bold),
+                                style: const TextStyle(
+                                  color: AppColors.success,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ],
                           ),
@@ -98,11 +125,16 @@ class WritingTopicsList extends StatelessWidget {
                           topic.promptVi,
                           style: const TextStyle(fontSize: 13),
                         ),
-                        if (topic.attempts > 0 && topic.lastSubmission.isNotEmpty) ...[
+                        if (topic.attempts > 0 &&
+                            topic.lastSubmission.isNotEmpty) ...[
                           const SizedBox(height: 8),
                           Text(
                             'Last submission: ${topic.lastSubmission.substring(0, topic.lastSubmission.length.clamp(0, 50))}...',
-                            style: TextStyle(color: Colors.grey[600], fontSize: 12, fontStyle: FontStyle.italic),
+                            style: TextStyle(
+                              color: Colors.grey[600],
+                              fontSize: 12,
+                              fontStyle: FontStyle.italic,
+                            ),
                           ),
                         ],
                       ],
@@ -123,7 +155,10 @@ class WritingTopicsList extends StatelessWidget {
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppColors.primary,
                           foregroundColor: Colors.white,
-                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 8,
+                          ),
                         ),
                       ),
                     ],

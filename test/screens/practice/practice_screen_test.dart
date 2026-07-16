@@ -90,7 +90,7 @@ void main() {
 
     await tester.enterText(find.byKey(const Key('practice_cloze_input')), 'Haus');
     await tester.tap(find.text('Check'));
-    await tester.pump(const Duration(milliseconds: 950));
+    await tester.pump(const Duration(milliseconds: 750));
     await tester.pumpAndSettle();
 
     expect(find.text('Session complete!'), findsOneWidget);
@@ -109,7 +109,7 @@ void main() {
 
     await tester.enterText(find.byKey(const Key('practice_writing_input')), 'Buch');
     await tester.tap(find.text('Check'));
-    await tester.pump(const Duration(milliseconds: 950));
+    await tester.pump(const Duration(milliseconds: 750));
     await tester.pumpAndSettle();
 
     expect(find.text('Session complete!'), findsOneWidget);
@@ -125,8 +125,9 @@ void main() {
     await tester.tap(find.text('Listening'));
     await tester.pumpAndSettle();
 
-    await tester.tap(find.text('water'));
-    await tester.pump(const Duration(milliseconds: 950));
+    await tester.tap(find.byKey(const Key('practice_listening_word')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('practice_listening_yes')));
     await tester.pumpAndSettle();
 
     expect(find.text('Session complete!'), findsOneWidget);
@@ -151,6 +152,7 @@ void main() {
     await tester.tap(find.byKey(const Key('practice_matching_de_m2')));
     await tester.pumpAndSettle();
     await tester.tap(find.byKey(const Key('practice_matching_vi_m2')));
+    await tester.pump(const Duration(milliseconds: 550));
     await tester.pumpAndSettle();
 
     expect(find.text('Session complete!'), findsOneWidget);

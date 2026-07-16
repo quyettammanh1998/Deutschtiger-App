@@ -74,7 +74,7 @@ supersedes-ui-scope-of:
 
 | # | Phase | Phụ thuộc | Status |
 |---|-------|-----------|--------|
-| 1 | [Foundation: tokens, fonts, icons, primitives, shell, router split, assets](./phase-01-foundation-tokens-fonts-icons-shell.md) | — | pending |
+| 1 | [Foundation: tokens, fonts, icons, primitives, shell, router split, assets](./phase-01-foundation-tokens-fonts-icons-shell.md) | — | **done 17/07** (visual QA dồn P12 wave B) |
 | 2 | [Entry: welcome, auth, legal, home residuals, daily quote](./phase-02-entry-auth-home-quote.md) | P1 | pending |
 | 3 | [Learn & journey](./phase-03-learn-journey.md) | P1, **P4** (runner tái dùng practice views) | pending |
 | 4 | [Vocabulary & practice](./phase-04-vocabulary-practice.md) | P1 | pending |

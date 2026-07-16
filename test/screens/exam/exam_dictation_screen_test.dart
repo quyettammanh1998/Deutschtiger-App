@@ -40,70 +40,66 @@ const _transcript = ExamWordTranscript(
   ],
 );
 
+Widget _harness() => ProviderScope(
+  overrides: [
+    examWordTranscriptProvider(_target).overrideWith((ref) async => _transcript),
+  ],
+  child: const MaterialApp(
+    locale: Locale('vi'),
+    supportedLocales: AppLocalizations.supportedLocales,
+    localizationsDelegates: AppLocalizations.localizationsDelegates,
+    home: ExamDictationScreen(provider: 'telc', level: 'b1', slug: 'ex-01'),
+  ),
+);
+
 void main() {
-  testWidgets('renders blanks for the selected content words', (tester) async {
-    await tester.pumpWidget(
-      ProviderScope(
-        overrides: [
-          examWordTranscriptProvider(
-            _target,
-          ).overrideWith((ref) async => _transcript),
-        ],
-        child: const MaterialApp(
-          locale: Locale('vi'),
-          supportedLocales: AppLocalizations.supportedLocales,
-          localizationsDelegates: AppLocalizations.localizationsDelegates,
-          home: ExamDictationScreen(
-            provider: 'telc',
-            level: 'b1',
-            slug: 'ex-01',
-          ),
-        ),
-      ),
-    );
+  // Web-parity rebuild (see `dictation_activity_menu.dart` /
+  // `word_selection_panel.dart` / `cloze_practice_view.dart`): the screen now
+  // opens on a 3-activity menu, then a tap-to-select prep panel, before the
+  // sequential audio-cued cloze quiz. The quiz itself drives forward on
+  // `just_audio` position-stream events that never fire against the fixture's
+  // empty `audioUrl` in a widget test — so these tests cover the menu → prep
+  // → selection flow (reliably testable) rather than the in-quiz typing
+  // interaction (needs a real/mocked audio backend, out of scope here).
+  testWidgets('activity menu leads to the word-selection prep panel', (
+    tester,
+  ) async {
+    await tester.pumpWidget(_harness());
     await tester.pumpAndSettle();
 
-    expect(find.text('TEIL 1'), findsOneWidget);
-    expect(find.text('Ich'), findsOneWidget); // non-blank word rendered as text
-    expect(find.byType(TextField), findsNWidgets(2)); // 2 selected content words
+    // AppBar title (`l10n.examDictationTitle`) is also "Nghe chép chính
+    // tả", same as the full-dictation activity card — scope that one
+    // assertion to avoid an ambiguous match.
+    expect(find.text('Điền từ vào chỗ trống'), findsOneWidget);
+    expect(find.text('Nghe chép chính tả'), findsNWidgets(2));
+    expect(find.text('Nghe & đọc theo'), findsOneWidget);
+
+    await tester.tap(find.text('Điền từ vào chỗ trống'));
+    await tester.pumpAndSettle();
+
+    // Prep panel: Teil badge + non-content word rendered as plain text +
+    // both content words tappable for selection.
+    expect(find.text('Teil 1'), findsOneWidget);
+    expect(find.textContaining('Ich'), findsOneWidget);
+    expect(find.text('lerne'), findsOneWidget);
+    expect(find.text('Deutsch.'), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
 
-  testWidgets('checking a correct answer turns the field state to success', (
+  testWidgets('selecting words enables the start CTA with a live count', (
     tester,
   ) async {
-    await tester.pumpWidget(
-      ProviderScope(
-        overrides: [
-          examWordTranscriptProvider(
-            _target,
-          ).overrideWith((ref) async => _transcript),
-        ],
-        child: const MaterialApp(
-          locale: Locale('vi'),
-          supportedLocales: AppLocalizations.supportedLocales,
-          localizationsDelegates: AppLocalizations.localizationsDelegates,
-          home: ExamDictationScreen(
-            provider: 'telc',
-            level: 'b1',
-            slug: 'ex-01',
-          ),
-        ),
-      ),
-    );
+    await tester.pumpWidget(_harness());
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Điền từ vào chỗ trống'));
     await tester.pumpAndSettle();
 
-    final firstField = find.byKey(const Key('dictation-field-a1.mp3-0-1'));
-    expect(firstField, findsOneWidget);
-    await tester.enterText(firstField, 'lerne');
-    await tester.tap(find.byKey(const Key('dictation-check-a1.mp3-0-1')));
+    expect(find.text('Chọn ít nhất 1 từ để bắt đầu'), findsOneWidget);
+
+    await tester.tap(find.text('lerne'));
     await tester.pump();
 
-    expect(
-      find.byIcon(Icons.check_circle),
-      findsOneWidget,
-      reason: 'correct answer should flip the check icon to filled/success',
-    );
+    expect(find.text('Bắt đầu luyện nghe — 1 từ'), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
 

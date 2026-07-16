@@ -1,16 +1,22 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../core/design_tokens.dart';
-import '../../data/exam/exam_ecosystem_models.dart';
+import '../../core/theme/app_tokens.dart';
 import '../../l10n/app_localizations.dart';
 import '../../repositories/exam/de_thi_repository.dart';
 import '../../view_models/exam/exam_ecosystem_providers.dart';
 import '../../widgets/common/async_state_views.dart';
+import 'widgets/de_thi/de_thi_practice_body.dart';
 
 /// Làm đề thi public theo mã đề (`/de-thi/:code`) — public route, không cần
-/// đăng nhập, phục vụ deep-link SEO. Đọc + chọn đáp án tại chỗ (không lưu
-/// tiến độ — đây là đề tham khảo public, không phải exam attempt có điểm).
+/// đăng nhập, phục vụ deep-link SEO.
+///
+/// Web parity: `de-thi-practice-page.tsx` — one passage visible at a time
+/// (paginated via footer Prev/Next, not full scroll), submit-all reveal
+/// model, answers persisted locally (mirrors web's `localStorage`).
 class DeThiPracticeScreen extends ConsumerStatefulWidget {
   const DeThiPracticeScreen({super.key, required this.code});
   final String code;
@@ -21,22 +27,105 @@ class DeThiPracticeScreen extends ConsumerStatefulWidget {
 }
 
 class _DeThiPracticeScreenState extends ConsumerState<DeThiPracticeScreen> {
-  final Map<String, String> _selected = {};
-  final Set<String> _revealed = {};
+  final Map<int, String> _answers = {};
+  bool _submitted = false;
+  int _passageIndex = 0;
+  bool _restored = false;
+
+  String get _prefsKey => 'de_thi_${widget.code}';
+
+  @override
+  void initState() {
+    super.initState();
+    _restore();
+  }
+
+  Future<void> _restore() async {
+    final prefs = await SharedPreferences.getInstance();
+    final raw = prefs.getString(_prefsKey);
+    if (raw == null) {
+      setState(() => _restored = true);
+      return;
+    }
+    try {
+      final decoded = jsonDecode(raw) as Map<String, dynamic>;
+      final answers = (decoded['answers'] as Map<String, dynamic>? ?? {});
+      setState(() {
+        _answers
+          ..clear()
+          ..addEntries(
+            answers.entries.map(
+              (e) => MapEntry(int.parse(e.key), e.value as String),
+            ),
+          );
+        _submitted = decoded['submitted'] as bool? ?? false;
+        _restored = true;
+      });
+    } catch (_) {
+      await prefs.remove(_prefsKey);
+      setState(() => _restored = true);
+    }
+  }
+
+  Future<void> _persist() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(
+      _prefsKey,
+      jsonEncode({
+        'answers': _answers.map((k, v) => MapEntry('$k', v)),
+        'submitted': _submitted,
+      }),
+    );
+  }
+
+  void _select(int questionNo, String option) {
+    if (_submitted) return;
+    setState(() => _answers[questionNo] = option);
+    _persist();
+  }
+
+  void _goPrev() =>
+      setState(() => _passageIndex = (_passageIndex - 1).clamp(0, 1 << 30));
+
+  void _goNext(int totalPassages) {
+    if (_passageIndex == totalPassages - 1) {
+      _submit();
+      return;
+    }
+    setState(() => _passageIndex += 1);
+  }
+
+  void _submit() {
+    setState(() {
+      _submitted = true;
+      _passageIndex = 0;
+    });
+    _persist();
+  }
+
+  void _retry() {
+    setState(() {
+      _answers.clear();
+      _submitted = false;
+      _passageIndex = 0;
+    });
+    SharedPreferences.getInstance().then((p) => p.remove(_prefsKey));
+  }
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+    final tokens = context.tokens;
     final entry = ref.read(deThiRepositoryProvider).findEntry(widget.code);
 
     if (entry == null) {
       return Scaffold(
-        backgroundColor: DesignTokens.background,
+        backgroundColor: tokens.background,
         appBar: AppBar(title: Text(l10n.deThiListTitle)),
         body: Center(
           child: Text(
             l10n.deThiNotFound,
-            style: const TextStyle(color: DesignTokens.mutedForeground),
+            style: TextStyle(color: tokens.mutedForeground),
           ),
         ),
       );
@@ -45,165 +134,34 @@ class _DeThiPracticeScreenState extends ConsumerState<DeThiPracticeScreen> {
     final examAsync = ref.watch(deThiExamProvider(entry.dataPath));
 
     return Scaffold(
-      backgroundColor: DesignTokens.background,
-      appBar: AppBar(title: Text(entry.title)),
-      body: examAsync.when(
-        loading: () => const LoadingView(),
-        error: (error, _) => ErrorView(
-          message: l10n.couldNotLoadData,
-          onRetry: () => ref.invalidate(deThiExamProvider(entry.dataPath)),
-        ),
-        data: (exam) => ListView(
-          padding: const EdgeInsets.all(DesignTokens.screenHorizontalPadding),
-          children: [
-            if (entry.disclaimer != null)
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(DesignTokens.spacingSm),
-                margin: const EdgeInsets.only(bottom: DesignTokens.spacingMd),
-                decoration: BoxDecoration(
-                  color: DesignTokens.warning.withValues(alpha: 0.12),
-                  borderRadius: BorderRadius.circular(DesignTokens.radiusSm),
+      backgroundColor: tokens.background,
+      body: SafeArea(
+        child: !_restored
+            ? const LoadingView()
+            : examAsync.when(
+                loading: () => const LoadingView(),
+                error: (error, _) => ErrorView(
+                  message: l10n.couldNotLoadData,
+                  onRetry: () =>
+                      ref.invalidate(deThiExamProvider(entry.dataPath)),
                 ),
-                child: Text(
-                  entry.disclaimer!,
-                  style: const TextStyle(fontSize: 12),
-                ),
-              ),
-            for (final passage in exam.passages)
-              _PassageBlock(
-                passage: passage,
-                selected: _selected,
-                revealed: _revealed,
-                onSelect: (qId, opt) => setState(() => _selected[qId] = opt),
-                onReveal: (qId) => setState(() => _revealed.add(qId)),
-              ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _PassageBlock extends StatelessWidget {
-  const _PassageBlock({
-    required this.passage,
-    required this.selected,
-    required this.revealed,
-    required this.onSelect,
-    required this.onReveal,
-  });
-
-  final DeThiPassage passage;
-  final Map<String, String> selected;
-  final Set<String> revealed;
-  final void Function(String questionId, String option) onSelect;
-  final void Function(String questionId) onReveal;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: DesignTokens.spacingLg),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(passage.title, style: const TextStyle(fontWeight: FontWeight.w800)),
-          const SizedBox(height: DesignTokens.spacingSm),
-          Text(passage.textDe),
-          const SizedBox(height: DesignTokens.spacingXs),
-          Text(
-            passage.textVi,
-            style: const TextStyle(color: DesignTokens.mutedForeground),
-          ),
-          const SizedBox(height: DesignTokens.spacingMd),
-          for (final q in passage.questions)
-            _QuestionBlock(
-              passageId: passage.id,
-              question: q,
-              selectedOption: selected['${passage.id}-${q.no}'],
-              isRevealed: revealed.contains('${passage.id}-${q.no}'),
-              onSelect: (opt) => onSelect('${passage.id}-${q.no}', opt),
-              onReveal: () => onReveal('${passage.id}-${q.no}'),
-            ),
-        ],
-      ),
-    );
-  }
-}
-
-class _QuestionBlock extends StatelessWidget {
-  const _QuestionBlock({
-    required this.passageId,
-    required this.question,
-    required this.selectedOption,
-    required this.isRevealed,
-    required this.onSelect,
-    required this.onReveal,
-  });
-
-  final String passageId;
-  final DeThiQuestion question;
-  final String? selectedOption;
-  final bool isRevealed;
-  final ValueChanged<String> onSelect;
-  final VoidCallback onReveal;
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-    return Container(
-      margin: const EdgeInsets.only(bottom: DesignTokens.spacingSm),
-      padding: const EdgeInsets.all(DesignTokens.cardPadding),
-      decoration: BoxDecoration(
-        color: DesignTokens.card,
-        borderRadius: BorderRadius.circular(DesignTokens.radius),
-        border: Border.all(color: DesignTokens.border),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            '${question.no}. ${question.questionDe}',
-            style: const TextStyle(fontWeight: FontWeight.w600),
-          ),
-          for (final key in question.optionsDe.keys)
-            RadioListTile<String>(
-              contentPadding: EdgeInsets.zero,
-              dense: true,
-              value: key,
-              groupValue: selectedOption,
-              title: Text('$key. ${question.optionsDe[key]}'),
-              onChanged: (v) => v != null ? onSelect(v) : null,
-            ),
-          if (!isRevealed)
-            TextButton(
-              onPressed: onReveal,
-              child: Text(l10n.deThiRevealAnswer),
-            )
-          else
-            Container(
-              padding: const EdgeInsets.all(DesignTokens.spacingSm),
-              decoration: BoxDecoration(
-                color:
-                    (selectedOption == question.answer
-                            ? DesignTokens.success
-                            : DesignTokens.destructive)
-                        .withValues(alpha: 0.12),
-                borderRadius: BorderRadius.circular(DesignTokens.radiusSm),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    l10n.deThiCorrectAnswer(question.answer),
-                    style: const TextStyle(fontWeight: FontWeight.w700),
+                data: (exam) => DeThiPracticeBody(
+                  entry: entry,
+                  exam: exam,
+                  answers: _answers,
+                  submitted: _submitted,
+                  passageIndex: _passageIndex.clamp(
+                    0,
+                    exam.passages.isEmpty ? 0 : exam.passages.length - 1,
                   ),
-                  if (question.explanationVi.isNotEmpty)
-                    Text(question.explanationVi),
-                ],
+                  onSelect: _select,
+                  onPrev: _goPrev,
+                  onNext: () => _goNext(exam.passages.length),
+                  onSubmit: _submit,
+                  onRetry: _retry,
+                  onJumpTo: (i) => setState(() => _passageIndex = i),
+                ),
               ),
-            ),
-        ],
       ),
     );
   }

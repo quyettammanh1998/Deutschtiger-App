@@ -1,24 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../core/design_tokens.dart';
+import '../../core/theme/app_tokens.dart';
 import '../../data/exam/exam_ecosystem_models.dart';
 import '../../l10n/app_localizations.dart';
+import '../../shared/widgets/page_intro.dart';
 import '../../view_models/exam/exam_ecosystem_providers.dart';
 import '../../widgets/common/async_state_views.dart';
+import 'widgets/readiness/readiness_band_card.dart';
+import 'widgets/readiness/readiness_goal_header.dart';
+import 'widgets/readiness/readiness_score_trend.dart';
+import 'widgets/readiness/readiness_skill_bars.dart';
+import 'widgets/readiness/readiness_stat_pills.dart';
+import 'widgets/readiness/readiness_todo_card.dart';
+import 'widgets/readiness/readiness_weakness_list.dart';
 
-/// Màn đánh giá mức sẵn sàng thi — read-only score + gợi ý luyện.
+/// Màn đánh giá mức sẵn sàng thi — web parity rebuild of
+/// `exam-readiness-page.tsx`: goal header, colored readiness band, stat
+/// pills, score trend sparkline, per-skill bars, and grammar weakness list.
 /// `GET /api/v1/exam-readiness`.
+///
+/// GAP: web also shows a "Từ thi sai" checklist (fail words → add to SRS
+/// review) backed by `fetchExamFailWords`/`addExamFailWordsToReview`. Neither
+/// endpoint has a Flutter repository/provider yet (no fail-word list data
+/// source at all, not even read) — omitted rather than faked. See the phase
+/// report for the exact endpoints to wire up.
 class ExamReadinessScreen extends ConsumerWidget {
   const ExamReadinessScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
+    final tokens = context.tokens;
     final readiness = ref.watch(examReadinessProvider);
 
     return Scaffold(
-      backgroundColor: DesignTokens.background,
+      backgroundColor: tokens.background,
       appBar: AppBar(title: Text(l10n.examReadinessTitle)),
       body: readiness.when(
         loading: () => const LoadingView(),
@@ -38,184 +55,34 @@ class _ReadinessBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-    if (snapshot.attemptCount == 0) {
-      return Center(
-        child: Padding(
-          padding: const EdgeInsets.all(24),
-          child: Text(
-            l10n.examReadinessEmpty,
-            textAlign: TextAlign.center,
-            style: const TextStyle(color: DesignTokens.mutedForeground),
-          ),
-        ),
-      );
-    }
     return ListView(
-      padding: const EdgeInsets.all(DesignTokens.screenHorizontalPadding),
+      padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
       children: [
-        _ScoreBandCard(snapshot: snapshot),
-        const SizedBox(height: DesignTokens.spacingMd),
-        _StatRow(
-          label: l10n.examReadinessAttempts,
-          value: '${snapshot.attemptCount}',
+        const PageIntro(
+          pageKey: 'exam-readiness',
+          why: 'Xem bạn đã sẵn sàng cho kỳ thi tới mức nào, theo từng kỹ năng.',
+          todo: 'Nhìn kỹ năng yếu nhất và bấm luyện ngay.',
+          next: 'Luyện xong quay lại xem điểm cải thiện.',
         ),
-        _StatRow(
-          label: l10n.examReadinessBestScore,
-          value: '${snapshot.bestScore}',
-        ),
-        _StatRow(
-          label: l10n.examReadinessDueReviews,
-          value: '${snapshot.dueReviewCount}',
-        ),
-        if (snapshot.skillReadiness.isNotEmpty) ...[
-          const SizedBox(height: DesignTokens.spacingMd),
-          Text(
-            l10n.examReadinessSkillBreakdown,
-            style: const TextStyle(fontWeight: FontWeight.w700),
-          ),
-          const SizedBox(height: DesignTokens.spacingSm),
-          for (final skill in snapshot.skillReadiness)
-            _SkillBar(skill: skill),
-        ],
-        if (snapshot.weaknessDetails.isNotEmpty) ...[
-          const SizedBox(height: DesignTokens.spacingMd),
-          Text(
-            l10n.examReadinessWeaknesses,
-            style: const TextStyle(fontWeight: FontWeight.w700),
-          ),
-          const SizedBox(height: DesignTokens.spacingSm),
-          for (final detail in snapshot.weaknessDetails)
-            _WeaknessCard(detail: detail),
+        const SizedBox(height: 12),
+        const ReadinessGoalHeader(),
+        const SizedBox(height: 12),
+        if (snapshot.attemptCount == 0)
+          const ReadinessBandEmptyCard()
+        else ...[
+          ReadinessBandCard(snapshot: snapshot),
+          const SizedBox(height: 12),
+          ReadinessStatPills(snapshot: snapshot),
+          const SizedBox(height: 12),
+          ReadinessScoreTrend(trend: snapshot.scoreTrend),
+          if (snapshot.scoreTrend.length >= 2) const SizedBox(height: 12),
+          ReadinessSkillBars(skills: snapshot.skillReadiness),
+          if (snapshot.skillReadiness.isNotEmpty) const SizedBox(height: 12),
+          ReadinessWeaknessList(weaknesses: snapshot.weaknessDetails),
+          if (snapshot.weaknessDetails.isNotEmpty) const SizedBox(height: 12),
+          ReadinessTodoCard(dueReviewCount: snapshot.dueReviewCount),
         ],
       ],
-    );
-  }
-}
-
-class _ScoreBandCard extends StatelessWidget {
-  const _ScoreBandCard({required this.snapshot});
-  final ExamReadinessSnapshot snapshot;
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(DesignTokens.cardPadding),
-      decoration: BoxDecoration(
-        color: DesignTokens.card,
-        borderRadius: BorderRadius.circular(DesignTokens.radius),
-        border: Border.all(color: DesignTokens.border),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            l10n.examReadinessBandLabel,
-            style: const TextStyle(color: DesignTokens.mutedForeground),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            '${snapshot.readinessLow}–${snapshot.readinessHigh}%',
-            style: const TextStyle(
-              fontSize: 32,
-              fontWeight: FontWeight.w800,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _StatRow extends StatelessWidget {
-  const _StatRow({required this.label, required this.value});
-  final String label;
-  final String value;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 6),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(label, style: const TextStyle(color: DesignTokens.mutedForeground)),
-          Text(value, style: const TextStyle(fontWeight: FontWeight.w600)),
-        ],
-      ),
-    );
-  }
-}
-
-class _SkillBar extends StatelessWidget {
-  const _SkillBar({required this.skill});
-  final ExamSkillStat skill;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: DesignTokens.spacingSm),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(skill.skill),
-              Text('${skill.accuracy.round()}%'),
-            ],
-          ),
-          const SizedBox(height: 4),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(4),
-            child: LinearProgressIndicator(
-              value: (skill.accuracy / 100).clamp(0, 1),
-              minHeight: 6,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _WeaknessCard extends StatelessWidget {
-  const _WeaknessCard({required this.detail});
-  final ExamWeaknessDetail detail;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: DesignTokens.spacingSm),
-      padding: const EdgeInsets.all(DesignTokens.cardPadding),
-      decoration: BoxDecoration(
-        color: DesignTokens.card,
-        borderRadius: BorderRadius.circular(DesignTokens.radius),
-        border: Border.all(color: DesignTokens.border),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            detail.errorType,
-            style: const TextStyle(fontWeight: FontWeight.w700),
-          ),
-          if (detail.original.isNotEmpty) ...[
-            const SizedBox(height: 6),
-            Text('❌ ${detail.original}'),
-            Text('✅ ${detail.corrected}'),
-          ],
-          if (detail.explanation.isNotEmpty) ...[
-            const SizedBox(height: 4),
-            Text(
-              detail.explanation,
-              style: const TextStyle(color: DesignTokens.mutedForeground),
-            ),
-          ],
-        ],
-      ),
     );
   }
 }

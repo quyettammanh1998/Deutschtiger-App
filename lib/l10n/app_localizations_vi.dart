@@ -78,6 +78,11 @@ class AppLocalizationsVi extends AppLocalizations {
   String get headerEncouragement => 'Sẵn sàng chinh phục tiếng Đức? 🚀';
 
   @override
+  String headerWordsLearned(int count) {
+    return '📚 Đã học $count từ vựng';
+  }
+
+  @override
   String get headerStreakStart => 'Bắt đầu';
 
   @override
@@ -366,6 +371,9 @@ class AppLocalizationsVi extends AppLocalizations {
   String get atLeastSixCharacters => 'Ít nhất 6 ký tự';
 
   @override
+  String get atLeastEightCharacters => 'Ít nhất 8 ký tự';
+
+  @override
   String get createAccount => 'Tạo tài khoản';
 
   @override
@@ -402,6 +410,12 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get passwordTooShort => 'Mật khẩu phải có ít nhất 6 ký tự.';
+
+  @override
+  String get passwordTooShortEight => 'Mật khẩu phải có ít nhất 8 ký tự.';
+
+  @override
+  String get signupSubtitle => 'Tạo tài khoản để bắt đầu học tiếng Đức';
 
   @override
   String get displayNameRequired => 'Vui lòng nhập tên hiển thị.';
@@ -466,6 +480,33 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get passwordConfirmationMismatch => 'Mật khẩu xác nhận không khớp.';
+
+  @override
+  String get verifyingResetLink => 'Đang xác thực...';
+
+  @override
+  String get resetLinkInvalid =>
+      'Link đặt lại mật khẩu không hợp lệ hoặc đã hết hạn.';
+
+  @override
+  String get resendResetLink => 'Gửi lại link đặt lại';
+
+  @override
+  String checkEmailForResetLink(String email) {
+    return 'Kiểm tra email $email để đặt lại mật khẩu.';
+  }
+
+  @override
+  String get showPasswordTooltip => 'Hiện mật khẩu';
+
+  @override
+  String get hidePasswordTooltip => 'Ẩn mật khẩu';
+
+  @override
+  String get newPasswordHint => 'Tối thiểu 8 ký tự';
+
+  @override
+  String get confirmPasswordHint => 'Nhập lại mật khẩu mới';
 
   @override
   String get avatarUrlOptional => 'URL ảnh đại diện (tùy chọn)';
@@ -584,6 +625,120 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get examReadinessBandLabel => 'Ước tính mức sẵn sàng';
+
+  @override
+  String get examLandingSubtitle => 'Chọn chứng chỉ & cấp độ';
+
+  @override
+  String get examBuddyCtaSubtitle =>
+      'Kết nối với người cùng ngày thi để ôn cùng nhau';
+
+  @override
+  String get examShortDescTelc => 'Visa, định cư, nhập tịch';
+
+  @override
+  String get examShortDescGoethe => 'Chứng chỉ quốc tế uy tín';
+
+  @override
+  String get examShortDescOsd => 'Chứng chỉ tiếng Đức Áo';
+
+  @override
+  String get examRecommendedLabel => 'Đề xuất';
+
+  @override
+  String examLevelMismatchTitle(String level) {
+    return 'Bạn đang ở trình độ $level';
+  }
+
+  @override
+  String examLevelMismatchBody(String level) {
+    return 'Đề thi $level có thể quá khó cho trình độ hiện tại. Bạn vẫn muốn tiếp tục?';
+  }
+
+  @override
+  String get examLevelMismatchCancel => 'Huỷ';
+
+  @override
+  String get examLevelMismatchContinue => 'Vẫn tiếp tục';
+
+  @override
+  String examSectionBundleCount(int count) {
+    return '$count bộ đề';
+  }
+
+  @override
+  String get examBundleArapTitle => 'A-RAP';
+
+  @override
+  String get examBundleArapDesc =>
+      'Đề luyện thi chính thức · Lesen · Hören · Schreiben · Sprachbausteine';
+
+  @override
+  String get examBundleSpeakingTitle => 'Nói (Sprechen)';
+
+  @override
+  String get examBundleSpeakingDesc => 'Luyện kỹ năng nói theo chủ đề';
+
+  @override
+  String get examBundleComingSoon => 'Sắp có';
+
+  @override
+  String examSetCount(int count) {
+    return '$count bộ đề';
+  }
+
+  @override
+  String examSetCompletedSuffix(int count) {
+    return '$count hoàn thành';
+  }
+
+  @override
+  String examSetInProgressSuffix(int count) {
+    return '$count đang làm';
+  }
+
+  @override
+  String get examSetEmptyTitle => 'Chưa có đề thi';
+
+  @override
+  String get examSetEmptyBody =>
+      'Hiện tại chưa có đề thi cho chứng chỉ và cấp độ này.';
+
+  @override
+  String get examSetPagePrev => 'Trước';
+
+  @override
+  String get examSetPageNext => 'Tiếp';
+
+  @override
+  String examSetPageIndicator(int current, int total) {
+    return 'Trang $current / $total';
+  }
+
+  @override
+  String examPartsCount(int count) {
+    return '$count phần';
+  }
+
+  @override
+  String get examPartActionTest => 'Luyện thi';
+
+  @override
+  String get examPartActionPractice => 'Luyện tập';
+
+  @override
+  String get examSkillListEmptyTitle => 'Chưa có đề thi';
+
+  @override
+  String examSkillListEmptyBody(String skill) {
+    return 'Hiện tại chưa có phần $skill nào.';
+  }
+
+  @override
+  String get examSkillListVocabChip => 'Từ vựng';
+
+  @override
+  String get examLocked => 'Khóa';
 
   @override
   String get examScheduleTitle => 'Tìm bạn ôn thi';
@@ -1318,6 +1473,134 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get goalStudyExam => 'Học tập & ôn thi';
+
+  @override
+  String get goalTechEngineering => 'Công nghệ & kỹ thuật';
+
+  @override
+  String get goalShoppingBeauty => 'Mua sắm & làm đẹp';
+
+  @override
+  String get goalFamilySocial => 'Gia đình & quan hệ';
+
+  @override
+  String get goalLeisureCulture => 'Giải trí & văn hoá';
+
+  @override
+  String get goalNatureEnvironment => 'Thiên nhiên & môi trường';
+
+  @override
+  String get vocabularyMine => 'Của tôi';
+
+  @override
+  String get vocabularyIntroWhy => 'Kho từ hệ thống — chọn bộ để học và ôn.';
+
+  @override
+  String get vocabularyIntroTodo => 'Mở một bộ từ để học thẻ mới.';
+
+  @override
+  String get vocabularyIntroNext => 'Từ đã học sẽ vào lịch Ôn tập.';
+
+  @override
+  String get vocabularyIntroNextLabel => 'Ôn tập';
+
+  @override
+  String get vocabularyChooseGroupLabel => 'Chọn nhóm chủ đề';
+
+  @override
+  String vocabularyGoalTopicsCount(int count) {
+    return '$count chủ đề';
+  }
+
+  @override
+  String get vocabularyTopicSectionTitle => '📚 Chủ đề từ vựng';
+
+  @override
+  String get vocabularyTopicSectionDescription =>
+      'Chọn nhóm chủ đề rồi mở nhanh từng chủ đề con theo cấp độ.';
+
+  @override
+  String get vocabularyLevelSectionTitle => '🎯 Cấp độ CEFR';
+
+  @override
+  String get vocabularyLevelSectionDescription =>
+      'Vào từng cấp độ rồi lọc chủ đề; hoặc bấm thẳng chip chủ đề bên dưới.';
+
+  @override
+  String get vocabularyTipTitle => 'Mẹo học tập';
+
+  @override
+  String get vocabularyTipNext => 'Tiếp';
+
+  @override
+  String get wordSprintSectionTitle => '⚡ Luyện tập với chủ đề';
+
+  @override
+  String get wordSprintStart => 'Bắt đầu';
+
+  @override
+  String get wordSprintDescription => '60 giây · 4 đáp án · Combo x3';
+
+  @override
+  String get vocabularySearchHint => 'Tìm từ...';
+
+  @override
+  String get vocabularyWeakFilter => 'Yếu';
+
+  @override
+  String vocabularyMasteredCount(int done, int total) {
+    return '$done/$total đã thuộc';
+  }
+
+  @override
+  String get vocabularyTabList => 'Danh sách';
+
+  @override
+  String get vocabularyTabMyWords => 'Từ của tôi';
+
+  @override
+  String get vocabularyStartLesson => 'Học từ mới';
+
+  @override
+  String get vocabularyNotFound => 'Không tìm thấy bộ từ';
+
+  @override
+  String get vocabularyMasteryMastered => 'Đã thuộc';
+
+  @override
+  String get vocabularyMasteryKnown => 'Đang nhớ';
+
+  @override
+  String get vocabularyMasteryLearning => 'Đang học';
+
+  @override
+  String get vocabularyMasteryNew => 'Mới';
+
+  @override
+  String get myWordsGroupReviewing => 'Trong Ôn tập';
+
+  @override
+  String get myWordsGroupSaved => 'Trong Sổ từ';
+
+  @override
+  String get myWordsGroupSeen => 'Đã gặp';
+
+  @override
+  String myWordsSourceLabel(Object source) {
+    return 'nguồn: $source';
+  }
+
+  @override
+  String myWordsMoreCount(int count) {
+    return '+$count từ nữa trong nhóm này';
+  }
+
+  @override
+  String get myWordsEmptyTitle => 'Chưa có từ nào trong kho của bạn';
+
+  @override
+  String get myWordsEmptyDescription =>
+      'Tra từ khi đọc/xem video hoặc lưu từ vào Sổ từ — chúng sẽ hiện ở đây.';
 
   @override
   String cefrLevel(Object level) {
@@ -2070,7 +2353,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get practiceCheckAnswer => 'Kiểm tra';
 
   @override
-  String get practiceListeningPrompt => 'Nghe và chọn nghĩa đúng';
+  String get practiceListeningPrompt => 'Chạm vào thẻ để lật và xem nghĩa';
 
   @override
   String get practiceFeedbackCorrect => 'Chính xác!';
@@ -2102,6 +2385,47 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get practiceBackToDeck => 'Quay lại bộ thẻ';
+
+  @override
+  String get practiceBackToGames => 'Về Game';
+
+  @override
+  String get practiceNotEnoughWords => 'Chưa đủ từ để luyện tập lúc này.';
+
+  @override
+  String get practiceListenPill => 'Nghe';
+
+  @override
+  String get practiceHintPill => 'Gợi ý';
+
+  @override
+  String practiceHintLetter(String letter) {
+    return 'Bắt đầu bằng \"$letter\"';
+  }
+
+  @override
+  String get practiceRetryAnswer => 'Thử lại';
+
+  @override
+  String get practiceMicTooltip => 'Nói để nhập';
+
+  @override
+  String get practiceListeningNotYet => 'Chưa nhớ';
+
+  @override
+  String get practiceListeningKnown => 'Đã nhớ';
+
+  @override
+  String get practiceListeningTapToFlip => '👆 Nhấn để lật';
+
+  @override
+  String get practiceListeningMeaningLabel => 'Nghĩa';
+
+  @override
+  String get practiceMatchingColumnDe => 'TIẾNG ĐỨC';
+
+  @override
+  String get practiceMatchingColumnVi => 'TIẾNG VIỆT';
 
   @override
   String get subtitleWordsTitle => 'Từ trong phụ đề';
@@ -2447,6 +2771,35 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get examGoalPromptCta => 'Đặt ngày thi';
+
+  @override
+  String examHeroTitle(String provider, String level) {
+    return '🎯 Luyện thi $provider $level';
+  }
+
+  @override
+  String get examHeroToday => 'Thi hôm nay!';
+
+  @override
+  String examCornerDaysLeft(int days) {
+    return 'Còn $days ngày';
+  }
+
+  @override
+  String get examHeroNoAttemptsYet => 'Làm đề đầu tiên để đo độ sẵn sàng';
+
+  @override
+  String examHeroBasedOnAttempts(int count) {
+    return 'Dựa trên $count đề đã làm';
+  }
+
+  @override
+  String examHeroCta(String provider, String level) {
+    return '📝 Làm đề $provider $level';
+  }
+
+  @override
+  String get examHeroReadyLabel => 'sẵn sàng';
 
   @override
   String get examGoalSetterTitle => 'Đặt mục tiêu thi';

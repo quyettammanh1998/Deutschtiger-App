@@ -248,6 +248,10 @@ class CommunityExamTopic {
     required this.isVerified,
     required this.createdAt,
     this.inputText = '',
+    this.status = 'published',
+    this.examDate,
+    this.examLocation,
+    this.generatedData,
   });
 
   final String id;
@@ -265,6 +269,27 @@ class CommunityExamTopic {
   final String createdAt;
   final String inputText;
 
+  /// `status` (Go `CommunityExamTopic.Status`) — `published` | `hidden`.
+  /// Non-owners never see `hidden` rows (backend 404s them), but the
+  /// caller's own topics can still be `hidden` after a report threshold.
+  final String status;
+
+  /// `exam_date` (Go: `*string`, nullable) — presence marks the topic as a
+  /// recalled real-exam submission ("Đề thật" badge), vs. an AI-generated
+  /// practice topic.
+  final String? examDate;
+
+  /// `exam_location` (Go: `*string`, nullable).
+  final String? examLocation;
+
+  /// `generated_data` (Go: `json.RawMessage`) — structured exam content.
+  /// Shape depends on [skill]: writing = `{task, taskAnalysis, modelAnswers,
+  /// usefulPhrases, grammarFocus, commonMistakes}`; speaking = a raw string
+  /// or `{content: string}`. Parsed here only when it decodes to a JSON
+  /// object; left `null` otherwise (e.g. plain-string speaking payloads —
+  /// callers fall back to [inputText]/raw handling for those).
+  final Map<String, dynamic>? generatedData;
+
   factory CommunityExamTopic.fromJson(Map<String, dynamic> json) =>
       CommunityExamTopic(
         id: json['id'] as String? ?? '',
@@ -281,6 +306,12 @@ class CommunityExamTopic {
         isVerified: json['is_verified'] as bool? ?? false,
         createdAt: json['created_at'] as String? ?? '',
         inputText: json['input_text'] as String? ?? '',
+        status: json['status'] as String? ?? 'published',
+        examDate: json['exam_date'] as String?,
+        examLocation: json['exam_location'] as String?,
+        generatedData: json['generated_data'] is Map<String, dynamic>
+            ? json['generated_data'] as Map<String, dynamic>
+            : null,
       );
 }
 

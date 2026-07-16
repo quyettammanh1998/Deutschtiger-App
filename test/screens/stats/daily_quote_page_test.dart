@@ -7,22 +7,20 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  testWidgets('daily quote page renders the live daily quote + history grid', (
+  testWidgets('daily quote page renders a vertical snap feed from live quotes', (
     tester,
   ) async {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
-          dailyQuoteProvider.overrideWith(
-            (ref) async => const Quote(
-              id: '5',
-              contentDe: 'Übung macht den Meister.',
-              contentVi: 'Có công mài sắt, có ngày nên kim.',
-              category: 'Motivation',
-            ),
-          ),
           quoteHistoryProvider.overrideWith(
             (ref) async => const [
+              Quote(
+                id: '5',
+                contentDe: 'Übung macht den Meister.',
+                contentVi: 'Có công mài sắt, có ngày nên kim.',
+                category: 'Motivation',
+              ),
               Quote(
                 id: '6',
                 contentDe: 'Der Weg ist das Ziel.',
@@ -42,22 +40,20 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    expect(find.text('"Übung macht den Meister."'), findsOneWidget);
+    expect(find.text('Übung macht den Meister.'), findsOneWidget);
     expect(find.text('Có công mài sắt, có ngày nên kim.'), findsOneWidget);
-    expect(find.text('Der Weg ist das Ziel.'), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
 
-  testWidgets('daily quote page shows error view + retry when quote fails', (
+  testWidgets('daily quote page shows error view + retry when quotes fail', (
     tester,
   ) async {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
-          dailyQuoteProvider.overrideWith(
+          quoteHistoryProvider.overrideWith(
             (ref) async => throw Exception('boom'),
           ),
-          quoteHistoryProvider.overrideWith((ref) async => const []),
         ],
         child: const MaterialApp(
           locale: Locale('vi'),

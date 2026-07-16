@@ -28,7 +28,9 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
   final _name = TextEditingController();
   final _email = TextEditingController();
   final _password = TextEditingController();
+  final _confirmPassword = TextEditingController();
   bool _obscure = true;
+  bool _obscureConfirm = true;
   bool _socialLoading = false;
 
   @override
@@ -36,6 +38,7 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
     _name.dispose();
     _email.dispose();
     _password.dispose();
+    _confirmPassword.dispose();
     super.dispose();
   }
 
@@ -95,29 +98,27 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     const TigerLogo(width: 80),
-                    const SizedBox(height: 6),
+                    const SizedBox(height: 10),
                     Text(
-                      l10n.createNewAccount,
+                      l10n.createAccount,
                       textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 14,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.foreground,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      l10n.signupSubtitle,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        fontSize: 13,
                         fontWeight: FontWeight.w600,
                         color: AppColors.orange500,
                       ),
                     ),
                     const SizedBox(height: 20),
-
-                    // Social login buttons
-                    _SocialLoginSection(
-                      onGoogle: _loginWithGoogle,
-                      onApple: _loginWithApple,
-                      loading: _socialLoading || loading,
-                    ),
-
-                    const SizedBox(height: 16),
-                    const _DividerWithText(),
-
-                    const SizedBox(height: 16),
                     AuthTextField(
                       controller: _name,
                       label: l10n.displayName,
@@ -139,11 +140,11 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                     AuthTextField(
                       controller: _password,
                       label: l10n.password,
-                      hint: l10n.atLeastSixCharacters,
+                      hint: l10n.atLeastEightCharacters,
                       obscure: _obscure,
-                      textInputAction: TextInputAction.done,
+                      textInputAction: TextInputAction.next,
                       validator: (value) =>
-                          AuthValidators.password(value, l10n),
+                          AuthValidators.passwordMin8(value, l10n),
                       suffix: IconButton(
                         icon: Icon(
                           _obscure
@@ -155,11 +156,46 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                         onPressed: () => setState(() => _obscure = !_obscure),
                       ),
                     ),
+                    const SizedBox(height: 14),
+                    AuthTextField(
+                      controller: _confirmPassword,
+                      label: l10n.confirmPassword,
+                      hint: l10n.atLeastEightCharacters,
+                      obscure: _obscureConfirm,
+                      textInputAction: TextInputAction.done,
+                      validator: (value) => AuthValidators.confirmPassword(
+                        value,
+                        _password.text,
+                        l10n,
+                      ),
+                      suffix: IconButton(
+                        icon: Icon(
+                          _obscureConfirm
+                              ? Icons.visibility_off_outlined
+                              : Icons.visibility_outlined,
+                          size: 18,
+                          color: AppColors.mutedForeground,
+                        ),
+                        onPressed: () =>
+                            setState(() => _obscureConfirm = !_obscureConfirm),
+                      ),
+                    ),
                     const SizedBox(height: 20),
                     GradientButton(
                       label: l10n.createAccount,
                       loading: loading,
                       onPressed: loading ? null : _submit,
+                    ),
+                    const SizedBox(height: 16),
+                    const _DividerWithText(),
+                    const SizedBox(height: 16),
+                    // Social login buttons — Google then Apple, below the
+                    // form per web ordering (form → divider → Google →
+                    // Apple last).
+                    _SocialLoginSection(
+                      onGoogle: _loginWithGoogle,
+                      onApple: _loginWithApple,
+                      loading: _socialLoading || loading,
                     ),
                     const SizedBox(height: 12),
                     Wrap(

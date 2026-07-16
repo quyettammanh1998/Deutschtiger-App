@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../data/flashcard/review_item.dart';
 import '../../data/practice/practice_result.dart';
+import '../../data/practice/practice_round_item.dart';
 import '../../l10n/app_localizations.dart';
 import '../../view_models/flashcard/review_provider.dart';
 import '../decks/deck_detail_screen.dart' show deckWordsProvider;
@@ -105,11 +106,12 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
             return PracticeModeSelector(onSelect: _selectMode);
           }
 
+          final items = words.map(PracticeRoundItem.fromDeckWord).toList(growable: false);
           return switch (mode) {
-            PracticeMode.cloze => PracticeClozeView(words: words, onComplete: _handleComplete),
-            PracticeMode.listening => PracticeListeningView(words: words, onComplete: _handleComplete),
-            PracticeMode.matching => PracticeMatchingView(words: words, onComplete: _handleComplete),
-            PracticeMode.writing => PracticeWritingView(words: words, onComplete: _handleComplete),
+            PracticeMode.cloze => PracticeClozeView(items: items, onComplete: _handleComplete),
+            PracticeMode.listening => PracticeListeningView(items: items, onComplete: _handleComplete),
+            PracticeMode.matching => PracticeMatchingView(items: items, onComplete: _handleComplete),
+            PracticeMode.writing => PracticeWritingView(items: items, onComplete: _handleComplete),
           };
         },
       ),

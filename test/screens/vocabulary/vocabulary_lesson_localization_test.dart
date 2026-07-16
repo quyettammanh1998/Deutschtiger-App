@@ -1,4 +1,7 @@
+import 'package:deutschtiger/features/vocabulary/data/vocab_lesson_models.dart';
+import 'package:deutschtiger/features/vocabulary/data/vocab_lesson_utils.dart';
 import 'package:deutschtiger/features/vocabulary/domain/vocabulary_models.dart';
+import 'package:deutschtiger/features/vocabulary/presentation/vocab_lesson_provider.dart';
 import 'package:deutschtiger/features/vocabulary/presentation/vocabulary_lesson_screen.dart';
 import 'package:deutschtiger/features/vocabulary/presentation/vocabulary_provider.dart';
 import 'package:deutschtiger/features/vocabulary/presentation/vocabulary_word_screen.dart';
@@ -8,16 +11,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  testWidgets('vocabulary lesson chrome localizes at 200% text scale', (
+  testWidgets('vocabulary lesson mode-select renders and localizes at 200% text scale', (
     tester,
   ) async {
-    const params = TopicLevelItemsParams(topic: 'alltag', pageSize: 100);
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
-          topicLevelItemsProvider(
-            params,
-          ).overrideWith((ref) async => CollectionItemsResult(items: [_item])),
+          vocabularyTopicsProvider.overrideWith((ref) async => const <VocabularyTopic>[]),
         ],
         child: _localizedApp(
           child: const VocabularyLessonScreen(topicKey: 'alltag'),
@@ -26,10 +26,35 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    expect(find.text('Wortschatz: alltag'), findsOneWidget);
-    expect(find.text('Im Unterricht suchen…'), findsOneWidget);
-    expect(find.text('Alle'), findsOneWidget);
-    expect(find.text('Fortschritt: 0 / 1 Wörter'), findsOneWidget);
+    expect(find.text('Nhanh'), findsOneWidget);
+    expect(find.text('Đầy đủ'), findsOneWidget);
+    expect(find.text('Chuyên sâu'), findsOneWidget);
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('picking a mode loads the SRS batch and renders the empty state without exceptions', (
+    tester,
+  ) async {
+    const params = VocabLessonBatchParams(topicKey: 'alltag', mode: VocabLessonMode.standard);
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          vocabularyTopicsProvider.overrideWith((ref) async => const <VocabularyTopic>[]),
+          vocabLessonBatchProvider(
+            params,
+          ).overrideWith((ref) async => const LessonBatch(cards: [], degenerate: true, reason: 'empty_collection')),
+        ],
+        child: _localizedApp(
+          child: const VocabularyLessonScreen(topicKey: 'alltag'),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('Đầy đủ'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Chưa có từ để học'), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
 
@@ -37,20 +62,21 @@ void main() {
     tester,
   ) async {
     await tester.pumpWidget(
-      _localizedApp(
-        child: VocabularyWordScreen(
-          item: _item,
-          items: [_item, _secondItem],
-          onOpenDetail: (_) {},
+      ProviderScope(
+        child: _localizedApp(
+          child: VocabularyWordScreen(
+            item: _item,
+            items: [_item, _secondItem],
+            onOpenDetail: (_) {},
+          ),
         ),
       ),
     );
+    await tester.pumpAndSettle();
 
-    expect(find.text('Bedeutungen'), findsOneWidget);
-    expect(find.text('Beispiele'), findsOneWidget);
-    expect(find.text('Zurück'), findsOneWidget);
-    expect(find.text('Weiter'), findsOneWidget);
-    expect(find.byTooltip('Details anzeigen'), findsOneWidget);
+    expect(find.text('Haus'), findsOneWidget);
+    expect(find.text('Trước'), findsOneWidget);
+    expect(find.text('Tiếp theo'), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
 }

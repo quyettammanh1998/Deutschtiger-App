@@ -1,129 +1,158 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../core/design_tokens.dart';
-import '../../data/exam/exam_ecosystem_models.dart';
+import '../../core/icons/app_phosphor_icons.dart';
+import '../../core/theme/app_tokens.dart';
 import '../../l10n/app_localizations.dart';
-import '../../view_models/exam/exam_ecosystem_providers.dart';
-import '../../widgets/common/async_state_views.dart';
+import 'widgets/community/community_browse_tab.dart';
+import 'widgets/community/community_gated_tab.dart';
 
-/// Danh sách đề thi cộng đồng — READ-ONLY (không comment/vote write ở phase
-/// này, chờ GĐ2 P3 quyết report/block cho UGC).
-class CommunityExamsListScreen extends ConsumerWidget {
+/// Danh sách đề thi cộng đồng. Web parity: `community-exams-page.tsx` — back
+/// + title, segmented tab bar (Duyệt đề / Đóng góp / Đề của tôi), each tab
+/// swapped in place.
+///
+/// Only "Duyệt đề" (browse, read-only) is fully wired to live data.
+/// "Đóng góp" (AI-generate + publish) and "Đề của tôi" (my topics) render a
+/// gated/coming-soon state — the write path is a product decision deferred
+/// to GĐ2 P3, not omitted UI (web shows all three tabs).
+class CommunityExamsListScreen extends StatefulWidget {
   const CommunityExamsListScreen({super.key});
 
-  static const _filter = CommunityExamFilter();
+  @override
+  State<CommunityExamsListScreen> createState() =>
+      _CommunityExamsListScreenState();
+}
+
+class _CommunityExamsListScreenState extends State<CommunityExamsListScreen> {
+  int _tab = 0;
+
+  static const _tabLabels = ['Duyệt đề', 'Đóng góp', 'Đề của tôi'];
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final topics = ref.watch(communityExamListProvider(_filter));
+    final tokens = context.tokens;
 
     return Scaffold(
-      backgroundColor: DesignTokens.background,
-      appBar: AppBar(title: Text(l10n.communityExamsTitle)),
-      body: topics.when(
-        loading: () => const LoadingView(),
-        error: (error, _) => ErrorView(
-          message: l10n.couldNotLoadData,
-          onRetry: () => ref.invalidate(communityExamListProvider(_filter)),
+      backgroundColor: tokens.background,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  IconButton(
+                    icon: Icon(AppPhosphorIcons.caretLeft),
+                    onPressed: () => context.pop(),
+                  ),
+                  const SizedBox(width: 4),
+                  Text(
+                    l10n.communityExamsTitle,
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w700,
+                      color: tokens.foreground,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+              _TabBar(
+                selected: _tab,
+                onSelected: (i) => setState(() => _tab = i),
+              ),
+              const SizedBox(height: 16),
+              switch (_tab) {
+                0 => const CommunityBrowseTab(),
+                1 => const CommunityGatedTab(
+                  message:
+                      'Tính năng đóng góp đề thi đang được phát triển.\n'
+                      'Hãy quay lại sau nhé!',
+                ),
+                _ => const CommunityGatedTab(
+                  message:
+                      'Bạn chưa đóng góp đề nào — tính năng này sắp ra mắt.',
+                ),
+              },
+            ],
+          ),
         ),
-        data: (list) {
-          if (list.isEmpty) {
-            return Center(
-              child: Text(
-                l10n.communityExamsEmpty,
-                style: const TextStyle(color: DesignTokens.mutedForeground),
-              ),
-            );
-          }
-          return RefreshIndicator(
-            onRefresh: () async {
-              ref.invalidate(communityExamListProvider(_filter));
-              await ref.read(communityExamListProvider(_filter).future);
-            },
-            child: ListView.separated(
-              padding: const EdgeInsets.all(
-                DesignTokens.screenHorizontalPadding,
-              ),
-              itemCount: list.length,
-              separatorBuilder: (_, _) =>
-                  const SizedBox(height: DesignTokens.spacingSm),
-              itemBuilder: (context, index) =>
-                  _CommunityExamCard(topic: list[index]),
-            ),
-          );
-        },
       ),
     );
   }
 }
 
-class _CommunityExamCard extends StatelessWidget {
-  const _CommunityExamCard({required this.topic});
-  final CommunityExamTopic topic;
+class _TabBar extends StatelessWidget {
+  const _TabBar({required this.selected, required this.onSelected});
+
+  final int selected;
+  final ValueChanged<int> onSelected;
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () => context.push('/exam/community/${topic.id}'),
-      borderRadius: BorderRadius.circular(DesignTokens.radius),
-      child: Container(
-        padding: const EdgeInsets.all(DesignTokens.cardPadding),
-        decoration: BoxDecoration(
-          color: DesignTokens.card,
-          borderRadius: BorderRadius.circular(DesignTokens.radius),
-          border: Border.all(color: DesignTokens.border),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+    final tokens = context.tokens;
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: tokens.muted,
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(4),
+        child: Row(
           children: [
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    topic.titleDe,
-                    style: const TextStyle(fontWeight: FontWeight.w700),
-                  ),
+            for (
+              var i = 0;
+              i < _CommunityExamsListScreenState._tabLabels.length;
+              i++
+            )
+              Expanded(
+                child: _TabButton(
+                  label: _CommunityExamsListScreenState._tabLabels[i],
+                  active: selected == i,
+                  onTap: () => onSelected(i),
                 ),
-                if (topic.isVerified)
-                  const Icon(
-                    Icons.verified,
-                    size: 16,
-                    color: DesignTokens.info,
-                  ),
-              ],
-            ),
-            if (topic.titleVi != null && topic.titleVi!.isNotEmpty)
-              Text(
-                topic.titleVi!,
-                style: const TextStyle(color: DesignTokens.mutedForeground),
               ),
-            const SizedBox(height: DesignTokens.spacingXs),
-            Text(
-              '${topic.provider.toUpperCase()} ${topic.level.toUpperCase()} · ${topic.skill}'
-              '${topic.teil > 0 ? ' Teil ${topic.teil}' : ''}',
-              style: const TextStyle(fontSize: 12, color: DesignTokens.mutedForeground),
-            ),
-            const SizedBox(height: DesignTokens.spacingXs),
-            Row(
-              children: [
-                const Icon(Icons.thumb_up_outlined, size: 14),
-                const SizedBox(width: 4),
-                Text('${topic.voteCount}'),
-                const SizedBox(width: DesignTokens.spacingMd),
-                if (topic.contributorName.isNotEmpty)
-                  Text(
-                    topic.contributorName,
-                    style: const TextStyle(
-                      fontSize: 12,
-                      color: DesignTokens.mutedForeground,
-                    ),
-                  ),
-              ],
-            ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class _TabButton extends StatelessWidget {
+  const _TabButton({
+    required this.label,
+    required this.active,
+    required this.onTap,
+  });
+
+  final String label;
+  final bool active;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final tokens = context.tokens;
+    return Material(
+      color: active ? tokens.card : Colors.transparent,
+      borderRadius: BorderRadius.circular(8),
+      elevation: active ? 1 : 0,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(8),
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8),
+          child: Text(
+            label,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.w600,
+              color: active ? tokens.foreground : tokens.mutedForeground,
+            ),
+          ),
         ),
       ),
     );

@@ -6,36 +6,40 @@
 // — see phase-04 route table "Router ownership" note). Everything else under
 // `/games/*` belongs to `games_routes.dart` (P7).
 //
-// Current path → target web practice-view mapping (per phase-04 doc):
-//   /games/fill-blank → practice-cloze-page (route becomes `/games/cloze`)
-//   /games/flashcard  → practice-listening-page (route becomes `/games/flashcards`)
-//   /games/matching   → practice-matching-page
-//   /games/writing    → practice-writing-page
-// Renames/redirects are P4's responsibility; this phase-01 split only moves
-// route ownership, it does not rename paths (pure refactor).
+// Renamed per phase-04 web-path alignment (redirects registered in
+// `release_redirect.dart`):
+//   /games/fill-blank → /games/cloze      (practice-cloze-page)
+//   /games/flashcard  → /games/flashcards (practice-listening-page)
+//   /games/matching   → /games/matching   (unchanged, practice-matching-page)
+//   /games/writing    → /games/writing    (unchanged, practice-writing-page)
+// The 5 legacy game screens these routes used to point at
+// (fill_blank/flashcard/matching/writing_word/writing_sentence_game_screen)
+// are deleted; `writing_sentence_game_screen.dart` stays (owned by P7's
+// `games_routes.dart` at `/games/writing-sentence`, no web counterpart —
+// P7 owns removing that route).
 
 import 'package:go_router/go_router.dart';
 
-import '../../screens/games/fill_blank_game_screen.dart';
-import '../../screens/games/flashcard_game_screen.dart';
-import '../../screens/games/matching_game_screen.dart';
-import '../../screens/games/writing_word_game_screen.dart';
+import '../../screens/practice/practice_cloze_route_screen.dart';
+import '../../screens/practice/practice_listening_route_screen.dart';
+import '../../screens/practice/practice_matching_route_screen.dart';
+import '../../screens/practice/practice_writing_route_screen.dart';
 
 final List<RouteBase> practiceRoutes = [
   GoRoute(
+    path: '/games/cloze',
+    builder: (context, state) => const PracticeClozeRouteScreen(),
+  ),
+  GoRoute(
+    path: '/games/flashcards',
+    builder: (context, state) => const PracticeListeningRouteScreen(),
+  ),
+  GoRoute(
     path: '/games/matching',
-    builder: (context, state) => const MatchingGameScreen(),
-  ),
-  GoRoute(
-    path: '/games/fill-blank',
-    builder: (context, state) => const FillBlankGameScreen(),
-  ),
-  GoRoute(
-    path: '/games/flashcard',
-    builder: (context, state) => const FlashcardGameScreen(),
+    builder: (context, state) => const PracticeMatchingRouteScreen(),
   ),
   GoRoute(
     path: '/games/writing',
-    builder: (context, state) => const WritingWordGameScreen(),
+    builder: (context, state) => const PracticeWritingRouteScreen(),
   ),
 ];

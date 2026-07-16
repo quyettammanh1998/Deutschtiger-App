@@ -15,11 +15,13 @@ class CommunityExamRepository {
     String? provider,
     String? level,
     String? skill,
+    int? teil,
   }) async {
     final query = <String, dynamic>{};
     if (provider != null) query['provider'] = provider;
     if (level != null) query['level'] = level;
     if (skill != null) query['skill'] = skill;
+    if (teil != null) query['teil'] = teil;
     final data = await _apiClient.get<List<dynamic>>(
       '/user/community/exams/',
       query: query,

@@ -11,11 +11,16 @@ class PracticeResultsView extends StatelessWidget {
     required this.results,
     required this.onRestart,
     required this.onBackToDeck,
+    this.backLabel,
   });
 
   final List<PracticeResultEntry> results;
   final VoidCallback onRestart;
   final VoidCallback onBackToDeck;
+
+  /// Overrides the default "Back to deck" copy for callers that aren't
+  /// deck-scoped (e.g. the standalone `/games/*` practice-view routes).
+  final String? backLabel;
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +70,7 @@ class PracticeResultsView extends StatelessWidget {
                   Expanded(
                     child: OutlinedButton(
                       onPressed: onBackToDeck,
-                      child: Text(l10n.practiceBackToDeck),
+                      child: Text(backLabel ?? l10n.practiceBackToDeck),
                     ),
                   ),
                   const SizedBox(width: 12),

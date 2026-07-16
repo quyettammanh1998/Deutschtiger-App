@@ -98,18 +98,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       ),
                     ),
                     const SizedBox(height: 20),
-
-                    // Social login buttons
-                    _SocialLoginSection(
-                      onGoogle: _loginWithGoogle,
-                      onApple: _loginWithApple,
-                      loading: _socialLoading || loading,
-                    ),
-
-                    const SizedBox(height: 16),
-                    const _DividerWithText(),
-
-                    const SizedBox(height: 16),
                     AuthTextField(
                       controller: _email,
                       label: l10n.email,
@@ -163,6 +151,17 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       label: l10n.logIn,
                       loading: loading,
                       onPressed: loading ? null : _submit,
+                    ),
+                    const SizedBox(height: 16),
+                    const _DividerWithText(),
+                    const SizedBox(height: 16),
+                    // Social login buttons — Google then Apple, below the
+                    // form per web ordering (form → divider → Google →
+                    // Apple last).
+                    _SocialLoginSection(
+                      onGoogle: _loginWithGoogle,
+                      onApple: _loginWithApple,
+                      loading: _socialLoading || loading,
                     ),
                     const SizedBox(height: 16),
                     Wrap(
