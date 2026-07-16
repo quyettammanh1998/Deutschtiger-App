@@ -3,20 +3,26 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/design_tokens.dart';
+import '../../core/icons/app_icons.dart';
 import '../../core/release/release_feature_flags.dart';
 import '../../l10n/app_localizations.dart';
 import '../../services/offline/offline_service.dart';
 import '../../shared/widgets/more_features_sheet.dart';
 import '../../shared/widgets/offline_banner.dart';
 import '../heartbeat_bootstrap.dart';
+import 'nav/app_bottom_nav.dart';
+import 'nav/nav_hamburger_icon.dart';
+import 'nav/nav_tab_accents.dart';
 
 /// Khung bottom-nav, bao các route con qua go_router ShellRoute.
 ///
-/// Mapping tab (theo web):
+/// Mapping tab (theo web `bottom-nav.tsx`, đã đối chiếu 1:1):
 ///   0 — Trang chủ   → /home
 ///   1 — Thi         → /exam
 ///   2 — Học         → /learn
-///   3 — AI          → /ai (chỉ khi contract AI tutor được bật)
+///   3 — Hội thoại   → /conversation (web) — hoặc AI → /ai khi
+///       `ReleaseFeatureFlags.speaking` (P10 conversation hub) còn tắt, xem
+///       [appShellTabs] và switch tương ứng trong `app_router.dart`.
 ///   cuối — Thêm     → KHÔNG navigate: mở [MoreFeaturesSheet]
 class AppShell extends ConsumerStatefulWidget {
   const AppShell({super.key, required this.navigationShell});
@@ -29,9 +35,8 @@ class AppShell extends ConsumerStatefulWidget {
 
 class _AppShellState extends ConsumerState<AppShell> {
   int get _selectedIndex {
-    final selectedTab = appShellTabs(AppLocalizations.of(context)).indexWhere(
-      (tab) => tab.branchIndex == widget.navigationShell.currentIndex,
-    );
+    final selectedTab = appShellTabs(AppLocalizations.of(context))
+        .indexWhere((tab) => tab.branchIndex == widget.navigationShell.currentIndex);
     return selectedTab == -1 ? 0 : selectedTab;
   }
 
@@ -52,14 +57,6 @@ class _AppShellState extends ConsumerState<AppShell> {
     final l10n = AppLocalizations.of(context);
     final tabs = appShellTabs(l10n);
     final isOffline = ref.watch(isOfflineProvider).value ?? false;
-    final brightness = Theme.of(context).brightness;
-    final isDark = brightness == Brightness.dark;
-    final navBg = isDark ? DesignTokens.darkCard : DesignTokens.card;
-    final navBorder = isDark ? DesignTokens.darkBorder : DesignTokens.border;
-    final activeColor = DesignTokens.tigerOrange;
-    final inactiveColor = isDark
-        ? DesignTokens.mutedForeground
-        : DesignTokens.mutedForeground;
 
     return Scaffold(
       body: Column(
@@ -77,92 +74,65 @@ class _AppShellState extends ConsumerState<AppShell> {
           Expanded(child: widget.navigationShell),
         ],
       ),
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-          color: navBg,
-          border: Border(top: BorderSide(color: navBorder, width: 0.5)),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: isDark ? 0.3 : 0.06),
-              blurRadius: 12,
-              offset: const Offset(0, -2),
-            ),
-          ],
-        ),
-        child: SafeArea(
-          top: false,
-          child: BottomNavigationBar(
-            currentIndex: _selectedIndex,
-            onTap: _onTap,
-            type: BottomNavigationBarType.fixed,
-            backgroundColor: navBg,
-            selectedItemColor: activeColor,
-            unselectedItemColor: inactiveColor,
-            showUnselectedLabels: true,
-            elevation: 0,
-            items: [
-              for (final tab in tabs)
-                BottomNavigationBarItem(
-                  icon: Icon(tab.icon),
-                  activeIcon: Icon(tab.activeIcon),
-                  label: tab.label,
-                ),
-            ],
-          ),
-        ),
+      bottomNavigationBar: AppBottomNav(
+        tabs: tabs,
+        selectedIndex: _selectedIndex,
+        onTap: _onTap,
       ),
     );
   }
 }
 
 /// Visible shell tabs for the compiled release configuration. Branch indices
-/// stay stable even when a gated tab is absent from the bottom navigation.
-List<AppShellTab> appShellTabs(AppLocalizations l10n) => [
-  AppShellTab(
+/// stay stable even when tab 4's content swaps between Hội thoại and AI.
+List<AppBottomNavTab> appShellTabs(AppLocalizations l10n) => [
+  AppBottomNavTab(
     branchIndex: 0,
-    icon: Icons.home_outlined,
-    activeIcon: Icons.home_rounded,
+    iconBuilder: AppIcons.home,
     label: l10n.home,
+    accent: NavTabAccents.home,
   ),
-  AppShellTab(
+  AppBottomNavTab(
     branchIndex: 1,
-    icon: Icons.assignment_outlined,
-    activeIcon: Icons.assignment_rounded,
+    iconBuilder: AppIcons.exams,
     label: l10n.exam,
+    accent: NavTabAccents.exam,
   ),
-  AppShellTab(
+  AppBottomNavTab(
     branchIndex: 2,
-    icon: Icons.menu_book_outlined,
-    activeIcon: Icons.menu_book_rounded,
+    iconBuilder: AppIcons.learn,
     label: l10n.learn,
+    accent: NavTabAccents.learn,
   ),
-  if (ReleaseFeatureFlags.aiTutor)
-    AppShellTab(
+  // TAB-4 RELEASE SWITCH: web's 4th bottom-nav slot is always "Hội thoại"
+  // (conversation hub). The Flutter app keeps showing the pre-parity "AI"
+  // tab in that slot until `ReleaseFeatureFlags.speaking` (P10's conversation
+  // hub contract) goes live — flip that flag to complete tab-4 parity; no
+  // other change needed here (branch index 3 stays the same either way, see
+  // `app_router.dart`).
+  if (ReleaseFeatureFlags.speaking)
+    AppBottomNavTab(
       branchIndex: 3,
-      icon: Icons.smart_toy_outlined,
-      activeIcon: Icons.smart_toy_rounded,
+      iconBuilder: AppIcons.conversationHub,
+      label: l10n.navConversation,
+      accent: NavTabAccents.conversation,
+    )
+  else
+    AppBottomNavTab(
+      branchIndex: 3,
+      iconBuilder: ({double size = 24, Color? color}) =>
+          Icon(Icons.smart_toy_rounded, size: size, color: color),
       label: l10n.ai,
+      accent: NavTabAccents.ai,
     ),
-  AppShellTab(
+  AppBottomNavTab(
     opensMoreSheet: true,
-    icon: Icons.grid_view_rounded,
-    activeIcon: Icons.grid_view_rounded,
+    iconBuilder: ({double size = 24, Color? color}) => NavHamburgerIcon(
+      size: size,
+      color: color ?? NavTabAccents.inactiveLight,
+    ),
     label: l10n.more,
+    // "Thêm" never gets an active pill/color — it opens a dialog, it never
+    // becomes the "current" branch.
   ),
 ];
-
-class AppShellTab {
-  const AppShellTab({
-    this.branchIndex,
-    this.opensMoreSheet = false,
-    required this.icon,
-    required this.activeIcon,
-    required this.label,
-  });
-
-  final int? branchIndex;
-  final bool opensMoreSheet;
-  final IconData icon;
-  final IconData activeIcon;
-  final String label;
-}

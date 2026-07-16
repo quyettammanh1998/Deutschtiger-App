@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:deutschtiger/widgets/common/app_shell.dart';
+import '../core/release/release_feature_flags.dart';
 import '../view_models/providers.dart';
 import 'router_keys.dart';
 import 'auth_redirect.dart';
@@ -81,8 +82,18 @@ final routerProvider = Provider<GoRouter>((ref) {
           StatefulShellBranch(routes: examShellRoutes),
           // 2 — Học: B2 Learn Hub với phiên hôm nay từ backend.
           StatefulShellBranch(routes: learnShellRoutes),
-          // 3 — AI
-          StatefulShellBranch(routes: aiShellRoutes),
+          // 3 — Hội thoại (web parity) once `ReleaseFeatureFlags.speaking`
+          // (P10 conversation hub) ships; AI tab otherwise. Same branch
+          // index either way so `AppShell`'s branch-based active-tab lookup
+          // doesn't need to change when this flips. TAB-4 RELEASE SWITCH:
+          // flip `ReleaseFeatureFlags.speaking` to move this app to the web
+          // bottom-nav layout — see matching comment in
+          // `widgets/common/app_shell.dart`.
+          StatefulShellBranch(
+            routes: ReleaseFeatureFlags.speaking
+                ? conversationShellRoutes
+                : aiShellRoutes,
+          ),
           // Tab "Thêm" (index 4) KHÔNG có branch — AppShell tap thì
           // mở MoreFeaturesSheet thay vì navigate.
         ],

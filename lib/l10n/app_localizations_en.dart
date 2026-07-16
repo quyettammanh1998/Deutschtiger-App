@@ -1007,10 +1007,85 @@ class AppLocalizationsEn extends AppLocalizations {
   String get more => 'More';
 
   @override
-  String get moreFeaturesTitle => 'DeutschTiger features';
+  String get moreFeaturesTitle => 'All features';
 
   @override
   String get close => 'Close';
+
+  @override
+  String get navConversation => 'Conversation';
+
+  @override
+  String get groupAccountOther => 'Account & More';
+
+  @override
+  String get featureYoutube => 'YouTube';
+
+  @override
+  String get featureReadListen => 'Read & Listen';
+
+  @override
+  String get featureListening => 'Listening';
+
+  @override
+  String get featureReadingFeed => 'Reading feed';
+
+  @override
+  String get featureNews => 'News';
+
+  @override
+  String get featureSubtitleWords => 'Subtitle words';
+
+  @override
+  String get featureFocusSession => 'Focus session';
+
+  @override
+  String get featureCasesHub => 'Practice 4 cases';
+
+  @override
+  String get featureMinimalPairs => 'Minimal pairs';
+
+  @override
+  String get featureInterview => 'Interview';
+
+  @override
+  String get featureLearnerModel => 'Skill profile';
+
+  @override
+  String get featureExamReadiness => 'Exam readiness';
+
+  @override
+  String get featureErrorPatterns => 'Common mistakes';
+
+  @override
+  String get featureMessages => 'Messages';
+
+  @override
+  String get featureFriends => 'Friends';
+
+  @override
+  String get featureExamSchedule => 'Find a study buddy';
+
+  @override
+  String get featureDailyQuote => 'Daily quote';
+
+  @override
+  String get featureAffiliateIntro => 'Refer & earn';
+
+  @override
+  String get featurePremiumUpgrade => 'Upgrade to Premium';
+
+  @override
+  String get featureAdmin => 'Admin';
+
+  @override
+  String get featureFeedback => 'Feedback';
+
+  @override
+  String get featureLeaderboardFull => 'Leaderboard';
+
+  @override
+  String get featureAiAssistant => 'AI Assistant';
 
   @override
   String get groupVocabularyReview => 'Vocabulary & review';

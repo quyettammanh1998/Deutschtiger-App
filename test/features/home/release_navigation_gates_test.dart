@@ -51,17 +51,24 @@ void main() {
     expect(resolveDailyPathRoute(null), '/learn');
   });
 
-  test('bottom navigation hides the gated AI branch by default', () async {
-    final l10n = await AppLocalizations.delegate.load(const Locale('en'));
-    final tabs = appShellTabs(l10n);
+  test(
+    'bottom navigation tab 4 shows Hội thoại only once the speaking flag ships',
+    () async {
+      final l10n = await AppLocalizations.delegate.load(const Locale('en'));
+      final tabs = appShellTabs(l10n);
 
-    expect(
-      tabs.any((tab) => tab.branchIndex == 3),
-      ReleaseFeatureFlags.aiTutor,
-      reason: 'The AI tutor branch must follow its compile-time release flag.',
-    );
-    expect(tabs.last.opensMoreSheet, isTrue);
-  });
+      // Tab 4 (branch index 3) is always present — it's either "Hội thoại"
+      // (web parity, gated on ReleaseFeatureFlags.speaking / P10 conversation
+      // hub) or the pre-parity "AI" tab in the same slot. See the tab-4
+      // release switch comment in `app_shell.dart`.
+      final tab4 = tabs.singleWhere((tab) => tab.branchIndex == 3);
+      expect(
+        tab4.label,
+        ReleaseFeatureFlags.speaking ? l10n.navConversation : l10n.ai,
+      );
+      expect(tabs.last.opensMoreSheet, isTrue);
+    },
+  );
 
   testWidgets('Home components hide gated navigation affordances', (
     tester,

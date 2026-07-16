@@ -47,7 +47,11 @@ Chặn mọi phase khác. Scout: `plans/reports/scout-260716-2324-ui-fidelity-sh
 5. **Primitives** (`lib/widgets/common/` — check module hiện có trước):
    - Card: light = shadow-only không viền; dark = border; radius 16.
    - Button: cao 40px, radius 8, variants `.btn-primary/secondary/ghost/outline`.
-   - `PageIntro` (tiêu đề Grandstander + mô tả muted — web dùng ở hầu hết trang).
+   - `PageIntro` — **spec đính chính 17/07** (đọc `src/components/shared/page-intro.tsx`):
+     KHÔNG phải "tiêu đề + mô tả". Web = strip "Mỗi màn 3 câu" thu gọn được:
+     `why`/`todo`/`next` + CTA optional, viền `rounded-xl border-border bg-muted/40`,
+     nhớ trạng thái collapse per `pageKey` (device-local `pi:{pageKey}`).
+     Flutter dùng SharedPreferences cho persistence.
    - Pill/badge, sticky bottom CTA bar, gradient section header.
    - `GameShell`: header đồng nhất + exit guard + GameWallOverlay/FreeLimitOverlay
      (gate flag premium) + completion confetti+XP (tái dùng `confetti_overlay.dart`

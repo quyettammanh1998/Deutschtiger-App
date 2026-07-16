@@ -1021,10 +1021,85 @@ class AppLocalizationsDe extends AppLocalizations {
   String get more => 'Mehr';
 
   @override
-  String get moreFeaturesTitle => 'DeutschTiger-Funktionen';
+  String get moreFeaturesTitle => 'Alle Funktionen';
 
   @override
   String get close => 'Schließen';
+
+  @override
+  String get navConversation => 'Konversation';
+
+  @override
+  String get groupAccountOther => 'Konto & Mehr';
+
+  @override
+  String get featureYoutube => 'YouTube';
+
+  @override
+  String get featureReadListen => 'Lesen & Hören';
+
+  @override
+  String get featureListening => 'Hören';
+
+  @override
+  String get featureReadingFeed => 'Lesestoff';
+
+  @override
+  String get featureNews => 'Nachrichten';
+
+  @override
+  String get featureSubtitleWords => 'Untertitel-Wörter';
+
+  @override
+  String get featureFocusSession => 'Fokus-Sitzung';
+
+  @override
+  String get featureCasesHub => '4 Fälle üben';
+
+  @override
+  String get featureMinimalPairs => 'Minimalpaare';
+
+  @override
+  String get featureInterview => 'Interview';
+
+  @override
+  String get featureLearnerModel => 'Kompetenzprofil';
+
+  @override
+  String get featureExamReadiness => 'Prüfungsbereitschaft';
+
+  @override
+  String get featureErrorPatterns => 'Häufige Fehler';
+
+  @override
+  String get featureMessages => 'Nachrichten';
+
+  @override
+  String get featureFriends => 'Freunde';
+
+  @override
+  String get featureExamSchedule => 'Lernpartner finden';
+
+  @override
+  String get featureDailyQuote => 'Tageszitat';
+
+  @override
+  String get featureAffiliateIntro => 'Weiterempfehlen';
+
+  @override
+  String get featurePremiumUpgrade => 'Auf Premium upgraden';
+
+  @override
+  String get featureAdmin => 'Verwaltung';
+
+  @override
+  String get featureFeedback => 'Feedback';
+
+  @override
+  String get featureLeaderboardFull => 'Bestenliste';
+
+  @override
+  String get featureAiAssistant => 'KI-Assistent';
 
   @override
   String get groupVocabularyReview => 'Wortschatz & Wiederholung';

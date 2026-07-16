@@ -59,3 +59,15 @@ final List<RouteBase> speechRoutes = [
     ],
   ),
 ];
+
+/// Shell branch 3 ("Hội thoại") — the web-parity replacement for the AI tab
+/// in slot 4 of the bottom nav, active only once
+/// `ReleaseFeatureFlags.speaking` (P10 conversation hub) ships. Until then
+/// `app_router.dart` wires branch 3 to `aiShellRoutes` instead — see the
+/// tab-4 release-gate comment there and in `widgets/common/app_shell.dart`.
+final List<RouteBase> conversationShellRoutes = [
+  GoRoute(
+    path: '/conversation',
+    builder: (context, state) => const ConversationHubPage(),
+  ),
+];

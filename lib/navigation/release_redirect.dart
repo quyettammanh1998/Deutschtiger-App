@@ -84,6 +84,14 @@ String? resolveReleaseRedirect(String path) {
   if (_matches(path, '/games') && !ReleaseFeatureFlags.games) {
     return '/learn';
   }
+  // `/conversation` (web-parity Hội thoại tab, P10 conversation hub) is only
+  // registered as a shell-branch route while `speaking` is on (see
+  // `app_router.dart`'s tab-4 release switch). Deep links hitting it while
+  // the flag is off would otherwise 404 — redirect to the AI tab that
+  // occupies that slot instead, same fallback as `/speaking` below.
+  if (_matches(path, '/conversation') && !ReleaseFeatureFlags.speaking) {
+    return '/ai';
+  }
   if (_matches(path, '/ai') && !ReleaseFeatureFlags.aiTutor) return '/learn';
   if (_matches(path, '/ai-tutor') && !ReleaseFeatureFlags.aiTutor) {
     return '/learn';

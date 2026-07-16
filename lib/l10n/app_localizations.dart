@@ -1921,7 +1921,7 @@ abstract class AppLocalizations {
   /// No description provided for @moreFeaturesTitle.
   ///
   /// In vi, this message translates to:
-  /// **'Tiện ích DeutschTiger'**
+  /// **'Tất cả tính năng'**
   String get moreFeaturesTitle;
 
   /// No description provided for @close.
@@ -1929,6 +1929,156 @@ abstract class AppLocalizations {
   /// In vi, this message translates to:
   /// **'Đóng'**
   String get close;
+
+  /// No description provided for @navConversation.
+  ///
+  /// In vi, this message translates to:
+  /// **'Hội thoại'**
+  String get navConversation;
+
+  /// No description provided for @groupAccountOther.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tài khoản & Khác'**
+  String get groupAccountOther;
+
+  /// No description provided for @featureYoutube.
+  ///
+  /// In vi, this message translates to:
+  /// **'YouTube'**
+  String get featureYoutube;
+
+  /// No description provided for @featureReadListen.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đọc & Nghe'**
+  String get featureReadListen;
+
+  /// No description provided for @featureListening.
+  ///
+  /// In vi, this message translates to:
+  /// **'Nghe'**
+  String get featureListening;
+
+  /// No description provided for @featureReadingFeed.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đọc bài'**
+  String get featureReadingFeed;
+
+  /// No description provided for @featureNews.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tin tức'**
+  String get featureNews;
+
+  /// No description provided for @featureSubtitleWords.
+  ///
+  /// In vi, this message translates to:
+  /// **'Từ vựng phụ đề'**
+  String get featureSubtitleWords;
+
+  /// No description provided for @featureFocusSession.
+  ///
+  /// In vi, this message translates to:
+  /// **'Phiên tập trung'**
+  String get featureFocusSession;
+
+  /// No description provided for @featureCasesHub.
+  ///
+  /// In vi, this message translates to:
+  /// **'Luyện 4 Cách'**
+  String get featureCasesHub;
+
+  /// No description provided for @featureMinimalPairs.
+  ///
+  /// In vi, this message translates to:
+  /// **'Cặp âm dễ nhầm'**
+  String get featureMinimalPairs;
+
+  /// No description provided for @featureInterview.
+  ///
+  /// In vi, this message translates to:
+  /// **'Phỏng vấn'**
+  String get featureInterview;
+
+  /// No description provided for @featureLearnerModel.
+  ///
+  /// In vi, this message translates to:
+  /// **'Hồ sơ năng lực'**
+  String get featureLearnerModel;
+
+  /// No description provided for @featureExamReadiness.
+  ///
+  /// In vi, this message translates to:
+  /// **'Sẵn sàng thi'**
+  String get featureExamReadiness;
+
+  /// No description provided for @featureErrorPatterns.
+  ///
+  /// In vi, this message translates to:
+  /// **'Lỗi hay gặp'**
+  String get featureErrorPatterns;
+
+  /// No description provided for @featureMessages.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tin nhắn'**
+  String get featureMessages;
+
+  /// No description provided for @featureFriends.
+  ///
+  /// In vi, this message translates to:
+  /// **'Bạn bè'**
+  String get featureFriends;
+
+  /// No description provided for @featureExamSchedule.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tìm bạn ôn thi'**
+  String get featureExamSchedule;
+
+  /// No description provided for @featureDailyQuote.
+  ///
+  /// In vi, this message translates to:
+  /// **'Trích dẫn hằng ngày'**
+  String get featureDailyQuote;
+
+  /// No description provided for @featureAffiliateIntro.
+  ///
+  /// In vi, this message translates to:
+  /// **'Giới thiệu'**
+  String get featureAffiliateIntro;
+
+  /// No description provided for @featurePremiumUpgrade.
+  ///
+  /// In vi, this message translates to:
+  /// **'Nâng cấp Premium'**
+  String get featurePremiumUpgrade;
+
+  /// No description provided for @featureAdmin.
+  ///
+  /// In vi, this message translates to:
+  /// **'Quản trị'**
+  String get featureAdmin;
+
+  /// No description provided for @featureFeedback.
+  ///
+  /// In vi, this message translates to:
+  /// **'Góp ý'**
+  String get featureFeedback;
+
+  /// No description provided for @featureLeaderboardFull.
+  ///
+  /// In vi, this message translates to:
+  /// **'Bảng xếp hạng'**
+  String get featureLeaderboardFull;
+
+  /// No description provided for @featureAiAssistant.
+  ///
+  /// In vi, this message translates to:
+  /// **'Trợ lý AI'**
+  String get featureAiAssistant;
 
   /// No description provided for @groupVocabularyReview.
   ///

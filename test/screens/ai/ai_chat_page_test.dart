@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:deutschtiger/data/ai/ai_chat_live_models.dart';
+import 'package:deutschtiger/l10n/app_localizations.dart';
 import 'package:deutschtiger/repositories/ai/ai_repository.dart';
 import 'package:deutschtiger/screens/ai/ai_chat_page.dart';
 import 'package:deutschtiger/services/api_client.dart';
@@ -40,12 +41,21 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [aiRepositoryProvider.overrideWithValue(AIRepository(_client(adapter)))],
-        child: const MaterialApp(home: AIChatPage()),
+        child: MaterialApp(
+          supportedLocales: AppLocalizations.supportedLocales,
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          home: const AIChatPage(),
+        ),
       ),
     );
 
     await tester.enterText(find.byType(TextField), 'Wie geht es dir?');
-    await tester.tap(find.byIcon(Icons.send));
+    // `enterText` doesn't pump a frame — the send button's `onTap` is
+    // computed from `hasText` in a `ValueListenableBuilder` and stays
+    // wired to the pre-text (disabled/null) callback until the widget
+    // tree rebuilds, so tapping it immediately would silently no-op.
+    await tester.pump();
+    await tester.tap(find.byIcon(Icons.send_rounded));
     await _flush(tester);
 
     // User bubble appears immediately; assistant bubble starts as typing dots.
@@ -82,16 +92,23 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [aiRepositoryProvider.overrideWithValue(repo)],
-        child: const MaterialApp(home: AIChatPage()),
+        child: MaterialApp(
+          supportedLocales: AppLocalizations.supportedLocales,
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          home: const AIChatPage(),
+        ),
       ),
     );
 
     await tester.enterText(find.byType(TextField), 'Hallo');
-    await tester.tap(find.byIcon(Icons.send));
+    // See comment above — the send button needs a frame to pick up the
+    // now-non-empty text before its `onTap` is wired.
+    await tester.pump();
+    await tester.tap(find.byIcon(Icons.send_rounded));
     await _flush(tester);
 
     expect(find.textContaining('7 lượt chat miễn phí'), findsOneWidget);
-    expect(find.text('Retry'), findsNothing);
+    expect(find.text('Thử lại'), findsNothing);
     expect(tester.takeException(), isNull);
   });
 
@@ -121,18 +138,25 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [aiRepositoryProvider.overrideWithValue(AIRepository(_client(adapter)))],
-        child: const MaterialApp(home: AIChatPage()),
+        child: MaterialApp(
+          supportedLocales: AppLocalizations.supportedLocales,
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          home: const AIChatPage(),
+        ),
       ),
     );
 
     await tester.enterText(find.byType(TextField), 'Hallo');
-    await tester.tap(find.byIcon(Icons.send));
+    // See comment above — the send button needs a frame to pick up the
+    // now-non-empty text before its `onTap` is wired.
+    await tester.pump();
+    await tester.tap(find.byIcon(Icons.send_rounded));
     await _flush(tester);
 
     expect(find.textContaining('quá tải'), findsOneWidget);
-    expect(find.text('Retry'), findsOneWidget);
+    expect(find.text('Thử lại'), findsOneWidget);
 
-    await tester.tap(find.text('Retry'));
+    await tester.tap(find.text('Thử lại'));
     await _flush(tester);
 
     expect(requestCount, 2);

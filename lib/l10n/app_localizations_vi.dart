@@ -1002,10 +1002,85 @@ class AppLocalizationsVi extends AppLocalizations {
   String get more => 'Thêm';
 
   @override
-  String get moreFeaturesTitle => 'Tiện ích DeutschTiger';
+  String get moreFeaturesTitle => 'Tất cả tính năng';
 
   @override
   String get close => 'Đóng';
+
+  @override
+  String get navConversation => 'Hội thoại';
+
+  @override
+  String get groupAccountOther => 'Tài khoản & Khác';
+
+  @override
+  String get featureYoutube => 'YouTube';
+
+  @override
+  String get featureReadListen => 'Đọc & Nghe';
+
+  @override
+  String get featureListening => 'Nghe';
+
+  @override
+  String get featureReadingFeed => 'Đọc bài';
+
+  @override
+  String get featureNews => 'Tin tức';
+
+  @override
+  String get featureSubtitleWords => 'Từ vựng phụ đề';
+
+  @override
+  String get featureFocusSession => 'Phiên tập trung';
+
+  @override
+  String get featureCasesHub => 'Luyện 4 Cách';
+
+  @override
+  String get featureMinimalPairs => 'Cặp âm dễ nhầm';
+
+  @override
+  String get featureInterview => 'Phỏng vấn';
+
+  @override
+  String get featureLearnerModel => 'Hồ sơ năng lực';
+
+  @override
+  String get featureExamReadiness => 'Sẵn sàng thi';
+
+  @override
+  String get featureErrorPatterns => 'Lỗi hay gặp';
+
+  @override
+  String get featureMessages => 'Tin nhắn';
+
+  @override
+  String get featureFriends => 'Bạn bè';
+
+  @override
+  String get featureExamSchedule => 'Tìm bạn ôn thi';
+
+  @override
+  String get featureDailyQuote => 'Trích dẫn hằng ngày';
+
+  @override
+  String get featureAffiliateIntro => 'Giới thiệu';
+
+  @override
+  String get featurePremiumUpgrade => 'Nâng cấp Premium';
+
+  @override
+  String get featureAdmin => 'Quản trị';
+
+  @override
+  String get featureFeedback => 'Góp ý';
+
+  @override
+  String get featureLeaderboardFull => 'Bảng xếp hạng';
+
+  @override
+  String get featureAiAssistant => 'Trợ lý AI';
 
   @override
   String get groupVocabularyReview => 'Từ vựng & ôn tập';

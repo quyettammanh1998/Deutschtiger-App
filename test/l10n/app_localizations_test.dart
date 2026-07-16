@@ -77,7 +77,7 @@ void main() {
     semantics.dispose();
   });
 
-  testWidgets('more features sheet localizes semantic tile labels', (
+  testWidgets('more features dialog localizes semantic tile labels', (
     tester,
   ) async {
     final semantics = tester.ensureSemantics();
@@ -88,28 +88,37 @@ void main() {
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         home: MediaQuery(
           data: const MediaQueryData(textScaler: TextScaler.linear(2)),
-          child: Scaffold(body: MoreFeaturesSheet(onClose: () {})),
+          child: Builder(
+            builder: (context) => Scaffold(
+              body: Center(
+                child: ElevatedButton(
+                  onPressed: () => MoreFeaturesSheet.show(context),
+                  child: const Text('open'),
+                ),
+              ),
+            ),
+          ),
         ),
       ),
     );
 
-    expect(find.text('DeutschTiger-Funktionen'), findsOneWidget);
-    expect(find.bySemanticsLabel('Meine Wörter'), findsOneWidget);
+    await tester.tap(find.text('open'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Alle Funktionen'), findsOneWidget);
+    expect(find.bySemanticsLabel('Einstellungen'), findsOneWidget);
     if (ReleaseFeatureFlags.grammar) {
       await tester.scrollUntilVisible(
         find.text('Grammatik'),
         200,
         scrollable: find.byType(Scrollable).first,
       );
+      expect(find.text('Grammatik'), findsOneWidget);
     }
-    expect(
-      find.text('Grammatik'),
-      ReleaseFeatureFlags.grammar ? findsOneWidget : findsNothing,
-    );
     semantics.dispose();
   });
 
-  testWidgets('more features reflows German labels on a 200% phone viewport', (
+  testWidgets('more features dialog reflows German labels on a 200% phone viewport', (
     tester,
   ) async {
     await tester.pumpWidget(
@@ -122,22 +131,36 @@ void main() {
             size: Size(360, 800),
             textScaler: TextScaler.linear(2),
           ),
-          child: Scaffold(body: MoreFeaturesSheet(onClose: _noop)),
+          child: Builder(
+            builder: (context) => Scaffold(
+              body: Center(
+                child: ElevatedButton(
+                  onPressed: () => MoreFeaturesSheet.show(context),
+                  child: const Text('open'),
+                ),
+              ),
+            ),
+          ),
         ),
       ),
     );
 
+    await tester.tap(find.text('open'));
+    await tester.pumpAndSettle();
+
+    // Web spec is a fixed 4-column grid (not a responsive reflow) — long
+    // German labels line-clamp to 2 lines with an ellipsis instead.
     final grid = tester.widget<GridView>(find.byType(GridView).first);
     final delegate =
         grid.gridDelegate as SliverGridDelegateWithFixedCrossAxisCount;
+    expect(delegate.crossAxisCount, 4);
 
-    expect(delegate.crossAxisCount, 2);
-    expect(find.text('Karteikartensätze'), findsOneWidget);
-    expect(find.text('Wortschatzbibliothek'), findsOneWidget);
-    expect(
-      tester.widget<Text>(find.text('Karteikartensätze')).overflow,
-      isNull,
+    await tester.scrollUntilVisible(
+      find.text('Feedback'),
+      200,
+      scrollable: find.byType(Scrollable).first,
     );
+    expect(find.text('Feedback'), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
 
@@ -306,5 +329,3 @@ void main() {
     expect(ReleaseFeatureFlags.allowsMoreFeature('/leaderboard'), isTrue);
   });
 }
-
-void _noop() {}
