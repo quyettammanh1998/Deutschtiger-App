@@ -33,6 +33,7 @@ void main() {
         'cefr_level': 'A2',
         'daily_minutes': 20,
         'daily_xp_goal': 80,
+        'learning_goals': ['communication'],
       });
       return _jsonResponse('''
         {"cefr_level":"A2","daily_minutes":20,"daily_xp_goal":80}
@@ -40,7 +41,12 @@ void main() {
     });
 
     final saved = await LearningPreferencesRepository(_client(adapter)).save(
-      const LearningPreferences(cefrLevel: 'A2', dailyMinutes: 20, dailyXpGoal: 80),
+      const LearningPreferences(
+        cefrLevel: 'A2',
+        dailyMinutes: 20,
+        dailyXpGoal: 80,
+        learningGoals: ['communication'],
+      ),
     );
 
     expect(saved.cefrLevel, 'A2');

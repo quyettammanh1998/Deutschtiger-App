@@ -1,12 +1,52 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../core/theme/app_colors.dart';
 import 'package:deutschtiger/l10n/app_localizations.dart';
 import 'package:deutschtiger/view_models/ai/ai_provider.dart';
 import 'package:deutschtiger/data/ai/ai_chat_live_models.dart';
 import 'package:deutschtiger/widgets/ai/chat_history_sidebar.dart';
+import 'package:deutschtiger/widgets/common/app_markdown_view.dart';
 import 'package:deutschtiger/widgets/common/tiger_logo.dart';
+
+/// Web `FEATURE_ACTIONS` (`ai-chat-panel.tsx`) — keyword-matched pill chips
+/// rendered under an assistant reply that deep-link into the relevant app
+/// section. Kept as a plain keyword table (no AI classification) to mirror
+/// the web's `detectFeatureActions`.
+const _kFeatureActions = <(List<String> keywords, String label, String route, String icon)>[
+  (['flashcard', 'ghi chú', 'bộ thẻ'], 'Flashcard', '/decks', '🎴'),
+  (['matching game', 'matching'], 'Matching Game', '/games/matching', '🧩'),
+  (['writing game', 'writing', 'luyện viết'], 'Writing Game', '/games/writing', '✍️'),
+  (['cloze', 'điền từ'], 'Cloze Game', '/games/cloze', '📝'),
+  (['listening game', 'listening', 'luyện nghe'], 'Listening Game', '/games/listening', '🎧'),
+  (['runner game', 'runner'], 'Runner Game', '/games/runner', '🏃'),
+  (['word sprint'], 'Word Sprint', '/games/word-sprint', '⚡'),
+  (['mini game', 'games', 'mục games'], 'Games', '/games', '🎮'),
+  (['thi thử', 'goethe', 'telc', 'đề thi'], 'Thi thử', '/exam', '📋'),
+  (['từ vựng', 'mục từ vựng', 'vocabulary'], 'Từ vựng', '/learn', '📖'),
+  (['ôn tập', 'spaced repetition', 'daily review'], 'Ôn tập hàng ngày', '/daily-review', '🔄'),
+  (['youtube', 'video'], 'YouTube Tracker', '/listening/youtube', '🎬'),
+  (['phỏng vấn', 'interview'], 'Phỏng vấn', '/course/interview', '🎤'),
+  (['ngữ pháp', 'grammar'], 'Ngữ pháp', '/grammar', '📚'),
+];
+
+/// Port of web `detectFeatureActions` — matches by lowercase keyword
+/// substring, prefers non-generic `/games/*` matches over the generic
+/// `/games` hub, caps at 3 chips.
+List<(String label, String route, String icon)> _detectFeatureActions(String content) {
+  final lower = content.toLowerCase();
+  final matched = _kFeatureActions.where(
+    (a) => a.$1.any((kw) => lower.contains(kw)),
+  ).toList();
+  final specificGames = matched.where(
+    (m) => m.$3.startsWith('/games/') && m.$3 != '/games',
+  );
+  final filtered = matched.length > 1 && specificGames.isNotEmpty
+      ? matched.where((m) => m.$3 != '/games').toList()
+      : matched;
+  return filtered.take(3).map((m) => (m.$2, m.$3, m.$4)).toList();
+}
 
 /// Tiger AI chat — streams `POST /ai/chat` token-by-token via [AiChatNotifier]
 /// (SSE parsed by `lib/services/api/sse_client.dart`). This is the canonical
@@ -100,6 +140,9 @@ class _AIChatPageState extends ConsumerState<AIChatPage> {
       Future.delayed(const Duration(milliseconds: 50), _scrollToBottom);
     });
 
+    // Mobile web pattern: the history panel replaces the message list
+    // full-width (not a squeezing side rail) — `chat-history-sidebar.tsx`
+    // `hidden md:flex` is desktop-only; mobile uses a full-panel swap.
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
@@ -110,19 +153,13 @@ class _AIChatPageState extends ConsumerState<AIChatPage> {
               onNewSession: _startNewSession,
             ),
             Expanded(
-              child: Row(
-                children: [
-                  if (_showSidebar)
-                    SizedBox(
-                      width: 280,
-                      child: ChatHistorySidebar(
-                        onSessionSelected: _onSessionSelected,
-                        currentSessionId: state.sessionId,
-                        onClose: () => setState(() => _showSidebar = false),
-                      ),
-                    ),
-                  Expanded(
-                    child: Column(
+              child: _showSidebar
+                  ? ChatHistorySidebar(
+                      onSessionSelected: _onSessionSelected,
+                      currentSessionId: state.sessionId,
+                      onClose: () => setState(() => _showSidebar = false),
+                    )
+                  : Column(
                       children: [
                         const _QuotaBanner(),
                         Expanded(
@@ -132,13 +169,18 @@ class _AIChatPageState extends ConsumerState<AIChatPage> {
                             onChipTap: _applyChip,
                           ),
                         ),
-                        if (state.banner != AiChatBannerKind.none)
+                        if (state.banner == AiChatBannerKind.sessionLimitReached ||
+                            state.banner == AiChatBannerKind.quotaExceeded)
+                          _LimitCard(
+                            kind: state.banner,
+                            message: state.bannerMessage,
+                            onNewSession: _startNewSession,
+                          )
+                        else if (state.banner == AiChatBannerKind.error)
                           _ErrorBanner(
                             kind: state.banner,
                             message: state.bannerMessage ?? '',
-                            onRetry: state.banner == AiChatBannerKind.error
-                                ? () => ref.read(aiChatNotifierProvider.notifier).retry()
-                                : null,
+                            onRetry: () => ref.read(aiChatNotifierProvider.notifier).retry(),
                           ),
                         _InputBar(
                           controller: _textController,
@@ -146,12 +188,11 @@ class _AIChatPageState extends ConsumerState<AIChatPage> {
                           onSend: _sendMessage,
                           onStop: () => ref.read(aiChatNotifierProvider.notifier).cancelStreaming(),
                           isSending: state.isSending,
+                          limitReached: state.banner == AiChatBannerKind.sessionLimitReached ||
+                              state.banner == AiChatBannerKind.quotaExceeded,
                         ),
                       ],
                     ),
-                  ),
-                ],
-              ),
             ),
           ],
         ),
@@ -203,6 +244,14 @@ class _ChatHeader extends ConsumerWidget {
           ),
           Row(
             children: [
+              IconButton(
+                icon: const Icon(Icons.arrow_back),
+                onPressed: () =>
+                    context.canPop() ? context.pop() : context.go('/home'),
+                padding: EdgeInsets.zero,
+                constraints: const BoxConstraints(minWidth: 36, minHeight: 36),
+              ),
+              const SizedBox(width: 4),
               Container(
                 width: 36,
                 height: 36,
@@ -329,7 +378,10 @@ class _MessageList extends StatelessWidget {
           padding: const EdgeInsets.only(bottom: 16),
           child: message.role == 'user'
               ? _UserBubble(message: message)
-              : _AssistantBubble(content: message.content, isStreaming: message.isStreaming),
+              : _AssistantBubble(
+                  content: message.content,
+                  isStreaming: message.isStreaming,
+                ),
         );
       },
     );
@@ -401,28 +453,85 @@ class _AssistantBubble extends StatelessWidget {
         ),
         const SizedBox(width: 10),
         Flexible(
-          child: Container(
-            constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.78),
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-            decoration: BoxDecoration(
-              color: AppColors.card,
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(4),
-                topRight: Radius.circular(16),
-                bottomLeft: Radius.circular(16),
-                bottomRight: Radius.circular(16),
-              ),
-              boxShadow: AppColors.shadowSm,
-            ),
-            child: content.isEmpty
-                ? (isStreaming ? const _TypingDots() : const SizedBox.shrink())
-                : Text(
-                    content,
-                    style: const TextStyle(fontSize: 14, color: AppColors.foreground, height: 1.5),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.78),
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                decoration: BoxDecoration(
+                  color: AppColors.card,
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(4),
+                    topRight: Radius.circular(16),
+                    bottomLeft: Radius.circular(16),
+                    bottomRight: Radius.circular(16),
                   ),
+                  boxShadow: AppColors.shadowSm,
+                ),
+                child: content.isEmpty
+                    ? (isStreaming ? const _TypingDots() : const SizedBox.shrink())
+                    : AppMarkdownView(content, selectable: false, dense: true),
+              ),
+              if (!isStreaming && content.isNotEmpty) _FeatureActionChips(content: content),
+            ],
           ),
         ),
       ],
+    );
+  }
+}
+
+/// Web parity: `FeatureActions` — pill chips under a finished assistant
+/// reply that deep-link into the matching app section (`border-primary/30
+/// bg-primary/5 text-primary` + chevron).
+class _FeatureActionChips extends StatelessWidget {
+  final String content;
+
+  const _FeatureActionChips({required this.content});
+
+  @override
+  Widget build(BuildContext context) {
+    final actions = _detectFeatureActions(content);
+    if (actions.isEmpty) return const SizedBox.shrink();
+    return Padding(
+      padding: const EdgeInsets.only(top: 8),
+      child: Wrap(
+        spacing: 6,
+        runSpacing: 6,
+        children: [
+          for (final action in actions)
+            InkWell(
+              borderRadius: BorderRadius.circular(999),
+              onTap: () => context.push(action.$2),
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
+                decoration: BoxDecoration(
+                  color: AppColors.primary.withValues(alpha: 0.05),
+                  borderRadius: BorderRadius.circular(999),
+                  border: Border.all(color: AppColors.primary.withValues(alpha: 0.3)),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(action.$3, style: const TextStyle(fontSize: 12)),
+                    const SizedBox(width: 4),
+                    Text(
+                      action.$1,
+                      style: const TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                        color: AppColors.primary,
+                      ),
+                    ),
+                    const SizedBox(width: 2),
+                    const Icon(Icons.chevron_right, size: 14, color: AppColors.primary),
+                  ],
+                ),
+              ),
+            ),
+        ],
+      ),
     );
   }
 }
@@ -501,10 +610,9 @@ class _QuotaBanner extends ConsumerWidget {
   }
 }
 
-/// Error/quota/limit banner above the input bar. Quota and session-limit
-/// hits are terminal for the current turn (no retry — the backend already
-/// rejected the request before streaming started); a plain error (validation,
-/// network, or an in-band SSE error chunk) offers Retry.
+/// Plain error strip above the input bar (validation, network, or an
+/// in-band SSE error chunk) — offers Retry. Quota/session-limit hits use
+/// [_LimitCard] instead (terminal for the turn, no retry).
 class _ErrorBanner extends StatelessWidget {
   final AiChatBannerKind kind;
   final String message;
@@ -514,22 +622,83 @@ class _ErrorBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = kind == AiChatBannerKind.error ? AppColors.error : AppColors.warning;
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-      color: color.withValues(alpha: 0.10),
+      color: AppColors.error.withValues(alpha: 0.10),
       child: Row(
         children: [
-          Icon(Icons.error_outline, size: 18, color: color),
+          const Icon(Icons.error_outline, size: 18, color: AppColors.error),
           const SizedBox(width: 8),
           Expanded(
             child: Text(
               message.isEmpty ? 'Đã xảy ra lỗi. Vui lòng thử lại.' : message,
-              style: TextStyle(color: color, fontSize: 13),
+              style: const TextStyle(color: AppColors.error, fontSize: 13),
             ),
           ),
           if (onRetry != null) TextButton(onPressed: onRetry, child: const Text('Thử lại')),
+        ],
+      ),
+    );
+  }
+}
+
+/// Web parity: session-limit (25→warn/30→full, `LimitReachedCard`) and
+/// daily-quota-exceeded cards rendered inline above the composer —
+/// `ai-chat-panel.tsx` `limitReached === 'session_limit_reached'` /
+/// daily-limit branches.
+class _LimitCard extends StatelessWidget {
+  final AiChatBannerKind kind;
+
+  /// Server-provided message (e.g. exact free-tier count) — preferred over
+  /// the generic copy below when present, so the real quota numbers from
+  /// the backend are never silently dropped.
+  final String? message;
+  final VoidCallback onNewSession;
+
+  const _LimitCard({required this.kind, required this.message, required this.onNewSession});
+
+  @override
+  Widget build(BuildContext context) {
+    final isSessionLimit = kind == AiChatBannerKind.sessionLimitReached;
+    final hasMessage = message != null && message!.isNotEmpty;
+    return Container(
+      margin: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: AppColors.card,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: AppColors.shadowSm,
+      ),
+      child: Column(
+        children: [
+          Text(
+            hasMessage
+                ? message!
+                : (isSessionLimit
+                    ? 'Cuộc trò chuyện đã đạt giới hạn tin nhắn'
+                    : 'Bạn đã dùng hết lượt chat hôm nay'),
+            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: AppColors.foreground),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 4),
+          Text(
+            isSessionLimit ? 'Tạo cuộc trò chuyện mới để tiếp tục chat nhé!' : 'Quay lại ngày mai nhé!',
+            style: const TextStyle(fontSize: 12, color: AppColors.mutedForeground),
+            textAlign: TextAlign.center,
+          ),
+          if (isSessionLimit) ...[
+            const SizedBox(height: 12),
+            ElevatedButton(
+              onPressed: onNewSession,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.tigerOrange,
+                foregroundColor: Colors.white,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              ),
+              child: const Text('+ Tạo cuộc trò chuyện mới'),
+            ),
+          ],
         ],
       ),
     );
@@ -597,6 +766,7 @@ class _InputBar extends StatelessWidget {
   final VoidCallback onSend;
   final VoidCallback onStop;
   final bool isSending;
+  final bool limitReached;
 
   const _InputBar({
     required this.controller,
@@ -604,6 +774,7 @@ class _InputBar extends StatelessWidget {
     required this.onSend,
     required this.onStop,
     required this.isSending,
+    required this.limitReached,
   });
 
   @override
@@ -635,10 +806,10 @@ class _InputBar extends StatelessWidget {
               child: TextField(
                 controller: controller,
                 focusNode: focusNode,
-                enabled: !isSending,
+                enabled: !limitReached,
                 style: const TextStyle(fontSize: 15, color: AppColors.foreground, height: 1.3),
                 decoration: InputDecoration(
-                  hintText: isSending ? 'Đã hết lượt...' : hint,
+                  hintText: limitReached ? 'Đã hết lượt...' : hint,
                   hintStyle: const TextStyle(color: AppColors.mutedForeground),
                   border: InputBorder.none,
                   isDense: true,

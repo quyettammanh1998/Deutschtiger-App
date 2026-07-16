@@ -46,9 +46,9 @@ Owner viết tắt:
 | youtube | tracker, watch (transcript sync + word lookup), dictation, shadowing | LIVE tracker+watch (16/07); dictation/shadowing stub + gap | done (stub note) |
 | video-library | curated video tracker + watch | LIVE (16/07; chưa có entry link + flag gate cho /library) | done (follow-up) |
 | interview | interview-prep tracker + watch + notes | LIVE (16/07: transcript có tap-word lookup) | done |
-| course | course hub, detail, lesson + progress/notes | LIVE (16/07; DW exercises engine + lesson video player = gap) | done (gaps) |
-| reading | list, detail, feed, read-listen hub | LIVE (16/07, có màn feed mới) | done |
-| news | list + detail + progress + week stats + quiz | LIVE (16/07; quiz chấm client-side; leaderboard ngoài scope) | done |
+| course | course hub, detail, lesson + progress/notes | LIVE (17/07, UI-FIDELITY P11 W3 — routes moved to `/course/*`, search/stats/level pills/premium locks on hub, score%/status pills + numbered pagination on detail, lesson video playback (mp4 via WebView, no `video_player` dep) + transcript + paginated vocab audio + notes + comments; DW exercises engine still a gap — web itself has it commented out; course/detail leaderboard also deferred, same shared-widget gap P11 W2 flagged) | done (gaps) |
+| reading | list, detail, feed, read-listen hub | LIVE (17/07, UI-FIDELITY P11 W4 — level cards+ring grid, tab shell, leaderboard, save-words CTA; topic-accordion + exercises quiz KHÔNG có contract/data nguồn, xem `api-changelog.md`) | done |
+| news | list + detail + progress + week stats + quiz | LIVE (17/07, UI-FIDELITY P11 W4 — tab shell, leaderboard wired, weekly ring moved below list, save-words CTA, level-tip box; quiz vẫn chấm client-side) | done |
 | exam core | landing/section/list, player Lesen+Hören, result, best scores, drafts | LIVE (draft live-evidence pending) | WAVE P1 |
 | exam Schreiben | Goethe B1 writing suite, writing catalog/community, writing sprint | MISSING (1 màn AI writing list mock) | GĐ2 P2 |
 | exam Sprechen | TELC/Goethe sprechen study+practice, AI graded | MISSING | MASTER P8 (cần voice) |

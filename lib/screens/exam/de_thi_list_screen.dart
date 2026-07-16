@@ -86,12 +86,13 @@ class _Hero extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Padding(
       padding: const EdgeInsets.only(bottom: 24),
       child: Column(
         children: [
           Text(
-            'Đề thi tiếng Đức',
+            l10n.deThiHeroTitle,
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 26,
@@ -101,8 +102,7 @@ class _Hero extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           Text(
-            'Luyện đề đọc hiểu song ngữ Đức–Việt. Miễn phí, chấm điểm tại chỗ, '
-            'không cần đăng nhập.',
+            l10n.deThiHeroSubtitle,
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 14, color: tokens.mutedForeground),
           ),

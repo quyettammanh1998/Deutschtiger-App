@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../l10n/app_localizations.dart';
 import 'community_detail_section_widgets.dart';
 
 /// First half of the writing `generated_data` sections: task, task
@@ -14,6 +15,7 @@ class CommunityWritingTaskSections extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final task = data['task'] as Map<String, dynamic>?;
     final taskAnalysis = data['taskAnalysis'] as Map<String, dynamic>?;
     final points = (taskAnalysis?['points'] as List?)
@@ -26,7 +28,7 @@ class CommunityWritingTaskSections extends StatelessWidget {
       children: [
         if (task != null)
           CommunityDetailSection(
-            title: '📝 Đề bài',
+            title: l10n.communitySectionTask,
             child: CommunityDeViText(
               de: task['de'] as String?,
               vi: task['vi'] as String?,
@@ -34,7 +36,7 @@ class CommunityWritingTaskSections extends StatelessWidget {
           ),
         if (points != null && points.isNotEmpty)
           CommunityDetailSection(
-            title: '📋 Phân tích đề',
+            title: l10n.communitySectionAnalysis,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -55,7 +57,7 @@ class CommunityWritingTaskSections extends StatelessWidget {
           ),
         if (modelAnswers != null && modelAnswers.isNotEmpty)
           CommunityDetailSection(
-            title: '✍️ Bài mẫu',
+            title: l10n.communitySectionModelAnswer,
             child: CommunityDeViText(
               de: modelAnswers.first['de'] as String?,
               vi: modelAnswers.first['vi'] as String?,

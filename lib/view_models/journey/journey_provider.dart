@@ -1,7 +1,19 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/release/release_feature_flags.dart';
 import '../../features/journey/domain/course_models.dart';
+import '../../features/premium/domain/premium_providers.dart';
 import '../../repositories/journey/journey_repository.dart';
+
+/// Whether the user can access premium-gated courses/lessons beyond the free
+/// limit. Mirrors web `isPremium || hasModule('course')`, gated by
+/// [ReleaseFeatureFlags.premium] (default off): matching the app-wide
+/// precedent (`PremiumBanner`) of hiding all premium chrome — including lock
+/// badges the backend would otherwise 403 on — while the flag stays off.
+final courseCanAccessAllProvider = FutureProvider<bool>((ref) async {
+  if (!ReleaseFeatureFlags.premium) return true;
+  return ref.watch(premiumProvider.future);
+});
 
 /// Toan bo catalog khoa hoc DW theo level (A1-B2).
 final courseCatalogProvider = FutureProvider<List<CourseGroup>>((ref) async {

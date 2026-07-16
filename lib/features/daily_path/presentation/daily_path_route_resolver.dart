@@ -5,7 +5,7 @@ import '../../../core/release/release_feature_flags.dart';
 /// Unsupported route families stay in the API response, but the app returns
 /// learners to the live Learn hub until their feature gate is explicitly on.
 String resolveDailyPathRoute(DailyPathStep? step) => switch (step?.skill) {
-  'vocab' => '/journey/session',
+  'vocab' => '/learn/session/today',
   'review' || 'flashcard' => '/daily-review',
   'grammar' when ReleaseFeatureFlags.grammar => '/grammar',
   'listening' when ReleaseFeatureFlags.listening => '/listening',

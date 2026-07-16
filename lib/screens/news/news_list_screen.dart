@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import 'package:deutschtiger/l10n/app_localizations.dart';
 import 'package:deutschtiger/repositories/news/news_repository.dart';
 import 'package:deutschtiger/widgets/common/async_state_views.dart';
 import '../../core/design_tokens.dart';
+import '../../core/theme/app_tokens.dart';
 import '../../data/news/news_models.dart';
 import '../../shared/widgets/skeleton_loader.dart';
 import 'widgets/news_cards.dart';
+import 'widgets/news_leaderboard.dart';
 
 const _pageSize = 10;
 const _cefrLevels = ['A1', 'A2', 'B1', 'B2'];
@@ -84,112 +87,242 @@ class _NewsListScreenState extends ConsumerState<NewsListScreen> {
     final completedAsync = ref.watch(newsCompletedIdsProvider);
     final weekStatsAsync = ref.watch(newsWeekStatsProvider);
 
+    final tokens = context.tokens;
     return Scaffold(
-      backgroundColor: DesignTokens.background,
-      appBar: AppBar(
-        title: const Text('Tin tức Đức'),
-        backgroundColor: DesignTokens.background,
-      ),
-      body: RefreshIndicator(
-        onRefresh: () async {
-          ref.invalidate(newsListProvider(_key));
-          ref.invalidate(newsTopicsProvider);
-          ref.invalidate(newsCompletedIdsProvider);
-          ref.invalidate(newsWeekStatsProvider);
-        },
-        child: listAsync.when(
-          loading: () => const _NewsListSkeleton(),
-          error: (e, _) => ErrorView(
-            onRetry: () => ref.invalidate(newsListProvider(_key)),
-          ),
-          data: (result) {
-            final completed = completedAsync.valueOrNull ?? const [];
-            final completedSet = completed.toSet();
-            final topics = topicsAsync.valueOrNull ?? const {};
-            final topicNames = topics.keys.toList()..sort();
-            final totalPages = (result.total / _pageSize).ceil().clamp(
-              1,
-              1 << 30,
-            );
+      backgroundColor: tokens.background,
+      body: SafeArea(
+        child: Column(
+          children: [
+            _NewsHubTabBar(),
+            Expanded(
+              child: RefreshIndicator(
+                onRefresh: () async {
+                  ref.invalidate(newsListProvider(_key));
+                  ref.invalidate(newsTopicsProvider);
+                  ref.invalidate(newsCompletedIdsProvider);
+                  ref.invalidate(newsWeekStatsProvider);
+                },
+                child: listAsync.when(
+                  loading: () => const _NewsListSkeleton(),
+                  error: (e, _) => ErrorView(
+                    onRetry: () => ref.invalidate(newsListProvider(_key)),
+                  ),
+                  data: (result) {
+                    final completed = completedAsync.valueOrNull ?? const [];
+                    final completedSet = completed.toSet();
+                    final topics = topicsAsync.valueOrNull ?? const {};
+                    final topicNames = topics.keys.toList()..sort();
+                    final totalPages = (result.total / _pageSize).ceil().clamp(
+                      1,
+                      1 << 30,
+                    );
 
-            return CustomScrollView(
-              slivers: [
-                if (weekStatsAsync.valueOrNull != null)
-                  SliverToBoxAdapter(
-                    child: NewsWeeklyRingCard(
-                      stats: weekStatsAsync.valueOrNull!,
-                    ),
-                  ),
-                SliverToBoxAdapter(
-                  child: _FilterBar(
-                    levels: _cefrLevels,
-                    activeLevel: _activeLevel,
-                    topics: topicNames,
-                    activeTopic: _activeTopic,
-                    onLevelTap: _toggleLevel,
-                    onTopicTap: _toggleTopic,
-                  ),
-                ),
-                if (result.stories.isEmpty)
-                  SliverFillRemaining(
-                    hasScrollBody: false,
-                    child: _EmptyState(
-                      hasFilter: _activeLevel != null || _activeTopic != null,
-                      onClearFilter: () => setState(() {
-                        _activeLevel = null;
-                        _activeTopic = null;
-                        _page = 1;
-                      }),
-                    ),
-                  )
-                else ...[
-                  SliverPadding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: DesignTokens.spacingMd,
-                    ),
-                    sliver: SliverList(
-                      delegate: SliverChildBuilderDelegate(
-                        (context, index) {
-                          final story = result.stories[index];
-                          return NewsStoryCard(
-                            story: story,
+                    return CustomScrollView(
+                      slivers: [
+                        SliverToBoxAdapter(child: _NewsHeader()),
+                        SliverToBoxAdapter(
+                          child: _FilterBar(
+                            levels: _cefrLevels,
                             activeLevel: _activeLevel,
-                            completed: completedSet.contains(
-                              story.storyGroupId,
+                            topics: topicNames,
+                            activeTopic: _activeTopic,
+                            onLevelTap: _toggleLevel,
+                            onTopicTap: _toggleTopic,
+                          ),
+                        ),
+                        if (result.stories.isEmpty)
+                          SliverFillRemaining(
+                            hasScrollBody: false,
+                            child: _EmptyState(
+                              hasFilter: _activeLevel != null || _activeTopic != null,
+                              onClearFilter: () => setState(() {
+                                _activeLevel = null;
+                                _activeTopic = null;
+                                _page = 1;
+                              }),
                             ),
-                            onTap: () => context.push(
-                              '/news/${story.slug.isNotEmpty ? story.slug : story.storyGroupId}',
-                              extra: NewsDetailArgs(
-                                slug: story.slug.isNotEmpty
-                                    ? story.slug
-                                    : story.storyGroupId,
-                                level: _activeLevel,
-                                title: story.title,
+                          )
+                        else ...[
+                          SliverPadding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: DesignTokens.spacingMd,
+                            ),
+                            sliver: SliverList(
+                              delegate: SliverChildBuilderDelegate(
+                                (context, index) {
+                                  final story = result.stories[index];
+                                  return NewsStoryCard(
+                                    story: story,
+                                    activeLevel: _activeLevel,
+                                    completed: completedSet.contains(
+                                      story.storyGroupId,
+                                    ),
+                                    onTap: () => context.push(
+                                      '/news/${story.slug.isNotEmpty ? story.slug : story.storyGroupId}',
+                                      extra: NewsDetailArgs(
+                                        slug: story.slug.isNotEmpty
+                                            ? story.slug
+                                            : story.storyGroupId,
+                                        level: _activeLevel,
+                                        title: story.title,
+                                      ),
+                                    ),
+                                  );
+                                },
+                                childCount: result.stories.length,
                               ),
                             ),
-                          );
-                        },
-                        childCount: result.stories.length,
-                      ),
-                    ),
-                  ),
-                  if (totalPages > 1)
-                    SliverToBoxAdapter(
-                      child: _PaginationBar(
-                        page: _page,
-                        totalPages: totalPages,
-                        onPrev: () => _goToPage(_page - 1, totalPages),
-                        onNext: () => _goToPage(_page + 1, totalPages),
-                      ),
-                    ),
-                  const SliverToBoxAdapter(
-                    child: SizedBox(height: DesignTokens.spacingXl),
-                  ),
-                ],
-              ],
-            );
-          },
+                          ),
+                          if (totalPages > 1)
+                            SliverToBoxAdapter(
+                              child: _PaginationBar(
+                                page: _page,
+                                totalPages: totalPages,
+                                onPrev: () => _goToPage(_page - 1, totalPages),
+                                onNext: () => _goToPage(_page + 1, totalPages),
+                              ),
+                            ),
+                        ],
+                        // Weekly ring + leaderboard nằm dưới danh sách (mobile
+                        // web: aside stack xuống dưới) — khác vị trí "trên
+                        // cùng" cũ của Flutter.
+                        SliverToBoxAdapter(
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(
+                              DesignTokens.spacingMd,
+                              DesignTokens.spacingMd,
+                              DesignTokens.spacingMd,
+                              0,
+                            ),
+                            child: Column(
+                              children: [
+                                if (weekStatsAsync.valueOrNull != null)
+                                  Padding(
+                                    padding: const EdgeInsets.only(bottom: DesignTokens.spacingSm),
+                                    child: NewsWeeklyRingCard(stats: weekStatsAsync.valueOrNull!),
+                                  ),
+                                const NewsLeaderboardCard(),
+                              ],
+                            ),
+                          ),
+                        ),
+                        const SliverToBoxAdapter(
+                          child: SizedBox(height: DesignTokens.spacingXl),
+                        ),
+                      ],
+                    );
+                  },
+                ),
+              ),
+            ),
+          ],
         ),
+      ),
+    );
+  }
+}
+
+class _NewsHubTabBar extends StatelessWidget {
+  const _NewsHubTabBar();
+
+  @override
+  Widget build(BuildContext context) {
+    final tokens = context.tokens;
+    final l10n = AppLocalizations.of(context);
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: DesignTokens.spacingMd),
+      decoration: BoxDecoration(
+        color: tokens.background,
+        border: Border(bottom: BorderSide(color: tokens.border)),
+      ),
+      child: Row(
+        children: [
+          Flexible(child: _NewsTabButton(label: l10n.newsTabLabel, active: true, onTap: null)),
+          Flexible(child: _NewsTabButton(label: l10n.readingTabLabel, active: false, onTap: () => context.go('/reading'))),
+        ],
+      ),
+    );
+  }
+}
+
+class _NewsTabButton extends StatelessWidget {
+  const _NewsTabButton({required this.label, required this.active, required this.onTap});
+  final String label;
+  final bool active;
+  final VoidCallback? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final tokens = context.tokens;
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: DesignTokens.spacingMd, vertical: 10),
+        decoration: BoxDecoration(
+          border: Border(
+            bottom: BorderSide(color: active ? tokens.primary : Colors.transparent, width: 2),
+          ),
+        ),
+        child: Text(
+          label,
+          style: TextStyle(
+            fontWeight: FontWeight.w700,
+            fontSize: 14,
+            color: active ? tokens.primary : tokens.mutedForeground,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _NewsHeader extends StatelessWidget {
+  const _NewsHeader();
+
+  @override
+  Widget build(BuildContext context) {
+    final tokens = context.tokens;
+    final l10n = AppLocalizations.of(context);
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(
+        DesignTokens.spacingMd,
+        DesignTokens.spacingMd,
+        DesignTokens.spacingMd,
+        0,
+      ),
+      child: Row(
+        children: [
+          InkWell(
+            borderRadius: BorderRadius.circular(DesignTokens.radiusSm),
+            onTap: () => Navigator.of(context).maybePop(),
+            child: Container(
+              width: 36,
+              height: 36,
+              decoration: BoxDecoration(
+                color: tokens.card,
+                borderRadius: BorderRadius.circular(DesignTokens.radiusSm),
+                border: Border.all(color: tokens.border),
+              ),
+              child: Icon(Icons.arrow_back_ios_new, size: 18, color: tokens.mutedForeground),
+            ),
+          ),
+          const SizedBox(width: DesignTokens.spacingSm),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  l10n.newsHeaderTitle,
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700, color: tokens.foreground),
+                ),
+                Text(
+                  l10n.newsHeaderSubtitle,
+                  style: TextStyle(fontSize: 13, color: tokens.mutedForeground),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -214,6 +347,7 @@ class _FilterBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: DesignTokens.spacingMd,
@@ -227,9 +361,9 @@ class _FilterBar extends StatelessWidget {
             runSpacing: DesignTokens.spacingXs,
             crossAxisAlignment: WrapCrossAlignment.center,
             children: [
-              const Text(
-                'Trình độ:',
-                style: TextStyle(
+              Text(
+                l10n.newsFilterLevelLabel,
+                style: const TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w600,
                   color: DesignTokens.mutedForeground,
@@ -257,9 +391,9 @@ class _FilterBar extends StatelessWidget {
               runSpacing: DesignTokens.spacingXs,
               crossAxisAlignment: WrapCrossAlignment.center,
               children: [
-                const Text(
-                  'Chủ đề:',
-                  style: TextStyle(
+                Text(
+                  l10n.newsFilterTopicLabel,
+                  style: const TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w600,
                     color: DesignTokens.mutedForeground,
@@ -303,29 +437,37 @@ class _PaginationBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: DesignTokens.spacingMd),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          OutlinedButton.icon(
-            onPressed: page > 1 ? onPrev : null,
-            icon: const Icon(Icons.chevron_left),
-            label: const Text('Trước'),
-          ),
-          const SizedBox(width: DesignTokens.spacingMd),
-          Text(
-            'Trang $page/$totalPages',
-            style: const TextStyle(
-              fontWeight: FontWeight.w600,
-              color: DesignTokens.mutedForeground,
+          Flexible(
+            child: OutlinedButton.icon(
+              onPressed: page > 1 ? onPrev : null,
+              icon: const Icon(Icons.chevron_left),
+              label: Text(l10n.examSetPagePrev, overflow: TextOverflow.ellipsis),
             ),
           ),
-          const SizedBox(width: DesignTokens.spacingMd),
-          OutlinedButton.icon(
-            onPressed: page < totalPages ? onNext : null,
-            icon: const Icon(Icons.chevron_right),
-            label: const Text('Sau'),
+          const SizedBox(width: DesignTokens.spacingSm),
+          Flexible(
+            child: Text(
+              l10n.newsPaginationInfo(page, totalPages),
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(
+                fontWeight: FontWeight.w600,
+                color: DesignTokens.mutedForeground,
+              ),
+            ),
+          ),
+          const SizedBox(width: DesignTokens.spacingSm),
+          Flexible(
+            child: OutlinedButton.icon(
+              onPressed: page < totalPages ? onNext : null,
+              icon: const Icon(Icons.chevron_right),
+              label: Text(l10n.newsPaginationNext, overflow: TextOverflow.ellipsis),
+            ),
           ),
         ],
       ),
@@ -341,6 +483,7 @@ class _EmptyState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(DesignTokens.spacingXl),
@@ -354,7 +497,7 @@ class _EmptyState extends StatelessWidget {
             ),
             const SizedBox(height: DesignTokens.spacingSm),
             Text(
-              hasFilter ? 'Không có bài nào phù hợp bộ lọc.' : 'Chưa có tin tức.',
+              hasFilter ? l10n.newsEmptyFiltered : l10n.newsEmptyNone,
               textAlign: TextAlign.center,
               style: const TextStyle(color: DesignTokens.mutedForeground),
             ),
@@ -362,7 +505,7 @@ class _EmptyState extends StatelessWidget {
               const SizedBox(height: DesignTokens.spacingSm),
               TextButton(
                 onPressed: onClearFilter,
-                child: const Text('Xóa bộ lọc'),
+                child: Text(l10n.writingClearFilters),
               ),
             ],
           ],

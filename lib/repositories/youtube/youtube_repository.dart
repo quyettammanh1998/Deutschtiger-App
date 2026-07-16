@@ -13,10 +13,8 @@ import '../../data/youtube/video_library.dart';
 /// `InterviewRepository.fetchLearningPath`).
 class YouTubeRepository {
   YouTubeRepository(this._api, {required String supabaseBaseUrl})
-    : _librariesUrl =
-          '$supabaseBaseUrl/storage/v1/object/public/video-libraries/libraries.json',
-      _learningPathBaseUrl =
-          '$supabaseBaseUrl/storage/v1/object/public/video-libraries';
+    : _librariesUrl = '$supabaseBaseUrl/storage/v1/object/public/video-libraries/libraries.json',
+      _learningPathBaseUrl = '$supabaseBaseUrl/storage/v1/object/public/video-libraries';
 
   final ApiClient _api;
   final String _librariesUrl;
@@ -32,17 +30,13 @@ class YouTubeRepository {
   }
 
   Future<List<YouTubeVideo>> fetchCompleted() async {
-    final list = await _api.get<List<dynamic>>(
-      '/user/youtube/videos/completed',
-    );
+    final list = await _api.get<List<dynamic>>('/user/youtube/videos/completed');
     return list.map((e) => YouTubeVideo.fromJson(e as Map<String, dynamic>)).toList();
   }
 
   Future<List<YouTubePopularVideo>> fetchPopular() async {
     final list = await _api.get<List<dynamic>>('/user/youtube/popular');
-    return list
-        .map((e) => YouTubePopularVideo.fromJson(e as Map<String, dynamic>))
-        .toList();
+    return list.map((e) => YouTubePopularVideo.fromJson(e as Map<String, dynamic>)).toList();
   }
 
   Future<YouTubeStats> fetchStats() async {
@@ -50,16 +44,12 @@ class YouTubeRepository {
     return YouTubeStats.fromJson(data);
   }
 
-  Future<List<YouTubeContributionDay>> fetchContributions({
-    int months = 6,
-  }) async {
+  Future<List<YouTubeContributionDay>> fetchContributions({int months = 6}) async {
     final list = await _api.get<List<dynamic>>(
       '/user/youtube/contributions',
       query: {'months': months},
     );
-    return list
-        .map((e) => YouTubeContributionDay.fromJson(e as Map<String, dynamic>))
-        .toList();
+    return list.map((e) => YouTubeContributionDay.fromJson(e as Map<String, dynamic>)).toList();
   }
 
   /// Thêm video mới bằng URL (POST). Backend tự trích `duration`/transcript.
@@ -92,13 +82,10 @@ class YouTubeRepository {
     return YouTubeVideo.fromJson(data);
   }
 
-  Future<void> deleteVideo(String id) =>
-      _api.delete<dynamic>('/user/youtube/videos/$id');
+  Future<void> deleteVideo(String id) => _api.delete<dynamic>('/user/youtube/videos/$id');
 
   Future<bool> videoExists(String videoId) async {
-    final data = await _api.get<Map<String, dynamic>>(
-      '/user/youtube/videos/exists/$videoId',
-    );
+    final data = await _api.get<Map<String, dynamic>>('/user/youtube/videos/exists/$videoId');
     return data['exists'] as bool? ?? false;
   }
 
@@ -110,9 +97,7 @@ class YouTubeRepository {
   Future<List<VideoLibraryConfig>> fetchLibraries() async {
     final res = await _api.raw.get<List<dynamic>>(_librariesUrl);
     final data = res.data ?? const <dynamic>[];
-    return data
-        .map((e) => VideoLibraryConfig.fromJson(e as Map<String, dynamic>))
-        .toList();
+    return data.map((e) => VideoLibraryConfig.fromJson(e as Map<String, dynamic>)).toList();
   }
 
   /// Một thư viện theo slug, null nếu không tìm thấy.
@@ -131,15 +116,10 @@ class YouTubeRepository {
     );
     final data = res.data ?? const <String, dynamic>{};
     final list = (data['learning_path'] as List<dynamic>?) ?? const [];
-    return list
-        .map((e) => VideoLibraryGroup.fromJson(e as Map<String, dynamic>))
-        .toList();
+    return list.map((e) => VideoLibraryGroup.fromJson(e as Map<String, dynamic>)).toList();
   }
 
-  Future<List<LibraryVideo>> fetchGroupVideos(
-    String slug,
-    String groupId,
-  ) async {
+  Future<List<LibraryVideo>> fetchGroupVideos(String slug, String groupId) async {
     final list = await _api.get<List<dynamic>>(
       '/user/youtube/library/$slug/groups/$groupId/videos',
     );
@@ -158,11 +138,7 @@ class YouTubeRepository {
       body: {
         'videos': [
           for (final v in videos)
-            {
-              'video_id': v.videoId,
-              'title': v.title,
-              'duration_seconds': v.durationSeconds,
-            },
+            {'video_id': v.videoId, 'title': v.title, 'duration_seconds': v.durationSeconds},
         ],
       },
     );
@@ -170,18 +146,12 @@ class YouTubeRepository {
   }
 
   Future<List<LibraryGroupProgress>> fetchGroupProgress(String slug) async {
-    final list = await _api.get<List<dynamic>>(
-      '/user/youtube/library/$slug/progress',
-    );
-    return list
-        .map((e) => LibraryGroupProgress.fromJson(e as Map<String, dynamic>))
-        .toList();
+    final list = await _api.get<List<dynamic>>('/user/youtube/library/$slug/progress');
+    return list.map((e) => LibraryGroupProgress.fromJson(e as Map<String, dynamic>)).toList();
   }
 
   Future<LibraryStats> fetchLibraryStats(String slug) async {
-    final data = await _api.get<Map<String, dynamic>>(
-      '/user/youtube/library/$slug/stats',
-    );
+    final data = await _api.get<Map<String, dynamic>>('/user/youtube/library/$slug/stats');
     return LibraryStats.fromJson(data);
   }
 }

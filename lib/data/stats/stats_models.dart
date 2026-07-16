@@ -76,3 +76,69 @@ abstract class ErrorPatternSummary with _$ErrorPatternSummary {
   factory ErrorPatternSummary.fromJson(Map<String, dynamic> json) =>
       _$ErrorPatternSummaryFromJson(json);
 }
+
+/// Ôn tập FSRS hôm nay/tuần + độ chính xác + thẻ đến hạn. Plain class (skip
+/// freezed codegen — new leaf model, không chia sẻ logic với các model
+/// freezed khác trong file này). `GET /user/flashcard-reviews/stats`.
+/// Mirror web `reviewService.getStats()`.
+class FlashcardReviewStats {
+  const FlashcardReviewStats({
+    this.totalReviewsToday = 0,
+    this.totalReviewsWeek = 0,
+    this.correctReviews = 0,
+    this.totalReviews = 0,
+    this.dueCardsCount = 0,
+  });
+
+  final int totalReviewsToday;
+  final int totalReviewsWeek;
+  final int correctReviews;
+  final int totalReviews;
+  final int dueCardsCount;
+
+  /// Tỉ lệ trả lời đúng (%), làm tròn — mirror web `Math.round(correct/total*100)`.
+  int get averageAccuracy =>
+      totalReviews > 0 ? ((correctReviews / totalReviews) * 100).round() : 0;
+
+  factory FlashcardReviewStats.fromJson(Map<String, dynamic> json) {
+    return FlashcardReviewStats(
+      totalReviewsToday: (json['total_reviews_today'] as num?)?.toInt() ?? 0,
+      totalReviewsWeek: (json['total_reviews_week'] as num?)?.toInt() ?? 0,
+      correctReviews: (json['correct_reviews'] as num?)?.toInt() ?? 0,
+      totalReviews: (json['total_reviews'] as num?)?.toInt() ?? 0,
+      dueCardsCount: (json['due_cards_count'] as num?)?.toInt() ?? 0,
+    );
+  }
+}
+
+/// Tổng số flashcard + tổng lượt ôn của user — dùng để tính thành tựu
+/// "N flashcard" (mirror web `gamificationService.getAchievements()`).
+/// `GET /user/flashcards/stats`.
+class FlashcardCountStats {
+  const FlashcardCountStats({this.totalCards = 0, this.totalReviews = 0});
+
+  final int totalCards;
+  final int totalReviews;
+
+  factory FlashcardCountStats.fromJson(Map<String, dynamic> json) {
+    return FlashcardCountStats(
+      totalCards: (json['total_cards'] as num?)?.toInt() ?? 0,
+      totalReviews: (json['total_reviews'] as num?)?.toInt() ?? 0,
+    );
+  }
+}
+
+/// Một ngày trong biểu đồ "Thời gian online 7 ngày". `GET /user/online-time/weekly`.
+class WeeklyOnlineTimePoint {
+  const WeeklyOnlineTimePoint({required this.logDate, this.totalSeconds = 0});
+
+  final String logDate;
+  final int totalSeconds;
+
+  factory WeeklyOnlineTimePoint.fromJson(Map<String, dynamic> json) {
+    return WeeklyOnlineTimePoint(
+      logDate: json['log_date'] as String? ?? '',
+      totalSeconds: (json['total_seconds'] as num?)?.toInt() ?? 0,
+    );
+  }
+}

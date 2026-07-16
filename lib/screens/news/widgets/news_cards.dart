@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../core/design_tokens.dart';
 import '../../../data/news/news_models.dart';
+import '../../../l10n/app_localizations.dart';
 
 /// Bản dịch tiếng Việt cho chủ đề tin tức — khớp `TOPIC_VI` của web
 /// (`news-page.tsx`). Chủ đề không nằm trong bảng thì hiển thị nguyên gốc.
@@ -77,10 +78,10 @@ class NewsStoryCard extends StatelessWidget {
                               outlined: true,
                             ),
                           if (completed)
-                            const _Chip(
-                              label: 'Đã hoàn thành',
-                              color: Color(0xFF059669),
-                              background: Color(0xFFD1FAE5),
+                            _Chip(
+                              label: AppLocalizations.of(context).coursesLessonCompleted,
+                              color: const Color(0xFF059669),
+                              background: const Color(0xFFD1FAE5),
                               icon: Icons.check_circle_rounded,
                             ),
                         ],
@@ -125,7 +126,7 @@ class NewsStoryCard extends StatelessWidget {
                             ),
                             const SizedBox(width: 4),
                             Text(
-                              'Có audio',
+                              AppLocalizations.of(context).newsHasAudioLabel,
                               style: theme.textTheme.bodySmall?.copyWith(
                                 color: DesignTokens.tigerOrange,
                                 fontWeight: FontWeight.w600,
@@ -258,8 +259,8 @@ class NewsWeeklyRingCard extends StatelessWidget {
           Expanded(
             child: Text(
               total > 0
-                  ? 'Tuần này bạn đã đọc $done/$total bài mới xuất bản'
-                  : 'Chưa có bài mới xuất bản tuần này',
+                  ? AppLocalizations.of(context).newsWeeklyRingProgress(done, total)
+                  : AppLocalizations.of(context).newsWeeklyRingEmpty,
               style: const TextStyle(
                 color: DesignTokens.mutedForeground,
                 fontSize: 13,

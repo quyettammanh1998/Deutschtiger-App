@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/theme/app_tokens.dart';
 import '../../../../data/learn/exam_goal_providers.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../../../../view_models/providers.dart';
 import '../../../home/widgets/exam_goal_setter_sheet.dart';
 
@@ -17,6 +18,7 @@ class ReadinessGoalHeader extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final tokens = context.tokens;
+    final l10n = AppLocalizations.of(context);
     final goalAsync = ref.watch(learnGoalProvider);
 
     return goalAsync.maybeWhen(
@@ -43,7 +45,7 @@ class ReadinessGoalHeader extends ConsumerWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Đang luyện cho',
+                        l10n.examReadinessGoalHeaderLabel,
                         style: TextStyle(
                           fontSize: 11,
                           fontWeight: FontWeight.w700,
@@ -80,7 +82,7 @@ class ReadinessGoalHeader extends ConsumerWidget {
                           ),
                         ),
                         Text(
-                          'ngày đến kỳ thi',
+                          l10n.examReadinessGoalDaysLeft,
                           style: TextStyle(
                             fontSize: 11,
                             color: tokens.mutedForeground,
@@ -88,7 +90,7 @@ class ReadinessGoalHeader extends ConsumerWidget {
                         ),
                       ] else if (days == 0) ...[
                         Text(
-                          'Hôm nay là ngày thi!',
+                          l10n.examReadinessGoalTodayLabel,
                           style: TextStyle(
                             fontSize: 13,
                             fontWeight: FontWeight.w700,
@@ -97,7 +99,7 @@ class ReadinessGoalHeader extends ConsumerWidget {
                         ),
                       ] else ...[
                         Text(
-                          'Đặt ngày thi',
+                          l10n.examReadinessGoalSetDate,
                           style: TextStyle(
                             fontSize: 13,
                             fontWeight: FontWeight.w700,

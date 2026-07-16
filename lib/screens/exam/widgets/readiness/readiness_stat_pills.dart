@@ -29,7 +29,7 @@ class ReadinessStatPills extends StatelessWidget {
         Expanded(
           child: _Pill(
             value: '${snapshot.recentAvgScore.round()}%',
-            label: 'Điểm TB gần đây',
+            label: l10n.examReadinessRecentAvgLabel,
           ),
         ),
         const SizedBox(width: 8),

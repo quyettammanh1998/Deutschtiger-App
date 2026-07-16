@@ -1,36 +1,30 @@
 // ignore_for_file: prefer_initializing_formals
 //
-// D4 — Exam player (GĐ1: Lesen + Hören).
+// D4/Wave B — Exam player mobile rebuild (web parity).
 //
-// Player full-screen cho exam practice/test/review với:
-//   - Header: mode toggle + timer + close
-//   - Section tabs (Lesen / Hören)
-//   - Question palette (drawer/scroll)
-//   - Audio player (Hören, max_plays enforcement)
-//   - Question renderer theo type (MC / matching / richtig-falsch /
-//     sprachbausteine / anzeigen)
-//   - Explanation (practice/review only)
-//   - Navigation bar: prev / next / submit
+// Web source of truth: `exam-practice-page.tsx` + `components/exam/mobile/*`
+// (`mobile-test-layout.tsx`/`mobile-practice-layout.tsx` "section-screen
+// mode" — luôn hiển thị TRỌN 1 Teil trên màn thay vì 1 câu/màn). Shell:
+// compact header (progress bar cam, pace dot, "Nộp bài" xanh) → whole-Teil
+// scroll body → footer (prev/next 32px xanh + counter pill hổ phách mở nav
+// sheet) → nav sheet nhóm theo Teil.
+//
+// KHÔNG đổi contract draft/attempt (`exam_player_provider.dart`,
+// `exam_attempt_store.dart`) — chỉ rebuild UI theo đúng yêu cầu wave B.
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../core/design_tokens.dart';
-import '../../../core/exam_design_tokens.dart';
+import '../../../core/theme/app_tokens.dart';
 import '../../../l10n/app_localizations.dart';
-import '../../../widgets/common/minimal_shell.dart';
 import '../domain/exam_models.dart';
 import 'exam_player_provider.dart';
-import 'widgets/exam_audio_player.dart';
 import 'widgets/exam_dialogs.dart';
-import 'widgets/exam_explanation_card.dart';
-import 'widgets/exam_mode_toggle.dart';
-import 'widgets/exam_progress_bar.dart';
-import 'widgets/exam_section_tabs.dart';
-import 'widgets/exam_timer.dart';
-import 'widgets/question_palette.dart';
-import 'widgets/question_renderer.dart';
+import 'widgets/mobile_player/exam_practice_header.dart';
+import 'widgets/mobile_player/mobile_footer_bar.dart';
+import 'widgets/mobile_player/mobile_nav_sheet.dart';
+import 'widgets/mobile_player/mobile_question_panel.dart';
 
 class ExamPracticePage extends ConsumerWidget {
   const ExamPracticePage({
@@ -47,18 +41,31 @@ class ExamPracticePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
+    final tokens = context.tokens;
     final key = ExamPlayerKey(examId: examId, mode: mode, timed: timed);
     final bootstrap = ref.watch(examPlayerBootstrapProvider(key));
     return bootstrap.when(
-      loading: () => MinimalShell(
-        backgroundColor: ExamDesignTokens.examPaperColor,
-        title: l10n.loadingExam,
-        child: const Center(child: CircularProgressIndicator()),
+      loading: () => Scaffold(
+        backgroundColor: tokens.background,
+        body: SafeArea(
+          child: Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const CircularProgressIndicator(),
+                const SizedBox(height: 12),
+                Text(
+                  l10n.loadingExam,
+                  style: TextStyle(color: tokens.mutedForeground),
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
-      error: (e, _) => MinimalShell(
-        backgroundColor: ExamDesignTokens.examPaperColor,
-        title: l10n.examPractice,
-        child: Center(child: Text(l10n.couldNotLoadExams)),
+      error: (e, _) => Scaffold(
+        backgroundColor: tokens.background,
+        body: SafeArea(child: Center(child: Text(l10n.couldNotLoadExams))),
       ),
       data: (_) => _ExamPracticeView(examId: examId, timed: timed, mode: mode),
     );
@@ -81,8 +88,6 @@ class _ExamPracticeView extends ConsumerStatefulWidget {
 }
 
 class _ExamPracticeViewState extends ConsumerState<_ExamPracticeView> {
-  bool _paletteOpen = false;
-
   ExamPlayerKey get _key => ExamPlayerKey(
     examId: widget.examId,
     mode: widget.mode,
@@ -91,7 +96,7 @@ class _ExamPracticeViewState extends ConsumerState<_ExamPracticeView> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
+    final tokens = context.tokens;
     ref.listen(examPlayerProvider(_key).select((state) => state.submitted), (
       previous,
       submitted,
@@ -103,349 +108,112 @@ class _ExamPracticeViewState extends ConsumerState<_ExamPracticeView> {
     });
     final state = ref.watch(examPlayerProvider(_key));
     final notifier = ref.read(examPlayerProvider(_key).notifier);
-    final showCorrectness = widget.mode != ExamMode.test;
+    final section = state.currentSectionObj;
+    final sectionLabel = '${section.kind.labelDe} · ${section.kind.labelVi}';
+    final totalSections = state.exam.sections.length;
+    final progressPercent = state.totalQuestions == 0
+        ? 0.0
+        : state.answeredCount / state.totalQuestions * 100;
 
-    return MinimalShell(
-      title: state.exam.title,
-      backgroundColor: ExamDesignTokens.examPaperColor,
-      actions: [
-        IconButton(
-          icon: Icon(_paletteOpen ? Icons.grid_off : Icons.grid_on),
-          tooltip: l10n.examQuestionPalette,
-          onPressed: () => setState(() => _paletteOpen = !_paletteOpen),
-        ),
-        IconButton(
-          icon: const Icon(Icons.close),
-          tooltip: l10n.close,
-          onPressed: () async {
-            final shouldExit = await showExitExamDialog(context);
-            if (!shouldExit) return;
-            await notifier.saveProgressNow();
-            if (!context.mounted) return;
-            context.pop();
-          },
-        ),
-      ],
-      child: Column(
-        children: [
-          _TopBar(state: state, onChangeMode: _switchMode),
-          ExamSectionTabs(
-            sections: state.exam.sections,
-            currentSection: state.currentSection,
-            answeredIds: state.answers.keys.toSet(),
-            onTap: (sectionIdx) => notifier.goToQuestion(section: sectionIdx),
-          ),
-          Expanded(
-            child: Stack(
-              children: [
-                _QuestionView(
-                  state: state,
-                  showCorrectness: showCorrectness,
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, _) async {
+        if (didPop) return;
+        await _exit(notifier);
+      },
+      child: Scaffold(
+        backgroundColor: tokens.background,
+        body: SafeArea(
+          child: Column(
+            children: [
+              ExamPracticeHeader(
+                mode: widget.mode,
+                title: sectionLabel,
+                progressPercent: progressPercent,
+                currentDisplayNumber: state.currentSection + 1,
+                answerableCount: totalSections,
+                onExit: () => _exit(notifier),
+                onBackToResult: widget.mode == ExamMode.review
+                    ? () => context.go('/exam/result/${widget.examId}')
+                    : null,
+                onSubmit: widget.mode == ExamMode.test ? _submit : null,
+                elapsedSeconds: state.elapsedSeconds,
+                totalDurationSeconds: state.timed
+                    ? state.exam.totalDurationMinutes * 60
+                    : null,
+                currentSectionIndex: state.currentSection,
+                totalSections: totalSections,
+              ),
+              Expanded(
+                child: MobileQuestionPanel(
+                  key: ValueKey(state.currentSection),
+                  section: section,
+                  sectionLabel: sectionLabel,
+                  sectionOffset: state.currentSectionQuestionOffset,
+                  mode: widget.mode,
+                  answers: state.answers,
+                  audioPlays: state.audioPlays,
                   onAnswer: notifier.setAnswer,
                   onConsumeAudio: notifier.registerAudioPlay,
+                  correctByKey: widget.mode == ExamMode.test
+                      ? null
+                      : state.correctByAnswerKey,
+                  commentsExamId: widget.mode == ExamMode.review
+                      ? widget.examId
+                      : null,
                 ),
-                if (_paletteOpen)
-                  _PaletteOverlay(
-                    questions: state.exam.allQuestions,
-                    answeredIds: state.answers.keys.toSet(),
-                    currentGlobalIndex: state.currentGlobalIndex,
-                    onPick: (idx) {
-                      notifier.goToGlobalIndex(idx);
-                      setState(() => _paletteOpen = false);
-                    },
-                    onClose: () => setState(() => _paletteOpen = false),
-                  ),
-              ],
-            ),
+              ),
+              MobileFooterBar(
+                canGoPrev: state.currentSection > 0,
+                canGoNext: state.currentSection < totalSections - 1,
+                currentDisplayNumber: state.currentSection + 1,
+                answerableCount: totalSections,
+                sectionLabel: sectionLabel,
+                onPrev: () => notifier.goToQuestion(
+                  section: state.currentSection - 1,
+                  question: 0,
+                ),
+                onNext: () => notifier.goToQuestion(
+                  section: state.currentSection + 1,
+                  question: 0,
+                ),
+                onToggleNav: () => showMobileNavSheet(
+                  context,
+                  sections: state.exam.sections,
+                  currentGlobalIndex: state.currentGlobalIndex,
+                  answeredKeys: state.answers.keys.toSet(),
+                  mode: widget.mode,
+                  correctByKey: widget.mode == ExamMode.test
+                      ? null
+                      : state.correctByAnswerKey,
+                  onNavigate: notifier.goToGlobalIndex,
+                ),
+              ),
+            ],
           ),
-          _BottomNav(
-            state: state,
-            onPrev: notifier.previousQuestion,
-            onNext: notifier.nextQuestion,
-            onSubmit: _submit,
-          ),
-        ],
+        ),
       ),
     );
   }
 
-  Future<void> _submit() async {
-    if (widget.mode == ExamMode.review) {
-      context.go('/exam/result/${widget.examId}');
+  Future<void> _exit(ExamPlayerNotifier notifier) async {
+    if (widget.mode != ExamMode.test) {
+      if (!mounted) return;
+      context.pop();
       return;
     }
+    final shouldExit = await showExitExamDialog(context);
+    if (!shouldExit) return;
+    await notifier.saveProgressNow();
+    if (!mounted) return;
+    context.pop();
+  }
+
+  Future<void> _submit() async {
     final state = ref.read(examPlayerProvider(_key));
     final unanswered = state.exam.totalQuestions - state.answeredCount;
     if (!await showSubmitExamDialog(context, unanswered)) return;
     final notifier = ref.read(examPlayerProvider(_key).notifier);
     await notifier.submit();
-  }
-
-  void _switchMode(ExamMode newMode) {
-    if (newMode == widget.mode) return;
-    final uri = Uri(
-      path: '/exam/practice/${widget.examId}',
-      queryParameters: {
-        if (widget.timed) 'timed': 'true',
-        'mode': newMode.name,
-      },
-    );
-    context.push(uri.toString());
-  }
-}
-
-// ===== Sub-widgets =====
-
-class _TopBar extends StatelessWidget {
-  const _TopBar({required this.state, required this.onChangeMode});
-
-  final ExamPlayerState state;
-  final ValueChanged<ExamMode> onChangeMode;
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-    return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: ExamDesignTokens.examPadding,
-        vertical: DesignTokens.spacingSm,
-      ),
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        border: Border(bottom: BorderSide(color: ExamDesignTokens.examBorder)),
-      ),
-      child: Column(
-        children: [
-          Row(
-            children: [
-              ExamModeToggle(mode: state.mode, onChange: onChangeMode),
-              const Spacer(),
-              ExamTimer(
-                elapsedSeconds: state.elapsedSeconds,
-                totalSeconds: state.exam.totalDurationMinutes * 60,
-                showCountdown: state.timed && state.mode != ExamMode.review,
-              ),
-            ],
-          ),
-          const SizedBox(height: DesignTokens.spacingSm),
-          ExamProgressBar(
-            answered: state.answeredCount,
-            total: state.totalQuestions,
-            label: l10n.examQuestionProgress(
-              state.currentGlobalIndex + 1,
-              state.totalQuestions,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _QuestionView extends StatelessWidget {
-  const _QuestionView({
-    required this.state,
-    required this.showCorrectness,
-    required this.onAnswer,
-    required this.onConsumeAudio,
-  });
-
-  final ExamPlayerState state;
-  final bool showCorrectness;
-  final void Function(String questionId, String answer) onAnswer;
-  final bool Function(String questionId) onConsumeAudio;
-
-  @override
-  Widget build(BuildContext context) {
-    final q = state.currentQuestionObj;
-    final section = state.currentSectionObj;
-    final answer = state.answers[q.answerKey];
-
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(ExamDesignTokens.examPadding),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          if (q.hasAudio)
-            ExamAudioPlayer(
-              key: ValueKey(q.id),
-              audioUrl: q.audioUrl!,
-              playsUsed: state.audioPlays[q.answerKey] ?? 0,
-              maxPlays: q.audioMaxPlays,
-              onPlayConsumed: () => onConsumeAudio(q.answerKey),
-            ),
-          if (q.hasAudio) const SizedBox(height: DesignTokens.spacingMd),
-          IgnorePointer(
-            ignoring: state.mode == ExamMode.review,
-            child: QuestionRenderer(
-              question: q,
-              questionNumber: state.currentGlobalIndex + 1,
-              sectionLabel: '${section.kind.labelDe} · ${section.kind.labelVi}',
-              answer: answer,
-              onChange: (value) => onAnswer(q.answerKey, value),
-              showCorrectness: showCorrectness,
-            ),
-          ),
-          if (showCorrectness && answer != null) ...[
-            const SizedBox(height: DesignTokens.spacingMd),
-            ExamExplanationCard(question: q, userAnswer: answer),
-          ],
-          const SizedBox(height: DesignTokens.bottomNavHeight),
-        ],
-      ),
-    );
-  }
-}
-
-class _PaletteOverlay extends StatelessWidget {
-  const _PaletteOverlay({
-    required this.questions,
-    required this.answeredIds,
-    required this.currentGlobalIndex,
-    required this.onPick,
-    required this.onClose,
-  });
-
-  final List<ExamQuestion> questions;
-  final Set<String> answeredIds;
-  final int currentGlobalIndex;
-  final ValueChanged<int> onPick;
-  final VoidCallback onClose;
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-    return Positioned.fill(
-      child: GestureDetector(
-        onTap: onClose,
-        child: Container(
-          color: Colors.black54,
-          alignment: Alignment.bottomCenter,
-          child: GestureDetector(
-            onTap: () {},
-            child: Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(ExamDesignTokens.examPadding),
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.vertical(
-                  top: Radius.circular(DesignTokens.radiusLg),
-                ),
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Text(
-                        l10n.examQuestionPalette,
-                        style: const TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w700,
-                          color: ExamDesignTokens.examActiveStrong,
-                        ),
-                      ),
-                      const Spacer(),
-                      IconButton(
-                        onPressed: onClose,
-                        icon: const Icon(Icons.close),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: DesignTokens.spacingSm),
-                  QuestionPalette(
-                    questions: questions,
-                    answeredIds: answeredIds,
-                    currentGlobalIndex: currentGlobalIndex,
-                    onTap: onPick,
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _BottomNav extends StatelessWidget {
-  const _BottomNav({
-    required this.state,
-    required this.onPrev,
-    required this.onNext,
-    required this.onSubmit,
-  });
-
-  final ExamPlayerState state;
-  final VoidCallback onPrev;
-  final VoidCallback onNext;
-  final VoidCallback onSubmit;
-
-  bool get _isLastQuestion {
-    final sec = state.currentSectionObj;
-    return state.currentSection == state.exam.sections.length - 1 &&
-        state.currentQuestion == sec.questionCount - 1;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-    final canPrev = state.currentSection > 0 || state.currentQuestion > 0;
-    return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: ExamDesignTokens.examPadding,
-        vertical: DesignTokens.spacingSm,
-      ),
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        border: Border(top: BorderSide(color: ExamDesignTokens.examBorder)),
-      ),
-      child: SafeArea(
-        top: false,
-        child: Row(
-          children: [
-            Expanded(
-              child: OutlinedButton.icon(
-                onPressed: canPrev ? onPrev : null,
-                icon: const Icon(Icons.arrow_back, size: 16),
-                label: Text(l10n.previous),
-                style: OutlinedButton.styleFrom(
-                  foregroundColor: ExamDesignTokens.examActiveStrong,
-                  side: const BorderSide(color: ExamDesignTokens.examBorder),
-                ),
-              ),
-            ),
-            const SizedBox(width: DesignTokens.spacingSm),
-            Expanded(
-              child: _isLastQuestion
-                  ? ElevatedButton.icon(
-                      onPressed: onSubmit,
-                      icon: const Icon(Icons.check, size: 18),
-                      label: Text(
-                        state.mode == ExamMode.review
-                            ? l10n.done
-                            : l10n.submitExam,
-                      ),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: ExamDesignTokens.examSuccess,
-                        foregroundColor: Colors.white,
-                      ),
-                    )
-                  : ElevatedButton.icon(
-                      onPressed: onNext,
-                      icon: const Icon(Icons.arrow_forward, size: 16),
-                      label: Text(l10n.next),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: ExamDesignTokens.examActive,
-                        foregroundColor: Colors.white,
-                      ),
-                    ),
-            ),
-          ],
-        ),
-      ),
-    );
   }
 }

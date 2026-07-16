@@ -213,3 +213,31 @@ class GrammarArticle extends GrammarArticleMeta {
 
   final String markdown;
 }
+
+/// 1 dòng bảng xếp hạng ngữ pháp (`GET /grammar-leaderboard`,
+/// `GET /user/grammar-rank`) — khớp `GrammarLeaderboardEntry` Go struct.
+class GrammarLeaderboardEntry {
+  const GrammarLeaderboardEntry({
+    required this.userId,
+    required this.displayName,
+    required this.avatarUrl,
+    required this.completedCount,
+    required this.rank,
+  });
+
+  final String userId;
+  final String displayName;
+  final String avatarUrl;
+  final int completedCount;
+  final int rank;
+
+  factory GrammarLeaderboardEntry.fromJson(Map<String, dynamic> json) {
+    return GrammarLeaderboardEntry(
+      userId: json['user_id'] as String? ?? '',
+      displayName: json['display_name'] as String? ?? '',
+      avatarUrl: json['avatar_url'] as String? ?? '',
+      completedCount: (json['completed_count'] as num?)?.toInt() ?? 0,
+      rank: (json['rank'] as num?)?.toInt() ?? 0,
+    );
+  }
+}

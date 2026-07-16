@@ -7,10 +7,10 @@ import 'package:go_router/go_router.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../data/vocab/vocab_models.dart';
-import '../../shared/widgets/game_completion_screen.dart';
 import '../../view_models/games/listening_game_provider.dart';
 import '../../view_models/providers.dart';
 import '../../widgets/common/async_state_views.dart';
+import '../../widgets/common/game_shell.dart';
 
 const _kMinWordsRequired = 4;
 
@@ -43,11 +43,42 @@ class _ListeningGameScreenState extends ConsumerState<ListeningGameScreen> {
   List<VocabWord> _words = const [];
   final _random = Random();
   List<String> _currentOptions = const [];
+  final List<VocabWord> _wrongWords = [];
+  bool _retryWrongMode = false;
 
   void _startGame(List<VocabWord> words) {
     if (_started) return;
     _started = true;
     _words = List.of(words)..shuffle(_random);
+    _generateOptions();
+    _startTimer();
+    _playAudio();
+  }
+
+  void _shuffleNow() {
+    setState(() {
+      _words = List.of(_words)..shuffle(_random);
+      _currentIndex = 0;
+      _selectedAnswer = null;
+    });
+    _generateOptions();
+    _playAudio();
+  }
+
+  void _retryWrong() {
+    if (_wrongWords.isEmpty) return;
+    setState(() {
+      _retryWrongMode = true;
+      _words = List.of(_wrongWords);
+      _wrongWords.clear();
+      _currentIndex = 0;
+      _score = 0;
+      _correct = 0;
+      _total = 0;
+      _timeLeft = _roundSeconds;
+      _gameOver = false;
+      _selectedAnswer = null;
+    });
     _generateOptions();
     _startTimer();
     _playAudio();
@@ -100,6 +131,8 @@ class _ListeningGameScreenState extends ConsumerState<ListeningGameScreen> {
       if (isCorrect) {
         _correct++;
         _score += 15;
+      } else {
+        _wrongWords.add(_words[_currentIndex % _words.length]);
       }
     });
 
@@ -128,6 +161,8 @@ class _ListeningGameScreenState extends ConsumerState<ListeningGameScreen> {
       _timeLeft = _roundSeconds;
       _gameOver = false;
       _selectedAnswer = null;
+      _retryWrongMode = false;
+      _wrongWords.clear();
     });
     _words.shuffle(_random);
     _generateOptions();
@@ -144,35 +179,33 @@ class _ListeningGameScreenState extends ConsumerState<ListeningGameScreen> {
   @override
   Widget build(BuildContext context) {
     if (_gameOver) {
-      return GameCompletionScreen(
-        score: _score,
-        total: _total > 0 ? _total * 15 : 1,
-        title: 'Hoàn thành!',
-        subtitle: 'Đúng $_correct/$_total câu',
-        onPlayAgain: _restart,
-        onGoHome: () => context.pop(),
+      return GameShell(
+        title: 'Luyện nghe',
+        exitGuard: false,
+        child: _buildCompletion(),
       );
     }
 
     final wordsAsync = ref.watch(listeningGameWordsProvider);
-    return Scaffold(
-      backgroundColor: AppColors.authBackground,
-      appBar: AppBar(
-        backgroundColor: AppColors.authBackground,
-        title: const Text('Luyện nghe'),
-        leading: IconButton(
-          icon: const Icon(Icons.close),
-          onPressed: () => context.pop(),
-        ),
-        actions: [
+    return GameShell(
+      title: 'Luyện nghe',
+      scrollable: false,
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          IconButton(
+            tooltip: 'Xáo trộn',
+            icon: const Icon(Icons.shuffle),
+            onPressed: _started ? _shuffleNow : null,
+          ),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-            margin: const EdgeInsets.only(right: 16),
             decoration: BoxDecoration(
               color: _timeLeft <= 10 ? Colors.red : Colors.grey.shade200,
               borderRadius: BorderRadius.circular(16),
             ),
             child: Row(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 const Icon(Icons.timer, size: 16),
                 const SizedBox(width: 4),
@@ -185,23 +218,91 @@ class _ListeningGameScreenState extends ConsumerState<ListeningGameScreen> {
           ),
         ],
       ),
-      body: SafeArea(
-        child: wordsAsync.when(
-          loading: () => const LoadingView(),
-          error: (_, _) => ErrorView(
-            onRetry: () => ref.invalidate(listeningGameWordsProvider),
+      child: wordsAsync.when(
+        loading: () => const LoadingView(),
+        error: (_, _) => ErrorView(
+          onRetry: () => ref.invalidate(listeningGameWordsProvider),
+        ),
+        data: (words) {
+          if (words.length < _kMinWordsRequired) {
+            return const ErrorView(
+              message:
+                  'Cần học ít nhất 4 từ vựng trước khi chơi Luyện nghe. '
+                  'Hãy đánh dấu thêm từ đã học ở phần Từ vựng.',
+            );
+          }
+          _startGame(words);
+          return _buildGame();
+        },
+      ),
+    );
+  }
+
+  Widget _buildCompletion() {
+    final accuracy = _total > 0 ? (_correct / _total * 100).round() : 0;
+    return Center(
+      child: SingleChildScrollView(
+        child: Container(
+          padding: const EdgeInsets.all(24),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(24),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.1),
+                blurRadius: 20,
+                offset: const Offset(0, 10),
+              ),
+            ],
           ),
-          data: (words) {
-            if (words.length < _kMinWordsRequired) {
-              return const ErrorView(
-                message:
-                    'Cần học ít nhất 4 từ vựng trước khi chơi Luyện nghe. '
-                    'Hãy đánh dấu thêm từ đã học ở phần Từ vựng.',
-              );
-            }
-            _startGame(words);
-            return _buildGame();
-          },
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text('$_score',
+                  style: const TextStyle(
+                      fontSize: 48,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.purple)),
+              Text(
+                _retryWrongMode
+                    ? 'Đúng $_correct/$_total (làm lại câu sai)'
+                    : 'Đúng $_correct/$_total câu',
+                style: const TextStyle(color: AppColors.mutedForeground),
+              ),
+              Text('$accuracy% chính xác',
+                  style: const TextStyle(color: AppColors.mutedForeground)),
+              const SizedBox(height: 24),
+              Row(
+                children: [
+                  Expanded(
+                    child: OutlinedButton(
+                      onPressed: () => context.pop(),
+                      child: const Text('Về trang chủ'),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: _restart,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.purple,
+                        foregroundColor: Colors.white,
+                      ),
+                      child: const Text('Chơi lại'),
+                    ),
+                  ),
+                ],
+              ),
+              if (_wrongWords.isNotEmpty) ...[
+                const SizedBox(height: 12),
+                TextButton.icon(
+                  onPressed: _retryWrong,
+                  icon: const Icon(Icons.replay),
+                  label: Text('Làm lại ${_wrongWords.length} câu sai'),
+                ),
+              ],
+            ],
+          ),
         ),
       ),
     );

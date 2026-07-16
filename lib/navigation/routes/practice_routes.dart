@@ -12,11 +12,10 @@
 //   /games/flashcard  → /games/flashcards (practice-listening-page)
 //   /games/matching   → /games/matching   (unchanged, practice-matching-page)
 //   /games/writing    → /games/writing    (unchanged, practice-writing-page)
-// The 5 legacy game screens these routes used to point at
-// (fill_blank/flashcard/matching/writing_word/writing_sentence_game_screen)
-// are deleted; `writing_sentence_game_screen.dart` stays (owned by P7's
-// `games_routes.dart` at `/games/writing-sentence`, no web counterpart —
-// P7 owns removing that route).
+// The legacy game screens these routes used to point at
+// (fill_blank/flashcard/matching/writing_word) are deleted, replaced by the
+// practice views above. `/games/writing-sentence` had no web counterpart and
+// is gone entirely — no redirect.
 
 import 'package:go_router/go_router.dart';
 

@@ -9,8 +9,15 @@ import '../../core/theme/app_colors.dart';
 import '../../data/games/learning_item_models.dart';
 import '../../view_models/games/learning_item_provider.dart';
 import '../../widgets/common/async_state_views.dart';
+import '../../widgets/common/game_shell.dart';
 
-const _levels = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+// Web (`artikel-game-page.tsx`) derives the level automatically from
+// `usePreferences().effective.cefr_level` (no manual picker on-screen).
+// `learningPreferencesProvider` is `AutoDispose` and only safe behind
+// `ref.watch`; a bare `ref.read` here would race its own disposal before the
+// async load resolves, so we keep a fixed default instead of wiring it in.
+const _kDefaultLevel = 'A1';
+
 const _minNouns = 10;
 const _wordsPerRound = 10;
 const _totalRounds = 3;
@@ -53,7 +60,6 @@ class ArticleGameScreen extends ConsumerStatefulWidget {
 
 class _ArticleGameScreenState extends ConsumerState<ArticleGameScreen>
     with TickerProviderStateMixin {
-  String _level = 'A1';
   late Future<List<_ArticleWord>> _future;
 
   List<_ArticleWord> _words = const [];
@@ -87,6 +93,8 @@ class _ArticleGameScreenState extends ConsumerState<ArticleGameScreen>
       CurvedAnimation(parent: _bounceController, curve: Curves.easeInOut),
     );
   }
+
+  String get _level => _kDefaultLevel;
 
   Future<List<_ArticleWord>> _load() async {
     final items = await ref
@@ -199,82 +207,35 @@ class _ArticleGameScreenState extends ConsumerState<ArticleGameScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFF8F9FA),
-      body: SafeArea(
-        child: Column(
-          children: [
-            _buildHeader(),
-            if (_gameOver)
-              Expanded(child: _buildResults())
-            else
-              Expanded(
-                child: FutureBuilder<List<_ArticleWord>>(
-                  future: _future,
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState != ConnectionState.done) {
-                      return const LoadingView();
-                    }
-                    if (snapshot.hasError) {
-                      return ErrorView(onRetry: _restart);
-                    }
-                    if (_words.isEmpty) {
-                      return ErrorView(
-                        message:
-                            'Cần ít nhất $_minNouns danh từ có giới tính để '
-                            'chơi ở level $_level.',
-                        onRetry: _restart,
-                      );
-                    }
-                    return _buildGame();
-                  },
-                ),
-              ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildHeader() {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-      child: Row(
-        children: [
-          _HeaderButton(icon: Icons.close, onTap: () => context.pop()),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  'Der/Die/Das',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.foreground,
-                  ),
-                ),
-                Text(
-                  'Đoán mạo từ',
-                  style: TextStyle(fontSize: 12, color: AppColors.mutedForeground),
-                ),
-              ],
-            ),
-          ),
-          if (!_gameOver) ...[
-            _LevelPicker(
-              level: _level,
-              onChanged: (v) {
-                _level = v;
-                _restart();
+    return GameShell(
+      title: 'Der / Die / Das',
+      exitGuard: !_gameOver,
+      scrollable: false,
+      trailing: !_gameOver
+          ? _TimerBadge(seconds: _timeLeft, isWarning: _timeLeft <= 10)
+          : null,
+      child: _gameOver
+          ? _buildResults()
+          : FutureBuilder<List<_ArticleWord>>(
+              future: _future,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState != ConnectionState.done) {
+                  return const LoadingView();
+                }
+                if (snapshot.hasError) {
+                  return ErrorView(onRetry: _restart);
+                }
+                if (_words.isEmpty) {
+                  return ErrorView(
+                    message:
+                        'Cần ít nhất $_minNouns danh từ có giới tính để '
+                        'chơi ở level $_level.',
+                    onRetry: _restart,
+                  );
+                }
+                return _buildGame();
               },
             ),
-            const SizedBox(width: 8),
-            _TimerBadge(seconds: _timeLeft, isWarning: _timeLeft <= 10),
-          ],
-        ],
-      ),
     );
   }
 
@@ -486,57 +447,6 @@ class _ArticleGameScreenState extends ConsumerState<ArticleGameScreen>
             ],
           ),
         ),
-      ),
-    );
-  }
-}
-
-class _LevelPicker extends StatelessWidget {
-  const _LevelPicker({required this.level, required this.onChanged});
-
-  final String level;
-  final ValueChanged<String> onChanged;
-
-  @override
-  Widget build(BuildContext context) {
-    return DropdownButton<String>(
-      value: level,
-      underline: const SizedBox.shrink(),
-      items: _levels
-          .map((l) => DropdownMenuItem(value: l, child: Text(l)))
-          .toList(growable: false),
-      onChanged: (v) {
-        if (v != null) onChanged(v);
-      },
-    );
-  }
-}
-
-class _HeaderButton extends StatelessWidget {
-  const _HeaderButton({required this.icon, required this.onTap});
-
-  final IconData icon;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: 44,
-        height: 44,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(12),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.05),
-              blurRadius: 10,
-              offset: const Offset(0, 2),
-            ),
-          ],
-        ),
-        child: Icon(icon, color: AppColors.foreground),
       ),
     );
   }

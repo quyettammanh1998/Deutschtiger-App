@@ -24,19 +24,52 @@
   "goodEvening": "Guten Abend",
   "headerEncouragement": "Bereit, Deutsch zu meistern? 🚀",
   "headerWordsLearned": "📚 {count} Wörter gelernt",
-  "@headerWordsLearned": {"placeholders": {"count": {"type": "int"}}},
+  "@headerWordsLearned": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "headerStreakStart": "Loslegen",
   "todayXp": "XP heute",
   "streak": "Serie",
   "streakDays": "{count} Tage",
-  "@streakDays": {"placeholders": {"count": {"type": "int"}}},
+  "@streakDays": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "zeroMinutes": "0 Minuten",
   "minutesShort": "{count} Minuten",
-  "@minutesShort": {"placeholders": {"count": {"type": "int"}}},
+  "@minutesShort": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "hoursShort": "{count} Std.",
-  "@hoursShort": {"placeholders": {"count": {"type": "int"}}},
+  "@hoursShort": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "hoursMinutesShort": "{hours} Std. {minutes} Min.",
-  "@hoursMinutesShort": {"placeholders": {"hours": {"type": "int"}, "minutes": {"type": "int"}}},
+  "@hoursMinutesShort": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      },
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
   "wordsLearned": "Gelernte Wörter",
   "lookupCount": "Nachschlagen",
   "today": "Heute",
@@ -58,7 +91,13 @@
   "qaExamSubtitle": "Goethe, telc",
   "qaVocabTitle": "Wortschatz",
   "qaVocabSubtitle": "{count}+ Wörter",
-  "@qaVocabSubtitle": {"placeholders": {"count": {"type": "int"}}},
+  "@qaVocabSubtitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "qaNotesTitle": "Notizbuch",
   "qaNotesSubtitle": "Gespeicherte Wörter",
   "qaReviewTitle": "Wiederholung",
@@ -79,16 +118,52 @@
   "qaAffiliateSubtitle": "Provision verdienen",
   "dailyPathHeroTitle": "☀️ Was steht heute an?",
   "dailyPathExamBadge": "Noch {days} Tage bis zur {examLabel}-Prüfung",
-  "@dailyPathExamBadge": {"placeholders": {"days": {"type": "int"}, "examLabel": {"type": "String"}}},
+  "@dailyPathExamBadge": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      },
+      "examLabel": {
+        "type": "String"
+      }
+    }
+  },
   "dailyPathPlanSummary": "Heutiger Plan · {done}/{total} Schritte",
-  "@dailyPathPlanSummary": {"placeholders": {"done": {"type": "int"}, "total": {"type": "int"}}},
+  "@dailyPathPlanSummary": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
   "dailyPathMinutesRemaining": "noch etwa {minutes} Minuten",
-  "@dailyPathMinutesRemaining": {"placeholders": {"minutes": {"type": "int"}}},
+  "@dailyPathMinutesRemaining": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
   "dailyPathNextStep": "Nächster Schritt · ~{minutes} Min.",
-  "@dailyPathNextStep": {"placeholders": {"minutes": {"type": "int"}}},
+  "@dailyPathNextStep": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
   "dailyPathCompleteCelebration": "🎉 Heutiger Lernpfad geschafft!",
   "dailyPathCompleteCelebrationWithStreak": "🎉 Heutiger Lernpfad geschafft! Halte deine 🔥{count}-Tage-Serie.",
-  "@dailyPathCompleteCelebrationWithStreak": {"placeholders": {"count": {"type": "int"}}},
+  "@dailyPathCompleteCelebrationWithStreak": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "dailyPathEmptyTitle": "Heutigen Lernpfad starten",
   "dailyPathEmptyDescription": "Ein paar Minuten täglich halten deine Serie und deinen Fortschritt aufrecht.",
   "dailyPathEmptyCta": "Jetzt lernen",
@@ -160,7 +235,13 @@
   "resetLinkInvalid": "Dieser Link zum Zurücksetzen des Passworts ist ungültig oder abgelaufen.",
   "resendResetLink": "Link erneut senden",
   "checkEmailForResetLink": "Prüfe {email}, um dein Passwort zurückzusetzen.",
-  "@checkEmailForResetLink": {"placeholders": {"email": {"type": "String"}}},
+  "@checkEmailForResetLink": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
   "showPasswordTooltip": "Passwort anzeigen",
   "hidePasswordTooltip": "Passwort verbergen",
   "newPasswordHint": "Mindestens 8 Zeichen",
@@ -177,12 +258,48 @@
   "allTime": "Gesamtrangliste",
   "couldNotLoadLeaderboard": "Rangliste konnte nicht geladen werden. Bitte versuche es erneut.",
   "noLeaderboardEntries": "Es gibt noch keine Ranglisteneinträge.",
+  "leaderboardSubtitle": "Miss dich beim wöchentlichen XP mit der Community und Freunden.",
+  "leaderboardWeeklyHeader": "Wochenrangliste",
+  "leaderboardResetCountdown": "Reset in {countdown}",
+  "@leaderboardResetCountdown": {
+    "placeholders": {
+      "countdown": {
+        "type": "String"
+      }
+    }
+  },
+  "leaderboardTabGlobal": "Global",
+  "leaderboardTabFriends": "Freunde",
+  "leaderboardHallOfFameToggle": "Letzte Woche",
+  "leaderboardNoFriends": "Noch keine Freunde in der Rangliste — füge Freunde hinzu, um zu vergleichen!",
+  "leaderboardFindFriends": "Freunde finden →",
+  "leaderboardRankNew": "Neu",
+  "leaderboardDetailTitle": "Aufschlüsselung des Wochenscores",
+  "leaderboardDetailComposite": "Gesamtpunktzahl",
+  "leaderboardDetailRawXp": "Roh-XP",
+  "leaderboardDetailXp": "Wochen-XP",
+  "leaderboardDetailExam": "Prüfungspunkte",
+  "leaderboardDetailMission": "Missionen",
+  "leaderboardDetailVocab": "Wiederholte Wörter",
+  "leaderboardDetailStreak": "Serie",
+  "leaderboardDetailTopContributor": "Größter Beitrag",
+  "leaderboardDetailDampenedNote": "Neue Konten haben vorübergehend einen reduzierten Rang. Schließe eine 3-Tage-Serie, 3 Missionen oder 1 Prüfung ab, um den vollen Rangwert freizuschalten.",
+  "leaderboardDetailViewProfile": "Profil ansehen",
   "exam": "Prüfung",
   "examPractice": "Prüfungsvorbereitung",
   "loadingExam": "Prüfung wird geladen…",
   "examQuestionPalette": "Fragenübersicht",
   "examQuestionProgress": "Frage {current} / {total}",
-  "@examQuestionProgress": {"placeholders": {"current": {"type": "int"}, "total": {"type": "int"}}},
+  "@examQuestionProgress": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
   "previous": "Zurück",
   "next": "Weiter",
   "done": "Fertig",
@@ -192,7 +309,13 @@
   "exit": "Verlassen",
   "submitExamTitle": "Prüfung abgeben?",
   "submitExamUnanswered": "Du hast noch {count} unbeantwortete Fragen. Trotzdem abgeben?",
-  "@submitExamUnanswered": {"placeholders": {"count": {"type": "int"}}},
+  "@submitExamUnanswered": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "reviewAnswers": "Antworten prüfen",
   "allFilters": "Alle",
   "couldNotLoadExams": "Prüfungen konnten nicht geladen werden. Bitte versuche es erneut.",
@@ -212,37 +335,94 @@
   "examShortDescOsd": "Österreichisches Deutschzertifikat",
   "examRecommendedLabel": "Empfohlen",
   "examLevelMismatchTitle": "Du bist aktuell auf Niveau {level}",
-  "@examLevelMismatchTitle": {"placeholders": {"level": {"type": "String"}}},
+  "@examLevelMismatchTitle": {
+    "placeholders": {
+      "level": {
+        "type": "String"
+      }
+    }
+  },
   "examLevelMismatchBody": "Die Prüfung {level} könnte für dein aktuelles Niveau zu schwer sein. Trotzdem fortfahren?",
-  "@examLevelMismatchBody": {"placeholders": {"level": {"type": "String"}}},
+  "@examLevelMismatchBody": {
+    "placeholders": {
+      "level": {
+        "type": "String"
+      }
+    }
+  },
   "examLevelMismatchCancel": "Abbrechen",
   "examLevelMismatchContinue": "Trotzdem fortfahren",
   "examSectionBundleCount": "{count} Prüfungssätze",
-  "@examSectionBundleCount": {"placeholders": {"count": {"type": "int"}}},
+  "@examSectionBundleCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "examBundleArapTitle": "A-RAP",
   "examBundleArapDesc": "Offizielle Übungsprüfungen · Lesen · Hören · Schreiben · Sprachbausteine",
   "examBundleSpeakingTitle": "Sprechen",
   "examBundleSpeakingDesc": "Sprechen nach Themen üben",
   "examBundleComingSoon": "Bald verfügbar",
   "examSetCount": "{count} Prüfungssätze",
-  "@examSetCount": {"placeholders": {"count": {"type": "int"}}},
+  "@examSetCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "examSetCompletedSuffix": "{count} abgeschlossen",
-  "@examSetCompletedSuffix": {"placeholders": {"count": {"type": "int"}}},
+  "@examSetCompletedSuffix": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "examSetInProgressSuffix": "{count} in Bearbeitung",
-  "@examSetInProgressSuffix": {"placeholders": {"count": {"type": "int"}}},
+  "@examSetInProgressSuffix": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "examSetEmptyTitle": "Noch keine Prüfungen",
   "examSetEmptyBody": "Für dieses Zertifikat und Niveau gibt es noch keine Prüfungen.",
   "examSetPagePrev": "Zurück",
   "examSetPageNext": "Weiter",
   "examSetPageIndicator": "Seite {current} / {total}",
-  "@examSetPageIndicator": {"placeholders": {"current": {"type": "int"}, "total": {"type": "int"}}},
+  "@examSetPageIndicator": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
   "examPartsCount": "{count} Teile",
-  "@examPartsCount": {"placeholders": {"count": {"type": "int"}}},
+  "@examPartsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "examPartActionTest": "Prüfungssimulation",
   "examPartActionPractice": "Üben",
   "examSkillListEmptyTitle": "Noch keine Prüfungen",
   "examSkillListEmptyBody": "Es gibt noch keinen Teil {skill}.",
-  "@examSkillListEmptyBody": {"placeholders": {"skill": {"type": "String"}}},
+  "@examSkillListEmptyBody": {
+    "placeholders": {
+      "skill": {
+        "type": "String"
+      }
+    }
+  },
   "examSkillListVocabChip": "Wortschatz",
   "examLocked": "Gesperrt",
   "examScheduleTitle": "Lernpartner finden",
@@ -250,7 +430,13 @@
   "examMyRegistrationsTab": "Meine Angaben",
   "examBuddyListEmpty": "Noch niemand hat einen Prüfungstermin registriert.",
   "examBuddyDaysUntil": "Noch {days} Tage",
-  "@examBuddyDaysUntil": {"placeholders": {"days": {"type": "int"}}},
+  "@examBuddyDaysUntil": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
   "examBuddyPast": "Bereits geprüft",
   "examRegistrationAdd": "Prüfungstermin hinzufügen",
   "examRegistrationDelete": "Prüfungstermin löschen",
@@ -263,22 +449,46 @@
   "communityExamsEmpty": "Noch keine Community-Prüfungen.",
   "communityExamDetailTitle": "Prüfungsdetails",
   "communityExamContributedBy": "Beigetragen von {name}",
-  "@communityExamContributedBy": {"placeholders": {"name": {"type": "String"}}},
+  "@communityExamContributedBy": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "deThiListTitle": "Öffentliche Prüfungen",
   "deThiListEmpty": "Noch keine öffentlichen Prüfungen.",
   "deThiNotFound": "Diese Prüfung wurde nicht gefunden.",
   "deThiRevealAnswer": "Antwort anzeigen",
   "deThiCorrectAnswer": "Richtige Antwort: {answer}",
-  "@deThiCorrectAnswer": {"placeholders": {"answer": {"type": "String"}}},
+  "@deThiCorrectAnswer": {
+    "placeholders": {
+      "answer": {
+        "type": "String"
+      }
+    }
+  },
   "examDictationPickerTitle": "Hörprüfung auswählen",
   "examDictationTitle": "Diktatübung",
   "examDictationNotFound": "Für diese Prüfung gibt es noch keine Diktatdaten.",
   "examDictationNoWords": "Noch keine passenden Wörter zum Üben.",
   "examDictationCheck": "Prüfen",
   "examQuestionsCount": "{count} Fragen",
-  "@examQuestionsCount": {"placeholders": {"count": {"type": "int"}}},
+  "@examQuestionsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "examDurationMinutes": "{count} Min.",
-  "@examDurationMinutes": {"placeholders": {"count": {"type": "int"}}},
+  "@examDurationMinutes": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "practiceExam": "Üben",
   "examTestMode": "Test",
   "examReviewMode": "Prüfen",
@@ -287,7 +497,19 @@
   "audioPlay": "Audio abspielen",
   "audioPause": "Audio pausieren",
   "audioPlayCounter": "{used}/{max} Wiedergaben · noch {remaining}",
-  "@audioPlayCounter": {"placeholders": {"used": {"type": "int"}, "max": {"type": "int"}, "remaining": {"type": "String"}}},
+  "@audioPlayCounter": {
+    "placeholders": {
+      "used": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      },
+      "remaining": {
+        "type": "String"
+      }
+    }
+  },
   "audioPlayLimitReached": "Du hast alle erlaubten Wiedergaben verbraucht.",
   "examResults": "Ergebnis",
   "couldNotLoadExamResult": "Das Prüfungsergebnis konnte nicht geladen werden. Bitte versuche es erneut.",
@@ -296,25 +518,64 @@
   "notPassedExam": "NICHT BESTANDEN",
   "examAnswered": "Beantwortet",
   "examAnsweredQuestions": "{answered}/{total} Fragen",
-  "@examAnsweredQuestions": {"placeholders": {"answered": {"type": "int"}, "total": {"type": "int"}}},
+  "@examAnsweredQuestions": {
+    "placeholders": {
+      "answered": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
   "examTime": "Zeit",
   "examCorrectRate": "Richtig beantwortet",
   "examSectionAnalysis": "Auswertung nach Teilen",
   "examSectionReading": "Lesen",
   "examSectionListening": "Hören",
   "examSectionSummary": "{correct}/{total} richtig · {minutes} Min.",
-  "@examSectionSummary": {"placeholders": {"correct": {"type": "int"}, "total": {"type": "int"}, "minutes": {"type": "int"}}},
+  "@examSectionSummary": {
+    "placeholders": {
+      "correct": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      },
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
   "reviewExam": "Prüfung ansehen",
   "retryExam": "Erneut versuchen",
   "examCorrect": "Richtig",
   "examNotCorrect": "Nicht richtig",
   "examQuestionNumber": "Frage {number}",
-  "@examQuestionNumber": {"placeholders": {"number": {"type": "int"}}},
+  "@examQuestionNumber": {
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
   "matchingSelectRight": "Wähle rechts eine Zuordnung für Element {number}",
-  "@matchingSelectRight": {"placeholders": {"number": {"type": "int"}}},
+  "@matchingSelectRight": {
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
   "removeMatch": "Zuordnung entfernen",
   "examGapNumber": "Lücke {number}",
-  "@examGapNumber": {"placeholders": {"number": {"type": "int"}}},
+  "@examGapNumber": {
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
   "takeMockExam": "Probeprüfung",
   "learn": "Lernen",
   "learningJourney": "Lernreise",
@@ -327,9 +588,21 @@
   "coursesAllSection": "Alle Kurse",
   "coursesEmptyCatalog": "Noch keine Kurse vorhanden.",
   "coursesLessonsCount": "{count} Lektionen",
-  "@coursesLessonsCount": {"placeholders": {"count": {"type": "int"}}},
+  "@coursesLessonsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "coursesLessonsStarted": "{count} Lektionen begonnen",
-  "@coursesLessonsStarted": {"placeholders": {"count": {"type": "int"}}},
+  "@coursesLessonsStarted": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "coursesNoLessonsYet": "Dieser Kurs hat noch keine Lektionen.",
   "coursesLessonCompleted": "Abgeschlossen",
   "coursesMarkComplete": "Als abgeschlossen markieren",
@@ -337,7 +610,13 @@
   "coursesVideoWebOnly": "Das Video dieser Lektion ist derzeit nur im Web verfügbar.",
   "coursesVocabularyTitle": "Lektionswortschatz",
   "coursesExercisesHint": "{count} interaktive Übungen — verfügbar im Web.",
-  "@coursesExercisesHint": {"placeholders": {"count": {"type": "int"}}},
+  "@coursesExercisesHint": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "coursesNotesLabel": "Deine Notizen",
   "coursesNotesHint": "Notizen zu dieser Lektion...",
   "coursesNotesSave": "Notiz speichern",
@@ -345,7 +624,178 @@
   "coursesNotesSaveFailed": "Notiz konnte nicht gespeichert werden, versuche es erneut.",
   "coursesSignInRequired": "Melde dich an, um Fortschritt und Notizen zu speichern.",
   "coursesLessonNumber": "Lektion {number}",
-  "@coursesLessonNumber": {"placeholders": {"number": {"type": "int"}}},
+  "@coursesLessonNumber": {
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+  "coursesPremiumLabel": "Premium",
+  "coursesViewContent": "Inhalt ansehen",
+  "coursesUnlockArrow": "Freischalten →",
+  "coursesViewArrow": "Ansehen →",
+  "coursesHubSubtitle": "Deutsch lernen mit Video + interaktiven Übungen der Deutschen Welle",
+  "coursesCount": "{count} Kurse",
+  "@coursesCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "coursesLessonsCountPlus": "{count}+ Lektionen",
+  "@coursesLessonsCountPlus": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "coursesSearchHint": "Kurse suchen...",
+  "coursesCollapse": "Einklappen",
+  "coursesShowMore": "{count} weitere Kurse anzeigen",
+  "@coursesShowMore": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "coursesSearchResultsCount": "{count} Ergebnisse für \"{query}\"",
+  "@coursesSearchResultsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "coursesSearchNoResults": "Keine Ergebnisse für \"{query}\"",
+  "@coursesSearchNoResults": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "coursesUpsellHubTitle": "Alle {count} Kurse freischalten",
+  "@coursesUpsellHubTitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "coursesUpsellHubSubtitle": "Du nutzt {limit} kostenlose Kurse. Upgrade für Zugriff auf alle Inhalte.",
+  "@coursesUpsellHubSubtitle": {
+    "placeholders": {
+      "limit": {
+        "type": "int"
+      }
+    }
+  },
+  "coursesUpsellCta": "Upgrade",
+  "coursesLevelHeading": "Level {label}",
+  "@coursesLevelHeading": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "coursesLevelEmpty": "Noch keine Daten für dieses Level.",
+  "coursesLessonNumberShort": "Lektion {number}",
+  "@coursesLessonNumberShort": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  },
+  "coursesPaginationPrev": "← Zurück",
+  "coursesPaginationNext": "Weiter →",
+  "coursesPaginationInfo": "Seite {page}/{totalPages} · Zeige {start}–{end}",
+  "@coursesPaginationInfo": {
+    "placeholders": {
+      "page": {
+        "type": "int"
+      },
+      "totalPages": {
+        "type": "int"
+      },
+      "start": {
+        "type": "int"
+      },
+      "end": {
+        "type": "int"
+      }
+    }
+  },
+  "coursesProgressTitle": "Lernfortschritt",
+  "coursesProgressVideosWatched": "Videos angesehen",
+  "coursesProgressLessonsStarted": "Lektionen begonnen",
+  "coursesUpsellDetailTitle": "Alle {count} Lektionen freischalten.",
+  "@coursesUpsellDetailTitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "coursesUpsellDetailSubtitle": "Du siehst {limit} kostenlose Lektionen.",
+  "@coursesUpsellDetailSubtitle": {
+    "placeholders": {
+      "limit": {
+        "type": "int"
+      }
+    }
+  },
+  "coursesLessonNotStarted": "Nicht begonnen",
+  "coursesLessonNoVideo": "Diese Lektion hat noch kein Video.",
+  "coursesLessonStripTitle": "Lektionsliste",
+  "coursesTranscriptTitle": "Untertitel",
+  "coursesTranscriptCopyDe": "Deutsch kopieren",
+  "coursesTranscriptCopyVi": "Vietnamesisch kopieren",
+  "coursesTranscriptHideVi": "VI ausblenden",
+  "coursesTranscriptShowVi": "VI anzeigen",
+  "coursesTranscriptEmpty": "Diese Lektion hat noch keine Untertitel.",
+  "coursesVocabularyCount": "Vokabeln ({count})",
+  "@coursesVocabularyCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "coursesVocabularyEmpty": "Diese Lektion hat noch keine Vokabelliste.",
+  "coursesCommentsTitle": "Kommentare",
+  "coursesCommentsError": "Kommentare konnten nicht geladen werden.",
+  "coursesCommentsEmpty": "Noch keine Kommentare.",
+  "coursesCommentsPlaceholder": "Kommentar schreiben...",
+  "coursesCommentsSendError": "Kommentar konnte nicht gesendet werden, versuche es erneut.",
+  "coursesLessonVideoDone": "✓ Video abgeschlossen",
+  "coursesLessonMarkVideoDone": "🎉 Video als abgeschlossen markieren",
+  "coursesLessonWatchHint": "⏱️ Sieh mindestens 80% des Videos, um es abzuschließen",
+  "coursesLessonSaving": "Speichern...",
+  "coursesProgressSaveCta": "Fortschritt speichern",
+  "coursesProgressSaved": "Fortschritt gespeichert",
+  "coursesProgressSaveFailed": "Speichern fehlgeschlagen",
+  "coursesLessonHeading": "Lektion {number}: {name}",
+  "@coursesLessonHeading": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      },
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "coursesLockedLessonTitle": "Lektion erfordert Premium",
+  "coursesLockedLessonDescription": "Diese Lektion liegt außerhalb des kostenlosen Limits. Upgrade, um alle Inhalte freizuschalten.",
   "missionComplete": "Aufgabe abgeschlossen!",
   "noMissionRounds": "Die heutige Wortschatzlektion enthält keine Lernrunden.",
   "startPractice": "Übung beginnen",
@@ -381,9 +831,41 @@
   "accuracy": "Genauigkeit",
   "playAgain": "Nochmal spielen",
   "missionCompletedXp": "Abgeschlossen · {xp} XP",
-  "@missionCompletedXp": {"placeholders": {"xp": {"type": "int"}}},
+  "@missionCompletedXp": {
+    "placeholders": {
+      "xp": {
+        "type": "int"
+      }
+    }
+  },
   "missionRoundsWords": "{rounds} Runden · {words} Wörter",
-  "@missionRoundsWords": {"placeholders": {"rounds": {"type": "int"}, "words": {"type": "int"}}},
+  "@missionRoundsWords": {
+    "placeholders": {
+      "rounds": {
+        "type": "int"
+      },
+      "words": {
+        "type": "int"
+      }
+    }
+  },
+  "missionResumeTitle": "Unerledigtes fortsetzen",
+  "missionResumeContinueCta": "Zur Vokabelrunde",
+  "missionCompleteTitle": "Geschafft!",
+  "missionCompleteSubtitle": "Vokabelschritt fertig — der heutige Pfad hat noch weitere Übungsschritte",
+  "missionXpBadge": "+{xp} XP",
+  "@missionXpBadge": {
+    "placeholders": {
+      "xp": {
+        "type": "int"
+      }
+    }
+  },
+  "missionClimbedTitle": "Heute aufgestiegen:",
+  "missionStreakUpdated": "🔥 Die heutige Streak wurde aktualisiert!",
+  "missionNextStepCta": "Nächster Schritt →",
+  "missionMismatch": "Sitzung stimmt nicht überein. Zurück zum Start.",
+  "missionAlreadyDoneToday": "Die heutige Vokabellektion ist fertig 🎉 Zurück zum Pfad für den nächsten Schritt.",
   "completed": "Abgeschlossen",
   "more": "Mehr",
   "moreFeaturesTitle": "Alle Funktionen",
@@ -424,7 +906,13 @@
   "couldNotLoadMyWords": "Deine Wörter konnten nicht geladen werden. Bitte versuche es erneut.",
   "noWordsForFilter": "In dieser Gruppe gibt es noch keine Wörter.",
   "myWordsCount": "{count, plural, =0{Keine Wörter} =1{1 Wort} other{{count} Wörter}}",
-  "@myWordsCount": {"placeholders": {"count": {"type": "int"}}},
+  "@myWordsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "flashcardDecks": "Karteikartensätze",
   "reviewDueDeckCards": "Fällige Karten wiederholen",
   "emptyDeckCards": "Dieser Satz enthält noch keine Karten.",
@@ -434,7 +922,11 @@
   "editDeck": "Satz bearbeiten",
   "deleteDeck": "Satz löschen",
   "deleteDeckConfirmation": "Möchtest du \"{name}\" wirklich löschen?",
-  "@deleteDeckConfirmation": {"placeholders": {"name": {}}},
+  "@deleteDeckConfirmation": {
+    "placeholders": {
+      "name": {}
+    }
+  },
   "couldNotLoadDecks": "Deine Karteikartensätze konnten nicht geladen werden.",
   "noDecks": "Du hast noch keine Karteikartensätze",
   "noDecksDescription": "Erstelle einen Satz, um Themen deiner Wahl zu lernen.",
@@ -442,13 +934,127 @@
   "deckNameHint": "Zum Beispiel: Wortschatz für Reisen",
   "deckDescriptionOptional": "Beschreibung (optional)",
   "deckDescriptionHint": "Eine kurze Beschreibung dieses Satzes",
+  "deckListSubtitleWithFolders": "{decks} Sätze · {folders} Ordner",
+  "@deckListSubtitleWithFolders": {
+    "placeholders": {
+      "decks": {
+        "type": "int"
+      },
+      "folders": {
+        "type": "int"
+      }
+    }
+  },
+  "deckIntroWhy": "Wörter, die du selbst gespeichert hast, in Sätzen gruppiert.",
+  "deckIntroTodo": "Öffne einen Satz zum Wiederholen oder füge neue Wörter hinzu.",
+  "deckIntroNext": "Wörter kommen auch in den FSRS-Wiederholungsplan.",
+  "deckIntroNextLabel": "Wiederholen",
+  "deckAllDecksTitle": "Alle Sätze",
+  "deckQuickPracticeTitle": "Schnellübung",
+  "deckQuickPracticeCta": "Word Sprint mit deinen gespeicherten Wörtern spielen",
+  "deckStarredTitle": "Favoriten",
+  "deckStarredSubtitle": "Markierte Karten",
+  "deckFoldersTitle": "Ordner",
+  "deckDefaultTooltip": "Standardsatz",
+  "deckSetDefaultTooltip": "Als Standard festlegen",
+  "deckDefaultBadge": "Standard",
+  "deckMoveToFolder": "In Ordner verschieben",
+  "deckActionCreateDeck": "Satz erstellen",
+  "deckActionCreateDeckSubtitle": "Neuen Wortschatz hinzufügen",
+  "deckActionCreateFolder": "Ordner erstellen",
+  "deckActionCreateFolderSubtitle": "Sätze in Gruppen organisieren",
+  "deckActionSpeak": "Zu Notizen sprechen",
+  "deckActionSpeakSubtitle": "Deutsch sprechen → jeder Satz wird eine Karte",
+  "deckFolderName": "Ordnername",
+  "deckFolderNameHint": "z. B. Wortschatz A1",
+  "deckNoFolder": "Kein Ordner",
+  "deckNoSearchResults": "Keine passenden Karten gefunden.",
+  "deckSearchHint": "Wörter suchen...",
+  "deckStarredFilterTooltip": "Nur Favoriten anzeigen",
+  "deckAddCard": "Hinzufügen",
+  "deckCardFormRequired": "Bitte Vorder- und Rückseite ausfüllen.",
+  "deckCardFormSaveError": "Karte konnte nicht gespeichert werden. Bitte erneut versuchen.",
+  "deckEditCardTitle": "Karte bearbeiten",
+  "deckNewCardTitle": "Neue Karte hinzufügen",
+  "deckCardFrontLabel": "Vorderseite (Deutsch)",
+  "deckCardFrontHint": "z. B. das Haus",
+  "deckCardBackLabel": "Rückseite (Vietnamesisch)",
+  "deckCardBackHint": "z. B. Haus",
+  "deckCardExampleLabel": "Beispielsatz (optional)",
+  "deckCardExampleHint": "z. B. Das ist mein Haus.",
+  "deckCardExampleViLabel": "Übersetzung des Beispiels (optional)",
+  "deckFolderEmpty": "Dieser Ordner enthält noch keine Sätze.",
+  "deckStarredEmpty": "Noch keine markierten Karten.",
+  "deckLessonTitle": "Geführte Lektion",
+  "deckLessonBatchProgress": "Runde {current}/{total}",
+  "@deckLessonBatchProgress": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "deckBackToDeck": "Zurück zum Satz",
+  "deckLessonBatchDoneTitle": "Runde geschafft!",
+  "deckLessonBatchDoneSubtitle": "{correct}/{total} richtig",
+  "@deckLessonBatchDoneSubtitle": {
+    "placeholders": {
+      "correct": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "deckLessonFinish": "Fertig",
+  "deckLessonNextBatch": "Nächste Runde",
+  "deckPlayCta": "Spielen",
+  "deckLearnCta": "Lernen",
+  "deckSpeakTitle": "Zu Notizen sprechen",
+  "deckSpeakHelper": "Sprich oder tippe Deutsch — jeder Satz wird eine Karteikarte.",
+  "deckSpeakMicTooltip": "Zum Starten der Aufnahme antippen",
+  "deckSpeakMicComingSoon": "Sprachaufnahme kommt bald",
+  "deckSpeakTextareaHint": "Jede Zeile wird eine Karte...",
+  "deckSpeakDeckNameLabel": "Name des Satzes",
+  "deckSpeakDeckNameHelper": "Jeder Satz wird eine Karte in diesem Satz.",
+  "deckSpeakSavedMessage": "{count} Sätze in einem neuen Satz gespeichert.",
+  "@deckSpeakSavedMessage": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "deckSpeakViewDeck": "Satz ansehen →",
+  "deckSpeakEmptyError": "Gib mindestens einen Satz ein, bevor du speicherst.",
+  "deckSpeakSaveError": "Konnte nicht gespeichert werden. Bitte erneut versuchen.",
+  "deckSpeakSaveCta": "In Notizen speichern",
   "edit": "Bearbeiten",
   "delete": "Löschen",
   "save": "Speichern",
   "wordsCount": "{count} Wörter",
-  "@wordsCount": {"placeholders": {"count": {"type": "int"}}},
+  "@wordsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "learnedWordsProgress": "{learned}/{total} gelernt",
-  "@learnedWordsProgress": {"placeholders": {"learned": {"type": "int"}, "total": {"type": "int"}}},
+  "@learnedWordsProgress": {
+    "placeholders": {
+      "learned": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
   "dailyReview": "Tägliche Wiederholung",
   "flashcardReview": "Karteikarten wiederholen",
   "tapToShowMeaning": "Tippe, um die Bedeutung anzuzeigen",
@@ -458,14 +1064,29 @@
   "noCardsDueToday": "Heute sind keine Karten fällig 🎉",
   "backToHome": "Zurück zur Startseite",
   "reviewStreak": "{count} Tage in Folge! 🔥",
-  "@reviewStreak": {"placeholders": {"count": {"type": "int"}}},
+  "@reviewStreak": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "keepReviewStreak": "Halte deine Serie mit täglicher Wiederholung",
   "due": "Fällig",
   "reviewed": "Wiederholt",
   "startDailyReview": "Wiederholung starten",
   "showMeaning": "Bedeutung anzeigen",
   "reviewProgress": "{current} / {total}",
-  "@reviewProgress": {"placeholders": {"current": {"type": "int"}, "total": {"type": "int"}}},
+  "@reviewProgress": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
   "couldNotSaveReview": "Deine Wiederholung konnte nicht gespeichert werden. Bitte versuche es erneut.",
   "ratingAgain": "Nochmals",
   "ratingAgainHint": "<1 Min.",
@@ -475,12 +1096,80 @@
   "ratingGoodHint": "OK",
   "ratingEasy": "Leicht",
   "ratingEasyHint": "Leicht",
+  "dailyReviewRoundLabel": "Runde {current}/{total}",
+  "@dailyReviewRoundLabel": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "dailyReviewRoundWordCount": "{count} Wörter",
+  "@dailyReviewRoundWordCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "dailyReviewRoundStart": "Starten",
+  "dailyReviewRoundDone": "{gameName} fertig!",
+  "@dailyReviewRoundDone": {
+    "placeholders": {
+      "gameName": {
+        "type": "String"
+      }
+    }
+  },
+  "dailyReviewRoundProgress": "{reviewed}/{total} Wörter wiederholt",
+  "@dailyReviewRoundProgress": {
+    "placeholders": {
+      "reviewed": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "dailyReviewRoundFinish": "Ergebnisse ansehen",
+  "dailyReviewRoundContinue": "Weiter",
+  "dailyReviewRetryBanner": "Wiederhole die Wörter, die du gerade geübt hast.",
+  "dailyReviewEmptyTitle": "Keine Wörter zu wiederholen!",
+  "dailyReviewEmptySubtitle": "Komm später wieder oder übe mehr",
+  "dailyReviewSessionLabel": "Wiederholungssitzung",
+  "dailyReviewStatusExcellent": "Ausgezeichnet",
+  "dailyReviewStatusGood": "Ziemlich gut",
+  "dailyReviewStatusNeedsWork": "Braucht mehr Übung",
+  "dailyReviewCompletedTitle": "Fertig!",
+  "dailyReviewWeakWordsTitle": "Wörter zum Wiederholen",
+  "dailyReviewCtaMore": "Mehr wiederholen",
+  "dailyReviewCtaRetryWeak": "{count} schwache Wörter üben",
+  "@dailyReviewCtaRetryWeak": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "dailyReviewCtaContinueLearning": "Weiterlernen",
+  "dailyReviewCtaListening": "🎧 Hörverständnis üben",
+  "dailyReviewCtaAskAi": "✨ KI zu schwierigen Wörtern fragen",
   "vocabularyLibrary": "Wortschatzbibliothek",
   "vocabulary": "Wortschatz",
   "couldNotLoadVocabulary": "Wortschatz konnte nicht geladen werden. Bitte versuche es erneut.",
   "noVocabulary": "Hier gibt es noch keinen Wortschatz.",
   "cefrLevelsCount": "{count, plural, =1{{count} CEFR-Stufe} other{{count} CEFR-Stufen}}",
-  "@cefrLevelsCount": {"placeholders": {"count": {"type": "int"}}},
+  "@cefrLevelsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "vocabularyByGoal": "Nach Zielen",
   "vocabularyByLevel": "Nach Niveau",
   "vocabularyByTopic": "Nach Thema",
@@ -505,7 +1194,13 @@
   "vocabularyIntroNextLabel": "Wiederholung",
   "vocabularyChooseGroupLabel": "Themengruppe wählen",
   "vocabularyGoalTopicsCount": "{count} Themen",
-  "@vocabularyGoalTopicsCount": {"placeholders": {"count": {"type": "int"}}},
+  "@vocabularyGoalTopicsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "vocabularyTopicSectionTitle": "📚 Wortschatzthemen",
   "vocabularyTopicSectionDescription": "Wähle eine Themengruppe und öffne dann jedes Unterthema nach Niveau.",
   "vocabularyLevelSectionTitle": "🎯 GER-Niveaus",
@@ -518,7 +1213,16 @@
   "vocabularySearchHint": "Wörter suchen...",
   "vocabularyWeakFilter": "Schwach",
   "vocabularyMasteredCount": "{done}/{total} beherrscht",
-  "@vocabularyMasteredCount": {"placeholders": {"done": {"type": "int"}, "total": {"type": "int"}}},
+  "@vocabularyMasteredCount": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
   "vocabularyTabList": "Liste",
   "vocabularyTabMyWords": "Meine Wörter",
   "vocabularyStartLesson": "Neue Wörter lernen",
@@ -531,13 +1235,27 @@
   "myWordsGroupSaved": "Im Notizbuch",
   "myWordsGroupSeen": "Gesehen",
   "myWordsSourceLabel": "Quelle: {source}",
-  "@myWordsSourceLabel": {"placeholders": {"source": {}}},
+  "@myWordsSourceLabel": {
+    "placeholders": {
+      "source": {}
+    }
+  },
   "myWordsMoreCount": "+{count} weitere in dieser Gruppe",
-  "@myWordsMoreCount": {"placeholders": {"count": {"type": "int"}}},
+  "@myWordsMoreCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "myWordsEmptyTitle": "Noch keine Wörter in deinem Bestand",
   "myWordsEmptyDescription": "Schlage Wörter beim Lesen/Ansehen nach oder speichere sie in deinem Notizbuch — sie erscheinen hier.",
   "cefrLevel": "Niveau {level}",
-  "@cefrLevel": {"placeholders": {"level": {}}},
+  "@cefrLevel": {
+    "placeholders": {
+      "level": {}
+    }
+  },
   "cefrBeginner": "Anfänger:in",
   "cefrPreIntermediate": "Grundstufe",
   "cefrIntermediate": "Mittelstufe",
@@ -546,20 +1264,38 @@
   "cefrProficient": "Sehr fortgeschritten",
   "noVocabularyTopics": "Es gibt noch keine Wortschatzthemen.",
   "vocabularyTopicStats": "{label} · {count} Wörter",
-  "@vocabularyTopicStats": {"placeholders": {"label": {}, "count": {"type": "int"}}},
+  "@vocabularyTopicStats": {
+    "placeholders": {
+      "label": {},
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "vocabularyTopicTitle": "Wortschatz: {topic}",
-  "@vocabularyTopicTitle": {"placeholders": {"topic": {}}},
+  "@vocabularyTopicTitle": {
+    "placeholders": {
+      "topic": {}
+    }
+  },
   "noVocabularyInLesson": "In dieser Lektion gibt es noch keinen Wortschatz.",
   "noMatchingVocabulary": "Keine Wörter passen zu deinen Filtern.",
   "clearVocabularyFilters": "Versuche, einen Filter zu entfernen.",
   "searchLessonVocabulary": "Im Unterricht suchen…",
   "allLevels": "Alle",
   "lessonProgress": "Fortschritt: {learned} / {total} Wörter",
-  "@lessonProgress": {"placeholders": {"learned": {"type": "int"}, "total": {"type": "int"}}},
+  "@lessonProgress": {
+    "placeholders": {
+      "learned": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
   "wordMeanings": "Bedeutungen",
   "wordExamples": "Beispiele",
-  "previous": "Zurück",
-  "next": "Weiter",
   "viewVocabularyDetails": "Details anzeigen",
   "flipVocabularyCard": "Karte umdrehen",
   "noMeaning": "Keine Bedeutung verfügbar",
@@ -590,7 +1326,95 @@
   "grammarRelatedLessons": "Verwandte Lektionen",
   "grammarNotFound": "Lektion nicht gefunden.",
   "grammarArticleNotFound": "Artikel nicht gefunden.",
-  "grammarArticles": "Weiterführende Artikel",
+  "grammarSearchInLevelHint": "In {level} suchen...",
+  "@grammarSearchInLevelHint": {
+    "placeholders": {
+      "level": {
+        "type": "String"
+      }
+    }
+  },
+  "grammarSearchResultsCount": "{count} Ergebnisse für „{query}“ — alle Niveaus",
+  "@grammarSearchResultsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "grammarLeaderboardTitleAll": "Bestenliste",
+  "grammarLeaderboardTitleLevel": "Bestenliste {level}",
+  "@grammarLeaderboardTitleLevel": {
+    "placeholders": {
+      "level": {
+        "type": "String"
+      }
+    }
+  },
+  "grammarProgressLabel": "Fortschritt",
+  "grammarProgressLabelLevel": "Fortschritt {level}",
+  "@grammarProgressLabelLevel": {
+    "placeholders": {
+      "level": {
+        "type": "String"
+      }
+    }
+  },
+  "grammarLeaderboardEmpty": "Noch niemand dabei",
+  "grammarYourRank": "Dein Rang: #{rank} · {count} Lektionen",
+  "@grammarYourRank": {
+    "placeholders": {
+      "rank": {
+        "type": "int"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "grammarCompletedOfTotal": "{done}/{total} Lektionen abgeschlossen",
+  "@grammarCompletedOfTotal": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "grammarReadTime": "⏱ {elapsed}s / {minTime}s",
+  "@grammarReadTime": {
+    "placeholders": {
+      "elapsed": {
+        "type": "int"
+      },
+      "minTime": {
+        "type": "int"
+      }
+    }
+  },
+  "grammarScrolled80": "📜 80% gescrollt",
+  "grammarScrollNeeded": "📜 Bis 80% scrollen nötig",
+  "grammarReadGateHint": "Der Button wird aktiv, sobald du 80% des Inhalts gescrollt und die Mindestzeit gelesen hast.",
+  "grammarMarkCompleteXp": "Als erledigt markieren (+5 XP)",
+  "grammarMarkCompleteAgain": "Erneut abschließen",
+  "grammarJustCompleted": "✓ Erledigt",
+  "grammarSaving": "Wird gespeichert...",
+  "grammarArticleSource": "Quelle: deutsch.vn",
+  "grammarPracticeExercises": "Übungen",
+  "grammarExerciseCorrect": "✓ Richtig!",
+  "grammarExerciseWrong": "✗ Falsch. Richtige Antwort: {answer}.",
+  "@grammarExerciseWrong": {
+    "placeholders": {
+      "answer": {
+        "type": "String"
+      }
+    }
+  },
   "gamePractice": "Lernspiele",
   "community": "Community",
   "statistics": "Statistiken",
@@ -626,7 +1450,11 @@
   "signedOutDevice": "Gerät abgemeldet.",
   "signOutDeviceTitle": "Dieses Gerät abmelden?",
   "signOutDeviceBody": "Das Gerät \"{device}\" wird von deinem Konto abgemeldet.",
-  "@signOutDeviceBody": {"placeholders": {"device": {}}},
+  "@signOutDeviceBody": {
+    "placeholders": {
+      "device": {}
+    }
+  },
   "couldNotSignOut": "Abmeldung nicht möglich. Bitte versuche es erneut.",
   "couldNotLoadDevices": "Geräteliste konnte nicht geladen werden.",
   "retry": "Erneut versuchen",
@@ -642,11 +1470,29 @@
   "signOutThisDevice": "Dieses Gerät abmelden",
   "justNow": "Gerade eben",
   "minutesAgo": "Vor {count} Minuten",
-  "@minutesAgo": {"placeholders": {"count": {"type": "int"}}},
+  "@minutesAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "hoursAgo": "Vor {count} Stunden",
-  "@hoursAgo": {"placeholders": {"count": {"type": "int"}}},
+  "@hoursAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "daysAgo": "Vor {count} Tagen",
-  "@daysAgo": {"placeholders": {"count": {"type": "int"}}},
+  "@daysAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "securityDevices": "Sicherheit & Geräte",
   "securityDevicesDescription": "Sitzungen verwalten und Konto löschen",
   "changePassword": "Passwort ändern",
@@ -695,6 +1541,133 @@
   "statsMasteryYoung": "Merken",
   "statsMasteryMature": "Gemeistert",
   "statsMasteryTrendTitle": "Wiederholungen der letzten 30 Tage",
+  "statsScreenSubtitle": "Verfolge deinen Fortschritt, deine Gewohnheiten und deine tägliche Leistung.",
+  "statsOverviewLevelNote": "Schaltet neue Inhalte frei",
+  "statsOverviewTotalXp": "Gesamt-XP",
+  "statsOverviewXpNote": "Angesammelte Erfahrungspunkte",
+  "statsOverviewStreakNote": "Ununterbrochene Lernserie",
+  "statsOverviewBestStreak": "Beste Serie",
+  "statsOverviewBestStreakNote": "Persönlicher Rekord",
+  "statsProgressLevelTitle": "Level-Fortschritt",
+  "statsProgressLevelSubtitle": "Level {level} zu {nextLevel}",
+  "@statsProgressLevelSubtitle": {
+    "placeholders": {
+      "level": {
+        "type": "int"
+      },
+      "nextLevel": {
+        "type": "int"
+      }
+    }
+  },
+  "statsProgressLevelRemaining": "Noch {count} XP bis zum nächsten Level.",
+  "@statsProgressLevelRemaining": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "statsProgressDailyTitle": "Heutiges XP-Ziel",
+  "statsProgressDailySubtitle": "Bleib bei deiner täglichen Lerngewohnheit",
+  "statsProgressDailyDone": "Du hast das heutige Ziel erreicht.",
+  "statsProgressDailyRemaining": "Noch {count} XP bis zum Ziel.",
+  "@statsProgressDailyRemaining": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "statsXpChartWeekTotal": "Gesamt diese Woche: {total} XP",
+  "@statsXpChartWeekTotal": {
+    "placeholders": {
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "statsXpChartMax": "Höchstwert: {max} XP",
+  "@statsXpChartMax": {
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "statsOnlineTimeTitle": "Online-Zeit — letzte 7 Tage",
+  "statsOnlineTimeWeekTotal": "Gesamt diese Woche: {duration}",
+  "@statsOnlineTimeWeekTotal": {
+    "placeholders": {
+      "duration": {
+        "type": "String"
+      }
+    }
+  },
+  "statsOnlineTimeToday": "Heute: {duration}",
+  "@statsOnlineTimeToday": {
+    "placeholders": {
+      "duration": {
+        "type": "String"
+      }
+    }
+  },
+  "statsReviewCardsTitle": "Wiederholungsstatistik",
+  "statsReviewToday": "Wiederholungen heute",
+  "statsReviewTodayNote": "Heute abgeschlossene Wiederholungen",
+  "statsReviewWeek": "Wiederholungen diese Woche",
+  "statsReviewWeekNote": "Gesamt über 7 Tage",
+  "statsReviewAccuracy": "Genauigkeit",
+  "statsReviewAccuracyNote": "Anteil richtiger Antworten",
+  "statsReviewDue": "Fällige Wiederholungen",
+  "statsReviewDueNote": "Fällige Karten",
+  "statsSuggestionsTitle": "Verbesserungsvorschläge",
+  "statsSuggestionStreak": "Starte heute eine neue Serie!",
+  "statsSuggestionListening": "Diese Woche noch kein Hörverständnis geübt!",
+  "statsSuggestionReviewAll": "Übe alle 3 Fertigkeiten gleichmäßig für schnelleren Fortschritt!",
+  "statsSpacedRepetitionTitle": "Wie funktioniert Spaced Repetition?",
+  "statsSpacedRepetitionBody": "Das System nutzt den SM-2-Algorithmus, um deinen Wiederholungsplan zu optimieren. Wörter, die du gut kannst, erscheinen seltener, schwierige Wörter kommen früher wieder. So sparst du Zeit und merkst dir Inhalte langfristig besser.",
+  "statsCefrTitle": "Kompetenzprofil",
+  "statsCefrA1": "Anfänger",
+  "statsCefrA2": "Grundlegende Kenntnisse",
+  "statsCefrB1": "Fortgeschrittene Sprachverwendung",
+  "statsCefrB2": "Selbstständige Sprachverwendung",
+  "statsCefrC1": "Fachkundige Sprachkenntnisse",
+  "statsCefrC2": "Annähernd muttersprachliche Kenntnisse",
+  "statsCefrWordsLearned": "{count} Wörter wiederholt",
+  "@statsCefrWordsLearned": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "statsNearAchievementsTitle": "Fast geschafft",
+  "statsAchievementsGridTitle": "Erfolgssammlung",
+  "statsLeaderboardTableTitle": "Rangliste",
+  "statsLeaderboardTop": "Top {count}",
+  "@statsLeaderboardTop": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "statsLeaderboardYou": "Du",
+  "errorPatternsSubtitle": "Grammatikfehler-Übersicht aus deinen Schreib-, Sprech- und Prüfungsantworten.",
+  "errorPatternsIntroWhy": "Eine Zusammenfassung häufiger Fehler beim Schreiben, von der KI bewertet.",
+  "errorPatternsIntroTodo": "Wähle einen Fehlertyp aus und übe genau diesen.",
+  "errorPatternsIntroNext": "Behebst du einen Fehlertyp, tritt er seltener auf.",
+  "errorPatternsDrillWriting": "Schreiben üben",
+  "errorPatternsDrillArtikel": "Der/Die/Das üben",
+  "errorPatternsDrillSentenceBuilder": "Sätze üben",
+  "errorPatternsDrillWordOrder": "Wortstellung üben",
+  "errorPatternsDrillPreposition": "Präpositionen üben",
+  "errorPatternsDrillNoun": "Substantive wiederholen",
+  "errorPatternsDrillSpelling": "Rechtschreibung üben",
+  "errorPatternsDrillGrammar": "Grammatik wiederholen",
+  "errorPatternsDrillTense": "Zeitformen üben",
+  "errorPatternsDrillExam": "Prüfung machen",
   "errorSourceSchreibenExam": "Schreibprüfung",
   "errorSourceSprechen": "Sprechen",
   "errorSourceSentenceBuilder": "Satzübung",
@@ -714,7 +1687,13 @@
   "errorPatternsEmptyTitle": "Noch keine Fehlerdaten",
   "errorPatternsEmptyBody": "Übe Satzbau oder mache eine Prüfung, um mit der Verfolgung zu beginnen!",
   "errorPatternsTimesCount": "{count} Mal",
-  "@errorPatternsTimesCount": {"placeholders": {"count": {"type": "int"}}},
+  "@errorPatternsTimesCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "errorPatternsExample": "Beispiel",
   "dailyQuoteTitle": "Zitat des Tages",
   "dailyQuoteCopySuccess": "Zitat kopiert!",
@@ -732,21 +1711,55 @@
   "practiceListeningPrompt": "Karte antippen, um sie umzudrehen und die Bedeutung zu sehen",
   "practiceFeedbackCorrect": "Richtig!",
   "practiceFeedbackWrong": "Falsch — die Antwort war \"{word}\"",
-  "@practiceFeedbackWrong": {"placeholders": {"word": {"type": "String"}}},
+  "@practiceFeedbackWrong": {
+    "placeholders": {
+      "word": {
+        "type": "String"
+      }
+    }
+  },
   "practiceMatchingProgress": "{matched}/{total} zugeordnet · {attempts} Versuche",
-  "@practiceMatchingProgress": {"placeholders": {"matched": {"type": "int"}, "total": {"type": "int"}, "attempts": {"type": "int"}}},
+  "@practiceMatchingProgress": {
+    "placeholders": {
+      "matched": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      },
+      "attempts": {
+        "type": "int"
+      }
+    }
+  },
   "practiceMatchingNeedsMoreWords": "Dieses Set braucht mindestens 2 Wörter zum Zuordnen.",
   "practiceResultsTitle": "Fertig!",
   "practiceAccuracySummary": "{correct}/{total} richtig",
-  "@practiceAccuracySummary": {"placeholders": {"correct": {"type": "int"}, "total": {"type": "int"}}},
+  "@practiceAccuracySummary": {
+    "placeholders": {
+      "correct": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
   "practiceRestart": "Erneut üben",
   "practiceBackToDeck": "Zurück zum Set",
+  "practiceChangeMode": "Modus ändern",
   "practiceBackToGames": "Zurück zu Spielen",
   "practiceNotEnoughWords": "Gerade nicht genug Wörter zum Üben.",
   "practiceListenPill": "Anhören",
   "practiceHintPill": "Tipp",
   "practiceHintLetter": "Beginnt mit \"{letter}\"",
-  "@practiceHintLetter": {"placeholders": {"letter": {"type": "String"}}},
+  "@practiceHintLetter": {
+    "placeholders": {
+      "letter": {
+        "type": "String"
+      }
+    }
+  },
   "practiceRetryAnswer": "Erneut versuchen",
   "practiceMicTooltip": "Zum Antworten sprechen",
   "practiceListeningNotYet": "Noch nicht",
@@ -755,19 +1768,112 @@
   "practiceListeningMeaningLabel": "Bedeutung",
   "practiceMatchingColumnDe": "DEUTSCH",
   "practiceMatchingColumnVi": "VIETNAMESISCH",
-  "subtitleWordsTitle": "Wörter aus Untertiteln",
-  "subtitleWordsEmpty": "Noch keine neuen Wörter aus Untertiteln. Videos mit Untertiteln ansehen, um hier Wörter zu sammeln.",
+  "subtitleWordsTitle": "In Videos gesehene Wörter",
+  "subtitleWordsSubtitle": "Wörter, die du beim Videoschauen gesehen hast — mit einem Tipp zur Wiederholung hinzufügen.",
+  "subtitleWordsEmpty": "Noch keine Untertitel-Wörter zum Hinzufügen.",
+  "subtitleWordsEmptyHint": "Schau deutsche Videos und tippe auf Wörter, um sie hier zu speichern!",
   "subtitleWordsSeenCount": "{count}x gesehen",
-  "@subtitleWordsSeenCount": {"placeholders": {"count": {"type": "int"}}},
-  "subtitleWordsAddSelected": "{count} zur Wiederholung hinzufügen",
-  "@subtitleWordsAddSelected": {"placeholders": {"count": {"type": "int"}}},
-  "subtitleWordsAddedCount": "{count} Wörter zur Wiederholungsliste hinzugefügt",
-  "@subtitleWordsAddedCount": {"placeholders": {"count": {"type": "int"}}},
+  "@subtitleWordsSeenCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "subtitleWordsLevelAll": "Alle",
+  "subtitleWordsLevelCount": "{level} · {count}",
+  "@subtitleWordsLevelCount": {
+    "placeholders": {
+      "level": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "subtitleWordsSelectedCount": "{count} ausgewählt",
+  "@subtitleWordsSelectedCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "subtitleWordsCountLabel": "{count} Wörter",
+  "@subtitleWordsCountLabel": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "subtitleWordsSelectAll": "Alle auswählen",
+  "subtitleWordsClearSelection": "Auswahl aufheben",
+  "subtitleWordsAddSelected": "{count} Wörter zur Wiederholung hinzufügen",
+  "@subtitleWordsAddSelected": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "subtitleWordsAdding": "Wird hinzugefügt...",
+  "subtitleWordsAddedCount": "{count} Wörter hinzugefügt!",
+  "@subtitleWordsAddedCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "subtitleWordsAddFailed": "Die ausgewählten Wörter konnten nicht gespeichert werden. Bitte erneut versuchen.",
+  "practiceModeComingSoon": "Demnächst",
+  "practiceModeSentence": "Sätze schreiben",
+  "practiceModeSentenceDesc": "Hören + einen ganzen Satz übersetzen",
+  "practiceModeClozeDesc": "Das fehlende Wort einfügen",
+  "practiceModeListeningDesc": "Hören und die Karte zum Raten umdrehen",
+  "practiceModeMatchingDesc": "Deutsche Wörter mit ihrer Bedeutung verbinden",
+  "practiceModeWritingDesc": "Hören + Bedeutung sehen → das deutsche Wort tippen",
+  "practiceModeRunner": "Deutsch Runner",
+  "practiceModeRunnerDesc": "Ein Vokabelspiel spielen",
+  "practiceModeFade": "Ausblenden",
+  "practiceModeFadeDesc": "Text blendet aus — den ganzen Satz erneut tippen",
+  "practiceModeDictation": "Diktat",
+  "practiceModeDictationDesc": "Einen Satz hören und Wort für Wort tippen",
+  "practiceModeChaining": "Satzkette",
+  "practiceModeChainingDesc": "Die Reihenfolge merken: dieser Satz → der nächste",
+  "practiceModeGist": "Aus der Bedeutung schreiben",
+  "practiceModeGistDesc": "Bedeutung + Hinweis sehen → den Satz umschreiben",
+  "practiceModeSpeaking": "Sprechen",
+  "practiceModeSpeakingDesc": "Den Satz laut vorlesen, bewertet werden",
+  "practiceIncludeGraduated": "Gelernte Wörter einbeziehen",
+  "practiceCardsReady": "{count} Karten bereit",
+  "@practiceCardsReady": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "practiceXpEarned": "+{xp} XP",
+  "@practiceXpEarned": {
+    "placeholders": {
+      "xp": {
+        "type": "int"
+      }
+    }
+  },
   "back": "Zurück",
   "focusSessionTitle": "Fokus-Sitzung",
   "focusSessionSummary": "Du hast heute {count} Dinge zu üben.",
-  "@focusSessionSummary": {"placeholders": {"count": {"type": "int"}}},
+  "@focusSessionSummary": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "focusSessionDueWordsTitle": "Fällige Wiederholungen",
   "focusSessionDueWordsEmpty": "Keine Wörter fällig 🎉",
   "focusSessionReviewNow": "Jetzt wiederholen",
@@ -779,9 +1885,42 @@
   "focusSessionWeaknessesTitle": "Häufige Fehler",
   "focusSessionWeaknessesEmpty": "Noch keine Fehlerdaten — übe Schreiben für eine Analyse",
   "focusSessionWeaknessesCount": "{count} häufige Grammatikfehlertypen",
-  "@focusSessionWeaknessesCount": {"placeholders": {"count": {"type": "int"}}},
+  "@focusSessionWeaknessesCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "focusSessionCaughtUpTitle": "Du machst das großartig!",
   "focusSessionCaughtUpBody": "Gerade keine Schwachstellen zu üben. Mach einen Test oder lerne neue Wörter für personalisierte Vorschläge.",
+  "focusSessionSubtitle": "Das solltest du jetzt üben, basierend auf deinen echten Schwachstellen.",
+  "focusSessionGoalDefaultCta": "Prüfungsziel setzen für einen genaueren Pfad →",
+  "focusSessionGoalWithDays": "🎯 Weil du {level} in {days} Tagen machst",
+  "@focusSessionGoalWithDays": {
+    "placeholders": {
+      "level": {
+        "type": "String"
+      },
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "focusSessionGoalNoDays": "🎯 Wegen deines {level}-Ziels",
+  "@focusSessionGoalNoDays": {
+    "placeholders": {
+      "level": {
+        "type": "String"
+      }
+    }
+  },
+  "focusSessionNoHistoryTitle": "Nicht genug Daten für Schwachstellen",
+  "focusSessionNoHistoryBody": "Du hast noch keine Wiederholungshistorie — speichere ein paar Wörter und mach eine Wiederholung, damit das System deine echten Schwachstellen erkennt.",
+  "focusSessionSaveWordsCta": "Neue Wörter speichern",
+  "focusSessionReviewNowCta": "Jetzt wiederholen",
+  "focusSessionLearnNewWordsCta": "Neue Wörter lernen",
+  "focusSessionWeaknessesFooterLink": "Häufige Fehler ansehen",
   "learnerModelTitle": "Lernerprofil",
   "learnerModelCardsSuffix": "Karten gemeistert",
   "learnerModelMasteryHint": "Gemeistert = stabile Erinnerung seit 21+ Tagen (FSRS).",
@@ -791,13 +1930,47 @@
   "learnerModelCoverageTitle": "Abdeckung nach Niveau",
   "learnerModelGrammarWeaknessesTitle": "Grammatikschwächen",
   "learnerModelErrorCount": "{count} Fehler",
-  "@learnerModelErrorCount": {"placeholders": {"count": {"type": "int"}}},
+  "@learnerModelErrorCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "learnerModelCanDoSectionTitle": "Was du auf Deutsch kannst",
   "learnerModelCanDoEmpty": "Noch keine Daten — übe Schreiben/Sprechen, um die Leiter hochzuklettern!",
   "learnerModelWeakWordsTitle": "Schwachstellen zum Üben",
   "learnerModelWeakWordsEmpty": "Keine Wörter brauchen zusätzliches Üben. Sehr gut!",
   "learnerModelLapsesCount": "{count} Aussetzer",
-  "@learnerModelLapsesCount": {"placeholders": {"count": {"type": "int"}}},
+  "learnerModelSubtitle": "Beherrschung, Can-do-Punkte und Verbesserungsbereiche.",
+  "learnerModelReadinessTitle": "Geschätzte Prüfungsbereitschaft",
+  "learnerModelReadinessBasis": "Basierend auf: deinen letzten Übungsprüfungsergebnissen.",
+  "learnerModelReadinessNoData": "Noch nicht genug Daten — mach ein paar Übungsprüfungen, um die Bereitschaft zu schätzen.",
+  "learnerModelLevelPracticeCta": "Niveau {level} üben →",
+  "@learnerModelLevelPracticeCta": {
+    "placeholders": {
+      "level": {
+        "type": "String"
+      }
+    }
+  },
+  "learnerModelWeeklyRecapTitle": "Die letzte Woche",
+  "learnerModelWeeklyRecapEmpty": "Diese Woche noch kein Aufstieg — übe mehr, um aufzusteigen!",
+  "learnerModelWeeklyRecapStreak": "🔥 {days}-Tage-Produktionsserie",
+  "@learnerModelWeeklyRecapStreak": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "@learnerModelLapsesCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "canDoStatusSpoken": "Spricht es 🗣️",
   "canDoStatusMastered": "Kann es ✍️",
   "canDoStatusInProgress": "In Arbeit",
@@ -805,11 +1978,28 @@
   "canDoPracticeNow": "Jetzt üben",
   "canDoPracticeTitle": "Ein Can-do üben",
   "canDoPracticeProgress": "Satz {current}/{total}",
-  "@canDoPracticeProgress": {"placeholders": {"current": {"type": "int"}, "total": {"type": "int"}}},
+  "@canDoPracticeProgress": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
   "canDoPracticeInstructionStructure": "Schreibe einen Satz mit {pattern}",
-  "@canDoPracticeInstructionStructure": {"placeholders": {"pattern": {}}},
+  "@canDoPracticeInstructionStructure": {
+    "placeholders": {
+      "pattern": {}
+    }
+  },
   "canDoPracticeInstructionVocab": "Schreibe einen Satz mit dem Wort «{word}»",
-  "@canDoPracticeInstructionVocab": {"placeholders": {"word": {}}},
+  "@canDoPracticeInstructionVocab": {
+    "placeholders": {
+      "word": {}
+    }
+  },
   "canDoPracticeInputHint": "Schreibe deinen deutschen Satz…",
   "canDoPracticeError": "Satz konnte nicht bewertet werden — versuche es gleich noch einmal.",
   "canDoPracticeCorrectedPrefix": "Korrigiert",
@@ -820,19 +2010,83 @@
   "canDoPracticeNotFound": "Dieses Ziel wurde nicht gefunden.",
   "canDoPracticeAllClear": "Du hast alle Bausteine für dieses Ziel geschrieben 🎉",
   "canDoPracticeDone": "Fertig! {correct}/{total} Sätze bestanden — Fortschritt in der Karte gespeichert.",
-  "@canDoPracticeDone": {"placeholders": {"correct": {"type": "int"}, "total": {"type": "int"}}},
+  "canDoPracticeBackLink": "← Kompetenzkarte",
+  "canDoPracticeBackToMap": "Zurück zur Kompetenzkarte",
+  "canDoPracticeGoConversation": "Konversation üben",
+  "@canDoPracticeDone": {
+    "placeholders": {
+      "correct": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
   "topicExploreTitle": "Nach Thema entdecken",
+  "topicExploreSubtitle": "Priorisierte Wortschatzrichtungen ansehen · mit ⭐ anheften, um den Pfad zu steuern",
+  "learnPageIntroWhy": "Hier lernst du jeden Tag Wortschatz und Grammatik nach deinem persönlichen Pfad.",
+  "learnPageIntroTodo": "Mach die heutige Einheit, verfolge den A1→C2-Fortschritt und die Wochenmissionen.",
+  "learnPageIntroNext": "Wenn die heutige Einheit fertig ist, komm für die nächste Mission zurück.",
+  "learnPageIntroCta": "Zur Wiederholung",
+  "levelJourneyTitle": "A1→C2-Reise",
+  "levelJourneyEmptyLevel": "kommt bald",
+  "levelJourneyDetailCta": "Details →",
+  "capabilityMapSnapshotTitle": "Kompetenzkarte",
+  "capabilityMapMasteredCount": "{mastered}/{total} Can-do-Punkte",
+  "@capabilityMapMasteredCount": {
+    "placeholders": {
+      "mastered": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "capabilityMapViewCta": "Karte ansehen →",
   "topicExploreEmpty": "Noch keine Themen.",
+  "topicExploreSubtitleHeader": "Wähle ein Thema, um Wortschatz in deiner benötigten Richtung zu üben.",
+  "topicSteeringTitle": "Aktuell priorisierter Pfad",
+  "topicSteeringGoalGoethe": "🎓 Goethe-Prüfung",
+  "topicSteeringGoalConversation": "💬 Konversation",
+  "topicSteeringGoalNursing": "🏥 Pflege",
+  "topicSteeringGoalAbroad": "✈️ Studium/Arbeit im Ausland",
+  "topicSteeringEmpty": "Noch kein Ziel gewählt — hefte unten ein Thema an, um deinen Pfad zu steuern.",
+  "topicSteeringFooterHint": "Angeheftete ⭐ Themen werden in deiner täglichen Einheit priorisiert.",
+  "topicGroupSubtitle": "{label} · {count} Themen",
+  "@topicGroupSubtitle": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "notificationMarkAllRead": "Alle als gelesen markieren",
   "notificationEmpty": "Keine Benachrichtigungen",
   "notificationLoadError": "Benachrichtigungen konnten nicht geladen werden. Bitte versuche es erneut.",
   "notificationSomeone": "Jemand",
   "notificationFriendRequest": "{name} hat dir eine Freundschaftsanfrage geschickt",
-  "@notificationFriendRequest": {"placeholders": {"name": {}}},
+  "@notificationFriendRequest": {
+    "placeholders": {
+      "name": {}
+    }
+  },
   "notificationFriendAccepted": "{name} hat deine Freundschaftsanfrage angenommen",
-  "@notificationFriendAccepted": {"placeholders": {"name": {}}},
+  "@notificationFriendAccepted": {
+    "placeholders": {
+      "name": {}
+    }
+  },
   "notificationChallengeInvite": "{name} hat dich herausgefordert",
-  "@notificationChallengeInvite": {"placeholders": {"name": {}}},
+  "@notificationChallengeInvite": {
+    "placeholders": {
+      "name": {}
+    }
+  },
   "notificationNewComment": "Neuer Kommentar",
   "notificationGradingDone": "Die KI hat deinen Text bewertet",
   "notificationDailyReview": "Heute stehen Wörter zur Wiederholung an",
@@ -889,9 +2143,23 @@
   "socialChatAction": "Chat",
   "socialViewProfile": "Profil ansehen",
   "socialRemoveFriend": "Freund entfernen",
+  "socialRemoveFriendConfirm": "{name} aus deiner Freundesliste entfernen?",
+  "@socialRemoveFriendConfirm": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "socialBlockUser": "Blockieren",
   "socialBlockUserConfirm": "{name} blockieren? Diese Person kann dich danach nicht mehr kontaktieren.",
-  "@socialBlockUserConfirm": {"placeholders": {"name": {"type": "String"}}},
+  "@socialBlockUserConfirm": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "socialBlockUserConfirmGeneric": "Diesen Nutzer blockieren? Er kann dich danach nicht mehr kontaktieren.",
   "socialUserBlocked": "Nutzer blockiert",
   "socialUserBlockedNotice": "Du hast diesen Nutzer blockiert.",
@@ -901,15 +2169,157 @@
   "socialRequestSent": "Anfrage gesendet",
   "socialReportUser": "Melden",
   "socialReportEmailSubject": "Nutzer {userId} melden",
-  "@socialReportEmailSubject": {"placeholders": {"userId": {"type": "String"}}},
+  "@socialReportEmailSubject": {
+    "placeholders": {
+      "userId": {
+        "type": "String"
+      }
+    }
+  },
   "socialLevelLabel": "Level {level}",
-  "@socialLevelLabel": {"placeholders": {"level": {"type": "int"}}},
+  "@socialLevelLabel": {
+    "placeholders": {
+      "level": {
+        "type": "int"
+      }
+    }
+  },
   "socialLevelShort": "Level",
   "socialStreakShort": "Serie",
   "socialFriendsShort": "Freunde",
   "socialStartChatting": "Unterhaltung beginnen",
   "socialTypeMessageHint": "Nachricht eingeben…",
   "socialCommentsTitle": "Kommentare",
+  "socialOnlineNow": "Gerade online",
+  "socialJoinedOn": "Beigetreten am {date}",
+  "@socialJoinedOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "socialLongestStreakShort": "Beste",
+  "socialLearningJourneyTitle": "Lernreise",
+  "socialWeeklyRankLabel": "Wochenrang",
+  "socialWordsLearnedLabel": "Gelernte Wörter",
+  "socialTotalReviewsLabel": "Wiederholungen",
+  "socialAchievementsTitle": "Erfolge",
+  "socialActivityTimelineTitle": "Letzte Aktivität",
+  "achievementFirstPracticeName": "Erster Schritt",
+  "achievementFirstPracticeDesc": "Erste Übung abgeschlossen",
+  "achievementStreak3Name": "3-Tage-Serie",
+  "achievementStreak3Desc": "3 Tage in Folge lernen",
+  "achievementStreak7Name": "Perfekte Woche",
+  "achievementStreak7Desc": "7 Tage in Folge lernen",
+  "achievementStreak30Name": "Monat der Disziplin",
+  "achievementStreak30Desc": "30 Tage in Folge lernen",
+  "achievementCards10Name": "10 Wörter",
+  "achievementCards10Desc": "10 Karteikarten erstellen",
+  "achievementCards50Name": "50 Wörter",
+  "achievementCards50Desc": "50 Karteikarten erstellen",
+  "achievementCards100Name": "100 Wörter",
+  "achievementCards100Desc": "100 Karteikarten erstellen",
+  "achievementXp500Name": "500 XP",
+  "achievementXp500Desc": "500 XP insgesamt erreichen",
+  "achievementXp1000Name": "Tausend XP",
+  "achievementXp1000Desc": "1000 XP insgesamt erreichen",
+  "achievementXp5000Name": "Meister",
+  "achievementXp5000Desc": "5000 XP insgesamt erreichen",
+  "achievementLevel5Name": "Level 5",
+  "achievementLevel5Desc": "Level 5 erreichen",
+  "achievementLevel10Name": "Level 10",
+  "achievementLevel10Desc": "Level 10 erreichen",
+  "achievementReviews100Name": "100 Wiederholungen",
+  "achievementReviews100Desc": "100 Wiederholungen abschließen",
+  "activityLevelUp": "Level {level} erreicht",
+  "@activityLevelUp": {
+    "placeholders": {
+      "level": {
+        "type": "String"
+      }
+    }
+  },
+  "activityStreakMilestone": "{streak} Tage in Folge",
+  "@activityStreakMilestone": {
+    "placeholders": {
+      "streak": {
+        "type": "String"
+      }
+    }
+  },
+  "activityAchievementUnlockedFallback": "Neuer Erfolg",
+  "activityMissionFallback": "Aufgabe",
+  "activityExamFallback": "Prüfung",
+  "activityDailyReview": "{correct}/{total} Wörter wiederholt",
+  "@activityDailyReview": {
+    "placeholders": {
+      "correct": {
+        "type": "String"
+      },
+      "total": {
+        "type": "String"
+      }
+    }
+  },
+  "activityVocabLearned": "{count} neue Wörter gelernt",
+  "@activityVocabLearned": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "activityVideoFallback": "Video",
+  "socialFriendsSubtitle": "{friends} Freunde · {requests} Anfragen",
+  "@socialFriendsSubtitle": {
+    "placeholders": {
+      "friends": {
+        "type": "int"
+      },
+      "requests": {
+        "type": "int"
+      }
+    }
+  },
+  "socialOnlineSectionTitle": "Online — {count}",
+  "@socialOnlineSectionTitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "socialOfflineSectionTitle": "Offline — {count}",
+  "@socialOfflineSectionTitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "socialLevelStreakLabel": "Lv.{level} · {streak} Tage Serie",
+  "@socialLevelStreakLabel": {
+    "placeholders": {
+      "level": {
+        "type": "int"
+      },
+      "streak": {
+        "type": "int"
+      }
+    }
+  },
+  "socialSuggestionsTitle": "Vorgeschlagene Freunde",
+  "socialConversationsCount": "{count} Unterhaltungen",
+  "@socialConversationsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "socialYouPrefix": "Du",
+  "socialOffline": "Offline",
   "pinnedShortcutsTitle": "🔗 Kurzbefehle",
   "pinnedShortcutConversation": "KI-Sprechtraining",
   "pinnedShortcutWriteSentence": "Satz schreiben (KI)",
@@ -919,9 +2329,27 @@
   "exploreSectionTitle": "Entdecken",
   "examCornerOverdue": "📅 Prüfungstermin verstrichen",
   "examCornerToday": "🎯 Prüfung {level} heute!",
-  "@examCornerToday": {"placeholders": {"level": {"type": "String"}}},
+  "@examCornerToday": {
+    "placeholders": {
+      "level": {
+        "type": "String"
+      }
+    }
+  },
   "examCornerCountdown": "🎯 {provider} {level} · noch {days} Tage",
-  "@examCornerCountdown": {"placeholders": {"provider": {"type": "String"}, "level": {"type": "String"}, "days": {"type": "int"}}},
+  "@examCornerCountdown": {
+    "placeholders": {
+      "provider": {
+        "type": "String"
+      },
+      "level": {
+        "type": "String"
+      },
+      "days": {
+        "type": "int"
+      }
+    }
+  },
   "examCornerReadiness": "Bereitschaft",
   "examCornerChangeGoal": "Ziel ändern",
   "examCornerContinue": "Prüfung machen",
@@ -930,15 +2358,45 @@
   "examGoalPromptSubtitle": "Lege einen Prüfungstermin fest, um den Countdown zu verfolgen und auf dem richtigen Niveau zu üben.",
   "examGoalPromptCta": "Prüfungstermin festlegen",
   "examHeroTitle": "🎯 Vorbereitung für {provider} {level}",
-  "@examHeroTitle": {"placeholders": {"provider": {"type": "String"}, "level": {"type": "String"}}},
+  "@examHeroTitle": {
+    "placeholders": {
+      "provider": {
+        "type": "String"
+      },
+      "level": {
+        "type": "String"
+      }
+    }
+  },
   "examHeroToday": "Prüfung heute!",
   "examCornerDaysLeft": "Noch {days} Tage",
-  "@examCornerDaysLeft": {"placeholders": {"days": {"type": "int"}}},
+  "@examCornerDaysLeft": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
   "examHeroNoAttemptsYet": "Mach eine Übungsprüfung, um die Bereitschaft zu messen",
   "examHeroBasedOnAttempts": "Basierend auf {count} absolvierten Prüfungen",
-  "@examHeroBasedOnAttempts": {"placeholders": {"count": {"type": "int"}}},
+  "@examHeroBasedOnAttempts": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "examHeroCta": "📝 {provider} {level} Prüfung machen",
-  "@examHeroCta": {"placeholders": {"provider": {"type": "String"}, "level": {"type": "String"}}},
+  "@examHeroCta": {
+    "placeholders": {
+      "provider": {
+        "type": "String"
+      },
+      "level": {
+        "type": "String"
+      }
+    }
+  },
   "examHeroReadyLabel": "bereit",
   "examGoalSetterTitle": "Prüfungsziel setzen",
   "examGoalSetterProviderLabel": "Prüfungsanbieter",
@@ -952,5 +2410,1893 @@
   "premiumBannerCta": "Auf Premium upgraden — unbegrenzt lernen",
   "communityLinksTitle": "Deutsch Tiger Community",
   "communityZaloDescription": "Deutsch-Lerngruppe",
-  "communityFacebookDescription": "Deutsch Tiger VN"
+  "communityFacebookDescription": "Deutsch Tiger VN",
+  "examReadinessGoalHeaderLabel": "Übe für",
+  "examReadinessGoalDaysLeft": "Tage bis zur Prüfung",
+  "examReadinessGoalTodayLabel": "Heute ist Prüfungstag!",
+  "examReadinessGoalSetDate": "Prüfungsdatum festlegen",
+  "examReadinessScoreTrendLabel": "Punktetrend",
+  "examReadinessScoreTrendDelta": "{delta} Pkt.",
+  "@examReadinessScoreTrendDelta": {
+    "placeholders": {
+      "delta": {
+        "type": "String"
+      }
+    }
+  },
+  "examReadinessScoreTrendRecentCount": "{n} zuletzt",
+  "@examReadinessScoreTrendRecentCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "examReadinessScoreTrendLatestPrefix": "Neuester: ",
+  "examReadinessRecentAvgLabel": "Ø-Punktzahl (kürzlich)",
+  "examReadinessSkillPracticeCta": "{skill} üben",
+  "@examReadinessSkillPracticeCta": {
+    "placeholders": {
+      "skill": {
+        "type": "String"
+      }
+    }
+  },
+  "examReadinessAttemptCountSuffix": "{n}×",
+  "@examReadinessAttemptCountSuffix": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "examReadinessWeaknessPracticeCta": "Schwächen üben →",
+  "examReadinessWeaknessDrillCta": "Üben →",
+  "examReadinessTodoTitle": "Zu erledigen",
+  "examReadinessTodoDueReviewsPrefix": "Sie haben ",
+  "examReadinessTodoDueReviewsBold": "{n} fällige Wörter",
+  "@examReadinessTodoDueReviewsBold": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "examReadinessIntroWhy": "Sieh, wie bereit du für die Prüfung bist — Fertigkeit für Fertigkeit.",
+  "examReadinessIntroTodo": "Schau dir die schwächste Fertigkeit an und übe sie jetzt.",
+  "examReadinessIntroNext": "Komm nach dem Üben zurück, um deine Verbesserung zu sehen.",
+  "scheduleBuddyCountFire": "🔥 {n} Lernpartner mit anstehender Prüfung",
+  "@scheduleBuddyCountFire": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "scheduleBuddyCountSoon": "· {n} Prüfung in 30 Tagen",
+  "@scheduleBuddyCountSoon": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "scheduleBuddyCountPast": "· {n} bereits geprüft",
+  "@scheduleBuddyCountPast": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "scheduleSearchHint": "Suche nach Name/Prüfungstyp...",
+  "scheduleFilterAllExamTypes": "Alle Prüfungstypen",
+  "scheduleFilterAllLevels": "Alle Niveaus",
+  "scheduleStatusUpcomingCount": "Bevorstehend ({n})",
+  "@scheduleStatusUpcomingCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "scheduleStatusPastCount": "Vergangen ({n})",
+  "@scheduleStatusPastCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "scheduleResultCountUpcoming": "{n} Personen · nächster Termin zuerst",
+  "@scheduleResultCountUpcoming": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "scheduleResultCountPast": "{n} Personen · neueste zuerst",
+  "@scheduleResultCountPast": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "scheduleEmptyUpcoming": "Niemand entspricht diesen Filtern.",
+  "scheduleEmptyPast": "Niemand mit abgelegter Prüfung entspricht diesen Filtern.",
+  "scheduleMyPlansCount": "{n} Termine · nächster zuerst",
+  "@scheduleMyPlansCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "scheduleMyPlansEmpty": "Sie haben noch keinen Prüfungstermin registriert",
+  "schedulePrivacyNotePrefix": "🔒 Ihre Kontaktdaten (Tel., E-Mail, Facebook) sind ",
+  "schedulePrivacyNoteBold": "standardmäßig verborgen",
+  "schedulePrivacyNoteSuffix": " — nur registrierte Mitglieder können sie sehen.",
+  "scheduleBuddyDaysAgo": "Vor {n} Tagen geprüft",
+  "@scheduleBuddyDaysAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "scheduleBuddyToday": "Heute Prüfung!",
+  "scheduleBuddyDaysLeft": "Noch {n} Tage",
+  "@scheduleBuddyDaysLeft": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "dictationActivityMenuPrompt": "Wähle eine Hörübung:",
+  "dictationActivityClozeTitle": "Lücke ausfüllen",
+  "dictationActivityClozeDesc": "Hören und fehlendes Wort eingeben",
+  "dictationActivityFullTitle": "Diktat",
+  "dictationActivityFullDesc": "Jeden Satz anhören und abtippen",
+  "dictationActivityKaraokeTitle": "Zuhören & Mitlesen",
+  "dictationActivityKaraokeDesc": "Untertitel folgen dem Audio, Wort antippen zum Nachschlagen",
+  "dictationWordsCount": "{n} Wörter",
+  "@dictationWordsCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "dictationWordSelectHint": "Tippe auf die unterstrichenen Wörter, um sie zum Üben auszuwählen, dann auf Start.",
+  "dictationWordSelectCtaEmpty": "Wähle mind. 1 Wort aus",
+  "dictationWordSelectCta": "Übung starten — {n} Wörter",
+  "@dictationWordSelectCta": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "dictationBackToSelection": "← Neu auswählen",
+  "dictationWordCount": "{answered} / {total} Wörter",
+  "@dictationWordCount": {
+    "placeholders": {
+      "answered": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "dictationTypeWordHint": "Wort eingeben...",
+  "dictationPlayingAudioHint": "Audio läuft...",
+  "dictationCheckCta": "Prüfen",
+  "dictationReplaySentenceTooltip": "Satz wiederholen",
+  "dictationClozeSkip": "Überspringen",
+  "dictationClozeReveal": "Antwort zeigen",
+  "dictationNoWordsToPractice": "Keine Wörter zum Üben.",
+  "dictationBackToWordSelection": "← Zurück zur Wortauswahl",
+  "dictationClozeResultTitle": "Übungsergebnis",
+  "dictationClozeBackLabel": "Andere Wörter wählen",
+  "dictationClozeMistakesTitle": "Zu wiederholende Wörter",
+  "dictationEndRetry": "Nochmal üben",
+  "dictationEndCorrectCount": "{correct} / {total} richtig",
+  "@dictationEndCorrectCount": {
+    "placeholders": {
+      "correct": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "dictationFullBackLabel": "Clip wählen",
+  "dictationFullResultTitle": "Diktat-Ergebnis",
+  "dictationFullNextClip": "Nächster Clip →",
+  "dictationReplayThisSentence": "Diesen Satz wiederholen",
+  "dictationTypeSentenceHint": "Gehörtes eingeben...",
+  "dictationSentenceProgress": "{idx} / {count} Sätze",
+  "@dictationSentenceProgress": {
+    "placeholders": {
+      "idx": {
+        "type": "int"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "dictationCorrectCount": "{n} richtig",
+  "@dictationCorrectCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "dictationNextSentence": "Nächster Satz →",
+  "dictationShowResult": "Ergebnis anzeigen",
+  "dictationNoAudioData": "Für diesen Clip gibt es noch keine Diktatdaten.",
+  "dictationBackPlain": "← Zurück",
+  "dictationKaraokeBackToMenu": "← Aktivität wählen",
+  "dictationKaraokeHint": "Drücke ▶ zum Anhören — Untertitel folgen dem Audio. Satz antippen zum Wiederholen.",
+  "dictationKaraokeUntimed": "(keine synchronen Untertitel)",
+  "dictationKaraokePrev": "◀ Vorheriger",
+  "dictationKaraokeNext": "Nächster ▶",
+  "deThiHeroTitle": "Deutsche Prüfungsaufgaben",
+  "deThiHeroSubtitle": "Übe zweisprachige Deutsch-Vietnamesisch-Lesetests. Kostenlos, sofortige Auswertung, keine Anmeldung nötig.",
+  "deThiStartCta": "Jetzt starten →",
+  "deThiLoginCta": "Anmelden",
+  "deThiPromoTitle": "Deutsch umfassender lernen",
+  "deThiPromoSubtitle": "Karteikarten · KI-Sprechen · B1/B2-Prüfungen",
+  "deThiPromoCta": "Jetzt testen →",
+  "deThiPassageLabel": "ABSCHNITT {index}",
+  "@deThiPassageLabel": {
+    "placeholders": {
+      "index": {
+        "type": "int"
+      }
+    }
+  },
+  "deThiPassageOf": "Abschnitt {index}",
+  "@deThiPassageOf": {
+    "placeholders": {
+      "index": {
+        "type": "int"
+      }
+    }
+  },
+  "deThiPassageAnsweredCount": "{answered}/{total} Fragen",
+  "@deThiPassageAnsweredCount": {
+    "placeholders": {
+      "answered": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "deThiTranslatePassage": "Text übersetzen",
+  "deThiHideTranslation": "Übersetzung ausblenden",
+  "deThiTranslateVi": "Ins Vietnamesische übersetzen",
+  "deThiHideExplanation": "Erklärung ausblenden",
+  "deThiExplanation": "Erklärung",
+  "deThiVietnameseTranslationHeading": "VIETNAMESISCHE ÜBERSETZUNG",
+  "deThiPrevPassage": "Vorheriger Abschnitt",
+  "deThiNextPassage": "Nächster Abschnitt",
+  "deThiCorrectCountLabel": "{correct}/{total} richtig",
+  "@deThiCorrectCountLabel": {
+    "placeholders": {
+      "correct": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "deThiScoreLabel": "{score} Punkte",
+  "@deThiScoreLabel": {
+    "placeholders": {
+      "score": {
+        "type": "String"
+      }
+    }
+  },
+  "communityTabBrowse": "Durchsuchen",
+  "communityTabContribute": "Beitragen",
+  "communityTabMine": "Meine Themen",
+  "communityContributeComingSoon": "Themenbeitrag kommt bald.\nSchau später wieder vorbei!",
+  "communityMineEmptyGated": "Du hast noch keine Themen beigetragen — bald verfügbar.",
+  "communitySearchHint": "Themen suchen...",
+  "communityFilterAll": "Alle",
+  "communityFilterGoetheWriting": "Goethe Schreiben",
+  "communityFilterTelcSpeaking": "Telc Sprechen",
+  "communityTeilLabel": "Teil {n}",
+  "@communityTeilLabel": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "communityBackLink": "Zurück",
+  "communityBadgeLabel": "Community",
+  "communityHiddenBanner": "⚠️ Dieses Thema wurde wegen mehrerer Meldungen ausgeblendet.",
+  "communityRealExamBadge": "Echte Prüfung",
+  "communityTakeExamAction": "Ich habe diese Prüfung gerade abgelegt",
+  "communityReportAction": "Melden",
+  "communityGatedTooltip": "Funktion kommt bald",
+  "communityAnonymousContributor": "Anonym",
+  "communitySectionTask": "📝 Aufgabe",
+  "communitySectionAnalysis": "📋 Aufgabenanalyse",
+  "communitySectionModelAnswer": "✍️ Musterantwort",
+  "communitySectionUsefulPhrases": "💡 Nützliche Redewendungen",
+  "communitySectionGrammar": "📖 Grammatikschwerpunkt",
+  "communitySectionMistakes": "⚠️ Häufige Fehler",
+  "communitySectionSpeakingContent": "🎙️ Inhalt",
+  "examHeaderDefaultTitle": "Prüfungsteil",
+  "examBackToResult": "Ergebnis",
+  "examPaceOnTrack": "Im Zeitplan",
+  "examPaceSlow": "Etwas langsam",
+  "examPaceBehind": "Schneller machen",
+  "examReaderGuideTooltip": "Lesehilfe",
+  "examReaderGuideTitle": "Lesetipps",
+  "examReaderGuideBody": "Wortnachschlagen aktivieren, um ein Wort anzutippen und die Bedeutung zu sehen. Markierung aktivieren, um schwierige Wörter zu markieren. Schriftgröße in den Anzeigeeinstellungen anpassen.",
+  "examReaderGuideEnableWordLookup": "Wortnachschlagen aktivieren",
+  "examReaderSettingsTooltip": "Anzeigeeinstellungen",
+  "examReaderSettingsTitle": "Anzeigeeinstellungen",
+  "examReaderSettingsFontSize": "Schriftgröße",
+  "examReaderSettingsHighlight": "Wortmarkierung",
+  "examReaderSettingsWordLookup": "Zum Nachschlagen antippen",
+  "examReadingPaneTitle": "Text",
+  "examTranslateParagraph": "Text übersetzen",
+  "examHideTranslation": "Übersetzung ausblenden",
+  "examNavPrevQuestion": "Vorherige Frage",
+  "examNavNextQuestion": "Nächste Frage",
+  "examNavOpenSheet": "Fragenübersicht",
+  "examNavSheetTitle": "Fragenliste",
+  "examNavSheetPracticeTitle": "Üben",
+  "examNavLegendCurrent": "Aktuell",
+  "examNavLegendAnswered": "Beantwortet",
+  "examNavLegendWrong": "Falsch",
+  "examNavLegendUnanswered": "Unbeantwortet",
+  "examNavStatCorrect": "{count} Richtig",
+  "@examNavStatCorrect": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "examNavStatWrong": "{count} Falsch",
+  "@examNavStatWrong": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "examNavStatUnanswered": "{count} Unbeantwortet",
+  "@examNavStatUnanswered": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "examCommentsTitle": "Kommentare",
+  "examCommentsEmpty": "Noch keine Kommentare.",
+  "examCommentsPlaceholder": "Kommentar schreiben...",
+  "examCommentsSend": "Senden",
+  "examCommentsError": "Kommentare konnten nicht geladen werden.",
+  "examCommentsSendError": "Kommentar konnte nicht gesendet werden. Bitte versuche es erneut.",
+  "examResultHeaderFallback": "Prüfungsergebnis",
+  "examResultScoreLabel": "Punktzahl",
+  "examResultMotivationPassedTitle": "Bestanden!",
+  "examResultMotivationPassedBody": "Gut gemacht! Du hast die Bestehensgrenze überschritten!",
+  "examResultMotivationFailTitle": "Weiter üben!",
+  "examResultMotivationFailBody": "Noch nicht geschafft — sieh dir deine Fehler an und versuche es erneut!",
+  "examResultStatSkipped": "Übersprungen",
+  "examSmartReviewTitle": "Empfehlungen nach der Prüfung",
+  "examSmartReviewSubtitle": "Konzentriere dich auf falsche Antworten und schwache Teile.",
+  "examSmartReviewPointsNeeded": "{count} Punkte zum Üben",
+  "@examSmartReviewPointsNeeded": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "examSmartReviewJumpToWrong": "Falsche Antworten ansehen",
+  "examSmartReviewPracticeSections": "Nach Teilen üben",
+  "examSmartReviewWrongReview": "Meine Fehler üben",
+  "examAttemptHistoryTitle": "Versuchsverlauf",
+  "examAttemptHistoryEmpty": "Noch keine Versuche",
+  "examAttemptModePractice": "Üben",
+  "writingMyEssaysLink": "Meine Aufsätze →",
+  "writingHistoryTooltip": "Schreibverlauf",
+  "writingYourEssay": "Dein Aufsatz",
+  "writingDraftSaved": "💾 Entwurf gespeichert",
+  "writingSubmittedBadge": "Eingereicht",
+  "writingWordCount": "{count} Wörter",
+  "@writingWordCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "writingRestorePromptSaved": "Ein Entwurf von {time} ({count} Wörter) ist verfügbar. Wiederherstellen?",
+  "@writingRestorePromptSaved": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "writingRestore": "Wiederherstellen",
+  "writingDiscard": "Verwerfen",
+  "writingEditorPlaceholder": "Schreiben Sie hier Ihre Antwort...",
+  "writingSubmitCta": "Aufsatz einreichen",
+  "writingSubmitting": "Wird eingereicht...",
+  "writingRegrade": "Erneut mit KI bewerten",
+  "writingGrading": "Wird bewertet...",
+  "writingMinWordsHint": "Mindestens 10 Wörter",
+  "writingEditEssay": "Aufsatz bearbeiten",
+  "writingGradeWithAi": "Mit KI bewerten",
+  "writingRetry": "Wiederholen",
+  "writingRetryIn": "Erneut versuchen in {seconds}s",
+  "@writingRetryIn": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "writingClose": "Schließen",
+  "writingFeedbackUpdateHint": "KI-Feedback — erneut bewerten, um das Ergebnis zu aktualisieren",
+  "writingRewriteTitle": "Überarbeitung nach Feedback",
+  "writingRewriteDesc": "Erstelle eine Musterüberarbeitung zum Vergleich und lade sie bei Bedarf in den Editor.",
+  "writingCreateRewrite": "Überarbeitung erstellen",
+  "writingRecreateRewrite": "Überarbeitung neu erstellen",
+  "writingCreatingRewrite": "Wird erstellt...",
+  "writingUseRewrite": "In den Editor laden",
+  "writingBeforeFix": "Vorher",
+  "writingAfterFix": "Nachher",
+  "writingGradeCategoryTask": "Aufgabenerfüllung",
+  "writingGradeCategoryGrammar": "Grammatik",
+  "writingGradeCategoryVocab": "Wortschatz",
+  "writingGradeCategoryCoherence": "Kohärenz & Kohäsion",
+  "writingCommonErrorsTitle": "Häufige Fehler in diesem Aufsatz",
+  "writingDetailedAssessment": "Detaillierte Bewertung",
+  "writingSuggestionsTitle": "💡 Vorschläge für natürlicheres Schreiben ({count})",
+  "@writingSuggestionsTitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "writingCorrectionsTitle": "Korrekturen ({count})",
+  "@writingCorrectionsTitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "writingFocusLink": "🔁 Diese Grammatikfehler im Fokus üben ({count} Fehler)",
+  "@writingFocusLink": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "writingGoetheBreakdownTitle": "Goethe-Bewertung — {teilLabel}",
+  "@writingGoetheBreakdownTitle": {
+    "placeholders": {
+      "teilLabel": {
+        "type": "String"
+      }
+    }
+  },
+  "writingGoetheInhalt": "Inhalt",
+  "writingGoetheKommunikative": "Kommunikative Gestaltung",
+  "writingGoetheFormale": "Formale Richtigkeit",
+  "writingHistoryTitle": "Schreibverlauf",
+  "writingHistoryEmpty": "Noch keine Aufsätze",
+  "writingScorePoints": "{score}/100",
+  "@writingScorePoints": {
+    "placeholders": {
+      "score": {
+        "type": "int"
+      }
+    }
+  },
+  "goetheB1HubTitle": "Goethe-Zertifikat B1",
+  "goetheB1HubSubtitle": "3 Übungssätze",
+  "goetheB1HubOfficialTitle": "Offizielle Prüfungssätze",
+  "goetheB1HubOfficialDesc": "30+ vollständige Übungsprüfungen · Lesen · Hören · Schreiben",
+  "goetheB1HubWritingTitle": "Echte Schreiben-Aufgaben",
+  "goetheB1HubWritingDesc": "30 Schreiben-Themen · Teil 1 · Teil 2 · Teil 3",
+  "goetheB1HubSpeakingTitle": "Sprechen",
+  "goetheB1HubSpeakingDesc": "Sprechthemen · Teil 1 · Teil 2 · Teil 3",
+  "goetheB1WritingEyebrow": "Goethe B1 · 3 Teile · 100 Punkte",
+  "goetheB1WritingHeadingPrefix": "Schreiben — ",
+  "goetheB1WritingHeadingSchreiben": "Schreiben",
+  "goetheB1WritingBadgeReal": "Echte Prüfungsaufgaben",
+  "goetheB1WritingBadgeYears": "2023–2026",
+  "goetheB1WritingBadgeQuality": "Hochwertige Musterlösungen",
+  "goetheB1WritingHeroPitch": "Übe das genaue Goethe-B1-Format mit echten Prüfungsthemen, damit du selbstbewusst in die Prüfung gehst.",
+  "goetheB1WritingHeroDesc": "Schreiben umfasst 3 Teile, die der Goethe-B1-Prüfungsstruktur folgen, ausgewählt aus echten Prüfungsaufgaben 2023–2026 sowie laufend ergänzten Themen aus der Community. Jedes Thema bietet eine Musteraufgabe, Satzstrukturen zum Wiederholen, Ideen zur Ausarbeitung und schrittweises Schreibtraining mit verlässlichen Musterlösungen.",
+  "goetheB1WritingStatSourceLabel": "Übungsquelle",
+  "goetheB1WritingStatSourceValue": "Echte Goethe-Prüfungsaufgaben",
+  "goetheB1WritingStatTopicsLabel": "Verfügbare Themen",
+  "goetheB1WritingStatTopicsValue": "{count}+ Themen",
+  "@goetheB1WritingStatTopicsValue": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "goetheB1WritingStatValueLabel": "Übungswert",
+  "goetheB1WritingStatValueValue": "Musterlösungen + Schritt für Schritt",
+  "goetheB1WritingLoadingTopics": "Wird geladen...",
+  "goetheB1WritingAllExamsLink": "← Alle Schreibprüfungen",
+  "goetheB1WritingMyEssaysLink": "Meine Aufsätze →",
+  "goetheB1WritingTeilLabel": "Teil {n}",
+  "@goetheB1WritingTeilLabel": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "goetheB1WritingPoints": "{points} Punkte",
+  "@goetheB1WritingPoints": {
+    "placeholders": {
+      "points": {
+        "type": "int"
+      }
+    }
+  },
+  "goetheB1WritingTeil1Subtitle": "Persönlichen Brief/E-Mail an einen Freund schreiben",
+  "goetheB1WritingTeil2Subtitle": "Meinung in einem Forumsbeitrag äußern",
+  "goetheB1WritingTeil3Subtitle": "Formelle E-Mail: Entschuldigung, Termin, Anmeldung",
+  "conversationHubTitle": "KI-Gespräch",
+  "conversationHubSubtitle": "Alltagsdeutsch · Entdecken & sprechen üben",
+  "conversationHubLoadError": "Szenarienliste konnte nicht geladen werden.",
+  "conversationTabScenarios": "Szenarien",
+  "conversationTabHistory": "Übungsverlauf",
+  "conversationHeroBadge": "KI erstellt sofort ein Gespräch",
+  "conversationHeroTitle": "Worüber möchtest du heute sprechen üben?",
+  "conversationHeroSearchHint": "Gib ein beliebiges Thema ein oder suche vorhandene…",
+  "conversationHeroCreateNow": "Jetzt erstellen",
+  "conversationHeroUpgrade": "Auf Plus upgraden ✨",
+  "conversationHeroTryNow": "Jetzt ausprobieren:",
+  "conversationQuotaFreeRemaining": "Noch {remaining}/{max} kostenlose Gespräche heute",
+  "@conversationQuotaFreeRemaining": {
+    "placeholders": {
+      "remaining": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "conversationQuotaWalled": "Du hast alle {max}/{max} kostenlosen Gespräche heute aufgebraucht",
+  "@conversationQuotaWalled": {
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "conversationQuotaUnlimited": "Unbegrenzt",
+  "conversationFilterLibraryTitle": "Oder aus der Bibliothek wählen",
+  "conversationFilterResultCount": "{count} Themen",
+  "@conversationFilterResultCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "conversationFilterClear": "Filter löschen",
+  "conversationFilterCategory": "Kategorie",
+  "conversationFilterLevel": "Niveau",
+  "conversationFilterAll": "Alle",
+  "conversationCreateCustomTitle": "Eigenes Thema erstellen: „{topic}“",
+  "@conversationCreateCustomTitle": {
+    "placeholders": {
+      "topic": {
+        "type": "String"
+      }
+    }
+  },
+  "conversationCreateCustomHint": "Nicht verfügbar — lass die KI ein neues Gespräch für dich erstellen",
+  "conversationEmptyNoResults": "Keine Themen gefunden",
+  "conversationEmptyNoResultsHint": "Versuche oben ein eigenes Thema einzugeben!",
+  "conversationHistoryLoadError": "Übungsverlauf konnte nicht geladen werden.",
+  "conversationHistoryEmpty": "Noch keine gespeicherten Übungssitzungen.",
+  "conversationHistoryEmptyHint": "Beende ein Gespräch, um es hier zu speichern.",
+  "conversationHistoryMeta": "{level} · {turns} Runden · {date}",
+  "@conversationHistoryMeta": {
+    "placeholders": {
+      "level": {
+        "type": "String"
+      },
+      "turns": {
+        "type": "int"
+      },
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "conversationHistoryDelete": "Löschen",
+  "conversationHistoryCancel": "Abbrechen",
+  "conversationHistoryDetailLoadError": "Das gespeicherte Gespräch konnte nicht geladen werden.",
+  "conversationHistoryBackToList": "Zurück zur Liste",
+  "conversationLoadError": "Szenario konnte nicht geladen werden. Bitte erneut versuchen.",
+  "conversationBack": "Zurück",
+  "conversationContextLabel": "Situation",
+  "conversationYourRoleLabel": "Deine Rolle:",
+  "conversationListen": "Anhören",
+  "conversationExaminerButton": "Prüfer",
+  "conversationExaminerTitle": "⚖️ KI-Prüfer",
+  "conversationExaminerCoverageTitle": "Zu behandelnde Inhalte",
+  "conversationExaminerVerdictPending": "Die Gesamtbewertung wird noch entwickelt.",
+  "conversationExaminerNoVerdict": "Für diese Sitzung liegt noch keine Bewertung vor.",
+  "conversationExit": "Verlassen",
+  "conversationExitConfirmTitle": "Gespräch verlassen?",
+  "conversationExitConfirmBody": "Dein aktueller Fortschritt wird nicht gespeichert.",
+  "conversationExitConfirmCta": "Verlassen",
+  "conversationExitCancelCta": "Weiter",
+  "conversationComposerHint": "Deutsch eingeben oder sprechen...",
+  "conversationComposerModeText": "Schreiben",
+  "conversationComposerModeVoice": "Mikrofon",
+  "conversationSuggestionsTitle": "Vorschläge",
+  "conversationSuggestionsPending": "Antwortvorschläge werden noch entwickelt.",
+  "conversationVoiceTapToSpeak": "Zum Sprechen tippen",
+  "conversationVoiceComingSoon": "Spracheingabe kommt bald.",
+  "conversationVoiceBackToText": "Zurück zum Tippen",
+  "conversationDoneTitle": "Gespräch abgeschlossen!",
+  "conversationDoneSubtitle": "{title} · {turns} Gesprächsrunden",
+  "@conversationDoneSubtitle": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "turns": {
+        "type": "int"
+      }
+    }
+  },
+  "conversationDoneRestart": "Erneut üben",
+  "conversationDoneChooseAnother": "Anderes Szenario wählen",
+  "interviewImportTitle": "Interviews aus einem Dokument üben",
+  "interviewImportDesc": "Vorbereitungsdokument einfügen → KI erstellt das Interview; deine Antworten werden zu Hinweisen.",
+  "interviewImportBackToEdit": "Dokument bearbeiten",
+  "interviewImportDocLabel": "Interviewdokument",
+  "interviewImportDocHint": "Füge die vorbereiteten Fragen + Antworten ein...",
+  "interviewImportLevelLabel": "Niveau (CEFR)",
+  "interviewImportExtract": "✨ Fragen extrahieren",
+  "interviewImportExtracting": "Wird extrahiert...",
+  "interviewImportTitleLabel": "Name des Interviews",
+  "interviewImportEditHint": "Fragen und Hinweise vor dem Speichern prüfen & bearbeiten. Hinweise sind nur für dich sichtbar, nicht für die KI.",
+  "interviewImportQuestionLabel": "Frage {n}",
+  "@interviewImportQuestionLabel": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "interviewImportQuestionDeHint": "Interviewfrage (Deutsch)",
+  "interviewImportQuestionViHint": "Übersetzung (Vietnamesisch)",
+  "interviewImportHintDeHint": "Hinweis — deine vorbereitete Antwort (Deutsch)",
+  "interviewImportHintViHint": "Hinweis (Vietnamesisch)",
+  "interviewImportAddQuestion": "+ Frage hinzufügen",
+  "interviewImportSave": "Speichern & üben beginnen",
+  "interviewImportSaving": "Wird gespeichert...",
+  "pronunciationHubTitle": "Deutsche Aussprache üben",
+  "pronunciationHubInfoBanner": "Richtige Aussprache von Anfang an gibt dir mehr Selbstvertrauen und vermeidet Missverständnisse. Jedes Modul konzentriert sich auf eine schwierige Lautgruppe — Schritt für Schritt üben, hören und nachahmen.",
+  "pronunciationHubUmlauteTitle": "Umlaute (ä, ö, ü)",
+  "pronunciationHubUmlauteDesc": "Die drei charakteristischen deutschen Umlaute unterscheiden und üben",
+  "pronunciationHubIchAchTitle": "Ich-laut / Ach-laut",
+  "pronunciationHubIchAchDesc": "Unterscheide 'ch' nach vorderen und hinteren Vokalen",
+  "pronunciationHubRSoundTitle": "R-Sound",
+  "pronunciationHubRSoundDesc": "Der charakteristische deutsche Kehlkopf-R-Laut",
+  "pronunciationHubSpStTitle": "Anfangs-Sp / St",
+  "pronunciationHubSpStDesc": "sp → schp, st → scht am Wort-/Silbenanfang",
+  "pronunciationLoadError": "Daten konnten nicht geladen werden. Bitte erneut versuchen.",
+  "pronunciationRetry": "Erneut versuchen",
+  "pronunciationNoData": "Noch keine Übungsdaten.",
+  "pronunciationCompletedTitle": "Abgeschlossen!",
+  "pronunciationScoreCorrect": "{score} / {total} richtig",
+  "@pronunciationScoreCorrect": {
+    "placeholders": {
+      "score": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "pronunciationRetryCta": "Nochmal üben",
+  "pronunciationBackCta": "Zurück",
+  "pronunciationHintLabel": "Aussprachetipp:",
+  "pronunciationPlayCta": "Anhören",
+  "pronunciationNextCta": "Gehört →",
+  "pronunciationDoneCta": "Fertig",
+  "pronunciationModePronounce": "Aussprache",
+  "pronunciationModeDistinguish": "Unterscheiden",
+  "pronunciationModeDistinguishSpSt": "sp/st unterscheiden",
+  "pronunciationModeCategorize": "Kategorisieren",
+  "pronunciationUmlauteTitle": "Umlaute üben",
+  "pronunciationIchAchTitle": "Ich-laut / Ach-laut",
+  "pronunciationRSoundTitle": "Deutscher R-Laut",
+  "pronunciationSpStTitle": "Anfangs-Sp / St",
+  "pronunciationIchLautBadge": "Ich-laut [ç]",
+  "pronunciationAchLautBadge": "Ach-laut [x]",
+  "pronunciationCompareLabel": "Vergleich:",
+  "pronunciationROverviewInfo": "Der deutsche R-Laut hat je nach Position 4 Varianten. Die Liste unten hilft dir, die Regel schnell zu merken.",
+  "pronunciationRPositionInitial": "Wortanfang [ʁ]",
+  "pronunciationRPositionAfterVowel": "Nach Vokal [ɐ]",
+  "pronunciationRPositionCluster": "Konsonantencluster [ʁ]",
+  "pronunciationRPositionVocalic": "Wortende -er [ɐ]",
+  "pronunciationQuizPrompt": "Hör zu und wähle das Wort, das du gerade gehört hast:",
+  "pronunciationQuizReplayHint": "Tippen zum erneuten Abspielen",
+  "pronunciationQuizScore": "{count} richtig",
+  "@pronunciationQuizScore": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "pronunciationStreak": "🔥 {count} in Folge!",
+  "@pronunciationStreak": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "pronunciationQuizCorrect": "✓ Richtig!",
+  "pronunciationQuizWrong": "✗ Nicht ganz",
+  "pronunciationQuizHeardLabel": "Gehörtes Wort:",
+  "pronunciationQuizComparing": "Beide werden zum Vergleich abgespielt...",
+  "pronunciationQuizSeeResult": "Ergebnis ansehen",
+  "pronunciationQuizInsufficientData": "Nicht genug Daten für ein Quiz.",
+  "pronunciationMinimalPairsTitle": "Minimalpaar-Hörtraining",
+  "pronunciationMinimalPairsPickerHint": "Wähle ein Lautpaar zum Unterscheiden üben:",
+  "pronunciationMinimalPairsCount": "{count} Wortpaare",
+  "@pronunciationMinimalPairsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "pronunciationMinimalPairsEmpty": "Noch keine Lautpaar-Daten. Bitte später erneut versuchen.",
+  "pronunciationMinimalPairsPracticing": "Übung:",
+  "pronunciationMinimalPairsPrompt": "Welches Wort hast du gerade gehört?",
+  "pronunciationMinimalPairsCorrectOf": "{correct}/{total} richtig",
+  "@pronunciationMinimalPairsCorrectOf": {
+    "placeholders": {
+      "correct": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "pronunciationMinimalPairsCorrectLabel": "Richtig!",
+  "pronunciationMinimalPairsWrongLabel": "Falsch — richtige Antwort: {word}",
+  "@pronunciationMinimalPairsWrongLabel": {
+    "placeholders": {
+      "word": {
+        "type": "String"
+      }
+    }
+  },
+  "pronunciationEndCta": "Beenden",
+  "pronunciationMinimalPairsResultTitle": "Hörergebnis",
+  "pronunciationMinimalPairsScoreLabel": "{correct} / {total} richtig",
+  "@pronunciationMinimalPairsScoreLabel": {
+    "placeholders": {
+      "correct": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "pronunciationMinimalPairsLowScoreHint": "Hör dir das noch ein paar Mal an — dein Ohr gewöhnt sich an den Unterschied!",
+  "pronunciationChangePairCta": "Paar wechseln",
+  "sprechenExamLoadError": "Prüfung konnte nicht geladen werden: {error}",
+  "@sprechenExamLoadError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "sprechenContentLockedTitle": "Premium-Inhalt",
+  "sprechenPracticeCta": "🎤 Mit Tiger AI sprechen üben",
+  "sprechenTopicListTitle": "Themenliste",
+  "sprechenTopicListLoadError": "Fehler beim Laden der Liste: {error}",
+  "@sprechenTopicListLoadError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "sprechenTopicListEmpty": "🎤 Noch keine Themen",
+  "sprechenTopicListSummary": "{count} Themen · {done} abgeschlossen",
+  "@sprechenTopicListSummary": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "done": {
+        "type": "int"
+      }
+    }
+  },
+  "sprechenLeaderboardEmpty": "Noch keine Ranglisten-Daten",
+  "sprechenTeilSetOverviewSubtitle": "Sprechen üben — wähle einen Teil zum Starten",
+  "sprechenTeilCompletedBadge": "✓ Abgeschlossen",
+  "sprechenOverviewTitle": "Sprechen",
+  "sprechenOverviewSubtitle": "{providerLabel} · 3 Teile · 75 Punkte",
+  "@sprechenOverviewSubtitle": {
+    "placeholders": {
+      "providerLabel": {
+        "type": "String"
+      }
+    }
+  },
+  "sprechenOverviewGoetheInfo": "Sprechen macht 75 von 300 Punkten der Goethe-B1-Prüfung aus. Jeder Teil wird nach 3 Kriterien bewertet: Inhalt, Grammatik & Satzbau, Wortschatz & Flüssigkeit.",
+  "sprechenOverviewTelcInfo": "Sprechen macht 75 von 300 Punkten der telc-B1-Prüfung aus.",
+  "sprechenTopicCount": "{count} Themen",
+  "@sprechenTopicCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "sprechenTopicSearchHint": "Nach Thema oder Themengruppe suchen...",
+  "sprechenTopicListFilteredCount": "{filtered}/{total} Themen",
+  "@sprechenTopicListFilteredCount": {
+    "placeholders": {
+      "filtered": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "sprechenTopicListEmptyFiltered": "🎤 Keine passenden Themen gefunden",
+  "sprechenBewertungMainErrors": "Hauptfehler",
+  "sprechenHistoryButtonLabel": "Verlauf",
+  "sprechenPracticeStartCta": "Jetzt üben — mit KI sprechen",
+  "sprechenResultBackToList": "Zurück zur Liste",
+  "sprechenNoSuggestions": "Keine Vorschläge",
+  "sprechenInputHint": "Antwort auf Deutsch eingeben...",
+  "sprechenMicComingSoon": "Sprachmodus kommt bald — nutze vorerst Schreiben",
+  "sprechenMicUnsupported": "In dieser Version wird nur Schreiben unterstützt",
+  "sprechenPartnerSubtitleDefault": "Auf Deutsch antworten",
+  "sprechenFeedbackScoreLabel": "{score}/5 · Feedback",
+  "@sprechenFeedbackScoreLabel": {
+    "placeholders": {
+      "score": {
+        "type": "int"
+      }
+    }
+  },
+  "sprechenSessionHistoryEmpty": "Noch keine Übungssitzungen",
+  "sprechenStudyPanelLocked": "Premium-Inhalt — Upgrade für vollen Zugriff",
+  "sprechenStudyPanelEmpty": "Noch kein Lerninhalt für dieses Thema.",
+  "conversationTranscriptEmpty": "Kein Gesprächsinhalt vorhanden.",
+  "writingHotBadge": "HOT",
+  "writingCompletedBadge": "Gelernt",
+  "writingPremiumBadge": "Premium",
+  "writingUnlockToView": "Zum Anzeigen freischalten",
+  "writingBuyPremium": "Premium kaufen",
+  "writingDifficultyEasy": "Leicht",
+  "writingDifficultyMedium": "Mittel",
+  "writingDifficultyHard": "Schwer",
+  "writingLeaderboardTitle": "Bestenliste · Teil {teil}",
+  "@writingLeaderboardTitle": {
+    "placeholders": {
+      "teil": {
+        "type": "int"
+      }
+    }
+  },
+  "writingLeaderboardEmpty": "Noch niemand hat ein Thema abgeschlossen",
+  "writingLeaderboardYou": "du",
+  "writingCommunityFolderTitle": "Von der Community beigetragene Themen",
+  "writingCommunityFolderCount": "{count} Themen hinzugefügt",
+  "@writingCommunityFolderCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "writingCommunityFolderEmpty": "Noch keine Themen — sei der Erste!",
+  "writingSearchHint": "Suche nach Thema, Bereich, Stichwort...",
+  "writingSprintPill": "Sprint 10h",
+  "writingSprintComingSoon": "Sprint 10h kommt bald",
+  "writingTopicCount": "{count} Themen",
+  "@writingTopicCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "writingTopicCountFiltered": "{count}/{total} Themen",
+  "@writingTopicCountFiltered": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "writingNoResultsTitle": "Keine passenden Themen gefunden",
+  "writingNoResultsHint": "Versuche auf Deutsch, Vietnamesisch oder mit einem anderen Themennamen zu suchen.",
+  "writingFreeLimitTitle": "Du siehst 5 kostenlose Themen von Teil {teil}",
+  "@writingFreeLimitTitle": {
+    "placeholders": {
+      "teil": {
+        "type": "int"
+      }
+    }
+  },
+  "writingFreeLimitDesc": "Upgrade auf Premium, um alle Schreiben-B1-Themen freizuschalten und KI-Bewertung ohne Limit zu nutzen.",
+  "writingTeilLabel": "Teil {n}",
+  "@writingTeilLabel": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "writingCommunityListTitle": "Community-Themen · Teil {teil}",
+  "@writingCommunityListTitle": {
+    "placeholders": {
+      "teil": {
+        "type": "int"
+      }
+    }
+  },
+  "writingPracticeNotFound": "Schreibthema nicht gefunden.",
+  "writingWordCountHint": "📏 {min}–{max} Wörter",
+  "@writingWordCountHint": {
+    "placeholders": {
+      "min": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "writingShowTranslation": "Übersetzung anzeigen",
+  "writingHideTranslation": "Übersetzung ausblenden",
+  "writingRequirementsTitle": "Schreibanforderungen",
+  "writingSectionTask": "Aufgabe",
+  "writingSectionTaskAnalysis": "Aufgabenanalyse",
+  "writingSectionTextStructure": "Textstruktur",
+  "writingSectionPhrases": "Nützliche Redemittel",
+  "writingSectionSamples": "Beispielsätze",
+  "writingSectionModels": "Musterlösungen",
+  "writingSectionGrammar": "Wichtige Grammatik (Referenz)",
+  "writingSectionVocab": "Wichtiger Wortschatz (Referenz)",
+  "writingSectionMistakes": "Häufige Fehler (Referenz)",
+  "writingSectionExercises": "Übungen",
+  "writingApproachesLabel": "{count} Entwicklungsmöglichkeiten",
+  "@writingApproachesLabel": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "writingAnnotationsLabel": "Anmerkungen:",
+  "writingModelTabLabel": "Model {n}",
+  "@writingModelTabLabel": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "writingColPart": "Teil",
+  "writingColDe": "Deutsch",
+  "writingColVi": "Vietnamesisch",
+  "writingKernwortschatzTitle": "Kernwortschatz ({count} Wörter)",
+  "@writingKernwortschatzTitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "writingGenusOther": "Sonstige",
+  "writingTranslateExamples": "🌐 Beispiele übersetzen",
+  "writingChunksTitle": "Chunks & Wendungen ({count})",
+  "@writingChunksTitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "writingKonnektorenTitle": "Konnektoren ({count})",
+  "@writingKonnektorenTitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "writingNoContent": "Noch kein Inhalt.",
+  "writingCorrectCount": "richtig",
+  "writingWrongSentenceLabel": "FALSCHER SATZ",
+  "writingRevealAnswer": "Antwort anzeigen",
+  "writingShowSampleAnswer": "Musterantwort anzeigen",
+  "writingSampleAnswerLabel": "Musterantwort",
+  "writingPlayAll": "Alles abspielen",
+  "writingExamTimesCount": "📊 {count} Prüfungstermine",
+  "@writingExamTimesCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "writingMinutesUnit": "Min.",
+  "writingWordsUnit": "Wörter",
+  "writingProvenanceTitle": "Echte Prüfung — {count} Mal",
+  "@writingProvenanceTitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "writingSourcesLabel": "Quellen",
+  "writingExamDatesToggle": "Prüfungstermine anzeigen",
+  "writingLockTitle": "Dieses Thema ist für Premium-Konten",
+  "writingLockOfficialCopy": "Dies ist ein offizielles Premium-Thema. Upgrade, um den vollständigen Inhalt zu sehen.",
+  "writingLockLegacyCopy": "Kostenlose Konten sehen nur die ersten 5 Themen jedes Teils. Upgrade auf Premium, um alles freizuschalten.",
+  "writingUnlockPremiumCta": "Premium freischalten",
+  "writingCompleteMark": "🎯 Als abgeschlossen markieren",
+  "writingCompleteDone": "✓ Abgeschlossen — Gespeichert",
+  "writingCompleteSaving": "Speichern...",
+  "writingStartPracticeCta": "Eigenen Text schreiben → KI-Bewertung",
+  "writingTypingStartTitle": "Diesen Text abtippen üben",
+  "writingTypingStartDesc": "Es gibt {count} deutsche Sätze auf dieser Seite — übe sie abzutippen.",
+  "@writingTypingStartDesc": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "writingTypingStartCta": "Tippen beginnen →",
+  "writingTypingPracticeTitle": "Tippübung",
+  "writingTypingProgress": "Satz {current}/{total}",
+  "@writingTypingProgress": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "writingTypingHint": "Tippe den deutschen Satz...",
+  "writingTypingCheck": "Prüfen",
+  "writingTypingCorrect": "✓ Richtig!",
+  "writingTypingIncorrect": "✗ Einiges stimmt noch nicht",
+  "writingTypingNext": "Weiter →",
+  "writingTypingSkip": "Überspringen",
+  "writingTypingDoneCount": "Du hast {count} Sätze getippt",
+  "@writingTypingDoneCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "writingTypingClose": "Schließen",
+  "listeningPageTitle": "Hören",
+  "listeningPageSubtitle": "Übe dein Hörverständnis mit Videos, Podcasts und Hörbüchern",
+  "listeningIntroWhy": "Übe Hören/Lesen mit Inhalten, die zu deinem Niveau passen.",
+  "listeningIntroTodo": "Wähle eine Quelle: Video, Podcast oder Lesetext.",
+  "listeningIntroNext": "Speichere neue Wörter zur Wiederholung.",
+  "listeningOtherSourcesSection": "Weitere",
+  "listeningSourceSprechenB1Desc": "Übe Diktat-Hörverständnis mit Sprechen-B1-Videos",
+  "listeningSourceSprechenB2Desc": "Übe Diktat-Hörverständnis mit Sprechen-B2-Videos",
+  "listeningSourceYoutubeDesc": "Übe Hörverständnis mit untertitelten YouTube-Videos",
+  "listeningSourcePodcastDesc": "Höre den Easy German Podcast mit zweisprachigen Untertiteln",
+  "listeningSourceAudiobookDesc": "Höre leicht verständliche deutsche Hörbücher",
+  "listeningSourceVideoCount": "{count} Videos",
+  "@listeningSourceVideoCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "easyGermanSegmentCountShort": "Kurz",
+  "easyGermanSegmentCountMedium": "Mittel",
+  "easyGermanSegmentCountLong": "Lang",
+  "easyGermanLoadError": "Die Videoliste konnte nicht geladen werden. Bitte später erneut versuchen.",
+  "easyGermanSentenceCount": "{count} Sätze",
+  "@easyGermanSentenceCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "easyGermanSearchHint": "Videos nach Titel oder Video-ID suchen...",
+  "easyGermanLeaderboardEmptyHint": "Noch nicht genug Daten, um dieses Level zu ranken.",
+  "podcastLoadError": "Die Episodenliste konnte nicht geladen werden. Bitte später erneut versuchen.",
+  "podcastDescription": "Übe Hörverständnis mit alltäglichen deutschen Podcasts",
+  "podcastEpisodeCountLabel": "Episoden",
+  "podcastMinutesLabel": "Minuten Hörübung",
+  "podcastSearchHint": "Episoden suchen...",
+  "podcastNoResultsFor": "Keine Episoden gefunden für „{query}“.",
+  "@podcastNoResultsFor": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "podcastNoResultsInBucket": "Keine Episoden in diesem Zeitbereich.",
+  "podcastPageInfo": "Seite {page}/{total} ({count} Episoden)",
+  "@podcastPageInfo": {
+    "placeholders": {
+      "page": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "podcastAudioLoadError": "Audio konnte nicht geladen werden. Bitte erneut versuchen.",
+  "podcastEpisodeLoadError": "Episode konnte nicht geladen werden.",
+  "podcastBackToList": "Zurück zur Liste",
+  "podcastTranscriptEmpty": "Für diese Episode ist noch kein Transkript verfügbar.",
+  "podcastLeaderboardSubtitle": "Anzahl abgeschlossener Podcast-Episoden",
+  "podcastLeaderboardLoadError": "Bestenliste konnte nicht geladen werden.",
+  "podcastYourRank": "Dein Rang: #{rank} · {count} Episoden",
+  "@podcastYourRank": {
+    "placeholders": {
+      "rank": {
+        "type": "int"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "podcastSettingsTitle": "Leseeinstellungen",
+  "podcastFontSizeLabel": "Schriftgröße ({percent}%)",
+  "@podcastFontSizeLabel": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "podcastShowViTranslation": "Vietnamesische Übersetzung anzeigen",
+  "podcastDurationLe10": "≤ 10 Min.",
+  "podcastDurationLe20": "10–20 Min.",
+  "podcastDurationLe60": "20–60 Min.",
+  "podcastDurationGt60": "> 60 Min.",
+  "videoCollectionWatched": "Angesehen",
+  "videoCollectionEmptyTitle": "Keine passenden Videos gefunden",
+  "videoCollectionEmptyHint": "Versuche ein anderes Stichwort oder entferne die Filter.",
+  "videoCollectionLeaderboardTitle": "Top-Lerner",
+  "videoCollectionLeaderboardSubtitle": "Rangliste nach abgeschlossenen Videos und Wiederholungen.",
+  "videoCollectionLeaderboardEmptyHint": "Noch nicht genug Daten für ein Ranking.",
+  "videoCollectionLeaderboardStats": "{count} Videos · {rewatch} Wiederholungen",
+  "@videoCollectionLeaderboardStats": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "rewatch": {
+        "type": "int"
+      }
+    }
+  },
+  "videoCollectionPageInfo": "Seite {page} / {total}",
+  "@videoCollectionPageInfo": {
+    "placeholders": {
+      "page": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "videoCollectionStatusNew": "Nicht angesehen",
+  "videoCollectionProgressEmpty": "Noch keine Videodaten.",
+  "videoCollectionProgressStart": "Öffne ein Video, um deinen Fortschritt zu speichern.",
+  "videoCollectionProgressDone": "Du hast alles abgeschlossen!",
+  "videoCollectionProgressFinalStretch": "Du bist auf der Zielgeraden!",
+  "videoCollectionProgressGoodPace": "Guter Rhythmus – weiter so.",
+  "videoCollectionProgressGoodStart": "Guter Start – schau dir noch ein paar Videos an.",
+  "videoCollectionStatRewatch": "Wiederholungen",
+  "videoCollectionStatRemaining": "Verbleibend",
+  "videoCollectionCompletionLabel": "abgeschlossen",
+  "videoCollectionPercentLabel": "{percent}% {label}",
+  "@videoCollectionPercentLabel": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      },
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "videoCollectionSavedCount": "{count} Videos mit gespeichertem Fortschritt",
+  "@videoCollectionSavedCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "appOnlySettingsLabel": "Nur App",
+  "appUpdateSectionDescription": "Auf die neueste Store-Version prüfen und aktualisieren.",
+  "appUpdateSectionTitle": "Auf neueste Version aktualisieren",
+  "confirmNewPassword": "Neues Passwort bestätigen",
+  "couldNotChangePassword": "Passwort konnte nicht geändert werden. Bitte erneut versuchen.",
+  "darkModeDescription": "Weniger Augenbelastung beim abendlichen Lernen",
+  "darkModeToggle": "Dunkelmodus",
+  "dismissAnnouncement": "Ankündigung schließen",
+  "learningPreferencesGoalCommunication": "Alltagskommunikation",
+  "learningPreferencesGoalGoethe": "Goethe-Zertifikatsprüfung",
+  "learningPreferencesGoalMedical": "Pflege-/Medizinbereich",
+  "learningPreferencesGoalOther": "Andere",
+  "learningPreferencesGoalsLabel": "Ziele",
+  "learningPreferencesGoalWork": "Studium/Arbeit in Deutschland",
+  "learningPreferencesMinutesLabel": "Tägliche Lernzeit",
+  "learningPreferencesXpSummary": "Ziel: {xp} XP/Tag · ~{words} Wörter/Tag",
+  "@learningPreferencesXpSummary": {
+    "placeholders": {
+      "xp": {
+        "type": "int"
+      },
+      "words": {
+        "type": "int"
+      }
+    }
+  },
+  "logoutConfirmMessage": "Möchtest du dich wirklich abmelden?",
+  "minutesUnit": "Min.",
+  "notificationPermissionBlockedBody": "Bitte in den Systemeinstellungen → Benachrichtigungen wieder aktivieren.",
+  "notificationPermissionBlockedTitle": "Benachrichtigungen sind blockiert",
+  "notificationPermissionEnableAction": "Benachrichtigungen aktivieren",
+  "notificationPreferencesSendTest": "Test senden",
+  "notificationPreferencesTestFailed": "Senden fehlgeschlagen. Bitte später erneut versuchen.",
+  "notificationPreferencesTestSending": "Wird gesendet…",
+  "notificationPreferencesTestSent": "Gesendet! Sollte in Kürze auf deinem Gerät erscheinen.",
+  "notificationPreferencesTimezone": "Zeitzone",
+  "passwordMinLength": "Mindestens 8 Zeichen",
+  "reviewDisplay4Button": "4-Stufen-Selbsteinschätzung (nach jeder Runde)",
+  "reviewDisplay4ButtonDesc": "Zeigt nach jeder Runde Vergessen/Schwer/Gut/Leicht, um die automatische Bewertung anzupassen.",
+  "reviewDisplayAutoAdvance": "Automatisch weiter",
+  "reviewDisplayAutoAdvanceDesc": "An: springt nach der Antwort automatisch zur nächsten Karte. Aus (empfohlen): du tippst selbst auf \"Weiter\".",
+  "reviewDisplayContext": "Beispielsatz anzeigen",
+  "reviewDisplayContextDesc": "Zeigt einen kurzen Beispielsatz unter jedem Wort in der Zusammenfassung.",
+  "reviewDisplayTitle": "Wiederholungsanzeige",
+  "settingsSavedMessage": "Gespeichert!",
+  "settingsSubtitle": "App anpassen",
+  "soundAndEffects": "Ton & Effekte",
+  "soundAndEffectsDescription": "Ton und Vibration bei richtigen/falschen Antworten in Lektionen",
+  "listeningSprechenHeaderSubtitle": "{count} Videos · Diktat-Hörübung",
+  "@listeningSprechenHeaderSubtitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "writingHubTitle": "Schreibtraining (KI-Bewertung)",
+  "writingHubRubricButton": "📋 Bewertung",
+  "writingHubTabStart": "Start",
+  "writingHubTabMy": "Meine Texte",
+  "writingHubTabCommunity": "Community",
+  "writingHubStartIntro": "Wähle Prüfung und Niveau, um mit dem Schreibtraining zu beginnen.",
+  "writingHubCustomTitle": "Eigenes Thema eingeben",
+  "writingHubCustomSubtitle": "Beliebiges Thema einfügen → Prüfung & Niveau wählen → KI bewertet",
+  "writingHubSprintTitle": "Sprint-Schnelltraining",
+  "writingHubSprintSubtitle": "Goethe-B1-Beispielsätze schnell mit Karteikarten wiederholen",
+  "writingHubCommunityIntro": "Von der Community beigetragene Schreibthemen, nach Teil gruppiert.",
+  "writingHubCommunityTeil1": "Teil 1 — Persönliche E-Mail",
+  "writingHubCommunityTeil2": "Teil 2 — Forumsbeitrag",
+  "writingHubCommunityTeil3": "Teil 3 — Formelle E-Mail",
+  "writingHubCommunityViewAll": "Alle Community-Themen ansehen →",
+  "writingChooseNow": "Jetzt Thema wählen",
+  "writingClearFilters": "Filter zurücksetzen",
+  "writingShowMore": "Mehr anzeigen",
+  "writingSortLabel": "Sortieren:",
+  "writingSortByDate": "Datum",
+  "writingSortByScore": "Punktzahl",
+  "writingSubmissionsEmptyTitle": "Noch keine Texte",
+  "writingSubmissionsEmptyDesc": "Wähle ein Thema und beginne zu schreiben — dein Verlauf erscheint hier.",
+  "writingSubmissionsNoMatch": "Keine Texte entsprechen diesem Filter.",
+  "writingCriteriaTrendTitle": "Deine Schreibkriterien",
+  "writingCriteriaTrendSubtitle": "Ø aus {count} bewerteten Texten",
+  "@writingCriteriaTrendSubtitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "writingCriteriaWeakest": "braucht am meisten Übung",
+  "writingCriterionTaskCompletion": "Aufgabenerfüllung",
+  "writingCriterionGrammar": "Grammatik",
+  "writingCriterionVocabulary": "Wortschatz",
+  "writingCriterionCoherence": "Kohärenz",
+  "writingLevelTitle": "{label} · Schreiben",
+  "@writingLevelTitle": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "writingLevelEmptyTitle": "Noch keine offiziellen Themen",
+  "writingLevelEmptyDesc": "{label}-Themen werden noch ergänzt — probiere die Community-Themen unten!",
+  "@writingLevelEmptyDesc": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "writingLevelCommunitySectionTitle": "Community-Themen",
+  "writingLevelContributeButton": "➕ Thema beitragen",
+  "writingLevelCommunityEmpty": "Noch keine Community-Themen für dieses Niveau.",
+  "writingLevelNotFound": "Dieses Schreib-Niveau wurde nicht gefunden.",
+  "writingLevelLocked": "Dieses Thema ist nur für Premium-Konten.",
+  "writingCommunityAddVersion": "➕ Version hinzufügen",
+  "writingCommunityBackToList": "Zurück zur Liste",
+  "writingCommunityCreateTitle": "Community-Thema beitragen",
+  "writingCommunityNotFoundDesc": "Dieses Thema wurde eventuell entfernt oder ist noch nicht veröffentlicht.",
+  "writingCommunityNotFoundTitle": "Thema nicht gefunden",
+  "writingCommunityPointsHint": "Ein Punkt pro Zeile — die KI hält sich daran an das Thema.",
+  "writingCommunityPointsTitle": "Zu behandelnde Punkte",
+  "writingCommunityReportReason": "Von einem Nutzer gemeldet",
+  "writingCommunityReportSent": "Meldung gesendet, danke!",
+  "writingCommunitySubmit": "Thema veröffentlichen",
+  "writingCommunityTaskHint": "Füge hier dein Schreibthema ein…",
+  "writingCommunityTopicFallbackTitle": "Community-Thema",
+  "writingCommunityVoteError": "Etwas ist schiefgelaufen, bitte versuche es erneut.",
+  "writingCustomTitle": "Eigenes Thema",
+  "writingCustomIntro": "Füge dein Thema ein, wähle Prüfung & Niveau und schreib los — die KI bewertet wie bei einem vorgegebenen Thema.",
+  "writingCustomExamLabel": "Prüfung",
+  "writingCustomLevelLabel": "Niveau",
+  "writingCustomTeilLabel": "Teil (optional)",
+  "writingCustomTeilNone": "Keiner",
+  "writingCustomTaskLabel": "Thema *",
+  "writingCustomTaskHintPolish": "Vietnamesisches Thema, Stichwörter oder einen unvollständigen Entwurf eingeben — die KI erstellt ein vollständiges deutsches Thema…",
+  "writingCustomTaskHintPlain": "Vollständiges deutsches Schreibthema hier einfügen…",
+  "writingCustomPointsLabelPolish": "Hinweise / Kernideen (optional)",
+  "writingCustomPointsLabelPlain": "Zu behandelnde Punkte (optional)",
+  "writingCustomPointsHint": "Ein Punkt pro Zeile — die KI hält sich daran an das Thema.",
+  "writingCustomStartPolish": "Verfeinern & losschreiben",
+  "writingCustomStartPlain": "Losschreiben",
+  "writingCustomEditPrompt": "← Thema bearbeiten",
+  "writingCustomStartedTitle": "Eigenes Thema",
+  "writingCustomContribute": "📤 Dieses Thema mit der Community teilen",
+  "writingAiPolishTitle": "✨ Thema von der KI verfeinern lassen",
+  "writingAiPolishDesc": "Verwandelt ein vietnamesisches Thema / Stichwörter / einen Entwurf in ein vollständiges deutsches Thema. Deaktivieren, wenn dein Thema schon vollständig ist.",
+  "writingAiPolishing": "Thema wird verfeinert…",
+  "writingAiPolishError": "KI konnte das Thema nicht verfeinern. Deaktivieren, um das Original zu nutzen, oder erneut versuchen.",
+  "writingSessionGradingTimelineTitle": "Bewertungsverlauf",
+  "writingSessionNotFound": "Dieser Text wurde nicht gefunden. Er könnte veraltet sein — gehe zurück zum Verlauf für aktuelle Texte.",
+  "writingSessionPracticeAgain": "Erneut üben",
+  "writingSessionTitleFallback": "Text",
+  "writingSessionYourAnswer": "Dein Text",
+  "youtubeInvalidUrl": "Ungültige YouTube-URL",
+  "youtubeAddVideoError": "Video konnte nicht hinzugefügt werden, bitte später erneut versuchen.",
+  "youtubeDeleteVideoError": "Video konnte nicht gelöscht werden.",
+  "youtubeLoadListError": "Videoliste konnte nicht geladen werden.",
+  "youtubeEmptyState": "Noch keine Videos. Füge oben eine YouTube-URL ein, um zu starten.",
+  "youtubeUntitledVideo": "Video ohne Titel",
+  "youtubeWatchCount": "Angesehen ×{count}",
+  "@youtubeWatchCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "youtubeContinueWatching": "Weiterschauen",
+  "youtubePopularVideos": "Beliebte Videos",
+  "youtubePasteUrlHint": "YouTube-URL einfügen...",
+  "youtubeRewatchMarked": "Erneutes Ansehen erfasst",
+  "youtubeCompleteMarked": "Als abgeschlossen markiert",
+  "youtubeSaveProgressError": "Fortschritt konnte nicht gespeichert werden, bitte später erneut versuchen.",
+  "youtubeRewatchButton": "Erneut ansehen",
+  "youtubeCompleteButton": "Abgeschlossen",
+  "youtubePracticeShadowing": "Shadowing",
+  "youtubeTranscriptLabel": "Transkript",
+  "youtubeNotesLabel": "Notizen",
+  "youtubeDictationShowVideoTooltip": "Video anzeigen",
+  "youtubeDictationAudioOnlyTooltip": "Nur Ton",
+  "youtubeTranscriptLoadError": "Transkript konnte nicht geladen werden.",
+  "youtubeDictationNoTranscript": "Dieses Video hat noch kein Transkript für Diktatübungen.",
+  "shadowingScreenTitle": "Shadowing — Ausspracheübung",
+  "shadowingHideVideoTooltip": "Video ausblenden (Ton läuft weiter)",
+  "shadowingNoTranscript": "Dieses Video hat noch kein Transkript für Shadowing-Übungen.",
+  "shadowingSentenceProgress": "Satz {index}/{total}",
+  "@shadowingSentenceProgress": {
+    "placeholders": {
+      "index": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "shadowingListenAgain": "Erneut anhören",
+  "shadowingRecordTooltip": "Aufnehmen",
+  "shadowingRecordComingSoonTooltip": "Aufnahme kommt bald",
+  "shadowingRecordComingSoonHint": "Aufnahme + KI-Ausspracheauswertung kommt bald — bleib gespannt auf das nächste Update.",
+  "youtubeDictationProgress": "Satz {index}/{total} · Richtig {correct}",
+  "@youtubeDictationProgress": {
+    "placeholders": {
+      "index": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      },
+      "correct": {
+        "type": "int"
+      }
+    }
+  },
+  "youtubeDictationSentenceHint": "Ganzen Satz eingeben...",
+  "youtubeDictationClozeHint": "Fehlendes Wort eingeben...",
+  "youtubeDictationAnswerLabel": "Antwort:",
+  "youtubeDictationRetryButton": "↻ Wiederholen",
+  "youtubeDictationNextButton": "Weiter →",
+  "youtubeDictationCompleteTitle": "Abgeschlossen!",
+  "youtubeDictationCompleteSummary": "{correct}/{total} Sätze richtig · {skipped} übersprungen",
+  "@youtubeDictationCompleteSummary": {
+    "placeholders": {
+      "correct": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      },
+      "skipped": {
+        "type": "int"
+      }
+    }
+  },
+  "youtubeDictationRestartButton": "Neu starten",
+  "youtubeDictationModeLabel": "Modus",
+  "youtubeDictationModeSentence": "Ganzer Satz",
+  "youtubeDictationModeCloze": "Lücke füllen",
+  "youtubeDictationAlwaysShowVietnamese": "Vietnamesische Bedeutung immer anzeigen",
+  "writingSprintTitle": "Sprint Anki",
+  "writingSprintSubtitle": "Goethe B1 Schreiben — Wiederholung mit Spaced Repetition",
+  "writingSprintModePickerLabel": "Modus wählen",
+  "writingSprintModeMarathonTitle": "Marathon",
+  "writingSprintModeMarathonSubtitle": "1 Sitzung, 10 Stunden",
+  "writingSprintModeMarathonDetail": "Schnelle Wiederholung: 1m · 10m · 30m · 2h. Alle Themen an einem Tag.",
+  "writingSprintModeDailyTitle": "Täglich",
+  "writingSprintModeDailySubtitle": "SM-2 über mehrere Tage",
+  "writingSprintModeDailyDetail": "Anki-Algorithmus: ca. 1 Tag · 2,5 Tage · 4 Tage. Wenige Minuten täglich, längeres Behalten.",
+  "writingSprintModeSelected": "Ausgewählt",
+  "writingSprintResumeButton": "Vorherige Sitzung fortsetzen",
+  "writingSprintStartFreshButton": "Neu starten (alte Sitzung löschen)",
+  "writingSprintStartButton": "Starten — {count} Themen",
+  "@writingSprintStartButton": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "writingSprintMockCta": "3-Aufsatz-Probeprüfung starten",
+  "writingSprintCheatsheetCta": "Redemittel-Spickzettel",
+  "writingSprintCardCounter": "Teil {teil} · Karte {num}/{total}",
+  "@writingSprintCardCounter": {
+    "placeholders": {
+      "teil": {
+        "type": "int"
+      },
+      "num": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "writingSprintRequirementsLabel": "ANFORDERUNGEN",
+  "writingSprintOutlineLabel": "Gliederung {index} (DE)",
+  "@writingSprintOutlineLabel": {
+    "placeholders": {
+      "index": {
+        "type": "int"
+      }
+    }
+  },
+  "writingSprintOutlineHint": "Was schreiben Sie zu Punkt {index}?",
+  "@writingSprintOutlineHint": {
+    "placeholders": {
+      "index": {
+        "type": "int"
+      }
+    }
+  },
+  "writingSprintSkipButton": "Überspringen",
+  "writingSprintCheckButton": "Prüfen",
+  "writingSprintMatchGood": "Gut! Sie erinnern sich an das meiste.",
+  "writingSprintMatchWeak": "Wiederholung nötig — wählen Sie Again oder Hard.",
+  "writingSprintOutlineAnswerLabel": "GLIEDERUNGSANTWORT",
+  "writingSprintOutlineMissing": "(Gliederung {index} nicht verfügbar)",
+  "@writingSprintOutlineMissing": {
+    "placeholders": {
+      "index": {
+        "type": "int"
+      }
+    }
+  },
+  "writingSprintYouWrote": "Sie schrieben: {text}",
+  "@writingSprintYouWrote": {
+    "placeholders": {
+      "text": {
+        "type": "String"
+      }
+    }
+  },
+  "writingSprintMiniModelToggle": "Mini-Modell anzeigen",
+  "writingSprintRedemittelLabel": "REDEMITTEL",
+  "writingSprintSessionDoneTitle": "Alles wiederholt!",
+  "writingSprintSessionDoneBody": "Sie haben {count} Themen in dieser Sitzung wiederholt.",
+  "@writingSprintSessionDoneBody": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "writingSprintBackToSprint": "Zurück zum Sprint",
+  "writingSprintTaskLabel": "Aufgabe — Teil {teil}",
+  "@writingSprintTaskLabel": {
+    "placeholders": {
+      "teil": {
+        "type": "int"
+      }
+    }
+  },
+  "writingSprintEssayHint": "Schreiben Sie hier Ihren Aufsatz...",
+  "writingSprintWordCount": "{count} Wörter (Ziel: {min}–{max})",
+  "@writingSprintWordCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "min": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "writingSprintSubmitButton": "Abschicken ({count} Wörter)",
+  "@writingSprintSubmitButton": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "writingSprintGrading": "Wird bewertet...",
+  "writingSprintWordsNeeded": "{count} weitere Wörter nötig",
+  "@writingSprintWordsNeeded": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "writingSprintNoMockTopics": "Keine passenden Themen gefunden.",
+  "writingSprintMockAverageLabel": "Durchschnitt aus 3 Aufsätzen",
+  "writingSprintTeilTopicLabel": "Teil {teil} — {title}",
+  "@writingSprintTeilTopicLabel": {
+    "placeholders": {
+      "teil": {
+        "type": "int"
+      },
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "writingSprintNextEssay": "Nächster Aufsatz →",
+  "writingSprintGradingLong": "KI bewertet Ihren Aufsatz... (~5-10s)",
+  "writingSprintTeilLabel": "Teil {teil}",
+  "@writingSprintTeilLabel": {
+    "placeholders": {
+      "teil": {
+        "type": "int"
+      }
+    }
+  },
+  "writingSprintErrorsToFixLabel": "Zu korrigierende Fehler",
+  "writingSprintErrorWrongLabel": "Falsch",
+  "writingSprintErrorFixLabel": "Korrektur",
+  "writingSprintShowEssay": "Aufsatz anzeigen",
+  "writingSprintHideEssay": "Aufsatz ausblenden",
+  "writingSprintRegradeButton": "Neu bewerten?",
+  "writingSprintCheatsheetTitle": "Goethe B1 Schreiben Spickzettel",
+  "writingSprintCheatsheetSummary": "{topics} Themen · {clusters} Cluster",
+  "@writingSprintCheatsheetSummary": {
+    "placeholders": {
+      "topics": {
+        "type": "int"
+      },
+      "clusters": {
+        "type": "int"
+      }
+    }
+  },
+  "writingSprintCheatsheetOverviewTitle": "Übersicht — {count} Cluster",
+  "@writingSprintCheatsheetOverviewTitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "writingSprintCheatsheetTopicCount": "{count} Themen",
+  "@writingSprintCheatsheetTopicCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "writingSprintCheatsheetTeilTitle": "Teil {teil} — {count} Themen",
+  "@writingSprintCheatsheetTeilTitle": {
+    "placeholders": {
+      "teil": {
+        "type": "int"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "writingSprintCheatsheetRedemittelTitle": "Top-Redemittel nach Funktion",
+  "writingSprintCheatsheetMistakesTitle": "Häufige B1-Fehler",
+  "writingSprintCheatsheetVerbKasusTitle": "Kurzreferenz — Verb+Kasus",
+  "readingTabLabel": "Geschichten",
+  "newsTabLabel": "Nachrichten",
+  "readingHubTitle": "Geschichten lesen",
+  "readingHubTitleLevel": "{level}-Geschichten lesen",
+  "@readingHubTitleLevel": {
+    "placeholders": {
+      "level": {
+        "type": "String"
+      }
+    }
+  },
+  "readingHubSubtitleHome": "Zweisprachige Deutsch–Vietnamesische Geschichten nach Niveau · mit Audio · A1–C2",
+  "readingHubSubtitleLevel": "Wähle eine Geschichte · schließe die Übungen ab (≥60%), um sie als erledigt zu markieren",
+  "readingLevelCardEmpty": "Noch keine Geschichten",
+  "readingLevelCardAllDone": "🎉 Alles geschafft!",
+  "readingViewAllArrow": "Alle ansehen →",
+  "readingSearchHintInLevel": "Geschichten in {level} suchen...",
+  "@readingSearchHintInLevel": {
+    "placeholders": {
+      "level": {
+        "type": "String"
+      }
+    }
+  },
+  "readingCompletedCountOfTotal": "{completed}/{total} Geschichten abgeschlossen",
+  "@readingCompletedCountOfTotal": {
+    "placeholders": {
+      "completed": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "readingSearchEmpty": "Keine Geschichten gefunden",
+  "readingDoneChip": "Gelesen",
+  "readingShowTranslation": "Übersetzung anzeigen",
+  "readingTapWordHint": "Tippe auf ein beliebiges Wort, um die Bedeutung nachzuschlagen.",
+  "readingSaveProgressError": "Fortschritt konnte nicht gespeichert werden, bitte später erneut versuchen.",
+  "readingGlossaryTitle": "Wortschatz & Erklärungen",
+  "readingMarkComplete": "Als gelesen markieren",
+  "readingFeedAppBarTitle": "Passendes Leseniveau",
+  "readingFeedEmptyReady": "Momentan passen keine Geschichten zu deinem Niveau.",
+  "readingFeedEmptyNotReady": "Die Geschichtenbibliothek wird noch vorbereitet — bitte in ein paar Minuten wiederkommen.",
+  "readingFeedSaveVocabHint": "Speichere mehr Wortschatz, damit das System dir passendere Geschichten vorschlagen kann.",
+  "readingFeedVocabSummary": "{vocabNew} neue Wörter · {coveragePct}% der schwierigen Wörter bekannt",
+  "@readingFeedVocabSummary": {
+    "placeholders": {
+      "vocabNew": {
+        "type": "int"
+      },
+      "coveragePct": {
+        "type": "int"
+      }
+    }
+  },
+  "readListenTabRead": "Lesen",
+  "readingLeaderboardProgressTitle": "{level}-Fortschritt",
+  "@readingLeaderboardProgressTitle": {
+    "placeholders": {
+      "level": {
+        "type": "String"
+      }
+    }
+  },
+  "readingLeaderboardTitleLevel": "{level}-Bestenliste",
+  "@readingLeaderboardTitleLevel": {
+    "placeholders": {
+      "level": {
+        "type": "String"
+      }
+    }
+  },
+  "readingLeaderboardSubtitleLevel": "Anzahl abgeschlossener {level}-Geschichten",
+  "@readingLeaderboardSubtitleLevel": {
+    "placeholders": {
+      "level": {
+        "type": "String"
+      }
+    }
+  },
+  "readingYourRankPrefix": "Dein Rang: ",
+  "readingYourRankSuffix": " · {count} Geschichten",
+  "@readingYourRankSuffix": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "newsHeaderTitle": "Deutsche Nachrichten",
+  "newsHeaderSubtitle": "Lies deutsche Nachrichten nach Niveau A1–B2 · mit Audio · Wortschatz · Übungen",
+  "newsFilterLevelLabel": "Niveau:",
+  "newsFilterTopicLabel": "Thema:",
+  "newsPaginationInfo": "Seite {page}/{total}",
+  "@newsPaginationInfo": {
+    "placeholders": {
+      "page": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "newsPaginationNext": "Weiter",
+  "newsEmptyFiltered": "Keine Geschichten passen zum Filter.",
+  "newsEmptyNone": "Noch keine Nachrichten.",
+  "newsChooseLevelLabel": "Wähle ein Leseniveau",
+  "newsOtherLevelsPrefix": "💡 Du kannst diese Geschichte auch auf einem anderen Niveau lesen: ",
+  "newsListenFullStory": "Die ganze Geschichte anhören",
+  "newsAudioSpeedSlow": "Langsam",
+  "newsAudioSpeedNormal": "Normal",
+  "newsVocabTitle": "Wortschatz",
+  "newsHasAudioLabel": "Mit Audio",
+  "newsLeaderboardTitleWeekly": "Wöchentliche Bestenliste",
+  "newsLeaderboardSubtitleWeekly": "Anzahl der diese Woche abgeschlossenen Nachrichten",
+  "newsLeaderboardEmpty": "Diese Woche hat noch niemand eine Geschichte abgeschlossen",
+  "newsQuizTitle": "Testfragen",
+  "newsQuizSubmit": "Einreichen",
+  "newsQuizResult": "Ergebnis: {correct}/{total} richtig ({percent}%)",
+  "@newsQuizResult": {
+    "placeholders": {
+      "correct": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      },
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "newsQuizPassedSuffix": " — Fortschritt gespeichert ✅",
+  "saveWordsCtaDone": "✓ Hinzugefügt — erscheint in der Wiederholung",
+  "saveWordsCtaSave": "📥 {count} neue Wörter zur Wiederholung speichern",
+  "@saveWordsCtaSave": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "saveWordsCtaResolvedCount": "{resolvable}/{total} Wörter im System verfügbar",
+  "@saveWordsCtaResolvedCount": {
+    "placeholders": {
+      "resolvable": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "saveWordsCtaError": "Wortschatz konnte nicht gespeichert werden, bitte später erneut versuchen.",
+  "newsStoryNotFound": "Nachrichtenartikel nicht gefunden.",
+  "yesterday": "Gestern",
+  "newsWeeklyRingProgress": "Diese Woche hast du {done}/{total} neu veröffentlichte Artikel gelesen",
+  "@newsWeeklyRingProgress": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "newsWeeklyRingEmpty": "Diese Woche wurden noch keine neuen Artikel veröffentlicht",
+  "readingListenFullStory": "Die ganze Geschichte anhören",
+  "readingAudioSpeedTooltip": "Geschwindigkeit"
 }

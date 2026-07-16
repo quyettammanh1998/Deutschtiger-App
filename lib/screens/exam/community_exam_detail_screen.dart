@@ -61,7 +61,7 @@ class CommunityExamDetailScreen extends ConsumerWidget {
                     ),
                     const SizedBox(width: 4),
                     Text(
-                      'Quay lại',
+                      l10n.communityBackLink,
                       style: TextStyle(
                         fontSize: 13,
                         color: tokens.mutedForeground,
@@ -138,6 +138,7 @@ class _BadgeRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final tokens = context.tokens;
+    final l10n = AppLocalizations.of(context);
     return Wrap(
       crossAxisAlignment: WrapCrossAlignment.center,
       spacing: 8,
@@ -148,11 +149,11 @@ class _BadgeRow extends StatelessWidget {
             color: tokens.primary.withValues(alpha: 0.12),
             borderRadius: BorderRadius.circular(4),
           ),
-          child: const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
             child: Text(
-              'Cộng đồng',
-              style: TextStyle(
+              l10n.communityBadgeLabel,
+              style: const TextStyle(
                 fontSize: 10,
                 fontWeight: FontWeight.w600,
                 color: Color(0xFF1D4ED8),
@@ -177,6 +178,7 @@ class _BadgeRow extends StatelessWidget {
 class _HiddenBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Container(
       width: double.infinity,
       margin: const EdgeInsets.only(bottom: 16),
@@ -185,9 +187,9 @@ class _HiddenBanner extends StatelessWidget {
         color: const Color(0xFFFEFCE8),
         borderRadius: BorderRadius.circular(8),
       ),
-      child: const Text(
-        '⚠️ Đề này đã bị ẩn do nhận nhiều báo cáo.',
-        style: TextStyle(fontSize: 13, color: Color(0xFF854D0E)),
+      child: Text(
+        l10n.communityHiddenBanner,
+        style: const TextStyle(fontSize: 13, color: Color(0xFF854D0E)),
       ),
     );
   }
@@ -197,6 +199,7 @@ class _ActionsRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final tokens = context.tokens;
+    final l10n = AppLocalizations.of(context);
     return DecoratedBox(
       decoration: BoxDecoration(
         border: Border(top: BorderSide(color: tokens.border)),
@@ -208,17 +211,17 @@ class _ActionsRow extends StatelessWidget {
           runSpacing: 8,
           children: [
             Tooltip(
-              message: 'Tính năng đang được phát triển',
+              message: l10n.communityGatedTooltip,
               child: AppButton(
-                label: 'Tôi vừa thi',
+                label: l10n.communityTakeExamAction,
                 leading: Icon(AppPhosphorIcons.microphoneStage),
                 onPressed: null,
               ),
             ),
             Tooltip(
-              message: 'Tính năng đang được phát triển',
+              message: l10n.communityGatedTooltip,
               child: AppButton(
-                label: 'Báo cáo',
+                label: l10n.communityReportAction,
                 variant: AppButtonVariant.outline,
                 leading: Icon(AppPhosphorIcons.flag),
                 onPressed: null,

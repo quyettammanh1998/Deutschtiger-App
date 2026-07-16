@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_tokens.dart';
 import '../../../../data/exam/exam_ecosystem_models.dart';
+import '../../../../l10n/app_localizations.dart';
 
 /// Inline sparkline of recent exam scores — mirrors web
 /// `exam-readiness-score-trend.tsx`. Renders nothing below 2 points.
@@ -14,6 +15,7 @@ class ReadinessScoreTrend extends StatelessWidget {
   Widget build(BuildContext context) {
     if (trend.length < 2) return const SizedBox.shrink();
     final tokens = context.tokens;
+    final l10n = AppLocalizations.of(context);
     final scores = trend.map((p) => p.score).toList();
     final first = scores.first;
     final last = scores.last;
@@ -44,7 +46,7 @@ class ReadinessScoreTrend extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Xu hướng điểm',
+                  l10n.examReadinessScoreTrendLabel,
                   style: TextStyle(
                     fontSize: 11,
                     fontWeight: FontWeight.w700,
@@ -53,7 +55,7 @@ class ReadinessScoreTrend extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  '$deltaLabel điểm',
+                  l10n.examReadinessScoreTrendDelta(deltaLabel),
                   style: TextStyle(
                     fontSize: 11,
                     fontWeight: FontWeight.w700,
@@ -73,12 +75,12 @@ class ReadinessScoreTrend extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  '${trend.length} lần gần nhất',
+                  l10n.examReadinessScoreTrendRecentCount(trend.length),
                   style: TextStyle(fontSize: 11, color: tokens.mutedForeground),
                 ),
                 Text.rich(
                   TextSpan(
-                    text: 'Gần nhất: ',
+                    text: l10n.examReadinessScoreTrendLatestPrefix,
                     style: TextStyle(
                       fontSize: 11,
                       color: tokens.mutedForeground,

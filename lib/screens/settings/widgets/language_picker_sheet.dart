@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/design_tokens.dart';
-import '../../../../l10n/app_localizations.dart';
+import '../../../core/theme/app_tokens.dart';
+import '../../../l10n/app_localizations.dart';
 
 /// Language picker bottom sheet for SettingsScreen.
 class LanguagePickerSheet extends StatelessWidget {
@@ -23,6 +23,7 @@ class LanguagePickerSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+    final tokens = context.tokens;
     return SafeArea(
       child: Semantics(
         label: l10n.selectLanguage,
@@ -31,10 +32,10 @@ class LanguagePickerSheet extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Padding(
-              padding: EdgeInsets.all(DesignTokens.spacingMd),
+              padding: const EdgeInsets.all(16),
               child: Text(
                 l10n.selectLanguage,
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
+                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
               ),
             ),
             for (final o in _options)
@@ -46,7 +47,7 @@ class LanguagePickerSheet extends StatelessWidget {
                   leading: Text(o.flag, style: const TextStyle(fontSize: 24)),
                   title: Text(o.name),
                   trailing: currentLanguage == o.code
-                      ? const Icon(Icons.check, color: DesignTokens.tigerOrange)
+                      ? Icon(Icons.check, color: tokens.primary)
                       : null,
                   onTap: () {
                     onSelect(o.code);
@@ -54,7 +55,7 @@ class LanguagePickerSheet extends StatelessWidget {
                   },
                 ),
               ),
-            const SizedBox(height: DesignTokens.spacingMd),
+            const SizedBox(height: 16),
           ],
         ),
       ),

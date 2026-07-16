@@ -5,6 +5,7 @@ import 'package:just_audio/just_audio.dart';
 
 import '../../../../core/theme/app_tokens.dart';
 import '../../../../data/exam/exam_ecosystem_models.dart';
+import '../../../../l10n/app_localizations.dart';
 import 'cloze_mistake_list.dart';
 import 'cloze_practice_card.dart';
 import 'dictation_cue.dart';
@@ -163,6 +164,7 @@ class _ClozePracticeViewState extends State<ClozePracticeView> {
   @override
   Widget build(BuildContext context) {
     final tokens = context.tokens;
+    final l10n = AppLocalizations.of(context);
     if (_cues.isEmpty) {
       return Center(
         child: Padding(
@@ -171,13 +173,13 @@ class _ClozePracticeViewState extends State<ClozePracticeView> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                'Không có từ nào để luyện.',
+                l10n.dictationNoWordsToPractice,
                 style: TextStyle(color: tokens.mutedForeground),
               ),
               const SizedBox(height: 12),
               OutlinedButton(
                 onPressed: widget.onBack,
-                child: const Text('← Quay lại chọn từ'),
+                child: Text(l10n.dictationBackToWordSelection),
               ),
             ],
           ),
@@ -192,10 +194,10 @@ class _ClozePracticeViewState extends State<ClozePracticeView> {
           .map((r) => r.cue.word)
           .toList();
       return DictationEndScreen(
-        title: 'Kết quả luyện nghe',
+        title: l10n.dictationClozeResultTitle,
         correct: correct,
         total: _cues.length,
-        backLabel: 'Chọn từ khác',
+        backLabel: l10n.dictationClozeBackLabel,
         onRetry: _retry,
         onBack: widget.onBack,
         children: mistakeWords.isEmpty

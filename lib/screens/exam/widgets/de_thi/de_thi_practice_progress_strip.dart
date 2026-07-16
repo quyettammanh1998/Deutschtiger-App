@@ -78,7 +78,7 @@ class DeThiPracticeProgressStrip extends StatelessWidget {
               children: [
                 Expanded(
                   child: Text(
-                    '$correctCount/$totalQuestions câu đúng',
+                    l10n.deThiCorrectCountLabel(correctCount, totalQuestions),
                     style: TextStyle(
                       fontSize: 14,
                       color: tokens.mutedForeground,
@@ -95,7 +95,7 @@ class DeThiPracticeProgressStrip extends StatelessWidget {
                     borderRadius: BorderRadius.circular(999),
                   ),
                   child: Text(
-                    '$score điểm',
+                    l10n.deThiScoreLabel(score.toString()),
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w800,
@@ -133,7 +133,7 @@ class DeThiPracticeProgressStrip extends StatelessWidget {
               children: [
                 Text.rich(
                   TextSpan(
-                    text: 'Đoạn ${passageIndex + 1}',
+                    text: l10n.deThiPassageOf(passageIndex + 1),
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w600,

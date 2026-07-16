@@ -44,6 +44,11 @@ void main() {
   testWidgets('learner model screen shows empty weak-words state', (
     tester,
   ) async {
+    // More sections render above weak-words now (readiness/PageIntro/mastery
+    // card) — a taller surface keeps the weak-words empty state in the
+    // ListView's built range without needing an explicit scroll.
+    await tester.binding.setSurfaceSize(const Size(800, 2400));
+    addTearDown(() => tester.binding.setSurfaceSize(null));
     await tester.pumpWidget(
       ProviderScope(
         overrides: [

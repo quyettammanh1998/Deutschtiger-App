@@ -1,155 +1,233 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/design_tokens.dart';
-import '../../../l10n/app_localizations.dart';
+import '../../../core/theme/app_tokens.dart';
+import '../../../widgets/common/app_card.dart';
 
-/// Reusable tile widgets for SettingsScreen (Phase 05).
+/// Reusable primitives for the settings tree — web parity:
+/// `thamkhao/deutschtiger-frontend/src/pages/settings/settings-page.tsx`
+/// nav-rows card + `settings-*-section.tsx` toggle pattern.
 ///
-/// Trước đây nằm inline trong `settings_screen.dart` (~250 dòng), tách ra để
-/// file chính < 300 dòng theo guideline plan.
+/// All colors read from `context.tokens` (never the deprecated
+/// `DesignTokens`/`AppColors` statics) so every settings screen renders
+/// correctly in dark mode.
 
-class SectionHeader extends StatelessWidget {
-  const SectionHeader({super.key, required this.title});
-  final String title;
+/// `text-sm font-bold tracking-wider text-muted-foreground uppercase` card
+/// header (e.g. "Hồ sơ", "Đổi mật khẩu", "Thông báo").
+class SettingsCardLabel extends StatelessWidget {
+  const SettingsCardLabel(this.label, {super.key});
+  final String label;
+
+  @override
+  Widget build(BuildContext context) => Padding(
+    padding: const EdgeInsets.only(bottom: 12),
+    child: Text(
+      label.toUpperCase(),
+      style: TextStyle(
+        fontSize: 13,
+        fontWeight: FontWeight.w700,
+        letterSpacing: 0.6,
+        color: context.tokens.mutedForeground,
+      ),
+    ),
+  );
+}
+
+/// `card divide-y divide-border` container of [SettingsNavRow]s.
+class SettingsNavRowCard extends StatelessWidget {
+  const SettingsNavRowCard({super.key, required this.children});
+  final List<Widget> children;
+
+  @override
+  Widget build(BuildContext context) => AppCard.card(
+    padding: EdgeInsets.zero,
+    child: Column(
+      children: [
+        for (var i = 0; i < children.length; i++) ...[
+          if (i > 0) Divider(height: 1, color: context.tokens.border),
+          children[i],
+        ],
+      ],
+    ),
+  );
+}
+
+/// A single web-style nav row: outline icon + label + chevron, full-width
+/// tap target, `hover:bg-muted/50` press feedback (InkWell ripple here).
+class SettingsNavRow extends StatelessWidget {
+  const SettingsNavRow({
+    super.key,
+    required this.icon,
+    required this.label,
+    required this.onTap,
+    this.destructive = false,
+    this.trailing,
+  });
+
+  final IconData icon;
+  final String label;
+  final VoidCallback onTap;
+
+  /// Red logout-row styling (`text-red-500`, `hover:bg-red-50`).
+  final bool destructive;
+
+  /// Overrides the default chevron (e.g. a badge count).
+  final Widget? trailing;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(
-        left: DesignTokens.spacingXs,
-        bottom: DesignTokens.spacingSm,
-      ),
-      child: Text(
-        title,
-        style: const TextStyle(
-          fontSize: 13,
-          fontWeight: FontWeight.w600,
-          color: DesignTokens.mutedForeground,
+    final tokens = context.tokens;
+    final color = destructive ? tokens.destructive : tokens.mutedForeground;
+    final labelColor = destructive ? tokens.destructive : tokens.foreground;
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        splashColor: destructive
+            ? tokens.destructive.withValues(alpha: 0.08)
+            : null,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+          child: Row(
+            children: [
+              Icon(icon, size: 20, color: color),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Text(
+                  label,
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    color: labelColor,
+                  ),
+                ),
+              ),
+              trailing ??
+                  Icon(Icons.chevron_right, size: 18, color: color),
+            ],
+          ),
         ),
       ),
     );
   }
 }
 
-class SettingsCard extends StatelessWidget {
-  const SettingsCard({super.key, required this.children});
-  final List<Widget> children;
-
-  @override
-  Widget build(BuildContext context) {
-    return Ink(
-      decoration: BoxDecoration(
-        color: DesignTokens.card,
-        borderRadius: BorderRadius.circular(DesignTokens.radius),
-        border: Border.all(color: DesignTokens.border),
-        boxShadow: DesignTokens.shadowSm,
-      ),
-      child: Column(children: children),
-    );
-  }
-}
-
-class SettingsTile extends StatelessWidget {
-  const SettingsTile({
+/// Pill switch matching web's `h-7/8 w-12/14` custom toggle (bigger, more
+/// tactile than Material's default [Switch]) — used on appearance,
+/// notification and review-display toggles.
+class SettingsToggleSwitch extends StatelessWidget {
+  const SettingsToggleSwitch({
     super.key,
-    required this.icon,
-    required this.title,
-    this.subtitle,
-    required this.onTap,
-  });
-  final IconData icon;
-  final String title;
-  final String? subtitle;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      leading: Icon(icon, color: DesignTokens.foreground),
-      title: Text(title),
-      subtitle: subtitle != null ? Text(subtitle!) : null,
-      trailing: const Icon(
-        Icons.chevron_right,
-        color: DesignTokens.mutedForeground,
-      ),
-      onTap: onTap,
-    );
-  }
-}
-
-class SettingsSwitchTile extends StatelessWidget {
-  const SettingsSwitchTile({
-    super.key,
-    required this.icon,
-    required this.title,
-    this.subtitle,
     required this.value,
     required this.onChanged,
+    this.semanticLabel,
+    this.busy = false,
   });
-  final IconData icon;
-  final String title;
-  final String? subtitle;
+
   final bool value;
   final ValueChanged<bool> onChanged;
+  final String? semanticLabel;
+  final bool busy;
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading: Icon(icon, color: DesignTokens.foreground),
-      title: Text(title),
-      subtitle: subtitle != null ? Text(subtitle!) : null,
-      trailing: Switch(
-        value: value,
-        onChanged: onChanged,
-        activeThumbColor: DesignTokens.tigerOrange,
+    final tokens = context.tokens;
+    return Semantics(
+      label: semanticLabel,
+      toggled: value,
+      child: GestureDetector(
+        onTap: busy ? null : () => onChanged(!value),
+        child: AnimatedOpacity(
+          opacity: busy ? 0.6 : 1,
+          duration: const Duration(milliseconds: 150),
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 150),
+            width: 48,
+            height: 28,
+            padding: const EdgeInsets.all(2),
+            decoration: BoxDecoration(
+              color: value ? tokens.primary : tokens.muted,
+              borderRadius: BorderRadius.circular(999),
+            ),
+            child: AnimatedAlign(
+              duration: const Duration(milliseconds: 150),
+              alignment: value ? Alignment.centerRight : Alignment.centerLeft,
+              child: Container(
+                width: 24,
+                height: 24,
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(color: Colors.black26, blurRadius: 3),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }
 }
 
-class SettingsSliderTile extends StatelessWidget {
-  const SettingsSliderTile({
+/// `ToggleRow` on `settings-review-display-section.tsx` / appearance —
+/// label + description on the left, [SettingsToggleSwitch] on the right.
+class SettingsToggleRow extends StatelessWidget {
+  const SettingsToggleRow({
     super.key,
-    required this.icon,
-    required this.title,
+    required this.label,
     required this.value,
     required this.onChanged,
+    this.description,
+    this.topBorder = false,
   });
-  final IconData icon;
-  final String title;
-  final double value;
-  final ValueChanged<double> onChanged;
+
+  final String label;
+  final String? description;
+  final bool value;
+  final ValueChanged<bool> onChanged;
+  final bool topBorder;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: DesignTokens.spacingMd,
-        vertical: DesignTokens.spacingSm,
-      ),
+    final tokens = context.tokens;
+    return Container(
+      padding: EdgeInsets.only(top: topBorder ? 16 : 0, bottom: 8),
+      decoration: topBorder
+          ? BoxDecoration(
+              border: Border(top: BorderSide(color: tokens.border)),
+            )
+          : null,
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(icon, color: DesignTokens.foreground),
-          const SizedBox(width: DesignTokens.spacingMd),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title),
-                Slider(
-                  value: value,
-                  onChanged: onChanged,
-                  activeColor: DesignTokens.tigerOrange,
+                Text(
+                  label,
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    color: tokens.foreground,
+                  ),
                 ),
+                if (description != null) ...[
+                  const SizedBox(height: 2),
+                  Text(
+                    description!,
+                    style: TextStyle(fontSize: 12, color: tokens.mutedForeground),
+                  ),
+                ],
               ],
             ),
           ),
-          Text(
-            '${(value * 100).round()}%',
-            style: const TextStyle(
-              color: DesignTokens.mutedForeground,
-              fontWeight: FontWeight.w500,
-            ),
+          const SizedBox(width: 12),
+          SettingsToggleSwitch(
+            value: value,
+            onChanged: onChanged,
+            semanticLabel: label,
           ),
         ],
       ),
@@ -157,62 +235,46 @@ class SettingsSliderTile extends StatelessWidget {
   }
 }
 
-class ThemeSettingTile extends StatelessWidget {
-  const ThemeSettingTile({
+/// `rounded-xl border-2 px-3 py-1.5` selectable chip — CEFR level / goal /
+/// minute-preset buttons on `settings-learning-preferences-section.tsx`.
+class SettingsChoiceChip extends StatelessWidget {
+  const SettingsChoiceChip({
     super.key,
-    required this.themeMode,
-    required this.onChanged,
+    required this.label,
+    required this.selected,
+    required this.onTap,
   });
-  final ThemeMode themeMode;
-  final ValueChanged<ThemeMode> onChanged;
 
-  String _themeName(BuildContext context, ThemeMode mode) {
-    final l10n = AppLocalizations.of(context);
-    return switch (mode) {
-      ThemeMode.system => l10n.systemTheme,
-      ThemeMode.light => l10n.lightTheme,
-      ThemeMode.dark => l10n.darkTheme,
-    };
-  }
+  final String label;
+  final bool selected;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading: const Icon(
-        Icons.dark_mode_outlined,
-        color: DesignTokens.foreground,
-      ),
-      title: Text(AppLocalizations.of(context).themeMode),
-      subtitle: Text(_themeName(context, themeMode)),
-      trailing: PopupMenuButton<ThemeMode>(
-        initialValue: themeMode,
-        onSelected: onChanged,
-        itemBuilder: (context) => [
-          PopupMenuItem(
-            value: ThemeMode.system,
-            child: Text(_themeName(context, ThemeMode.system)),
-          ),
-          PopupMenuItem(
-            value: ThemeMode.light,
-            child: Text(_themeName(context, ThemeMode.light)),
-          ),
-          PopupMenuItem(
-            value: ThemeMode.dark,
-            child: Text(_themeName(context, ThemeMode.dark)),
-          ),
-        ],
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              _themeName(context, themeMode),
-              style: const TextStyle(color: DesignTokens.mutedForeground),
+    final tokens = context.tokens;
+    return Material(
+      color: selected ? tokens.primary.withValues(alpha: 0.1) : tokens.card,
+      borderRadius: BorderRadius.circular(12),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(12),
+        onTap: onTap,
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(
+              color: selected ? tokens.primary : Colors.transparent,
+              width: 2,
             ),
-            const Icon(
-              Icons.arrow_drop_down,
-              color: DesignTokens.mutedForeground,
+          ),
+          child: Text(
+            label,
+            style: TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.w700,
+              color: selected ? tokens.primary : tokens.foreground,
             ),
-          ],
+          ),
         ),
       ),
     );

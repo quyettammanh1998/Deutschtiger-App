@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../core/theme/app_tokens.dart';
 import '../../../../data/exam/exam_ecosystem_models.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../../../../widgets/common/app_card.dart';
 
 /// Web parity: `ExamCards` in `de-thi-list-page.tsx` — level pill (primary),
@@ -15,6 +16,7 @@ class DeThiExamCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final tokens = context.tokens;
+    final l10n = AppLocalizations.of(context);
     final amber = const Color(0xFFF59F0A);
     return AppCard.interactive(
       onTap: () => context.push('/de-thi/${entry.code}'),
@@ -62,7 +64,7 @@ class DeThiExamCard extends StatelessWidget {
           ],
           const SizedBox(height: 12),
           Text(
-            'Bắt đầu làm →',
+            l10n.deThiStartCta,
             style: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w700,

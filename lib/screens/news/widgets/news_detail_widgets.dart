@@ -3,6 +3,7 @@ import 'package:just_audio/just_audio.dart';
 
 import '../../../core/design_tokens.dart';
 import '../../../data/news/news_models.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../shared/widgets/tappable_sentence.dart';
 
 /// Segmented control chọn CEFR level của bài (level switcher — chỉ hiện khi
@@ -119,16 +120,16 @@ class _NewsAudioBarState extends State<NewsAudioBar> {
             ),
           ),
           const SizedBox(width: DesignTokens.spacingSm),
-          const Expanded(
+          Expanded(
             child: Text(
-              'Nghe bài đọc',
-              style: TextStyle(fontWeight: FontWeight.w600),
+              AppLocalizations.of(context).newsListenFullStory,
+              style: const TextStyle(fontWeight: FontWeight.w600),
             ),
           ),
           if (widget.audioUrlSlow != null)
             TextButton(
               onPressed: _toggleSpeed,
-              child: Text(_slow ? 'Chậm' : 'Thường'),
+              child: Text(_slow ? AppLocalizations.of(context).newsAudioSpeedSlow : AppLocalizations.of(context).newsAudioSpeedNormal),
             ),
         ],
       ),
@@ -166,7 +167,7 @@ class _NewsSentenceReaderState extends State<NewsSentenceReader> {
           child: OutlinedButton.icon(
             onPressed: () => setState(() => _showVi = !_showVi),
             icon: const Icon(Icons.translate, size: 16),
-            label: Text(_showVi ? 'Ẩn bản dịch' : 'Hiện bản dịch'),
+            label: Text(_showVi ? AppLocalizations.of(context).examHideTranslation : AppLocalizations.of(context).readingShowTranslation),
           ),
         ),
         const SizedBox(height: DesignTokens.spacingSm),
@@ -236,9 +237,9 @@ class NewsVocabList extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Từ vựng',
-            style: TextStyle(fontWeight: FontWeight.w700),
+          Text(
+            AppLocalizations.of(context).newsVocabTitle,
+            style: const TextStyle(fontWeight: FontWeight.w700),
           ),
           const SizedBox(height: DesignTokens.spacingSm),
           for (final v in vocab)

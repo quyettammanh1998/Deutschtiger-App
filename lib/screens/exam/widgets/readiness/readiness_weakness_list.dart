@@ -68,7 +68,7 @@ class ReadinessWeaknessList extends StatelessWidget {
                 InkWell(
                   onTap: () => context.push('/focus-session'),
                   child: Text(
-                    'Luyện điểm yếu →',
+                    l10n.examReadinessWeaknessPracticeCta,
                     style: TextStyle(
                       fontSize: 11.5,
                       fontWeight: FontWeight.w700,
@@ -98,6 +98,7 @@ class _WeaknessCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final tokens = context.tokens;
+    final l10n = AppLocalizations.of(context);
     final hasExample =
         detail.original.isNotEmpty && detail.corrected.isNotEmpty;
     final practiceRoute = _errorTypeRoutes[detail.errorType];
@@ -127,7 +128,7 @@ class _WeaknessCard extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  '${detail.count} lần',
+                  l10n.examReadinessAttemptCountSuffix(detail.count),
                   style: TextStyle(fontSize: 11, color: tokens.mutedForeground),
                 ),
                 if (practiceRoute != null) ...[
@@ -146,7 +147,7 @@ class _WeaknessCard extends StatelessWidget {
                           vertical: 4,
                         ),
                         child: Text(
-                          'Luyện →',
+                          l10n.examReadinessWeaknessDrillCta,
                           style: TextStyle(
                             fontSize: 11,
                             fontWeight: FontWeight.w700,

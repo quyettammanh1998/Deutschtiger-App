@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/app_tokens.dart';
+import '../../../widgets/common/game_shell.dart';
 
 /// Hub cho 4 sub-game "Cases Mastery" — mirrors web
 /// `src/pages/game/cases-mastery-hub-page.tsx`. Mỗi thẻ dẫn tới một game
@@ -11,71 +12,119 @@ class CasesMasteryHubScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.background,
-      appBar: AppBar(
-        backgroundColor: AppColors.background,
-        title: const Text('Luyện 4 Cách'),
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: Colors.blue.shade50,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: const Text(
-                'Hệ thống 4 cách (Fälle) là gốc rễ tiếng Đức. Mỗi game là '
-                'một kho câu lớn, cá nhân hoá theo trình độ — mỗi lượt là '
-                'câu mới, ưu tiên chỗ bạn hay sai.',
-                style: TextStyle(fontSize: 13, color: AppColors.foreground),
-              ),
+    final tokens = context.tokens;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    return GameShell(
+      title: 'Luyện 4 Cách',
+      exitGuard: false,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            decoration: BoxDecoration(
+              color: isDark
+                  ? Colors.blue.shade900.withValues(alpha: 0.3)
+                  : Colors.blue.shade50,
+              borderRadius: BorderRadius.circular(12),
             ),
-            const SizedBox(height: 16),
-            GridView.count(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              crossAxisCount: 2,
-              mainAxisSpacing: 12,
-              crossAxisSpacing: 12,
-              childAspectRatio: 0.95,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _SubDrillCard(
-                  title: 'Akkusativ vs Dativ',
-                  description: 'Chọn đúng der/den/dem trong câu',
-                  icon: Icons.shuffle,
-                  color: Colors.blue,
-                  onTap: () => context.push('/games/cases/akk-dat'),
+                Text.rich(
+                  TextSpan(
+                    style: TextStyle(
+                      fontSize: 14,
+                      height: 1.4,
+                      color: isDark ? Colors.blue.shade200 : Colors.blue.shade900,
+                    ),
+                    children: const [
+                      TextSpan(text: 'Hệ thống 4 cách (Fälle) là '),
+                      TextSpan(
+                        text: 'gốc rễ',
+                        style: TextStyle(fontWeight: FontWeight.w700),
+                      ),
+                      TextSpan(
+                        text:
+                            ' tiếng Đức. Luyện đến khi phản xạ Akk/Dat/Gen + đuôi '
+                            'tính từ + giới từ "luôn 2 mặt" sẽ giúp bạn nói/viết '
+                            'đúng và tự tin.',
+                      ),
+                    ],
+                  ),
                 ),
-                _SubDrillCard(
-                  title: 'Adjektivendungen',
-                  description: 'große / großen — đuôi tính từ',
-                  icon: Icons.translate,
-                  color: Colors.purple,
-                  onTap: () => context.push('/games/cases/adjektiv'),
-                ),
-                _SubDrillCard(
-                  title: 'Wechselpräpositionen',
-                  description: 'in die Schule (Akk) vs in der Schule (Dat)',
-                  icon: Icons.list_alt,
-                  color: Colors.amber.shade700,
-                  onTap: () => context.push('/games/cases/wechselprep'),
-                ),
-                _SubDrillCard(
-                  title: 'Verb-Case Matching',
-                  description: 'helfen → Dativ, sehen → Akkusativ',
-                  icon: Icons.menu_book,
-                  color: Colors.teal,
-                  onTap: () => context.push('/games/cases/verb-case'),
+                const SizedBox(height: 8),
+                Text.rich(
+                  TextSpan(
+                    style: TextStyle(
+                      fontSize: 12,
+                      height: 1.4,
+                      color: isDark
+                          ? Colors.blue.shade300.withValues(alpha: 0.8)
+                          : Colors.blue.shade800.withValues(alpha: 0.8),
+                    ),
+                    children: const [
+                      TextSpan(text: 'Mỗi game là một '),
+                      TextSpan(
+                        text: 'kho câu lớn',
+                        style: TextStyle(fontWeight: FontWeight.w700),
+                      ),
+                      TextSpan(
+                        text:
+                            ', cá nhân hoá theo trình độ — mỗi lượt là câu '
+                            'mới, ưu tiên chỗ bạn hay sai.',
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
-          ],
-        ),
+          ),
+          const SizedBox(height: 16),
+          GridView.count(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            crossAxisCount: 2,
+            mainAxisSpacing: 12,
+            crossAxisSpacing: 12,
+            childAspectRatio: 0.95,
+            children: [
+              _SubDrillCard(
+                title: 'Akkusativ vs Dativ',
+                description: 'Chọn đúng der/den/dem trong câu',
+                icon: Icons.shuffle,
+                gradient: const [Color(0xFF3B82F6), Color(0xFF0891B2)],
+                tokens: tokens,
+                onTap: () => context.push('/games/cases-akk-dat'),
+              ),
+              _SubDrillCard(
+                title: 'Adjektivendungen',
+                description: 'Der ___ Mann (groß) → große / großen',
+                icon: Icons.translate,
+                gradient: const [Color(0xFFA855F7), Color(0xFF7C3AED)],
+                tokens: tokens,
+                onTap: () => context.push('/games/cases-adjektiv'),
+              ),
+              _SubDrillCard(
+                title: 'Wechselpräpositionen',
+                description: 'in die Schule (Akk) vs in der Schule (Dat)',
+                icon: Icons.list_alt,
+                gradient: const [Color(0xFFF59E0B), Color(0xFFEA580C)],
+                tokens: tokens,
+                onTap: () => context.push('/games/cases-wechselprep'),
+              ),
+              _SubDrillCard(
+                title: 'Verb-Case Matching',
+                description: 'helfen → Dativ, sehen → Akkusativ',
+                icon: Icons.menu_book,
+                gradient: const [Color(0xFF10B981), Color(0xFF0D9488)],
+                tokens: tokens,
+                onTap: () => context.push('/games/cases-verb-case'),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
@@ -86,14 +135,16 @@ class _SubDrillCard extends StatelessWidget {
     required this.title,
     required this.description,
     required this.icon,
-    required this.color,
+    required this.gradient,
+    required this.tokens,
     required this.onTap,
   });
 
   final String title;
   final String description;
   final IconData icon;
-  final Color color;
+  final List<Color> gradient;
+  final AppTokens tokens;
   final VoidCallback onTap;
 
   @override
@@ -104,8 +155,9 @@ class _SubDrillCard extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: tokens.card,
           borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: tokens.border),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withValues(alpha: 0.06),
@@ -121,29 +173,30 @@ class _SubDrillCard extends StatelessWidget {
               width: 48,
               height: 48,
               decoration: BoxDecoration(
-                color: color.withValues(alpha: 0.15),
+                gradient: LinearGradient(
+                  colors: gradient,
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
                 borderRadius: BorderRadius.circular(14),
               ),
-              child: Icon(icon, color: color, size: 26),
+              child: Icon(icon, color: Colors.white, size: 26),
             ),
             const SizedBox(height: 10),
             Text(
               title,
               textAlign: TextAlign.center,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 13,
                 fontWeight: FontWeight.w700,
-                color: AppColors.foreground,
+                color: tokens.foreground,
               ),
             ),
             const SizedBox(height: 4),
             Text(
               description,
               textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 11,
-                color: AppColors.mutedForeground,
-              ),
+              style: TextStyle(fontSize: 11, color: tokens.mutedForeground),
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
             ),

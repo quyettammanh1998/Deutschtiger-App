@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_tokens.dart';
+import '../../../../l10n/app_localizations.dart';
 import 'community_detail_section_widgets.dart';
 
 /// Remaining writing `generated_data` sections: useful phrases, grammar
@@ -21,13 +22,14 @@ class CommunityWritingExtraSections extends StatelessWidget {
     final commonMistakes = (data['commonMistakes'] as List?)
         ?.cast<Map<String, dynamic>>();
     final tokens = context.tokens;
+    final l10n = AppLocalizations.of(context);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         if (usefulPhrases != null && usefulPhrases.isNotEmpty)
           CommunityDetailSection(
-            title: '💡 Cụm từ hữu ích',
+            title: l10n.communitySectionUsefulPhrases,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -54,7 +56,7 @@ class CommunityWritingExtraSections extends StatelessWidget {
           ),
         if (grammarFocus != null && grammarFocus.isNotEmpty)
           CommunityDetailSection(
-            title: '📖 Ngữ pháp trọng tâm',
+            title: l10n.communitySectionGrammar,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -89,7 +91,7 @@ class CommunityWritingExtraSections extends StatelessWidget {
           ),
         if (commonMistakes != null && commonMistakes.isNotEmpty)
           CommunityDetailSection(
-            title: '⚠️ Lỗi thường gặp',
+            title: l10n.communitySectionMistakes,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -151,8 +153,9 @@ class CommunitySpeakingContent extends StatelessWidget {
       _ => '',
     };
     if (content.isEmpty) return const SizedBox.shrink();
+    final l10n = AppLocalizations.of(context);
     return CommunityDetailSection(
-      title: '🎙️ Nội dung',
+      title: l10n.communitySectionSpeakingContent,
       child: CommunityMutedText(content, muted: false),
     );
   }

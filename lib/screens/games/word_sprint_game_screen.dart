@@ -7,9 +7,9 @@ import 'package:go_router/go_router.dart';
 
 import '../../core/design_tokens.dart';
 import '../../data/vocab/vocab_models.dart';
-import '../../shared/widgets/game_completion_screen.dart';
 import '../../view_models/games/word_sprint_provider.dart';
 import '../../widgets/common/async_state_views.dart';
+import '../../widgets/common/game_shell.dart';
 import 'widgets/sprint_widgets.dart';
 
 /// Word Sprint (60s quiz) — nguồn từ vựng live: `GET /vocabulary/learned`
@@ -93,7 +93,7 @@ class _WordSprintGameScreenState extends ConsumerState<WordSprintGameScreen> {
   }
 
   void _selectAnswer(int index) {
-    if (_selectedIndex != null) return;
+    if (_selectedIndex != null || _gameOver) return;
 
     final isCorrect = index == _correctIndex;
     setState(() {
@@ -121,7 +121,23 @@ class _WordSprintGameScreenState extends ConsumerState<WordSprintGameScreen> {
 
   void _endGame() {
     _timer?.cancel();
+    if (!mounted) return;
     setState(() => _gameOver = true);
+    GameShell.showCompletion(
+      context,
+      score: _score,
+      total: _roundSeconds,
+      onPlayAgain: () {
+        Navigator.of(context).pop();
+        _restart();
+      },
+      onGoHome: () {
+        Navigator.of(context).pop();
+        context.pop();
+      },
+      completionTitle: 'Hoàn thành Word Sprint!',
+      subtitle: 'Đúng $_correct/$_total câu · Combo max x$_maxCombo',
+    );
   }
 
   void _restart() {
@@ -141,6 +157,17 @@ class _WordSprintGameScreenState extends ConsumerState<WordSprintGameScreen> {
     _startTimer();
   }
 
+  /// "Đổi chủ đề" web action — reshuffles the current word pool without
+  /// resetting score/timer (web `ShuffleToggleButton` on `word-sprint-page`).
+  void _shuffleTopic() {
+    setState(() {
+      _words = List.of(_words)..shuffle(_random);
+      _currentIndex = 0;
+      _selectedIndex = null;
+    });
+    _generateOptions();
+  }
+
   @override
   void dispose() {
     _timer?.cancel();
@@ -149,38 +176,31 @@ class _WordSprintGameScreenState extends ConsumerState<WordSprintGameScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (_gameOver) {
-      return GameCompletionScreen(
-        score: _score,
-        total: _roundSeconds,
-        title: 'Hoàn thành Word Sprint!',
-        subtitle: 'Đúng $_correct/$_total câu · Combo max x$_maxCombo',
-        onPlayAgain: _restart,
-        onGoHome: () => context.pop(),
-      );
-    }
-
     final wordsAsync = ref.watch(wordSprintWordsProvider);
-    return Scaffold(
-      backgroundColor: DesignTokens.background,
-      body: SafeArea(
-        child: wordsAsync.when(
-          loading: () => const LoadingView(),
-          error: (_, _) => ErrorView(
-            onRetry: () => ref.invalidate(wordSprintWordsProvider),
-          ),
-          data: (words) {
-            if (words.length < _kMinWordsRequired) {
-              return const ErrorView(
-                message:
-                    'Cần học ít nhất 4 từ vựng trước khi chơi Word Sprint. '
-                    'Hãy đánh dấu thêm từ đã học ở phần Từ vựng.',
-              );
-            }
-            _startGame(words);
-            return _buildGame();
-          },
+    return GameShell(
+      title: 'Word Sprint',
+      scrollable: false,
+      trailing: IconButton(
+        tooltip: 'Đổi chủ đề',
+        icon: const Icon(Icons.shuffle),
+        onPressed: _started ? _shuffleTopic : null,
+      ),
+      child: wordsAsync.when(
+        loading: () => const LoadingView(),
+        error: (_, _) => ErrorView(
+          onRetry: () => ref.invalidate(wordSprintWordsProvider),
         ),
+        data: (words) {
+          if (words.length < _kMinWordsRequired) {
+            return const ErrorView(
+              message:
+                  'Cần học ít nhất 4 từ vựng trước khi chơi Word Sprint. '
+                  'Hãy đánh dấu thêm từ đã học ở phần Từ vựng.',
+            );
+          }
+          _startGame(words);
+          return _buildGame();
+        },
       ),
     );
   }
@@ -188,11 +208,6 @@ class _WordSprintGameScreenState extends ConsumerState<WordSprintGameScreen> {
   Widget _buildGame() {
     return Column(
       children: [
-        SprintGameHeader(
-          seconds: _timeLeft,
-          isWarning: _timeLeft <= 10,
-          onClose: () => context.pop(),
-        ),
         SprintProgressBar(
           current: _currentIndex + 1,
           total: _words.length,

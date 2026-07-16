@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/icons/app_phosphor_icons.dart';
 import '../../../../core/theme/app_tokens.dart';
 import '../../../../data/exam/exam_ecosystem_models.dart';
+import '../../../../l10n/app_localizations.dart';
 
 /// Web parity: post-submit "Dịch tiếng Việt" / "Giải thích" toggle links and
 /// their reveal panels in `de-thi-question-card.tsx`.
@@ -51,6 +52,7 @@ class DeThiTranslationBlock extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final tokens = context.tokens;
+    final l10n = AppLocalizations.of(context);
     final blue = const Color(0xFF2563EB);
     return Container(
       padding: const EdgeInsets.all(12),
@@ -63,7 +65,7 @@ class DeThiTranslationBlock extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'BẢN DỊCH TIẾNG VIỆT',
+            l10n.deThiVietnameseTranslationHeading,
             style: TextStyle(
               fontSize: 10,
               fontWeight: FontWeight.w700,
@@ -120,6 +122,7 @@ class DeThiExplanationBlock extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final sky = const Color(0xFF0284C7);
     return Container(
       padding: const EdgeInsets.all(12),
@@ -138,7 +141,7 @@ class DeThiExplanationBlock extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Giải thích',
+                  l10n.deThiExplanation,
                   style: TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w700,

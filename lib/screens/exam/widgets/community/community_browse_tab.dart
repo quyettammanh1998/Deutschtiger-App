@@ -70,7 +70,7 @@ class _CommunityBrowseTabState extends ConsumerState<CommunityBrowseTab> {
             ),
             for (final t in [1, 2, 3])
               ChoiceChip(
-                label: Text('Teil $t'),
+                label: Text(l10n.communityTeilLabel(t)),
                 selected: _teil == t,
                 onSelected: (_) =>
                     setState(() => _teil = _teil == t ? null : t),
@@ -82,7 +82,7 @@ class _CommunityBrowseTabState extends ConsumerState<CommunityBrowseTab> {
           controller: _searchController,
           onChanged: (v) => setState(() => _search = v),
           decoration: InputDecoration(
-            hintText: 'Tìm đề...',
+            hintText: l10n.communitySearchHint,
             prefixIcon: Icon(AppPhosphorIcons.magnifyingGlass, size: 18),
             isDense: true,
             filled: true,
@@ -149,15 +149,15 @@ class _TypeSelect extends StatelessWidget {
   final _TypeOption value;
   final ValueChanged<_TypeOption> onChanged;
 
-  static const _labels = {
-    _TypeOption.all: 'Tất cả',
-    _TypeOption.goetheWriting: 'Goethe Viết',
-    _TypeOption.telcSpeaking: 'Telc Nói',
-  };
-
   @override
   Widget build(BuildContext context) {
     final tokens = context.tokens;
+    final l10n = AppLocalizations.of(context);
+    final labels = {
+      _TypeOption.all: l10n.communityFilterAll,
+      _TypeOption.goetheWriting: l10n.communityFilterGoetheWriting,
+      _TypeOption.telcSpeaking: l10n.communityFilterTelcSpeaking,
+    };
     return DecoratedBox(
       decoration: BoxDecoration(
         border: Border.all(color: tokens.border),
@@ -170,7 +170,7 @@ class _TypeSelect extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 10),
           items: [
             for (final opt in _TypeOption.values)
-              DropdownMenuItem(value: opt, child: Text(_labels[opt]!)),
+              DropdownMenuItem(value: opt, child: Text(labels[opt]!)),
           ],
           onChanged: (v) => v != null ? onChanged(v) : null,
         ),

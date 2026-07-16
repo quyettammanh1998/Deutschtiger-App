@@ -52,7 +52,7 @@ void main() {
     await tester.tap(find.byKey(const Key('sentence-builder-next')));
     await tester.pumpAndSettle();
 
-    expect(find.text('Hoàn thành!'), findsOneWidget);
+    expect(find.text('🎉 Hoàn thành!'), findsOneWidget);
     expect(find.text('90%'), findsOneWidget);
     expect(tester.takeException(), isNull);
   });

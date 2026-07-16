@@ -48,6 +48,20 @@ class SentenceBuilderRepository {
     return SentenceBuilderSession.fromJson(json);
   }
 
+  /// `GET /sentence-builder/topics/:id/words?level=&limit=` — danh sách từ
+  /// xem trước của 1 topic trước khi chơi (web `word-preview-page.tsx`).
+  Future<SentenceBuilderTopicWordsResponse> fetchTopicWords(
+    String topicId, {
+    String level = 'A1',
+    int limit = 30,
+  }) async {
+    final json = await _api.get<Map<String, dynamic>>(
+      '/sentence-builder/topics/$topicId/words',
+      query: {'level': level, 'limit': '$limit'},
+    );
+    return SentenceBuilderTopicWordsResponse.fromJson(json);
+  }
+
   /// `POST /sentence-builder/session/:id/complete` — ghi nhận kết quả phiên.
   /// Fire-and-forget ở tầng gọi (UI không chặn màn kết quả nếu call này lỗi).
   Future<void> completeSession(

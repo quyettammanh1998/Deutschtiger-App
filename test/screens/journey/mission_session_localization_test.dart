@@ -1,22 +1,13 @@
 import 'package:deutschtiger/features/mission/domain/mission_models.dart';
 import 'package:deutschtiger/features/mission/presentation/mission_session_page.dart';
 import 'package:deutschtiger/features/mission/presentation/mission_session_provider.dart';
-import 'package:deutschtiger/features/mission/presentation/widgets/practice_view.dart';
-import 'package:deutschtiger/features/mission/presentation/widgets/result_view.dart';
-import 'package:deutschtiger/features/mission/presentation/widgets/word_intro_view.dart';
+import 'package:deutschtiger/features/mission/presentation/widgets/mission_complete_overlay.dart';
+import 'package:deutschtiger/features/mission/presentation/widgets/resume_pre_step_view.dart';
 import 'package:deutschtiger/l10n/app_localizations.dart';
-import 'package:deutschtiger/shared/widgets/game_completion_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  const word = DailyMissionWord(
-    wordId: 'haus',
-    contentDe: 'Haus',
-    contentVi: 'ngôi nhà',
-    level: 'A1',
-  );
-
   Widget localized(Widget child) => MaterialApp(
     locale: const Locale('de'),
     supportedLocales: AppLocalizations.supportedLocales,
@@ -40,56 +31,60 @@ void main() {
     );
   });
 
-  testWidgets('mission session chrome localizes at 200% text scale', (
+  testWidgets('resume pre-step chrome localizes at 200% text scale', (
     tester,
   ) async {
     await tester.pumpWidget(
       localized(
-        WordIntroView(word: word, position: 1, total: 2, onContinue: () {}),
-      ),
-    );
-
-    expect(find.text('Übung beginnen'), findsOneWidget);
-    expect(tester.takeException(), isNull);
-
-    await tester.pumpWidget(
-      localized(
-        PracticeView(word: word, position: 1, total: 2, onAnswer: (_) {}),
-      ),
-    );
-    await tester.tap(find.text('Bedeutung anzeigen'));
-    await tester.pump();
-
-    expect(find.text('Üben · 1 / 2'), findsOneWidget);
-    expect(find.text('Nicht erinnert'), findsOneWidget);
-    expect(find.text('Richtig erinnert'), findsOneWidget);
-    expect(tester.takeException(), isNull);
-
-    await tester.pumpWidget(
-      localized(const ResultView(correct: false, onContinue: _noop)),
-    );
-
-    expect(find.text('Noch nicht ganz – weiter so!'), findsOneWidget);
-    expect(find.text('Weiter'), findsOneWidget);
-    expect(tester.takeException(), isNull);
-
-    await tester.pumpWidget(
-      localized(
-        GameCompletionScreen(
-          score: 1,
-          total: 2,
-          onPlayAgain: _noop,
-          onGoHome: _noop,
+        Scaffold(
+          body: ResumePreStepView(
+            items: const [
+              MissionResumeTarget(
+                kind: 'exam',
+                ref: 'goethe-a1',
+                title: 'Goethe A1',
+                subtitle: 'Lesen · 40%',
+                route: '/exam/goethe-a1',
+                progressPct: 40,
+              ),
+            ],
+            onContinue: () {},
+          ),
         ),
       ),
     );
 
-    expect(find.text('Punkte'), findsOneWidget);
-    expect(find.text('Genauigkeit'), findsOneWidget);
-    expect(find.text('Nochmal spielen'), findsOneWidget);
-    expect(find.text('Zurück zur Startseite'), findsOneWidget);
+    expect(find.text('Unerledigtes fortsetzen'), findsOneWidget);
+    expect(find.text('Zur Vokabelrunde'), findsOneWidget);
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('mission complete overlay localizes at 200% text scale', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      localized(
+        Scaffold(
+          body: MissionCompleteOverlay(
+            xpEarned: 20,
+            streakUpdated: true,
+            climbed: const [
+              MissionClimbedEntry(
+                label: 'Haus',
+                isStructure: false,
+                fromRung: 1,
+                toRung: 2,
+              ),
+            ],
+            onDone: () {},
+          ),
+        ),
+      ),
+    );
+
+    expect(find.text('Geschafft!'), findsOneWidget);
+    expect(find.text('+20 XP'), findsOneWidget);
+    expect(find.text('Nächster Schritt →'), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
 }
-
-void _noop() {}

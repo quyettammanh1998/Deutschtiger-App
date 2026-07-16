@@ -1,450 +1,290 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
-import '../../../core/theme/app_colors.dart';
+import '../../core/theme/app_tokens.dart';
+import '../../data/decks/deck_models.dart';
 import '../../l10n/app_localizations.dart';
-import 'package:deutschtiger/widgets/common/async_state_views.dart';
-import 'package:deutschtiger/repositories/decks/deck_repository.dart';
-import 'package:deutschtiger/data/decks/deck_models.dart';
-import 'package:deutschtiger/view_models/decks/deck_provider.dart';
+import '../../repositories/decks/deck_repository.dart';
+import '../../shared/widgets/back_button.dart';
+import '../../shared/widgets/page_intro.dart';
+import '../../view_models/decks/deck_provider.dart';
+import '../../widgets/common/app_card.dart';
+import '../../widgets/common/async_state_views.dart';
+import 'widgets/deck_action_sheet.dart';
+import 'widgets/deck_folder_section.dart';
+import 'widgets/deck_form_dialogs.dart';
+import 'widgets/deck_row_tile.dart';
 
-/// Màn danh sách decks.
+/// `/notes` deck list. Web parity: `flashcard-page.tsx` →
+/// `flashcard-deck-list.tsx` (mobile). Structure: header → PageIntro →
+/// starred row → folders → deck list (default star + mastery bar + 3-dot
+/// menu) → "Luyện tập nhanh" quick-practice CTA → create-action bottom sheet.
 class DeckListScreen extends ConsumerWidget {
   const DeckListScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final decks = ref.watch(decksProvider);
+    final tokens = context.tokens;
     final l10n = AppLocalizations.of(context);
+    final decksAsync = ref.watch(decksProvider);
+    final foldersAsync = ref.watch(deckFoldersProvider);
+    final starredAsync = ref.watch(starredCardsProvider);
+    final defaultDeckIdAsync = ref.watch(defaultDeckIdProvider);
+    final summaryAsync = ref.watch(deckSummaryProvider);
 
     return Scaffold(
-      backgroundColor: AppColors.authBackground,
-      appBar: AppBar(
-        backgroundColor: AppColors.authBackground,
-        title: Text(
-          l10n.myDecks,
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-            color: AppColors.tigerOrange,
-            fontSize: 18,
+      backgroundColor: tokens.background,
+      body: SafeArea(
+        child: decksAsync.when(
+          loading: () => const LoadingView(),
+          error: (e, _) => ErrorView(
+            message: l10n.couldNotLoadDecks,
+            onRetry: () => ref.invalidate(decksProvider),
           ),
-        ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.add),
-            onPressed: () => _showCreateDeckDialog(context, ref),
-            tooltip: l10n.createNewDeck,
-          ),
-        ],
-      ),
-      body: decks.when(
-        loading: () => const LoadingView(),
-        error: (e, _) => ErrorView(
-          message: l10n.couldNotLoadDecks,
-          onRetry: () => ref.invalidate(decksProvider),
-        ),
-        data: (deckList) {
-          if (deckList.isEmpty) {
-            return _EmptyDeckView(
-              onCreate: () => _showCreateDeckDialog(context, ref),
-            );
-          }
-          return RefreshIndicator(
-            color: AppColors.tigerOrange,
-            onRefresh: () async => ref.invalidate(decksProvider),
-            child: ListView.builder(
-              padding: const EdgeInsets.all(16),
-              itemCount: deckList.length,
-              itemBuilder: (context, index) {
-                final deck = deckList[index];
-                return _DeckCard(
-                  deck: deck,
-                  onTap: () => context.push('/decks/${deck.id}'),
-                  onEdit: () => _showEditDeckDialog(context, ref, deck),
-                  onDelete: () => _confirmDeleteDeck(context, ref, deck),
-                );
+          data: (decks) {
+            final folders = foldersAsync.valueOrNull ?? const <DeckFolder>[];
+            final starred = starredAsync.valueOrNull ?? const <DeckWord>[];
+            final defaultDeckId = defaultDeckIdAsync.valueOrNull;
+            final summary = summaryAsync.valueOrNull ?? const {};
+            final unfoldered = decks.where((d) => d.folderId == null).toList();
+
+            return RefreshIndicator(
+              color: tokens.primary,
+              onRefresh: () async {
+                ref.invalidate(decksProvider);
+                ref.invalidate(deckFoldersProvider);
+                ref.invalidate(starredCardsProvider);
+                ref.invalidate(defaultDeckIdProvider);
+                ref.invalidate(deckSummaryProvider);
               },
-            ),
-          );
-        },
-      ),
-    );
-  }
-
-  void _showCreateDeckDialog(BuildContext context, WidgetRef ref) {
-    showDialog(
-      context: context,
-      builder: (context) => _CreateDeckDialog(
-        onSave: (name, description) async {
-          final repo = ref.read(deckRepositoryProvider);
-          await repo.createDeck(name: name, description: description);
-          ref.invalidate(decksProvider);
-        },
-      ),
-    );
-  }
-
-  void _showEditDeckDialog(BuildContext context, WidgetRef ref, Deck deck) {
-    showDialog(
-      context: context,
-      builder: (context) => _CreateDeckDialog(
-        initialName: deck.name,
-        initialDescription: deck.description,
-        isEdit: true,
-        onSave: (name, description) async {
-          final repo = ref.read(deckRepositoryProvider);
-          await repo.updateDeck(deck.id, name: name, description: description);
-          ref.invalidate(decksProvider);
-        },
-      ),
-    );
-  }
-
-  Future<void> _confirmDeleteDeck(
-    BuildContext context,
-    WidgetRef ref,
-    Deck deck,
-  ) async {
-    final ok = await showDialog<bool>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text(AppLocalizations.of(context).deleteDeck),
-        content: Text(
-          AppLocalizations.of(context).deleteDeckConfirmation(deck.name),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: Text(AppLocalizations.of(context).cancel),
-          ),
-          TextButton(
-            onPressed: () => Navigator.pop(context, true),
-            child: Text(
-              AppLocalizations.of(context).delete,
-              style: const TextStyle(color: AppColors.destructive),
-            ),
-          ),
-        ],
-      ),
-    );
-
-    if (ok == true) {
-      final repo = ref.read(deckRepositoryProvider);
-      await repo.deleteDeck(deck.id);
-      ref.invalidate(decksProvider);
-    }
-  }
-}
-
-class _DeckCard extends StatelessWidget {
-  const _DeckCard({
-    required this.deck,
-    required this.onTap,
-    required this.onEdit,
-    required this.onDelete,
-  });
-
-  final Deck deck;
-  final VoidCallback onTap;
-  final VoidCallback onEdit;
-  final VoidCallback onDelete;
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-    final progress = deck.wordCount > 0
-        ? deck.learnedCount / deck.wordCount
-        : 0.0;
-
-    return Card(
-      margin: const EdgeInsets.only(bottom: 12),
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(12),
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
+              child: ListView(
+                padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
                 children: [
-                  Container(
-                    width: 48,
-                    height: 48,
-                    decoration: BoxDecoration(
-                      color: _parseColor(deck.coverColor),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: const Icon(
-                      Icons.folder_outlined,
-                      color: Colors.white,
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          deck.name,
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        if (deck.description != null)
-                          Text(
-                            deck.description!,
-                            style: TextStyle(
-                              fontSize: 13,
-                              color: AppColors.mutedForeground,
-                            ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                      ],
-                    ),
-                  ),
-                  PopupMenuButton<String>(
-                    icon: const Icon(Icons.more_vert),
-                    onSelected: (value) {
-                      switch (value) {
-                        case 'edit':
-                          onEdit();
-                          break;
-                        case 'delete':
-                          onDelete();
-                          break;
-                      }
-                    },
-                    itemBuilder: (context) => [
-                      PopupMenuItem(
-                        value: 'edit',
-                        child: Row(
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const AppBackButton(),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Icon(Icons.edit_outlined),
-                            const SizedBox(width: 8),
-                            Text(l10n.edit),
+                            Text(
+                              l10n.myDecks,
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: tokens.foreground,
+                              ),
+                            ),
+                            const SizedBox(height: 2),
+                            Text(
+                              folders.isEmpty
+                                  ? l10n.wordsCount(decks.length)
+                                  : l10n.deckListSubtitleWithFolders(
+                                      decks.length,
+                                      folders.length,
+                                    ),
+                              style: TextStyle(fontSize: 12, color: tokens.mutedForeground),
+                            ),
                           ],
                         ),
                       ),
-                      PopupMenuItem(
-                        value: 'delete',
-                        child: Row(
-                          children: [
-                            const Icon(
-                              Icons.delete_outline,
-                              color: AppColors.destructive,
-                            ),
-                            const SizedBox(width: 8),
-                            Text(
-                              l10n.delete,
-                              style: const TextStyle(
-                                color: AppColors.destructive,
-                              ),
-                            ),
-                          ],
-                        ),
+                      _CreateButton(
+                        onTap: () => _openCreateSheet(context, ref),
                       ),
                     ],
                   ),
-                ],
-              ),
-              const SizedBox(height: 12),
-              Row(
-                children: [
-                  Text(
-                    l10n.wordsCount(deck.wordCount),
-                    style: TextStyle(
-                      fontSize: 13,
-                      color: AppColors.mutedForeground,
-                    ),
+                  const SizedBox(height: 16),
+                  PageIntro(
+                    pageKey: 'notes',
+                    why: l10n.deckIntroWhy,
+                    todo: l10n.deckIntroTodo,
+                    next: l10n.deckIntroNext,
+                    onNextTap: () => context.push('/daily-review'),
+                    nextLabel: l10n.deckIntroNextLabel,
                   ),
-                  const Spacer(),
-                  if (deck.wordCount > 0)
-                    Text(
-                      l10n.learnedWordsProgress(
-                        deck.learnedCount,
-                        deck.wordCount,
+                  const SizedBox(height: 16),
+                  DeckStarredRow(
+                    count: starred.length,
+                    onTap: () => context.push('/notes/starred'),
+                  ),
+                  DeckFolderSection(
+                    folders: folders.where((f) => f.parentId == null).toList(),
+                    onTapFolder: (folder) => context.push('/notes/folder/${folder.id}'),
+                  ),
+                  if (decks.isEmpty)
+                    AppCard.card(
+                      child: Center(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 24),
+                          child: Text(
+                            l10n.noDecksDescription,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(color: tokens.mutedForeground),
+                          ),
+                        ),
                       ),
+                    )
+                  else ...[
+                    if (folders.isNotEmpty && unfoldered.isNotEmpty)
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 6, left: 2),
+                        child: Text(
+                          l10n.deckAllDecksTitle,
+                          style: TextStyle(
+                            fontSize: 11,
+                            fontWeight: FontWeight.w700,
+                            letterSpacing: 0.5,
+                            color: tokens.mutedForeground,
+                          ),
+                        ),
+                      ),
+                    for (final deck in unfoldered)
+                      DeckRowTile(
+                        deck: deck,
+                        isDefault: deck.id == defaultDeckId,
+                        summary: summary[deck.id],
+                        onTap: () => context.push('/notes/${deck.id}'),
+                        onSetDefault: () => _setDefault(ref, deck.id),
+                        onEdit: () => _editDeck(context, ref, deck),
+                        onMoveToFolder: () => _moveToFolder(context, ref, deck, folders),
+                      ),
+                  ],
+                  const SizedBox(height: 20),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 6, left: 2),
+                    child: Text(
+                      l10n.deckQuickPracticeTitle,
                       style: TextStyle(
-                        fontSize: 13,
-                        color: AppColors.mutedForeground,
+                        fontSize: 11,
+                        fontWeight: FontWeight.w700,
+                        letterSpacing: 0.5,
+                        color: tokens.mutedForeground,
                       ),
                     ),
-                ],
-              ),
-              if (deck.wordCount > 0) ...[
-                const SizedBox(height: 8),
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(4),
-                  child: LinearProgressIndicator(
-                    value: progress,
-                    minHeight: 6,
-                    backgroundColor: AppColors.border,
-                    valueColor: const AlwaysStoppedAnimation(
-                      AppColors.tigerOrange,
+                  ),
+                  AppCard.interactive(
+                    onTap: () => context.push('/games/word-sprint'),
+                    child: Row(
+                      children: [
+                        Icon(PhosphorIconsBold.lightning, color: tokens.primary),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Text(
+                            l10n.deckQuickPracticeCta,
+                            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: tokens.foreground),
+                          ),
+                        ),
+                        Icon(PhosphorIconsBold.caretRight, size: 16, color: tokens.mutedForeground),
+                      ],
                     ),
                   ),
-                ),
-              ],
-            ],
-          ),
+                ],
+              ),
+            );
+          },
         ),
       ),
     );
   }
 
-  Color _parseColor(String? colorString) {
-    if (colorString == null) return AppColors.tigerOrange;
-    try {
-      return Color(int.parse(colorString.replaceFirst('#', '0xFF')));
-    } catch (_) {
-      return AppColors.tigerOrange;
-    }
-  }
-}
-
-class _EmptyDeckView extends StatelessWidget {
-  const _EmptyDeckView({required this.onCreate});
-
-  final VoidCallback onCreate;
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              Icons.folder_outlined,
-              size: 80,
-              color: AppColors.mutedForeground,
-            ),
-            const SizedBox(height: 16),
-            Text(
-              l10n.noDecks,
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              l10n.noDecksDescription,
-              textAlign: TextAlign.center,
-              style: TextStyle(color: AppColors.mutedForeground),
-            ),
-            const SizedBox(height: 24),
-            ElevatedButton.icon(
-              onPressed: onCreate,
-              icon: const Icon(Icons.add),
-              label: Text(l10n.createDeck),
-            ),
-          ],
-        ),
-      ),
+  void _openCreateSheet(BuildContext context, WidgetRef ref) {
+    showDeckCreateActionSheet(
+      context,
+      onCreateDeck: () => _createDeck(context, ref),
+      onCreateFolder: () => _createFolder(context, ref),
+      onSpeakToNotes: () => context.push('/notes/speak'),
     );
   }
+
+  void _createDeck(BuildContext context, WidgetRef ref) {
+    showDeckFormDialog(
+      context,
+      onSave: (name, description) async {
+        final repo = ref.read(deckRepositoryProvider);
+        await repo.createDeck(name: name, description: description);
+        ref.invalidate(decksProvider);
+      },
+    );
+  }
+
+  void _editDeck(BuildContext context, WidgetRef ref, Deck deck) {
+    showDeckFormDialog(
+      context,
+      editing: deck,
+      onSave: (name, description) async {
+        final repo = ref.read(deckRepositoryProvider);
+        await repo.updateDeck(deck.id, name: name, description: description);
+        ref.invalidate(decksProvider);
+      },
+    );
+  }
+
+  void _createFolder(BuildContext context, WidgetRef ref) {
+    showDeckFolderFormDialog(
+      context,
+      onSave: (name) async {
+        final repo = ref.read(deckRepositoryProvider);
+        await repo.createFolder(name: name);
+        ref.invalidate(deckFoldersProvider);
+      },
+    );
+  }
+
+  void _moveToFolder(
+    BuildContext context,
+    WidgetRef ref,
+    Deck deck,
+    List<DeckFolder> folders,
+  ) {
+    showMoveToFolderSheet(
+      context,
+      folders: folders,
+      currentFolderId: deck.folderId,
+      onMove: (folderId) async {
+        final repo = ref.read(deckRepositoryProvider);
+        await repo.moveDeckToFolder(deck.id, folderId);
+        ref.invalidate(decksProvider);
+      },
+    );
+  }
+
+  Future<void> _setDefault(WidgetRef ref, String deckId) async {
+    final repo = ref.read(deckRepositoryProvider);
+    await repo.setDefaultDeck(deckId);
+    ref.invalidate(defaultDeckIdProvider);
+  }
 }
 
-class _CreateDeckDialog extends StatefulWidget {
-  const _CreateDeckDialog({
-    this.initialName,
-    this.initialDescription,
-    this.isEdit = false,
-    required this.onSave,
-  });
-
-  final String? initialName;
-  final String? initialDescription;
-  final bool isEdit;
-  final Future<void> Function(String name, String? description) onSave;
-
-  @override
-  State<_CreateDeckDialog> createState() => _CreateDeckDialogState();
-}
-
-class _CreateDeckDialogState extends State<_CreateDeckDialog> {
-  late final TextEditingController _nameController;
-  late final TextEditingController _descController;
-  bool _loading = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _nameController = TextEditingController(text: widget.initialName);
-    _descController = TextEditingController(text: widget.initialDescription);
-  }
-
-  @override
-  void dispose() {
-    _nameController.dispose();
-    _descController.dispose();
-    super.dispose();
-  }
-
-  Future<void> _save() async {
-    if (_nameController.text.trim().isEmpty) return;
-
-    setState(() => _loading = true);
-    try {
-      await widget.onSave(
-        _nameController.text.trim(),
-        _descController.text.trim().isEmpty
-            ? null
-            : _descController.text.trim(),
-      );
-      if (mounted) Navigator.pop(context);
-    } finally {
-      if (mounted) setState(() => _loading = false);
-    }
-  }
+class _CreateButton extends StatelessWidget {
+  const _CreateButton({required this.onTap});
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-    return AlertDialog(
-      title: Text(widget.isEdit ? l10n.editDeck : l10n.createNewDeck),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          TextField(
-            controller: _nameController,
-            decoration: InputDecoration(
-              labelText: l10n.deckName,
-              hintText: l10n.deckNameHint,
-            ),
-            autofocus: true,
+    final tokens = context.tokens;
+    final darkened = Color.lerp(tokens.primary, Colors.black, 0.2)!;
+    return Material(
+      color: Colors.transparent,
+      shape: const CircleBorder(),
+      child: Ink(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(colors: [tokens.primary, darkened]),
+          shape: BoxShape.circle,
+        ),
+        child: InkWell(
+          customBorder: const CircleBorder(),
+          onTap: onTap,
+          child: const SizedBox(
+            width: 36,
+            height: 36,
+            child: Icon(Icons.add, color: Colors.white, size: 20),
           ),
-          const SizedBox(height: 16),
-          TextField(
-            controller: _descController,
-            decoration: InputDecoration(
-              labelText: l10n.deckDescriptionOptional,
-              hintText: l10n.deckDescriptionHint,
-            ),
-            maxLines: 2,
-          ),
-        ],
+        ),
       ),
-      actions: [
-        TextButton(
-          onPressed: _loading ? null : () => Navigator.pop(context),
-          child: Text(l10n.cancel),
-        ),
-        ElevatedButton(
-          onPressed: _loading ? null : _save,
-          child: _loading
-              ? const SizedBox(
-                  width: 20,
-                  height: 20,
-                  child: CircularProgressIndicator(strokeWidth: 2),
-                )
-              : Text(widget.isEdit ? l10n.save : l10n.createDeck),
-        ),
-      ],
     );
   }
 }

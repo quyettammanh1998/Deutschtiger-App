@@ -1,94 +1,159 @@
 import 'package:flutter/material.dart';
-import '../../core/theme/app_colors.dart';
+import 'package:go_router/go_router.dart';
 
-/// Pronunciation Practice Screen
+import '../../core/theme/app_tokens.dart';
+import '../../l10n/app_localizations.dart';
+import 'widgets/pronunciation_trainer_header.dart';
+
+/// Pronunciation hub — web parity:
+/// `thamkhao/deutschtiger-frontend/src/pages/pronunciation/pronunciation-hub-page.tsx`.
+/// Back → `/games` (matches web's `ROUTE_PATHS.games`); blue info banner;
+/// 4-module grid (1-col mobile) linking to the umlaute/ich-ach/r-sound/sp-st
+/// trainers. Minimal-pairs is intentionally NOT linked here — same as web.
 class PronunciationScreen extends StatelessWidget {
   const PronunciationScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final tokens = context.tokens;
+    final l10n = AppLocalizations.of(context);
+
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Phát âm'),
-        backgroundColor: AppColors.tigerOrange,
-        foregroundColor: Colors.white,
-      ),
-      body: ListView(
-        padding: const EdgeInsets.all(16),
-        children: [
-          _PracticeCard(
-            title: 'Âm R /ʁ/',
-            subtitle: 'Luyện phát âm âm R trong tiếng Đức',
-            icon: '🇩🇪',
-            color: Colors.blue,
-            onTap: () {},
+      backgroundColor: tokens.background,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.fromLTRB(16, 12, 16, 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              PronunciationTrainerHeader(
+                title: l10n.pronunciationHubTitle,
+                onBack: () => context.go('/games'),
+              ),
+              const SizedBox(height: 24),
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 12,
+                ),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFEFF6FF),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Text(
+                  l10n.pronunciationHubInfoBanner,
+                  style: const TextStyle(
+                    color: Color(0xFF1E3A8A),
+                    fontSize: 13.5,
+                    height: 1.5,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 24),
+              _ModuleCard(
+                title: l10n.pronunciationHubUmlauteTitle,
+                description: l10n.pronunciationHubUmlauteDesc,
+                emoji: '🔤',
+                gradient: const [Color(0xFF8B5CF6), Color(0xFF9333EA)],
+                onTap: () => context.go('/pronunciation/umlaute'),
+              ),
+              const SizedBox(height: 12),
+              _ModuleCard(
+                title: l10n.pronunciationHubIchAchTitle,
+                description: l10n.pronunciationHubIchAchDesc,
+                emoji: '🗣️',
+                gradient: const [Color(0xFF3B82F6), Color(0xFF0891B2)],
+                onTap: () => context.go('/pronunciation/ich-ach-laut'),
+              ),
+              const SizedBox(height: 12),
+              _ModuleCard(
+                title: l10n.pronunciationHubRSoundTitle,
+                description: l10n.pronunciationHubRSoundDesc,
+                emoji: '🌀',
+                gradient: const [Color(0xFF10B981), Color(0xFF0D9488)],
+                onTap: () => context.go('/pronunciation/r-sound'),
+              ),
+              const SizedBox(height: 12),
+              _ModuleCard(
+                title: l10n.pronunciationHubSpStTitle,
+                description: l10n.pronunciationHubSpStDesc,
+                emoji: '💬',
+                gradient: const [Color(0xFFF59E0B), Color(0xFFEA580C)],
+                onTap: () => context.go('/pronunciation/sp-st'),
+              ),
+            ],
           ),
-          _PracticeCard(
-            title: 'Âm ch /x/',
-            subtitle: 'Âm ich-laut và ach-laut',
-            icon: '🎯',
-            color: Colors.purple,
-            onTap: () {},
-          ),
-          _PracticeCard(
-            title: 'Âm sp /ʃp/',
-            subtitle: 'Phân biệt sp và sch',
-            icon: '✏️',
-            color: Colors.green,
-            onTap: () {},
-          ),
-          _PracticeCard(
-            title: 'Umlaute',
-            subtitle: 'Ä, Ö, Ü và cách phát âm',
-            icon: '🔤',
-            color: Colors.orange,
-            onTap: () {},
-          ),
-        ],
+        ),
       ),
     );
   }
 }
 
-class _PracticeCard extends StatelessWidget {
-  const _PracticeCard({
+class _ModuleCard extends StatelessWidget {
+  const _ModuleCard({
     required this.title,
-    required this.subtitle,
-    required this.icon,
-    required this.color,
+    required this.description,
+    required this.emoji,
+    required this.gradient,
     required this.onTap,
   });
 
   final String title;
-  final String subtitle;
-  final String icon;
-  final Color color;
+  final String description;
+  final String emoji;
+  final List<Color> gradient;
   final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.only(bottom: 12),
-      child: ListTile(
-        contentPadding: const EdgeInsets.all(16),
-        leading: Container(
-          width: 50,
-          height: 50,
-          decoration: BoxDecoration(
-            color: color.withAlpha(26),
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: Center(
-            child: Text(icon, style: const TextStyle(fontSize: 24)),
-          ),
-        ),
-        title: Text(
-          title,
-          style: const TextStyle(fontWeight: FontWeight.bold),
-        ),
-        subtitle: Text(subtitle),
-        trailing: const Icon(Icons.chevron_right),
+    final tokens = context.tokens;
+    return Material(
+      color: tokens.card,
+      borderRadius: BorderRadius.circular(16),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(16),
         onTap: onTap,
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: tokens.border),
+          ),
+          child: Column(
+            children: [
+              Container(
+                width: 56,
+                height: 56,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(colors: gradient),
+                  borderRadius: BorderRadius.circular(18),
+                ),
+                child: Center(
+                  child: Text(emoji, style: const TextStyle(fontSize: 26)),
+                ),
+              ),
+              const SizedBox(height: 12),
+              Text(
+                title,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w600,
+                  color: tokens.foreground,
+                ),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                description,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 12,
+                  color: tokens.mutedForeground,
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

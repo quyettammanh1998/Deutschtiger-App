@@ -1,104 +1,9 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/design_tokens.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../shared/widgets/tappable_sentence.dart';
 import '../../../data/reading/reading_models.dart' show ReadingParagraph;
-
-/// Header card (title + level + duration + word count).
-class ReadingHeader extends StatelessWidget {
-  const ReadingHeader({
-    super.key,
-    required this.titleVi,
-    required this.topic,
-    required this.level,
-    required this.durationMinutes,
-    required this.wordCount,
-  });
-
-  final String titleVi;
-  final String topic;
-  final String level;
-  final int durationMinutes;
-  final int wordCount;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(DesignTokens.spacingMd),
-      color: DesignTokens.card,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            titleVi,
-            style: theme.textTheme.bodySmall?.copyWith(
-              color: DesignTokens.mutedForeground,
-            ),
-          ),
-          const SizedBox(height: DesignTokens.spacingXs),
-          Text(
-            topic,
-            style: theme.textTheme.bodySmall?.copyWith(
-              color: DesignTokens.mutedForeground,
-            ),
-          ),
-          const SizedBox(height: DesignTokens.spacingSm),
-          Row(
-            children: [
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: DesignTokens.spacingSm,
-                  vertical: 2,
-                ),
-                decoration: BoxDecoration(
-                  color: DesignTokens.tigerOrange.withValues(alpha: 0.15),
-                  borderRadius:
-                      BorderRadius.circular(DesignTokens.radiusSm),
-                ),
-                child: Text(
-                  level,
-                  style: const TextStyle(
-                    fontSize: 11,
-                    fontWeight: FontWeight.w700,
-                    color: DesignTokens.tigerOrange,
-                  ),
-                ),
-              ),
-              const SizedBox(width: DesignTokens.spacingSm),
-              Icon(
-                Icons.timer_outlined,
-                size: 14,
-                color: DesignTokens.mutedForeground,
-              ),
-              const SizedBox(width: 4),
-              Text(
-                '~$durationMinutes phút',
-                style: theme.textTheme.bodySmall?.copyWith(
-                  color: DesignTokens.mutedForeground,
-                ),
-              ),
-              const SizedBox(width: DesignTokens.spacingMd),
-              Icon(
-                Icons.text_fields,
-                size: 14,
-                color: DesignTokens.mutedForeground,
-              ),
-              const SizedBox(width: 4),
-              Text(
-                '$wordCount từ',
-                style: theme.textTheme.bodySmall?.copyWith(
-                  color: DesignTokens.mutedForeground,
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
 
 /// Audio bar cho bài đọc — phát/tạm dừng + tiến trình (0..1) từ audio player.
 class ReadingAudioBar extends StatelessWidget {
@@ -142,9 +47,9 @@ class ReadingAudioBar extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  'Nghe toàn bài',
-                  style: TextStyle(fontWeight: FontWeight.w600),
+                Text(
+                  AppLocalizations.of(context).readingListenFullStory,
+                  style: const TextStyle(fontWeight: FontWeight.w600),
                 ),
                 const SizedBox(height: 2),
                 ClipRRect(
@@ -164,7 +69,7 @@ class ReadingAudioBar extends StatelessWidget {
           const SizedBox(width: DesignTokens.spacingSm),
           IconButton(
             icon: const Icon(Icons.speed),
-            tooltip: 'Tốc độ',
+            tooltip: AppLocalizations.of(context).readingAudioSpeedTooltip,
             onPressed: () {},
           ),
         ],

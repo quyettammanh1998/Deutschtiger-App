@@ -1,5 +1,6 @@
 import '../decks/deck_models.dart';
 import '../games/learning_item_models.dart';
+import '../../features/mission/domain/mission_models.dart';
 
 /// One flashcard-shaped unit fed into a practice view (cloze/listening/
 /// matching/writing). This is the "round type" contract shared by every
@@ -44,6 +45,17 @@ class PracticeRoundItem {
     translation: word.translation,
     example: word.example,
   );
+
+  /// Mission runner (P3) — a mission's daily-plan word, source-agnostic same
+  /// as the other factories. Missions don't carry a separate example
+  /// sentence, so [word] doubles as the cloze/writing prompt target.
+  factory PracticeRoundItem.fromMissionWord(DailyMissionWord word) =>
+      PracticeRoundItem(
+        id: word.wordId,
+        word: word.contentDe,
+        translation: word.contentVi,
+        audioUrl: word.audioUrl,
+      );
 
   factory PracticeRoundItem.fromLearningItem(LearningItem item) {
     final example = item.examples.isNotEmpty ? item.examples.first : null;

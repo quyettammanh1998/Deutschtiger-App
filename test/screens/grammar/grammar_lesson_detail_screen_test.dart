@@ -39,9 +39,7 @@ void main() {
       wrap(
         const GrammarLessonDetailScreen(level: 'A1', id: 'l1'),
         overrides: [
-          grammarLessonProvider(
-            key,
-          ).overrideWith((ref) async => lesson),
+          grammarLessonProvider(key).overrideWith((ref) async => lesson),
           grammarCompletedIdsProvider.overrideWith((ref) async => <String>[]),
           grammarLessonIndexProvider.overrideWith(
             (ref) async => <GrammarLessonSummary>[],
@@ -54,7 +52,7 @@ void main() {
     expect(find.text('Akkusativ'), findsOneWidget);
     expect(find.text('Hallo Welt'), findsOneWidget);
     expect(find.textContaining('punkt eins'), findsOneWidget);
-    expect(find.text('Đánh dấu hoàn thành'), findsOneWidget);
+    expect(find.textContaining('Đánh dấu hoàn thành'), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
 
@@ -65,9 +63,7 @@ void main() {
       wrap(
         const GrammarLessonDetailScreen(level: 'A1', id: 'l1'),
         overrides: [
-          grammarLessonProvider(
-            key,
-          ).overrideWith((ref) async => lesson),
+          grammarLessonProvider(key).overrideWith((ref) async => lesson),
           grammarCompletedIdsProvider.overrideWith((ref) async => ['l1']),
           grammarLessonIndexProvider.overrideWith(
             (ref) async => <GrammarLessonSummary>[],
@@ -77,10 +73,7 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    expect(
-      find.text('Bạn đã hoàn thành bài này trước đó.'),
-      findsOneWidget,
-    );
+    expect(find.text('Bạn đã hoàn thành bài này trước đó.'), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
 

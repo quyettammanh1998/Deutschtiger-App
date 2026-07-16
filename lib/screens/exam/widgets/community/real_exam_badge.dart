@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/icons/app_phosphor_icons.dart';
 import '../../../../core/theme/app_tokens.dart';
+import '../../../../l10n/app_localizations.dart';
 
 /// Badge shown on community topics that carry a recalled real-exam date —
 /// i.e. the contributor sat the actual exam and wrote down what they
@@ -30,6 +31,7 @@ class RealExamBadge extends StatelessWidget {
     if (date == null || date.isEmpty) return const SizedBox.shrink();
 
     final tokens = context.tokens;
+    final l10n = AppLocalizations.of(context);
     final bg = tokens.success.withValues(alpha: 0.15);
     final fg = tokens.success;
 
@@ -50,7 +52,7 @@ class RealExamBadge extends StatelessWidget {
             Icon(AppPhosphorIcons.sealCheck, size: 11, color: fg),
             const SizedBox(width: 4),
             Text(
-              'Đề thật$suffix',
+              '${l10n.communityRealExamBadge}$suffix',
               style: TextStyle(
                 fontSize: 10,
                 fontWeight: FontWeight.w600,

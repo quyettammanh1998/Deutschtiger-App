@@ -41,6 +41,7 @@ class QuestionRichtigFalsch extends StatelessWidget {
     return QuestionCardFrame(
       questionNumber: questionNumber,
       sectionLabel: sectionLabel,
+      questionId: question.answerKey,
       prompt: question.prompt,
       topSlot: Row(
         children: [
@@ -51,7 +52,8 @@ class QuestionRichtigFalsch extends StatelessWidget {
               icon: Icons.check_circle_outline,
               isSelected: selected == true,
               isCorrectAnswer: showCorrectness && correct == true,
-              isUserWrong: showCorrectness && selected == true && correct != true,
+              isUserWrong:
+                  showCorrectness && selected == true && correct != true,
               positive: true,
               onTap: () => onSelect('true'),
             ),
@@ -64,7 +66,8 @@ class QuestionRichtigFalsch extends StatelessWidget {
               icon: Icons.cancel_outlined,
               isSelected: selected == false,
               isCorrectAnswer: showCorrectness && correct == false,
-              isUserWrong: showCorrectness && selected == false && correct != false,
+              isUserWrong:
+                  showCorrectness && selected == false && correct != false,
               positive: false,
               onTap: () => onSelect('false'),
             ),

@@ -2,6 +2,7 @@ import 'package:deutschtiger/data/notifications/notification_models.dart';
 import 'package:deutschtiger/l10n/app_localizations.dart';
 import 'package:deutschtiger/repositories/notifications/notifications_repository.dart';
 import 'package:deutschtiger/screens/settings/notification_preferences_screen.dart';
+import 'package:deutschtiger/screens/settings/widgets/settings_tiles.dart';
 import 'package:deutschtiger/services/api_client.dart';
 import 'package:deutschtiger/services/auth_provider.dart';
 import 'package:flutter/material.dart';
@@ -32,9 +33,9 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('Nhắc nhở học tập'), findsOneWidget);
-    expect(find.byType(Switch), findsOneWidget);
+    expect(find.byType(SettingsToggleSwitch), findsOneWidget);
 
-    await tester.tap(find.byType(Switch));
+    await tester.tap(find.byType(SettingsToggleSwitch));
     await tester.pumpAndSettle();
 
     expect(repo.saved?.enabled, isTrue);

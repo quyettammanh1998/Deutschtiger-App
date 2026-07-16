@@ -59,27 +59,38 @@ class _TranscriptPanelState extends ConsumerState<TranscriptPanel> {
             padding: const EdgeInsets.all(12),
             child: Row(
               children: [
-                const Icon(Icons.subtitles, size: 18, color: AppColors.tigerOrange),
+                const Icon(
+                  Icons.subtitles,
+                  size: 18,
+                  color: AppColors.tigerOrange,
+                ),
                 const SizedBox(width: 8),
-                const Text(
-                  'Transcript',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 14,
+                // Flexible: at German 200% text scale, "Transcript" + the
+                // segment-count label after the Spacer can together exceed
+                // the header row's width and hard-overflow otherwise.
+                const Flexible(
+                  child: Text(
+                    'Transcript',
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
                   ),
                 ),
                 const Spacer(),
                 transcriptAsync.whenOrNull(
-                  data: (transcript) => transcript != null
-                      ? Text(
-                          '${transcript.segments.length} lines',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: AppColors.mutedForeground,
-                          ),
-                        )
-                      : null,
-                ) ?? const SizedBox.shrink(),
+                      data: (transcript) => transcript != null
+                          ? Flexible(
+                              child: Text(
+                                '${transcript.segments.length} lines',
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: AppColors.mutedForeground,
+                                ),
+                              ),
+                            )
+                          : null,
+                    ) ??
+                    const SizedBox.shrink(),
               ],
             ),
           ),
@@ -90,7 +101,8 @@ class _TranscriptPanelState extends ConsumerState<TranscriptPanel> {
               ),
               error: (e, _) => _ErrorView(
                 error: e.toString(),
-                onRetry: () => ref.invalidate(transcriptProvider(widget.videoId)),
+                onRetry: () =>
+                    ref.invalidate(transcriptProvider(widget.videoId)),
               ),
               data: (transcript) {
                 if (transcript == null || transcript.segments.isEmpty) {
@@ -154,7 +166,10 @@ class _TranscriptList extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 6,
+                    vertical: 2,
+                  ),
                   decoration: BoxDecoration(
                     color: AppColors.muted.withValues(alpha: 0.2),
                     borderRadius: BorderRadius.circular(4),
@@ -164,7 +179,9 @@ class _TranscriptList extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 11,
                       fontWeight: FontWeight.w500,
-                      color: isActive ? AppColors.tigerOrange : AppColors.mutedForeground,
+                      color: isActive
+                          ? AppColors.tigerOrange
+                          : AppColors.mutedForeground,
                     ),
                   ),
                 ),
@@ -177,8 +194,12 @@ class _TranscriptList extends StatelessWidget {
                         text: segment.textDe,
                         style: TextStyle(
                           fontSize: 13,
-                          fontWeight: isActive ? FontWeight.w500 : FontWeight.normal,
-                          color: isActive ? AppColors.foreground : AppColors.mutedForeground,
+                          fontWeight: isActive
+                              ? FontWeight.w500
+                              : FontWeight.normal,
+                          color: isActive
+                              ? AppColors.foreground
+                              : AppColors.mutedForeground,
                         ),
                       ),
                       if (segment.textVi != null) ...[
@@ -214,7 +235,10 @@ class _TappableSentence extends StatelessWidget {
   final TextStyle style;
 
   static final _wordSplit = RegExp(r'(\s+)');
-  static final _stripPunctuation = RegExp(r'^[^\p{L}]+|[^\p{L}]+$', unicode: true);
+  static final _stripPunctuation = RegExp(
+    r'^[^\p{L}]+|[^\p{L}]+$',
+    unicode: true,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -248,18 +272,11 @@ class _EmptyTranscriptView extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(
-            Icons.subtitles_off,
-            size: 40,
-            color: AppColors.muted,
-          ),
+          Icon(Icons.subtitles_off, size: 40, color: AppColors.muted),
           const SizedBox(height: 8),
           Text(
             'Không có transcript',
-            style: TextStyle(
-              fontSize: 14,
-              color: AppColors.mutedForeground,
-            ),
+            style: TextStyle(fontSize: 14, color: AppColors.mutedForeground),
           ),
         ],
       ),
@@ -279,25 +296,15 @@ class _ErrorView extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(
-            Icons.error_outline,
-            size: 40,
-            color: AppColors.destructive,
-          ),
+          Icon(Icons.error_outline, size: 40, color: AppColors.destructive),
           const SizedBox(height: 8),
           Text(
             'Lỗi: $error',
-            style: TextStyle(
-              fontSize: 12,
-              color: AppColors.destructive,
-            ),
+            style: TextStyle(fontSize: 12, color: AppColors.destructive),
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 8),
-          TextButton(
-            onPressed: onRetry,
-            child: const Text('Thử lại'),
-          ),
+          TextButton(onPressed: onRetry, child: const Text('Thử lại')),
         ],
       ),
     );

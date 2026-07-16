@@ -154,4 +154,9 @@ class _FakeGrammarDrillRepository implements GrammarDrillRepository {
   ) async {
     submitted.add(results);
   }
+
+  @override
+  Future<GrammarExplainResult> explainGrammar(
+    GrammarExplainRequest request,
+  ) async => const GrammarExplainResult(explanation: '', ok: false, cached: false);
 }

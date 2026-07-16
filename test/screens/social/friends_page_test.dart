@@ -50,37 +50,38 @@ void main() {
     expect(find.text('Chưa có bạn bè'), findsOneWidget);
   });
 
-  testWidgets('block flow calls FriendRepository.blockUser and confirms', (tester) async {
-    final repo = _FakeFriendRepository(
-      friends: [
-        const FriendProfile(
-          id: 'u2',
-          displayName: 'Maria',
-          avatarUrl: '',
-          level: 5,
-          currentStreak: 10,
-          totalXp: 500,
-          friendshipStatus: 'accepted',
-          friendshipId: 'f1',
-        ),
-      ],
-    );
+  testWidgets(
+    'remove-friend flow (web: plain "Huỷ kết bạn" link) calls '
+    'FriendRepository.removeFriend and confirms',
+    (tester) async {
+      final repo = _FakeFriendRepository(
+        friends: [
+          const FriendProfile(
+            id: 'u2',
+            displayName: 'Maria',
+            avatarUrl: '',
+            level: 5,
+            currentStreak: 10,
+            totalXp: 500,
+            friendshipStatus: 'accepted',
+            friendshipId: 'f1',
+          ),
+        ],
+      );
 
-    await tester.pumpWidget(wrap(repo));
-    await tester.pumpAndSettle();
+      await tester.pumpWidget(wrap(repo));
+      await tester.pumpAndSettle();
 
-    await tester.tap(find.byIcon(Icons.more_vert));
-    await tester.pumpAndSettle();
-    await tester.tap(find.text('Chặn').last);
-    await tester.pumpAndSettle();
+      await tester.tap(find.text('Xoá bạn bè').last);
+      await tester.pumpAndSettle();
 
-    // Confirmation dialog appears; confirm.
-    expect(find.text('Chặn người dùng này? Họ sẽ không thể liên hệ với bạn nữa.'), findsNothing);
-    await tester.tap(find.text('Chặn').last);
-    await tester.pumpAndSettle();
+      // Confirmation dialog appears; confirm.
+      await tester.tap(find.text('Xoá bạn bè').last);
+      await tester.pumpAndSettle();
 
-    expect(repo.blockedUserIds, ['u2']);
-  });
+      expect(repo.removedFriendshipIds, ['f1']);
+    },
+  );
 }
 
 /// In-memory fake used instead of a scripted [ApiClient] adapter, mirroring
@@ -92,6 +93,7 @@ class _FakeFriendRepository extends FriendRepository {
 
   final List<FriendProfile> _friends;
   final List<String> blockedUserIds = [];
+  final List<String> removedFriendshipIds = [];
 
   @override
   Future<List<FriendProfile>> getFriends() async => _friends;
@@ -102,6 +104,11 @@ class _FakeFriendRepository extends FriendRepository {
   @override
   Future<void> blockUser(String targetUserId) async {
     blockedUserIds.add(targetUserId);
+  }
+
+  @override
+  Future<void> removeFriend(String friendshipId) async {
+    removedFriendshipIds.add(friendshipId);
   }
 }
 

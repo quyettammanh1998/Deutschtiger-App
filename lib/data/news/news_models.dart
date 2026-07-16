@@ -256,6 +256,34 @@ class NewsWeekStats {
   }
 }
 
+/// Một dòng bảng xếp hạng tuần — trả về bởi `GET /news-leaderboard` và
+/// `GET /user/news-rank`.
+class NewsLeaderboardEntry {
+  const NewsLeaderboardEntry({
+    required this.userId,
+    required this.displayName,
+    required this.avatarUrl,
+    required this.completedCount,
+    required this.rank,
+  });
+
+  final String userId;
+  final String displayName;
+  final String avatarUrl;
+  final int completedCount;
+  final int rank;
+
+  factory NewsLeaderboardEntry.fromJson(Map<String, dynamic> json) {
+    return NewsLeaderboardEntry(
+      userId: json['user_id'] as String? ?? '',
+      displayName: json['display_name'] as String? ?? '',
+      avatarUrl: json['avatar_url'] as String? ?? '',
+      completedCount: json['completed_count'] as int? ?? 0,
+      rank: json['rank'] as int? ?? 0,
+    );
+  }
+}
+
 /// Tham số điều hướng tới màn chi tiết — chỉ cần `slug`; `level` là gợi ý mở
 /// bài ở trình độ nào (carried từ danh sách qua query `?level=`, giống web).
 class NewsDetailArgs {

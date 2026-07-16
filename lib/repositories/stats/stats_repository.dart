@@ -46,6 +46,31 @@ class StatsRepository {
         .map((e) => SrsDailyStat.fromJson(e as Map<String, dynamic>))
         .toList();
   }
+
+  /// Ôn tập hôm nay/tuần + độ chính xác + thẻ đến hạn (khối "Thống kê ôn
+  /// tập" trên web). `GET /user/flashcard-reviews/stats`.
+  Future<FlashcardReviewStats> getFlashcardReviewStats() async {
+    final json = await _api.get<Map<String, dynamic>>(
+      '/user/flashcard-reviews/stats',
+    );
+    return FlashcardReviewStats.fromJson(json);
+  }
+
+  /// Tổng flashcard + lượt ôn — nguồn tính thành tựu. `GET /user/flashcards/stats`.
+  Future<FlashcardCountStats> getFlashcardCountStats() async {
+    final json = await _api.get<Map<String, dynamic>>(
+      '/user/flashcards/stats',
+    );
+    return FlashcardCountStats.fromJson(json);
+  }
+
+  /// Thời gian online 7 ngày qua. `GET /user/online-time/weekly`.
+  Future<List<WeeklyOnlineTimePoint>> getWeeklyOnlineTime() async {
+    final list = await _api.get<List<dynamic>>('/user/online-time/weekly');
+    return list
+        .map((e) => WeeklyOnlineTimePoint.fromJson(e as Map<String, dynamic>))
+        .toList();
+  }
 }
 
 final statsRepositoryProvider = Provider<StatsRepository>((ref) {

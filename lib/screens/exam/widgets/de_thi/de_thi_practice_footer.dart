@@ -83,6 +83,7 @@ class _PrevButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return InkWell(
       borderRadius: BorderRadius.circular(12),
       onTap: onTap,
@@ -103,7 +104,7 @@ class _PrevButton extends StatelessWidget {
             ),
             const SizedBox(width: 6),
             Text(
-              'Đoạn trước',
+              l10n.deThiPrevPassage,
               style: TextStyle(
                 fontSize: 13,
                 fontWeight: FontWeight.w600,
@@ -125,6 +126,7 @@ class _NextButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return InkWell(
       borderRadius: BorderRadius.circular(12),
       onTap: onTap,
@@ -139,7 +141,7 @@ class _NextButton extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              'Đoạn tiếp',
+              l10n.deThiNextPassage,
               style: TextStyle(
                 fontSize: 13,
                 fontWeight: FontWeight.w600,

@@ -20,6 +20,12 @@ void main() {
     WidgetTester tester, {
     required AsyncValue<List<DeckWord>> words,
   }) async {
+    // Mode selector is now a tall 2-col gradient grid (11 cards) — grow the
+    // test surface so every card is on-screen without needing scroll
+    // gymnastics (default 800x600 clips well past the first row).
+    await tester.binding.setSurfaceSize(const Size(400, 2000));
+    addTearDown(() => tester.binding.setSurfaceSize(null));
+
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
@@ -85,6 +91,7 @@ void main() {
       ]),
     );
 
+    await tester.ensureVisible(find.text('Fill in the blank'));
     await tester.tap(find.text('Fill in the blank'));
     await tester.pumpAndSettle();
 
@@ -104,6 +111,7 @@ void main() {
       words: AsyncData([word(id: 'w1', w: 'Buch', vi: 'the book')]),
     );
 
+    await tester.ensureVisible(find.text('Writing'));
     await tester.tap(find.text('Writing'));
     await tester.pumpAndSettle();
 
@@ -122,6 +130,7 @@ void main() {
       words: AsyncData([word(id: 'l1', w: 'Wasser', vi: 'water')]),
     );
 
+    await tester.ensureVisible(find.text('Listening'));
     await tester.tap(find.text('Listening'));
     await tester.pumpAndSettle();
 
@@ -142,6 +151,7 @@ void main() {
       ]),
     );
 
+    await tester.ensureVisible(find.text('Matching'));
     await tester.tap(find.text('Matching'));
     await tester.pumpAndSettle();
 

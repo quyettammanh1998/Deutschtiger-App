@@ -21,8 +21,6 @@ import '../../screens/social/announcements_page.dart';
 import '../../screens/affiliate/affiliate_screen.dart';
 import '../../screens/affiliate/affiliate_page.dart';
 import '../../screens/affiliate/affiliate_leaderboard_page.dart';
-import '../../screens/profile/edit_profile_screen.dart';
-import '../../screens/profile/profile_screen.dart';
 
 final List<RouteBase> socialRoutes = [
   GoRoute(
@@ -83,14 +81,9 @@ final List<RouteBase> socialRoutes = [
       ),
     ],
   ),
-  GoRoute(
-    path: '/profile',
-    builder: (context, state) => const ProfileScreen(),
-    routes: [
-      GoRoute(
-        path: 'edit',
-        builder: (context, state) => const EditProfileScreen(),
-      ),
-    ],
-  ),
+  // Own-profile view: renders the same public-profile UI as `/social/
+  // profile/:userId` (web `/u/:id`), resolved to the caller's id. Editing
+  // moved into the settings-root profile-edit card (see release_redirect.dart
+  // `/profile/edit` → `/settings`).
+  GoRoute(path: '/profile', builder: (context, state) => const OwnProfilePage()),
 ];

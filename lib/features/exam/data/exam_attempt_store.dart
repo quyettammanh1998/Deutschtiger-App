@@ -70,6 +70,46 @@ class ExamProgressSnapshot {
       );
 }
 
+/// 1 dòng lịch sử làm đề — chỉ các field cần cho `AttemptHistoryList` (web
+/// `ExamAttemptRow`), không đầy đủ như [ExamAttempt] (không có `answers`).
+class ExamAttemptSummary {
+  const ExamAttemptSummary({
+    required this.id,
+    required this.mode,
+    required this.score,
+    required this.correctAnswers,
+    required this.totalQuestions,
+    required this.timeTaken,
+    required this.submittedAt,
+  });
+
+  final String id;
+  final ExamMode mode;
+  final int score;
+  final int correctAnswers;
+  final int totalQuestions;
+  final int timeTaken;
+  final DateTime submittedAt;
+
+  factory ExamAttemptSummary.fromJson(Map<String, dynamic> json) {
+    return ExamAttemptSummary(
+      id: json['id']?.toString() ?? '',
+      mode: ExamMode.values.firstWhere(
+        (m) => m.name == json['mode'],
+        orElse: () => ExamMode.test,
+      ),
+      score: _int(json['score']),
+      correctAnswers: _int(json['correct_answers']),
+      totalQuestions: _int(json['total_questions']),
+      timeTaken: _int(json['time_taken']),
+      submittedAt:
+          DateTime.tryParse(json['submitted_at']?.toString() ?? '') ??
+          DateTime.tryParse(json['created_at']?.toString() ?? '') ??
+          DateTime.now(),
+    );
+  }
+}
+
 class ExamSubmitOutcome {
   const ExamSubmitOutcome({required this.attempt, required this.synced});
 
@@ -311,6 +351,32 @@ class ExamAttemptStore {
       'answers': attempt.answers,
       'submitted_at': attempt.submittedAt!.toUtc().toIso8601String(),
     };
+  }
+
+  /// Lịch sử các lần làm đề (mới nhất trước) — web `AttemptHistoryList`
+  /// (`use-exam-attempts.ts`: `GET /user/exam-attempts?exam_id=&limit=`).
+  /// Cùng endpoint [loadResult] đã dùng (limit=1) — chỉ thêm limit lớn hơn +
+  /// trả về nhiều bản ghi thay vì 1. Trả `[]` (không throw) khi lỗi/403 (free
+  /// user chưa mở khoá) để UI ẩn card thay vì crash.
+  Future<List<ExamAttemptSummary>> loadHistory(
+    String examId, {
+    int limit = 20,
+  }) async {
+    try {
+      final rows = await _api.get<List<dynamic>>(
+        '/user/exam-attempts',
+        query: {'exam_id': examId, 'limit': limit},
+      );
+      return rows
+          .whereType<Map>()
+          .map(
+            (row) =>
+                ExamAttemptSummary.fromJson(Map<String, dynamic>.from(row)),
+          )
+          .toList();
+    } catch (_) {
+      return const [];
+    }
   }
 
   ExamAttempt _attemptFromServer(Map<String, dynamic> json) {

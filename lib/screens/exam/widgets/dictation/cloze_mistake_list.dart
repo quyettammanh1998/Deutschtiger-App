@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_tokens.dart';
+import '../../../../l10n/app_localizations.dart';
 
 /// "Từ cần ôn lại" mistake recap shown on the cloze [DictationEndScreen].
 class ClozeMistakeList extends StatelessWidget {
@@ -11,6 +12,7 @@ class ClozeMistakeList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final tokens = context.tokens;
+    final l10n = AppLocalizations.of(context);
     return DecoratedBox(
       decoration: BoxDecoration(
         color: tokens.muted,
@@ -22,7 +24,7 @@ class ClozeMistakeList extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Từ cần ôn lại',
+              l10n.dictationClozeMistakesTitle,
               style: TextStyle(
                 fontSize: 11,
                 fontWeight: FontWeight.w700,

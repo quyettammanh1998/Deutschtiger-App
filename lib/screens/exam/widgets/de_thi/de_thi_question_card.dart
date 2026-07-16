@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/icons/app_phosphor_icons.dart';
 import '../../../../core/theme/app_tokens.dart';
 import '../../../../data/exam/exam_ecosystem_models.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../../../../widgets/common/app_card.dart';
 import 'de_thi_question_option_row.dart';
 import 'de_thi_question_reveal_blocks.dart';
@@ -35,6 +36,7 @@ class _DeThiQuestionCardState extends State<DeThiQuestionCard> {
   @override
   Widget build(BuildContext context) {
     final tokens = context.tokens;
+    final l10n = AppLocalizations.of(context);
     final q = widget.question;
     return AppCard.card(
       padding: const EdgeInsets.all(14),
@@ -99,7 +101,9 @@ class _DeThiQuestionCardState extends State<DeThiQuestionCard> {
               children: [
                 DeThiToggleLink(
                   icon: AppPhosphorIcons.translate,
-                  label: _showTranslation ? 'Ẩn bản dịch' : 'Dịch tiếng Việt',
+                  label: _showTranslation
+                      ? l10n.deThiHideTranslation
+                      : l10n.deThiTranslateVi,
                   color: const Color(0xFF2563EB),
                   onTap: () =>
                       setState(() => _showTranslation = !_showTranslation),
@@ -107,7 +111,9 @@ class _DeThiQuestionCardState extends State<DeThiQuestionCard> {
                 const SizedBox(width: 16),
                 DeThiToggleLink(
                   icon: AppPhosphorIcons.lightbulb,
-                  label: _showExplanation ? 'Ẩn giải thích' : 'Giải thích',
+                  label: _showExplanation
+                      ? l10n.deThiHideExplanation
+                      : l10n.deThiExplanation,
                   color: const Color(0xFF0284C7),
                   onTap: () =>
                       setState(() => _showExplanation = !_showExplanation),

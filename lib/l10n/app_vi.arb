@@ -24,19 +24,52 @@
   "goodEvening": "Chào buổi tối",
   "headerEncouragement": "Sẵn sàng chinh phục tiếng Đức? 🚀",
   "headerWordsLearned": "📚 Đã học {count} từ vựng",
-  "@headerWordsLearned": {"placeholders": {"count": {"type": "int"}}},
+  "@headerWordsLearned": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "headerStreakStart": "Bắt đầu",
   "todayXp": "XP hôm nay",
   "streak": "Chuỗi ngày",
   "streakDays": "{count} ngày",
-  "@streakDays": {"placeholders": {"count": {"type": "int"}}},
+  "@streakDays": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "zeroMinutes": "0 phút",
   "minutesShort": "{count} phút",
-  "@minutesShort": {"placeholders": {"count": {"type": "int"}}},
+  "@minutesShort": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "hoursShort": "{count} giờ",
-  "@hoursShort": {"placeholders": {"count": {"type": "int"}}},
+  "@hoursShort": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "hoursMinutesShort": "{hours} giờ {minutes} phút",
-  "@hoursMinutesShort": {"placeholders": {"hours": {"type": "int"}, "minutes": {"type": "int"}}},
+  "@hoursMinutesShort": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      },
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
   "wordsLearned": "Số từ đã học",
   "lookupCount": "Số lượt tra",
   "today": "Hôm nay",
@@ -58,7 +91,13 @@
   "qaExamSubtitle": "Goethe, telc",
   "qaVocabTitle": "Kho từ vựng",
   "qaVocabSubtitle": "{count}+ từ",
-  "@qaVocabSubtitle": {"placeholders": {"count": {"type": "int"}}},
+  "@qaVocabSubtitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "qaNotesTitle": "Sổ tay",
   "qaNotesSubtitle": "Từ bạn đã lưu",
   "qaReviewTitle": "Ôn tập",
@@ -79,16 +118,52 @@
   "qaAffiliateSubtitle": "Nhận hoa hồng",
   "dailyPathHeroTitle": "☀️ Hôm nay học gì tiếp?",
   "dailyPathExamBadge": "Còn {days} ngày đến thi {examLabel}",
-  "@dailyPathExamBadge": {"placeholders": {"days": {"type": "int"}, "examLabel": {"type": "String"}}},
+  "@dailyPathExamBadge": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      },
+      "examLabel": {
+        "type": "String"
+      }
+    }
+  },
   "dailyPathPlanSummary": "Kế hoạch hôm nay · {done}/{total} bước",
-  "@dailyPathPlanSummary": {"placeholders": {"done": {"type": "int"}, "total": {"type": "int"}}},
+  "@dailyPathPlanSummary": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
   "dailyPathMinutesRemaining": "còn ~{minutes} phút",
-  "@dailyPathMinutesRemaining": {"placeholders": {"minutes": {"type": "int"}}},
+  "@dailyPathMinutesRemaining": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
   "dailyPathNextStep": "Bước tiếp theo · ~{minutes} phút",
-  "@dailyPathNextStep": {"placeholders": {"minutes": {"type": "int"}}},
+  "@dailyPathNextStep": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
   "dailyPathCompleteCelebration": "🎉 Xong lộ trình hôm nay!",
   "dailyPathCompleteCelebrationWithStreak": "🎉 Xong lộ trình hôm nay! Giữ streak 🔥{count} nhé.",
-  "@dailyPathCompleteCelebrationWithStreak": {"placeholders": {"count": {"type": "int"}}},
+  "@dailyPathCompleteCelebrationWithStreak": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "dailyPathEmptyTitle": "Bắt đầu lộ trình học hôm nay",
   "dailyPathEmptyDescription": "Vài phút mỗi ngày để giữ streak và tiến bộ đều đặn.",
   "dailyPathEmptyCta": "Bắt đầu học",
@@ -161,7 +236,13 @@
   "resetLinkInvalid": "Link đặt lại mật khẩu không hợp lệ hoặc đã hết hạn.",
   "resendResetLink": "Gửi lại link đặt lại",
   "checkEmailForResetLink": "Kiểm tra email {email} để đặt lại mật khẩu.",
-  "@checkEmailForResetLink": {"placeholders": {"email": {"type": "String"}}},
+  "@checkEmailForResetLink": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
   "showPasswordTooltip": "Hiện mật khẩu",
   "hidePasswordTooltip": "Ẩn mật khẩu",
   "newPasswordHint": "Tối thiểu 8 ký tự",
@@ -177,14 +258,50 @@
   "allTime": "Mọi thời đại",
   "couldNotLoadLeaderboard": "Không thể tải bảng xếp hạng. Vui lòng thử lại.",
   "noLeaderboardEntries": "Chưa có dữ liệu bảng xếp hạng.",
+  "leaderboardSubtitle": "So tài XP tuần với cộng đồng và bạn bè.",
+  "leaderboardWeeklyHeader": "BXH tuần",
+  "leaderboardResetCountdown": "Reset {countdown}",
+  "@leaderboardResetCountdown": {
+    "placeholders": {
+      "countdown": {
+        "type": "String"
+      }
+    }
+  },
+  "leaderboardTabGlobal": "Toàn cầu",
+  "leaderboardTabFriends": "Bạn bè",
+  "leaderboardHallOfFameToggle": "Tuần trước",
+  "leaderboardNoFriends": "Chưa có bạn bè trên bảng — kết bạn để so tài!",
+  "leaderboardFindFriends": "Tìm bạn bè →",
+  "leaderboardRankNew": "Mới",
+  "leaderboardDetailTitle": "Chi tiết điểm tuần",
+  "leaderboardDetailComposite": "Composite score",
+  "leaderboardDetailRawXp": "XP gốc",
+  "leaderboardDetailXp": "XP tuần",
+  "leaderboardDetailExam": "Điểm exam",
+  "leaderboardDetailMission": "Mission",
+  "leaderboardDetailVocab": "Từ đã ôn",
+  "leaderboardDetailStreak": "Streak",
+  "leaderboardDetailTopContributor": "Đóng góp cao nhất",
+  "leaderboardDetailDampenedNote": "Tài khoản mới đang bị giảm rank tạm thời. Hoàn thành streak 3 ngày, 3 mission hoặc 1 exam để mở khoá điểm rank đầy đủ.",
+  "leaderboardDetailViewProfile": "Xem hồ sơ",
   "exam": "Thi",
   "examPractice": "Luyện thi",
   "loadingExam": "Đang tải đề thi…",
   "examQuestionPalette": "Bảng câu hỏi",
   "examQuestionProgress": "Câu {current} / {total}",
-  "@examQuestionProgress": {"placeholders": {"current": {"type": "int"}, "total": {"type": "int"}}},
-  "previous": "Trước",
-  "next": "Tiếp",
+  "@examQuestionProgress": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "previous": "Quay lại",
+  "next": "Tiếp tục",
   "done": "Xong",
   "submitExam": "Nộp bài",
   "exitExamTitle": "Thoát bài thi?",
@@ -192,7 +309,13 @@
   "exit": "Thoát",
   "submitExamTitle": "Nộp bài?",
   "submitExamUnanswered": "Bạn còn {count} câu chưa làm. Vẫn nộp?",
-  "@submitExamUnanswered": {"placeholders": {"count": {"type": "int"}}},
+  "@submitExamUnanswered": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "reviewAnswers": "Xem lại",
   "allFilters": "Tất cả",
   "couldNotLoadExams": "Không tải được đề thi. Vui lòng thử lại.",
@@ -212,37 +335,94 @@
   "examShortDescOsd": "Chứng chỉ tiếng Đức Áo",
   "examRecommendedLabel": "Đề xuất",
   "examLevelMismatchTitle": "Bạn đang ở trình độ {level}",
-  "@examLevelMismatchTitle": {"placeholders": {"level": {"type": "String"}}},
+  "@examLevelMismatchTitle": {
+    "placeholders": {
+      "level": {
+        "type": "String"
+      }
+    }
+  },
   "examLevelMismatchBody": "Đề thi {level} có thể quá khó cho trình độ hiện tại. Bạn vẫn muốn tiếp tục?",
-  "@examLevelMismatchBody": {"placeholders": {"level": {"type": "String"}}},
+  "@examLevelMismatchBody": {
+    "placeholders": {
+      "level": {
+        "type": "String"
+      }
+    }
+  },
   "examLevelMismatchCancel": "Huỷ",
   "examLevelMismatchContinue": "Vẫn tiếp tục",
   "examSectionBundleCount": "{count} bộ đề",
-  "@examSectionBundleCount": {"placeholders": {"count": {"type": "int"}}},
+  "@examSectionBundleCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "examBundleArapTitle": "A-RAP",
   "examBundleArapDesc": "Đề luyện thi chính thức · Lesen · Hören · Schreiben · Sprachbausteine",
   "examBundleSpeakingTitle": "Nói (Sprechen)",
   "examBundleSpeakingDesc": "Luyện kỹ năng nói theo chủ đề",
   "examBundleComingSoon": "Sắp có",
   "examSetCount": "{count} bộ đề",
-  "@examSetCount": {"placeholders": {"count": {"type": "int"}}},
+  "@examSetCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "examSetCompletedSuffix": "{count} hoàn thành",
-  "@examSetCompletedSuffix": {"placeholders": {"count": {"type": "int"}}},
+  "@examSetCompletedSuffix": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "examSetInProgressSuffix": "{count} đang làm",
-  "@examSetInProgressSuffix": {"placeholders": {"count": {"type": "int"}}},
+  "@examSetInProgressSuffix": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "examSetEmptyTitle": "Chưa có đề thi",
   "examSetEmptyBody": "Hiện tại chưa có đề thi cho chứng chỉ và cấp độ này.",
   "examSetPagePrev": "Trước",
   "examSetPageNext": "Tiếp",
   "examSetPageIndicator": "Trang {current} / {total}",
-  "@examSetPageIndicator": {"placeholders": {"current": {"type": "int"}, "total": {"type": "int"}}},
+  "@examSetPageIndicator": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
   "examPartsCount": "{count} phần",
-  "@examPartsCount": {"placeholders": {"count": {"type": "int"}}},
+  "@examPartsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "examPartActionTest": "Luyện thi",
   "examPartActionPractice": "Luyện tập",
   "examSkillListEmptyTitle": "Chưa có đề thi",
   "examSkillListEmptyBody": "Hiện tại chưa có phần {skill} nào.",
-  "@examSkillListEmptyBody": {"placeholders": {"skill": {"type": "String"}}},
+  "@examSkillListEmptyBody": {
+    "placeholders": {
+      "skill": {
+        "type": "String"
+      }
+    }
+  },
   "examSkillListVocabChip": "Từ vựng",
   "examLocked": "Khóa",
   "examScheduleTitle": "Tìm bạn ôn thi",
@@ -250,7 +430,13 @@
   "examMyRegistrationsTab": "Thông tin của tôi",
   "examBuddyListEmpty": "Chưa có ai đăng ký lịch thi.",
   "examBuddyDaysUntil": "Còn {days} ngày",
-  "@examBuddyDaysUntil": {"placeholders": {"days": {"type": "int"}}},
+  "@examBuddyDaysUntil": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
   "examBuddyPast": "Đã thi",
   "examRegistrationAdd": "Thêm lịch thi",
   "examRegistrationDelete": "Xoá lịch thi",
@@ -263,22 +449,46 @@
   "communityExamsEmpty": "Chưa có đề thi cộng đồng nào.",
   "communityExamDetailTitle": "Chi tiết đề thi",
   "communityExamContributedBy": "Đóng góp bởi {name}",
-  "@communityExamContributedBy": {"placeholders": {"name": {"type": "String"}}},
+  "@communityExamContributedBy": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "deThiListTitle": "Đề thi công khai",
   "deThiListEmpty": "Chưa có đề thi công khai nào.",
   "deThiNotFound": "Không tìm thấy đề thi này.",
   "deThiRevealAnswer": "Xem đáp án",
   "deThiCorrectAnswer": "Đáp án đúng: {answer}",
-  "@deThiCorrectAnswer": {"placeholders": {"answer": {"type": "String"}}},
+  "@deThiCorrectAnswer": {
+    "placeholders": {
+      "answer": {
+        "type": "String"
+      }
+    }
+  },
   "examDictationPickerTitle": "Chọn đề luyện nghe",
   "examDictationTitle": "Nghe chép chính tả",
   "examDictationNotFound": "Đề này chưa có dữ liệu luyện nghe chép chính tả.",
   "examDictationNoWords": "Chưa có từ vựng phù hợp để luyện.",
   "examDictationCheck": "Kiểm tra",
   "examQuestionsCount": "{count} câu",
-  "@examQuestionsCount": {"placeholders": {"count": {"type": "int"}}},
+  "@examQuestionsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "examDurationMinutes": "{count} phút",
-  "@examDurationMinutes": {"placeholders": {"count": {"type": "int"}}},
+  "@examDurationMinutes": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "practiceExam": "Luyện tập",
   "examTestMode": "Thi",
   "examReviewMode": "Xem lại",
@@ -287,7 +497,19 @@
   "audioPlay": "Phát audio",
   "audioPause": "Tạm dừng audio",
   "audioPlayCounter": "Đã nghe {used}/{max} lượt · còn {remaining}",
-  "@audioPlayCounter": {"placeholders": {"used": {"type": "int"}, "max": {"type": "int"}, "remaining": {"type": "String"}}},
+  "@audioPlayCounter": {
+    "placeholders": {
+      "used": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      },
+      "remaining": {
+        "type": "String"
+      }
+    }
+  },
   "audioPlayLimitReached": "Bạn đã dùng hết số lần nghe cho phép.",
   "examResults": "Kết quả",
   "couldNotLoadExamResult": "Không thể tải kết quả bài thi. Vui lòng thử lại.",
@@ -296,25 +518,64 @@
   "notPassedExam": "CHƯA ĐẠT",
   "examAnswered": "Đã trả lời",
   "examAnsweredQuestions": "{answered}/{total} câu",
-  "@examAnsweredQuestions": {"placeholders": {"answered": {"type": "int"}, "total": {"type": "int"}}},
+  "@examAnsweredQuestions": {
+    "placeholders": {
+      "answered": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
   "examTime": "Thời gian",
   "examCorrectRate": "Tỉ lệ đúng",
   "examSectionAnalysis": "Phân tích phần thi",
   "examSectionReading": "Đọc hiểu",
   "examSectionListening": "Nghe hiểu",
   "examSectionSummary": "{correct}/{total} câu đúng · {minutes} phút",
-  "@examSectionSummary": {"placeholders": {"correct": {"type": "int"}, "total": {"type": "int"}, "minutes": {"type": "int"}}},
+  "@examSectionSummary": {
+    "placeholders": {
+      "correct": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      },
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
   "reviewExam": "Xem lại bài",
   "retryExam": "Làm lại",
   "examCorrect": "Đúng",
   "examNotCorrect": "Chưa đúng",
   "examQuestionNumber": "Câu {number}",
-  "@examQuestionNumber": {"placeholders": {"number": {"type": "int"}}},
+  "@examQuestionNumber": {
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
   "matchingSelectRight": "Chọn ô bên phải để nối với mục {number}",
-  "@matchingSelectRight": {"placeholders": {"number": {"type": "int"}}},
+  "@matchingSelectRight": {
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
   "removeMatch": "Bỏ nối",
   "examGapNumber": "Chỗ trống {number}",
-  "@examGapNumber": {"placeholders": {"number": {"type": "int"}}},
+  "@examGapNumber": {
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
   "takeMockExam": "Thi thử",
   "learn": "Học",
   "learningJourney": "Hành trình học",
@@ -327,9 +588,21 @@
   "coursesAllSection": "Tất cả khoá học",
   "coursesEmptyCatalog": "Chưa có khoá học nào.",
   "coursesLessonsCount": "{count} bài học",
-  "@coursesLessonsCount": {"placeholders": {"count": {"type": "int"}}},
+  "@coursesLessonsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "coursesLessonsStarted": "Đã học {count} bài",
-  "@coursesLessonsStarted": {"placeholders": {"count": {"type": "int"}}},
+  "@coursesLessonsStarted": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "coursesNoLessonsYet": "Khoá học này chưa có bài học.",
   "coursesLessonCompleted": "Đã hoàn thành",
   "coursesMarkComplete": "Đánh dấu hoàn thành",
@@ -337,7 +610,13 @@
   "coursesVideoWebOnly": "Video của bài học này hiện chỉ xem được trên bản web.",
   "coursesVocabularyTitle": "Từ vựng bài học",
   "coursesExercisesHint": "{count} bài tập tương tác — làm trên bản web.",
-  "@coursesExercisesHint": {"placeholders": {"count": {"type": "int"}}},
+  "@coursesExercisesHint": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "coursesNotesLabel": "Ghi chú của bạn",
   "coursesNotesHint": "Ghi chú riêng cho bài học này...",
   "coursesNotesSave": "Lưu ghi chú",
@@ -345,7 +624,178 @@
   "coursesNotesSaveFailed": "Lưu ghi chú thất bại, thử lại.",
   "coursesSignInRequired": "Đăng nhập để lưu tiến độ và ghi chú.",
   "coursesLessonNumber": "Bài {number}",
-  "@coursesLessonNumber": {"placeholders": {"number": {"type": "int"}}},
+  "@coursesLessonNumber": {
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+  "coursesPremiumLabel": "Premium",
+  "coursesViewContent": "Xem nội dung",
+  "coursesUnlockArrow": "Mở khóa →",
+  "coursesViewArrow": "Xem →",
+  "coursesHubSubtitle": "Học tiếng Đức qua video + bài tập tương tác từ Deutsche Welle",
+  "coursesCount": "{count} khoá",
+  "@coursesCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "coursesLessonsCountPlus": "{count}+ bài học",
+  "@coursesLessonsCountPlus": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "coursesSearchHint": "Tìm khoá học...",
+  "coursesCollapse": "Thu gọn",
+  "coursesShowMore": "Xem thêm {count} khoá",
+  "@coursesShowMore": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "coursesSearchResultsCount": "{count} kết quả cho \"{query}\"",
+  "@coursesSearchResultsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "coursesSearchNoResults": "Không tìm thấy \"{query}\"",
+  "@coursesSearchNoResults": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "coursesUpsellHubTitle": "Mở khóa toàn bộ {count} khoá học",
+  "@coursesUpsellHubTitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "coursesUpsellHubSubtitle": "Bạn đang dùng {limit} khoá miễn phí. Nâng cấp để truy cập tất cả nội dung.",
+  "@coursesUpsellHubSubtitle": {
+    "placeholders": {
+      "limit": {
+        "type": "int"
+      }
+    }
+  },
+  "coursesUpsellCta": "Nâng cấp",
+  "coursesLevelHeading": "Level {label}",
+  "@coursesLevelHeading": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "coursesLevelEmpty": "Chưa có dữ liệu cho level này.",
+  "coursesLessonNumberShort": "Bài {number}",
+  "@coursesLessonNumberShort": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  },
+  "coursesPaginationPrev": "← Trước",
+  "coursesPaginationNext": "Sau →",
+  "coursesPaginationInfo": "Trang {page}/{totalPages} · Hiển thị {start}–{end}",
+  "@coursesPaginationInfo": {
+    "placeholders": {
+      "page": {
+        "type": "int"
+      },
+      "totalPages": {
+        "type": "int"
+      },
+      "start": {
+        "type": "int"
+      },
+      "end": {
+        "type": "int"
+      }
+    }
+  },
+  "coursesProgressTitle": "Tiến độ học",
+  "coursesProgressVideosWatched": "video đã xem",
+  "coursesProgressLessonsStarted": "bài đã bắt đầu",
+  "coursesUpsellDetailTitle": "Mở khóa toàn bộ {count} bài học.",
+  "@coursesUpsellDetailTitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "coursesUpsellDetailSubtitle": "Bạn đang xem {limit} bài miễn phí.",
+  "@coursesUpsellDetailSubtitle": {
+    "placeholders": {
+      "limit": {
+        "type": "int"
+      }
+    }
+  },
+  "coursesLessonNotStarted": "Chưa học",
+  "coursesLessonNoVideo": "Bài này chưa có video.",
+  "coursesLessonStripTitle": "Danh sách bài",
+  "coursesTranscriptTitle": "Phụ đề",
+  "coursesTranscriptCopyDe": "Sao chép tiếng Đức",
+  "coursesTranscriptCopyVi": "Sao chép tiếng Việt",
+  "coursesTranscriptHideVi": "Ẩn VI",
+  "coursesTranscriptShowVi": "Hiện VI",
+  "coursesTranscriptEmpty": "Bài này chưa có phụ đề.",
+  "coursesVocabularyCount": "Từ vựng ({count})",
+  "@coursesVocabularyCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "coursesVocabularyEmpty": "Bài này chưa có danh sách từ vựng.",
+  "coursesCommentsTitle": "Bình luận",
+  "coursesCommentsError": "Không tải được bình luận.",
+  "coursesCommentsEmpty": "Chưa có bình luận nào.",
+  "coursesCommentsPlaceholder": "Viết bình luận...",
+  "coursesCommentsSendError": "Gửi bình luận thất bại, thử lại.",
+  "coursesLessonVideoDone": "✓ Video đã hoàn thành",
+  "coursesLessonMarkVideoDone": "🎉 Đánh dấu hoàn thành video",
+  "coursesLessonWatchHint": "⏱️ Xem ít nhất 80% video để hoàn thành",
+  "coursesLessonSaving": "Đang lưu...",
+  "coursesProgressSaveCta": "Lưu tiến độ",
+  "coursesProgressSaved": "Đã lưu tiến độ",
+  "coursesProgressSaveFailed": "Lưu thất bại",
+  "coursesLessonHeading": "Bài {number}: {name}",
+  "@coursesLessonHeading": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      },
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "coursesLockedLessonTitle": "Bài học yêu cầu Premium",
+  "coursesLockedLessonDescription": "Bài học này nằm ngoài giới hạn miễn phí. Nâng cấp để mở khóa toàn bộ nội dung.",
   "missionComplete": "Hoàn thành nhiệm vụ!",
   "noMissionRounds": "Không có vòng học nào trong bài từ vựng hôm nay.",
   "startPractice": "Bắt đầu luyện tập",
@@ -381,9 +831,41 @@
   "accuracy": "Độ chính xác",
   "playAgain": "Chơi lại",
   "missionCompletedXp": "Đã hoàn thành · {xp} XP",
-  "@missionCompletedXp": {"placeholders": {"xp": {"type": "int"}}},
+  "@missionCompletedXp": {
+    "placeholders": {
+      "xp": {
+        "type": "int"
+      }
+    }
+  },
   "missionRoundsWords": "{rounds} vòng · {words} từ",
-  "@missionRoundsWords": {"placeholders": {"rounds": {"type": "int"}, "words": {"type": "int"}}},
+  "@missionRoundsWords": {
+    "placeholders": {
+      "rounds": {
+        "type": "int"
+      },
+      "words": {
+        "type": "int"
+      }
+    }
+  },
+  "missionResumeTitle": "Mở lại bài đang dở",
+  "missionResumeContinueCta": "Sang vòng từ vựng",
+  "missionCompleteTitle": "Hoàn thành!",
+  "missionCompleteSubtitle": "Xong bước từ vựng — lộ trình hôm nay còn các bước kỹ năng tiếp theo",
+  "missionXpBadge": "+{xp} XP",
+  "@missionXpBadge": {
+    "placeholders": {
+      "xp": {
+        "type": "int"
+      }
+    }
+  },
+  "missionClimbedTitle": "Hôm nay bạn đã leo bậc:",
+  "missionStreakUpdated": "🔥 Streak hôm nay đã được cập nhật!",
+  "missionNextStepCta": "Bước tiếp theo →",
+  "missionMismatch": "Phiên học không khớp. Về trang chủ để bắt đầu lại.",
+  "missionAlreadyDoneToday": "Đã xong bài từ vựng hôm nay 🎉 Quay lại lộ trình để làm bước tiếp theo.",
   "completed": "Đã xong",
   "more": "Thêm",
   "moreFeaturesTitle": "Tất cả tính năng",
@@ -424,7 +906,13 @@
   "couldNotLoadMyWords": "Không tải được kho từ. Vui lòng thử lại.",
   "noWordsForFilter": "Chưa có từ nào trong nhóm này.",
   "myWordsCount": "{count} từ",
-  "@myWordsCount": {"placeholders": {"count": {"type": "int"}}},
+  "@myWordsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "flashcardDecks": "Bộ thẻ",
   "reviewDueDeckCards": "Ôn thẻ đến hạn",
   "emptyDeckCards": "Bộ thẻ chưa có từ nào.",
@@ -434,7 +922,11 @@
   "editDeck": "Sửa bộ từ",
   "deleteDeck": "Xóa bộ từ",
   "deleteDeckConfirmation": "Bạn có chắc muốn xóa \"{name}\"?",
-  "@deleteDeckConfirmation": {"placeholders": {"name": {}}},
+  "@deleteDeckConfirmation": {
+    "placeholders": {
+      "name": {}
+    }
+  },
   "couldNotLoadDecks": "Không tải được danh sách bộ từ.",
   "noDecks": "Chưa có bộ từ nào",
   "noDecksDescription": "Tạo bộ từ riêng để học theo chủ đề bạn thích.",
@@ -442,13 +934,127 @@
   "deckNameHint": "Ví dụ: Từ vựng du lịch",
   "deckDescriptionOptional": "Mô tả (tùy chọn)",
   "deckDescriptionHint": "Mô tả ngắn về bộ từ",
+  "deckListSubtitleWithFolders": "{decks} bộ thẻ · {folders} thư mục",
+  "@deckListSubtitleWithFolders": {
+    "placeholders": {
+      "decks": {
+        "type": "int"
+      },
+      "folders": {
+        "type": "int"
+      }
+    }
+  },
+  "deckIntroWhy": "Những từ bạn tự lưu, gom theo bộ riêng.",
+  "deckIntroTodo": "Mở một bộ để ôn hoặc thêm từ mới.",
+  "deckIntroNext": "Từ trong sổ cũng vào lịch Ôn tập FSRS.",
+  "deckIntroNextLabel": "Ôn tập",
+  "deckAllDecksTitle": "Tất cả decks",
+  "deckQuickPracticeTitle": "Luyện tập nhanh",
+  "deckQuickPracticeCta": "Chơi Word Sprint với từ trong sổ",
+  "deckStarredTitle": "Starred",
+  "deckStarredSubtitle": "Thẻ đã gắn sao",
+  "deckFoldersTitle": "Thư mục",
+  "deckDefaultTooltip": "Bộ thẻ mặc định",
+  "deckSetDefaultTooltip": "Đặt làm mặc định",
+  "deckDefaultBadge": "Mặc định",
+  "deckMoveToFolder": "Chuyển vào thư mục",
+  "deckActionCreateDeck": "Tạo bộ thẻ",
+  "deckActionCreateDeckSubtitle": "Thêm bộ từ vựng mới",
+  "deckActionCreateFolder": "Tạo thư mục",
+  "deckActionCreateFolderSubtitle": "Sắp xếp bộ thẻ theo nhóm",
+  "deckActionSpeak": "Nói ra ghi chú",
+  "deckActionSpeakSubtitle": "Nói tiếng Đức → lưu từng câu thành thẻ",
+  "deckFolderName": "Tên thư mục",
+  "deckFolderNameHint": "VD: Từ vựng A1",
+  "deckNoFolder": "Không thuộc thư mục",
+  "deckNoSearchResults": "Không tìm thấy thẻ phù hợp.",
+  "deckSearchHint": "Tìm từ...",
+  "deckStarredFilterTooltip": "Chỉ xem starred",
+  "deckAddCard": "Thêm",
+  "deckCardFormRequired": "Vui lòng nhập đủ mặt trước và mặt sau.",
+  "deckCardFormSaveError": "Không lưu được thẻ. Vui lòng thử lại.",
+  "deckEditCardTitle": "Sửa thẻ",
+  "deckNewCardTitle": "Thêm thẻ mới",
+  "deckCardFrontLabel": "Mặt trước (tiếng Đức)",
+  "deckCardFrontHint": "VD: das Haus",
+  "deckCardBackLabel": "Mặt sau (tiếng Việt)",
+  "deckCardBackHint": "VD: ngôi nhà",
+  "deckCardExampleLabel": "Câu ví dụ (tùy chọn)",
+  "deckCardExampleHint": "VD: Das ist mein Haus.",
+  "deckCardExampleViLabel": "Dịch câu ví dụ (tùy chọn)",
+  "deckFolderEmpty": "Thư mục chưa có bộ thẻ nào.",
+  "deckStarredEmpty": "Chưa có thẻ nào được gắn sao.",
+  "deckLessonTitle": "Học theo bài",
+  "deckLessonBatchProgress": "Đợt {current}/{total}",
+  "@deckLessonBatchProgress": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "deckBackToDeck": "Về bộ thẻ",
+  "deckLessonBatchDoneTitle": "Xong đợt này!",
+  "deckLessonBatchDoneSubtitle": "Đúng {correct}/{total} thẻ",
+  "@deckLessonBatchDoneSubtitle": {
+    "placeholders": {
+      "correct": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "deckLessonFinish": "Hoàn thành",
+  "deckLessonNextBatch": "Đợt tiếp theo",
+  "deckPlayCta": "Chơi",
+  "deckLearnCta": "Học",
+  "deckSpeakTitle": "Nói ra ghi chú",
+  "deckSpeakHelper": "Nói hoặc gõ tiếng Đức — mỗi câu sẽ thành một thẻ ghi nhớ.",
+  "deckSpeakMicTooltip": "Nhấn để bắt đầu ghi âm",
+  "deckSpeakMicComingSoon": "Ghi âm giọng nói sẽ sớm ra mắt",
+  "deckSpeakTextareaHint": "Mỗi dòng là một câu sẽ thành một thẻ...",
+  "deckSpeakDeckNameLabel": "Tên bộ thẻ",
+  "deckSpeakDeckNameHelper": "Mỗi câu sẽ thành một thẻ trong bộ này.",
+  "deckSpeakSavedMessage": "Đã lưu {count} câu vào bộ thẻ mới.",
+  "@deckSpeakSavedMessage": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "deckSpeakViewDeck": "Xem bộ thẻ →",
+  "deckSpeakEmptyError": "Nhập ít nhất một câu trước khi lưu.",
+  "deckSpeakSaveError": "Không lưu được. Vui lòng thử lại.",
+  "deckSpeakSaveCta": "Lưu vào Notes",
   "edit": "Sửa",
   "delete": "Xóa",
   "save": "Lưu",
   "wordsCount": "{count} từ",
-  "@wordsCount": {"placeholders": {"count": {"type": "int"}}},
+  "@wordsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "learnedWordsProgress": "Đã học {learned}/{total}",
-  "@learnedWordsProgress": {"placeholders": {"learned": {"type": "int"}, "total": {"type": "int"}}},
+  "@learnedWordsProgress": {
+    "placeholders": {
+      "learned": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
   "dailyReview": "Ôn hàng ngày",
   "flashcardReview": "Ôn từ",
   "tapToShowMeaning": "Chạm để xem nghĩa",
@@ -458,14 +1064,29 @@
   "noCardsDueToday": "Hôm nay không có thẻ nào đến hạn 🎉",
   "backToHome": "Về trang chủ",
   "reviewStreak": "Chuỗi {count} ngày! 🔥",
-  "@reviewStreak": {"placeholders": {"count": {"type": "int"}}},
+  "@reviewStreak": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "keepReviewStreak": "Giữ streak bằng cách ôn từ mỗi ngày",
   "due": "Đến hạn",
   "reviewed": "Đã ôn",
   "startDailyReview": "Bắt đầu ôn tập",
   "showMeaning": "Xem nghĩa",
   "reviewProgress": "{current} / {total}",
-  "@reviewProgress": {"placeholders": {"current": {"type": "int"}, "total": {"type": "int"}}},
+  "@reviewProgress": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
   "couldNotSaveReview": "Không thể lưu lần ôn này. Vui lòng thử lại.",
   "ratingAgain": "Lại",
   "ratingAgainHint": "<1 phút",
@@ -475,12 +1096,80 @@
   "ratingGoodHint": "OK",
   "ratingEasy": "Dễ",
   "ratingEasyHint": "Dễ",
+  "dailyReviewRoundLabel": "Vòng {current}/{total}",
+  "@dailyReviewRoundLabel": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "dailyReviewRoundWordCount": "{count} từ",
+  "@dailyReviewRoundWordCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "dailyReviewRoundStart": "Bắt đầu",
+  "dailyReviewRoundDone": "Xong {gameName}!",
+  "@dailyReviewRoundDone": {
+    "placeholders": {
+      "gameName": {
+        "type": "String"
+      }
+    }
+  },
+  "dailyReviewRoundProgress": "Đã ôn {reviewed}/{total} từ",
+  "@dailyReviewRoundProgress": {
+    "placeholders": {
+      "reviewed": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "dailyReviewRoundFinish": "Xem kết quả",
+  "dailyReviewRoundContinue": "Tiếp tục",
+  "dailyReviewRetryBanner": "Ôn lại các từ bạn vừa luyện.",
+  "dailyReviewEmptyTitle": "Không có từ cần ôn!",
+  "dailyReviewEmptySubtitle": "Quay lại sau hoặc luyện tập thêm",
+  "dailyReviewSessionLabel": "Phiên ôn tập",
+  "dailyReviewStatusExcellent": "Xuất sắc",
+  "dailyReviewStatusGood": "Khá tốt",
+  "dailyReviewStatusNeedsWork": "Cần ôn thêm",
+  "dailyReviewCompletedTitle": "Hoàn thành!",
+  "dailyReviewWeakWordsTitle": "Từ cần ôn lại",
+  "dailyReviewCtaMore": "Ôn thêm",
+  "dailyReviewCtaRetryWeak": "Luyện lại {count} từ yếu",
+  "@dailyReviewCtaRetryWeak": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "dailyReviewCtaContinueLearning": "Tiếp tục học",
+  "dailyReviewCtaListening": "🎧 Luyện nghe",
+  "dailyReviewCtaAskAi": "✨ Hỏi AI về từ khó",
   "vocabularyLibrary": "Kho chung",
   "vocabulary": "Kho từ vựng",
   "couldNotLoadVocabulary": "Không tải được từ vựng. Vui lòng thử lại.",
   "noVocabulary": "Chưa có từ vựng ở đây.",
   "cefrLevelsCount": "{count} cấp độ CEFR",
-  "@cefrLevelsCount": {"placeholders": {"count": {"type": "int"}}},
+  "@cefrLevelsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "vocabularyByGoal": "Theo mục tiêu",
   "vocabularyByLevel": "Theo cấp độ",
   "vocabularyByTopic": "Theo chủ đề",
@@ -505,7 +1194,13 @@
   "vocabularyIntroNextLabel": "Ôn tập",
   "vocabularyChooseGroupLabel": "Chọn nhóm chủ đề",
   "vocabularyGoalTopicsCount": "{count} chủ đề",
-  "@vocabularyGoalTopicsCount": {"placeholders": {"count": {"type": "int"}}},
+  "@vocabularyGoalTopicsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "vocabularyTopicSectionTitle": "📚 Chủ đề từ vựng",
   "vocabularyTopicSectionDescription": "Chọn nhóm chủ đề rồi mở nhanh từng chủ đề con theo cấp độ.",
   "vocabularyLevelSectionTitle": "🎯 Cấp độ CEFR",
@@ -518,7 +1213,16 @@
   "vocabularySearchHint": "Tìm từ...",
   "vocabularyWeakFilter": "Yếu",
   "vocabularyMasteredCount": "{done}/{total} đã thuộc",
-  "@vocabularyMasteredCount": {"placeholders": {"done": {"type": "int"}, "total": {"type": "int"}}},
+  "@vocabularyMasteredCount": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
   "vocabularyTabList": "Danh sách",
   "vocabularyTabMyWords": "Từ của tôi",
   "vocabularyStartLesson": "Học từ mới",
@@ -531,13 +1235,27 @@
   "myWordsGroupSaved": "Trong Sổ từ",
   "myWordsGroupSeen": "Đã gặp",
   "myWordsSourceLabel": "nguồn: {source}",
-  "@myWordsSourceLabel": {"placeholders": {"source": {}}},
+  "@myWordsSourceLabel": {
+    "placeholders": {
+      "source": {}
+    }
+  },
   "myWordsMoreCount": "+{count} từ nữa trong nhóm này",
-  "@myWordsMoreCount": {"placeholders": {"count": {"type": "int"}}},
+  "@myWordsMoreCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "myWordsEmptyTitle": "Chưa có từ nào trong kho của bạn",
   "myWordsEmptyDescription": "Tra từ khi đọc/xem video hoặc lưu từ vào Sổ từ — chúng sẽ hiện ở đây.",
   "cefrLevel": "Cấp độ {level}",
-  "@cefrLevel": {"placeholders": {"level": {}}},
+  "@cefrLevel": {
+    "placeholders": {
+      "level": {}
+    }
+  },
   "cefrBeginner": "Sơ cấp",
   "cefrPreIntermediate": "Tiền trung cấp",
   "cefrIntermediate": "Trung cấp",
@@ -546,20 +1264,38 @@
   "cefrProficient": "Thành thạo",
   "noVocabularyTopics": "Chưa có chủ đề từ vựng nào.",
   "vocabularyTopicStats": "{label} · {count} từ",
-  "@vocabularyTopicStats": {"placeholders": {"label": {}, "count": {"type": "int"}}},
+  "@vocabularyTopicStats": {
+    "placeholders": {
+      "label": {},
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "vocabularyTopicTitle": "Từ vựng: {topic}",
-  "@vocabularyTopicTitle": {"placeholders": {"topic": {}}},
+  "@vocabularyTopicTitle": {
+    "placeholders": {
+      "topic": {}
+    }
+  },
   "noVocabularyInLesson": "Chưa có từ vựng trong bài học này.",
   "noMatchingVocabulary": "Chưa có từ phù hợp với bộ lọc.",
   "clearVocabularyFilters": "Hãy thử bỏ một bộ lọc.",
   "searchLessonVocabulary": "Tìm trong bài học…",
   "allLevels": "Tất cả",
   "lessonProgress": "Tiến độ: {learned} / {total} từ",
-  "@lessonProgress": {"placeholders": {"learned": {"type": "int"}, "total": {"type": "int"}}},
+  "@lessonProgress": {
+    "placeholders": {
+      "learned": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
   "wordMeanings": "Nghĩa",
   "wordExamples": "Ví dụ",
-  "previous": "Quay lại",
-  "next": "Tiếp tục",
   "viewVocabularyDetails": "Xem chi tiết",
   "flipVocabularyCard": "Lật thẻ",
   "noMeaning": "Chưa có nghĩa",
@@ -590,7 +1326,95 @@
   "grammarRelatedLessons": "Bài liên quan",
   "grammarNotFound": "Không tìm thấy bài học.",
   "grammarArticleNotFound": "Không tìm thấy bài viết.",
-  "grammarArticles": "Bài đọc thêm",
+  "grammarSearchInLevelHint": "Tìm bài trong {level}...",
+  "@grammarSearchInLevelHint": {
+    "placeholders": {
+      "level": {
+        "type": "String"
+      }
+    }
+  },
+  "grammarSearchResultsCount": "{count} kết quả cho “{query}” — tất cả trình độ",
+  "@grammarSearchResultsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "grammarLeaderboardTitleAll": "Bảng xếp hạng",
+  "grammarLeaderboardTitleLevel": "Bảng xếp hạng {level}",
+  "@grammarLeaderboardTitleLevel": {
+    "placeholders": {
+      "level": {
+        "type": "String"
+      }
+    }
+  },
+  "grammarProgressLabel": "Tiến trình",
+  "grammarProgressLabelLevel": "Tiến trình {level}",
+  "@grammarProgressLabelLevel": {
+    "placeholders": {
+      "level": {
+        "type": "String"
+      }
+    }
+  },
+  "grammarLeaderboardEmpty": "Chưa có ai tham gia",
+  "grammarYourRank": "Hạng của bạn: #{rank} · {count} bài",
+  "@grammarYourRank": {
+    "placeholders": {
+      "rank": {
+        "type": "int"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "grammarCompletedOfTotal": "{done}/{total} bài đã hoàn thành",
+  "@grammarCompletedOfTotal": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "grammarReadTime": "⏱ {elapsed}s / {minTime}s",
+  "@grammarReadTime": {
+    "placeholders": {
+      "elapsed": {
+        "type": "int"
+      },
+      "minTime": {
+        "type": "int"
+      }
+    }
+  },
+  "grammarScrolled80": "📜 Đã cuộn 80%",
+  "grammarScrollNeeded": "📜 Cần cuộn đến 80%",
+  "grammarReadGateHint": "Nút sẽ mở khi bạn cuộn đến 80% nội dung và đọc đủ thời gian tối thiểu.",
+  "grammarMarkCompleteXp": "Đánh dấu hoàn thành (+5 XP)",
+  "grammarMarkCompleteAgain": "Hoàn thành lại",
+  "grammarJustCompleted": "✓ Đã hoàn thành",
+  "grammarSaving": "Đang lưu...",
+  "grammarArticleSource": "Nguồn: deutsch.vn",
+  "grammarPracticeExercises": "Bài tập luyện tập",
+  "grammarExerciseCorrect": "✓ Chính xác!",
+  "grammarExerciseWrong": "✗ Sai. Đáp án đúng: {answer}.",
+  "@grammarExerciseWrong": {
+    "placeholders": {
+      "answer": {
+        "type": "String"
+      }
+    }
+  },
   "gamePractice": "Luyện game",
   "community": "Cộng đồng",
   "statistics": "Thống kê",
@@ -626,7 +1450,11 @@
   "signedOutDevice": "Đã đăng xuất thiết bị.",
   "signOutDeviceTitle": "Đăng xuất thiết bị này?",
   "signOutDeviceBody": "Thiết bị \"{device}\" sẽ bị đăng xuất khỏi tài khoản của bạn.",
-  "@signOutDeviceBody": {"placeholders": {"device": {}}},
+  "@signOutDeviceBody": {
+    "placeholders": {
+      "device": {}
+    }
+  },
   "couldNotSignOut": "Không thể đăng xuất. Vui lòng thử lại.",
   "couldNotLoadDevices": "Không thể tải danh sách thiết bị.",
   "retry": "Thử lại",
@@ -642,11 +1470,29 @@
   "signOutThisDevice": "Đăng xuất thiết bị này",
   "justNow": "Vừa xong",
   "minutesAgo": "{count} phút trước",
-  "@minutesAgo": {"placeholders": {"count": {"type": "int"}}},
+  "@minutesAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "hoursAgo": "{count} giờ trước",
-  "@hoursAgo": {"placeholders": {"count": {"type": "int"}}},
+  "@hoursAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "daysAgo": "{count} ngày trước",
-  "@daysAgo": {"placeholders": {"count": {"type": "int"}}},
+  "@daysAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "securityDevices": "Bảo mật & thiết bị",
   "securityDevicesDescription": "Quản lý phiên đăng nhập, xoá tài khoản",
   "changePassword": "Đổi mật khẩu",
@@ -695,6 +1541,133 @@
   "statsMasteryYoung": "Đang nhớ",
   "statsMasteryMature": "Thuộc lòng",
   "statsMasteryTrendTitle": "Ôn tập 30 ngày qua",
+  "statsScreenSubtitle": "Theo dõi tiến độ, thói quen và hiệu suất học mỗi ngày.",
+  "statsOverviewLevelNote": "Mở khóa nội dung mới",
+  "statsOverviewTotalXp": "Tổng XP",
+  "statsOverviewXpNote": "Điểm kinh nghiệm tích lũy",
+  "statsOverviewStreakNote": "Chuỗi học liên tiếp",
+  "statsOverviewBestStreak": "Streak tốt nhất",
+  "statsOverviewBestStreakNote": "Kỷ lục cá nhân",
+  "statsProgressLevelTitle": "Tiến độ lên cấp",
+  "statsProgressLevelSubtitle": "Level {level} sang {nextLevel}",
+  "@statsProgressLevelSubtitle": {
+    "placeholders": {
+      "level": {
+        "type": "int"
+      },
+      "nextLevel": {
+        "type": "int"
+      }
+    }
+  },
+  "statsProgressLevelRemaining": "Còn {count} XP để lên level.",
+  "@statsProgressLevelRemaining": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "statsProgressDailyTitle": "Mục tiêu XP hôm nay",
+  "statsProgressDailySubtitle": "Duy trì thói quen học mỗi ngày",
+  "statsProgressDailyDone": "Bạn đã hoàn thành mục tiêu hôm nay.",
+  "statsProgressDailyRemaining": "Cần thêm {count} XP để đạt mục tiêu.",
+  "@statsProgressDailyRemaining": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "statsXpChartWeekTotal": "Tổng tuần này: {total} XP",
+  "@statsXpChartWeekTotal": {
+    "placeholders": {
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "statsXpChartMax": "Cao nhất: {max} XP",
+  "@statsXpChartMax": {
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "statsOnlineTimeTitle": "Thời gian online 7 ngày",
+  "statsOnlineTimeWeekTotal": "Tổng tuần này: {duration}",
+  "@statsOnlineTimeWeekTotal": {
+    "placeholders": {
+      "duration": {
+        "type": "String"
+      }
+    }
+  },
+  "statsOnlineTimeToday": "Hôm nay: {duration}",
+  "@statsOnlineTimeToday": {
+    "placeholders": {
+      "duration": {
+        "type": "String"
+      }
+    }
+  },
+  "statsReviewCardsTitle": "Thống kê ôn tập",
+  "statsReviewToday": "Ôn tập hôm nay",
+  "statsReviewTodayNote": "Số lượt ôn trong ngày",
+  "statsReviewWeek": "Ôn tập tuần này",
+  "statsReviewWeekNote": "Tổng trong 7 ngày",
+  "statsReviewAccuracy": "Độ chính xác",
+  "statsReviewAccuracyNote": "Tỉ lệ trả lời đúng",
+  "statsReviewDue": "Cần ôn tập",
+  "statsReviewDueNote": "Thẻ đến hạn ôn",
+  "statsSuggestionsTitle": "Gợi ý cải thiện",
+  "statsSuggestionStreak": "Bắt đầu streak mới hôm nay!",
+  "statsSuggestionListening": "Chưa luyện nghe tuần này!",
+  "statsSuggestionReviewAll": "Ôn đều 3 kỹ năng để tiến bộ nhanh hơn!",
+  "statsSpacedRepetitionTitle": "Spaced Repetition hoạt động thế nào?",
+  "statsSpacedRepetitionBody": "Hệ thống dùng thuật toán SM-2 để tối ưu lịch ôn. Từ bạn nhớ tốt sẽ xuất hiện thưa hơn, còn từ khó sẽ quay lại sớm hơn. Cách này giúp tiết kiệm thời gian và tăng khả năng nhớ dài hạn.",
+  "statsCefrTitle": "Hồ sơ năng lực",
+  "statsCefrA1": "Sơ cấp",
+  "statsCefrA2": "Tiền trung cấp",
+  "statsCefrB1": "Trung cấp",
+  "statsCefrB2": "Trung cấp cao",
+  "statsCefrC1": "Cao cấp",
+  "statsCefrC2": "Thành thạo",
+  "statsCefrWordsLearned": "{count} từ đã ôn tập",
+  "@statsCefrWordsLearned": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "statsNearAchievementsTitle": "Thành tựu sắp đạt",
+  "statsAchievementsGridTitle": "Bộ sưu tập thành tựu",
+  "statsLeaderboardTableTitle": "Bảng xếp hạng",
+  "statsLeaderboardTop": "Top {count}",
+  "@statsLeaderboardTop": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "statsLeaderboardYou": "Bạn",
+  "errorPatternsSubtitle": "Sổ lỗi ngữ pháp, tổng hợp từ bài viết, bài nói và bài thi của bạn.",
+  "errorPatternsIntroWhy": "Tổng hợp lỗi bạn hay mắc khi viết, do AI chấm.",
+  "errorPatternsIntroTodo": "Chọn một lỗi và bấm luyện đúng dạng đó.",
+  "errorPatternsIntroNext": "Sửa được lỗi nào thì tần suất nó giảm dần.",
+  "errorPatternsDrillWriting": "Luyện viết",
+  "errorPatternsDrillArtikel": "Luyện Der/Die/Das",
+  "errorPatternsDrillSentenceBuilder": "Luyện viết câu",
+  "errorPatternsDrillWordOrder": "Luyện xếp từ",
+  "errorPatternsDrillPreposition": "Luyện giới từ",
+  "errorPatternsDrillNoun": "Ôn danh từ",
+  "errorPatternsDrillSpelling": "Luyện chính tả",
+  "errorPatternsDrillGrammar": "Ôn ngữ pháp",
+  "errorPatternsDrillTense": "Luyện thì",
+  "errorPatternsDrillExam": "Làm bài thi",
   "errorSourceSchreibenExam": "Thi viết",
   "errorSourceSprechen": "Nói",
   "errorSourceSentenceBuilder": "Luyện câu",
@@ -714,7 +1687,13 @@
   "errorPatternsEmptyTitle": "Chưa có dữ liệu lỗi",
   "errorPatternsEmptyBody": "Hãy luyện viết câu hoặc làm bài thi để bắt đầu theo dõi!",
   "errorPatternsTimesCount": "{count} lần",
-  "@errorPatternsTimesCount": {"placeholders": {"count": {"type": "int"}}},
+  "@errorPatternsTimesCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "errorPatternsExample": "Ví dụ",
   "dailyQuoteTitle": "Câu nói hôm nay",
   "dailyQuoteCopySuccess": "Đã sao chép câu nói!",
@@ -723,7 +1702,13 @@
   "back": "Quay lại",
   "focusSessionTitle": "Tập trung hôm nay",
   "focusSessionSummary": "Bạn có {count} mục cần luyện hôm nay.",
-  "@focusSessionSummary": {"placeholders": {"count": {"type": "int"}}},
+  "@focusSessionSummary": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "focusSessionDueWordsTitle": "Từ tới hạn ôn",
   "focusSessionDueWordsEmpty": "Không có từ nào tới hạn 🎉",
   "focusSessionReviewNow": "Ôn ngay",
@@ -735,9 +1720,42 @@
   "focusSessionWeaknessesTitle": "Lỗi hay gặp",
   "focusSessionWeaknessesEmpty": "Chưa có dữ liệu lỗi — hãy luyện viết để nhận phân tích",
   "focusSessionWeaknessesCount": "{count} loại lỗi ngữ pháp thường gặp",
-  "@focusSessionWeaknessesCount": {"placeholders": {"count": {"type": "int"}}},
+  "@focusSessionWeaknessesCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "focusSessionCaughtUpTitle": "Bạn đang rất ổn!",
   "focusSessionCaughtUpBody": "Chưa có điểm yếu nào cần luyện. Hãy làm một bài kiểm tra hoặc học từ mới để nhận gợi ý cá nhân hóa.",
+  "focusSessionSubtitle": "Những gì bạn nên luyện ngay bây giờ, dựa trên điểm yếu thật của bạn.",
+  "focusSessionGoalDefaultCta": "Đặt mục tiêu thi để lộ trình chính xác hơn →",
+  "focusSessionGoalWithDays": "🎯 Vì bạn thi {level} sau {days} ngày",
+  "@focusSessionGoalWithDays": {
+    "placeholders": {
+      "level": {
+        "type": "String"
+      },
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "focusSessionGoalNoDays": "🎯 Vì mục tiêu {level} của bạn",
+  "@focusSessionGoalNoDays": {
+    "placeholders": {
+      "level": {
+        "type": "String"
+      }
+    }
+  },
+  "focusSessionNoHistoryTitle": "Chưa đủ dữ liệu để tìm điểm yếu",
+  "focusSessionNoHistoryBody": "Bạn chưa có lịch sử ôn tập nào — hãy lưu vài từ và làm một buổi ôn để hệ thống nhận ra điểm yếu thật của bạn.",
+  "focusSessionSaveWordsCta": "Lưu từ mới",
+  "focusSessionReviewNowCta": "Ôn ngay",
+  "focusSessionLearnNewWordsCta": "Học từ mới",
+  "focusSessionWeaknessesFooterLink": "Xem lỗi hay gặp",
   "learnerModelTitle": "Hồ sơ năng lực",
   "learnerModelCardsSuffix": "thẻ đã thuộc",
   "learnerModelMasteryHint": "Thuộc = ổn định ghi nhớ từ 21 ngày trở lên (FSRS).",
@@ -747,13 +1765,47 @@
   "learnerModelCoverageTitle": "Độ phủ theo trình độ",
   "learnerModelGrammarWeaknessesTitle": "Điểm yếu ngữ pháp",
   "learnerModelErrorCount": "{count} lần sai",
-  "@learnerModelErrorCount": {"placeholders": {"count": {"type": "int"}}},
+  "@learnerModelErrorCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "learnerModelCanDoSectionTitle": "Việc làm được bằng tiếng Đức",
   "learnerModelCanDoEmpty": "Chưa có dữ liệu — luyện sản sinh (viết/nói) để leo thang nhé!",
   "learnerModelWeakWordsTitle": "Điểm yếu cần luyện",
   "learnerModelWeakWordsEmpty": "Chưa có từ nào cần luyện thêm. Tuyệt vời!",
   "learnerModelLapsesCount": "{count} lần quên",
-  "@learnerModelLapsesCount": {"placeholders": {"count": {"type": "int"}}},
+  "learnerModelSubtitle": "Độ thành thạo, việc làm được và điểm cần cải thiện.",
+  "learnerModelReadinessTitle": "Mức sẵn sàng thi (ước lượng)",
+  "learnerModelReadinessBasis": "Tính từ: kết quả luyện thi gần đây.",
+  "learnerModelReadinessNoData": "Chưa đủ dữ liệu — làm vài đề luyện thi để ước lượng độ sẵn sàng.",
+  "learnerModelLevelPracticeCta": "Luyện theo cấp {level} →",
+  "@learnerModelLevelPracticeCta": {
+    "placeholders": {
+      "level": {
+        "type": "String"
+      }
+    }
+  },
+  "learnerModelWeeklyRecapTitle": "Tuần vừa qua",
+  "learnerModelWeeklyRecapEmpty": "Chưa có bậc nào leo tuần này — luyện thêm để lên bậc!",
+  "learnerModelWeeklyRecapStreak": "🔥 Chuỗi sản sinh {days} ngày",
+  "@learnerModelWeeklyRecapStreak": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "@learnerModelLapsesCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "canDoStatusSpoken": "Nói được 🗣️",
   "canDoStatusMastered": "Làm được ✍️",
   "canDoStatusInProgress": "Đang lên",
@@ -761,11 +1813,28 @@
   "canDoPracticeNow": "Luyện ngay",
   "canDoPracticeTitle": "Luyện việc làm được",
   "canDoPracticeProgress": "Câu {current}/{total}",
-  "@canDoPracticeProgress": {"placeholders": {"current": {"type": "int"}, "total": {"type": "int"}}},
+  "@canDoPracticeProgress": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
   "canDoPracticeInstructionStructure": "Viết một câu có dùng {pattern}",
-  "@canDoPracticeInstructionStructure": {"placeholders": {"pattern": {}}},
+  "@canDoPracticeInstructionStructure": {
+    "placeholders": {
+      "pattern": {}
+    }
+  },
   "canDoPracticeInstructionVocab": "Viết một câu có dùng từ «{word}»",
-  "@canDoPracticeInstructionVocab": {"placeholders": {"word": {}}},
+  "@canDoPracticeInstructionVocab": {
+    "placeholders": {
+      "word": {}
+    }
+  },
   "canDoPracticeInputHint": "Viết câu tiếng Đức của bạn…",
   "canDoPracticeError": "Không chấm được câu — thử lại sau ít phút.",
   "canDoPracticeCorrectedPrefix": "Sửa",
@@ -776,9 +1845,61 @@
   "canDoPracticeNotFound": "Không tìm thấy mục tiêu này.",
   "canDoPracticeAllClear": "Đã viết được hết các khối của mục tiêu này 🎉",
   "canDoPracticeDone": "Xong! {correct}/{total} câu đạt — tiến độ đã được ghi vào bản đồ.",
-  "@canDoPracticeDone": {"placeholders": {"correct": {"type": "int"}, "total": {"type": "int"}}},
+  "canDoPracticeBackLink": "← Bản đồ năng lực",
+  "canDoPracticeBackToMap": "Về bản đồ năng lực",
+  "canDoPracticeGoConversation": "Luyện hội thoại",
+  "@canDoPracticeDone": {
+    "placeholders": {
+      "correct": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
   "topicExploreTitle": "Khám phá theo chủ đề",
+  "topicExploreSubtitle": "Xem hướng từ vựng đang ưu tiên · ghim ⭐ để lái lộ trình",
+  "learnPageIntroWhy": "Đây là nơi bạn học từ vựng và ngữ pháp mỗi ngày theo lộ trình cá nhân.",
+  "learnPageIntroTodo": "Làm phiên hôm nay, xem tiến độ A1→C2 và nhiệm vụ tuần.",
+  "learnPageIntroNext": "Xong phiên hôm nay, quay lại đây để nhận nhiệm vụ tiếp theo.",
+  "learnPageIntroCta": "Tới Ôn tập",
+  "levelJourneyTitle": "Hành trình A1→C2",
+  "levelJourneyEmptyLevel": "đang bổ sung",
+  "levelJourneyDetailCta": "Chi tiết →",
+  "capabilityMapSnapshotTitle": "Bản đồ năng lực",
+  "capabilityMapMasteredCount": "{mastered}/{total} việc đã làm được",
+  "@capabilityMapMasteredCount": {
+    "placeholders": {
+      "mastered": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "capabilityMapViewCta": "Xem bản đồ →",
   "topicExploreEmpty": "Chưa có chủ đề nào.",
+  "topicExploreSubtitleHeader": "Từ vựng hằng ngày tự chọn theo hướng của bạn — ghim ⭐ để lái thêm",
+  "topicSteeringTitle": "Lộ trình đang ưu tiên",
+  "topicSteeringGoalGoethe": "🎓 Thi Goethe",
+  "topicSteeringGoalConversation": "💬 Giao tiếp",
+  "topicSteeringGoalNursing": "🏥 Điều dưỡng",
+  "topicSteeringGoalAbroad": "✈️ Du học · làm việc",
+  "topicSteeringEmpty": "Chưa có hướng nào — ghim chủ đề bên dưới hoặc đặt mục tiêu trong Cài đặt.",
+  "topicSteeringFooterHint": "Từ mới trong nhiệm vụ hằng ngày được chọn theo các hướng này, từ thiết yếu trước.",
+  "topicGroupSubtitle": "{label} · {count} chủ đề",
+  "@topicGroupSubtitle": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "practiceTitle": "Luyện tập",
   "practiceChooseMode": "Chọn chế độ luyện tập",
   "practiceModeCloze": "Điền từ",
@@ -791,21 +1912,55 @@
   "practiceListeningPrompt": "Chạm vào thẻ để lật và xem nghĩa",
   "practiceFeedbackCorrect": "Chính xác!",
   "practiceFeedbackWrong": "Sai rồi — đáp án là \"{word}\"",
-  "@practiceFeedbackWrong": {"placeholders": {"word": {"type": "String"}}},
+  "@practiceFeedbackWrong": {
+    "placeholders": {
+      "word": {
+        "type": "String"
+      }
+    }
+  },
   "practiceMatchingProgress": "Đã nối {matched}/{total} · {attempts} lần thử",
-  "@practiceMatchingProgress": {"placeholders": {"matched": {"type": "int"}, "total": {"type": "int"}, "attempts": {"type": "int"}}},
+  "@practiceMatchingProgress": {
+    "placeholders": {
+      "matched": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      },
+      "attempts": {
+        "type": "int"
+      }
+    }
+  },
   "practiceMatchingNeedsMoreWords": "Bộ thẻ cần ít nhất 2 từ để chơi nối từ.",
   "practiceResultsTitle": "Hoàn thành!",
   "practiceAccuracySummary": "{correct}/{total} đúng",
-  "@practiceAccuracySummary": {"placeholders": {"correct": {"type": "int"}, "total": {"type": "int"}}},
+  "@practiceAccuracySummary": {
+    "placeholders": {
+      "correct": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
   "practiceRestart": "Luyện lại",
   "practiceBackToDeck": "Quay lại bộ thẻ",
+  "practiceChangeMode": "Đổi chế độ",
   "practiceBackToGames": "Về Game",
   "practiceNotEnoughWords": "Chưa đủ từ để luyện tập lúc này.",
   "practiceListenPill": "Nghe",
   "practiceHintPill": "Gợi ý",
   "practiceHintLetter": "Bắt đầu bằng \"{letter}\"",
-  "@practiceHintLetter": {"placeholders": {"letter": {"type": "String"}}},
+  "@practiceHintLetter": {
+    "placeholders": {
+      "letter": {
+        "type": "String"
+      }
+    }
+  },
   "practiceRetryAnswer": "Thử lại",
   "practiceMicTooltip": "Nói để nhập",
   "practiceListeningNotYet": "Chưa nhớ",
@@ -814,25 +1969,124 @@
   "practiceListeningMeaningLabel": "Nghĩa",
   "practiceMatchingColumnDe": "TIẾNG ĐỨC",
   "practiceMatchingColumnVi": "TIẾNG VIỆT",
-  "subtitleWordsTitle": "Từ trong phụ đề",
-  "subtitleWordsEmpty": "Chưa có từ mới nào từ phụ đề. Xem video có phụ đề để gom từ tại đây.",
-  "subtitleWordsSeenCount": "gặp {count} lần",
-  "@subtitleWordsSeenCount": {"placeholders": {"count": {"type": "int"}}},
-  "subtitleWordsAddSelected": "Thêm {count} vào ôn tập",
-  "@subtitleWordsAddSelected": {"placeholders": {"count": {"type": "int"}}},
-  "subtitleWordsAddedCount": "Đã thêm {count} từ vào hàng đợi ôn tập",
-  "@subtitleWordsAddedCount": {"placeholders": {"count": {"type": "int"}}},
+  "subtitleWordsTitle": "Từ đã gặp trong video",
+  "subtitleWordsSubtitle": "Những từ bạn đã gặp khi xem video — thêm vào ôn tập chỉ với 1 chạm.",
+  "subtitleWordsEmpty": "Chưa có từ phụ đề nào để thêm.",
+  "subtitleWordsEmptyHint": "Hãy xem video tiếng Đức và chạm vào từ để lưu lại!",
+  "subtitleWordsSeenCount": "đã thấy {count}x",
+  "@subtitleWordsSeenCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "subtitleWordsLevelAll": "Tất cả",
+  "subtitleWordsLevelCount": "{level} · {count}",
+  "@subtitleWordsLevelCount": {
+    "placeholders": {
+      "level": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "subtitleWordsSelectedCount": "Đã chọn {count} từ",
+  "@subtitleWordsSelectedCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "subtitleWordsCountLabel": "{count} từ",
+  "@subtitleWordsCountLabel": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "subtitleWordsSelectAll": "Chọn tất cả",
+  "subtitleWordsClearSelection": "Bỏ chọn",
+  "subtitleWordsAddSelected": "Thêm {count} từ vào ôn tập",
+  "@subtitleWordsAddSelected": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "subtitleWordsAdding": "Đang thêm...",
+  "subtitleWordsAddedCount": "Đã thêm {count} từ!",
+  "@subtitleWordsAddedCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "subtitleWordsAddFailed": "Không thể lưu các từ đã chọn. Vui lòng thử lại.",
+  "practiceModeComingSoon": "Sắp ra mắt",
+  "practiceModeSentence": "Viết câu",
+  "practiceModeSentenceDesc": "Nghe + dịch câu hoàn chỉnh",
+  "practiceModeClozeDesc": "Điền từ còn thiếu vào câu",
+  "practiceModeListeningDesc": "Nghe và lật thẻ đoán nghĩa",
+  "practiceModeMatchingDesc": "Nối từ tiếng Đức với nghĩa",
+  "practiceModeWritingDesc": "Nghe + xem nghĩa → gõ từ tiếng Đức",
+  "practiceModeRunner": "Deutsch Runner",
+  "practiceModeRunnerDesc": "Chơi game học từ vựng",
+  "practiceModeFade": "Mờ dần",
+  "practiceModeFadeDesc": "Che chữ tăng dần, gõ lại cả câu",
+  "practiceModeDictation": "Nghe-chép",
+  "practiceModeDictationDesc": "Nghe câu rồi gõ lại từng từ",
+  "practiceModeChaining": "Nối câu",
+  "practiceModeChainingDesc": "Nhớ thứ tự: câu này → câu kế",
+  "practiceModeGist": "Viết theo ý",
+  "practiceModeGistDesc": "Xem nghĩa + gợi ý → viết lại câu",
+  "practiceModeSpeaking": "Luyện nói",
+  "practiceModeSpeakingDesc": "Đọc to câu, chấm phát âm",
+  "practiceIncludeGraduated": "Bao gồm từ đã thuộc",
+  "practiceCardsReady": "{count} thẻ sẵn sàng",
+  "@practiceCardsReady": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "practiceXpEarned": "+{xp} XP",
+  "@practiceXpEarned": {
+    "placeholders": {
+      "xp": {
+        "type": "int"
+      }
+    }
+  },
   "notificationMarkAllRead": "Đánh dấu tất cả đã đọc",
   "notificationEmpty": "Không có thông báo nào",
   "notificationLoadError": "Không tải được thông báo. Vui lòng thử lại.",
   "notificationSomeone": "Ai đó",
   "notificationFriendRequest": "{name} đã gửi lời mời kết bạn",
-  "@notificationFriendRequest": {"placeholders": {"name": {}}},
+  "@notificationFriendRequest": {
+    "placeholders": {
+      "name": {}
+    }
+  },
   "notificationFriendAccepted": "{name} đã chấp nhận lời mời kết bạn của bạn",
-  "@notificationFriendAccepted": {"placeholders": {"name": {}}},
+  "@notificationFriendAccepted": {
+    "placeholders": {
+      "name": {}
+    }
+  },
   "notificationChallengeInvite": "{name} thách đấu bạn",
-  "@notificationChallengeInvite": {"placeholders": {"name": {}}},
+  "@notificationChallengeInvite": {
+    "placeholders": {
+      "name": {}
+    }
+  },
   "notificationNewComment": "Bình luận mới",
   "notificationGradingDone": "AI đã chấm bài viết của bạn",
   "notificationDailyReview": "Có từ cần ôn hôm nay",
@@ -889,9 +2143,23 @@
   "socialChatAction": "Nhắn tin",
   "socialViewProfile": "Xem hồ sơ",
   "socialRemoveFriend": "Xoá bạn bè",
+  "socialRemoveFriendConfirm": "Xoá {name} khỏi danh sách bạn bè?",
+  "@socialRemoveFriendConfirm": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "socialBlockUser": "Chặn",
   "socialBlockUserConfirm": "Chặn {name}? Người này sẽ không thể liên hệ với bạn nữa.",
-  "@socialBlockUserConfirm": {"placeholders": {"name": {"type": "String"}}},
+  "@socialBlockUserConfirm": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "socialBlockUserConfirmGeneric": "Chặn người dùng này? Họ sẽ không thể liên hệ với bạn nữa.",
   "socialUserBlocked": "Đã chặn người dùng",
   "socialUserBlockedNotice": "Bạn đã chặn người dùng này.",
@@ -901,15 +2169,157 @@
   "socialRequestSent": "Đã gửi lời mời",
   "socialReportUser": "Báo cáo",
   "socialReportEmailSubject": "Báo cáo người dùng {userId}",
-  "@socialReportEmailSubject": {"placeholders": {"userId": {"type": "String"}}},
+  "@socialReportEmailSubject": {
+    "placeholders": {
+      "userId": {
+        "type": "String"
+      }
+    }
+  },
   "socialLevelLabel": "Cấp {level}",
-  "@socialLevelLabel": {"placeholders": {"level": {"type": "int"}}},
+  "@socialLevelLabel": {
+    "placeholders": {
+      "level": {
+        "type": "int"
+      }
+    }
+  },
   "socialLevelShort": "Cấp độ",
   "socialStreakShort": "Chuỗi ngày",
   "socialFriendsShort": "Bạn bè",
   "socialStartChatting": "Bắt đầu trò chuyện",
   "socialTypeMessageHint": "Nhập tin nhắn…",
   "socialCommentsTitle": "Bình luận",
+  "socialOnlineNow": "Đang online",
+  "socialJoinedOn": "Tham gia {date}",
+  "@socialJoinedOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "socialLongestStreakShort": "Dài nhất",
+  "socialLearningJourneyTitle": "Hành trình học tập",
+  "socialWeeklyRankLabel": "BXH tuần",
+  "socialWordsLearnedLabel": "Từ đã học",
+  "socialTotalReviewsLabel": "Lần ôn tập",
+  "socialAchievementsTitle": "Thành tích",
+  "socialActivityTimelineTitle": "Hoạt động gần đây",
+  "achievementFirstPracticeName": "Bước đầu",
+  "achievementFirstPracticeDesc": "Hoàn thành bài tập đầu tiên",
+  "achievementStreak3Name": "3 ngày liên tiếp",
+  "achievementStreak3Desc": "Duy trì streak 3 ngày",
+  "achievementStreak7Name": "Tuần hoàn hảo",
+  "achievementStreak7Desc": "Duy trì streak 7 ngày",
+  "achievementStreak30Name": "Tháng kỷ luật",
+  "achievementStreak30Desc": "Duy trì streak 30 ngày",
+  "achievementCards10Name": "10 từ vựng",
+  "achievementCards10Desc": "Tạo 10 flashcard",
+  "achievementCards50Name": "50 từ vựng",
+  "achievementCards50Desc": "Tạo 50 flashcard",
+  "achievementCards100Name": "100 từ vựng",
+  "achievementCards100Desc": "Tạo 100 flashcard",
+  "achievementXp500Name": "Cày 500 XP",
+  "achievementXp500Desc": "Đạt 500 XP tổng",
+  "achievementXp1000Name": "Nghìn XP",
+  "achievementXp1000Desc": "Đạt 1000 XP tổng",
+  "achievementXp5000Name": "Cao thủ",
+  "achievementXp5000Desc": "Đạt 5000 XP tổng",
+  "achievementLevel5Name": "Level 5",
+  "achievementLevel5Desc": "Đạt Level 5",
+  "achievementLevel10Name": "Level 10",
+  "achievementLevel10Desc": "Đạt Level 10",
+  "achievementReviews100Name": "100 lần ôn",
+  "achievementReviews100Desc": "Ôn tập 100 lần",
+  "activityLevelUp": "Đạt Level {level}",
+  "@activityLevelUp": {
+    "placeholders": {
+      "level": {
+        "type": "String"
+      }
+    }
+  },
+  "activityStreakMilestone": "{streak} ngày liên tiếp",
+  "@activityStreakMilestone": {
+    "placeholders": {
+      "streak": {
+        "type": "String"
+      }
+    }
+  },
+  "activityAchievementUnlockedFallback": "Thành tích mới",
+  "activityMissionFallback": "Nhiệm vụ",
+  "activityExamFallback": "Bài thi",
+  "activityDailyReview": "Ôn tập {correct}/{total} từ",
+  "@activityDailyReview": {
+    "placeholders": {
+      "correct": {
+        "type": "String"
+      },
+      "total": {
+        "type": "String"
+      }
+    }
+  },
+  "activityVocabLearned": "Học {count} từ vựng mới",
+  "@activityVocabLearned": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "activityVideoFallback": "Video",
+  "socialFriendsSubtitle": "{friends} bạn bè · {requests} lời mời",
+  "@socialFriendsSubtitle": {
+    "placeholders": {
+      "friends": {
+        "type": "int"
+      },
+      "requests": {
+        "type": "int"
+      }
+    }
+  },
+  "socialOnlineSectionTitle": "Đang online — {count}",
+  "@socialOnlineSectionTitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "socialOfflineSectionTitle": "Offline — {count}",
+  "@socialOfflineSectionTitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "socialLevelStreakLabel": "Lv.{level} · {streak} ngày streak",
+  "@socialLevelStreakLabel": {
+    "placeholders": {
+      "level": {
+        "type": "int"
+      },
+      "streak": {
+        "type": "int"
+      }
+    }
+  },
+  "socialSuggestionsTitle": "Gợi ý kết bạn",
+  "socialConversationsCount": "{count} cuộc trò chuyện",
+  "@socialConversationsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "socialYouPrefix": "Bạn",
+  "socialOffline": "Offline",
   "pinnedShortcutsTitle": "🔗 Lối tắt",
   "pinnedShortcutConversation": "Luyện nói AI",
   "pinnedShortcutWriteSentence": "Viết câu (AI)",
@@ -919,9 +2329,27 @@
   "exploreSectionTitle": "Khám phá",
   "examCornerOverdue": "📅 Đã qua ngày thi",
   "examCornerToday": "🎯 Thi {level} hôm nay!",
-  "@examCornerToday": {"placeholders": {"level": {"type": "String"}}},
+  "@examCornerToday": {
+    "placeholders": {
+      "level": {
+        "type": "String"
+      }
+    }
+  },
   "examCornerCountdown": "🎯 {provider} {level} · còn {days} ngày",
-  "@examCornerCountdown": {"placeholders": {"provider": {"type": "String"}, "level": {"type": "String"}, "days": {"type": "int"}}},
+  "@examCornerCountdown": {
+    "placeholders": {
+      "provider": {
+        "type": "String"
+      },
+      "level": {
+        "type": "String"
+      },
+      "days": {
+        "type": "int"
+      }
+    }
+  },
   "examCornerReadiness": "Độ sẵn sàng",
   "examCornerChangeGoal": "Đổi mục tiêu",
   "examCornerContinue": "Làm đề",
@@ -930,15 +2358,45 @@
   "examGoalPromptSubtitle": "Đặt ngày thi để theo dõi đếm ngược và luyện đề đúng trình độ.",
   "examGoalPromptCta": "Đặt ngày thi",
   "examHeroTitle": "🎯 Luyện thi {provider} {level}",
-  "@examHeroTitle": {"placeholders": {"provider": {"type": "String"}, "level": {"type": "String"}}},
+  "@examHeroTitle": {
+    "placeholders": {
+      "provider": {
+        "type": "String"
+      },
+      "level": {
+        "type": "String"
+      }
+    }
+  },
   "examHeroToday": "Thi hôm nay!",
   "examCornerDaysLeft": "Còn {days} ngày",
-  "@examCornerDaysLeft": {"placeholders": {"days": {"type": "int"}}},
+  "@examCornerDaysLeft": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
   "examHeroNoAttemptsYet": "Làm đề đầu tiên để đo độ sẵn sàng",
   "examHeroBasedOnAttempts": "Dựa trên {count} đề đã làm",
-  "@examHeroBasedOnAttempts": {"placeholders": {"count": {"type": "int"}}},
+  "@examHeroBasedOnAttempts": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "examHeroCta": "📝 Làm đề {provider} {level}",
-  "@examHeroCta": {"placeholders": {"provider": {"type": "String"}, "level": {"type": "String"}}},
+  "@examHeroCta": {
+    "placeholders": {
+      "provider": {
+        "type": "String"
+      },
+      "level": {
+        "type": "String"
+      }
+    }
+  },
   "examHeroReadyLabel": "sẵn sàng",
   "examGoalSetterTitle": "Đặt mục tiêu thi",
   "examGoalSetterProviderLabel": "Kỳ thi",
@@ -952,5 +2410,1893 @@
   "premiumBannerCta": "Nâng cấp Premium — học không giới hạn",
   "communityLinksTitle": "Cộng đồng Deutsch Tiger",
   "communityZaloDescription": "Nhóm học tiếng Đức",
-  "communityFacebookDescription": "Deutsch Tiger VN"
+  "communityFacebookDescription": "Deutsch Tiger VN",
+  "examReadinessGoalHeaderLabel": "Đang luyện cho",
+  "examReadinessGoalDaysLeft": "ngày đến kỳ thi",
+  "examReadinessGoalTodayLabel": "Hôm nay là ngày thi!",
+  "examReadinessGoalSetDate": "Đặt ngày thi",
+  "examReadinessScoreTrendLabel": "Xu hướng điểm",
+  "examReadinessScoreTrendDelta": "{delta} điểm",
+  "@examReadinessScoreTrendDelta": {
+    "placeholders": {
+      "delta": {
+        "type": "String"
+      }
+    }
+  },
+  "examReadinessScoreTrendRecentCount": "{n} lần gần nhất",
+  "@examReadinessScoreTrendRecentCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "examReadinessScoreTrendLatestPrefix": "Gần nhất: ",
+  "examReadinessRecentAvgLabel": "Điểm TB gần đây",
+  "examReadinessSkillPracticeCta": "Luyện {skill}",
+  "@examReadinessSkillPracticeCta": {
+    "placeholders": {
+      "skill": {
+        "type": "String"
+      }
+    }
+  },
+  "examReadinessAttemptCountSuffix": "{n} lần",
+  "@examReadinessAttemptCountSuffix": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "examReadinessWeaknessPracticeCta": "Luyện điểm yếu →",
+  "examReadinessWeaknessDrillCta": "Luyện →",
+  "examReadinessTodoTitle": "Việc cần làm",
+  "examReadinessTodoDueReviewsPrefix": "Bạn có ",
+  "examReadinessTodoDueReviewsBold": "{n} từ tới hạn ôn",
+  "@examReadinessTodoDueReviewsBold": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "examReadinessIntroWhy": "Xem bạn đã sẵn sàng cho kỳ thi tới mức nào, theo từng kỹ năng.",
+  "examReadinessIntroTodo": "Nhìn kỹ năng yếu nhất và bấm luyện ngay.",
+  "examReadinessIntroNext": "Luyện xong quay lại xem điểm cải thiện.",
+  "scheduleBuddyCountFire": "🔥 {n} bạn còn hạn lịch thi",
+  "@scheduleBuddyCountFire": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "scheduleBuddyCountSoon": "· {n} người thi trong 30 ngày tới",
+  "@scheduleBuddyCountSoon": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "scheduleBuddyCountPast": "· {n} đã thi",
+  "@scheduleBuddyCountPast": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "scheduleSearchHint": "Tìm theo tên / loại thi...",
+  "scheduleFilterAllExamTypes": "Tất cả kì thi",
+  "scheduleFilterAllLevels": "Tất cả trình độ",
+  "scheduleStatusUpcomingCount": "Còn hạn ({n})",
+  "@scheduleStatusUpcomingCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "scheduleStatusPastCount": "Đã thi ({n})",
+  "@scheduleStatusPastCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "scheduleResultCountUpcoming": "{n} người · gần ngày thi nhất xếp trước",
+  "@scheduleResultCountUpcoming": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "scheduleResultCountPast": "{n} người · thi gần đây xếp trước",
+  "@scheduleResultCountPast": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "scheduleEmptyUpcoming": "Không có ai còn hạn lịch thi khớp bộ lọc này.",
+  "scheduleEmptyPast": "Không có ai đã thi khớp bộ lọc này.",
+  "scheduleMyPlansCount": "{n} lịch thi · gần ngày thi nhất xếp trước",
+  "@scheduleMyPlansCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "scheduleMyPlansEmpty": "Bạn chưa đăng ký lịch thi nào",
+  "schedulePrivacyNotePrefix": "🔒 Liên hệ của bạn (SĐT, email, Facebook) ",
+  "schedulePrivacyNoteBold": "ẩn mặc định",
+  "schedulePrivacyNoteSuffix": " — chỉ thành viên đã đăng ký mới xem được.",
+  "scheduleBuddyDaysAgo": "Đã thi {n} ngày trước",
+  "@scheduleBuddyDaysAgo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "scheduleBuddyToday": "Thi hôm nay!",
+  "scheduleBuddyDaysLeft": "Còn {n} ngày",
+  "@scheduleBuddyDaysLeft": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "dictationActivityMenuPrompt": "Chọn hoạt động luyện nghe:",
+  "dictationActivityClozeTitle": "Điền từ vào chỗ trống",
+  "dictationActivityClozeDesc": "Nghe và gõ từ còn thiếu",
+  "dictationActivityFullTitle": "Nghe chép chính tả",
+  "dictationActivityFullDesc": "Nghe từng câu và gõ lại cả câu",
+  "dictationActivityKaraokeTitle": "Nghe & đọc theo",
+  "dictationActivityKaraokeDesc": "Phụ đề chạy theo audio, chạm từ để tra nghĩa",
+  "dictationWordsCount": "{n} từ",
+  "@dictationWordsCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "dictationWordSelectHint": "Chạm vào những từ gạch chân trong bài để chọn từ muốn luyện, rồi bấm Bắt đầu.",
+  "dictationWordSelectCtaEmpty": "Chọn ít nhất 1 từ để bắt đầu",
+  "dictationWordSelectCta": "Bắt đầu luyện nghe — {n} từ",
+  "@dictationWordSelectCta": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "dictationBackToSelection": "← Chọn lại",
+  "dictationWordCount": "{answered} / {total} từ",
+  "@dictationWordCount": {
+    "placeholders": {
+      "answered": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "dictationTypeWordHint": "Gõ từ...",
+  "dictationPlayingAudioHint": "Đang phát audio...",
+  "dictationCheckCta": "Kiểm tra",
+  "dictationReplaySentenceTooltip": "Nghe lại câu",
+  "dictationClozeSkip": "Bỏ qua",
+  "dictationClozeReveal": "Xem đáp án",
+  "dictationNoWordsToPractice": "Không có từ nào để luyện.",
+  "dictationBackToWordSelection": "← Quay lại chọn từ",
+  "dictationClozeResultTitle": "Kết quả luyện nghe",
+  "dictationClozeBackLabel": "Chọn từ khác",
+  "dictationClozeMistakesTitle": "Từ cần ôn lại",
+  "dictationEndRetry": "Luyện lại",
+  "dictationEndCorrectCount": "{correct} / {total} đúng",
+  "@dictationEndCorrectCount": {
+    "placeholders": {
+      "correct": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "dictationFullBackLabel": "Chọn bài",
+  "dictationFullResultTitle": "Kết quả chép chính tả",
+  "dictationFullNextClip": "Bài tiếp theo →",
+  "dictationReplayThisSentence": "Nghe lại câu này",
+  "dictationTypeSentenceHint": "Gõ câu bạn nghe được...",
+  "dictationSentenceProgress": "{idx} / {count} câu",
+  "@dictationSentenceProgress": {
+    "placeholders": {
+      "idx": {
+        "type": "int"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "dictationCorrectCount": "{n} đúng",
+  "@dictationCorrectCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "dictationNextSentence": "Câu tiếp →",
+  "dictationShowResult": "Xem kết quả",
+  "dictationNoAudioData": "Bài nghe này chưa có dữ liệu chấm chính tả.",
+  "dictationBackPlain": "← Quay lại",
+  "dictationKaraokeBackToMenu": "← Chọn hoạt động",
+  "dictationKaraokeHint": "Bấm ▶ để nghe — phụ đề tự chạy theo audio. Chạm vào câu để nghe lại từ đó.",
+  "dictationKaraokeUntimed": "(không có phụ đề đồng bộ)",
+  "dictationKaraokePrev": "◀ Bài trước",
+  "dictationKaraokeNext": "Bài sau ▶",
+  "deThiHeroTitle": "Đề thi tiếng Đức",
+  "deThiHeroSubtitle": "Luyện đề đọc hiểu song ngữ Đức–Việt. Miễn phí, chấm điểm tại chỗ, không cần đăng nhập.",
+  "deThiStartCta": "Bắt đầu làm →",
+  "deThiLoginCta": "Đăng nhập",
+  "deThiPromoTitle": "Học tiếng Đức toàn diện hơn",
+  "deThiPromoSubtitle": "Flashcard · Luyện nói AI · Đề thi B1/B2",
+  "deThiPromoCta": "Thử ngay →",
+  "deThiPassageLabel": "ĐOẠN {index}",
+  "@deThiPassageLabel": {
+    "placeholders": {
+      "index": {
+        "type": "int"
+      }
+    }
+  },
+  "deThiPassageOf": "Đoạn {index}",
+  "@deThiPassageOf": {
+    "placeholders": {
+      "index": {
+        "type": "int"
+      }
+    }
+  },
+  "deThiPassageAnsweredCount": "{answered}/{total} câu",
+  "@deThiPassageAnsweredCount": {
+    "placeholders": {
+      "answered": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "deThiTranslatePassage": "Dịch đoạn văn",
+  "deThiHideTranslation": "Ẩn bản dịch",
+  "deThiTranslateVi": "Dịch tiếng Việt",
+  "deThiHideExplanation": "Ẩn giải thích",
+  "deThiExplanation": "Giải thích",
+  "deThiVietnameseTranslationHeading": "BẢN DỊCH TIẾNG VIỆT",
+  "deThiPrevPassage": "Đoạn trước",
+  "deThiNextPassage": "Đoạn tiếp",
+  "deThiCorrectCountLabel": "{correct}/{total} câu đúng",
+  "@deThiCorrectCountLabel": {
+    "placeholders": {
+      "correct": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "deThiScoreLabel": "{score} điểm",
+  "@deThiScoreLabel": {
+    "placeholders": {
+      "score": {
+        "type": "String"
+      }
+    }
+  },
+  "communityTabBrowse": "Duyệt đề",
+  "communityTabContribute": "Đóng góp",
+  "communityTabMine": "Đề của tôi",
+  "communityContributeComingSoon": "Tính năng đóng góp đề thi đang được phát triển.\nHãy quay lại sau nhé!",
+  "communityMineEmptyGated": "Bạn chưa đóng góp đề nào — tính năng này sắp ra mắt.",
+  "communitySearchHint": "Tìm đề...",
+  "communityFilterAll": "Tất cả",
+  "communityFilterGoetheWriting": "Goethe Viết",
+  "communityFilterTelcSpeaking": "Telc Nói",
+  "communityTeilLabel": "Teil {n}",
+  "@communityTeilLabel": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "communityBackLink": "Quay lại",
+  "communityBadgeLabel": "Cộng đồng",
+  "communityHiddenBanner": "⚠️ Đề này đã bị ẩn do nhận nhiều báo cáo.",
+  "communityRealExamBadge": "Đề thật",
+  "communityTakeExamAction": "Tôi vừa thi",
+  "communityReportAction": "Báo cáo",
+  "communityGatedTooltip": "Tính năng đang được phát triển",
+  "communityAnonymousContributor": "Ẩn danh",
+  "communitySectionTask": "📝 Đề bài",
+  "communitySectionAnalysis": "📋 Phân tích đề",
+  "communitySectionModelAnswer": "✍️ Bài mẫu",
+  "communitySectionUsefulPhrases": "💡 Cụm từ hữu ích",
+  "communitySectionGrammar": "📖 Ngữ pháp trọng tâm",
+  "communitySectionMistakes": "⚠️ Lỗi thường gặp",
+  "communitySectionSpeakingContent": "🎙️ Nội dung",
+  "examHeaderDefaultTitle": "Phần thi",
+  "examBackToResult": "Kết quả",
+  "examPaceOnTrack": "Đúng tiến độ",
+  "examPaceSlow": "Hơi chậm",
+  "examPaceBehind": "Cần nhanh hơn",
+  "examReaderGuideTooltip": "Hướng dẫn đọc",
+  "examReaderGuideTitle": "Mẹo đọc bài",
+  "examReaderGuideBody": "Bật tra từ để chạm vào 1 từ và xem nghĩa ngay. Bật tô màu để đánh dấu từ khó. Chỉnh cỡ chữ trong Cài đặt hiển thị.",
+  "examReaderGuideEnableWordLookup": "Bật tra từ",
+  "examReaderSettingsTooltip": "Cài đặt hiển thị",
+  "examReaderSettingsTitle": "Cài đặt hiển thị",
+  "examReaderSettingsFontSize": "Cỡ chữ",
+  "examReaderSettingsHighlight": "Tô màu từ",
+  "examReaderSettingsWordLookup": "Tra từ khi chạm",
+  "examReadingPaneTitle": "Đoạn văn",
+  "examTranslateParagraph": "Dịch đoạn văn",
+  "examHideTranslation": "Ẩn bản dịch",
+  "examNavPrevQuestion": "Câu trước",
+  "examNavNextQuestion": "Câu tiếp",
+  "examNavOpenSheet": "Bảng câu hỏi",
+  "examNavSheetTitle": "Danh sách câu hỏi",
+  "examNavSheetPracticeTitle": "Luyện tập",
+  "examNavLegendCurrent": "Đang xem",
+  "examNavLegendAnswered": "Đã làm",
+  "examNavLegendWrong": "Sai",
+  "examNavLegendUnanswered": "Chưa làm",
+  "examNavStatCorrect": "{count} Đúng",
+  "@examNavStatCorrect": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "examNavStatWrong": "{count} Sai",
+  "@examNavStatWrong": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "examNavStatUnanswered": "{count} Chưa làm",
+  "@examNavStatUnanswered": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "examCommentsTitle": "Bình luận",
+  "examCommentsEmpty": "Chưa có bình luận nào.",
+  "examCommentsPlaceholder": "Viết bình luận...",
+  "examCommentsSend": "Gửi",
+  "examCommentsError": "Không tải được bình luận.",
+  "examCommentsSendError": "Gửi bình luận thất bại. Vui lòng thử lại.",
+  "examResultHeaderFallback": "Kết quả bài thi",
+  "examResultScoreLabel": "Điểm số",
+  "examResultMotivationPassedTitle": "Đạt rồi!",
+  "examResultMotivationPassedBody": "Làm tốt lắm! Bạn đã vượt qua ngưỡng đậu!",
+  "examResultMotivationFailTitle": "Cố lên!",
+  "examResultMotivationFailBody": "Chưa đạt — ôn lại phần sai và thử lại nhé!",
+  "examResultStatSkipped": "Bỏ qua",
+  "examSmartReviewTitle": "Gợi ý ôn sau bài thi",
+  "examSmartReviewSubtitle": "Tập trung vào câu sai và phần yếu.",
+  "examSmartReviewPointsNeeded": "{count} điểm cần ôn",
+  "@examSmartReviewPointsNeeded": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "examSmartReviewJumpToWrong": "Xem câu sai",
+  "examSmartReviewPracticeSections": "Luyện từng phần",
+  "examSmartReviewWrongReview": "Ôn lỗi cá nhân",
+  "examAttemptHistoryTitle": "Lịch sử làm bài",
+  "examAttemptHistoryEmpty": "Chưa có lịch sử",
+  "examAttemptModePractice": "Luyện",
+  "writingMyEssaysLink": "Bài của tôi →",
+  "writingHistoryTooltip": "Lịch sử bài viết",
+  "writingYourEssay": "Bài viết của bạn",
+  "writingDraftSaved": "💾 Đã lưu nháp",
+  "writingSubmittedBadge": "Đã nộp",
+  "writingWordCount": "{count} từ",
+  "@writingWordCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "writingRestorePromptSaved": "Có bản nháp lưu lúc {time} ({count} từ). Khôi phục?",
+  "@writingRestorePromptSaved": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "writingRestore": "Khôi phục",
+  "writingDiscard": "Bỏ",
+  "writingEditorPlaceholder": "Schreiben Sie hier Ihre Antwort... (Viết bài của bạn ở đây)",
+  "writingSubmitCta": "Nộp bài viết",
+  "writingSubmitting": "Đang nộp...",
+  "writingRegrade": "Chấm lại với AI",
+  "writingGrading": "Đang chấm...",
+  "writingMinWordsHint": "Tối thiểu 10 từ",
+  "writingEditEssay": "Sửa bài viết",
+  "writingGradeWithAi": "Sửa với AI",
+  "writingRetry": "Làm lại",
+  "writingRetryIn": "Thử lại sau {seconds}s",
+  "@writingRetryIn": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "writingClose": "Đóng",
+  "writingFeedbackUpdateHint": "Phản hồi AI — chấm lại để cập nhật kết quả mới",
+  "writingRewriteTitle": "Viết lại sau góp ý",
+  "writingRewriteDesc": "Tạo một bản sửa mẫu để so sánh, rồi đưa vào khung soạn thảo nếu muốn chỉnh tiếp.",
+  "writingCreateRewrite": "Tạo bản sửa mẫu",
+  "writingRecreateRewrite": "Tạo lại bản sửa",
+  "writingCreatingRewrite": "Đang tạo...",
+  "writingUseRewrite": "Đưa vào khung để chỉnh tiếp",
+  "writingBeforeFix": "Trước khi sửa",
+  "writingAfterFix": "Sau khi sửa",
+  "writingGradeCategoryTask": "Hoàn thành đề bài",
+  "writingGradeCategoryGrammar": "Ngữ pháp",
+  "writingGradeCategoryVocab": "Từ vựng",
+  "writingGradeCategoryCoherence": "Liên kết & mạch lạc",
+  "writingCommonErrorsTitle": "Lỗi hay gặp trong bài này",
+  "writingDetailedAssessment": "Chi tiết đánh giá",
+  "writingSuggestionsTitle": "💡 Gợi ý viết tự nhiên hơn ({count})",
+  "@writingSuggestionsTitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "writingCorrectionsTitle": "Sửa lỗi ({count})",
+  "@writingCorrectionsTitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "writingFocusLink": "🔁 Vá lỗi ngữ pháp ở Tập trung ({count} lỗi)",
+  "@writingFocusLink": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "writingGoetheBreakdownTitle": "Đánh giá Goethe — {teilLabel}",
+  "@writingGoetheBreakdownTitle": {
+    "placeholders": {
+      "teilLabel": {
+        "type": "String"
+      }
+    }
+  },
+  "writingGoetheInhalt": "Inhalt (Nội dung)",
+  "writingGoetheKommunikative": "Kommunikative (Giao tiếp)",
+  "writingGoetheFormale": "Formale (Hình thức)",
+  "writingHistoryTitle": "Lịch sử bài viết",
+  "writingHistoryEmpty": "Chưa có bài viết nào",
+  "writingScorePoints": "{score}/100",
+  "@writingScorePoints": {
+    "placeholders": {
+      "score": {
+        "type": "int"
+      }
+    }
+  },
+  "goetheB1HubTitle": "Goethe-Zertifikat B1",
+  "goetheB1HubSubtitle": "3 bộ đề luyện thi",
+  "goetheB1HubOfficialTitle": "Bộ đề thi chính thức",
+  "goetheB1HubOfficialDesc": "30+ đề luyện thi đầy đủ · Lesen · Hören · Schreiben",
+  "goetheB1HubWritingTitle": "Bộ đề viết thực tế",
+  "goetheB1HubWritingDesc": "30 đề Schreiben theo chủ đề · Teil 1 · Teil 2 · Teil 3",
+  "goetheB1HubSpeakingTitle": "Luyện nói (Sprechen)",
+  "goetheB1HubSpeakingDesc": "Đề nói theo chủ đề · Teil 1 · Teil 2 · Teil 3",
+  "goetheB1WritingEyebrow": "Goethe B1 · 3 phần · 100 Punkte",
+  "goetheB1WritingHeadingPrefix": "Viết — ",
+  "goetheB1WritingHeadingSchreiben": "Schreiben",
+  "goetheB1WritingBadgeReal": "Đề thi thật",
+  "goetheB1WritingBadgeYears": "2023–2026",
+  "goetheB1WritingBadgeQuality": "Bài mẫu chất lượng",
+  "goetheB1WritingHeroPitch": "Luyện đúng format Goethe B1 với bộ đề sát thi thật để vào phòng thi tự tin hơn.",
+  "goetheB1WritingHeroDesc": "Schreiben gồm 3 Teil bám sát cấu trúc bài thi Goethe B1, tuyển chọn từ đề thật giai đoạn 2023–2026 và chủ đề mới do cộng đồng bổ sung liên tục. Mỗi phần đều giúp bạn xem đề mẫu, ôn cấu trúc câu, học cách triển khai ý và luyện viết từng bước với bài mẫu đáng tin cậy.",
+  "goetheB1WritingStatSourceLabel": "Nguồn luyện",
+  "goetheB1WritingStatSourceValue": "Đề thi Goethe thật",
+  "goetheB1WritingStatTopicsLabel": "Chủ đề hiện có",
+  "goetheB1WritingStatTopicsValue": "{count}+ chủ đề",
+  "@goetheB1WritingStatTopicsValue": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "goetheB1WritingStatValueLabel": "Giá trị luyện tập",
+  "goetheB1WritingStatValueValue": "Mẫu viết + từng bước",
+  "goetheB1WritingLoadingTopics": "Đang tải...",
+  "goetheB1WritingAllExamsLink": "← Tất cả kỳ thi luyện viết",
+  "goetheB1WritingMyEssaysLink": "Bài của tôi →",
+  "goetheB1WritingTeilLabel": "Teil {n}",
+  "@goetheB1WritingTeilLabel": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "goetheB1WritingPoints": "{points} Punkte",
+  "@goetheB1WritingPoints": {
+    "placeholders": {
+      "points": {
+        "type": "int"
+      }
+    }
+  },
+  "goetheB1WritingTeil1Subtitle": "Viết thư / email cá nhân cho bạn bè",
+  "goetheB1WritingTeil2Subtitle": "Bày tỏ ý kiến trên diễn đàn",
+  "goetheB1WritingTeil3Subtitle": "Email trang trọng: xin lỗi, đặt hẹn, đăng ký",
+  "conversationHubTitle": "Hội thoại (AI)",
+  "conversationHubSubtitle": "Alltagsdeutsch · Khám phá & luyện nói",
+  "conversationHubLoadError": "Không thể tải danh sách kịch bản.",
+  "conversationTabScenarios": "Kịch bản",
+  "conversationTabHistory": "Lịch sử luyện tập",
+  "conversationHeroBadge": "AI tạo hội thoại tức thì",
+  "conversationHeroTitle": "Bạn muốn luyện nói về điều gì hôm nay?",
+  "conversationHeroSearchHint": "Gõ chủ đề bất kỳ hoặc tìm chủ đề có sẵn…",
+  "conversationHeroCreateNow": "Tạo ngay",
+  "conversationHeroUpgrade": "Nâng Plus ✨",
+  "conversationHeroTryNow": "Thử ngay:",
+  "conversationQuotaFreeRemaining": "Còn {remaining}/{max} bài miễn phí hôm nay",
+  "@conversationQuotaFreeRemaining": {
+    "placeholders": {
+      "remaining": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "conversationQuotaWalled": "Đã dùng hết {max}/{max} bài hội thoại hôm nay",
+  "@conversationQuotaWalled": {
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "conversationQuotaUnlimited": "Không giới hạn",
+  "conversationFilterLibraryTitle": "Hoặc chọn từ thư viện",
+  "conversationFilterResultCount": "{count} chủ đề",
+  "@conversationFilterResultCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "conversationFilterClear": "Xoá lọc",
+  "conversationFilterCategory": "Thể loại",
+  "conversationFilterLevel": "Cấp độ",
+  "conversationFilterAll": "Tất cả",
+  "conversationCreateCustomTitle": "Tạo chủ đề riêng: „{topic}”",
+  "@conversationCreateCustomTitle": {
+    "placeholders": {
+      "topic": {
+        "type": "String"
+      }
+    }
+  },
+  "conversationCreateCustomHint": "Không có sẵn — để AI soạn một hội thoại mới cho bạn",
+  "conversationEmptyNoResults": "Không tìm thấy chủ đề",
+  "conversationEmptyNoResultsHint": "Thử gõ chủ đề riêng ở ô phía trên nhé!",
+  "conversationHistoryLoadError": "Không thể tải lịch sử luyện tập.",
+  "conversationHistoryEmpty": "Chưa có bài luyện tập nào được lưu.",
+  "conversationHistoryEmptyHint": "Hoàn thành một cuộc hội thoại để lưu lại đây.",
+  "conversationHistoryMeta": "{level} · {turns} lượt · {date}",
+  "@conversationHistoryMeta": {
+    "placeholders": {
+      "level": {
+        "type": "String"
+      },
+      "turns": {
+        "type": "int"
+      },
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "conversationHistoryDelete": "Xóa",
+  "conversationHistoryCancel": "Hủy",
+  "conversationHistoryDetailLoadError": "Không tải được bài hội thoại đã lưu.",
+  "conversationHistoryBackToList": "Về danh sách",
+  "conversationLoadError": "Không thể tải kịch bản. Vui lòng thử lại.",
+  "conversationBack": "Quay lại",
+  "conversationContextLabel": "Tình huống",
+  "conversationYourRoleLabel": "Vai bạn:",
+  "conversationListen": "Nghe",
+  "conversationExaminerButton": "Giám khảo",
+  "conversationExaminerTitle": "⚖️ Giám khảo AI",
+  "conversationExaminerCoverageTitle": "Nội dung cần đề cập",
+  "conversationExaminerVerdictPending": "Đánh giá tổng thể đang được phát triển.",
+  "conversationExaminerNoVerdict": "Chưa có đánh giá cho bài này.",
+  "conversationExit": "Thoát",
+  "conversationExitConfirmTitle": "Thoát hội thoại?",
+  "conversationExitConfirmBody": "Tiến trình hiện tại sẽ không được lưu.",
+  "conversationExitConfirmCta": "Thoát",
+  "conversationExitCancelCta": "Tiếp tục",
+  "conversationComposerHint": "Nhập hoặc nói tiếng Đức...",
+  "conversationComposerModeText": "Viết",
+  "conversationComposerModeVoice": "Mic",
+  "conversationSuggestionsTitle": "Gợi ý",
+  "conversationSuggestionsPending": "Gợi ý câu trả lời đang được phát triển.",
+  "conversationVoiceTapToSpeak": "Nhấn để nói",
+  "conversationVoiceComingSoon": "Tính năng nói sẽ sớm ra mắt.",
+  "conversationVoiceBackToText": "Quay lại gõ",
+  "conversationDoneTitle": "Hoàn thành hội thoại!",
+  "conversationDoneSubtitle": "{title} · {turns} lượt hội thoại",
+  "@conversationDoneSubtitle": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "turns": {
+        "type": "int"
+      }
+    }
+  },
+  "conversationDoneRestart": "Thực hành lại",
+  "conversationDoneChooseAnother": "Chọn kịch bản khác",
+  "interviewImportTitle": "Luyện phỏng vấn từ tài liệu",
+  "interviewImportDesc": "Dán tài liệu chuẩn bị → AI tạo buổi phỏng vấn; câu trả lời bạn soạn thành gợi ý.",
+  "interviewImportBackToEdit": "Sửa tài liệu",
+  "interviewImportDocLabel": "Tài liệu phỏng vấn",
+  "interviewImportDocHint": "Dán câu hỏi + câu trả lời bạn đã chuẩn bị...",
+  "interviewImportLevelLabel": "Trình độ (CEFR)",
+  "interviewImportExtract": "✨ Trích xuất câu hỏi",
+  "interviewImportExtracting": "Đang trích xuất...",
+  "interviewImportTitleLabel": "Tên buổi phỏng vấn",
+  "interviewImportEditHint": "Kiểm tra & sửa câu hỏi và gợi ý trước khi lưu. Gợi ý chỉ hiển thị cho bạn, AI không thấy.",
+  "interviewImportQuestionLabel": "Câu {n}",
+  "@interviewImportQuestionLabel": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "interviewImportQuestionDeHint": "Câu hỏi phỏng vấn (tiếng Đức)",
+  "interviewImportQuestionViHint": "Dịch nghĩa (tiếng Việt)",
+  "interviewImportHintDeHint": "Gợi ý — câu trả lời bạn chuẩn bị (tiếng Đức)",
+  "interviewImportHintViHint": "Gợi ý (tiếng Việt)",
+  "interviewImportAddQuestion": "+ Thêm câu hỏi",
+  "interviewImportSave": "Lưu & bắt đầu luyện",
+  "interviewImportSaving": "Đang lưu...",
+  "pronunciationHubTitle": "Luyện Phát Âm Tiếng Đức",
+  "pronunciationHubInfoBanner": "Phát âm đúng từ đầu giúp bạn tự tin hơn khi nói và tránh hiểu nhầm. Mỗi mô-đun tập trung vào một nhóm âm khó — luyện từng bước, nghe và bắt chước.",
+  "pronunciationHubUmlauteTitle": "Umlaute (ä, ö, ü)",
+  "pronunciationHubUmlauteDesc": "Phân biệt và luyện 3 nguyên âm biến thể đặc trưng của tiếng Đức",
+  "pronunciationHubIchAchTitle": "Ich-laut / Ach-laut",
+  "pronunciationHubIchAchDesc": "Phân biệt ch sau nguyên âm trước và sau",
+  "pronunciationHubRSoundTitle": "R-Sound",
+  "pronunciationHubRSoundDesc": "Âm r cổ họng đặc trưng của tiếng Đức",
+  "pronunciationHubSpStTitle": "Sp / St Ban đầu",
+  "pronunciationHubSpStDesc": "sp → shp, st → sht ở đầu từ và vần",
+  "pronunciationLoadError": "Không thể tải dữ liệu. Vui lòng thử lại.",
+  "pronunciationRetry": "Thử lại",
+  "pronunciationNoData": "Chưa có dữ liệu luyện tập.",
+  "pronunciationCompletedTitle": "Hoàn thành!",
+  "pronunciationScoreCorrect": "{score} / {total} đúng",
+  "@pronunciationScoreCorrect": {
+    "placeholders": {
+      "score": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "pronunciationRetryCta": "Luyện lại",
+  "pronunciationBackCta": "Quay lại",
+  "pronunciationHintLabel": "Mẹo phát âm:",
+  "pronunciationPlayCta": "Nghe phát âm",
+  "pronunciationNextCta": "Tôi đã đọc →",
+  "pronunciationDoneCta": "Hoàn thành",
+  "pronunciationModePronounce": "Phát âm",
+  "pronunciationModeDistinguish": "Phân biệt",
+  "pronunciationModeDistinguishSpSt": "Phân biệt sp/st",
+  "pronunciationModeCategorize": "Phân loại",
+  "pronunciationUmlauteTitle": "Luyện Umlaute",
+  "pronunciationIchAchTitle": "Ich-laut / Ach-laut",
+  "pronunciationRSoundTitle": "R-Sound Tiếng Đức",
+  "pronunciationSpStTitle": "Sp / St Ban đầu",
+  "pronunciationIchLautBadge": "Ich-laut [ç]",
+  "pronunciationAchLautBadge": "Ach-laut [x]",
+  "pronunciationCompareLabel": "So sánh:",
+  "pronunciationROverviewInfo": "Âm R tiếng Đức có 4 biến thể tùy vị trí. Bảng dưới giúp bạn nhớ nhanh quy tắc.",
+  "pronunciationRPositionInitial": "Đầu từ [ʁ]",
+  "pronunciationRPositionAfterVowel": "Sau nguyên âm [ɐ]",
+  "pronunciationRPositionCluster": "Cụm phụ âm [ʁ]",
+  "pronunciationRPositionVocalic": "Cuối từ -er [ɐ]",
+  "pronunciationQuizPrompt": "Nghe và chọn từ bạn vừa nghe:",
+  "pronunciationQuizReplayHint": "Nhấn để nghe lại",
+  "pronunciationQuizScore": "{count} đúng",
+  "@pronunciationQuizScore": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "pronunciationStreak": "🔥 {count} liên tiếp!",
+  "@pronunciationStreak": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "pronunciationQuizCorrect": "✓ Đúng rồi!",
+  "pronunciationQuizWrong": "✗ Chưa đúng",
+  "pronunciationQuizHeardLabel": "Từ vừa nghe:",
+  "pronunciationQuizComparing": "Đang phát cả hai để so sánh...",
+  "pronunciationQuizSeeResult": "Xem kết quả",
+  "pronunciationQuizInsufficientData": "Không đủ dữ liệu để tạo bài kiểm tra.",
+  "pronunciationMinimalPairsTitle": "Luyện nghe cặp tối thiểu",
+  "pronunciationMinimalPairsPickerHint": "Chọn cặp âm bạn muốn luyện nghe phân biệt:",
+  "pronunciationMinimalPairsCount": "{count} cặp từ",
+  "@pronunciationMinimalPairsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "pronunciationMinimalPairsEmpty": "Chưa có dữ liệu cặp âm. Vui lòng thử lại sau.",
+  "pronunciationMinimalPairsPracticing": "Đang luyện:",
+  "pronunciationMinimalPairsPrompt": "Bạn vừa nghe từ nào?",
+  "pronunciationMinimalPairsCorrectOf": "Đúng {correct}/{total}",
+  "@pronunciationMinimalPairsCorrectOf": {
+    "placeholders": {
+      "correct": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "pronunciationMinimalPairsCorrectLabel": "Chính xác!",
+  "pronunciationMinimalPairsWrongLabel": "Sai rồi — đáp án đúng: {word}",
+  "@pronunciationMinimalPairsWrongLabel": {
+    "placeholders": {
+      "word": {
+        "type": "String"
+      }
+    }
+  },
+  "pronunciationEndCta": "Kết thúc",
+  "pronunciationMinimalPairsResultTitle": "Kết quả luyện nghe",
+  "pronunciationMinimalPairsScoreLabel": "{correct} / {total} câu đúng",
+  "@pronunciationMinimalPairsScoreLabel": {
+    "placeholders": {
+      "correct": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "pronunciationMinimalPairsLowScoreHint": "Hãy nghe lại nhiều lần — tai bạn sẽ quen dần với sự khác biệt!",
+  "pronunciationChangePairCta": "Đổi cặp âm",
+  "sprechenExamLoadError": "Không tải được đề: {error}",
+  "@sprechenExamLoadError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "sprechenContentLockedTitle": "Nội dung Premium",
+  "sprechenPracticeCta": "🎤 Luyện nói cùng Tiger AI",
+  "sprechenTopicListTitle": "Danh sách đề",
+  "sprechenTopicListLoadError": "Lỗi tải danh sách: {error}",
+  "@sprechenTopicListLoadError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "sprechenTopicListEmpty": "🎤 Chưa có đề bài",
+  "sprechenTopicListSummary": "{count} đề · {done} hoàn thành",
+  "@sprechenTopicListSummary": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "done": {
+        "type": "int"
+      }
+    }
+  },
+  "sprechenLeaderboardEmpty": "Chưa có dữ liệu xếp hạng",
+  "sprechenTeilSetOverviewSubtitle": "Luyện Sprechen — chọn phần để bắt đầu",
+  "sprechenTeilCompletedBadge": "✓ Hoàn thành",
+  "sprechenOverviewTitle": "Nói — Sprechen",
+  "sprechenOverviewSubtitle": "{providerLabel} · 3 phần · 75 Punkte",
+  "@sprechenOverviewSubtitle": {
+    "placeholders": {
+      "providerLabel": {
+        "type": "String"
+      }
+    }
+  },
+  "sprechenOverviewGoetheInfo": "Sprechen chiếm 75/300 điểm trong bài thi Goethe B1. Mỗi Teil được chấm theo 3 tiêu chí: Nội dung, Ngữ pháp & cấu trúc câu, Từ vựng & lưu loát.",
+  "sprechenOverviewTelcInfo": "Sprechen chiếm 75/300 điểm trong bài thi telc B1.",
+  "sprechenTopicCount": "{count} đề",
+  "@sprechenTopicCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "sprechenTopicSearchHint": "Tìm theo tên đề hoặc nhóm chủ đề...",
+  "sprechenTopicListFilteredCount": "{filtered}/{total} đề",
+  "@sprechenTopicListFilteredCount": {
+    "placeholders": {
+      "filtered": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "sprechenTopicListEmptyFiltered": "🎤 Không tìm thấy đề phù hợp",
+  "sprechenBewertungMainErrors": "Lỗi chính",
+  "sprechenHistoryButtonLabel": "Lịch sử",
+  "sprechenPracticeStartCta": "Luyện thi ngay — Nói chuyện với AI",
+  "sprechenResultBackToList": "Quay lại danh sách",
+  "sprechenNoSuggestions": "Không có gợi ý",
+  "sprechenInputHint": "Nhập câu trả lời bằng tiếng Đức...",
+  "sprechenMicComingSoon": "Chế độ nói sắp ra mắt — dùng Viết trước nhé",
+  "sprechenMicUnsupported": "Chỉ hỗ trợ Viết ở phiên bản này",
+  "sprechenPartnerSubtitleDefault": "Trả lời bằng tiếng Đức",
+  "sprechenFeedbackScoreLabel": "{score}/5 · phản hồi",
+  "@sprechenFeedbackScoreLabel": {
+    "placeholders": {
+      "score": {
+        "type": "int"
+      }
+    }
+  },
+  "sprechenSessionHistoryEmpty": "Chưa có phiên luyện tập nào",
+  "sprechenStudyPanelLocked": "Nội dung Premium — nâng cấp để xem đầy đủ",
+  "sprechenStudyPanelEmpty": "Chưa có nội dung học cho đề này.",
+  "conversationTranscriptEmpty": "Không có nội dung hội thoại.",
+  "writingHotBadge": "HOT",
+  "writingCompletedBadge": "Đã học",
+  "writingPremiumBadge": "Premium",
+  "writingUnlockToView": "Mở khóa để xem",
+  "writingBuyPremium": "Mua Premium",
+  "writingDifficultyEasy": "Dễ",
+  "writingDifficultyMedium": "TB",
+  "writingDifficultyHard": "Khó",
+  "writingLeaderboardTitle": "Bảng xếp hạng · Teil {teil}",
+  "@writingLeaderboardTitle": {
+    "placeholders": {
+      "teil": {
+        "type": "int"
+      }
+    }
+  },
+  "writingLeaderboardEmpty": "Chưa có ai hoàn thành đề nào",
+  "writingLeaderboardYou": "bạn",
+  "writingCommunityFolderTitle": "Đề do cộng đồng đóng góp",
+  "writingCommunityFolderCount": "{count} đề đã được thêm",
+  "@writingCommunityFolderCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "writingCommunityFolderEmpty": "Chưa có đề — hãy là người đầu tiên!",
+  "writingSearchHint": "Tìm theo tên đề, chủ đề, từ khóa...",
+  "writingSprintPill": "Sprint 10h",
+  "writingSprintComingSoon": "Sprint 10h sẽ sớm ra mắt",
+  "writingTopicCount": "{count} đề",
+  "@writingTopicCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "writingTopicCountFiltered": "{count}/{total} đề",
+  "@writingTopicCountFiltered": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "writingNoResultsTitle": "Không tìm thấy đề phù hợp",
+  "writingNoResultsHint": "Thử tìm bằng tiếng Đức, tiếng Việt hoặc tên chủ đề khác.",
+  "writingFreeLimitTitle": "Bạn đang xem 5 đề miễn phí của Teil {teil}",
+  "@writingFreeLimitTitle": {
+    "placeholders": {
+      "teil": {
+        "type": "int"
+      }
+    }
+  },
+  "writingFreeLimitDesc": "Nâng cấp Premium để mở toàn bộ chủ đề Schreiben B1 và dùng AI chấm bài không giới hạn.",
+  "writingTeilLabel": "Teil {n}",
+  "@writingTeilLabel": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "writingCommunityListTitle": "Đề cộng đồng · Teil {teil}",
+  "@writingCommunityListTitle": {
+    "placeholders": {
+      "teil": {
+        "type": "int"
+      }
+    }
+  },
+  "writingPracticeNotFound": "Không tìm thấy đề viết.",
+  "writingWordCountHint": "📏 {min}–{max} từ",
+  "@writingWordCountHint": {
+    "placeholders": {
+      "min": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "writingShowTranslation": "Hiện dịch",
+  "writingHideTranslation": "Ẩn dịch",
+  "writingRequirementsTitle": "Yêu cầu viết",
+  "writingSectionTask": "Đề bài",
+  "writingSectionTaskAnalysis": "Phân tích đề (Task analysis)",
+  "writingSectionTextStructure": "Cấu trúc bài viết",
+  "writingSectionPhrases": "Mẫu câu hữu ích",
+  "writingSectionSamples": "Câu mẫu theo điểm",
+  "writingSectionModels": "Bài mẫu",
+  "writingSectionGrammar": "Ngữ pháp trọng tâm (tham khảo)",
+  "writingSectionVocab": "Từ vựng trọng tâm (tham khảo)",
+  "writingSectionMistakes": "Lỗi thường gặp (tham khảo)",
+  "writingSectionExercises": "Bài tập luyện",
+  "writingApproachesLabel": "{count} cách triển khai",
+  "@writingApproachesLabel": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "writingAnnotationsLabel": "Chú thích:",
+  "writingModelTabLabel": "Model {n}",
+  "@writingModelTabLabel": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "writingColPart": "Phần",
+  "writingColDe": "Tiếng Đức",
+  "writingColVi": "Tiếng Việt",
+  "writingKernwortschatzTitle": "Kernwortschatz ({count} từ)",
+  "@writingKernwortschatzTitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "writingGenusOther": "Khác",
+  "writingTranslateExamples": "🌐 Dịch ví dụ",
+  "writingChunksTitle": "Chunks & Wendungen ({count} cụm)",
+  "@writingChunksTitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "writingKonnektorenTitle": "Konnektoren ({count} từ nối)",
+  "@writingKonnektorenTitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "writingNoContent": "Chưa có nội dung.",
+  "writingCorrectCount": "câu đúng",
+  "writingWrongSentenceLabel": "CÂU SAI",
+  "writingRevealAnswer": "Xem đáp án",
+  "writingShowSampleAnswer": "Xem câu mẫu",
+  "writingSampleAnswerLabel": "Câu mẫu",
+  "writingPlayAll": "Phát toàn bộ",
+  "writingExamTimesCount": "📊 {count} lần thi",
+  "@writingExamTimesCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "writingMinutesUnit": "phút",
+  "writingWordsUnit": "từ",
+  "writingProvenanceTitle": "Đề thật — {count} lần thi",
+  "@writingProvenanceTitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "writingSourcesLabel": "Nguồn",
+  "writingExamDatesToggle": "Xem ngày ra đề chi tiết",
+  "writingLockTitle": "Đề này dành cho tài khoản Premium",
+  "writingLockOfficialCopy": "Đây là đề chính thức Premium. Nâng cấp để xem đầy đủ nội dung.",
+  "writingLockLegacyCopy": "Tài khoản miễn phí chỉ xem 5 đề đầu của mỗi Teil. Nâng cấp Premium để mở toàn bộ.",
+  "writingUnlockPremiumCta": "Mở khóa Premium",
+  "writingCompleteMark": "🎯 Đánh dấu hoàn thành",
+  "writingCompleteDone": "✓ Đã hoàn thành — Lưu lại",
+  "writingCompleteSaving": "Đang lưu...",
+  "writingStartPracticeCta": "Viết bài cá nhân → AI chấm",
+  "writingTypingStartTitle": "Luyện gõ bài này",
+  "writingTypingStartDesc": "Có {count} câu tiếng Đức trên trang — luyện gõ lại từng câu.",
+  "@writingTypingStartDesc": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "writingTypingStartCta": "Bắt đầu gõ →",
+  "writingTypingPracticeTitle": "Luyện gõ",
+  "writingTypingProgress": "Câu {current}/{total}",
+  "@writingTypingProgress": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "writingTypingHint": "Gõ lại câu tiếng Đức...",
+  "writingTypingCheck": "Kiểm tra",
+  "writingTypingCorrect": "✓ Chính xác!",
+  "writingTypingIncorrect": "✗ Còn vài chỗ chưa đúng",
+  "writingTypingNext": "Tiếp →",
+  "writingTypingSkip": "Bỏ qua",
+  "writingTypingDoneCount": "Bạn đã gõ xong {count} câu",
+  "@writingTypingDoneCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "writingTypingClose": "Đóng",
+  "listeningPageTitle": "Nghe",
+  "listeningPageSubtitle": "Luyện nghe tiếng Đức qua video, podcast và audiobook",
+  "listeningIntroWhy": "Luyện nghe/đọc với nội dung vừa sức trình độ của bạn.",
+  "listeningIntroTodo": "Chọn nguồn: video, podcast, hay bài đọc.",
+  "listeningIntroNext": "Lưu từ mới gặp để đưa vào ôn tập.",
+  "listeningOtherSourcesSection": "Khác",
+  "listeningSourceSprechenB1Desc": "Luyện nghe chép chính tả với video Sprechen B1",
+  "listeningSourceSprechenB2Desc": "Luyện nghe chép chính tả với video Sprechen B2",
+  "listeningSourceYoutubeDesc": "Luyện nghe với video YouTube có phụ đề",
+  "listeningSourcePodcastDesc": "Nghe Easy German Podcast với phụ đề song ngữ",
+  "listeningSourceAudiobookDesc": "Nghe sách nói tiếng Đức dễ hiểu",
+  "listeningSourceVideoCount": "{count} video",
+  "@listeningSourceVideoCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "easyGermanSegmentCountShort": "Ngắn",
+  "easyGermanSegmentCountMedium": "Vừa",
+  "easyGermanSegmentCountLong": "Dài",
+  "easyGermanLoadError": "Không thể tải danh sách video. Vui lòng thử lại sau.",
+  "easyGermanSentenceCount": "{count} câu",
+  "@easyGermanSentenceCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "easyGermanSearchHint": "Tìm video theo tiêu đề hoặc video ID...",
+  "easyGermanLeaderboardEmptyHint": "Chưa có đủ dữ liệu để xếp hạng level này.",
+  "podcastLoadError": "Không thể tải danh sách tập. Vui lòng thử lại sau.",
+  "podcastDescription": "Luyện nghe podcast tiếng Đức đời thường",
+  "podcastEpisodeCountLabel": "tập podcast",
+  "podcastMinutesLabel": "phút luyện nghe",
+  "podcastSearchHint": "Tìm tập podcast...",
+  "podcastNoResultsFor": "Không tìm thấy tập nào khớp với \"{query}\".",
+  "@podcastNoResultsFor": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "podcastNoResultsInBucket": "Không có tập nào trong khoảng thời lượng này.",
+  "podcastPageInfo": "Trang {page}/{total} ({count} tập)",
+  "@podcastPageInfo": {
+    "placeholders": {
+      "page": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "podcastAudioLoadError": "Không thể tải âm thanh. Vui lòng thử lại.",
+  "podcastEpisodeLoadError": "Không thể tải tập podcast.",
+  "podcastBackToList": "Quay lại danh sách",
+  "podcastTranscriptEmpty": "Chưa có transcript cho tập này.",
+  "podcastLeaderboardSubtitle": "Số tập podcast đã hoàn thành",
+  "podcastLeaderboardLoadError": "Không thể tải bảng xếp hạng.",
+  "podcastYourRank": "Hạng của bạn: #{rank} · {count} tập",
+  "@podcastYourRank": {
+    "placeholders": {
+      "rank": {
+        "type": "int"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "podcastSettingsTitle": "Cài đặt đọc",
+  "podcastFontSizeLabel": "Cỡ chữ ({percent}%)",
+  "@podcastFontSizeLabel": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "podcastShowViTranslation": "Hiện bản dịch tiếng Việt",
+  "podcastDurationLe10": "≤ 10 phút",
+  "podcastDurationLe20": "10–20 phút",
+  "podcastDurationLe60": "20–60 phút",
+  "podcastDurationGt60": "> 60 phút",
+  "videoCollectionWatched": "Đã xem",
+  "videoCollectionEmptyTitle": "Không tìm thấy video phù hợp",
+  "videoCollectionEmptyHint": "Thử từ khóa khác hoặc xóa bộ lọc.",
+  "videoCollectionLeaderboardTitle": "Top học tập",
+  "videoCollectionLeaderboardSubtitle": "Xếp hạng theo video hoàn thành và lượt xem lại.",
+  "videoCollectionLeaderboardEmptyHint": "Chưa có đủ dữ liệu để xếp hạng.",
+  "videoCollectionLeaderboardStats": "{count} video · {rewatch} xem lại",
+  "@videoCollectionLeaderboardStats": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "rewatch": {
+        "type": "int"
+      }
+    }
+  },
+  "videoCollectionPageInfo": "Trang {page} / {total}",
+  "@videoCollectionPageInfo": {
+    "placeholders": {
+      "page": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "videoCollectionStatusNew": "Chưa xem",
+  "videoCollectionProgressEmpty": "Chưa có dữ liệu video.",
+  "videoCollectionProgressStart": "Mở một video để bắt đầu lưu tiến độ học.",
+  "videoCollectionProgressDone": "Bạn đã hoàn thành toàn bộ!",
+  "videoCollectionProgressFinalStretch": "Bạn đang ở chặng cuối rồi!",
+  "videoCollectionProgressGoodPace": "Tiến độ đang rất ổn, tiếp tục giữ nhịp.",
+  "videoCollectionProgressGoodStart": "Bạn đã bắt đầu tốt, tiếp tục thêm vài video nữa.",
+  "videoCollectionStatRewatch": "Xem lại",
+  "videoCollectionStatRemaining": "Còn lại",
+  "videoCollectionCompletionLabel": "hoàn thành",
+  "videoCollectionPercentLabel": "{percent}% {label}",
+  "@videoCollectionPercentLabel": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      },
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "videoCollectionSavedCount": "{count} video đã lưu tiến độ",
+  "@videoCollectionSavedCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "appOnlySettingsLabel": "Riêng ứng dụng",
+  "appUpdateSectionDescription": "Kiểm tra và cập nhật lên phiên bản mới nhất từ store.",
+  "appUpdateSectionTitle": "Cập nhật lên bản mới nhất",
+  "confirmNewPassword": "Xác nhận mật khẩu mới",
+  "couldNotChangePassword": "Lỗi khi đổi mật khẩu. Vui lòng thử lại.",
+  "darkModeDescription": "Giảm mỏi mắt khi học ban đêm",
+  "darkModeToggle": "Chế độ tối",
+  "dismissAnnouncement": "Đóng thông báo",
+  "learningPreferencesGoalCommunication": "Giao tiếp hàng ngày",
+  "learningPreferencesGoalGoethe": "Thi chứng chỉ Goethe",
+  "learningPreferencesGoalMedical": "Chuyên ngành điều dưỡng-y khoa",
+  "learningPreferencesGoalOther": "Khác",
+  "learningPreferencesGoalsLabel": "Mục tiêu",
+  "learningPreferencesGoalWork": "Du học-làm việc tại Đức",
+  "learningPreferencesMinutesLabel": "Thời gian học mỗi ngày",
+  "learningPreferencesXpSummary": "Mục tiêu: {xp} XP/ngày · ~{words} từ/ngày",
+  "@learningPreferencesXpSummary": {
+    "placeholders": {
+      "xp": {
+        "type": "int"
+      },
+      "words": {
+        "type": "int"
+      }
+    }
+  },
+  "logoutConfirmMessage": "Bạn có chắc muốn đăng xuất?",
+  "minutesUnit": "phút",
+  "notificationPermissionBlockedBody": "Vui lòng bật lại trong cài đặt hệ thống → Thông báo.",
+  "notificationPermissionBlockedTitle": "Thông báo đã bị chặn",
+  "notificationPermissionEnableAction": "Bật thông báo",
+  "notificationPreferencesSendTest": "Gửi thử",
+  "notificationPreferencesTestFailed": "Gửi thất bại. Thử lại sau.",
+  "notificationPreferencesTestSending": "Đang gửi…",
+  "notificationPreferencesTestSent": "Đã gửi! Thông báo sẽ hiện trên thiết bị sau vài giây.",
+  "notificationPreferencesTimezone": "Múi giờ",
+  "passwordMinLength": "Tối thiểu 8 ký tự",
+  "reviewDisplay4Button": "Tự đánh giá 4-mức (sau mỗi vòng)",
+  "reviewDisplay4ButtonDesc": "Hiện bảng Quên/Khó/Tốt/Dễ sau mỗi vòng để chỉnh lại đánh giá tự động.",
+  "reviewDisplayAutoAdvance": "Tự động chuyển câu",
+  "reviewDisplayAutoAdvanceDesc": "Bật: tự nhảy sang câu kế sau khi trả lời. Tắt (khuyến nghị): bạn bấm \"Tiếp tục\" để chủ động chuyển.",
+  "reviewDisplayContext": "Hiện câu ví dụ",
+  "reviewDisplayContextDesc": "Hiện một câu ví dụ ngắn dưới mỗi từ trong bảng tóm tắt.",
+  "reviewDisplayTitle": "Hiển thị ôn tập",
+  "settingsSavedMessage": "Đã lưu!",
+  "settingsSubtitle": "Tùy chỉnh ứng dụng",
+  "soundAndEffects": "Âm thanh & hiệu ứng",
+  "soundAndEffectsDescription": "Âm thanh và rung khi trả lời đúng/sai trong bài học",
+  "listeningSprechenHeaderSubtitle": "{count} video · Luyện nghe chép chính tả",
+  "@listeningSprechenHeaderSubtitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "writingHubTitle": "Luyện viết (AI chấm)",
+  "writingHubRubricButton": "📋 Cách chấm",
+  "writingHubTabStart": "Bắt đầu",
+  "writingHubTabMy": "Bài của tôi",
+  "writingHubTabCommunity": "Cộng đồng",
+  "writingHubStartIntro": "Chọn kỳ thi và trình độ để bắt đầu luyện viết.",
+  "writingHubCustomTitle": "Tự nhập đề của bạn",
+  "writingHubCustomSubtitle": "Dán đề bất kỳ → chọn kì thi & trình độ → AI chấm",
+  "writingHubSprintTitle": "Sprint luyện cấp tốc",
+  "writingHubSprintSubtitle": "Ôn nhanh mẫu câu Goethe B1 theo thẻ lặp lại",
+  "writingHubCommunityIntro": "Đề luyện viết do cộng đồng đóng góp, nhóm theo từng phần thi.",
+  "writingHubCommunityTeil1": "Teil 1 — Email thân mật",
+  "writingHubCommunityTeil2": "Teil 2 — Bài luận diễn đàn",
+  "writingHubCommunityTeil3": "Teil 3 — Email trang trọng",
+  "writingHubCommunityViewAll": "Xem tất cả đề cộng đồng →",
+  "writingChooseNow": "Chọn đề ngay",
+  "writingClearFilters": "Xóa bộ lọc",
+  "writingShowMore": "Xem thêm",
+  "writingSortLabel": "Sắp xếp:",
+  "writingSortByDate": "Ngày",
+  "writingSortByScore": "Điểm",
+  "writingSubmissionsEmptyTitle": "Chưa có bài viết nào",
+  "writingSubmissionsEmptyDesc": "Chọn đề và bắt đầu luyện viết để thấy lịch sử ở đây.",
+  "writingSubmissionsNoMatch": "Không có bài viết khớp bộ lọc.",
+  "writingCriteriaTrendTitle": "Tiêu chí Viết của bạn",
+  "writingCriteriaTrendSubtitle": "TB qua {count} bài đã chấm",
+  "@writingCriteriaTrendSubtitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "writingCriteriaWeakest": "cần cải thiện nhất",
+  "writingCriterionTaskCompletion": "Hoàn thành đề",
+  "writingCriterionGrammar": "Ngữ pháp",
+  "writingCriterionVocabulary": "Từ vựng",
+  "writingCriterionCoherence": "Liên kết",
+  "writingLevelTitle": "{label} · Viết",
+  "@writingLevelTitle": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "writingLevelEmptyTitle": "Chưa có đề chính thức",
+  "writingLevelEmptyDesc": "Đề {label} đang được cập nhật — thử đề cộng đồng bên dưới nhé!",
+  "@writingLevelEmptyDesc": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "writingLevelCommunitySectionTitle": "Đề cộng đồng",
+  "writingLevelContributeButton": "➕ Đóng góp đề",
+  "writingLevelCommunityEmpty": "Chưa có đề cộng đồng cho trình độ này.",
+  "writingLevelNotFound": "Không tìm thấy trình độ luyện viết này.",
+  "writingLevelLocked": "Đề này dành cho tài khoản Premium.",
+  "writingCommunityAddVersion": "➕ Thêm phiên bản",
+  "writingCommunityBackToList": "Quay lại danh sách",
+  "writingCommunityCreateTitle": "Đóng góp đề cộng đồng",
+  "writingCommunityNotFoundDesc": "Đề có thể đã bị xóa hoặc chưa được công khai.",
+  "writingCommunityNotFoundTitle": "Không tìm thấy đề này",
+  "writingCommunityPointsHint": "Mỗi ý một dòng — AI dùng để bám sát yêu cầu đề.",
+  "writingCommunityPointsTitle": "Các ý cần trả lời",
+  "writingCommunityReportReason": "Báo cáo từ người dùng",
+  "writingCommunityReportSent": "Đã gửi báo cáo, cảm ơn bạn!",
+  "writingCommunitySubmit": "Đăng đề",
+  "writingCommunityTaskHint": "Dán đề viết của bạn vào đây…",
+  "writingCommunityTopicFallbackTitle": "Đề cộng đồng",
+  "writingCommunityVoteError": "Có lỗi xảy ra, thử lại sau.",
+  "writingCustomTitle": "Tự nhập đề",
+  "writingCustomIntro": "Dán đề viết của bạn, chọn kì thi & trình độ, rồi viết bài — AI sẽ chấm và gợi ý như đề có sẵn.",
+  "writingCustomExamLabel": "Kì thi",
+  "writingCustomLevelLabel": "Trình độ",
+  "writingCustomTeilLabel": "Teil (tùy chọn)",
+  "writingCustomTeilNone": "Không",
+  "writingCustomTaskLabel": "Đề bài *",
+  "writingCustomTaskHintPolish": "Nhập đề tiếng Việt, từ khóa, hoặc đề chưa hoàn chỉnh — AI sẽ dựng thành đề tiếng Đức đầy đủ…",
+  "writingCustomTaskHintPlain": "Dán đề viết bằng tiếng Đức hoàn chỉnh vào đây…",
+  "writingCustomPointsLabelPolish": "Gợi ý / ý chính (tùy chọn)",
+  "writingCustomPointsLabelPlain": "Các ý cần trả lời (tùy chọn)",
+  "writingCustomPointsHint": "Mỗi ý một dòng — AI dùng để bám sát yêu cầu đề.",
+  "writingCustomStartPolish": "Hoàn thiện & bắt đầu viết",
+  "writingCustomStartPlain": "Bắt đầu viết",
+  "writingCustomEditPrompt": "← Sửa đề",
+  "writingCustomStartedTitle": "Đề tự nhập",
+  "writingCustomContribute": "📤 Đóng góp đề này cho cộng đồng",
+  "writingAiPolishTitle": "✨ Để AI hoàn thiện đề",
+  "writingAiPolishDesc": "Biến đề tiếng Việt / từ khóa / đề còn thiếu thành đề tiếng Đức chuẩn. Bỏ tích nếu bạn đã có đề đầy đủ.",
+  "writingAiPolishing": "Đang hoàn thiện đề…",
+  "writingAiPolishError": "AI hoàn thiện đề thất bại. Bỏ tích để dùng đề gốc, hoặc thử lại.",
+  "writingSessionGradingTimelineTitle": "Lịch sử chấm điểm",
+  "writingSessionNotFound": "Không tìm thấy bài viết này. Bài có thể đã cũ — quay lại lịch sử để xem các bài gần đây.",
+  "writingSessionPracticeAgain": "Luyện lại",
+  "writingSessionTitleFallback": "Bài viết",
+  "writingSessionYourAnswer": "Bài viết của bạn",
+  "youtubeInvalidUrl": "URL YouTube không hợp lệ",
+  "youtubeAddVideoError": "Không thêm được video, thử lại sau.",
+  "youtubeDeleteVideoError": "Không xoá được video.",
+  "youtubeLoadListError": "Không tải được danh sách video.",
+  "youtubeEmptyState": "Chưa có video nào. Dán URL YouTube ở trên để bắt đầu.",
+  "youtubeUntitledVideo": "Video chưa có tiêu đề",
+  "youtubeWatchCount": "Đã xem ×{count}",
+  "@youtubeWatchCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "youtubeContinueWatching": "Xem tiếp",
+  "youtubePopularVideos": "Video phổ biến",
+  "youtubePasteUrlHint": "Dán URL YouTube...",
+  "youtubeRewatchMarked": "Đã ghi nhận xem lại",
+  "youtubeCompleteMarked": "Đã đánh dấu hoàn thành",
+  "youtubeSaveProgressError": "Không lưu được tiến độ, thử lại sau.",
+  "youtubeRewatchButton": "Xem lại",
+  "youtubeCompleteButton": "Đã hoàn thành",
+  "youtubePracticeShadowing": "Shadowing",
+  "youtubeTranscriptLabel": "Transcript",
+  "youtubeNotesLabel": "Ghi chú",
+  "youtubeDictationShowVideoTooltip": "Hiện video",
+  "youtubeDictationAudioOnlyTooltip": "Chỉ nghe",
+  "youtubeTranscriptLoadError": "Không tải được transcript.",
+  "youtubeDictationNoTranscript": "Video này chưa có transcript để luyện chính tả.",
+  "shadowingScreenTitle": "Shadowing — Luyện phát âm",
+  "shadowingHideVideoTooltip": "Ẩn video (vẫn nghe tiếng)",
+  "shadowingNoTranscript": "Video này chưa có transcript để luyện shadowing.",
+  "shadowingSentenceProgress": "Câu {index}/{total}",
+  "@shadowingSentenceProgress": {
+    "placeholders": {
+      "index": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "shadowingListenAgain": "Nghe lại",
+  "shadowingRecordTooltip": "Ghi âm",
+  "shadowingRecordComingSoonTooltip": "Ghi âm sắp ra mắt",
+  "shadowingRecordComingSoonHint": "Ghi âm + chấm phát âm AI sắp ra mắt — theo dõi bản cập nhật tiếp theo.",
+  "youtubeDictationProgress": "Câu {index}/{total} · Đúng {correct}",
+  "@youtubeDictationProgress": {
+    "placeholders": {
+      "index": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      },
+      "correct": {
+        "type": "int"
+      }
+    }
+  },
+  "youtubeDictationSentenceHint": "Gõ cả câu...",
+  "youtubeDictationClozeHint": "Điền từ khuyết...",
+  "youtubeDictationAnswerLabel": "Đáp án:",
+  "youtubeDictationRetryButton": "↻ Thử lại",
+  "youtubeDictationNextButton": "Tiếp →",
+  "youtubeDictationCompleteTitle": "Hoàn thành!",
+  "youtubeDictationCompleteSummary": "Đúng {correct}/{total} câu · Bỏ qua {skipped}",
+  "@youtubeDictationCompleteSummary": {
+    "placeholders": {
+      "correct": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      },
+      "skipped": {
+        "type": "int"
+      }
+    }
+  },
+  "youtubeDictationRestartButton": "Làm lại",
+  "youtubeDictationModeLabel": "Chế độ",
+  "youtubeDictationModeSentence": "Cả câu",
+  "youtubeDictationModeCloze": "Điền từ khuyết",
+  "youtubeDictationAlwaysShowVietnamese": "Luôn hiện nghĩa tiếng Việt",
+  "writingSprintTitle": "Sprint Anki",
+  "writingSprintSubtitle": "Goethe B1 Viết — ôn đề bằng lặp lại ngắt quãng (spaced repetition)",
+  "writingSprintModePickerLabel": "Chọn chế độ",
+  "writingSprintModeMarathonTitle": "Marathon",
+  "writingSprintModeMarathonSubtitle": "1 session 10 giờ",
+  "writingSprintModeMarathonDetail": "Lặp lại nhanh: 1 phút · 10 phút · 30 phút · 2 giờ. Ôn hết đề trong 1 buổi.",
+  "writingSprintModeDailyTitle": "Hằng ngày",
+  "writingSprintModeDailySubtitle": "SM-2 nhiều ngày",
+  "writingSprintModeDailyDetail": "Thuật toán Anki: khoảng 1 ngày · 2.5 ngày · 4 ngày. Vài phút/ngày, nhớ lâu hơn.",
+  "writingSprintModeSelected": "Đã chọn",
+  "writingSprintResumeButton": "Tiếp tục session cũ",
+  "writingSprintStartFreshButton": "Bắt đầu mới (xoá session cũ)",
+  "writingSprintStartButton": "Bắt đầu — {count} đề",
+  "@writingSprintStartButton": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "writingSprintMockCta": "Thi thử 3 đề ngay",
+  "writingSprintCheatsheetCta": "Cheatsheet Redemittel",
+  "writingSprintCardCounter": "Teil {teil} · Card {num}/{total}",
+  "@writingSprintCardCounter": {
+    "placeholders": {
+      "teil": {
+        "type": "int"
+      },
+      "num": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "writingSprintRequirementsLabel": "YÊU CẦU",
+  "writingSprintOutlineLabel": "Outline {index} (DE)",
+  "@writingSprintOutlineLabel": {
+    "placeholders": {
+      "index": {
+        "type": "int"
+      }
+    }
+  },
+  "writingSprintOutlineHint": "Bạn sẽ viết gì cho ý {index}?",
+  "@writingSprintOutlineHint": {
+    "placeholders": {
+      "index": {
+        "type": "int"
+      }
+    }
+  },
+  "writingSprintSkipButton": "Bỏ qua",
+  "writingSprintCheckButton": "Kiểm tra",
+  "writingSprintMatchGood": "Tốt! Bạn nhớ phần lớn nội dung.",
+  "writingSprintMatchWeak": "Cần ôn lại — chọn Again hoặc Hard.",
+  "writingSprintOutlineAnswerLabel": "ĐÁP ÁN OUTLINE",
+  "writingSprintOutlineMissing": "(outline {index} chưa có)",
+  "@writingSprintOutlineMissing": {
+    "placeholders": {
+      "index": {
+        "type": "int"
+      }
+    }
+  },
+  "writingSprintYouWrote": "Bạn viết: {text}",
+  "@writingSprintYouWrote": {
+    "placeholders": {
+      "text": {
+        "type": "String"
+      }
+    }
+  },
+  "writingSprintMiniModelToggle": "Xem mini-model",
+  "writingSprintRedemittelLabel": "REDEMITTEL",
+  "writingSprintSessionDoneTitle": "Tất cả đã ôn xong!",
+  "writingSprintSessionDoneBody": "Bạn đã ôn {count} đề trong session này.",
+  "@writingSprintSessionDoneBody": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "writingSprintBackToSprint": "Về Sprint",
+  "writingSprintTaskLabel": "Đề — Teil {teil}",
+  "@writingSprintTaskLabel": {
+    "placeholders": {
+      "teil": {
+        "type": "int"
+      }
+    }
+  },
+  "writingSprintEssayHint": "Viết bài của bạn ở đây...",
+  "writingSprintWordCount": "{count} từ (mục tiêu: {min}–{max})",
+  "@writingSprintWordCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "min": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "writingSprintSubmitButton": "Nộp bài ({count} từ)",
+  "@writingSprintSubmitButton": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "writingSprintGrading": "Đang chấm...",
+  "writingSprintWordsNeeded": "Cần thêm {count} từ nữa",
+  "@writingSprintWordsNeeded": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "writingSprintNoMockTopics": "Không tìm được đề phù hợp.",
+  "writingSprintMockAverageLabel": "Điểm trung bình 3 bài",
+  "writingSprintTeilTopicLabel": "Teil {teil} — {title}",
+  "@writingSprintTeilTopicLabel": {
+    "placeholders": {
+      "teil": {
+        "type": "int"
+      },
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "writingSprintNextEssay": "Bài tiếp theo →",
+  "writingSprintGradingLong": "AI đang chấm bài... (~5-10 giây)",
+  "writingSprintTeilLabel": "Teil {teil}",
+  "@writingSprintTeilLabel": {
+    "placeholders": {
+      "teil": {
+        "type": "int"
+      }
+    }
+  },
+  "writingSprintErrorsToFixLabel": "Lỗi cần sửa",
+  "writingSprintErrorWrongLabel": "Sai",
+  "writingSprintErrorFixLabel": "Sửa",
+  "writingSprintShowEssay": "Xem bài viết",
+  "writingSprintHideEssay": "Ẩn bài viết",
+  "writingSprintRegradeButton": "Chấm lại?",
+  "writingSprintCheatsheetTitle": "Cheatsheet Goethe B1 Viết",
+  "writingSprintCheatsheetSummary": "{topics} đề · {clusters} clusters",
+  "@writingSprintCheatsheetSummary": {
+    "placeholders": {
+      "topics": {
+        "type": "int"
+      },
+      "clusters": {
+        "type": "int"
+      }
+    }
+  },
+  "writingSprintCheatsheetOverviewTitle": "Toàn cảnh — {count} Clusters",
+  "@writingSprintCheatsheetOverviewTitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "writingSprintCheatsheetTopicCount": "{count} đề",
+  "@writingSprintCheatsheetTopicCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "writingSprintCheatsheetTeilTitle": "Teil {teil} — {count} đề",
+  "@writingSprintCheatsheetTeilTitle": {
+    "placeholders": {
+      "teil": {
+        "type": "int"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "writingSprintCheatsheetRedemittelTitle": "Top Redemittel theo chức năng",
+  "writingSprintCheatsheetMistakesTitle": "Lỗi thường gặp B1",
+  "writingSprintCheatsheetVerbKasusTitle": "Quick Reference — Verb+Kasus",
+  "readingTabLabel": "Truyện",
+  "newsTabLabel": "Tin tức",
+  "readingHubTitle": "Đọc truyện",
+  "readingHubTitleLevel": "Đọc truyện {level}",
+  "@readingHubTitleLevel": {
+    "placeholders": {
+      "level": {
+        "type": "String"
+      }
+    }
+  },
+  "readingHubSubtitleHome": "Truyện song ngữ Đức–Việt theo cấp độ · có audio · A1–C2",
+  "readingHubSubtitleLevel": "Chọn bài · hoàn thành bài tập (≥60%) để đánh dấu xong",
+  "readingLevelCardEmpty": "Chưa có bài đọc",
+  "readingLevelCardAllDone": "🎉 Hoàn thành rồi!",
+  "readingViewAllArrow": "Xem tất cả →",
+  "readingSearchHintInLevel": "Tìm bài đọc trong {level}...",
+  "@readingSearchHintInLevel": {
+    "placeholders": {
+      "level": {
+        "type": "String"
+      }
+    }
+  },
+  "readingCompletedCountOfTotal": "{completed}/{total} bài đã hoàn thành",
+  "@readingCompletedCountOfTotal": {
+    "placeholders": {
+      "completed": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "readingSearchEmpty": "Không tìm thấy bài nào",
+  "readingDoneChip": "Đã đọc",
+  "readingShowTranslation": "Hiện bản dịch",
+  "readingTapWordHint": "Chạm vào từ bất kỳ để tra nghĩa.",
+  "readingSaveProgressError": "Không thể lưu tiến độ, thử lại sau.",
+  "readingGlossaryTitle": "Từ vựng & giải thích",
+  "readingMarkComplete": "Đánh dấu đã đọc",
+  "readingFeedAppBarTitle": "Đọc vừa sức",
+  "readingFeedEmptyReady": "Chưa có bài đọc phù hợp trình độ của bạn lúc này.",
+  "readingFeedEmptyNotReady": "Đang chuẩn bị kho bài đọc — vui lòng quay lại sau ít phút.",
+  "readingFeedSaveVocabHint": "Lưu thêm từ vựng để hệ thống cá nhân hóa gợi ý bài đọc cho bạn.",
+  "readingFeedVocabSummary": "{vocabNew} từ mới · Đã biết {coveragePct}% từ khó",
+  "@readingFeedVocabSummary": {
+    "placeholders": {
+      "vocabNew": {
+        "type": "int"
+      },
+      "coveragePct": {
+        "type": "int"
+      }
+    }
+  },
+  "readListenTabRead": "Đọc",
+  "readingLeaderboardProgressTitle": "Tiến trình {level}",
+  "@readingLeaderboardProgressTitle": {
+    "placeholders": {
+      "level": {
+        "type": "String"
+      }
+    }
+  },
+  "readingLeaderboardTitleLevel": "Bảng xếp hạng {level}",
+  "@readingLeaderboardTitleLevel": {
+    "placeholders": {
+      "level": {
+        "type": "String"
+      }
+    }
+  },
+  "readingLeaderboardSubtitleLevel": "Số bài {level} đã hoàn thành",
+  "@readingLeaderboardSubtitleLevel": {
+    "placeholders": {
+      "level": {
+        "type": "String"
+      }
+    }
+  },
+  "readingYourRankPrefix": "Hạng của bạn: ",
+  "readingYourRankSuffix": " · {count} bài",
+  "@readingYourRankSuffix": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "newsHeaderTitle": "Tin tức Đức",
+  "newsHeaderSubtitle": "Đọc tin tức bằng tiếng Đức theo cấp độ A1–B2 · có audio · từ vựng · bài tập",
+  "newsFilterLevelLabel": "Trình độ:",
+  "newsFilterTopicLabel": "Chủ đề:",
+  "newsPaginationInfo": "Trang {page}/{total}",
+  "@newsPaginationInfo": {
+    "placeholders": {
+      "page": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "newsPaginationNext": "Sau",
+  "newsEmptyFiltered": "Không có bài nào phù hợp bộ lọc.",
+  "newsEmptyNone": "Chưa có tin tức.",
+  "newsChooseLevelLabel": "Chọn trình độ đọc",
+  "newsOtherLevelsPrefix": "💡 Bạn có thể đọc bài này ở trình độ khác: ",
+  "newsListenFullStory": "Nghe toàn bài",
+  "newsAudioSpeedSlow": "Chậm",
+  "newsAudioSpeedNormal": "Thường",
+  "newsVocabTitle": "Từ vựng",
+  "newsHasAudioLabel": "Có audio",
+  "newsLeaderboardTitleWeekly": "Bảng xếp hạng tuần",
+  "newsLeaderboardSubtitleWeekly": "Số bài tin tức hoàn thành trong tuần này",
+  "newsLeaderboardEmpty": "Chưa có ai hoàn thành bài nào tuần này",
+  "newsQuizTitle": "Câu hỏi kiểm tra",
+  "newsQuizSubmit": "Nộp bài",
+  "newsQuizResult": "Kết quả: {correct}/{total} câu đúng ({percent}%)",
+  "@newsQuizResult": {
+    "placeholders": {
+      "correct": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      },
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "newsQuizPassedSuffix": " — Đã lưu tiến độ ✅",
+  "saveWordsCtaDone": "✓ Đã thêm — sẽ xuất hiện trong Ôn tập",
+  "saveWordsCtaSave": "📥 Lưu {count} từ mới vào Kho ôn",
+  "@saveWordsCtaSave": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "saveWordsCtaResolvedCount": "{resolvable}/{total} từ có trong hệ thống",
+  "@saveWordsCtaResolvedCount": {
+    "placeholders": {
+      "resolvable": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "saveWordsCtaError": "Không thể lưu từ vựng, thử lại sau.",
+  "newsStoryNotFound": "Không tìm thấy tin tức.",
+  "yesterday": "Hôm qua",
+  "newsWeeklyRingProgress": "Tuần này bạn đã đọc {done}/{total} bài mới xuất bản",
+  "@newsWeeklyRingProgress": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "newsWeeklyRingEmpty": "Chưa có bài mới xuất bản tuần này",
+  "readingListenFullStory": "Nghe toàn bài",
+  "readingAudioSpeedTooltip": "Tốc độ"
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_tokens.dart';
 import '../../../../data/exam/exam_ecosystem_models.dart';
+import '../../../../l10n/app_localizations.dart';
 import 'clip_tab_bar.dart';
 import 'dictation_diff.dart';
 import 'full_dictation_diff_text.dart';
@@ -42,6 +43,7 @@ class FullPracticeSentenceCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final tokens = context.tokens;
+    final l10n = AppLocalizations.of(context);
     return Column(
       children: [
         ClipTabBar(
@@ -55,11 +57,11 @@ class FullPracticeSentenceCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                '${sentenceIdx + 1} / $sentenceCount câu',
+                l10n.dictationSentenceProgress(sentenceIdx + 1, sentenceCount),
                 style: TextStyle(fontSize: 11, color: tokens.mutedForeground),
               ),
               Text(
-                '$correctCount đúng',
+                l10n.dictationCorrectCount(correctCount),
                 style: TextStyle(
                   fontSize: 11,
                   fontWeight: FontWeight.w700,
@@ -82,7 +84,7 @@ class FullPracticeSentenceCard extends StatelessWidget {
                       icon: const Icon(Icons.replay),
                     ),
                     Text(
-                      'Nghe lại câu này',
+                      l10n.dictationReplayThisSentence,
                       style: TextStyle(
                         fontSize: 12,
                         color: tokens.mutedForeground,
@@ -107,7 +109,7 @@ class FullPracticeSentenceCard extends StatelessWidget {
                   enabled: diff == null,
                   maxLines: 3,
                   decoration: InputDecoration(
-                    hintText: 'Gõ câu bạn nghe được...',
+                    hintText: l10n.dictationTypeSentenceHint,
                     filled: true,
                     fillColor: tokens.card,
                     border: OutlineInputBorder(
@@ -139,10 +141,10 @@ class FullPracticeSentenceCard extends StatelessWidget {
                       : onNext,
                   child: Text(
                     diff == null
-                        ? 'Kiểm tra'
+                        ? l10n.dictationCheckCta
                         : (sentenceIdx + 1 < sentenceCount
-                              ? 'Câu tiếp →'
-                              : 'Xem kết quả'),
+                              ? l10n.dictationNextSentence
+                              : l10n.dictationShowResult),
                   ),
                 ),
                 const SizedBox(height: 16),

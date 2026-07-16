@@ -13,9 +13,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 void main() {
   setUp(() {
+    // Assistant bubbles render through `AppMarkdownView` (markdown_widget),
+    // which lazy-tracks image/link nodes via `VisibilityDetector`. Its
+    // default 500ms callback-batching timer outlives this test's shorter
+    // `_flush` pump budget and trips flutter_test's "pending timer after
+    // dispose" invariant — force synchronous callbacks instead.
+    VisibilityDetectorController.instance.updateInterval = Duration.zero;
     // ApiClient reads the app version via package_info_plus on every request.
     // Without a mock value, the platform-channel call never resolves inside
     // a widget test's binding (unlike a plain `test()`, where it throws

@@ -150,6 +150,19 @@ class JourneyRepository {
     }
   }
 
+  /// Thuong XP khi hoan thanh (hoac xem lai) video bai hoc — tai dung endpoint
+  /// chung `/user/gamification/award-xp` (xem `docs/flutter-api-contract-
+  /// matrix.md` §Generic XP award, da duoc P11 W2 xac minh). Web `COURSE_XP.
+  /// COMPLETE_LESSON_VIDEO`/`REWATCH_LESSON_VIDEO` deu = 1 diem; best-effort,
+  /// khong chan luong hoan thanh neu that bai.
+  Future<void> awardLessonVideoXp() async {
+    try {
+      await _apiClient.post<dynamic>('/user/gamification/award-xp', body: {'amount': 1});
+    } catch (_) {
+      // Best-effort — giong web (bat loi im lang, khong chan toggle hoan thanh).
+    }
+  }
+
   /// Luu ghi chu cua mot bai hoc.
   /// API: PUT /api/v1/user/courses/{slug}/lessons/{num}/notes
   Future<CourseLessonNote> upsertLessonNote({

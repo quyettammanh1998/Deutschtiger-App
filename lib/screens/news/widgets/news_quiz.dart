@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../core/design_tokens.dart';
 import '../../../data/news/news_models.dart';
+import '../../../l10n/app_localizations.dart';
 
 /// Quiz trắc nghiệm cuối bài — chấm cục bộ (backend không có endpoint chấm
 /// riêng cho news quiz, giống `exam/dictation` grading pattern). Đạt ≥60% gọi
@@ -42,6 +43,7 @@ class _NewsQuizCardState extends State<NewsQuizCard> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final allAnswered = _selected.length == widget.quiz.length;
     return Container(
       padding: const EdgeInsets.all(DesignTokens.spacingMd),
@@ -53,9 +55,9 @@ class _NewsQuizCardState extends State<NewsQuizCard> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Câu hỏi kiểm tra',
-            style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
+          Text(
+            l10n.newsQuizTitle,
+            style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
           ),
           const SizedBox(height: DesignTokens.spacingSm),
           for (var i = 0; i < widget.quiz.length; i++)
@@ -77,13 +79,13 @@ class _NewsQuizCardState extends State<NewsQuizCard> {
                 style: FilledButton.styleFrom(
                   backgroundColor: DesignTokens.tigerOrange,
                 ),
-                child: const Text('Nộp bài'),
+                child: Text(l10n.newsQuizSubmit),
               ),
             )
           else
             Text(
-              'Kết quả: $_correctCount/${widget.quiz.length} câu đúng '
-              '($_scorePct%)${_scorePct >= 60 ? ' — Đã lưu tiến độ ✅' : ''}',
+              l10n.newsQuizResult(_correctCount, widget.quiz.length, _scorePct) +
+                  (_scorePct >= 60 ? l10n.newsQuizPassedSuffix : ''),
               style: TextStyle(
                 fontWeight: FontWeight.w700,
                 color: _scorePct >= 60

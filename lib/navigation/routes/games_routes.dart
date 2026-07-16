@@ -16,18 +16,18 @@ import '../../screens/games/listening_game_screen.dart';
 import '../../screens/games/pronunciation_game_screen.dart';
 import '../../screens/games/runner_game_screen.dart';
 import '../../screens/games/sentence_builder/sentence_builder_play_screen.dart';
+import '../../screens/games/sentence_builder/sentence_builder_preview_screen.dart';
 import '../../screens/games/sentence_builder/sentence_builder_topics_screen.dart';
 import '../../screens/games/speaking_game_screen.dart';
 import '../../screens/games/typing_sprint_game_screen.dart';
 import '../../screens/games/word_order_game_screen.dart';
 import '../../screens/games/word_sprint_game_screen.dart';
-import '../../screens/games/writing_sentence_game_screen.dart';
 import '../../screens/games/game_hub_screen.dart';
 
 final List<RouteBase> gamesRoutes = [
   GoRoute(path: '/games', builder: (context, state) => const GameHubScreen()),
   GoRoute(
-    path: '/games/article',
+    path: '/games/artikel',
     builder: (context, state) => const ArticleGameScreen(),
   ),
   GoRoute(
@@ -47,42 +47,38 @@ final List<RouteBase> gamesRoutes = [
     builder: (context, state) => const TypingSprintGameScreen(),
   ),
   GoRoute(
-    path: '/games/word-order',
+    path: '/games/wortstellung',
     builder: (context, state) => const WordOrderGameScreen(),
-  ),
-  GoRoute(
-    path: '/games/writing-sentence',
-    builder: (context, state) => const WritingSentenceGameScreen(),
   ),
   GoRoute(
     path: '/games/speaking',
     builder: (context, state) => const SpeakingGameScreen(),
   ),
   GoRoute(
-    path: '/games/cases',
+    path: '/games/cases-mastery',
     builder: (context, state) => const CasesMasteryHubScreen(),
   ),
   GoRoute(
-    path: '/games/cases/akk-dat',
+    path: '/games/cases-akk-dat',
     builder: (context, state) =>
         const CaseClozeQuizScreen(game: 'akk-dat', title: 'Akkusativ vs Dativ'),
   ),
   GoRoute(
-    path: '/games/cases/adjektiv',
+    path: '/games/cases-adjektiv',
     builder: (context, state) => const CaseClozeQuizScreen(
       game: 'adjektiv',
       title: 'Adjektivendungen',
     ),
   ),
   GoRoute(
-    path: '/games/cases/wechselprep',
+    path: '/games/cases-wechselprep',
     builder: (context, state) => const CaseClozeQuizScreen(
       game: 'wechselprep',
       title: 'Wechselpräpositionen',
     ),
   ),
   GoRoute(
-    path: '/games/cases/verb-case',
+    path: '/games/cases-verb-case',
     builder: (context, state) => const VerbCaseQuizScreen(),
   ),
   GoRoute(
@@ -100,6 +96,13 @@ final List<RouteBase> gamesRoutes = [
   GoRoute(
     path: '/games/sentence-builder',
     builder: (context, state) => const SentenceBuilderTopicsScreen(),
+  ),
+  GoRoute(
+    path: '/games/sentence-builder/preview',
+    builder: (context, state) => SentenceBuilderPreviewScreen(
+      level: state.uri.queryParameters['level'] ?? 'A1',
+      topicId: state.uri.queryParameters['topicId'] ?? '',
+    ),
   ),
   GoRoute(
     path: '/games/sentence-builder/play',

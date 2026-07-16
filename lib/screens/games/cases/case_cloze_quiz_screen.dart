@@ -3,12 +3,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/app_tokens.dart';
 import '../../../data/games/cases_models.dart';
 import '../../../repositories/games/grammar_drill_repository.dart';
 import '../../../view_models/games/cases_provider.dart';
 import '../../../widgets/common/async_state_views.dart';
+import '../../../widgets/common/game_shell.dart';
+import 'widgets/case_quiz_option_grid.dart';
+import 'widgets/case_quiz_streak_badge.dart';
+import 'widgets/grammar_explain_panel.dart';
 
-const _levels = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
 const _minItems = 10;
 const _itemsPerSession = 10;
 
@@ -41,6 +45,7 @@ class _CaseClozeQuizScreenState extends ConsumerState<CaseClozeQuizScreen> {
   int _index = 0;
   String? _selected;
   bool _gameOver = false;
+  int _streak = 0;
   final List<GrammarDrillResultInput> _results = [];
   bool _submitFailed = false;
 
@@ -68,6 +73,7 @@ class _CaseClozeQuizScreenState extends ConsumerState<CaseClozeQuizScreen> {
     final correct = option == question.answer;
     setState(() {
       _selected = option;
+      _streak = correct ? _streak + 1 : 0;
       _results.add(
         GrammarDrillResultInput(key: question.id, correct: correct),
       );
@@ -103,6 +109,7 @@ class _CaseClozeQuizScreenState extends ConsumerState<CaseClozeQuizScreen> {
       _index = 0;
       _selected = null;
       _gameOver = false;
+      _streak = 0;
       _submitFailed = false;
       _results.clear();
       _future = _load();
@@ -111,17 +118,11 @@ class _CaseClozeQuizScreenState extends ConsumerState<CaseClozeQuizScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.authBackground,
-      appBar: AppBar(
-        backgroundColor: AppColors.authBackground,
-        title: Text(widget.title),
-        leading: IconButton(
-          icon: const Icon(Icons.close),
-          onPressed: () => context.pop(),
-        ),
-      ),
-      body: _gameOver
+    return GameShell(
+      title: widget.title,
+      exitGuard: !_gameOver,
+      scrollable: false,
+      child: _gameOver
           ? _buildResults()
           : FutureBuilder<CaseExercisesResponse>(
               future: _future,
@@ -167,14 +168,18 @@ class _CaseClozeQuizScreenState extends ConsumerState<CaseClozeQuizScreen> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('${_index + 1}/${_questions.length}'),
-              _LevelPicker(
-                level: _level,
-                onChanged: (v) {
-                  _level = v;
-                  _restart();
-                },
+              Text(
+                '${_index + 1}/${_questions.length}',
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  color: context.tokens.mutedForeground,
+                ),
               ),
+              Text(
+                '${_results.where((r) => r.correct).length} đúng',
+                style: TextStyle(color: context.tokens.mutedForeground),
+              ),
+              CaseQuizStreakBadge(streak: _streak),
             ],
           ),
         ),
@@ -250,52 +255,12 @@ class _CaseClozeQuizScreenState extends ConsumerState<CaseClozeQuizScreen> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                ...question.options.map((option) {
-                  final selected = _selected == option;
-                  final isAnswer = option == question.answer;
-                  Color bg = Colors.white;
-                  Color border = AppColors.tigerOrange.withValues(alpha: 0.4);
-                  if (_selected != null) {
-                    if (isAnswer) {
-                      bg = Colors.green.shade50;
-                      border = Colors.green;
-                    } else if (selected) {
-                      bg = Colors.red.shade50;
-                      border = Colors.red;
-                    }
-                  }
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 10),
-                    child: InkWell(
-                      onTap: () => _selectAnswer(question, option),
-                      borderRadius: BorderRadius.circular(12),
-                      child: Container(
-                        width: double.infinity,
-                        padding: const EdgeInsets.all(14),
-                        decoration: BoxDecoration(
-                          color: bg,
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: border, width: 2),
-                        ),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Text(
-                                option,
-                                style: const TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ),
-                            if (_selected != null && isAnswer)
-                              const Icon(Icons.check_circle, color: Colors.green),
-                          ],
-                        ),
-                      ),
-                    ),
-                  );
-                }),
+                CaseQuizOptionGrid(
+                  options: question.options,
+                  correctAnswer: question.answer,
+                  selected: _selected,
+                  onSelect: (option) => _selectAnswer(question, option),
+                ),
                 if (_selected != null)
                   Container(
                     margin: const EdgeInsets.only(top: 4),
@@ -319,6 +284,21 @@ class _CaseClozeQuizScreenState extends ConsumerState<CaseClozeQuizScreen> {
                         color: isCorrect ? Colors.green : Colors.red,
                       ),
                     ),
+                  ),
+                if (_selected != null && !isCorrect)
+                  GrammarExplainPanel(
+                    request: GrammarExplainRequest(
+                      game: widget.game,
+                      exerciseKey: question.id,
+                      sentence: question.sentence,
+                      options: question.options,
+                      correctAnswer: question.answer,
+                      userAnswer: _selected!,
+                      caseType: question.caseType,
+                      vi: question.vi,
+                      reason: question.reason,
+                    ),
+                    staticReason: question.reason,
                   ),
                 const SizedBox(height: 12),
               ],
@@ -433,23 +413,3 @@ class _CaseClozeQuizScreenState extends ConsumerState<CaseClozeQuizScreen> {
   }
 }
 
-class _LevelPicker extends StatelessWidget {
-  const _LevelPicker({required this.level, required this.onChanged});
-
-  final String level;
-  final ValueChanged<String> onChanged;
-
-  @override
-  Widget build(BuildContext context) {
-    return DropdownButton<String>(
-      value: level,
-      underline: const SizedBox.shrink(),
-      items: _levels
-          .map((l) => DropdownMenuItem(value: l, child: Text(l)))
-          .toList(growable: false),
-      onChanged: (v) {
-        if (v != null) onChanged(v);
-      },
-    );
-  }
-}

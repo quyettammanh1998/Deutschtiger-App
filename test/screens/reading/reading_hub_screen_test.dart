@@ -62,7 +62,9 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    expect(find.text('Chưa có bài đọc nào.'), findsOneWidget);
+    // Không còn empty-state chặn toàn màn — hub luôn hiện lưới 6 level card,
+    // mỗi card rỗng hiện "Chưa có bài đọc" (mirror `reading-home.tsx`).
+    expect(find.text('Chưa có bài đọc'), findsWidgets);
     expect(tester.takeException(), isNull);
   });
 

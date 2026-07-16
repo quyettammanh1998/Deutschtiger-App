@@ -89,7 +89,7 @@ class ReadinessSkillBars extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(vertical: 12),
                       child: Center(
                         child: Text(
-                          'Luyện $weakestLabel',
+                          l10n.examReadinessSkillPracticeCta(weakestLabel),
                           style: const TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.w700,
@@ -117,6 +117,7 @@ class _SkillRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final tokens = context.tokens;
+    final l10n = AppLocalizations.of(context);
     final score = skill.accuracy.round();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -139,7 +140,7 @@ class _SkillRow extends StatelessWidget {
                     ),
                   ),
                   TextSpan(
-                    text: ' · ${skill.attemptCount} lần',
+                    text: ' · ${l10n.examReadinessAttemptCountSuffix(skill.attemptCount)}',
                     style: TextStyle(color: tokens.mutedForeground),
                   ),
                 ],

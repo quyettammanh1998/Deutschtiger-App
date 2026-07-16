@@ -5,6 +5,7 @@ import 'package:just_audio/just_audio.dart';
 
 import '../../../../core/theme/app_tokens.dart';
 import '../../../../data/exam/exam_ecosystem_models.dart';
+import '../../../../l10n/app_localizations.dart';
 import 'clip_tab_bar.dart';
 import 'dictation_diff.dart';
 import 'dictation_end_screen.dart';
@@ -127,6 +128,7 @@ class _FullPracticeViewState extends State<FullPracticeView> {
   @override
   Widget build(BuildContext context) {
     final tokens = context.tokens;
+    final l10n = AppLocalizations.of(context);
     if (_clips.isEmpty) {
       return Center(
         child: Padding(
@@ -135,14 +137,14 @@ class _FullPracticeViewState extends State<FullPracticeView> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                'Bài nghe này chưa có dữ liệu chấm chính tả.',
+                l10n.dictationNoAudioData,
                 textAlign: TextAlign.center,
                 style: TextStyle(color: tokens.mutedForeground),
               ),
               const SizedBox(height: 12),
               OutlinedButton(
                 onPressed: widget.onBack,
-                child: const Text('← Quay lại'),
+                child: Text(l10n.dictationBackPlain),
               ),
             ],
           ),
@@ -163,10 +165,10 @@ class _FullPracticeViewState extends State<FullPracticeView> {
           ),
           Expanded(
             child: DictationEndScreen(
-              title: 'Kết quả chép chính tả',
+              title: l10n.dictationFullResultTitle,
               correct: _correct,
               total: clip.sentences.length,
-              backLabel: 'Chọn bài',
+              backLabel: l10n.dictationFullBackLabel,
               onRetry: () => _startClip(_clipIdx),
               onBack: widget.onBack,
               children: _clipIdx + 1 < _clips.length
@@ -178,7 +180,7 @@ class _FullPracticeViewState extends State<FullPracticeView> {
                             backgroundColor: tokens.primary,
                           ),
                           onPressed: () => _startClip(_clipIdx + 1),
-                          child: const Text('Bài tiếp theo →'),
+                          child: Text(l10n.dictationFullNextClip),
                         ),
                       ),
                       const SizedBox(height: 8),

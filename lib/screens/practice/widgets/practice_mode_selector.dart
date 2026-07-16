@@ -1,96 +1,187 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/app_tokens.dart';
 import '../../../data/practice/practice_result.dart';
 import '../../../l10n/app_localizations.dart';
+import '../../../widgets/common/app_card.dart';
+import 'practice_mode_cards.dart';
 
-/// Danh sách 4 chế độ luyện tập theo deck — tương ứng
-/// `FlashcardModeSelector` trên web (`practice-page.tsx`).
+/// 2-col grid of gradient mode cards — web parity: `FlashcardModeSelector`
+/// (`practice-page.tsx`). Card set/colors: [buildPracticeModeCards].
 class PracticeModeSelector extends StatelessWidget {
-  const PracticeModeSelector({super.key, required this.onSelect});
+  const PracticeModeSelector({
+    super.key,
+    required this.onSelect,
+    this.cardCount,
+    this.includeGraduated,
+    this.onIncludeGraduatedChanged,
+  });
 
   final void Function(PracticeMode mode) onSelect;
 
+  /// Số thẻ sẵn sàng. Null = ẩn dòng đếm — trang guided lesson của web
+  /// (`/notes/:id/lesson`) không có dòng này, chỉ `practice-page.tsx` có.
+  final int? cardCount;
+
+  /// Toggle "gồm cả thẻ đã thuộc". Null = ẩn toggle, cũng theo guided lesson.
+  final bool? includeGraduated;
+  final ValueChanged<bool>? onIncludeGraduatedChanged;
+
   @override
   Widget build(BuildContext context) {
+    final tokens = context.tokens;
     final l10n = AppLocalizations.of(context);
-    final items = <(PracticeMode, IconData, String, Color)>[
-      (PracticeMode.cloze, Icons.edit_note, l10n.practiceModeCloze, Colors.teal),
-      (PracticeMode.listening, Icons.headphones, l10n.practiceModeListening, Colors.purple),
-      (PracticeMode.matching, Icons.compare_arrows, l10n.practiceModeMatching, Colors.pink),
-      (PracticeMode.writing, Icons.create, l10n.practiceModeWriting, AppColors.tigerOrange),
-    ];
+    final cards = buildPracticeModeCards(l10n);
+
+    final graduated = includeGraduated;
+    final onGraduatedChanged = onIncludeGraduatedChanged;
+    final showGraduatedToggle = graduated != null && onGraduatedChanged != null;
 
     return ListView(
       padding: const EdgeInsets.all(16),
       children: [
-        Text(
-          l10n.practiceChooseMode,
-          style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
-        ),
-        const SizedBox(height: 12),
-        for (final item in items)
-          Padding(
-            padding: const EdgeInsets.only(bottom: 12),
-            child: _ModeCard(
-              icon: item.$2,
-              label: item.$3,
-              color: item.$4,
-              onTap: () => onSelect(item.$1),
+        if (showGraduatedToggle) ...[
+          InkWell(
+            borderRadius: BorderRadius.circular(8),
+            onTap: () => onGraduatedChanged(!graduated),
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                color: tokens.muted.withValues(alpha: 0.5),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                child: Row(
+                  children: [
+                    Checkbox(
+                      value: graduated,
+                      onChanged: (v) => onGraduatedChanged(v ?? false),
+                      activeColor: tokens.primary,
+                    ),
+                    Expanded(
+                      child: Text(
+                        l10n.practiceIncludeGraduated,
+                        style: TextStyle(fontSize: 14, color: tokens.mutedForeground),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
           ),
+          const SizedBox(height: 16),
+        ],
+        AppCard.card(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            children: [
+              Text(
+                l10n.practiceChooseMode,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w700,
+                  color: tokens.foreground,
+                ),
+              ),
+              const SizedBox(height: 16),
+              GridView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: cards.length,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  mainAxisSpacing: 12,
+                  crossAxisSpacing: 12,
+                  childAspectRatio: 0.92,
+                ),
+                itemBuilder: (context, index) {
+                  final card = cards[index];
+                  return _ModeCard(
+                    config: card,
+                    onTap: card.enabled ? () => onSelect(card.mode!) : null,
+                    comingSoonLabel: l10n.practiceModeComingSoon,
+                  );
+                },
+              ),
+              if (cardCount != null) ...[
+                const SizedBox(height: 16),
+                Text(
+                  l10n.practiceCardsReady(cardCount!),
+                  style: TextStyle(fontSize: 13, color: tokens.mutedForeground),
+                ),
+              ],
+            ],
+          ),
+        ),
       ],
     );
   }
 }
 
 class _ModeCard extends StatelessWidget {
-  const _ModeCard({
-    required this.icon,
-    required this.label,
-    required this.color,
-    required this.onTap,
-  });
+  const _ModeCard({required this.config, required this.onTap, required this.comingSoonLabel});
 
-  final IconData icon;
-  final String label;
-  final Color color;
-  final VoidCallback onTap;
+  final PracticeModeCardConfig config;
+  final VoidCallback? onTap;
+  final String comingSoonLabel;
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(16),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(16),
-        onTap: onTap,
-        child: Container(
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: AppColors.border),
-          ),
-          child: Row(
-            children: [
-              Container(
-                width: 48,
-                height: 48,
-                decoration: BoxDecoration(
-                  color: color.withValues(alpha: 0.12),
-                  borderRadius: BorderRadius.circular(12),
+    final tokens = context.tokens;
+    final radius = BorderRadius.circular(16);
+    return Opacity(
+      opacity: config.enabled ? 1 : 0.55,
+      child: Material(
+        color: tokens.card,
+        borderRadius: radius,
+        child: InkWell(
+          borderRadius: radius,
+          onTap: onTap,
+          child: Container(
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              borderRadius: radius,
+              border: Border.all(color: tokens.border),
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  width: 44,
+                  height: 44,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: config.gradient,
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                    borderRadius: BorderRadius.circular(14),
+                  ),
+                  child: Icon(config.icon, color: Colors.white, size: 22),
                 ),
-                child: Icon(icon, color: color),
-              ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Text(
-                  label,
-                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                const SizedBox(height: 8),
+                Text(
+                  config.title,
+                  textAlign: TextAlign.center,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w600,
+                    color: tokens.foreground,
+                  ),
                 ),
-              ),
-              const Icon(Icons.chevron_right, color: AppColors.mutedForeground),
-            ],
+                const SizedBox(height: 2),
+                Text(
+                  config.enabled ? config.description : comingSoonLabel,
+                  textAlign: TextAlign.center,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(fontSize: 11, color: tokens.mutedForeground),
+                ),
+              ],
+            ),
           ),
         ),
       ),

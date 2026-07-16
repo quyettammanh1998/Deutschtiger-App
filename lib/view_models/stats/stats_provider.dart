@@ -22,3 +22,26 @@ final masteryProvider = FutureProvider<MasterySummary>((ref) async {
 final srsDailyStatsProvider = FutureProvider<List<SrsDailyStat>>((ref) async {
   return ref.watch(statsRepositoryProvider).getDailySrsStats(days: 30);
 });
+
+/// "Thống kê ôn tập" — hôm nay/tuần/độ chính xác/thẻ đến hạn.
+/// `GET /user/flashcard-reviews/stats`.
+final flashcardReviewStatsProvider = FutureProvider<FlashcardReviewStats>((
+  ref,
+) async {
+  return ref.watch(statsRepositoryProvider).getFlashcardReviewStats();
+});
+
+/// Tổng flashcard + lượt ôn — nguồn tính thành tựu client-side (mirror web
+/// `gamificationService.getAchievements()`). `GET /user/flashcards/stats`.
+final flashcardCountStatsProvider = FutureProvider<FlashcardCountStats>((
+  ref,
+) async {
+  return ref.watch(statsRepositoryProvider).getFlashcardCountStats();
+});
+
+/// Thời gian online 7 ngày qua. `GET /user/online-time/weekly`.
+final weeklyOnlineTimeProvider = FutureProvider<List<WeeklyOnlineTimePoint>>((
+  ref,
+) async {
+  return ref.watch(statsRepositoryProvider).getWeeklyOnlineTime();
+});

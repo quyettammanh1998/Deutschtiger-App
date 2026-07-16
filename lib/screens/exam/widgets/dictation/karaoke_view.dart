@@ -3,6 +3,7 @@ import 'package:just_audio/just_audio.dart';
 
 import '../../../../core/theme/app_tokens.dart';
 import '../../../../data/exam/exam_ecosystem_models.dart';
+import '../../../../l10n/app_localizations.dart';
 import 'clip_tab_bar.dart';
 import 'karaoke_sentence_list.dart';
 
@@ -84,6 +85,7 @@ class _KaraokeViewState extends State<KaraokeView> {
   @override
   Widget build(BuildContext context) {
     final tokens = context.tokens;
+    final l10n = AppLocalizations.of(context);
     final audio = widget.audios[_activeClip];
     final timed = audio.sentences.any((s) => s.start < s.end);
     final labels = [
@@ -98,7 +100,7 @@ class _KaraokeViewState extends State<KaraokeView> {
             alignment: Alignment.centerLeft,
             child: TextButton(
               onPressed: widget.onBack,
-              child: const Text('← Chọn hoạt động'),
+              child: Text(l10n.dictationKaraokeBackToMenu),
             ),
           ),
         ),
@@ -114,7 +116,7 @@ class _KaraokeViewState extends State<KaraokeView> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Text(
-                  'Bấm ▶ để nghe — phụ đề tự chạy theo audio. Chạm vào câu để nghe lại từ đó.',
+                  l10n.dictationKaraokeHint,
                   style: TextStyle(fontSize: 12, color: tokens.mutedForeground),
                 ),
                 const SizedBox(height: 12),
@@ -166,7 +168,7 @@ class _KaraokeViewState extends State<KaraokeView> {
                             if (!timed) ...[
                               const SizedBox(width: 6),
                               Text(
-                                '(không có phụ đề đồng bộ)',
+                                l10n.dictationKaraokeUntimed,
                                 style: TextStyle(
                                   fontSize: 10.5,
                                   color: tokens.mutedForeground,
@@ -203,7 +205,7 @@ class _KaraokeViewState extends State<KaraokeView> {
                         onPressed: _activeClip > 0
                             ? () => _switchClip(_activeClip - 1)
                             : null,
-                        child: const Text('◀ Bài trước'),
+                        child: Text(l10n.dictationKaraokePrev),
                       ),
                     ),
                     const SizedBox(width: 8),
@@ -212,7 +214,7 @@ class _KaraokeViewState extends State<KaraokeView> {
                         onPressed: _activeClip < widget.audios.length - 1
                             ? () => _switchClip(_activeClip + 1)
                             : null,
-                        child: const Text('Bài sau ▶'),
+                        child: Text(l10n.dictationKaraokeNext),
                       ),
                     ),
                   ],

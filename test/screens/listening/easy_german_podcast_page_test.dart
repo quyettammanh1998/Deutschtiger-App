@@ -1,6 +1,9 @@
 import 'package:deutschtiger/data/listening/podcast_models.dart';
+import 'package:deutschtiger/l10n/app_localizations.dart';
+import 'package:deutschtiger/previews/preview_auth_service.dart';
 import 'package:deutschtiger/screens/listening/easy_german_podcast_page.dart';
 import 'package:deutschtiger/view_models/listening/podcast_provider.dart';
+import 'package:deutschtiger/view_models/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -10,6 +13,7 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
+          authServiceProvider.overrideWithValue(PreviewAuthService()),
           podcastIndexProvider.overrideWith(
             (ref) async => const [
               PodcastEpisode(slug: 'ep-1', title: 'Im Restaurant', duration: 65, segments: 4),
@@ -17,15 +21,22 @@ void main() {
             ],
           ),
           podcastCompletedIdsProvider.overrideWith((ref) async => ['ep-1']),
+          podcastLeaderboardProvider.overrideWith((ref) async => const []),
+          podcastUserRankProvider.overrideWith((ref) async => null),
         ],
-        child: const MaterialApp(home: EasyGermanPodcastPage()),
+        child: MaterialApp(
+          locale: const Locale('vi'),
+          supportedLocales: AppLocalizations.supportedLocales,
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          home: const EasyGermanPodcastPage(),
+        ),
       ),
     );
     await tester.pumpAndSettle();
 
     expect(find.text('Im Restaurant'), findsOneWidget);
     expect(find.text('Am Bahnhof'), findsOneWidget);
-    expect(find.byIcon(Icons.check_circle), findsOneWidget);
+    expect(find.byIcon(Icons.check), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
 
@@ -35,14 +46,22 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
+          authServiceProvider.overrideWithValue(PreviewAuthService()),
           podcastIndexProvider.overrideWith(
             (ref) async => const [
               PodcastEpisode(slug: 'ep-1', title: 'Im Restaurant', duration: 65, segments: 4),
             ],
           ),
           podcastCompletedIdsProvider.overrideWith((ref) async => const []),
+          podcastLeaderboardProvider.overrideWith((ref) async => const []),
+          podcastUserRankProvider.overrideWith((ref) async => null),
         ],
-        child: const MaterialApp(home: EasyGermanPodcastPage()),
+        child: MaterialApp(
+          locale: const Locale('vi'),
+          supportedLocales: AppLocalizations.supportedLocales,
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          home: const EasyGermanPodcastPage(),
+        ),
       ),
     );
     await tester.pumpAndSettle();
@@ -50,7 +69,7 @@ void main() {
     await tester.enterText(find.byType(TextField), 'zzz-no-match');
     await tester.pumpAndSettle();
 
-    expect(find.text('Không tìm thấy tập nào'), findsOneWidget);
+    expect(find.textContaining('Không tìm thấy tập nào khớp với'), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
 
@@ -63,7 +82,12 @@ void main() {
           podcastIndexProvider.overrideWith((ref) async => throw Exception('boom')),
           podcastCompletedIdsProvider.overrideWith((ref) async => const []),
         ],
-        child: const MaterialApp(home: EasyGermanPodcastPage()),
+        child: MaterialApp(
+          locale: const Locale('vi'),
+          supportedLocales: AppLocalizations.supportedLocales,
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          home: const EasyGermanPodcastPage(),
+        ),
       ),
     );
     await tester.pumpAndSettle();

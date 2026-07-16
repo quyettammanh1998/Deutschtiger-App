@@ -216,6 +216,10 @@ class ExamService {
     final explanation = item['explanation_vi'] as String?;
     final audioUrl = item['audio_url'] as String?;
     final prompt = _buildPrompt(item);
+    final descriptionViRaw = item['description_vi'] as String?;
+    final descriptionVi = descriptionViRaw?.trim().isNotEmpty == true
+        ? _stripTags(descriptionViRaw!.trim())
+        : null;
 
     switch (type) {
       case 'true_false':
@@ -231,6 +235,7 @@ class ExamService {
           audioUrl: audioUrl,
           audioMaxPlays: sectionMaxPlays,
           explanation: explanation,
+          descriptionVi: descriptionVi,
         );
 
       case 'multiple_choice':
@@ -246,6 +251,7 @@ class ExamService {
           audioUrl: audioUrl,
           audioMaxPlays: sectionMaxPlays,
           explanation: explanation,
+          descriptionVi: descriptionVi,
           imageUrl: item['image_url'] as String?,
         );
 
@@ -270,6 +276,7 @@ class ExamService {
           audioUrl: audioUrl,
           audioMaxPlays: sectionMaxPlays,
           explanation: explanation,
+          descriptionVi: descriptionVi,
           imageUrl: item['image_url'] as String?,
         );
 
@@ -285,6 +292,7 @@ class ExamService {
           audioUrl: audioUrl,
           audioMaxPlays: sectionMaxPlays,
           explanation: explanation,
+          descriptionVi: descriptionVi,
         );
 
       case 'form_fill':
@@ -303,6 +311,7 @@ class ExamService {
           audioUrl: audioUrl,
           audioMaxPlays: sectionMaxPlays,
           explanation: explanation,
+          descriptionVi: descriptionVi,
         );
 
       default:

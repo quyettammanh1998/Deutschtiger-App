@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:just_audio/just_audio.dart';
 
+import 'package:deutschtiger/l10n/app_localizations.dart';
 import 'package:deutschtiger/repositories/reading/reading_repository.dart';
 import 'package:deutschtiger/widgets/common/async_state_views.dart';
 import '../../core/design_tokens.dart';
+import '../../core/theme/app_tokens.dart';
 import '../../data/reading/reading_models.dart';
 import '../../shared/widgets/word_lookup_sheet.dart';
 import 'widgets/reading_detail_widgets.dart';
+import 'widgets/save_article_words_cta.dart';
 
 /// Key cho [readingArticleProvider] — level + slug xác định duy nhất 1 bài.
 typedef ReadingArticleKey = ({String level, String slug});
@@ -26,9 +29,16 @@ final readingCompletedIdsProvider = FutureProvider<List<String>>((ref) {
 
 /// Reading Detail — nguồn `GET /reading/articles/{level}/{slug}`.
 ///
-/// Hiển thị header, audio player (nếu có `audio_url`), body với
-/// TappableSentence (tap 1 từ → WordLookupSheet), toggle bản dịch, glossary,
-/// và nút đánh dấu đã đọc (`POST /user/reading-progress`).
+/// Mirror `reading-detail-page.tsx`: level pill + "Đã đọc" → tiêu đề tappable
+/// → nút dịch sky-blue inline + gợi ý chạm từ → audio → thân bài (tap từ →
+/// WordLookupSheet) → glossary → save-words CTA → nút đánh dấu đã đọc.
+///
+/// Deviation: web gate hoàn thành theo bài tập trắc nghiệm cuối bài
+/// (`ReadingExercises`, nguồn `GET /reading/articles/{level}/{slug}/exercises`).
+/// Route đó KHÔNG tồn tại trên backend hiện tại (chỉ có List/Levels/Topics/
+/// Get/GetBySlug/Audio — xem `reading_handler.go`); theo nguyên tắc "contract
+/// trước code" không dựng UI gọi endpoint chưa có thật. Giữ nguyên nút đánh
+/// dấu đã đọc thủ công (nhánh "không có exercises" của web) cho MỌI bài.
 class ReadingDetailScreen extends ConsumerStatefulWidget {
   const ReadingDetailScreen({
     super.key,
@@ -54,77 +64,152 @@ class _ReadingDetailScreenState extends ConsumerState<ReadingDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = context.tokens;
+    final l10n = AppLocalizations.of(context);
     final articleAsync = ref.watch(readingArticleProvider(_key));
     final completedIdsAsync = ref.watch(readingCompletedIdsProvider);
 
     return Scaffold(
-      backgroundColor: DesignTokens.background,
-      appBar: AppBar(
-        title: Text(widget.title ?? 'Đang tải…'),
-        actions: [
-          IconButton(
-            tooltip: _showTranslation ? 'Ẩn bản dịch' : 'Hiện bản dịch',
-            icon: Icon(
-              _showTranslation ? Icons.translate : Icons.translate_outlined,
-            ),
-            onPressed: () =>
-                setState(() => _showTranslation = !_showTranslation),
+      backgroundColor: tokens.background,
+      body: SafeArea(
+        child: articleAsync.when(
+          loading: () => const Center(child: CircularProgressIndicator()),
+          error: (e, _) => ErrorView(
+            onRetry: () => ref.invalidate(readingArticleProvider(_key)),
           ),
-        ],
-      ),
-      body: articleAsync.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (e, _) => ErrorView(
-          onRetry: () => ref.invalidate(readingArticleProvider(_key)),
-        ),
-        data: (article) {
-          final completedIds = completedIdsAsync.valueOrNull ?? const [];
-          final isDone = completedIds.contains(article.id);
-          final paragraphs = article.paragraphs;
-          final audioUrl = ref
-              .read(readingRepositoryProvider)
-              .resolveAudioUrl(article.audioUrl);
+          data: (article) {
+            final completedIds = completedIdsAsync.valueOrNull ?? const [];
+            final isDone = completedIds.contains(article.id);
+            final paragraphs = article.paragraphs;
+            final audioUrl = ref
+                .read(readingRepositoryProvider)
+                .resolveAudioUrl(article.audioUrl);
+            final resolvableIds =
+                article.glossaryItems.map((g) => g.learningItemId).toList();
 
-          return Column(
-            children: [
-              ReadingHeader(
-                titleVi: article.title,
-                topic: article.summary,
-                level: article.level,
-                durationMinutes: (paragraphs.length * 1.2).ceil().clamp(1, 60),
-                wordCount: article.body.split(RegExp(r'\s+')).length,
-              ),
-              if (audioUrl != null)
-                _ReadingAudioLink(audioUrl: audioUrl)
-              else
-                const SizedBox.shrink(),
-              Expanded(
-                child: ListView(
-                  padding: const EdgeInsets.all(DesignTokens.spacingMd),
+            return ListView(
+              padding: const EdgeInsets.all(DesignTokens.spacingMd),
+              children: [
+                Row(
                   children: [
-                    for (final paragraph in paragraphs)
-                      ReadingParagraphView(
-                        paragraph: paragraph,
-                        showTranslation: _showTranslation,
-                        onWordTap: (word) => _onWordTap(context, word),
+                    InkWell(
+                      borderRadius: BorderRadius.circular(DesignTokens.radiusSm),
+                      onTap: () => Navigator.of(context).maybePop(),
+                      child: Container(
+                        width: 36,
+                        height: 36,
+                        decoration: BoxDecoration(
+                          color: tokens.card,
+                          borderRadius: BorderRadius.circular(DesignTokens.radiusSm),
+                          border: Border.all(color: tokens.border),
+                        ),
+                        child: Icon(Icons.arrow_back_ios_new, size: 18, color: tokens.mutedForeground),
                       ),
-                    if (article.glossary.isNotEmpty) ...[
-                      const SizedBox(height: DesignTokens.spacingSm),
-                      _GlossaryCard(entries: article.glossary),
-                    ],
-                    const SizedBox(height: DesignTokens.spacingMd),
-                    _MarkCompleteButton(
-                      isDone: isDone,
-                      isBusy: _marking,
-                      onPressed: () => _onMarkComplete(article),
                     ),
-                    const SizedBox(height: DesignTokens.spacingXl),
+                    const SizedBox(width: DesignTokens.spacingSm),
+                    Icon(Icons.menu_book_outlined, size: 18, color: tokens.mutedForeground),
+                    const SizedBox(width: 6),
+                    Flexible(
+                      child: Text(
+                        l10n.readingHubTitle,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 15,
+                          color: tokens.mutedForeground,
+                        ),
+                      ),
+                    ),
                   ],
                 ),
-              ),
-            ],
-          );
-        },
+                const SizedBox(height: DesignTokens.spacingMd),
+                Wrap(
+                  spacing: DesignTokens.spacingSm,
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
+                      decoration: BoxDecoration(
+                        color: tokens.primary.withValues(alpha: 0.1),
+                        borderRadius: BorderRadius.circular(999),
+                      ),
+                      child: Text(
+                        article.level,
+                        style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: tokens.primary),
+                      ),
+                    ),
+                    if (isDone)
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Icon(Icons.check_circle, size: 16, color: Color(0xFF059669)),
+                          const SizedBox(width: 4),
+                          Text(l10n.readingDoneChip, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: Color(0xFF059669))),
+                        ],
+                      ),
+                  ],
+                ),
+                const SizedBox(height: DesignTokens.spacingSm),
+                Text(
+                  widget.title ?? article.title,
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700, height: 1.2, color: tokens.foreground),
+                ),
+                const SizedBox(height: DesignTokens.spacingMd),
+                Wrap(
+                  spacing: DesignTokens.spacingSm,
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  children: [
+                    OutlinedButton.icon(
+                      onPressed: () => setState(() => _showTranslation = !_showTranslation),
+                      icon: Icon(_showTranslation ? Icons.visibility_off : Icons.translate, size: 16),
+                      label: Text(_showTranslation ? l10n.examHideTranslation : l10n.readingShowTranslation),
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: _showTranslation ? Colors.white : const Color(0xFF0369A1),
+                        backgroundColor: _showTranslation ? const Color(0xFF0284C7) : const Color(0xFFF0F9FF),
+                        side: BorderSide(color: _showTranslation ? const Color(0xFF0284C7) : const Color(0xFF7DD3FC)),
+                      ),
+                    ),
+                    Text(
+                      l10n.readingTapWordHint,
+                      style: TextStyle(fontSize: 12, color: tokens.mutedForeground),
+                    ),
+                  ],
+                ),
+                if (audioUrl != null) ...[
+                  const SizedBox(height: DesignTokens.spacingMd),
+                  _ReadingAudioLink(audioUrl: audioUrl),
+                ],
+                const SizedBox(height: DesignTokens.spacingMd),
+                for (final paragraph in paragraphs)
+                  ReadingParagraphView(
+                    paragraph: paragraph,
+                    showTranslation: _showTranslation,
+                    onWordTap: (word) => _onWordTap(context, word),
+                  ),
+                if (article.glossary.isNotEmpty) ...[
+                  const SizedBox(height: DesignTokens.spacingSm),
+                  _GlossaryCard(entries: article.glossary),
+                ],
+                if (resolvableIds.isNotEmpty) ...[
+                  const SizedBox(height: DesignTokens.spacingMd),
+                  SaveArticleWordsCta(
+                    resolvableIds: resolvableIds,
+                    totalWords: article.glossary.length,
+                    source: 'reading',
+                  ),
+                ],
+                const SizedBox(height: DesignTokens.spacingMd),
+                _MarkCompleteButton(
+                  isDone: isDone,
+                  isBusy: _marking,
+                  onPressed: () => _onMarkComplete(article),
+                ),
+                const SizedBox(height: DesignTokens.spacingXl),
+              ],
+            );
+          },
+        ),
       ),
     );
   }
@@ -140,7 +225,7 @@ class _ReadingDetailScreenState extends ConsumerState<ReadingDetailScreen> {
     } catch (_) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Không thể lưu tiến độ, thử lại sau.')),
+          SnackBar(content: Text(AppLocalizations.of(context).readingSaveProgressError)),
         );
       }
     } finally {
@@ -218,23 +303,20 @@ class _GlossaryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final tokens = context.tokens;
     return Container(
       padding: const EdgeInsets.all(DesignTokens.spacingMd),
       decoration: BoxDecoration(
-        color: DesignTokens.card,
+        color: tokens.card,
         borderRadius: BorderRadius.circular(DesignTokens.radius),
-        border: Border.all(color: DesignTokens.border),
+        border: Border.all(color: tokens.border),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Từ vựng & giải thích',
-            style: theme.textTheme.titleSmall?.copyWith(
-              fontWeight: FontWeight.w700,
-              color: DesignTokens.foreground,
-            ),
+            AppLocalizations.of(context).readingGlossaryTitle,
+            style: TextStyle(fontWeight: FontWeight.w700, fontSize: 14, color: tokens.foreground),
           ),
           const SizedBox(height: DesignTokens.spacingSm),
           for (final entry in entries)
@@ -242,10 +324,7 @@ class _GlossaryCard extends StatelessWidget {
               padding: const EdgeInsets.only(bottom: DesignTokens.spacingXs),
               child: Text(
                 entry,
-                style: theme.textTheme.bodySmall?.copyWith(
-                  color: DesignTokens.mutedForeground,
-                  height: 1.5,
-                ),
+                style: TextStyle(color: tokens.mutedForeground, height: 1.5, fontSize: 13),
               ),
             ),
         ],
@@ -267,16 +346,17 @@ class _MarkCompleteButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return SizedBox(
       width: double.infinity,
       child: FilledButton.icon(
         onPressed: isDone || isBusy ? null : onPressed,
         icon: Icon(isDone ? Icons.check_circle : Icons.check_circle_outline),
         label: Text(
-          isBusy ? 'Đang lưu…' : (isDone ? 'Đã đọc' : 'Đánh dấu đã đọc'),
+          isBusy ? l10n.saving : (isDone ? l10n.readingDoneChip : l10n.readingMarkComplete),
         ),
         style: FilledButton.styleFrom(
-          backgroundColor: isDone ? Colors.green.shade600 : DesignTokens.tigerOrange,
+          backgroundColor: isDone ? const Color(0xFF059669) : DesignTokens.tigerOrange,
         ),
       ),
     );

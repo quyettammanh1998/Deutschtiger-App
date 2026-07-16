@@ -1,3 +1,4 @@
+import 'package:deutschtiger/data/practice/practice_result.dart';
 import 'package:deutschtiger/features/mission/data/mission_service.dart';
 import 'package:deutschtiger/features/mission/domain/mission_models.dart';
 import 'package:deutschtiger/features/mission/presentation/mission_session_provider.dart';
@@ -10,18 +11,20 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   test(
-    'one-word mission persists its round and completion end to end',
+    'one-round mission persists its round and completion end to end',
     () async {
       final service = _FakeMissionService();
       final setup = _container(service);
       addTearDown(setup.dispose);
 
       final notifier = setup.container.read(missionSessionProvider.notifier);
-      await setup.container.read(missionSessionProvider.future);
-      notifier.beginPractice();
-      notifier.submitAnswer(true);
-      await notifier.advance();
-      final state = setup.container.read(missionSessionProvider).requireValue;
+      var state = await setup.container.read(missionSessionProvider.future);
+      expect(state.status, MissionRunnerStatus.inRound);
+
+      await notifier.submitRoundResults(const [
+        PracticeResultEntry(cardId: 'word-1', correct: true),
+      ]);
+      state = setup.container.read(missionSessionProvider).requireValue;
 
       expect(service.roundCompletions, 1);
       expect(service.missionCompletions, 1);
@@ -30,21 +33,34 @@ void main() {
     },
   );
 
-  test('failed round persistence stays on result and can be retried', () async {
+  test('failed round persistence stays on the round and can be retried', () async {
     final service = _FakeMissionService(failRound: true);
     final setup = _container(service);
     addTearDown(setup.dispose);
 
     final notifier = setup.container.read(missionSessionProvider.notifier);
     await setup.container.read(missionSessionProvider.future);
-    notifier.beginPractice();
-    notifier.submitAnswer(false);
-    await notifier.advance();
+    await notifier.submitRoundResults(const [
+      PracticeResultEntry(cardId: 'word-1', correct: false),
+    ]);
     final state = setup.container.read(missionSessionProvider).requireValue;
 
-    expect(state.status, MissionRunnerStatus.betweenWords);
+    expect(state.status, MissionRunnerStatus.inRound);
     expect(state.error, MissionSessionError.roundNotSaved);
     expect(service.missionCompletions, 0);
+  });
+
+  test('mission with resume_items starts on resumePreStep', () async {
+    final service = _FakeMissionService(withResume: true);
+    final setup = _container(service);
+    addTearDown(setup.dispose);
+
+    final state = await setup.container.read(missionSessionProvider.future);
+    expect(state.status, MissionRunnerStatus.resumePreStep);
+
+    setup.container.read(missionSessionProvider.notifier).completeResumeStep();
+    final next = setup.container.read(missionSessionProvider).requireValue;
+    expect(next.status, MissionRunnerStatus.inRound);
   });
 }
 
@@ -70,14 +86,17 @@ void main() {
 }
 
 class _FakeMissionService extends MissionService {
-  _FakeMissionService({this.failRound = false}) : super(_dummyClient());
+  _FakeMissionService({this.failRound = false, this.withResume = false})
+      : super(_dummyClient());
 
   final bool failRound;
+  final bool withResume;
   int roundCompletions = 0;
   int missionCompletions = 0;
 
   @override
-  Future<DailyMission> fetchTodayMission() async => _mission;
+  Future<DailyMission> fetchTodayMission() async =>
+      withResume ? _missionWithResume : _mission;
 
   @override
   Future<void> startMission(String missionId) async {}
@@ -120,6 +139,34 @@ const _mission = DailyMission(
   roundsCompleted: 0,
   completionPct: 0,
   xpEarned: 0,
+);
+
+const _missionWithResume = DailyMission(
+  id: 'mission-2',
+  words: [
+    DailyMissionWord(
+      wordId: 'word-1',
+      contentDe: 'Haus',
+      contentVi: 'nhà',
+      level: 'A1',
+    ),
+  ],
+  rounds: [
+    MissionRound(index: 0, gameType: 'flashcard', wordIds: ['word-1']),
+  ],
+  roundsPlanned: 1,
+  roundsCompleted: 0,
+  completionPct: 0,
+  xpEarned: 0,
+  resumeItems: [
+    MissionResumeTarget(
+      kind: 'exam',
+      ref: 'goethe-a1',
+      title: 'Goethe A1',
+      subtitle: 'Lesen',
+      route: '/exam/goethe-a1',
+    ),
+  ],
 );
 
 ApiClient _dummyClient() => ApiClient(

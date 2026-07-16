@@ -60,7 +60,9 @@ void main() {
       wrap(
         const GrammarScreen(initialLevel: 'A1'),
         overrides: [
-          grammarLessonIndexProvider.overrideWith((ref) async => <GrammarLessonSummary>[]),
+          grammarLessonIndexProvider.overrideWith(
+            (ref) async => <GrammarLessonSummary>[],
+          ),
           grammarCompletedIdsProvider.overrideWith((ref) async => <String>[]),
           grammarArticleIndexProvider.overrideWith(
             (ref) async => <String, List<GrammarArticleMeta>>{},

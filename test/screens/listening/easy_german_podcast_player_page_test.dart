@@ -1,4 +1,5 @@
 import 'package:deutschtiger/data/listening/podcast_models.dart';
+import 'package:deutschtiger/l10n/app_localizations.dart';
 import 'package:deutschtiger/repositories/listening/podcast_repository.dart';
 import 'package:deutschtiger/screens/listening/easy_german_podcast_player_page.dart';
 import 'package:deutschtiger/services/api_client.dart';
@@ -39,8 +40,11 @@ void main() {
             ),
           ),
         ],
-        child: const MaterialApp(
-          home: EasyGermanPodcastPlayerPage(slug: 'ep-1'),
+        child: MaterialApp(
+          locale: const Locale('vi'),
+          supportedLocales: AppLocalizations.supportedLocales,
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          home: const EasyGermanPodcastPlayerPage(slug: 'ep-1'),
         ),
       ),
     );
@@ -64,8 +68,11 @@ void main() {
             (ref) async => throw Exception('not found'),
           ),
         ],
-        child: const MaterialApp(
-          home: EasyGermanPodcastPlayerPage(slug: 'ep-404'),
+        child: MaterialApp(
+          locale: const Locale('vi'),
+          supportedLocales: AppLocalizations.supportedLocales,
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          home: const EasyGermanPodcastPlayerPage(slug: 'ep-404'),
         ),
       ),
     );

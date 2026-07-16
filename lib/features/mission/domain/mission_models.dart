@@ -62,6 +62,41 @@ class MissionRound {
   }
 }
 
+/// A deep-link to unfinished work (exam/course/deck) surfaced before the
+/// mission's playable rounds — mirrors web `MissionResumeTarget`. Tapping
+/// navigates AWAY from the session (never dispatched as a round).
+class MissionResumeTarget {
+  const MissionResumeTarget({
+    required this.kind,
+    required this.ref,
+    required this.title,
+    required this.subtitle,
+    required this.route,
+    this.icon,
+    this.progressPct,
+  });
+
+  final String kind;
+  final String ref;
+  final String title;
+  final String subtitle;
+  final String route;
+  final String? icon;
+  final int? progressPct;
+
+  factory MissionResumeTarget.fromJson(Map<String, dynamic> json) {
+    return MissionResumeTarget(
+      kind: json['kind'] as String? ?? '',
+      ref: json['ref'] as String? ?? '',
+      title: json['title'] as String? ?? '',
+      subtitle: json['subtitle'] as String? ?? '',
+      route: json['route'] as String? ?? '',
+      icon: json['icon'] as String?,
+      progressPct: (json['progress_pct'] as num?)?.toInt(),
+    );
+  }
+}
+
 /// Today's mission — `GET /user/learn/mission/today`.
 class DailyMission {
   const DailyMission({
@@ -72,6 +107,7 @@ class DailyMission {
     required this.roundsCompleted,
     required this.completionPct,
     required this.xpEarned,
+    this.resumeItems = const <MissionResumeTarget>[],
     this.startedAt,
     this.completedAt,
   });
@@ -83,6 +119,10 @@ class DailyMission {
   final int roundsCompleted;
   final double completionPct;
   final int xpEarned;
+
+  /// Unfinished work to surface before the playable rounds (`ResumePreStep`
+  /// on web) — empty when the orchestrator found nothing to resume.
+  final List<MissionResumeTarget> resumeItems;
   final DateTime? startedAt;
   final DateTime? completedAt;
 
@@ -98,6 +138,10 @@ class DailyMission {
   }
 
   factory DailyMission.fromJson(Map<String, dynamic> json) {
+    final resume = json['resume_items'];
+    final resumeList = resume is Map<String, dynamic>
+        ? resume['items'] as List<dynamic>?
+        : null;
     return DailyMission(
       id: json['id'] as String? ?? '',
       words: (json['words'] as List<dynamic>? ?? const [])
@@ -110,6 +154,11 @@ class DailyMission {
       roundsCompleted: (json['rounds_completed'] as num?)?.toInt() ?? 0,
       completionPct: (json['completion_pct'] as num?)?.toDouble() ?? 0,
       xpEarned: (json['xp_earned'] as num?)?.toInt() ?? 0,
+      resumeItems: (resumeList ?? const [])
+          .map(
+            (e) => MissionResumeTarget.fromJson(e as Map<String, dynamic>),
+          )
+          .toList(),
       startedAt: json['started_at'] != null
           ? DateTime.tryParse(json['started_at'] as String)
           : null,

@@ -90,6 +90,56 @@ class ReadingRepository {
     );
   }
 
+  /// Top learners theo số bài đọc hoàn thành trong [level] (rỗng = tất cả
+  /// level), nguồn `GET /reading-leaderboard?limit=&level=`.
+  Future<List<ReadingLeaderboardEntry>> fetchLeaderboard({
+    required String level,
+    int limit = 10,
+  }) async {
+    final query = <String, dynamic>{'limit': limit};
+    if (level.isNotEmpty) query['level'] = level;
+    final data = await _apiClient.get<List<dynamic>>(
+      '/reading-leaderboard',
+      query: query,
+    );
+    return data
+        .map((e) => ReadingLeaderboardEntry.fromJson(e as Map<String, dynamic>))
+        .toList();
+  }
+
+  /// Hạng của user hiện tại trong [level] (`null` khi chưa hoàn thành bài
+  /// nào), nguồn `GET /user/reading-rank?level=`.
+  Future<ReadingLeaderboardEntry?> fetchUserRank(String level) async {
+    try {
+      final query = <String, dynamic>{};
+      if (level.isNotEmpty) query['level'] = level;
+      final data = await _apiClient.get<Map<String, dynamic>?>(
+        '/user/reading-rank',
+        query: query,
+      );
+      if (data == null) return null;
+      return ReadingLeaderboardEntry.fromJson(data);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  /// Lưu hàng loạt từ vựng (theo `learning_item_id`, đã match sẵn ở
+  /// glossary/vocab của bài) vào hàng đợi ôn tập — nguồn
+  /// `POST /user/word-reviews/add-batch`. Dùng chung cho reading + news
+  /// (tương đương `srsService.addWordsBatch` của web, vốn gọi endpoint
+  /// `/user/srs/add-batch` không tồn tại trên backend hiện tại — xem báo cáo
+  /// P11 W4 §Deviations).
+  Future<void> saveWordsBatch(List<String> learningItemIds, String source) async {
+    if (learningItemIds.isEmpty) return;
+    await _apiClient.post<Map<String, dynamic>>(
+      '/user/word-reviews/add-batch',
+      body: [
+        for (final id in learningItemIds) {'learning_item_id': id, 'source': source},
+      ],
+    );
+  }
+
   /// Ghép `audioUrl` (đường dẫn tương đối do backend trả, vd
   /// `/api/v1/reading/audio/A1/x.mp3`) với host gốc suy ra từ base URL của
   /// [ApiClient] (vốn đã có hậu tố `/api/v1`).

@@ -99,6 +99,32 @@ class NewsRepository {
       return null;
     }
   }
+
+  /// Bảng xếp hạng tuần (số bài tin tức hoàn thành), nguồn
+  /// `GET /news-leaderboard?limit=`.
+  Future<List<NewsLeaderboardEntry>> fetchLeaderboard({int limit = 10}) async {
+    final data = await _apiClient.get<List<dynamic>>(
+      '/news-leaderboard',
+      query: {'limit': limit},
+    );
+    return data
+        .map((e) => NewsLeaderboardEntry.fromJson(e as Map<String, dynamic>))
+        .toList();
+  }
+
+  /// Hạng tuần của user hiện tại (`null` khi chưa hoàn thành bài nào tuần
+  /// này), nguồn `GET /user/news-rank`.
+  Future<NewsLeaderboardEntry?> fetchUserRank() async {
+    try {
+      final data = await _apiClient.get<Map<String, dynamic>?>(
+        '/user/news-rank',
+      );
+      if (data == null) return null;
+      return NewsLeaderboardEntry.fromJson(data);
+    } catch (_) {
+      return null;
+    }
+  }
 }
 
 final newsRepositoryProvider = Provider<NewsRepository>((ref) {

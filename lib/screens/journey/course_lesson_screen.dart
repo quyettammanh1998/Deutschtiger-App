@@ -1,323 +1,166 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
-import '../../core/design_tokens.dart';
+import '../../core/theme/app_tokens.dart';
 import '../../features/journey/domain/course_models.dart';
 import '../../l10n/app_localizations.dart';
-import '../../repositories/journey/journey_repository.dart';
+import '../../shared/widgets/premium_gate_card.dart';
 import '../../view_models/journey/journey_provider.dart';
 import '../../widgets/common/async_state_views.dart';
+import 'widgets/course_lesson_body.dart';
+import 'widgets/course_lesson_strip.dart';
 
-/// Course lesson content — video (self-hosted only; YouTube parity belongs
-/// to the media/video-library phase), vocabulary, exercise count and the
-/// user's notes + mark-complete toggle. Mirrors web `course-lesson-page.tsx`
-/// minus the interactive exercise engine.
+const _freeLessonLimit = 5;
+
+/// Course lesson — video playback + lesson strip + transcript + vocab audio
+/// + comments. Web parity `course-lesson-page.tsx`.
 class CourseLessonScreen extends ConsumerWidget {
-  const CourseLessonScreen({
-    super.key,
-    required this.slug,
-    required this.lessonNumber,
-  });
+  const CourseLessonScreen({super.key, required this.slug, required this.lessonNumber});
 
   final String slug;
   final int lessonNumber;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final l10n = AppLocalizations.of(context);
+    final tokens = context.tokens;
     final key = LessonKey(slug, lessonNumber);
     final lessonAsync = ref.watch(lessonContentProvider(key));
 
     return Scaffold(
-      backgroundColor: DesignTokens.background,
-      appBar: AppBar(
-        backgroundColor: DesignTokens.background,
-        title: lessonAsync.maybeWhen(
-          data: (lesson) => Text(lesson.nameVi ?? lesson.name),
-          orElse: () => Text(l10n.coursesHubTitle),
-        ),
-      ),
+      backgroundColor: tokens.background,
       body: SafeArea(
         child: lessonAsync.when(
           loading: () => const LoadingView(),
-          error: (e, _) => ErrorView(
-            onRetry: () => ref.invalidate(lessonContentProvider(key)),
-          ),
-          data: (lesson) => _LessonBody(slug: slug, key_: key, lesson: lesson),
+          error: (e, _) => ErrorView(onRetry: () => ref.invalidate(lessonContentProvider(key))),
+          data: (lesson) => _LessonScaffoldBody(slug: slug, lessonKey: key, lesson: lesson),
         ),
       ),
     );
   }
 }
 
-class _LessonBody extends ConsumerWidget {
-  const _LessonBody({required this.slug, required this.key_, required this.lesson});
-
+class _LessonScaffoldBody extends ConsumerWidget {
+  const _LessonScaffoldBody({required this.slug, required this.lessonKey, required this.lesson});
   final String slug;
-  final LessonKey key_;
+  final LessonKey lessonKey;
   final DwLessonDetail lesson;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final l10n = AppLocalizations.of(context);
-    return ListView(
-      padding: const EdgeInsets.all(DesignTokens.spacingMd),
-      children: [
-        _VideoPlaceholder(video: lesson.video, l10n: l10n),
-        const SizedBox(height: DesignTokens.spacingMd),
-        _MarkCompleteButton(slug: slug, lessonKey: key_),
-        if (lesson.exerciseCount > 0) ...[
-          const SizedBox(height: DesignTokens.spacingSm),
-          Text(
-            l10n.coursesExercisesHint(lesson.exerciseCount),
-            style: const TextStyle(color: DesignTokens.mutedForeground),
-          ),
-        ],
-        if (lesson.vocabularies.isNotEmpty) ...[
-          const SizedBox(height: DesignTokens.spacingLg),
-          Text(
-            l10n.coursesVocabularyTitle,
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: DesignTokens.spacingSm),
-          for (final item in lesson.vocabularies) _VocabRow(item: item),
-        ],
-        const SizedBox(height: DesignTokens.spacingLg),
-        _NotesSection(slug: slug, lessonKey: key_),
-      ],
+    final progressAsync = ref.watch(lessonProgressProvider(lessonKey));
+    return progressAsync.when(
+      loading: () => const LoadingView(),
+      error: (_, _) => _LessonContent(slug: slug, lessonKey: lessonKey, lesson: lesson, progress: null),
+      data: (progress) =>
+          _LessonContent(slug: slug, lessonKey: lessonKey, lesson: lesson, progress: progress),
     );
   }
 }
 
-class _VideoPlaceholder extends StatelessWidget {
-  const _VideoPlaceholder({required this.video, required this.l10n});
-
-  final DwLessonVideo? video;
-  final AppLocalizations l10n;
-
-  @override
-  Widget build(BuildContext context) {
-    if (video == null) return const SizedBox.shrink();
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(DesignTokens.radius),
-      child: AspectRatio(
-        aspectRatio: 16 / 9,
-        child: Stack(
-          fit: StackFit.expand,
-          children: [
-            if (video!.poster != null && video!.poster!.isNotEmpty)
-              Image.network(
-                video!.poster!,
-                fit: BoxFit.cover,
-                errorBuilder: (_, _, _) => Container(color: DesignTokens.muted),
-              )
-            else
-              Container(color: DesignTokens.muted),
-            Container(color: Colors.black.withValues(alpha: 0.35)),
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.all(DesignTokens.spacingMd),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Icon(Icons.ondemand_video, color: Colors.white, size: 36),
-                    const SizedBox(height: DesignTokens.spacingXs),
-                    Text(
-                      l10n.coursesVideoWebOnly,
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(color: Colors.white),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _MarkCompleteButton extends ConsumerWidget {
-  const _MarkCompleteButton({required this.slug, required this.lessonKey});
+class _LessonContent extends ConsumerWidget {
+  const _LessonContent({
+    required this.slug,
+    required this.lessonKey,
+    required this.lesson,
+    required this.progress,
+  });
 
   final String slug;
   final LessonKey lessonKey;
+  final DwLessonDetail lesson;
+  final CourseLessonProgress? progress;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-    final progressAsync = ref.watch(lessonProgressProvider(lessonKey));
-
-    return progressAsync.when(
-      loading: () => const SizedBox(
-        height: 48,
-        child: Center(child: CircularProgressIndicator()),
-      ),
-      error: (_, _) => Text(
-        l10n.coursesSignInRequired,
-        style: const TextStyle(color: DesignTokens.mutedForeground),
-      ),
-      data: (progress) {
-        final isCompleted = progress?.videoCompleted ?? false;
-        return FilledButton.icon(
-          onPressed: () async {
-            final repo = ref.read(journeyRepositoryProvider);
-            try {
-              await repo.upsertLessonProgress(
-                slug: slug,
-                lessonNumber: lessonKey.lessonNumber,
-                videoCompleted: !isCompleted,
-              );
-              ref.invalidate(lessonProgressProvider(lessonKey));
-              ref.invalidate(courseProgressProvider(slug));
-            } catch (_) {
-              if (context.mounted) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(l10n.coursesNotesSaveFailed)),
-                );
-              }
-            }
-          },
-          style: FilledButton.styleFrom(
-            backgroundColor: isCompleted ? DesignTokens.success : DesignTokens.tigerOrange,
-          ),
-          icon: Icon(isCompleted ? Icons.check_circle : Icons.check_circle_outline),
-          label: Text(isCompleted ? l10n.coursesMarkIncomplete : l10n.coursesMarkComplete),
-        );
-      },
+    final tokens = context.tokens;
+    final detailAsync = ref.watch(courseDetailProvider(slug));
+    final canAccessAllAsync = ref.watch(courseCanAccessAllProvider);
+    final canAccessAll = canAccessAllAsync.maybeWhen(data: (v) => v, orElse: () => true);
+    final allLessons = detailAsync.maybeWhen(
+      data: (d) => ([...d.lessons]..sort((a, b) => a.number.compareTo(b.number))),
+      orElse: () => const <DwCourseLessonSummary>[],
     );
-  }
-}
+    final lessonIndex = allLessons.indexWhere((l) => l.number == lesson.number);
+    final isLocked = !canAccessAll && lessonIndex >= _freeLessonLimit;
 
-class _VocabRow extends StatelessWidget {
-  const _VocabRow({required this.item});
-  final DwVocabularyItem item;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: DesignTokens.spacingXs),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-            child: Text(
-              item.german,
-              style: const TextStyle(fontWeight: FontWeight.w600),
-            ),
-          ),
-          const SizedBox(width: DesignTokens.spacingSm),
-          Expanded(
-            child: Text(
-              item.vietnamese ?? item.english ?? '',
-              style: const TextStyle(color: DesignTokens.mutedForeground),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _NotesSection extends ConsumerStatefulWidget {
-  const _NotesSection({required this.slug, required this.lessonKey});
-
-  final String slug;
-  final LessonKey lessonKey;
-
-  @override
-  ConsumerState<_NotesSection> createState() => _NotesSectionState();
-}
-
-class _NotesSectionState extends ConsumerState<_NotesSection> {
-  final _controller = TextEditingController();
-  bool _hydrated = false;
-  bool _saving = false;
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  Future<void> _save() async {
-    final l10n = AppLocalizations.of(context);
-    setState(() => _saving = true);
-    try {
-      await ref.read(journeyRepositoryProvider).upsertLessonNote(
-            slug: widget.slug,
-            lessonNumber: widget.lessonKey.lessonNumber,
-            content: _controller.text,
-          );
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(l10n.coursesNotesSaved)),
-        );
-      }
-    } catch (_) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(l10n.coursesNotesSaveFailed)),
-        );
-      }
-    } finally {
-      if (mounted) setState(() => _saving = false);
+    if (isLocked) {
+      return Padding(
+        padding: const EdgeInsets.all(16),
+        child: PremiumGateCard(
+          title: l10n.coursesLockedLessonTitle,
+          description: l10n.coursesLockedLessonDescription,
+          actionLabel: l10n.coursesUpsellCta,
+          onAction: () => context.push('/settings/premium'),
+        ),
+      );
     }
-  }
 
-  @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-    final noteAsync = ref.watch(lessonNoteProvider(widget.lessonKey));
-
-    return noteAsync.when(
-      loading: () => const SizedBox(
-        height: 48,
-        child: Center(child: CircularProgressIndicator()),
-      ),
-      error: (_, _) => Text(
-        l10n.coursesSignInRequired,
-        style: const TextStyle(color: DesignTokens.mutedForeground),
-      ),
-      data: (note) {
-        if (!_hydrated) {
-          _controller.text = note?.content ?? '';
-          _hydrated = true;
-        }
-        return Column(
+    return RefreshIndicator(
+      onRefresh: () async {
+        ref.invalidate(lessonProgressProvider(lessonKey));
+        ref.invalidate(lessonContentProvider(lessonKey));
+      },
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.fromLTRB(12, 12, 12, 24),
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              l10n.coursesNotesLabel,
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                IconButton(
+                  onPressed: () => context.canPop() ? context.pop() : context.go('/course/$slug'),
+                  icon: Icon(Icons.arrow_back, color: tokens.foreground),
+                  padding: EdgeInsets.zero,
+                  constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
+                ),
+                const SizedBox(width: 4),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        l10n.coursesLessonHeading(lesson.number.toString().padLeft(2, '0'), lesson.name),
+                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: tokens.foreground),
+                      ),
+                      if ((lesson.description ?? '').isNotEmpty)
+                        Padding(
+                          padding: const EdgeInsets.only(top: 2),
+                          child: Text(
+                            lesson.description!,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(fontSize: 12, color: tokens.mutedForeground),
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+              ],
             ),
-            const SizedBox(height: DesignTokens.spacingSm),
-            TextField(
-              controller: _controller,
-              maxLines: 5,
-              decoration: InputDecoration(
-                hintText: l10n.coursesNotesHint,
-                border: const OutlineInputBorder(),
+            const SizedBox(height: 12),
+            if (allLessons.length > 1)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 12),
+                child: CourseLessonStrip(
+                  lessons: allLessons,
+                  currentNumber: lesson.number,
+                  lockedFrom: canAccessAll ? null : _freeLessonLimit,
+                  onTap: (item) => context.pushReplacement('/course/$slug/lessons/${item.number}'),
+                ),
               ),
-            ),
-            const SizedBox(height: DesignTokens.spacingSm),
-            Align(
-              alignment: Alignment.centerRight,
-              child: FilledButton(
-                onPressed: _saving ? null : _save,
-                child: _saving
-                    ? const SizedBox(
-                        width: 16,
-                        height: 16,
-                        child: CircularProgressIndicator(strokeWidth: 2),
-                      )
-                    : Text(l10n.coursesNotesSave),
-              ),
+            CourseLessonBody(
+              key: ValueKey('$slug-${lesson.number}'),
+              slug: slug,
+              lesson: lesson,
+              initialProgress: progress,
+              onSaved: () {},
             ),
           ],
-        );
-      },
+        ),
+      ),
     );
   }
 }

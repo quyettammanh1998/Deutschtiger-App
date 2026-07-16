@@ -8,9 +8,14 @@ import 'package:go_router/go_router.dart';
 import '../../core/theme/app_colors.dart';
 import '../../data/games/learning_item_models.dart';
 import '../../view_models/games/learning_item_provider.dart';
+import '../../widgets/common/app_pill.dart';
 import '../../widgets/common/async_state_views.dart';
+import '../../widgets/common/game_shell.dart';
 
-const _levels = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+// See `article_game_screen.dart` for why this is a fixed default rather
+// than wired to `learningPreferencesProvider` (AutoDispose + bare `ref.read`
+// race).
+const _kDefaultLevel = 'A1';
 const _minSentences = 3;
 const _sessionSize = 15;
 
@@ -44,7 +49,6 @@ class WordOrderGameScreen extends ConsumerStatefulWidget {
 }
 
 class _WordOrderGameScreenState extends ConsumerState<WordOrderGameScreen> {
-  String _level = 'A1';
   late Future<List<_Sentence>> _future;
 
   List<_Sentence> _sentences = const [];
@@ -66,6 +70,8 @@ class _WordOrderGameScreenState extends ConsumerState<WordOrderGameScreen> {
     super.initState();
     _future = _load();
   }
+
+  String get _level => _kDefaultLevel;
 
   Future<List<_Sentence>> _load() async {
     final items = await ref
@@ -190,43 +196,35 @@ class _WordOrderGameScreenState extends ConsumerState<WordOrderGameScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.authBackground,
-      appBar: AppBar(
-        backgroundColor: AppColors.authBackground,
-        title: const Text('Wortstellung'),
-        leading: IconButton(
-          icon: const Icon(Icons.close),
-          onPressed: () => context.pop(),
-        ),
-        actions: [
-          if (!_gameOver) ...[
-            _LevelPicker(
-              level: _level,
-              onChanged: (v) {
-                _level = v;
-                _restart();
-              },
-            ),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-              margin: const EdgeInsets.only(right: 16, left: 8),
-              decoration: BoxDecoration(
-                color: _timeLeft <= 30 ? Colors.red : Colors.grey.shade200,
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: Row(
-                children: [
-                  const Icon(Icons.timer, size: 16),
-                  const SizedBox(width: 4),
-                  Text('${_timeLeft}s', style: const TextStyle(fontWeight: FontWeight.bold)),
-                ],
-              ),
-            ),
-          ],
-        ],
-      ),
-      body: _gameOver
+    return GameShell(
+      title: 'Wortstellung',
+      exitGuard: !_gameOver,
+      scrollable: false,
+      trailing: !_gameOver
+          ? Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                AppPill(label: _level),
+                const SizedBox(width: 8),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  decoration: BoxDecoration(
+                    color: _timeLeft <= 30 ? Colors.red : Colors.grey.shade200,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(Icons.timer, size: 16),
+                      const SizedBox(width: 4),
+                      Text('${_timeLeft}s', style: const TextStyle(fontWeight: FontWeight.bold)),
+                    ],
+                  ),
+                ),
+              ],
+            )
+          : null,
+      child: _gameOver
           ? _buildResults()
           : FutureBuilder<List<_Sentence>>(
               future: _future,
@@ -482,25 +480,6 @@ class _WordOrderGameScreenState extends ConsumerState<WordOrderGameScreen> {
           ],
         ),
       ),
-    );
-  }
-}
-
-class _LevelPicker extends StatelessWidget {
-  const _LevelPicker({required this.level, required this.onChanged});
-
-  final String level;
-  final ValueChanged<String> onChanged;
-
-  @override
-  Widget build(BuildContext context) {
-    return DropdownButton<String>(
-      value: level,
-      underline: const SizedBox.shrink(),
-      items: _levels.map((l) => DropdownMenuItem(value: l, child: Text(l))).toList(growable: false),
-      onChanged: (v) {
-        if (v != null) onChanged(v);
-      },
     );
   }
 }

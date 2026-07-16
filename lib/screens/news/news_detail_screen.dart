@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import 'package:deutschtiger/l10n/app_localizations.dart';
 import 'package:deutschtiger/repositories/news/news_repository.dart';
 import 'package:deutschtiger/widgets/common/async_state_views.dart';
 import '../../core/design_tokens.dart';
 import '../../data/news/news_models.dart';
 import '../../shared/widgets/word_lookup_sheet.dart';
+import '../reading/widgets/save_article_words_cta.dart';
 import 'news_list_screen.dart' show newsCompletedIdsProvider;
 import 'widgets/news_cards.dart' show newsTopicVi;
 import 'widgets/news_detail_widgets.dart';
@@ -36,12 +38,13 @@ class _NewsDetailScreenState extends ConsumerState<NewsDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final storyAsync = ref.watch(newsStoryProvider(widget.slug));
 
     return Scaffold(
       backgroundColor: DesignTokens.background,
       appBar: AppBar(
-        title: const Text('Tin tức Đức'),
+        title: Text(l10n.newsHeaderTitle),
         backgroundColor: DesignTokens.background,
       ),
       body: storyAsync.when(
@@ -51,7 +54,7 @@ class _NewsDetailScreenState extends ConsumerState<NewsDetailScreen> {
         ),
         data: (levels) {
           if (levels.isEmpty) {
-            return const ErrorView(message: 'Không tìm thấy tin tức.');
+            return ErrorView(message: l10n.newsStoryNotFound);
           }
           final resolvedLevel =
               _selectedLevel ?? widget.initialLevel ?? levels.first.level;
@@ -64,11 +67,49 @@ class _NewsDetailScreenState extends ConsumerState<NewsDetailScreen> {
             padding: const EdgeInsets.all(DesignTokens.spacingMd),
             children: [
               if (levels.length > 1) ...[
+                Text(
+                  l10n.newsChooseLevelLabel,
+                  style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 14),
+                ),
+                const SizedBox(height: DesignTokens.spacingSm),
                 NewsLevelSwitcher(
                   levels: levels.map((l) => l.level).toList(),
                   active: article.level,
                   onChanged: (level) =>
                       setState(() => _selectedLevel = level),
+                ),
+                Container(
+                  margin: const EdgeInsets.only(top: DesignTokens.spacingSm + 2),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: DesignTokens.spacingSm,
+                    vertical: DesignTokens.spacingSm,
+                  ),
+                  decoration: BoxDecoration(
+                    color: DesignTokens.tigerOrange.withValues(alpha: 0.05),
+                    borderRadius: BorderRadius.circular(DesignTokens.radiusSm),
+                  ),
+                  child: Text.rich(
+                    TextSpan(
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: DesignTokens.mutedForeground,
+                        height: 1.5,
+                      ),
+                      children: [
+                        TextSpan(text: l10n.newsOtherLevelsPrefix),
+                        TextSpan(
+                          text: levels
+                              .where((l) => l.level != article.level)
+                              .map((l) => l.level)
+                              .join(' · '),
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w700,
+                            color: DesignTokens.tigerOrange,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
                 const SizedBox(height: DesignTokens.spacingMd),
               ],
@@ -100,14 +141,18 @@ class _NewsDetailScreenState extends ConsumerState<NewsDetailScreen> {
                 ),
               if (article.imageUrl != null) ...[
                 const SizedBox(height: DesignTokens.spacingSm),
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(DesignTokens.radius),
-                  child: Image.network(
-                    article.imageUrl!,
-                    width: double.infinity,
-                    height: 180,
-                    fit: BoxFit.cover,
-                    errorBuilder: (_, _, _) => const SizedBox.shrink(),
+                ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 448),
+                  child: AspectRatio(
+                    aspectRatio: 16 / 9,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(DesignTokens.radius),
+                      child: Image.network(
+                        article.imageUrl!,
+                        fit: BoxFit.cover,
+                        errorBuilder: (_, _, _) => const SizedBox.shrink(),
+                      ),
+                    ),
                   ),
                 ),
               ],
@@ -156,6 +201,17 @@ class _NewsDetailScreenState extends ConsumerState<NewsDetailScreen> {
               ],
               if (article.vocab.isNotEmpty)
                 NewsVocabList(vocab: article.vocab),
+              if (article.vocab.any((v) => v.learningItemId != null)) ...[
+                const SizedBox(height: DesignTokens.spacingMd),
+                SaveArticleWordsCta(
+                  resolvableIds: article.vocab
+                      .where((v) => v.learningItemId != null)
+                      .map((v) => v.learningItemId!)
+                      .toList(),
+                  totalWords: article.vocab.length,
+                  source: 'news',
+                ),
+              ],
               const SizedBox(height: DesignTokens.spacingXl),
             ],
           );
@@ -209,7 +265,7 @@ class _SourceLine extends StatelessWidget {
       children: [
         if (article.publishedAt != null)
           Text(
-            _formatDate(article.publishedAt!),
+            _formatDate(context, article.publishedAt!),
             style: const TextStyle(
               fontSize: 12,
               color: DesignTokens.mutedForeground,
@@ -240,15 +296,16 @@ class _SourceLine extends StatelessWidget {
     );
   }
 
-  String _formatDate(String iso) {
+  String _formatDate(BuildContext context, String iso) {
     final date = DateTime.tryParse(iso);
     if (date == null) return '';
+    final l10n = AppLocalizations.of(context);
     final now = DateTime.now();
     final startOfDay = DateTime(date.year, date.month, date.day);
     final startOfToday = DateTime(now.year, now.month, now.day);
     final diffDays = startOfToday.difference(startOfDay).inDays;
-    if (diffDays == 0) return 'Hôm nay';
-    if (diffDays == 1) return 'Hôm qua';
+    if (diffDays == 0) return l10n.today;
+    if (diffDays == 1) return l10n.yesterday;
     return '${date.day.toString().padLeft(2, '0')}/'
         '${date.month.toString().padLeft(2, '0')}/${date.year}';
   }

@@ -1,6 +1,7 @@
 import 'package:deutschtiger/data/decks/deck_models.dart';
 import 'package:deutschtiger/l10n/app_localizations.dart';
 import 'package:deutschtiger/screens/decks/deck_detail_screen.dart';
+import 'package:deutschtiger/view_models/decks/deck_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -23,6 +24,8 @@ void main() {
               ),
             ],
           ),
+          decksProvider.overrideWith((ref) async => const []),
+          deckSummaryProvider.overrideWith((ref) async => const {}),
         ],
         child: MaterialApp(
           locale: const Locale('de'),
@@ -37,9 +40,12 @@ void main() {
     );
     await tester.pumpAndSettle();
 
+    // Falls back to the generic "Karteikartensätze" title until the deck's
+    // own name resolves from `decksProvider` (overridden empty here).
     expect(find.text('Karteikartensätze'), findsOneWidget);
-    expect(find.text('Fällige Karten wiederholen'), findsOneWidget);
     expect(find.text('Haus'), findsOneWidget);
+    expect(find.text('Lernen'), findsOneWidget);
+    expect(find.text('Spielen'), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
 
@@ -48,6 +54,8 @@ void main() {
       ProviderScope(
         overrides: [
           deckWordsProvider('deck-1').overrideWith((ref) async => const []),
+          decksProvider.overrideWith((ref) async => const []),
+          deckSummaryProvider.overrideWith((ref) async => const {}),
         ],
         child: MaterialApp(
           locale: const Locale('de'),

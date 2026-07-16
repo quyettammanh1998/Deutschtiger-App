@@ -8,8 +8,8 @@ import '../../repositories/games/grammar_drill_repository.dart';
 import '../../view_models/games/cases_provider.dart';
 import '../../view_models/games/conjugation_provider.dart';
 import '../../widgets/common/async_state_views.dart';
+import '../../widgets/common/game_shell.dart';
 
-const _levels = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
 const _minItems = 5;
 const _itemsPerSession = 10;
 
@@ -123,17 +123,11 @@ class _KonjugationGameScreenState
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.authBackground,
-      appBar: AppBar(
-        backgroundColor: AppColors.authBackground,
-        title: const Text('Konjugationstrainer'),
-        leading: IconButton(
-          icon: const Icon(Icons.close),
-          onPressed: () => context.pop(),
-        ),
-      ),
-      body: _gameOver
+    return GameShell(
+      title: 'Konjugationstrainer (Chia động từ)',
+      exitGuard: !_gameOver,
+      scrollable: false,
+      child: _gameOver
           ? _buildResults()
           : FutureBuilder<List<ConjugationExercise>>(
               future: _future,
@@ -171,24 +165,7 @@ class _KonjugationGameScreenState
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text('${_index + 1}/${_questions.length}'),
-              DropdownButton<String>(
-                value: _level,
-                underline: const SizedBox.shrink(),
-                items: _levels
-                    .map((l) => DropdownMenuItem(value: l, child: Text(l)))
-                    .toList(growable: false),
-                onChanged: (v) {
-                  if (v == null) return;
-                  _level = v;
-                  _restart();
-                },
-              ),
-            ],
-          ),
+          child: Text('${_index + 1}/${_questions.length}'),
         ),
         Expanded(
           child: SingleChildScrollView(

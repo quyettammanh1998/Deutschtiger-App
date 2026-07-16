@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/icons/app_phosphor_icons.dart';
 import '../../../../core/theme/app_tokens.dart';
 import '../../../../data/exam/exam_ecosystem_models.dart';
+import '../../../../l10n/app_localizations.dart';
 
 const Map<String, String> _examTypeLabels = {
   'goethe': 'Goethe',
@@ -38,6 +39,7 @@ class BuddyCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final tokens = context.tokens;
+    final l10n = AppLocalizations.of(context);
     final past = buddy.daysUntil < 0;
 
     return Opacity(
@@ -84,7 +86,7 @@ class BuddyCard extends StatelessWidget {
                         Text(
                           buddy.displayName.isNotEmpty
                               ? buddy.displayName
-                              : 'Ẩn danh',
+                              : l10n.communityAnonymousContributor,
                           style: TextStyle(
                             fontWeight: FontWeight.w700,
                             color: tokens.foreground,
@@ -163,22 +165,23 @@ class _DaysBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final tokens = context.tokens;
+    final l10n = AppLocalizations.of(context);
     final String label;
     final Color color;
     if (days < 0) {
-      label = 'Đã thi ${-days} ngày trước';
+      label = l10n.scheduleBuddyDaysAgo(-days);
       color = tokens.mutedForeground;
     } else if (days == 0) {
-      label = 'Thi hôm nay!';
+      label = l10n.scheduleBuddyToday;
       color = tokens.destructive;
     } else if (days <= 14) {
-      label = 'Còn $days ngày';
+      label = l10n.scheduleBuddyDaysLeft(days);
       color = tokens.destructive;
     } else if (days <= 45) {
-      label = 'Còn $days ngày';
+      label = l10n.scheduleBuddyDaysLeft(days);
       color = tokens.warning;
     } else {
-      label = 'Còn $days ngày';
+      label = l10n.scheduleBuddyDaysLeft(days);
       color = tokens.success;
     }
     return DecoratedBox(

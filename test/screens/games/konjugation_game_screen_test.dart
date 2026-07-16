@@ -128,4 +128,9 @@ class _FakeGrammarDrillRepository implements GrammarDrillRepository {
     String game,
     List<GrammarDrillResultInput> results,
   ) async {}
+
+  @override
+  Future<GrammarExplainResult> explainGrammar(
+    GrammarExplainRequest request,
+  ) async => const GrammarExplainResult(explanation: '', ok: false, cached: false);
 }

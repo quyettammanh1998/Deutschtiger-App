@@ -1,21 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_tokens.dart';
 import 'package:deutschtiger/widgets/interview/video_notes_panel.dart';
 import 'package:deutschtiger/widgets/interview/transcript_panel.dart';
+import 'package:deutschtiger/l10n/app_localizations.dart';
 import 'package:deutschtiger/view_models/youtube/youtube_provider.dart';
 import 'package:deutschtiger/data/youtube/youtube_video.dart';
 
-enum _PanelMode { none, notes, transcript }
-
-/// Màn xem video YouTube (tracker cá nhân): player + transcript đồng bộ +
-/// tra từ (qua transcript) + ghi chú + đánh dấu hoàn thành/xem lại.
+/// Màn xem video YouTube (tracker cá nhân) — web parity `youtube-watch-page.tsx`.
 ///
-/// Video có thể chưa từng persist vào DB (đến từ "video phổ biến" hoặc link
-/// ngoài) — theo hành vi web, chỉ lazy-add khi người dùng bấm hoàn thành.
-/// Không dùng background playback / overlay che player (chính sách YouTube).
+/// Block order matches web: back → player → complete button (dưới player,
+/// theo deviation đã duyệt cho `youtube_player_iframe`) → thông tin video →
+/// nút luyện tập (Nghe chép chính tả / Shadowing) → transcript inline
+/// (collapsible, mặc định mở) → ghi chú.
+///
+/// **Deviation đã duyệt (ghi trong report)**: `youtube_player_iframe` không
+/// dựng lại được `YouTubeEmbeddedPlayer` custom chrome của web — dùng player
+/// control mặc định. Cinema mode ("Toàn màn hình + song ngữ" — stage đen +
+/// phụ đề nổi) và `YouTubeVideoNotes` cột phải bị BỎ QUA trong wave này (không
+/// có API overlay tương đương an toàn với chính sách YouTube không che/tải
+/// video) — ghi chú panel vẫn giữ ở dạng toggle như trước.
 class YouTubeWatchScreen extends ConsumerStatefulWidget {
   const YouTubeWatchScreen({super.key, required this.videoId, this.title});
 
@@ -23,15 +30,15 @@ class YouTubeWatchScreen extends ConsumerStatefulWidget {
   final String? title;
 
   @override
-  ConsumerState<YouTubeWatchScreen> createState() =>
-      _YouTubeWatchScreenState();
+  ConsumerState<YouTubeWatchScreen> createState() => _YouTubeWatchScreenState();
 }
 
 class _YouTubeWatchScreenState extends ConsumerState<YouTubeWatchScreen> {
   late final YoutubePlayerController _controller;
   bool _completing = false;
   bool _autoMarked = false;
-  _PanelMode _panelMode = _PanelMode.none;
+  bool _showTranscript = true;
+  bool _showNotes = false;
 
   @override
   void initState() {
@@ -63,6 +70,7 @@ class _YouTubeWatchScreenState extends ConsumerState<YouTubeWatchScreen> {
     if (_completing) return;
     setState(() => _completing = true);
     final repo = ref.read(youtubeRepositoryProvider);
+    final l10n = AppLocalizations.of(context);
     try {
       var video = _video;
       if (!video.isPersisted) {
@@ -85,129 +93,209 @@ class _YouTubeWatchScreenState extends ConsumerState<YouTubeWatchScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
-              video.isCompleted ? 'Đã ghi nhận xem lại' : 'Đã đánh dấu hoàn thành',
+              video.isCompleted
+                  ? l10n.youtubeRewatchMarked
+                  : l10n.youtubeCompleteMarked,
             ),
           ),
         );
       }
     } catch (_) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Không lưu được tiến độ, thử lại sau.')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(l10n.youtubeSaveProgressError)));
       }
     } finally {
       if (mounted) setState(() => _completing = false);
     }
   }
 
-  void _seekTo(int milliseconds) {
-    _controller.seekTo(seconds: milliseconds / 1000);
-  }
+  void _seekTo(int milliseconds) =>
+      _controller.seekTo(seconds: milliseconds / 1000);
 
-  void _togglePanel(_PanelMode mode) {
-    setState(() {
-      _panelMode = _panelMode == mode ? _PanelMode.none : mode;
-    });
+  void _openPractice(String mode) {
+    final extra = (videoId: widget.videoId, title: _video.title);
+    context.push('/listening/youtube/$mode', extra: extra);
   }
 
   @override
   Widget build(BuildContext context) {
+    final tokens = context.tokens;
+    final l10n = AppLocalizations.of(context);
     final video = _video;
     return Scaffold(
-      backgroundColor: AppColors.authBackground,
-      appBar: AppBar(
-        backgroundColor: AppColors.authBackground,
-        foregroundColor: AppColors.tigerOrange,
-        title: const Text(
-          'Xem video',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: AppColors.tigerOrange,
-            fontSize: 17,
-          ),
-        ),
-        actions: [
-          IconButton(
-            icon: Icon(
-              _panelMode == _PanelMode.notes ? Icons.note : Icons.note_alt_outlined,
-              color: _panelMode == _PanelMode.notes ? Colors.white : AppColors.tigerOrange,
-            ),
-            onPressed: () => _togglePanel(_PanelMode.notes),
-            tooltip: 'Ghi chú',
-            style: _panelMode == _PanelMode.notes
-                ? IconButton.styleFrom(backgroundColor: AppColors.tigerOrange)
-                : null,
-          ),
-          IconButton(
-            icon: Icon(
-              _panelMode == _PanelMode.transcript ? Icons.subtitles : Icons.subtitles_outlined,
-              color: _panelMode == _PanelMode.transcript ? Colors.white : AppColors.tigerOrange,
-            ),
-            onPressed: () => _togglePanel(_PanelMode.transcript),
-            tooltip: 'Transcript',
-            style: _panelMode == _PanelMode.transcript
-                ? IconButton.styleFrom(backgroundColor: AppColors.tigerOrange)
-                : null,
-          ),
-        ],
-      ),
+      backgroundColor: tokens.background,
       body: SafeArea(
         child: Column(
           children: [
-            YoutubePlayer(controller: _controller, aspectRatio: 16 / 9),
-            if (_panelMode == _PanelMode.notes)
-              SizedBox(
-                height: 200,
-                child: VideoNotesPanel(
-                  videoId: widget.videoId,
-                  videoTitle: video.title ?? '',
-                  onSeek: _seekTo,
-                ),
-              ),
-            if (_panelMode == _PanelMode.transcript)
-              Expanded(
-                child: TranscriptPanel(
-                  videoId: widget.videoId,
-                  onSegmentTap: _seekTo,
-                ),
-              ),
-            if (_panelMode == _PanelMode.none || _panelMode == _PanelMode.notes)
-              Expanded(
-                child: SingleChildScrollView(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        (video.title?.isNotEmpty ?? false)
-                            ? video.title!
-                            : 'Video chưa có tiêu đề',
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.foreground,
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      SizedBox(
-                        width: double.infinity,
-                        child: FilledButton.icon(
-                          style: FilledButton.styleFrom(
-                            backgroundColor: AppColors.tigerOrange,
-                            padding: const EdgeInsets.symmetric(vertical: 14),
-                          ),
-                          onPressed: _completing ? null : _markComplete,
-                          icon: Icon(
-                            video.isCompleted ? Icons.replay : Icons.check_circle,
-                          ),
-                          label: Text(video.isCompleted ? 'Xem lại' : 'Đã hoàn thành'),
-                        ),
-                      ),
-                    ],
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+              child: Row(
+                children: [
+                  TextButton.icon(
+                    onPressed: () => context.pop(),
+                    icon: Icon(
+                      Icons.arrow_back,
+                      size: 16,
+                      color: tokens.mutedForeground,
+                    ),
+                    label: Text(
+                      l10n.back,
+                      style: TextStyle(color: tokens.mutedForeground),
+                    ),
                   ),
+                ],
+              ),
+            ),
+            YoutubePlayer(controller: _controller, aspectRatio: 16 / 9),
+            Expanded(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      width: double.infinity,
+                      child: FilledButton.icon(
+                        style: FilledButton.styleFrom(
+                          backgroundColor: tokens.primary,
+                          padding: const EdgeInsets.symmetric(vertical: 14),
+                        ),
+                        onPressed: _completing ? null : _markComplete,
+                        icon: Icon(
+                          video.isCompleted ? Icons.replay : Icons.check_circle,
+                        ),
+                        label: Text(
+                          video.isCompleted
+                              ? l10n.youtubeRewatchButton
+                              : l10n.youtubeCompleteButton,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    Text(
+                      (video.title?.isNotEmpty ?? false)
+                          ? video.title!
+                          : l10n.youtubeUntitledVideo,
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: tokens.foreground,
+                      ),
+                    ),
+                    if (video.isCompleted && video.watchCount > 0)
+                      Padding(
+                        padding: const EdgeInsets.only(top: 2),
+                        child: Text(
+                          l10n.youtubeWatchCount(video.watchCount),
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: tokens.mutedForeground,
+                          ),
+                        ),
+                      ),
+                    const SizedBox(height: 16),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: OutlinedButton.icon(
+                            onPressed: () => _openPractice('dictation'),
+                            icon: const Icon(Icons.edit_note, size: 18),
+                            label: Text(l10n.dictationActivityFullTitle),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: OutlinedButton.icon(
+                            onPressed: () => _openPractice('shadowing'),
+                            icon: const Icon(Icons.record_voice_over, size: 18),
+                            label: Text(l10n.youtubePracticeShadowing),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 16),
+                    _SectionToggle(
+                      label: l10n.youtubeTranscriptLabel,
+                      icon: Icons.subtitles,
+                      expanded: _showTranscript,
+                      onTap: () =>
+                          setState(() => _showTranscript = !_showTranscript),
+                    ),
+                    if (_showTranscript)
+                      SizedBox(
+                        height: 320,
+                        child: TranscriptPanel(
+                          videoId: widget.videoId,
+                          onSegmentTap: _seekTo,
+                        ),
+                      ),
+                    const SizedBox(height: 8),
+                    _SectionToggle(
+                      label: l10n.youtubeNotesLabel,
+                      icon: Icons.note_alt,
+                      expanded: _showNotes,
+                      onTap: () => setState(() => _showNotes = !_showNotes),
+                    ),
+                    if (_showNotes)
+                      SizedBox(
+                        height: 200,
+                        child: VideoNotesPanel(
+                          videoId: widget.videoId,
+                          videoTitle: video.title ?? '',
+                          onSeek: _seekTo,
+                        ),
+                      ),
+                  ],
                 ),
               ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _SectionToggle extends StatelessWidget {
+  const _SectionToggle({
+    required this.label,
+    required this.icon,
+    required this.expanded,
+    required this.onTap,
+  });
+
+  final String label;
+  final IconData icon;
+  final bool expanded;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final tokens = context.tokens;
+    return InkWell(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        child: Row(
+          children: [
+            Icon(icon, size: 16, color: tokens.primary),
+            const SizedBox(width: 8),
+            Text(
+              label,
+              style: TextStyle(
+                fontWeight: FontWeight.w700,
+                fontSize: 13,
+                color: tokens.foreground,
+              ),
+            ),
+            const Spacer(),
+            Icon(
+              expanded ? Icons.expand_less : Icons.expand_more,
+              size: 18,
+              color: tokens.mutedForeground,
+            ),
           ],
         ),
       ),

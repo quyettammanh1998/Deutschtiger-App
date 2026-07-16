@@ -75,13 +75,13 @@ supersedes-ui-scope-of:
 | # | Phase | Phụ thuộc | Status |
 |---|-------|-----------|--------|
 | 1 | [Foundation: tokens, fonts, icons, primitives, shell, router split, assets](./phase-01-foundation-tokens-fonts-icons-shell.md) | — | **done 17/07** (visual QA dồn P12 wave B) |
-| 2 | [Entry: welcome, auth, legal, home residuals, daily quote](./phase-02-entry-auth-home-quote.md) | P1 | pending |
+| 2 | [Entry: welcome, auth, legal, home residuals, daily quote](./phase-02-entry-auth-home-quote.md) | P1 | **done 17/07** (3 pass: P2/P2a/P2b) |
 | 3 | [Learn & journey](./phase-03-learn-journey.md) | P1, **P4** (runner tái dùng practice views) | pending |
-| 4 | [Vocabulary & practice](./phase-04-vocabulary-practice.md) | P1 | pending |
+| 4 | [Vocabulary & practice](./phase-04-vocabulary-practice.md) | P1 | **phần lớn done 17/07** (P4/P4b/P4c); CÒN: daily_review, subtitle_words, practice_screen selector/results → P4d |
 | 5 | [Decks/flashcards](./phase-05-decks-flashcards.md) | P1, **P4** (guided lesson tái dùng practice views) | pending |
 | 6 | [Grammar](./phase-06-grammar.md) | P1 (markdown renderer từ P1) | pending |
 | 7 | [Games](./phase-07-games.md) | P1 | pending |
-| 8 | [Exam core & community — 2 wave](./phase-08-exam-core-community.md) | P1 | pending |
+| 8 | [Exam core & community — 2 wave](./phase-08-exam-core-community.md) | P1 | wave A **done 17/07** (còn ~60 string chờ ARB); wave B (player+result) pending |
 | 9 | [Writing ecosystem — 4 wave BẮT BUỘC](./phase-09-exam-writing.md) | P1, P8 (IA exam) | pending |
 | 10 | [Speech: sprechen, conversation, pronunciation](./phase-10-speech-conversation-pronunciation.md) | P1; voice live = MASTER P8 wiring | pending |
 | 11 | [Media — 4 wave BẮT BUỘC](./phase-11-media-reading-news.md) | P1 | pending |

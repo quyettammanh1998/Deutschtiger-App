@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_tokens.dart';
 import '../../../../data/exam/exam_ecosystem_models.dart';
+import '../../../../l10n/app_localizations.dart';
 
 /// One collapsible clip within [WordSelectionPanel] — Teil badge header +
 /// flowing tappable transcript body.
@@ -28,6 +29,7 @@ class WordSelectionClipCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final tokens = context.tokens;
+    final l10n = AppLocalizations.of(context);
     final selectableCount = audio.sentences.fold<int>(
       0,
       (n, s) => n + s.words.where((w) => contentWords.contains(w.clean)).length,
@@ -71,7 +73,7 @@ class WordSelectionClipCard extends StatelessWidget {
                   ),
                   const SizedBox(width: 8),
                   Text(
-                    '$selectableCount từ',
+                    l10n.dictationWordsCount(selectableCount),
                     style: TextStyle(
                       fontSize: 11,
                       color: tokens.mutedForeground,

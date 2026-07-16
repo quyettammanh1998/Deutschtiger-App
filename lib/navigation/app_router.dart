@@ -13,6 +13,7 @@ import 'routes/vocabulary_routes.dart';
 import 'routes/practice_routes.dart';
 import 'routes/decks_routes.dart';
 import 'routes/journey_routes.dart';
+import 'routes/course_routes.dart';
 import 'routes/learn_routes.dart';
 import 'routes/grammar_routes.dart';
 import 'routes/games_routes.dart';
@@ -59,9 +60,11 @@ final routerProvider = Provider<GoRouter>((ref) {
     routes: [
       ...entryRoutes,
       ...deThiRoutes,
+      ...luyenVietRoutes,
       ...vocabularyRoutes,
       ...decksRoutes,
       ...journeyRoutes,
+      ...courseRoutes,
       ...grammarRoutes,
       ...statsRoutes,
       ...learnRoutes,

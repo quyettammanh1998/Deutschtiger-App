@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_tokens.dart';
 import '../../../../data/exam/exam_ecosystem_models.dart';
+import '../../../../l10n/app_localizations.dart';
 
 /// Slim live social-proof strip above the directory tabs — mirrors web
 /// `BuddyCountStrip` in `exam-schedule-page.tsx`.
@@ -14,6 +15,7 @@ class BuddyCountStrip extends StatelessWidget {
   Widget build(BuildContext context) {
     if (buddies.isEmpty) return const SizedBox.shrink();
     final tokens = context.tokens;
+    final l10n = AppLocalizations.of(context);
     final upcoming = buddies.where((b) => b.daysUntil >= 0).length;
     final past = buddies.length - upcoming;
     final soon = buddies
@@ -33,7 +35,7 @@ class BuddyCountStrip extends StatelessWidget {
           spacing: 6,
           children: [
             Text(
-              '🔥 $upcoming bạn còn hạn lịch thi',
+              l10n.scheduleBuddyCountFire(upcoming),
               style: TextStyle(
                 fontSize: 13,
                 fontWeight: FontWeight.w700,
@@ -42,7 +44,7 @@ class BuddyCountStrip extends StatelessWidget {
             ),
             if (soon > 0)
               Text(
-                '· $soon người thi trong 30 ngày tới',
+                l10n.scheduleBuddyCountSoon(soon),
                 style: TextStyle(
                   fontSize: 12.5,
                   color: tokens.primary.withValues(alpha: 0.9),
@@ -50,7 +52,7 @@ class BuddyCountStrip extends StatelessWidget {
               ),
             if (past > 0)
               Text(
-                '· $past đã thi',
+                l10n.scheduleBuddyCountPast(past),
                 style: TextStyle(
                   fontSize: 12.5,
                   color: tokens.primary.withValues(alpha: 0.8),

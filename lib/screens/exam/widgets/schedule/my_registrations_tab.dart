@@ -44,7 +44,7 @@ class MyRegistrationsTab extends ConsumerWidget {
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 24),
                 child: Text(
-                  'Bạn chưa đăng ký lịch thi nào',
+                  l10n.scheduleMyPlansEmpty,
                   style: TextStyle(
                     fontWeight: FontWeight.w700,
                     color: tokens.foreground,
@@ -54,7 +54,7 @@ class MyRegistrationsTab extends ConsumerWidget {
             )
           else ...[
             Text(
-              '${list.length} lịch thi · gần ngày thi nhất xếp trước',
+              l10n.scheduleMyPlansCount(list.length),
               style: TextStyle(fontSize: 11.5, color: tokens.mutedForeground),
             ),
             const SizedBox(height: 8),
@@ -113,19 +113,15 @@ class MyRegistrationsTab extends ConsumerWidget {
                     color: tokens.mutedForeground,
                   ),
                   children: [
-                    const TextSpan(
-                      text: '🔒 Liên hệ của bạn (SĐT, email, Facebook) ',
-                    ),
+                    TextSpan(text: l10n.schedulePrivacyNotePrefix),
                     TextSpan(
-                      text: 'ẩn mặc định',
+                      text: l10n.schedulePrivacyNoteBold,
                       style: TextStyle(
                         fontWeight: FontWeight.w700,
                         color: tokens.foreground,
                       ),
                     ),
-                    const TextSpan(
-                      text: ' — chỉ thành viên đã đăng ký mới xem được.',
-                    ),
+                    TextSpan(text: l10n.schedulePrivacyNoteSuffix),
                   ],
                 ),
               ),
@@ -210,7 +206,7 @@ class _RegistrationCard extends ConsumerWidget {
                   onSaved: onDeleted,
                 ),
               ),
-              child: const Text('Sửa'),
+              child: Text(l10n.edit),
             ),
             IconButton(
               icon: const Icon(Icons.delete_outline),

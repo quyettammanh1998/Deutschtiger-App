@@ -2,6 +2,7 @@ import 'package:deutschtiger/data/games/typing_sprint_models.dart';
 import 'package:deutschtiger/l10n/app_localizations.dart';
 import 'package:deutschtiger/repositories/games/typing_sprint_repository.dart';
 import 'package:deutschtiger/screens/games/typing_sprint_game_screen.dart';
+import 'package:deutschtiger/screens/games/widgets/typing_sprint_paragraph_view.dart';
 import 'package:deutschtiger/view_models/games/typing_sprint_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -36,7 +37,13 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    expect(find.text('Ich trinke Kaffee.'), findsOneWidget);
+    // The German target sentence renders char-by-char via
+    // `TypingSprintParagraphView` (per-char diff coloring), not as a plain
+    // `Text` widget with the full string.
+    final paragraph = tester.widget<TypingSprintParagraphView>(
+      find.byType(TypingSprintParagraphView),
+    );
+    expect(paragraph.target, 'Ich trinke Kaffee.');
     expect(find.text('Tôi uống cà phê.'), findsOneWidget);
     expect(tester.takeException(), isNull);
 
@@ -92,7 +99,13 @@ void main() {
     await tester.testTextInput.receiveAction(TextInputAction.done);
     await tester.pump();
 
-    expect(find.text('1'), findsWidgets); // correct-words counter updated
+    // Correct submit clears the input for the next sentence (proves the
+    // sentence advanced — the WPM/correct-words counters aren't rendered as
+    // plain text nodes anymore after the coral-theme reskin).
+    final field = tester.widget<TextField>(
+      find.byKey(const Key('typing-sprint-input')),
+    );
+    expect(field.controller!.text, isEmpty);
     expect(tester.takeException(), isNull);
 
     await tester.pumpWidget(const SizedBox.shrink());

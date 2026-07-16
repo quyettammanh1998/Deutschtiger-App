@@ -14,6 +14,21 @@ void main() {
       ProviderScope(
         overrides: [
           decksProvider.overrideWith((ref) async => [_deck]),
+          deckFoldersProvider.overrideWith((ref) async => const []),
+          starredCardsProvider.overrideWith((ref) async => const []),
+          defaultDeckIdProvider.overrideWith((ref) async => _deck.id),
+          deckSummaryProvider.overrideWith(
+            (ref) async => {
+              _deck.id: const DeckSummaryRow(
+                deckId: 'deck-1',
+                total: 12,
+                newCount: 4,
+                learning: 4,
+                known: 3,
+                mastered: 1,
+              ),
+            },
+          ),
         ],
         child: MaterialApp(
           locale: const Locale('de'),
@@ -29,9 +44,8 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('Meine Karteikartensätze'), findsOneWidget);
-    expect(find.byTooltip('Neuen Satz erstellen'), findsOneWidget);
-    expect(find.text('12 Wörter'), findsOneWidget);
-    expect(find.text('4/12 gelernt'), findsOneWidget);
+    expect(find.text('Reisen'), findsOneWidget);
+    expect(find.text('Standard'), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
 }
@@ -40,8 +54,6 @@ final _deck = Deck(
   id: 'deck-1',
   name: 'Reisen',
   description: 'Wörter für unterwegs',
-  wordCount: 12,
-  learnedCount: 4,
   createdAt: DateTime.utc(2026),
   updatedAt: DateTime.utc(2026),
 );

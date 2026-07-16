@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/icons/app_phosphor_icons.dart';
 import '../../../../core/theme/app_tokens.dart';
 import '../../../../data/exam/exam_ecosystem_models.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../../../../widgets/common/app_card.dart';
 
 /// Web parity: `de-thi-passage-panel.tsx` — passage text, per-passage
@@ -41,6 +42,7 @@ class _DeThiPassagePanelState extends State<DeThiPassagePanel> {
   @override
   Widget build(BuildContext context) {
     final tokens = context.tokens;
+    final l10n = AppLocalizations.of(context);
     final emerald = const Color(0xFF10B981);
     final blue = const Color(0xFF2563EB);
     final done = widget.answeredCount == widget.totalCount;
@@ -58,7 +60,7 @@ class _DeThiPassagePanelState extends State<DeThiPassagePanel> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'ĐOẠN ${widget.index + 1}',
+                      l10n.deThiPassageLabel(widget.index + 1),
                       style: TextStyle(
                         fontSize: 11,
                         fontWeight: FontWeight.w700,
@@ -99,7 +101,10 @@ class _DeThiPassagePanelState extends State<DeThiPassagePanel> {
                   borderRadius: BorderRadius.circular(999),
                 ),
                 child: Text(
-                  '${widget.answeredCount}/${widget.totalCount} câu',
+                  l10n.deThiPassageAnsweredCount(
+                    widget.answeredCount,
+                    widget.totalCount,
+                  ),
                   style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w700,
@@ -145,7 +150,7 @@ class _DeThiPassagePanelState extends State<DeThiPassagePanel> {
                     ),
                     const SizedBox(width: 6),
                     Text(
-                      _showVi ? 'Ẩn bản dịch' : 'Dịch đoạn văn',
+                      _showVi ? l10n.deThiHideTranslation : l10n.deThiTranslatePassage,
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,

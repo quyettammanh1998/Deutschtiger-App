@@ -75,6 +75,7 @@ class _QuestionMatchingState extends State<QuestionMatching> {
     return QuestionCardFrame(
       questionNumber: widget.questionNumber,
       sectionLabel: widget.sectionLabel,
+      questionId: widget.question.answerKey,
       prompt: widget.question.prompt,
       topSlot: Column(
         children: [

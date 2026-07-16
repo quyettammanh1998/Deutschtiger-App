@@ -78,6 +78,19 @@ class ExamPlayerState {
   /// Tổng câu của đề.
   int get totalQuestions => exam.totalQuestions;
 
+  /// Map answerKey → đúng/sai — chỉ có ý nghĩa khi đã trả lời (practice
+  /// review đang xem đáp án ngay / review xem lại attempt đã nộp). Dùng cho
+  /// nav sheet + palette tô màu xanh/đỏ.
+  Map<String, bool> get correctByAnswerKey {
+    final result = <String, bool>{};
+    for (final q in exam.allQuestions) {
+      final ans = answers[q.answerKey];
+      if (ans == null) continue;
+      result[q.answerKey] = isAnswerCorrect(q, ans);
+    }
+    return result;
+  }
+
   /// Index tuyệt đối của câu hiện tại trong danh sách allQuestions.
   int get currentGlobalIndex {
     int idx = 0;
@@ -85,6 +98,16 @@ class ExamPlayerState {
       idx += exam.sections[i].questionCount;
     }
     return idx + currentQuestion;
+  }
+
+  /// Số câu hỏi TRƯỚC Teil hiện tại — dùng đánh số toàn cục "Câu N" khi
+  /// render whole-Teil-scroll (mobile player rebuild).
+  int get currentSectionQuestionOffset {
+    int idx = 0;
+    for (var i = 0; i < currentSection; i++) {
+      idx += exam.sections[i].questionCount;
+    }
+    return idx;
   }
 
   ExamPlayerState copyWith({
@@ -338,7 +361,7 @@ class ExamPlayerNotifier extends StateNotifier<ExamPlayerState> {
       var pointsInSection = 0;
       for (final question in section.questions) {
         final answer = state.answers[question.answerKey];
-        if (answer != null && _isCorrect(question, answer)) {
+        if (answer != null && isAnswerCorrect(question, answer)) {
           correctAnswers++;
           correctInSection++;
           score += question.points;
@@ -374,39 +397,6 @@ class ExamPlayerNotifier extends StateNotifier<ExamPlayerState> {
     );
   }
 
-  bool _isCorrect(ExamQuestion q, String userAnswer) {
-    switch (q.type) {
-      case QuestionType.mc:
-      case QuestionType.anzeigen:
-        return userAnswer == q.correctOptionId;
-      case QuestionType.richtigFalsch:
-        return (userAnswer == 'true') == (q.correctBoolean ?? false);
-      case QuestionType.sprachbausteine:
-        final userIdx = userAnswer
-            .split(',')
-            .map(int.tryParse)
-            .whereType<int>()
-            .toList();
-        if (userIdx.length != q.gapPositions.length) return false;
-        for (var i = 0; i < userIdx.length; i++) {
-          if (userIdx[i] != q.gapPositions[i]) return false;
-        }
-        return true;
-      case QuestionType.matching:
-        final pairs = userAnswer.split(',');
-        if (pairs.length != q.correctMatches.length) return false;
-        for (final pair in pairs) {
-          final parts = pair.split(':');
-          if (parts.length != 2) return false;
-          final left = int.tryParse(parts[0]);
-          final right = int.tryParse(parts[1]);
-          if (left == null || right == null) return false;
-          if (q.correctMatches[left] != right) return false;
-        }
-        return true;
-    }
-  }
-
   Future<void> _autosave() async {
     if (state.submitted || state.mode == ExamMode.review) return;
     final saved = await _attemptStore.saveProgress(
@@ -429,6 +419,42 @@ class ExamPlayerNotifier extends StateNotifier<ExamPlayerState> {
         lastAutosaveAt: DateTime.now(),
       );
     }
+  }
+}
+
+/// Chấm 1 câu đúng/sai theo answer string đã lưu — dùng chung bởi
+/// [ExamPlayerNotifier._buildAttempt] (chấm submit) và
+/// [ExamPlayerState.correctByAnswerKey] (tô màu nav sheet review/practice).
+bool isAnswerCorrect(ExamQuestion q, String userAnswer) {
+  switch (q.type) {
+    case QuestionType.mc:
+    case QuestionType.anzeigen:
+      return userAnswer == q.correctOptionId;
+    case QuestionType.richtigFalsch:
+      return (userAnswer == 'true') == (q.correctBoolean ?? false);
+    case QuestionType.sprachbausteine:
+      final userIdx = userAnswer
+          .split(',')
+          .map(int.tryParse)
+          .whereType<int>()
+          .toList();
+      if (userIdx.length != q.gapPositions.length) return false;
+      for (var i = 0; i < userIdx.length; i++) {
+        if (userIdx[i] != q.gapPositions[i]) return false;
+      }
+      return true;
+    case QuestionType.matching:
+      final pairs = userAnswer.split(',');
+      if (pairs.length != q.correctMatches.length) return false;
+      for (final pair in pairs) {
+        final parts = pair.split(':');
+        if (parts.length != 2) return false;
+        final left = int.tryParse(parts[0]);
+        final right = int.tryParse(parts[1]);
+        if (left == null || right == null) return false;
+        if (q.correctMatches[left] != right) return false;
+      }
+      return true;
   }
 }
 
@@ -485,6 +511,12 @@ final examResultProvider = FutureProvider.family<ExamAttempt?, String>((
 ) {
   return ref.watch(examAttemptStoreProvider).loadResult(examId);
 });
+
+/// Lịch sử các lần làm đề — cho `AttemptHistoryList` (result page).
+final examAttemptHistoryProvider =
+    FutureProvider.family<List<ExamAttemptSummary>, String>((ref, examId) {
+      return ref.watch(examAttemptStoreProvider).loadHistory(examId);
+    });
 
 class ExamPlayerBootstrap {
   const ExamPlayerBootstrap({required this.exam, this.progress, this.result});

@@ -141,4 +141,46 @@ class GrammarRepository {
       body: {'lesson_id': lessonId, 'level': level},
     );
   }
+
+  /// `GET /grammar-leaderboard?limit=&level=` — top N người dùng theo số bài
+  /// đã hoàn thành. Cần đăng nhập (nhóm route public-gamification yêu cầu JWT
+  /// dù không có `/user` prefix — xem `mountPublicGamification` bên backend).
+  /// Lỗi mạng/chưa đăng nhập → trả rỗng, sidebar tự ẩn danh sách.
+  Future<List<GrammarLeaderboardEntry>> fetchLeaderboard({
+    String? level,
+    int limit = 10,
+  }) async {
+    try {
+      final data = await _api.get<List<dynamic>>(
+        '/grammar-leaderboard',
+        query: {
+          'limit': limit,
+          if (level != null) 'level': level, // ignore: use_null_aware_elements
+        },
+      );
+      return data
+          .whereType<Map<String, dynamic>>()
+          .map(GrammarLeaderboardEntry.fromJson)
+          .toList();
+    } on ApiException {
+      return const [];
+    }
+  }
+
+  /// `GET /user/grammar-rank?level=` — hạng của user hiện tại (kể cả khi
+  /// không nằm trong top N). Trả `null` khi chưa có dữ liệu hoặc lỗi.
+  Future<GrammarLeaderboardEntry?> fetchUserRank({String? level}) async {
+    try {
+      final data = await _api.get<Map<String, dynamic>?>(
+        '/user/grammar-rank',
+        query: {
+          if (level != null) 'level': level, // ignore: use_null_aware_elements
+        },
+      );
+      if (data == null) return null;
+      return GrammarLeaderboardEntry.fromJson(data);
+    } on ApiException {
+      return null;
+    }
+  }
 }

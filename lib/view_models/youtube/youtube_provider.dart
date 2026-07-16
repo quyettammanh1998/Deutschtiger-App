@@ -5,12 +5,15 @@ import 'package:deutschtiger/view_models/providers.dart';
 import '../../data/youtube/youtube_video.dart';
 import '../../data/youtube/video_library.dart';
 import '../../repositories/youtube/youtube_repository.dart';
+import '../../repositories/youtube/dictation_xp_repository.dart';
 
 final youtubeRepositoryProvider = Provider<YouTubeRepository>((ref) {
-  return YouTubeRepository(
-    ref.watch(apiClientProvider),
-    supabaseBaseUrl: AppConfig.supabaseUrl,
-  );
+  return YouTubeRepository(ref.watch(apiClientProvider), supabaseBaseUrl: AppConfig.supabaseUrl);
+});
+
+/// XP award cho vòng lặp dictation — xem `dictation_xp_repository.dart`.
+final dictationXpRepositoryProvider = Provider<DictationXpRepository>((ref) {
+  return DictationXpRepository(ref.watch(apiClientProvider));
 });
 
 /// Video "chưa xem" trong tracker cá nhân.
@@ -26,9 +29,7 @@ final completedVideosProvider = FutureProvider<List<YouTubeVideo>>((ref) {
 });
 
 /// Video được nhiều người dùng khác thêm — gợi ý nhanh.
-final popularVideosProvider = FutureProvider<List<YouTubePopularVideo>>((
-  ref,
-) async {
+final popularVideosProvider = FutureProvider<List<YouTubePopularVideo>>((ref) async {
   ref.watch(authStateProvider);
   try {
     return await ref.watch(youtubeRepositoryProvider).fetchPopular();
@@ -49,10 +50,7 @@ final youtubeStatsProvider = FutureProvider<YouTubeStats>((ref) async {
 
 /// Video (pending + completed) theo videoId — dùng ở màn xem để biết đã
 /// persist chưa (`id`) và trạng thái hiện tại.
-final youtubeVideoByIdProvider = Provider.family<YouTubeVideo?, String>((
-  ref,
-  videoId,
-) {
+final youtubeVideoByIdProvider = Provider.family<YouTubeVideo?, String>((ref, videoId) {
   final pending = ref.watch(pendingVideosProvider).value ?? const [];
   final completed = ref.watch(completedVideosProvider).value ?? const [];
   for (final v in [...pending, ...completed]) {
@@ -66,28 +64,22 @@ final youtubeVideoByIdProvider = Provider.family<YouTubeVideo?, String>((
 // ---------------------------------------------------------------------
 
 /// Cấu hình một thư viện theo slug (title/description).
-final videoLibraryConfigProvider = FutureProvider.family<
-  VideoLibraryConfig?,
-  String
->((ref, slug) {
+final videoLibraryConfigProvider = FutureProvider.family<VideoLibraryConfig?, String>((ref, slug) {
   return ref.watch(youtubeRepositoryProvider).fetchLibraryBySlug(slug);
 });
 
 /// Lộ trình tĩnh (nhóm + video) của một thư viện.
-final videoLibraryLearningPathProvider =
-    FutureProvider.family<List<VideoLibraryGroup>, String>((ref, slug) {
-      return ref.watch(youtubeRepositoryProvider).fetchLearningPath(slug);
-    });
+final videoLibraryLearningPathProvider = FutureProvider.family<List<VideoLibraryGroup>, String>((
+  ref,
+  slug,
+) {
+  return ref.watch(youtubeRepositoryProvider).fetchLearningPath(slug);
+});
 
 /// Một nhóm theo group_id, null nếu không tìm thấy.
 final videoLibraryGroupProvider =
-    Provider.family<VideoLibraryGroup?, ({String slug, String groupId})>((
-      ref,
-      key,
-    ) {
-      final groups =
-          ref.watch(videoLibraryLearningPathProvider(key.slug)).value ??
-          const [];
+    Provider.family<VideoLibraryGroup?, ({String slug, String groupId})>((ref, key) {
+      final groups = ref.watch(videoLibraryLearningPathProvider(key.slug)).value ?? const [];
       for (final g in groups) {
         if (g.groupId == key.groupId) return g;
       }
@@ -96,15 +88,10 @@ final videoLibraryGroupProvider =
 
 /// Tiến độ từng nhóm của một thư viện, map theo group_id.
 final videoLibraryGroupProgressProvider =
-    FutureProvider.family<Map<String, LibraryGroupProgress>, String>((
-      ref,
-      slug,
-    ) async {
+    FutureProvider.family<Map<String, LibraryGroupProgress>, String>((ref, slug) async {
       ref.watch(authStateProvider);
       try {
-        final list = await ref
-            .watch(youtubeRepositoryProvider)
-            .fetchGroupProgress(slug);
+        final list = await ref.watch(youtubeRepositoryProvider).fetchGroupProgress(slug);
         return {for (final p in list) p.groupId: p};
       } catch (_) {
         return const {};
@@ -115,23 +102,18 @@ final videoLibraryGroupProgressProvider =
 /// DB trước (idempotent) rồi fetch, giống pattern `videosByGroupProvider` của
 /// interview — đảm bảo mỗi video có `id` để complete/rewatch.
 final videoLibraryGroupVideosProvider =
-    FutureProvider.family<List<LibraryVideo>, ({String slug, String groupId})>(
-      (ref, key) async {
-        ref.watch(authStateProvider);
-        final repo = ref.watch(youtubeRepositoryProvider);
-        final group = ref.watch(videoLibraryGroupProvider(key));
-        if (group != null && group.videos.isNotEmpty) {
-          await repo.addGroupVideos(key.slug, key.groupId, group.videos);
-        }
-        return repo.fetchGroupVideos(key.slug, key.groupId);
-      },
-    );
+    FutureProvider.family<List<LibraryVideo>, ({String slug, String groupId})>((ref, key) async {
+      ref.watch(authStateProvider);
+      final repo = ref.watch(youtubeRepositoryProvider);
+      final group = ref.watch(videoLibraryGroupProvider(key));
+      if (group != null && group.videos.isNotEmpty) {
+        await repo.addGroupVideos(key.slug, key.groupId, group.videos);
+      }
+      return repo.fetchGroupVideos(key.slug, key.groupId);
+    });
 
 /// Thống kê tổng hợp của một thư viện.
-final videoLibraryStatsProvider = FutureProvider.family<LibraryStats, String>((
-  ref,
-  slug,
-) async {
+final videoLibraryStatsProvider = FutureProvider.family<LibraryStats, String>((ref, slug) async {
   ref.watch(authStateProvider);
   try {
     return await ref.watch(youtubeRepositoryProvider).fetchLibraryStats(slug);

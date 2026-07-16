@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/theme/app_tokens.dart';
+import '../../../../l10n/app_localizations.dart';
 
 /// "Việc cần làm" quick-links card — mirrors web `exam-readiness-page.tsx`.
 /// Only the due-review link is wired: the web's second bullet ("từ thi sai
@@ -17,6 +18,7 @@ class ReadinessTodoCard extends StatelessWidget {
   Widget build(BuildContext context) {
     if (dueReviewCount <= 0) return const SizedBox.shrink();
     final tokens = context.tokens;
+    final l10n = AppLocalizations.of(context);
 
     return DecoratedBox(
       decoration: BoxDecoration(
@@ -30,7 +32,7 @@ class ReadinessTodoCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Việc cần làm',
+              l10n.examReadinessTodoTitle,
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w700,
@@ -52,9 +54,11 @@ class ReadinessTodoCard extends StatelessWidget {
                           color: tokens.foreground,
                         ),
                         children: [
-                          const TextSpan(text: 'Bạn có '),
+                          TextSpan(text: l10n.examReadinessTodoDueReviewsPrefix),
                           TextSpan(
-                            text: '$dueReviewCount từ tới hạn ôn',
+                            text: l10n.examReadinessTodoDueReviewsBold(
+                              dueReviewCount,
+                            ),
                             style: TextStyle(
                               fontWeight: FontWeight.w700,
                               color: tokens.primary,

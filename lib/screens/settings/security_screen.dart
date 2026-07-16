@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../../../core/design_tokens.dart';
+import '../../core/theme/app_tokens.dart';
 import '../../l10n/app_localizations.dart';
 import '../../../services/api_client.dart';
 import '../../repositories/settings/device_session_repository.dart';
 import 'package:deutschtiger/view_models/settings/device_session_provider.dart';
+import 'widgets/security_form_cards.dart';
+import 'widgets/settings_tiles.dart';
 
-/// Màn Bảo mật: danh sách thiết bị (`GET /user/devices`) + thu hồi từng
-/// thiết bị (`DELETE /user/devices/{sessionId}`) + đăng xuất khỏi thiết bị
-/// khác + link xoá tài khoản.
+/// Bảo mật — web parity: `settings-security-page.tsx`. Password-change card
+/// (Supabase `auth.updateUser`, matching `useAuth().updatePassword` on web)
+/// + signed-in devices list (`GET`/`DELETE /user/devices`) + delete-account
+/// link. Web has NO delete-account UI — kept per Quyết định #3 keeper (a),
+/// app-store policy requirement.
 class SecurityScreen extends ConsumerStatefulWidget {
   const SecurityScreen({super.key});
 
@@ -19,7 +24,65 @@ class SecurityScreen extends ConsumerStatefulWidget {
 }
 
 class _SecurityScreenState extends ConsumerState<SecurityScreen> {
+  final _newPasswordCtrl = TextEditingController();
+  final _confirmPasswordCtrl = TextEditingController();
+  bool _changingPassword = false;
+  String? _passwordMessage;
+  bool _passwordError = false;
   bool _loading = false;
+
+  @override
+  void dispose() {
+    _newPasswordCtrl.dispose();
+    _confirmPasswordCtrl.dispose();
+    super.dispose();
+  }
+
+  Future<void> _changePassword() async {
+    final l10n = AppLocalizations.of(context);
+    final newPassword = _newPasswordCtrl.text;
+    if (newPassword.length < 8) {
+      setState(() {
+        _passwordMessage = l10n.passwordMinLength;
+        _passwordError = true;
+      });
+      return;
+    }
+    if (newPassword != _confirmPasswordCtrl.text) {
+      setState(() {
+        _passwordMessage = l10n.passwordConfirmationMismatch;
+        _passwordError = true;
+      });
+      return;
+    }
+    setState(() {
+      _changingPassword = true;
+      _passwordMessage = null;
+    });
+    try {
+      await Supabase.instance.client.auth.updateUser(
+        UserAttributes(password: newPassword),
+      );
+      if (!mounted) return;
+      _newPasswordCtrl.clear();
+      _confirmPasswordCtrl.clear();
+      setState(() {
+        _passwordMessage = l10n.settingsSavedMessage;
+        _passwordError = false;
+      });
+      Future.delayed(const Duration(seconds: 2), () {
+        if (mounted) setState(() => _passwordMessage = null);
+      });
+    } catch (_) {
+      if (!mounted) return;
+      setState(() {
+        _passwordMessage = l10n.couldNotChangePassword;
+        _passwordError = true;
+      });
+    } finally {
+      if (mounted) setState(() => _changingPassword = false);
+    }
+  }
 
   Future<void> _signOutOtherDevices() async {
     final l10n = AppLocalizations.of(context);
@@ -47,8 +110,7 @@ class _SecurityScreenState extends ConsumerState<SecurityScreen> {
       if (!mounted) return;
       _snack(l10n.signedOutOtherDevices);
     } on ApiException {
-      if (!mounted) return;
-      _snack(l10n.couldNotSignOut);
+      if (mounted) _snack(l10n.couldNotSignOut);
     } catch (_) {
       if (mounted) _snack(l10n.couldNotSignOut);
     } finally {
@@ -62,7 +124,7 @@ class _SecurityScreenState extends ConsumerState<SecurityScreen> {
       context: context,
       builder: (ctx) => AlertDialog(
         title: Text(l10n.signOutDeviceTitle),
-        content: Text(l10n.signOutDeviceBody(_deviceLabel(device, l10n))),
+        content: Text(l10n.signOutDeviceBody(deviceLabel(device, l10n))),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
@@ -77,9 +139,7 @@ class _SecurityScreenState extends ConsumerState<SecurityScreen> {
     );
     if (ok != true || !mounted) return;
     try {
-      await ref
-          .read(deviceSessionListProvider.notifier)
-          .revoke(device.sessionId);
+      await ref.read(deviceSessionListProvider.notifier).revoke(device.sessionId);
       if (mounted) _snack(l10n.signedOutDevice);
     } on ApiException {
       if (mounted) _snack(l10n.couldNotSignOut);
@@ -93,85 +153,84 @@ class _SecurityScreenState extends ConsumerState<SecurityScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final devicesAsync = ref.watch(deviceSessionListProvider);
+    final tokens = context.tokens;
     final l10n = AppLocalizations.of(context);
+    final devicesAsync = ref.watch(deviceSessionListProvider);
 
     return Scaffold(
-      backgroundColor: DesignTokens.authBackground,
-      appBar: AppBar(
-        backgroundColor: DesignTokens.authBackground,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () => context.pop(),
-        ),
-        title: Text(
-          l10n.security,
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-            color: DesignTokens.tigerOrange,
-          ),
-        ),
-        centerTitle: true,
-      ),
-      body: RefreshIndicator(
-        onRefresh: () => ref.read(deviceSessionListProvider.notifier).refresh(),
-        child: ListView(
-          padding: const EdgeInsets.symmetric(
-            horizontal: DesignTokens.screenHorizontalPadding,
-            vertical: DesignTokens.spacingMd,
-          ),
-          children: [
-            _SectionHeader(title: l10n.signedInDevices),
-            _buildDeviceSection(devicesAsync),
-            const SizedBox(height: DesignTokens.spacingMd),
-            SizedBox(
-              height: 48,
-              child: OutlinedButton(
-                onPressed: _loading ? null : _signOutOtherDevices,
-                style: OutlinedButton.styleFrom(
-                  foregroundColor: DesignTokens.foreground,
-                  side: const BorderSide(color: DesignTokens.border),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(DesignTokens.radius),
+      backgroundColor: tokens.background,
+      body: SafeArea(
+        child: RefreshIndicator(
+          onRefresh: () => ref.read(deviceSessionListProvider.notifier).refresh(),
+          child: ListView(
+            padding: const EdgeInsets.fromLTRB(16, 12, 16, 32),
+            children: [
+              Row(
+                children: [
+                  IconButton(
+                    icon: Icon(Icons.arrow_back, color: tokens.foreground),
+                    onPressed: () => context.pop(),
                   ),
-                ),
-                child: _loading
-                    ? const SizedBox(
-                        height: 20,
-                        width: 20,
-                        child: CircularProgressIndicator(strokeWidth: 2),
-                      )
-                    : Text(l10n.signOutOtherDevices),
-              ),
-            ),
-            const SizedBox(height: DesignTokens.spacingLg),
-            _SectionHeader(title: l10n.account),
-            _Card(
-              children: [
-                ListTile(
-                  leading: const Icon(
-                    Icons.delete_outline,
-                    color: DesignTokens.error,
-                  ),
-                  title: Text(
-                    l10n.deleteAccount,
-                    style: const TextStyle(
-                      color: DesignTokens.error,
-                      fontWeight: FontWeight.w600,
+                  const SizedBox(width: 4),
+                  Expanded(
+                    child: Text(
+                      l10n.security,
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w700,
+                        color: tokens.foreground,
+                      ),
                     ),
                   ),
-                  subtitle: Text(l10n.deleteAccountDescription),
-                  trailing: const Icon(
-                    Icons.chevron_right,
-                    color: DesignTokens.mutedForeground,
+                ],
+              ),
+              const SizedBox(height: 16),
+              PasswordChangeCard(
+                newPasswordCtrl: _newPasswordCtrl,
+                confirmPasswordCtrl: _confirmPasswordCtrl,
+                saving: _changingPassword,
+                message: _passwordMessage,
+                isError: _passwordError,
+                onSubmit: _changePassword,
+              ),
+              const SizedBox(height: 16),
+              SettingsCardLabel(l10n.signedInDevices),
+              _buildDeviceSection(devicesAsync),
+              const SizedBox(height: 12),
+              SizedBox(
+                height: 44,
+                child: OutlinedButton(
+                  onPressed: _loading ? null : _signOutOtherDevices,
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: tokens.foreground,
+                    side: BorderSide(color: tokens.border),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
                   ),
-                  onTap: () => context.push('/settings/delete-account'),
+                  child: _loading
+                      ? const SizedBox(
+                          height: 18,
+                          width: 18,
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        )
+                      : Text(l10n.signOutOtherDevices),
                 ),
-              ],
-            ),
-          ],
+              ),
+              const SizedBox(height: 16),
+              SettingsCardLabel(l10n.account),
+              SettingsNavRowCard(
+                children: [
+                  SettingsNavRow(
+                    icon: Icons.delete_outline,
+                    label: l10n.deleteAccount,
+                    destructive: true,
+                    onTap: () => context.push('/settings/delete-account'),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -179,188 +238,46 @@ class _SecurityScreenState extends ConsumerState<SecurityScreen> {
 
   Widget _buildDeviceSection(AsyncValue<List<DeviceSession>> devicesAsync) {
     final l10n = AppLocalizations.of(context);
+    final tokens = context.tokens;
     return devicesAsync.when(
-      loading: () => const _Card(
-        children: [
-          Padding(
-            padding: EdgeInsets.all(DesignTokens.spacingLg),
-            child: Center(child: CircularProgressIndicator()),
-          ),
-        ],
+      loading: () => const Padding(
+        padding: EdgeInsets.all(24),
+        child: Center(child: CircularProgressIndicator()),
       ),
-      error: (_, _) => _Card(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(DesignTokens.spacingMd),
-            child: Row(
-              children: [
-                const Icon(Icons.error_outline, color: DesignTokens.error),
-                const SizedBox(width: DesignTokens.spacingSm),
-                Expanded(child: Text(l10n.couldNotLoadDevices)),
-                TextButton(
-                  onPressed: () =>
-                      ref.read(deviceSessionListProvider.notifier).refresh(),
-                  child: Text(l10n.retry),
-                ),
-              ],
+      error: (_, _) => Padding(
+        padding: const EdgeInsets.all(12),
+        child: Row(
+          children: [
+            Icon(Icons.error_outline, color: tokens.destructive),
+            const SizedBox(width: 8),
+            Expanded(child: Text(l10n.couldNotLoadDevices)),
+            TextButton(
+              onPressed: () => ref.read(deviceSessionListProvider.notifier).refresh(),
+              child: Text(l10n.retry),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
       data: (devices) {
         if (devices.isEmpty) {
-          return _Card(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(DesignTokens.spacingMd),
-                child: Text(l10n.noSignedInDevices),
-              ),
-            ],
+          return Padding(
+            padding: const EdgeInsets.all(12),
+            child: Text(l10n.noSignedInDevices),
           );
         }
-        return _Card(
+        return Column(
           children: [
-            for (var i = 0; i < devices.length; i++) ...[
-              if (i > 0) const Divider(height: 1),
-              _DeviceTile(
-                device: devices[i],
-                onRevoke: devices[i].isCurrent
-                    ? null
-                    : () => _revokeDevice(devices[i]),
+            for (final d in devices)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: DeviceTile(
+                  device: d,
+                  onRevoke: d.isCurrent ? null : () => _revokeDevice(d),
+                ),
               ),
-            ],
           ],
         );
       },
     );
   }
-}
-
-/// Suy ra nhãn hiển thị của thiết bị từ User-Agent (backend không trả tên
-/// thiết bị riêng, chỉ có chuỗi UA thô).
-String _deviceLabel(DeviceSession device, AppLocalizations l10n) {
-  final ua = device.userAgent;
-  if (ua == null || ua.isEmpty) return l10n.unknownDevice;
-  if (ua.contains('iPhone') || ua.contains('iPad')) return 'iOS';
-  if (ua.contains('Android')) return 'Android';
-  if (ua.contains('Macintosh')) return 'macOS · Web';
-  if (ua.contains('Windows')) return 'Windows · Web';
-  return 'Web';
-}
-
-IconData _deviceIcon(DeviceSession device) {
-  final ua = device.userAgent ?? '';
-  if (ua.contains('iPhone')) return Icons.phone_iphone;
-  if (ua.contains('iPad')) return Icons.tablet_mac;
-  if (ua.contains('Android')) return Icons.android;
-  return Icons.laptop_mac;
-}
-
-/// Định dạng thời gian tương đối đơn giản (không phụ thuộc `intl`/`timeago`).
-String _relativeTime(DateTime time, AppLocalizations l10n) {
-  final diff = DateTime.now().difference(time);
-  if (diff.inMinutes < 1) return l10n.justNow;
-  if (diff.inMinutes < 60) return l10n.minutesAgo(diff.inMinutes);
-  if (diff.inHours < 24) return l10n.hoursAgo(diff.inHours);
-  if (diff.inDays < 30) return l10n.daysAgo(diff.inDays);
-  return '${time.day}/${time.month}/${time.year}';
-}
-
-class _DeviceTile extends StatelessWidget {
-  const _DeviceTile({required this.device, this.onRevoke});
-  final DeviceSession device;
-
-  /// Null khi thiết bị là phiên hiện tại (không thể tự thu hồi).
-  final VoidCallback? onRevoke;
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-    return ListTile(
-      leading: CircleAvatar(
-        backgroundColor: DesignTokens.orange50.withValues(alpha: 0.6),
-        child: Icon(_deviceIcon(device), color: DesignTokens.tigerOrange),
-      ),
-      title: Row(
-        children: [
-          Expanded(
-            child: Text(
-              _deviceLabel(device, l10n),
-              style: const TextStyle(fontWeight: FontWeight.w600),
-            ),
-          ),
-          if (device.isCurrent)
-            Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: DesignTokens.spacingSm,
-                vertical: 2,
-              ),
-              decoration: BoxDecoration(
-                color: DesignTokens.success.withValues(alpha: 0.15),
-                borderRadius: BorderRadius.circular(DesignTokens.radiusSm),
-              ),
-              child: Text(
-                l10n.currentDevice,
-                style: const TextStyle(
-                  fontSize: 11,
-                  color: DesignTokens.success,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ),
-        ],
-      ),
-      subtitle: Text(
-        [
-          if (device.ip != null && device.ip!.isNotEmpty) device.ip!,
-          _relativeTime(device.lastSeen, l10n),
-        ].join(' · '),
-        style: const TextStyle(fontSize: 12),
-      ),
-      trailing: onRevoke == null
-          ? null
-          : IconButton(
-              icon: const Icon(Icons.logout, color: DesignTokens.error),
-              tooltip: l10n.signOutThisDevice,
-              onPressed: onRevoke,
-            ),
-    );
-  }
-}
-
-class _SectionHeader extends StatelessWidget {
-  const _SectionHeader({required this.title});
-  final String title;
-
-  @override
-  Widget build(BuildContext context) => Padding(
-    padding: const EdgeInsets.only(
-      left: DesignTokens.spacingXs,
-      bottom: DesignTokens.spacingSm,
-    ),
-    child: Text(
-      title,
-      style: const TextStyle(
-        fontSize: 13,
-        fontWeight: FontWeight.w600,
-        color: DesignTokens.mutedForeground,
-      ),
-    ),
-  );
-}
-
-class _Card extends StatelessWidget {
-  const _Card({required this.children});
-  final List<Widget> children;
-
-  @override
-  Widget build(BuildContext context) => Container(
-    decoration: BoxDecoration(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(DesignTokens.radius),
-      border: Border.all(color: DesignTokens.border),
-      boxShadow: DesignTokens.shadowSm,
-    ),
-    child: Column(children: children),
-  );
 }

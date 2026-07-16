@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/theme/app_tokens.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../../../../widgets/common/tiger_logo.dart';
 
 /// Web parity: `de-thi-site-header.tsx` — sticky branding header for the
@@ -12,6 +13,7 @@ class DeThiSiteHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final tokens = context.tokens;
+    final l10n = AppLocalizations.of(context);
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: BoxDecoration(
@@ -42,7 +44,7 @@ class DeThiSiteHeader extends StatelessWidget {
           GestureDetector(
             onTap: () => context.push('/login'),
             child: Text(
-              'Đăng nhập',
+              l10n.deThiLoginCta,
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w600,

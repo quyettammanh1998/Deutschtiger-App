@@ -16,3 +16,13 @@ final sentenceBuilderTopicsProvider = FutureProvider.autoDispose
       .watch(sentenceBuilderRepositoryProvider)
       .fetchTopics(level: level);
 });
+
+/// Danh sách từ xem trước cho 1 topic — key `(topicId, level)`.
+final sentenceBuilderTopicWordsProvider = FutureProvider.autoDispose
+    .family<SentenceBuilderTopicWordsResponse, (String topicId, String level)>(
+  (ref, key) {
+    return ref
+        .watch(sentenceBuilderRepositoryProvider)
+        .fetchTopicWords(key.$1, level: key.$2);
+  },
+);

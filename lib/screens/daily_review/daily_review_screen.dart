@@ -1,26 +1,38 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
-import '../../core/design_tokens.dart';
+import '../../core/release/release_feature_flags.dart';
+import '../../data/flashcard/review_item.dart';
+import '../../data/practice/practice_result.dart';
 import '../../l10n/app_localizations.dart';
-import '../../shared/widgets/game_completion_screen.dart';
-import '../../widgets/common/async_state_views.dart';
 import '../../view_models/flashcard/review_provider.dart';
 import '../../view_models/providers.dart';
-import 'widgets/review_session_view.dart';
-import 'widgets/start_widgets.dart';
+import '../../widgets/common/async_state_views.dart';
+import 'widgets/daily_review_done.dart';
+import 'widgets/daily_review_playlist.dart';
+import 'widgets/daily_review_rounds.dart';
 
-/// Mode key riêng cho phiên ôn tập từ màn Daily Review (tách khỏi phiên
-/// `FlashcardReviewScreen` — mỗi màn tự fetch queue của mình).
+/// Mode key riêng cho phiên ôn tập từ màn Daily Review — mỗi scope
+/// (mode + deckId) tự fetch queue độc lập trong [reviewSessionProvider].
 const _dailyReviewMode = 'daily_review';
 const _dailyReviewScope = ReviewSessionScope(mode: _dailyReviewMode);
 
+/// Web parity ceiling matching `GET /user/srs/queue?limit=` default and
+/// web's `MAX_REVIEW_SESSION_LIMIT` — used only to guess whether more due
+/// words likely remain after this batch (`DailyReviewResult.hasMore`).
+const _kSessionLimit = 50;
+
 /// C5 — Daily Review (FSRS grading). Mirrors web `daily-review-page.tsx`:
-/// start screen with streak + today stats + "Bắt đầu ôn tập" → 4-button
-/// FSRS grading session (Again / Hard / Good / Easy) → [GameCompletionScreen].
+/// loads straight into the mini-game playlist (no bespoke start screen) →
+/// [DailyReviewPlaylist] (round-based cloze/listening/matching/writing, P4
+/// round types) → [DailyReviewDoneScreen] (accuracy/XP/weak words).
 ///
-/// FSRS tính toàn bộ phía server (`GET /user/srs/queue`, `POST /user/srs/review`)
-/// — KHÔNG tính toán FSRS client-side.
+/// FSRS tính toàn bộ phía server (`GET /user/srs/queue`, `POST /user/srs/
+/// review`) — KHÔNG tính toán FSRS client-side; kết quả mỗi từ được gửi
+/// best-effort sau khi cả phiên hoàn thành (giống `PracticeScreen._syncResults`).
 class DailyReviewScreen extends ConsumerStatefulWidget {
   const DailyReviewScreen({super.key});
 
@@ -29,184 +41,148 @@ class DailyReviewScreen extends ConsumerStatefulWidget {
 }
 
 class _DailyReviewScreenState extends ConsumerState<DailyReviewScreen> {
-  bool _isReviewing = false;
+  List<ReviewItem>? _retryItems;
+  bool _isRetry = false;
+  List<ReviewItem> _lastWeakItems = const [];
+  DailyReviewResult? _doneResult;
 
-  /// Số thẻ đã ôn trong phiên hiện tại của app (không persist qua restart —
-  /// backend chưa có endpoint "reviewed hôm nay" riêng biệt; due-count/streak/XP
-  /// hôm nay lấy thật từ `dashboardProvider`).
-  int _reviewedThisSession = 0;
+  Future<void> _persist(
+    List<ReviewItem> sourceItems,
+    List<PracticeResultEntry> results,
+  ) async {
+    final repo = ref.read(reviewRepositoryProvider);
+    for (final result in results) {
+      ReviewItem? item;
+      for (final candidate in sourceItems) {
+        if (candidate.id == result.cardId) {
+          item = candidate;
+          break;
+        }
+      }
+      if (item == null) continue;
+      try {
+        await repo.rate(
+          item,
+          result.correct ? ReviewRating.medium : ReviewRating.forgot,
+          responseTime: const Duration(seconds: 5),
+          mode: _dailyReviewMode,
+        );
+      } catch (_) {
+        // Đồng bộ best-effort — lỗi mạng không chặn màn kết quả.
+      }
+    }
+    ref.invalidate(dashboardProvider);
+  }
 
-  void _startReview() {
+  void _handleComplete(
+    List<ReviewItem> sourceItems,
+    List<PracticeResultEntry> results,
+    int xp,
+  ) {
+    unawaited(_persist(sourceItems, results));
+    final weakIds = results.where((r) => !r.correct).map((r) => r.cardId).toSet();
+    final weakItems = sourceItems
+        .where((i) => weakIds.contains(i.id))
+        .toList(growable: false);
     setState(() {
-      _isReviewing = true;
+      _lastWeakItems = weakItems;
+      _doneResult = DailyReviewResult(
+        totalCount: results.length,
+        correctCount: results.length - weakItems.length,
+        xpEarned: xp,
+        weakWords: weakItems
+            .map((i) => DailyReviewWeakWord(contentDe: i.displayDe, contentVi: i.displayVi))
+            .toList(growable: false),
+        hasMore: !_isRetry && sourceItems.length >= _kSessionLimit,
+      );
     });
   }
 
-  void _onFinish() {
-    setState(() => _isReviewing = false);
-    ref.invalidate(dashboardProvider);
+  void _startRetryWeak() {
+    if (_lastWeakItems.isEmpty) return;
+    setState(() {
+      _retryItems = _lastWeakItems;
+      _isRetry = true;
+      _doneResult = null;
+    });
   }
+
+  void _continueMore() {
+    setState(() {
+      _retryItems = null;
+      _isRetry = false;
+      _doneResult = null;
+    });
+    ref.invalidate(reviewSessionProvider(_dailyReviewScope));
+  }
+
+  void _goHome() {
+    // Web: retry sessions navigate(-1) instead of home.
+    if (_isRetry && context.canPop()) {
+      context.pop();
+    } else {
+      context.go('/home');
+    }
+  }
+
+  void _goToVocabulary() => context.go('/vocabulary');
+
+  void _goToListening() => context.go('/games/flashcards');
+
+  void _askAi() => context.go('/ai-tutor');
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    if (_isReviewing) {
-      return _ReviewingBody(
-        onFinish: _onFinish,
-        onCardRated: () => setState(() => _reviewedThisSession++),
+
+    final doneResult = _doneResult;
+    if (doneResult != null) {
+      return DailyReviewDoneScreen(
+        result: doneResult,
+        onGoHome: _goHome,
+        onContinueLearning: _goToVocabulary,
+        onRetryWeakWords: _lastWeakItems.isNotEmpty ? _startRetryWeak : null,
+        onContinue: doneResult.hasMore ? _continueMore : null,
+        onListenPractice: _goToListening,
+        onAskAi: ReleaseFeatureFlags.aiTutor && doneResult.weakWords.isNotEmpty
+            ? _askAi
+            : null,
       );
     }
-    final dashAsync = ref.watch(dashboardProvider);
-    return dashAsync.when(
-      loading: () => const Scaffold(body: LoadingView()),
-      error: (e, _) => Scaffold(
-        body: ErrorView(
-          message: l10n.couldNotLoadReviewData,
-          onRetry: () => ref.invalidate(dashboardProvider),
-        ),
-      ),
-      data: (dash) => _StartScreen(
-        streakDays: dash.gamification?.currentStreak ?? 0,
-        dueCount: dash.dueReviewCount,
-        reviewedToday: _reviewedThisSession,
-        xpToday: dash.gamification?.dailyXpToday ?? 0,
-        onStart: _startReview,
-      ),
-    );
-  }
-}
 
-/// Phiên ôn đang chạy — theo dõi [reviewSessionProvider] cho mode
-/// `daily_review`, hiển thị từng thẻ + gửi rating lên server.
-class _ReviewingBody extends ConsumerWidget {
-  const _ReviewingBody({required this.onFinish, required this.onCardRated});
+    final retry = _retryItems;
+    if (retry != null) {
+      return DailyReviewPlaylist(
+        items: retry,
+        bannerText: l10n.dailyReviewRetryBanner,
+        onComplete: (results, xp) => _handleComplete(retry, results, xp),
+        onExit: _goHome,
+      );
+    }
 
-  final VoidCallback onFinish;
-  final VoidCallback onCardRated;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
     final session = ref.watch(reviewSessionProvider(_dailyReviewScope));
-    final l10n = AppLocalizations.of(context);
-
     return session.when(
       loading: () => const Scaffold(body: LoadingView()),
       error: (e, _) => Scaffold(
         body: ErrorView(
-          message: l10n.couldNotLoadReviewCards,
-          onRetry: () => ref
-              .read(reviewSessionProvider(_dailyReviewScope).notifier)
-              .restart(),
+          message: l10n.couldNotLoadReviewData,
+          onRetry: () => ref.invalidate(reviewSessionProvider(_dailyReviewScope)),
         ),
       ),
       data: (state) {
         if (state.isEmpty) {
-          return Scaffold(
-            backgroundColor: DesignTokens.background,
-            body: Center(
-              child: Padding(
-                padding: const EdgeInsets.all(DesignTokens.spacingLg),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      l10n.noCardsDueToday,
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 16,
-                      ),
-                    ),
-                    const SizedBox(height: DesignTokens.spacingLg),
-                    FilledButton(
-                      onPressed: onFinish,
-                      child: Text(l10n.backToHome),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+          return DailyReviewDoneScreen(
+            result: const DailyReviewResult.empty(),
+            onGoHome: _goHome,
+            onContinueLearning: _goToVocabulary,
           );
         }
-        if (state.isFinished) {
-          return GameCompletionScreen(
-            score: state.correctCount,
-            total: state.total,
-            onPlayAgain: () {
-              ref
-                  .read(reviewSessionProvider(_dailyReviewScope).notifier)
-                  .restart();
-            },
-            onGoHome: onFinish,
-          );
-        }
-        return ReviewSessionView(
-          position: state.index + 1,
-          total: state.total,
-          item: state.current!,
-          submitting: state.submitting,
-          errorMessage: state.error == ReviewSessionError.ratingNotSaved
-              ? l10n.couldNotSaveReview
-              : null,
-          onAnswer: (rating) async {
-            final saved = await ref
-                .read(reviewSessionProvider(_dailyReviewScope).notifier)
-                .rateCurrent(rating);
-            if (saved) onCardRated();
-          },
+        return DailyReviewPlaylist(
+          items: state.items,
+          onComplete: (results, xp) => _handleComplete(state.items, results, xp),
+          onExit: _goHome,
         );
       },
-    );
-  }
-}
-
-class _StartScreen extends StatelessWidget {
-  const _StartScreen({
-    required this.streakDays,
-    required this.dueCount,
-    required this.reviewedToday,
-    required this.xpToday,
-    required this.onStart,
-  });
-
-  final int streakDays;
-  final int dueCount;
-  final int reviewedToday;
-  final int xpToday;
-  final VoidCallback onStart;
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-    return Scaffold(
-      backgroundColor: DesignTokens.background,
-      appBar: AppBar(
-        backgroundColor: DesignTokens.background,
-        title: Text(
-          l10n.dailyReview,
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-            color: DesignTokens.tigerOrange,
-          ),
-        ),
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(DesignTokens.spacingLg),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            StreakCard(streakDays: streakDays),
-            const SizedBox(height: DesignTokens.spacingLg),
-            TodayStatsCard(
-              dueCount: dueCount,
-              reviewedToday: reviewedToday,
-              xpToday: xpToday,
-            ),
-            const SizedBox(height: DesignTokens.spacingLg),
-            StartReviewButton(onStart: onStart),
-          ],
-        ),
-      ),
     );
   }
 }

@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 
 import '../../../../core/theme/app_tokens.dart';
 import '../../../../data/exam/exam_ecosystem_models.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../../../../widgets/common/app_card.dart';
 import 'real_exam_badge.dart';
 
@@ -34,6 +35,7 @@ class CommunityTopicCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final tokens = context.tokens;
+    final l10n = AppLocalizations.of(context);
     return AppCard.interactive(
       onTap: () => context.push('/exam/community/${topic.id}'),
       padding: const EdgeInsets.all(12),
@@ -99,7 +101,7 @@ class CommunityTopicCard extends StatelessWidget {
             runSpacing: 4,
             children: [
               Text(
-                '👤 ${topic.contributorName.isNotEmpty ? topic.contributorName : 'Ẩn danh'}',
+                '👤 ${topic.contributorName.isNotEmpty ? topic.contributorName : l10n.communityAnonymousContributor}',
                 style: TextStyle(fontSize: 11, color: tokens.mutedForeground),
               ),
               if (_createdLabel.isNotEmpty)

@@ -1,294 +1,211 @@
-import 'dart:async';
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import '../../../core/theme/app_colors.dart';
 
-class DuelLobbyPage extends ConsumerStatefulWidget {
+import 'package:deutschtiger/core/theme/app_tokens.dart';
+import 'package:deutschtiger/view_models/providers.dart';
+
+import 'widgets/social_avatar.dart';
+
+/// Duel room lobby — UI shell only (web parity: `duel-lobby-page.tsx` +
+/// `duel-lobby.tsx`, room-code card, host/guest player cards, invite CTA).
+/// Flag-gated (`ReleaseFeatureFlags.socialDuels`, default off): the live
+/// room contract (`useDuelRoom`/`useDuelMutations` on web) and the realtime
+/// match loop belong to GĐ2 P3 — this screen intentionally has NO backend
+/// call and NO fake opponent/score simulation (the previous `Random()`
+/// matchmaking + bot logic was removed, not replaced). It shows the host
+/// (current user) waiting for a real guest slot to be wired later.
+class DuelLobbyPage extends ConsumerWidget {
   const DuelLobbyPage({super.key});
 
   @override
-  ConsumerState<DuelLobbyPage> createState() => _DuelLobbyPageState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final tokens = context.tokens;
+    final me = ref.watch(myProfileProvider).valueOrNull;
 
-class _DuelLobbyPageState extends ConsumerState<DuelLobbyPage> {
-  bool _isSearching = false;
-  final List<_Opponent> _availableOpponents = _generateOpponents();
-
-  static List<_Opponent> _generateOpponents() {
-    final random = Random();
-    final names = ['Maria', 'Hans', 'Anna', 'Peter', 'Sophie', 'Max', 'Lena', 'Paul', 'Emma', 'Felix'];
-    return List.generate(
-      10,
-      (i) => _Opponent(
-        id: 'opp-$i',
-        name: names[i % names.length],
-        level: 5 + random.nextInt(20),
-        streak: 5 + random.nextInt(30),
-        winRate: 40 + random.nextInt(50),
-      ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.authBackground,
-      appBar: AppBar(
-        backgroundColor: AppColors.authBackground,
-        title: const Text(
-          'Duel Arena',
-          style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.tigerOrange, fontSize: 18),
-        ),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () => context.pop(),
-        ),
-      ),
-      body: Column(
-        children: [
-          _buildHeader(),
-          const SizedBox(height: 16),
-          Expanded(
-            child: _isSearching ? _buildSearchingView() : _buildOpponentList(),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildHeader() {
-    return Container(
-      margin: const EdgeInsets.all(16),
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          colors: [AppColors.tigerOrange, AppColors.tigerOrangeDark],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Column(
-        children: [
-          const Icon(Icons.sports_kabaddi, size: 48, color: Colors.white),
-          const SizedBox(height: 12),
-          const Text(
-            'Live Vocabulary Duel',
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            'Battle in real-time vocabulary challenges!',
-            style: TextStyle(color: Colors.white.withValues(alpha: 0.8)),
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: 16),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              _buildStatBadge(Icons.star, '+50 XP'),
-              const SizedBox(width: 24),
-              _buildStatBadge(Icons.timer, '5 min'),
-              const SizedBox(width: 24),
-              _buildStatBadge(Icons.quiz, '10 Q'),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildStatBadge(IconData icon, String text) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-      decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.2),
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Row(
-        children: [
-          Icon(icon, size: 16, color: Colors.white),
-          const SizedBox(width: 4),
-          Text(text, style: const TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w600)),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildOpponentList() {
-    return ListView(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      children: [
-        const Text(
-          'Choose Opponent',
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-        ),
-        const SizedBox(height: 12),
-        ..._availableOpponents.map((opp) => _OpponentCard(opponent: opp, onChallenge: _challengeOpponent)),
-        const SizedBox(height: 16),
-        SizedBox(
-          width: double.infinity,
-          child: ElevatedButton.icon(
-            onPressed: _startSearching,
-            icon: const Icon(Icons.search),
-            label: const Text('Find Random Opponent'),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.tigerOrange,
-              foregroundColor: Colors.white,
-              padding: const EdgeInsets.symmetric(vertical: 16),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-            ),
-          ),
-        ),
-        const SizedBox(height: 24),
-      ],
-    );
-  }
-
-  Widget _buildSearchingView() {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const SizedBox(
-            width: 80,
-            height: 80,
-            child: CircularProgressIndicator(
-              strokeWidth: 4,
-              valueColor: AlwaysStoppedAnimation(AppColors.tigerOrange),
-            ),
-          ),
-          const SizedBox(height: 24),
-          const Text(
-            'Finding opponent...',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            'Please wait while we match you',
-            style: TextStyle(color: AppColors.mutedForeground),
-          ),
-          const SizedBox(height: 32),
-          OutlinedButton(
-            onPressed: _cancelSearch,
-            child: const Text('Cancel'),
-          ),
-        ],
-      ),
-    );
-  }
-
-  void _startSearching() {
-    setState(() => _isSearching = true);
-    Future.delayed(const Duration(seconds: 3), () {
-      if (mounted && _isSearching) {
-        _startDuel(_availableOpponents[DateTime.now().second % _availableOpponents.length]);
-      }
-    });
-  }
-
-  void _cancelSearch() {
-    setState(() => _isSearching = false);
-  }
-
-  void _challengeOpponent(_Opponent opponent) {
-    _startDuel(opponent);
-  }
-
-  void _startDuel(_Opponent opponent) {
-    setState(() => _isSearching = false);
-    context.push('/social/duel/play', extra: opponent);
-  }
-}
-
-class _Opponent {
-  final String id;
-  final String name;
-  final int level;
-  final int streak;
-  final int winRate;
-
-  const _Opponent({
-    required this.id,
-    required this.name,
-    required this.level,
-    required this.streak,
-    required this.winRate,
-  });
-}
-
-class _OpponentCard extends StatelessWidget {
-  final _Opponent opponent;
-  final Function(_Opponent) onChallenge;
-
-  const _OpponentCard({required this.opponent, required this.onChallenge});
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.only(bottom: 8),
-      color: Colors.white,
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: Row(
+      backgroundColor: tokens.background,
+      body: SafeArea(
+        child: Column(
           children: [
-            CircleAvatar(
-              radius: 24,
-              backgroundColor: AppColors.muted,
-              child: Text(opponent.name[0], style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+              child: Row(
                 children: [
-                  Row(
-                    children: [
-                      Text(opponent.name, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
-                      const SizedBox(width: 8),
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                        decoration: BoxDecoration(
-                          color: AppColors.secondary,
-                          borderRadius: BorderRadius.circular(4),
-                        ),
-                        child: Text('Lv.${opponent.level}', style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600)),
-                      ),
-                    ],
+                  IconButton(
+                    icon: const Icon(Icons.arrow_back),
+                    onPressed: () => context.pop(),
                   ),
-                  const SizedBox(height: 4),
-                  Row(
-                    children: [
-                      Icon(Icons.local_fire_department, size: 14, color: Colors.orange[600]),
-                      const SizedBox(width: 2),
-                      Text('${opponent.streak}d', style: const TextStyle(fontSize: 12)),
-                      const SizedBox(width: 12),
-                      Icon(Icons.emoji_events, size: 14, color: Colors.amber[600]),
-                      const SizedBox(width: 2),
-                      Text('${opponent.winRate}%', style: const TextStyle(fontSize: 12)),
-                    ],
+                  Text(
+                    'Trận đấu trực tiếp',
+                    style: TextStyle(
+                      fontSize: 17,
+                      fontWeight: FontWeight.bold,
+                      color: tokens.foreground,
+                    ),
                   ),
                 ],
               ),
             ),
-            ElevatedButton(
-              onPressed: () => onChallenge(opponent),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.tigerOrange,
-                foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            Expanded(
+              child: Center(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: tokens.card,
+                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(color: tokens.border),
+                        ),
+                        child: Column(
+                          children: [
+                            Text(
+                              'Mã phòng',
+                              style: TextStyle(fontSize: 12, color: tokens.mutedForeground),
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              '— — — —',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: 2,
+                                fontFamily: 'monospace',
+                                color: tokens.foreground,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 32),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          _PlayerSlot(
+                            name: me?.displayName ?? '...',
+                            avatarUrl: me?.avatarUrl,
+                            label: 'Chủ phòng',
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+                            child: Text(
+                              'VS',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: tokens.mutedForeground,
+                              ),
+                            ),
+                          ),
+                          Column(
+                            children: [
+                              Container(
+                                width: 64,
+                                height: 64,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
+                                    color: tokens.border,
+                                    width: 2,
+                                    style: BorderStyle.solid,
+                                  ),
+                                ),
+                                alignment: Alignment.center,
+                                child: Icon(Icons.add, color: tokens.mutedForeground),
+                              ),
+                              const SizedBox(height: 8),
+                              Text(
+                                'Chờ đối thủ...',
+                                style: TextStyle(fontSize: 13, color: tokens.mutedForeground),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 32),
+                      Text(
+                        'Đang chờ người chơi tham gia...',
+                        style: TextStyle(fontSize: 13, color: tokens.mutedForeground),
+                      ),
+                      const SizedBox(height: 24),
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: () => context.push('/social/friends'),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: tokens.primary,
+                            foregroundColor: Colors.white,
+                            padding: const EdgeInsets.symmetric(vertical: 14),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                          child: const Text('Mời bạn bè'),
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      SizedBox(
+                        width: double.infinity,
+                        child: OutlinedButton(
+                          onPressed: () => context.pop(),
+                          style: OutlinedButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(vertical: 14),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                          child: const Text('Hủy phòng'),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
-              child: const Text('Challenge'),
             ),
           ],
         ),
       ),
+    );
+  }
+}
+
+class _PlayerSlot extends StatelessWidget {
+  const _PlayerSlot({required this.name, required this.avatarUrl, required this.label});
+
+  final String name;
+  final String? avatarUrl;
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    final tokens = context.tokens;
+    return Column(
+      children: [
+        SocialAvatar(displayName: name, avatarUrl: avatarUrl, size: 64),
+        const SizedBox(height: 8),
+        SizedBox(
+          width: 100,
+          child: Text(
+            name,
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: tokens.foreground),
+            textAlign: TextAlign.center,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+        Container(
+          margin: const EdgeInsets.only(top: 2),
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+          decoration: BoxDecoration(color: tokens.muted, borderRadius: BorderRadius.circular(999)),
+          child: Text(label, style: TextStyle(fontSize: 11, color: tokens.mutedForeground)),
+        ),
+      ],
     );
   }
 }

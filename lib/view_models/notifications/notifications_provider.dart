@@ -140,7 +140,11 @@ class NotificationPreferencesNotifier
     extends AutoDisposeNotifier<NotificationPreferencesState> {
   @override
   NotificationPreferencesState build() {
-    unawaited(_load());
+    // See the identical fix + rationale on `LearningPreferencesNotifier`
+    // (`lib/view_models/settings/learning_preferences_provider.dart`):
+    // `Future.microtask` guarantees `build()` returns before `_load()`
+    // can synchronously write `state`.
+    Future.microtask(_load);
     return const NotificationPreferencesState();
   }
 

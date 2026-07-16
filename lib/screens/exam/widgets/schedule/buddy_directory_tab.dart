@@ -105,15 +105,18 @@ class _BuddyDirectoryTabState extends ConsumerState<BuddyDirectoryTab> {
                 tabs: [
                   SchedulePillTab(
                     value: 'upcoming',
-                    label: 'Còn hạn ($upcoming)',
+                    label: l10n.scheduleStatusUpcomingCount(upcoming),
                   ),
-                  SchedulePillTab(value: 'past', label: 'Đã thi ($past)'),
+                  SchedulePillTab(
+                    value: 'past',
+                    label: l10n.scheduleStatusPastCount(past),
+                  ),
                 ],
               ),
               const SizedBox(height: 10),
               TextField(
                 decoration: InputDecoration(
-                  hintText: 'Tìm theo tên / loại thi...',
+                  hintText: l10n.scheduleSearchHint,
                   isDense: true,
                   prefixIcon: const Icon(Icons.search, size: 18),
                   filled: true,
@@ -140,9 +143,9 @@ class _BuddyDirectoryTabState extends ConsumerState<BuddyDirectoryTab> {
                         border: OutlineInputBorder(),
                       ),
                       items: [
-                        const DropdownMenuItem(
+                        DropdownMenuItem(
                           value: 'all',
-                          child: Text('Tất cả kì thi'),
+                          child: Text(l10n.scheduleFilterAllExamTypes),
                         ),
                         for (final t in _examTypeOptions)
                           DropdownMenuItem(
@@ -166,9 +169,9 @@ class _BuddyDirectoryTabState extends ConsumerState<BuddyDirectoryTab> {
                         border: OutlineInputBorder(),
                       ),
                       items: [
-                        const DropdownMenuItem(
+                        DropdownMenuItem(
                           value: 'all',
-                          child: Text('Tất cả trình độ'),
+                          child: Text(l10n.scheduleFilterAllLevels),
                         ),
                         for (final lvl in _examLevelOptions)
                           DropdownMenuItem(value: lvl, child: Text(lvl)),
@@ -183,7 +186,9 @@ class _BuddyDirectoryTabState extends ConsumerState<BuddyDirectoryTab> {
               ),
               const SizedBox(height: 8),
               Text(
-                '${filtered.length} người · ${_status == 'upcoming' ? 'gần ngày thi nhất xếp trước' : 'thi gần đây xếp trước'}',
+                _status == 'upcoming'
+                    ? l10n.scheduleResultCountUpcoming(filtered.length)
+                    : l10n.scheduleResultCountPast(filtered.length),
                 style: TextStyle(fontSize: 11.5, color: tokens.mutedForeground),
               ),
               const SizedBox(height: 8),
@@ -193,8 +198,8 @@ class _BuddyDirectoryTabState extends ConsumerState<BuddyDirectoryTab> {
                   child: Center(
                     child: Text(
                       _status == 'upcoming'
-                          ? 'Không có ai còn hạn lịch thi khớp bộ lọc này.'
-                          : 'Không có ai đã thi khớp bộ lọc này.',
+                          ? l10n.scheduleEmptyUpcoming
+                          : l10n.scheduleEmptyPast,
                       style: TextStyle(color: tokens.mutedForeground),
                     ),
                   ),

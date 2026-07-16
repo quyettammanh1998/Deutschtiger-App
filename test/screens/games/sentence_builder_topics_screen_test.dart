@@ -40,8 +40,8 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('Ăn uống'), findsOneWidget);
-    expect(find.text('12 từ · 5 từ thiết yếu'), findsOneWidget);
-    expect(find.text('Chủ đề ngẫu nhiên'), findsOneWidget);
+    expect(find.text('12 từ'), findsOneWidget);
+    expect(find.text('Ngẫu nhiên'), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
 

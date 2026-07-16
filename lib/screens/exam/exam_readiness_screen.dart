@@ -55,14 +55,15 @@ class _ReadinessBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return ListView(
       padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
       children: [
-        const PageIntro(
+        PageIntro(
           pageKey: 'exam-readiness',
-          why: 'Xem bạn đã sẵn sàng cho kỳ thi tới mức nào, theo từng kỹ năng.',
-          todo: 'Nhìn kỹ năng yếu nhất và bấm luyện ngay.',
-          next: 'Luyện xong quay lại xem điểm cải thiện.',
+          why: l10n.examReadinessIntroWhy,
+          todo: l10n.examReadinessIntroTodo,
+          next: l10n.examReadinessIntroNext,
         ),
         const SizedBox(height: 12),
         const ReadinessGoalHeader(),

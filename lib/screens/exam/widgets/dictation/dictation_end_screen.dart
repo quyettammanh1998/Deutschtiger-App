@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_tokens.dart';
+import '../../../../l10n/app_localizations.dart';
 
 /// Shared result screen for cloze / full-sentence dictation — mirrors web
 /// `dictation-end-screen.tsx`. No SRS/FSRS push: the app has no
@@ -29,6 +30,7 @@ class DictationEndScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final tokens = context.tokens;
+    final l10n = AppLocalizations.of(context);
     final pct = total == 0 ? 0 : ((correct / total) * 100).round();
     return Center(
       child: SingleChildScrollView(
@@ -54,7 +56,7 @@ class DictationEndScreen extends StatelessWidget {
               ),
             ),
             Text(
-              '$correct / $total đúng',
+              l10n.dictationEndCorrectCount(correct, total),
               style: TextStyle(fontSize: 13, color: tokens.mutedForeground),
             ),
             const SizedBox(height: 20),
@@ -73,12 +75,12 @@ class DictationEndScreen extends StatelessWidget {
                   child: InkWell(
                     borderRadius: BorderRadius.circular(12),
                     onTap: onRetry,
-                    child: const Padding(
-                      padding: EdgeInsets.symmetric(vertical: 13),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 13),
                       child: Center(
                         child: Text(
-                          'Luyện lại',
-                          style: TextStyle(
+                          l10n.dictationEndRetry,
+                          style: const TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.w700,
                             fontSize: 13.5,

@@ -57,6 +57,7 @@ class QuestionSprachbausteine extends StatelessWidget {
     return QuestionCardFrame(
       questionNumber: questionNumber,
       sectionLabel: sectionLabel,
+      questionId: question.answerKey,
       prompt: question.prompt,
       topSlot: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

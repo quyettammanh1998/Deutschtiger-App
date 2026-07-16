@@ -2,14 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:deutschtiger/core/theme/app_colors.dart';
+import 'package:deutschtiger/core/icons/app_phosphor_icons.dart';
+import 'package:deutschtiger/core/theme/app_tokens.dart';
 import 'package:deutschtiger/data/social/message_models.dart';
 import 'package:deutschtiger/l10n/app_localizations.dart';
 import 'package:deutschtiger/view_models/social/messages_provider.dart';
 
+import 'widgets/social_avatar.dart';
+
 /// Conversation list — `GET /user/messages/conversations`. Poll-based: the
 /// list refreshes on open, on app resume (`didChangeAppLifecycleState`) and
-/// pull-to-refresh. No background polling / realtime transport.
+/// pull-to-refresh. No background polling / realtime transport. Web parity:
+/// `pages/social/messages-page.tsx` (flat rows, "Bạn:" sender prefix).
 class MessagesPage extends ConsumerStatefulWidget {
   const MessagesPage({super.key});
 
@@ -41,55 +45,91 @@ class _MessagesPageState extends ConsumerState<MessagesPage>
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+    final tokens = context.tokens;
     final conversationsAsync = ref.watch(conversationsProvider);
+    final count = conversationsAsync.valueOrNull?.length ?? 0;
 
     return Scaffold(
-      backgroundColor: AppColors.authBackground,
-      appBar: AppBar(
-        backgroundColor: AppColors.authBackground,
-        title: Text(
-          l10n.socialMessagesTitle,
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-            color: AppColors.tigerOrange,
-            fontSize: 18,
-          ),
-        ),
-      ),
-      body: conversationsAsync.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (e, _) => Center(child: Text(l10n.socialLoadMessagesError)),
-        data: (conversations) {
-          if (conversations.isEmpty) {
-            return _buildEmptyState(l10n);
-          }
-          return RefreshIndicator(
-            onRefresh: () async => ref.invalidate(conversationsProvider),
-            child: ListView.builder(
-              padding: const EdgeInsets.symmetric(vertical: 8),
-              itemCount: conversations.length,
-              itemBuilder: (context, index) => _ConversationTile(
-                conversation: conversations[index],
-                onTap: () =>
-                    context.push('/social/chat/${conversations[index].friendId}'),
+      backgroundColor: tokens.background,
+      body: SafeArea(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
+              child: Row(
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.arrow_back),
+                    onPressed: () =>
+                        context.canPop() ? context.pop() : context.go('/home'),
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        l10n.socialMessagesTitle,
+                        style: TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.bold,
+                          color: tokens.foreground,
+                        ),
+                      ),
+                      Text(
+                        count > 0
+                            ? l10n.socialConversationsCount(count)
+                            : l10n.socialNoMessagesYet,
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: tokens.mutedForeground,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
-          );
-        },
+            Expanded(
+              child: conversationsAsync.when(
+                loading: () => const Center(child: CircularProgressIndicator()),
+                error: (e, _) => Center(child: Text(l10n.socialLoadMessagesError)),
+                data: (conversations) {
+                  if (conversations.isEmpty) {
+                    return _buildEmptyState(context, l10n);
+                  }
+                  return RefreshIndicator(
+                    onRefresh: () async => ref.invalidate(conversationsProvider),
+                    child: ListView.builder(
+                      padding: const EdgeInsets.symmetric(vertical: 4),
+                      itemCount: conversations.length,
+                      itemBuilder: (context, index) => _ConversationRow(
+                        conversation: conversations[index],
+                        l10n: l10n,
+                        onTap: () => context
+                            .push('/social/chat/${conversations[index].friendId}'),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 
-  Widget _buildEmptyState(AppLocalizations l10n) {
+  Widget _buildEmptyState(BuildContext context, AppLocalizations l10n) {
+    final tokens = context.tokens;
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.chat_bubble_outline, size: 64, color: Colors.grey[400]),
-          const SizedBox(height: 16),
+          Icon(AppPhosphorIcons.chatText, size: 48, color: tokens.mutedForeground),
+          const SizedBox(height: 12),
           Text(
             l10n.socialNoMessagesYet,
-            style: TextStyle(color: Colors.grey[600], fontSize: 16),
+            style: TextStyle(color: tokens.mutedForeground, fontSize: 15),
           ),
         ],
       ),
@@ -97,61 +137,36 @@ class _MessagesPageState extends ConsumerState<MessagesPage>
   }
 }
 
-class _ConversationTile extends StatelessWidget {
-  const _ConversationTile({required this.conversation, required this.onTap});
+class _ConversationRow extends StatelessWidget {
+  const _ConversationRow({
+    required this.conversation,
+    required this.l10n,
+    required this.onTap,
+  });
 
   final ChatConversation conversation;
+  final AppLocalizations l10n;
   final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-      color: Colors.white,
-      elevation: 1,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+    final tokens = context.tokens;
+    final unread = conversation.unreadCount > 0;
+    final previewPrefix = conversation.isSender ? '${l10n.socialYouPrefix}: ' : '';
+
+    return Material(
+      color: Colors.transparent,
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(12),
         child: Padding(
-          padding: const EdgeInsets.all(12),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
           child: Row(
             children: [
-              Stack(
-                children: [
-                  CircleAvatar(
-                    radius: 28,
-                    backgroundImage: conversation.avatarUrl.isNotEmpty
-                        ? NetworkImage(conversation.avatarUrl)
-                        : null,
-                    backgroundColor: AppColors.muted,
-                    child: conversation.avatarUrl.isEmpty
-                        ? Text(
-                            conversation.displayName.isNotEmpty
-                                ? conversation.displayName[0].toUpperCase()
-                                : '?',
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18,
-                            ),
-                          )
-                        : null,
-                  ),
-                  if (conversation.isOnline)
-                    Positioned(
-                      right: 0,
-                      bottom: 0,
-                      child: Container(
-                        width: 14,
-                        height: 14,
-                        decoration: BoxDecoration(
-                          color: AppColors.success,
-                          shape: BoxShape.circle,
-                          border: Border.all(color: Colors.white, width: 2),
-                        ),
-                      ),
-                    ),
-                ],
+              SocialAvatar(
+                displayName: conversation.displayName,
+                avatarUrl: conversation.avatarUrl,
+                showOnlineDot: true,
+                isOnline: conversation.isOnline,
               ),
               const SizedBox(width: 12),
               Expanded(
@@ -164,58 +179,56 @@ class _ConversationTile extends StatelessWidget {
                           child: Text(
                             conversation.displayName,
                             style: TextStyle(
-                              fontWeight: conversation.unreadCount > 0
-                                  ? FontWeight.bold
-                                  : FontWeight.w600,
-                              fontSize: 15,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 14,
+                              color: unread
+                                  ? tokens.foreground
+                                  : tokens.foreground.withValues(alpha: 0.8),
                             ),
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
                         Text(
-                          _formatTime(conversation.lastMessageAt),
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: AppColors.mutedForeground,
-                          ),
+                          _formatTime(conversation.lastMessageAt, l10n),
+                          style: TextStyle(fontSize: 11, color: tokens.mutedForeground),
                         ),
                       ],
                     ),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: 2),
                     Row(
                       children: [
                         Expanded(
                           child: Text(
-                            conversation.lastMessageContent,
+                            '$previewPrefix${conversation.lastMessageContent}',
                             style: TextStyle(
                               fontSize: 13,
-                              color: AppColors.mutedForeground,
-                              fontWeight: conversation.unreadCount > 0
-                                  ? FontWeight.w500
-                                  : FontWeight.normal,
+                              color: tokens.mutedForeground,
+                              fontWeight: unread ? FontWeight.w600 : FontWeight.normal,
                             ),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
-                        if (conversation.unreadCount > 0)
+                        if (unread) ...[
+                          const SizedBox(width: 6),
                           Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 8,
-                              vertical: 4,
-                            ),
+                            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                             decoration: BoxDecoration(
-                              color: AppColors.tigerOrange,
+                              color: tokens.primary,
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: Text(
-                              '${conversation.unreadCount}',
+                              conversation.unreadCount > 99
+                                  ? '99+'
+                                  : '${conversation.unreadCount}',
                               style: const TextStyle(
                                 color: Colors.white,
-                                fontSize: 11,
+                                fontSize: 10,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
                           ),
+                        ],
                       ],
                     ),
                   ],
@@ -228,10 +241,11 @@ class _ConversationTile extends StatelessWidget {
     );
   }
 
-  String _formatTime(DateTime time) {
+  String _formatTime(DateTime time, AppLocalizations l10n) {
     final now = DateTime.now();
     final diff = now.difference(time);
-    if (diff.inMinutes < 60) return '${diff.inMinutes}m';
+    if (diff.inMinutes < 1) return l10n.justNow;
+    if (diff.inMinutes < 60) return '${diff.inMinutes}p';
     if (diff.inHours < 24) return '${diff.inHours}h';
     if (diff.inDays < 7) return '${diff.inDays}d';
     return '${time.day}/${time.month}';

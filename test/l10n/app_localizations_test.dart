@@ -1,8 +1,7 @@
 import 'package:deutschtiger/core/release/release_feature_flags.dart';
-import 'package:deutschtiger/core/identity/app_user.dart';
 import 'package:deutschtiger/l10n/app_localizations.dart';
-import 'package:deutschtiger/screens/profile/widgets/profile_header.dart';
-import 'package:deutschtiger/screens/profile/widgets/profile_stats_grid.dart';
+import 'package:deutschtiger/screens/social/widgets/profile_cover_header.dart';
+import 'package:deutschtiger/screens/social/widgets/profile_stats_row.dart';
 import 'package:deutschtiger/screens/settings/widgets/language_picker_sheet.dart';
 import 'package:deutschtiger/screens/auth/welcome_screen.dart';
 import 'package:deutschtiger/screens/auth/onboarding_screen.dart';
@@ -316,17 +315,21 @@ void main() {
             body: SingleChildScrollView(
               child: Column(
                 children: [
-                  ProfileHeader(
-                    user: const AppUser(id: 'profile-user', isPremium: true),
+                  const ProfileCoverHeader(
+                    displayName: 'Lernende:r',
+                    avatarUrl: null,
+                    activeTitle: null,
+                    isPremium: true,
+                    isOnline: false,
+                    activityLabel: null,
+                    joinedDate: '1. Januar 2026',
                   ),
-                  ProfileStatsGrid(
-                    user: const AppUser(
-                      id: 'profile-user',
-                      level: 8,
-                      totalXp: 420,
-                      currentStreak: 3,
-                      wordsLearned: 125,
-                    ),
+                  const ProfileStatsRow(
+                    level: 8,
+                    totalXp: 420,
+                    currentStreak: 3,
+                    longestStreak: 5,
+                    friendsCount: 12,
                   ),
                 ],
               ),
@@ -337,9 +340,8 @@ void main() {
     );
 
     expect(find.text('Lernende:r'), findsOneWidget);
-    expect(find.text('★ Premium'), findsOneWidget);
-    expect(find.text('Stufe'), findsOneWidget);
-    expect(find.text('Gelernte Wörter'), findsOneWidget);
+    expect(find.text('Level'), findsOneWidget);
+    expect(find.text('Freunde'), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
 

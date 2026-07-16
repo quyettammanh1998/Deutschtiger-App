@@ -4,12 +4,15 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
-import '../../core/theme/app_colors.dart';
 import '../../data/games/typing_sprint_models.dart';
 import '../../view_models/games/typing_sprint_provider.dart';
 import '../../widgets/common/async_state_views.dart';
+import '../../widgets/common/game_shell.dart';
+import 'widgets/typing_sprint_paragraph_view.dart';
+import 'widgets/typing_sprint_results_card.dart';
+
+const _kRoundSeconds = 60;
 
 /// Typing Sprint game — gõ câu tiếng Đức trong 60 giây.
 ///
@@ -17,6 +20,14 @@ import '../../widgets/common/async_state_views.dart';
 /// từ `learning_items` của user, fallback bộ câu B1 tĩnh khi chưa đủ dữ
 /// liệu). Kết quả gửi lên `POST /user/typing/results` khi kết thúc phiên —
 /// backend tính XP (tối đa 50/phiên, 100/ngày) và trả lại `xpAwarded`.
+///
+/// P7b: coral theme reskin ([TypingSprintPalette]) + live per-character diff
+/// ([TypingSprintParagraphView]) + live WPM chip, matching web's themed
+/// typing surface. The underlying mechanic stays sentence-by-sentence (one
+/// `TypingSentence` at a time, checked on exact match) rather than web's
+/// continuous cross-sentence paragraph stream — the Flutter backend contract
+/// serves discrete sentences (`GET /user/typing/sentences`), not a
+/// paragraph, so a full monkeytype-style rebuild is out of scope here.
 class TypingSprintGameScreen extends ConsumerStatefulWidget {
   const TypingSprintGameScreen({super.key});
 
@@ -24,8 +35,6 @@ class TypingSprintGameScreen extends ConsumerStatefulWidget {
   ConsumerState<TypingSprintGameScreen> createState() =>
       _TypingSprintGameScreenState();
 }
-
-const _kRoundSeconds = 60;
 
 class _TypingSprintGameScreenState
     extends ConsumerState<TypingSprintGameScreen> {
@@ -52,6 +61,7 @@ class _TypingSprintGameScreenState
   void initState() {
     super.initState();
     _sentencesFuture = _loadSentences();
+    _controller.addListener(() => setState(() {}));
   }
 
   Future<List<TypingSentence>> _loadSentences() {
@@ -71,6 +81,12 @@ class _TypingSprintGameScreenState
 
   TypingSentence get _currentSentence =>
       _sentences[_sentenceIndex % _sentences.length];
+
+  int get _liveWpm {
+    final elapsedMin = (_kRoundSeconds - _timeLeft) / 60;
+    if (elapsedMin <= 0) return 0;
+    return (_correctWords / elapsedMin).round();
+  }
 
   void _checkSentence() {
     final typed = _controller.text.trim();
@@ -101,8 +117,7 @@ class _TypingSprintGameScreenState
 
     final elapsedSec = (_kRoundSeconds - _timeLeft).clamp(30, 300);
     final totalWords = _correctWords + _wrongWords;
-    final accuracy =
-        totalWords > 0 ? (_correctWords / totalWords * 100) : 0.0;
+    final accuracy = totalWords > 0 ? (_correctWords / totalWords * 100) : 0.0;
     final minutes = elapsedSec / 60;
     final wpm = minutes > 0 ? (_correctWords / minutes).round() : 0;
     final cpm = minutes > 0 ? (_correctChars / minutes).round() : 0;
@@ -154,362 +169,186 @@ class _TypingSprintGameScreenState
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.authBackground,
-      appBar: AppBar(
-        backgroundColor: AppColors.authBackground,
-        title: const Text('Typing Sprint'),
-        leading: IconButton(
-          icon: const Icon(Icons.close),
-          onPressed: () => context.pop(),
+    if (_gameOver) {
+      final totalWords = _correctWords + _wrongWords;
+      final accuracy =
+          totalWords > 0 ? (_correctWords / totalWords * 100).round() : 0;
+      return GameShell(
+        title: 'Typing Sprint',
+        exitGuard: false,
+        child: TypingSprintResultsCard(
+          score: _score,
+          wpm: _liveWpm,
+          correctWords: _correctWords,
+          wrongWords: _wrongWords,
+          accuracy: accuracy,
+          xpAwarded: _xpAwarded,
+          submitFailed: _submitFailed,
+          onGoHome: () => Navigator.of(context).pop(),
+          onRestart: _restart,
         ),
+      );
+    }
+
+    return GameShell(
+      title: 'Typing Sprint',
+      exitGuard: true,
+      scrollable: false,
+      trailing: _TimerAndWpmChips(timeLeft: _timeLeft, wpm: _liveWpm),
+      child: FutureBuilder<List<TypingSentence>>(
+        future: _sentencesFuture,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState != ConnectionState.done) {
+            return const LoadingView();
+          }
+          if (snapshot.hasError || !snapshot.hasData) {
+            return ErrorView(
+              onRetry: () => setState(() => _sentencesFuture = _loadSentences()),
+            );
+          }
+          final sentences = snapshot.data!;
+          if (sentences.isEmpty) {
+            return const ErrorView(message: 'Chưa có câu nào để luyện gõ.');
+          }
+          _sentences = sentences;
+          _startTimerIfNeeded();
+          if (!_focusRequested) {
+            _focusRequested = true;
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              if (mounted) _focusNode.requestFocus();
+            });
+          }
+          return _buildGame();
+        },
       ),
-      body: _gameOver
-          ? _buildResults()
-          : FutureBuilder<List<TypingSentence>>(
-              future: _sentencesFuture,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState != ConnectionState.done) {
-                  return const LoadingView();
-                }
-                if (snapshot.hasError || !snapshot.hasData) {
-                  return ErrorView(
-                    onRetry: () =>
-                        setState(() => _sentencesFuture = _loadSentences()),
-                  );
-                }
-                final sentences = snapshot.data!;
-                if (sentences.isEmpty) {
-                  return const ErrorView(
-                    message: 'Chưa có câu nào để luyện gõ.',
-                  );
-                }
-                _sentences = sentences;
-                _startTimerIfNeeded();
-                if (!_focusRequested) {
-                  _focusRequested = true;
-                  WidgetsBinding.instance.addPostFrameCallback((_) {
-                    if (mounted) _focusNode.requestFocus();
-                  });
-                }
-                return _buildGame();
-              },
-            ),
     );
   }
 
   Widget _buildGame() {
     final sentence = _currentSentence;
-    return Column(
-      children: [
-        Container(
-          padding: const EdgeInsets.all(16),
-          color: Colors.lightBlue.shade50,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  const Icon(Icons.star, color: Colors.lightBlue),
-                  const SizedBox(width: 4),
-                  Text(
-                    '$_score',
-                    style: const TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.lightBlue,
-                    ),
-                  ),
-                ],
-              ),
-              Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                decoration: BoxDecoration(
-                  color: _timeLeft <= 10 ? Colors.red : Colors.lightBlue,
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Row(
-                  children: [
-                    const Icon(Icons.timer, color: Colors.white, size: 20),
-                    const SizedBox(width: 4),
-                    Text(
-                      '${_timeLeft}s',
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                decoration: BoxDecoration(
-                  color: Colors.green.shade50,
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: Row(
-                  children: [
-                    const Icon(Icons.check_circle,
-                        color: Colors.green, size: 16),
-                    const SizedBox(width: 4),
-                    Text(
-                      '$_correctWords',
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.green,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-        const Spacer(),
-        Container(
-          margin: const EdgeInsets.symmetric(horizontal: 24),
-          padding: const EdgeInsets.all(24),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(24),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withValues(alpha: 0.1),
-                blurRadius: 20,
-                offset: const Offset(0, 10),
-              ),
-            ],
-          ),
-          child: Column(
-            children: [
-              Text(
-                sentence.vi,
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w500,
-                  color: AppColors.foreground,
-                ),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                'gõ tiếng Đức:',
-                style: TextStyle(
-                  fontSize: 14,
-                  color: AppColors.mutedForeground,
-                ),
-              ),
-              const SizedBox(height: 16),
-              Text(
-                sentence.de,
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.tigerOrange,
-                ),
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(height: 24),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: KeyboardListener(
-            focusNode: _focusNode,
-            onKeyEvent: (event) {
-              if (event is KeyDownEvent &&
-                  event.logicalKey == LogicalKeyboardKey.enter) {
-                _checkSentence();
-              }
-            },
-            child: TextField(
-              key: const Key('typing-sprint-input'),
-              controller: _controller,
-              autofocus: true,
-              textAlign: TextAlign.center,
-              maxLines: 2,
-              style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-              decoration: InputDecoration(
-                hintText: 'Gõ câu ở đây...',
-                hintStyle: TextStyle(
-                  color: Colors.grey.shade400,
-                  fontSize: 16,
-                ),
-                filled: true,
-                fillColor: Colors.white,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(16),
-                  borderSide: BorderSide(color: Colors.lightBlue.shade200),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(16),
-                  borderSide: BorderSide(color: Colors.lightBlue.shade200),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(16),
-                  borderSide:
-                      const BorderSide(color: Colors.lightBlue, width: 2),
-                ),
-              ),
-              onSubmitted: (_) => _checkSentence(),
+    return DecoratedBox(
+      decoration: const BoxDecoration(color: TypingSprintPalette.bgInner),
+      child: Column(
+        children: [
+          const SizedBox(height: 8),
+          Text(
+            sentence.vi,
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.w500,
+              color: TypingSprintPalette.inkDim,
             ),
           ),
-        ),
-        const SizedBox(height: 12),
-        TextButton(
-          key: const Key('typing-sprint-skip'),
-          onPressed: _skipSentence,
-          child: const Text('Bỏ qua câu này'),
-        ),
-        const Spacer(),
-      ],
-    );
-  }
-
-  Widget _buildResults() {
-    final totalWords = _correctWords + _wrongWords;
-    final accuracy =
-        totalWords > 0 ? (_correctWords / totalWords * 100).round() : 0;
-
-    return Center(
-      child: SingleChildScrollView(
-        child: Container(
-          margin: const EdgeInsets.all(24),
-          padding: const EdgeInsets.all(24),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(24),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withValues(alpha: 0.1),
-                blurRadius: 20,
-                offset: const Offset(0, 10),
-              ),
-            ],
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                width: 80,
-                height: 80,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.lightBlue.shade100,
+          const SizedBox(height: 16),
+          Expanded(
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: TypingSprintParagraphView(
+                  target: sentence.de,
+                  typed: _controller.text,
                 ),
-                child: const Icon(Icons.keyboard,
-                    size: 40, color: Colors.lightBlue),
               ),
-              const SizedBox(height: 16),
-              Text(
-                '$_score',
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: KeyboardListener(
+              focusNode: _focusNode,
+              onKeyEvent: (event) {
+                if (event is KeyDownEvent &&
+                    event.logicalKey == LogicalKeyboardKey.enter) {
+                  _checkSentence();
+                }
+              },
+              child: TextField(
+                key: const Key('typing-sprint-input'),
+                controller: _controller,
+                autofocus: true,
+                textAlign: TextAlign.center,
+                maxLines: 2,
                 style: const TextStyle(
-                  fontSize: 48,
+                  fontSize: 16,
                   fontWeight: FontWeight.bold,
-                  color: Colors.lightBlue,
+                  color: TypingSprintPalette.ink,
                 ),
-              ),
-              const Text('Điểm',
-                  style: TextStyle(
-                      fontSize: 16, color: AppColors.mutedForeground)),
-              if (_xpAwarded != null && _xpAwarded! > 0) ...[
-                const SizedBox(height: 8),
-                Text(
-                  '+$_xpAwarded XP',
-                  style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.green,
+                decoration: InputDecoration(
+                  hintText: 'Gõ câu ở đây...',
+                  filled: true,
+                  fillColor: TypingSprintPalette.card,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(16),
+                    borderSide: const BorderSide(color: TypingSprintPalette.coralSoft),
                   ),
-                ),
-              ],
-              if (_submitFailed) ...[
-                const SizedBox(height: 8),
-                const Text(
-                  'Không thể ghi nhận kết quả lên server.',
-                  style: TextStyle(fontSize: 12, color: Colors.orange),
-                ),
-              ],
-              const SizedBox(height: 24),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  _StatItem(
-                      label: 'Đúng',
-                      value: '$_correctWords',
-                      color: Colors.green),
-                  _StatItem(
-                      label: 'Sai', value: '$_wrongWords', color: Colors.red),
-                  _StatItem(
-                    label: 'Độ chính xác',
-                    value: '$accuracy%',
-                    color: accuracy >= 70 ? Colors.green : Colors.orange,
-                  ),
-                ],
-              ),
-              const SizedBox(height: 24),
-              Row(
-                children: [
-                  Expanded(
-                    child: OutlinedButton(
-                      onPressed: () => context.pop(),
-                      style: OutlinedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 14),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12)),
-                      ),
-                      child: const Text('Về trang chủ'),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(16),
+                    borderSide: const BorderSide(
+                      color: TypingSprintPalette.coral,
+                      width: 2,
                     ),
                   ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: _restart,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.lightBlue,
-                        foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(vertical: 14),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12)),
-                      ),
-                      child: const Text('Chơi lại'),
-                    ),
-                  ),
-                ],
+                ),
+                onSubmitted: (_) => _checkSentence(),
               ),
-            ],
+            ),
           ),
-        ),
+          const SizedBox(height: 8),
+          TextButton(
+            key: const Key('typing-sprint-skip'),
+            onPressed: _skipSentence,
+            style: TextButton.styleFrom(foregroundColor: TypingSprintPalette.inkDim),
+            child: const Text('Bỏ qua câu này'),
+          ),
+          const SizedBox(height: 8),
+        ],
       ),
     );
   }
 }
 
-class _StatItem extends StatelessWidget {
-  const _StatItem({required this.label, required this.value, required this.color});
+class _TimerAndWpmChips extends StatelessWidget {
+  const _TimerAndWpmChips({required this.timeLeft, required this.wpm});
 
-  final String label;
-  final String value;
-  final Color color;
+  final int timeLeft;
+  final int wpm;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Row(
+      mainAxisSize: MainAxisSize.min,
       children: [
-        Text(value,
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+          decoration: BoxDecoration(
+            color: timeLeft <= 10 ? Colors.red.shade50 : TypingSprintPalette.chipBg,
+            borderRadius: BorderRadius.circular(999),
+          ),
+          child: Text(
+            '${timeLeft}s',
             style: TextStyle(
-                fontSize: 24, fontWeight: FontWeight.bold, color: color)),
-        Text(label,
+              fontSize: 12,
+              fontWeight: FontWeight.bold,
+              color: timeLeft <= 10 ? Colors.red.shade700 : TypingSprintPalette.ink,
+            ),
+          ),
+        ),
+        const SizedBox(width: 6),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+          decoration: BoxDecoration(
+            color: TypingSprintPalette.coralSoft,
+            borderRadius: BorderRadius.circular(999),
+          ),
+          child: Text(
+            '$wpm WPM',
             style: const TextStyle(
-                fontSize: 12, color: AppColors.mutedForeground)),
+              fontSize: 12,
+              fontWeight: FontWeight.bold,
+              color: TypingSprintPalette.coralDeep,
+            ),
+          ),
+        ),
       ],
     );
   }

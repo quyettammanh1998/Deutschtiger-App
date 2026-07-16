@@ -108,14 +108,20 @@ class _FakeProfileRepository extends PublicProfileRepository {
   Future<SocialPublicProfile> getProfile(String userId) async => SocialPublicProfile(
     id: userId,
     displayName: 'Maria',
+    createdAt: '2026-01-01T00:00:00Z',
+    isPremium: false,
     isOnline: true,
     level: 5,
     totalXp: 100,
+    weeklyXp: 20,
     currentStreak: 3,
     longestStreak: 10,
     friendsCount: 2,
+    totalFlashcards: 5,
     wordsLearned: 40,
     totalReviews: 60,
+    weeklyRank: null,
+    recentActivities: const [],
   );
 }
 

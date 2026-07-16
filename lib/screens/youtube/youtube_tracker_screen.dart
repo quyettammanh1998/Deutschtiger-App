@@ -2,28 +2,35 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_tokens.dart';
 import 'package:deutschtiger/widgets/common/async_state_views.dart';
 import 'package:deutschtiger/data/youtube/youtube_video.dart';
+import 'package:deutschtiger/l10n/app_localizations.dart';
 import 'package:deutschtiger/view_models/youtube/youtube_provider.dart';
-import 'widgets/youtube_video_card.dart';
+import 'widgets/media_header_card.dart';
+import 'widgets/video_status_filter_bar.dart';
+import 'widgets/video_pagination_bar.dart';
+import 'widgets/video_collection_card.dart';
+import 'widgets/youtube_tracker_widgets.dart';
 import 'youtube_url_utils.dart';
 
-enum _StatusFilter { all, pending, completed }
+const _pageSize = 20;
 
-/// Tracker YouTube cá nhân: người dùng dán URL video Đức bất kỳ để lưu lại,
-/// đánh dấu hoàn thành và xem lại. Tương đương web `YouTubeTrackerPage`.
+/// Tracker YouTube cá nhân — web parity `YouTubeTrackerPage`
+/// (`VideoCollectionLayout` + continue-watching + popular + add-form + thumbnail
+/// grid + status filter + pagination). Web tracker page has no stats row — the
+/// Flutter-only `_StatsRow` was removed per plan §Xóa.
 class YouTubeTrackerScreen extends ConsumerStatefulWidget {
   const YouTubeTrackerScreen({super.key});
 
   @override
-  ConsumerState<YouTubeTrackerScreen> createState() =>
-      _YouTubeTrackerScreenState();
+  ConsumerState<YouTubeTrackerScreen> createState() => _YouTubeTrackerScreenState();
 }
 
 class _YouTubeTrackerScreenState extends ConsumerState<YouTubeTrackerScreen> {
   final _urlController = TextEditingController();
-  _StatusFilter _filter = _StatusFilter.all;
+  MediaVideoStatus _filter = MediaVideoStatus.all;
+  int _page = 1;
   bool _adding = false;
   String? _addError;
 
@@ -34,10 +41,11 @@ class _YouTubeTrackerScreenState extends ConsumerState<YouTubeTrackerScreen> {
   }
 
   Future<void> _addVideo() async {
+    final l10n = AppLocalizations.of(context);
     final input = _urlController.text.trim();
     final videoId = extractYouTubeVideoId(input);
     if (videoId == null) {
-      setState(() => _addError = 'URL YouTube không hợp lệ');
+      setState(() => _addError = l10n.youtubeInvalidUrl);
       return;
     }
     setState(() {
@@ -47,15 +55,12 @@ class _YouTubeTrackerScreenState extends ConsumerState<YouTubeTrackerScreen> {
     try {
       await ref
           .read(youtubeRepositoryProvider)
-          .addVideo(
-            youtubeUrl: 'https://www.youtube.com/watch?v=$videoId',
-            videoId: videoId,
-          );
+          .addVideo(youtubeUrl: 'https://www.youtube.com/watch?v=$videoId', videoId: videoId);
       _urlController.clear();
       ref.invalidate(pendingVideosProvider);
       ref.invalidate(completedVideosProvider);
-    } catch (e) {
-      setState(() => _addError = 'Không thêm được video, thử lại sau.');
+    } catch (_) {
+      setState(() => _addError = l10n.youtubeAddVideoError);
     } finally {
       if (mounted) setState(() => _adding = false);
     }
@@ -69,82 +74,81 @@ class _YouTubeTrackerScreenState extends ConsumerState<YouTubeTrackerScreen> {
       ref.invalidate(completedVideosProvider);
     } catch (_) {
       if (mounted) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(const SnackBar(content: Text('Không xoá được video.')));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(AppLocalizations.of(context).youtubeDeleteVideoError)),
+        );
       }
     }
   }
 
   void _openVideo(YouTubeVideo video) {
-    context.push(
-      '/listening/youtube/watch',
-      extra: (videoId: video.videoId, title: video.title),
-    );
+    context.push('/listening/youtube/watch', extra: (videoId: video.videoId, title: video.title));
   }
 
   @override
   Widget build(BuildContext context) {
+    final tokens = context.tokens;
+    final l10n = AppLocalizations.of(context);
     final pendingAsync = ref.watch(pendingVideosProvider);
     final completedAsync = ref.watch(completedVideosProvider);
     final popularAsync = ref.watch(popularVideosProvider);
-    final statsAsync = ref.watch(youtubeStatsProvider);
 
     return Scaffold(
-      backgroundColor: AppColors.authBackground,
-      appBar: AppBar(
-        backgroundColor: AppColors.authBackground,
-        foregroundColor: AppColors.tigerOrange,
-        title: const Text(
-          'YouTube',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: AppColors.tigerOrange,
-            fontSize: 17,
-          ),
-        ),
-      ),
+      backgroundColor: tokens.background,
       body: SafeArea(
         child: RefreshIndicator(
           onRefresh: () async {
             ref.invalidate(pendingVideosProvider);
             ref.invalidate(completedVideosProvider);
             ref.invalidate(popularVideosProvider);
-            ref.invalidate(youtubeStatsProvider);
           },
           child: pendingAsync.when(
             loading: () => const LoadingView(),
             error: (e, _) => ErrorView(
-              message: 'Không tải được danh sách video.',
+              message: l10n.youtubeLoadListError,
               onRetry: () => ref.invalidate(pendingVideosProvider),
             ),
             data: (pending) {
               final completed = completedAsync.value ?? const [];
               final all = [...pending, ...completed];
               final filtered = switch (_filter) {
-                _StatusFilter.all => all,
-                _StatusFilter.pending => pending,
-                _StatusFilter.completed => completed,
+                MediaVideoStatus.all => all,
+                MediaVideoStatus.pending => pending,
+                MediaVideoStatus.completed => completed,
               };
+              final totalPages = (filtered.length / _pageSize).ceil().clamp(1, 999999);
+              final page = _page.clamp(1, totalPages);
+              final paged = filtered.skip((page - 1) * _pageSize).take(_pageSize).toList();
+
+              // "Đang xem tiếp" — video đang học gần nhất theo thời gian xem
+              // gần đây nhất (proxy hợp lý cho ContinueWatching, tái dùng dữ
+              // liệu sẵn có, không dựng dữ liệu giả mới).
+              final continueWatching = [
+                ...completed,
+              ]..sort((a, b) => (b.watchedAt ?? DateTime(0)).compareTo(a.watchedAt ?? DateTime(0)));
+
               return ListView(
-                padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
                 children: [
-                  statsAsync.whenOrNull(
-                        data: (stats) => _StatsRow(stats: stats),
-                      ) ??
-                      const SizedBox.shrink(),
-                  const SizedBox(height: 16),
-                  _AddVideoForm(
-                    controller: _urlController,
-                    adding: _adding,
-                    error: _addError,
-                    onSubmit: _addVideo,
+                  MediaBreadcrumb(items: [(l10n.listeningPageTitle, '/listening'), ('YouTube', null)]),
+                  const SizedBox(height: 10),
+                  MediaHeaderCard(
+                    icon: Icons.smart_display,
+                    title: 'YouTube',
+                    subtitle: l10n.listeningSourceVideoCount(all.length),
+                    accentColor: const Color(0xFFEF4444),
+                    onBack: () => context.pop(),
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 16),
+                  if (continueWatching.isNotEmpty)
+                    ContinueWatchingStrip(
+                      videos: continueWatching.take(5).toList(),
+                      onTap: _openVideo,
+                    ),
                   popularAsync.whenOrNull(
                         data: (popular) => popular.isEmpty
                             ? const SizedBox.shrink()
-                            : _PopularVideosSection(
+                            : PopularVideosSection(
                                 videos: popular,
                                 onTap: (v) => context.push(
                                   '/listening/youtube/watch',
@@ -154,262 +158,74 @@ class _YouTubeTrackerScreenState extends ConsumerState<YouTubeTrackerScreen> {
                       ) ??
                       const SizedBox.shrink(),
                   const SizedBox(height: 12),
-                  _StatusFilterBar(
-                    value: _filter,
-                    onChanged: (v) => setState(() => _filter = v),
+                  AddVideoForm(
+                    controller: _urlController,
+                    adding: _adding,
+                    error: _addError,
+                    onSubmit: _addVideo,
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 16),
+                  if (all.isNotEmpty)
+                    VideoStatusFilterBar(
+                      value: _filter,
+                      onChanged: (v) => setState(() {
+                        _filter = v;
+                        _page = 1;
+                      }),
+                      counts: {
+                        MediaVideoStatus.all: all.length,
+                        MediaVideoStatus.pending: pending.length,
+                        MediaVideoStatus.completed: completed.length,
+                      },
+                    ),
+                  const SizedBox(height: 12),
                   if (filtered.isEmpty)
-                    const Padding(
-                      padding: EdgeInsets.symmetric(vertical: 32),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 32),
                       child: Center(
-                        child: Text(
-                          'Chưa có video nào. Dán URL YouTube ở trên để bắt đầu.',
-                          style: TextStyle(color: AppColors.mutedForeground),
-                          textAlign: TextAlign.center,
-                        ),
+                        child: Text(l10n.youtubeEmptyState, textAlign: TextAlign.center),
                       ),
                     )
                   else
-                    for (final v in filtered)
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 8),
-                        child: YouTubeVideoCard(
-                          videoId: v.videoId,
-                          title: v.title ?? '',
-                          thumbnailUrl: v.thumbnailUrl,
-                          completed: v.isCompleted,
+                    GridView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: paged.length,
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        mainAxisSpacing: 10,
+                        crossAxisSpacing: 10,
+                        childAspectRatio: 0.82,
+                      ),
+                      itemBuilder: (context, i) {
+                        final v = paged[i];
+                        return VideoCollectionCard(
+                          thumbnailUrl:
+                              v.thumbnailUrl ??
+                              'https://img.youtube.com/vi/${v.videoId}/mqdefault.jpg',
+                          title: v.title ?? l10n.youtubeUntitledVideo,
+                          status: v.isCompleted
+                              ? MediaVideoStatus.completed
+                              : MediaVideoStatus.pending,
                           subtitle: v.isCompleted && v.watchCount > 0
-                              ? 'Đã xem ×${v.watchCount}'
+                              ? l10n.youtubeWatchCount(v.watchCount)
                               : null,
                           onTap: () => _openVideo(v),
                           onDelete: () => _deleteVideo(v),
-                        ),
-                      ),
+                        );
+                      },
+                    ),
+                  VideoPaginationBar(
+                    page: page,
+                    totalPages: totalPages,
+                    onChanged: (p) => setState(() => _page = p),
+                  ),
                 ],
               );
             },
           ),
         ),
       ),
-    );
-  }
-}
-
-class _StatsRow extends StatelessWidget {
-  const _StatsRow({required this.stats});
-  final YouTubeStats stats;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(child: _StatChip(label: 'Hôm nay', value: stats.today)),
-        const SizedBox(width: 8),
-        Expanded(child: _StatChip(label: 'Tuần này', value: stats.thisWeek)),
-        const SizedBox(width: 8),
-        Expanded(child: _StatChip(label: 'Tổng', value: stats.totalCompleted)),
-      ],
-    );
-  }
-}
-
-class _StatChip extends StatelessWidget {
-  const _StatChip({required this.label, required this.value});
-  final String label;
-  final int value;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 10),
-      decoration: BoxDecoration(
-        color: AppColors.card,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Column(
-        children: [
-          Text(
-            '$value',
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 18,
-              color: AppColors.tigerOrange,
-            ),
-          ),
-          Text(
-            label,
-            style: const TextStyle(
-              fontSize: 11,
-              color: AppColors.mutedForeground,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _AddVideoForm extends StatelessWidget {
-  const _AddVideoForm({
-    required this.controller,
-    required this.adding,
-    required this.error,
-    required this.onSubmit,
-  });
-
-  final TextEditingController controller;
-  final bool adding;
-  final String? error;
-  final VoidCallback onSubmit;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          children: [
-            Expanded(
-              child: TextField(
-                controller: controller,
-                decoration: InputDecoration(
-                  hintText: 'Dán URL YouTube...',
-                  filled: true,
-                  fillColor: AppColors.card,
-                  contentPadding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 10,
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide.none,
-                  ),
-                ),
-                onSubmitted: (_) => onSubmit(),
-              ),
-            ),
-            const SizedBox(width: 8),
-            FilledButton(
-              style: FilledButton.styleFrom(
-                backgroundColor: AppColors.tigerOrange,
-              ),
-              onPressed: adding ? null : onSubmit,
-              child: adding
-                  ? const SizedBox(
-                      width: 16,
-                      height: 16,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2,
-                        color: Colors.white,
-                      ),
-                    )
-                  : const Text('Thêm'),
-            ),
-          ],
-        ),
-        if (error != null)
-          Padding(
-            padding: const EdgeInsets.only(top: 6),
-            child: Text(
-              error!,
-              style: const TextStyle(color: AppColors.destructive, fontSize: 12),
-            ),
-          ),
-      ],
-    );
-  }
-}
-
-class _PopularVideosSection extends StatelessWidget {
-  const _PopularVideosSection({required this.videos, required this.onTap});
-
-  final List<YouTubePopularVideo> videos;
-  final void Function(YouTubePopularVideo) onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text(
-          'Video phổ biến',
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
-        ),
-        const SizedBox(height: 8),
-        SizedBox(
-          height: 120,
-          child: ListView.separated(
-            scrollDirection: Axis.horizontal,
-            itemCount: videos.length,
-            separatorBuilder: (_, _) => const SizedBox(width: 8),
-            itemBuilder: (context, i) {
-              final v = videos[i];
-              return GestureDetector(
-                onTap: () => onTap(v),
-                child: SizedBox(
-                  width: 160,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(8),
-                        child: Image.network(
-                          v.thumbnailUrl,
-                          width: 160,
-                          height: 90,
-                          fit: BoxFit.cover,
-                          errorBuilder: (_, _, _) => Container(
-                            width: 160,
-                            height: 90,
-                            color: AppColors.muted,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        v.title,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(fontSize: 12),
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            },
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class _StatusFilterBar extends StatelessWidget {
-  const _StatusFilterBar({required this.value, required this.onChanged});
-
-  final _StatusFilter value;
-  final ValueChanged<_StatusFilter> onChanged;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        for (final f in _StatusFilter.values)
-          Padding(
-            padding: const EdgeInsets.only(right: 8),
-            child: ChoiceChip(
-              label: Text(switch (f) {
-                _StatusFilter.all => 'Tất cả',
-                _StatusFilter.pending => 'Chưa xem',
-                _StatusFilter.completed => 'Đã xem',
-              }),
-              selected: value == f,
-              onSelected: (_) => onChanged(f),
-              selectedColor: AppColors.tigerOrange.withValues(alpha: 0.15),
-            ),
-          ),
-      ],
     );
   }
 }

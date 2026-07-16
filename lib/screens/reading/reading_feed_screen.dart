@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import 'package:deutschtiger/l10n/app_localizations.dart';
 import 'package:deutschtiger/repositories/reading/reading_repository.dart';
 import 'package:deutschtiger/widgets/common/async_state_views.dart';
 import '../../core/design_tokens.dart';
 import '../../data/reading/reading_models.dart';
 import '../../shared/widgets/skeleton_loader.dart';
-import 'widgets/reading_cards.dart';
 
 /// Reading Feed — gợi ý bài đọc "vừa sức" (i+1) theo coverage từ vựng đã
 /// biết. Nguồn `GET /reading-feed?levels=`. Mirror `reading-feed-page.tsx`.
@@ -33,13 +33,14 @@ class _ReadingFeedScreenState extends ConsumerState<ReadingFeedScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final selectedLevels = (_selected.toList()..sort()).join(',');
     final feedAsync = ref.watch(readingFeedProvider(selectedLevels));
 
     return Scaffold(
       backgroundColor: DesignTokens.background,
       appBar: AppBar(
-        title: const Text('Đọc vừa sức'),
+        title: Text(l10n.readingFeedAppBarTitle),
         backgroundColor: DesignTokens.background,
       ),
       body: Column(
@@ -50,16 +51,16 @@ class _ReadingFeedScreenState extends ConsumerState<ReadingFeedScreen> {
               spacing: DesignTokens.spacingSm,
               runSpacing: DesignTokens.spacingSm,
               children: [
-                ChoiceChip(
-                  label: const Text('Tất cả'),
+                _FeedLevelPill(
+                  label: l10n.allFilters,
                   selected: _selected.isEmpty,
-                  onSelected: (_) => setState(_selected.clear),
+                  onTap: () => setState(_selected.clear),
                 ),
                 for (final level in _levels)
-                  ChoiceChip(
-                    label: Text(level),
+                  _FeedLevelPill(
+                    label: level,
                     selected: _selected.contains(level),
-                    onSelected: (_) => setState(() {
+                    onTap: () => setState(() {
                       if (!_selected.add(level)) _selected.remove(level);
                     }),
                   ),
@@ -74,10 +75,8 @@ class _ReadingFeedScreenState extends ConsumerState<ReadingFeedScreen> {
               ),
               data: (result) {
                 if (result.articles.isEmpty) {
-                  return ErrorView(
-                    message: result.coverageReady
-                        ? 'Chưa có bài đọc phù hợp trình độ của bạn lúc này.'
-                        : 'Đang chuẩn bị kho bài đọc — vui lòng quay lại sau ít phút.',
+                  return _FeedEmptyState(
+                    coverageReady: result.coverageReady,
                     onRetry: () =>
                         ref.invalidate(readingFeedProvider(selectedLevels)),
                   );
@@ -98,6 +97,84 @@ class _ReadingFeedScreenState extends ConsumerState<ReadingFeedScreen> {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _FeedLevelPill extends StatelessWidget {
+  const _FeedLevelPill({required this.label, required this.selected, required this.onTap});
+  final String label;
+  final bool selected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(999),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+        decoration: BoxDecoration(
+          color: selected ? DesignTokens.tigerOrange : DesignTokens.card,
+          borderRadius: BorderRadius.circular(999),
+          border: Border.all(
+            color: selected ? DesignTokens.tigerOrange : DesignTokens.border,
+          ),
+        ),
+        child: Text(
+          label,
+          style: TextStyle(
+            fontSize: 13,
+            fontWeight: FontWeight.w600,
+            color: selected ? Colors.white : DesignTokens.mutedForeground,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _FeedEmptyState extends StatelessWidget {
+  const _FeedEmptyState({required this.coverageReady, required this.onRetry});
+  final bool coverageReady;
+  final VoidCallback onRetry;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    return Center(
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.all(DesignTokens.spacingXl),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(Icons.auto_stories_outlined, size: 40, color: DesignTokens.mutedForeground),
+            const SizedBox(height: DesignTokens.spacingSm),
+            Text(
+              coverageReady ? l10n.readingFeedEmptyReady : l10n.readingFeedEmptyNotReady,
+              textAlign: TextAlign.center,
+              style: const TextStyle(color: DesignTokens.mutedForeground),
+            ),
+            if (coverageReady) ...[
+              const SizedBox(height: DesignTokens.spacingXs),
+              Text(
+                l10n.readingFeedSaveVocabHint,
+                textAlign: TextAlign.center,
+                style: TextStyle(color: DesignTokens.mutedForeground, fontSize: 12),
+              ),
+              const SizedBox(height: DesignTokens.spacingMd),
+              FilledButton(
+                onPressed: () => context.push('/vocabulary'),
+                style: FilledButton.styleFrom(backgroundColor: DesignTokens.tigerOrange),
+                child: Text(l10n.focusSessionLearnNewWordsCta),
+              ),
+            ] else ...[
+              const SizedBox(height: DesignTokens.spacingSm),
+              TextButton(onPressed: onRetry, child: Text(l10n.retry)),
+            ],
+          ],
+        ),
       ),
     );
   }
@@ -161,74 +238,105 @@ class _FeedArticleCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(DesignTokens.radius),
         child: InkWell(
           borderRadius: BorderRadius.circular(DesignTokens.radius),
-          onTap: () => context.push(
-            '/reading/detail',
-            extra: ReadingDetailArgs(
-              level: article.level,
-              slug: article.slug,
-              title: article.title,
-            ),
-          ),
+          onTap: () => context.push('/reading/${article.level}/${article.slug}'),
           child: Padding(
             padding: const EdgeInsets.all(DesignTokens.spacingMd),
-            child: Column(
+            child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  children: [
-                    ReadingLevelBadge(level: article.level),
-                    const SizedBox(width: DesignTokens.spacingSm),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: DesignTokens.spacingSm,
-                        vertical: 2,
+                if (article.imageUrl != null) ...[
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(DesignTokens.radiusSm),
+                    child: Image.network(
+                      article.imageUrl!,
+                      width: 64,
+                      height: 64,
+                      fit: BoxFit.cover,
+                      errorBuilder: (_, _, _) => const SizedBox.shrink(),
+                    ),
+                  ),
+                  const SizedBox(width: DesignTokens.spacingSm + 2),
+                ],
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Wrap(
+                        spacing: DesignTokens.spacingSm,
+                        runSpacing: 4,
+                        crossAxisAlignment: WrapCrossAlignment.center,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                            decoration: BoxDecoration(
+                              color: DesignTokens.orange100,
+                              borderRadius: BorderRadius.circular(999),
+                            ),
+                            child: Text(
+                              article.level,
+                              style: const TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600,
+                                color: DesignTokens.orange500,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: DesignTokens.spacingSm,
+                              vertical: 2,
+                            ),
+                            decoration: BoxDecoration(
+                              color: fitColor.withValues(alpha: 0.12),
+                              borderRadius: BorderRadius.circular(DesignTokens.radiusSm),
+                            ),
+                            child: Text(
+                              _fitLabels[article.fit]!,
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                color: fitColor,
+                                fontSize: 12,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                      decoration: BoxDecoration(
-                        color: fitColor.withValues(alpha: 0.12),
-                        borderRadius: BorderRadius.circular(DesignTokens.radiusSm),
-                      ),
-                      child: Text(
-                        _fitLabels[article.fit]!,
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          color: fitColor,
-                          fontSize: 12,
+                      const SizedBox(height: DesignTokens.spacingSm),
+                      Text(
+                        article.title,
+                        style: theme.textTheme.titleMedium?.copyWith(
+                          fontWeight: FontWeight.w700,
+                          color: DesignTokens.foreground,
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: DesignTokens.spacingSm),
-                Text(
-                  article.title,
-                  style: theme.textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.w700,
-                    color: DesignTokens.foreground,
-                  ),
-                ),
-                if (article.titleVi != null && article.titleVi!.isNotEmpty)
-                  Text(
-                    article.titleVi!,
-                    style: theme.textTheme.bodySmall?.copyWith(
-                      color: DesignTokens.mutedForeground,
-                    ),
-                  ),
-                const SizedBox(height: DesignTokens.spacingSm),
-                Text(
-                  article.summary,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    color: DesignTokens.foreground,
-                    height: 1.4,
-                  ),
-                ),
-                const SizedBox(height: DesignTokens.spacingSm),
-                Text(
-                  '${article.vocabNew} từ mới · Đã biết '
-                  '${(article.coverage * 100).round()}% từ khó',
-                  style: theme.textTheme.bodySmall?.copyWith(
-                    color: DesignTokens.mutedForeground,
+                      if (article.titleVi != null && article.titleVi!.isNotEmpty)
+                        Text(
+                          article.titleVi!,
+                          style: theme.textTheme.bodySmall?.copyWith(
+                            color: DesignTokens.mutedForeground,
+                          ),
+                        ),
+                      const SizedBox(height: DesignTokens.spacingSm),
+                      Text(
+                        article.summary,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                          color: DesignTokens.foreground,
+                          height: 1.4,
+                        ),
+                      ),
+                      const SizedBox(height: DesignTokens.spacingSm),
+                      Text(
+                        AppLocalizations.of(context).readingFeedVocabSummary(
+                          article.vocabNew,
+                          (article.coverage * 100).round(),
+                        ),
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          color: DesignTokens.mutedForeground,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],

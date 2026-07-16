@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_tokens.dart';
+import '../../../../l10n/app_localizations.dart';
 
 enum DictationActivity { menu, cloze, fullDictation, karaoke }
 
@@ -13,32 +14,33 @@ class DictationActivityMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final tokens = context.tokens;
+    final l10n = AppLocalizations.of(context);
     return ListView(
       padding: const EdgeInsets.all(16),
       children: [
         Text(
-          'Chọn hoạt động luyện nghe:',
+          l10n.dictationActivityMenuPrompt,
           style: TextStyle(fontSize: 13, color: tokens.mutedForeground),
         ),
         const SizedBox(height: 16),
         _ActivityCard(
           emoji: '🧩',
-          title: 'Điền từ vào chỗ trống',
-          desc: 'Nghe và gõ từ còn thiếu',
+          title: l10n.dictationActivityClozeTitle,
+          desc: l10n.dictationActivityClozeDesc,
           onTap: () => onSelect(DictationActivity.cloze),
         ),
         const SizedBox(height: 12),
         _ActivityCard(
           emoji: '✍️',
-          title: 'Nghe chép chính tả',
-          desc: 'Nghe từng câu và gõ lại cả câu',
+          title: l10n.dictationActivityFullTitle,
+          desc: l10n.dictationActivityFullDesc,
           onTap: () => onSelect(DictationActivity.fullDictation),
         ),
         const SizedBox(height: 12),
         _ActivityCard(
           emoji: '🎧',
-          title: 'Nghe & đọc theo',
-          desc: 'Phụ đề chạy theo audio, chạm từ để tra nghĩa',
+          title: l10n.dictationActivityKaraokeTitle,
+          desc: l10n.dictationActivityKaraokeDesc,
           onTap: () => onSelect(DictationActivity.karaoke),
         ),
       ],

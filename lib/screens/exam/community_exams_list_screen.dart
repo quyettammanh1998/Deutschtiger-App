@@ -26,12 +26,15 @@ class CommunityExamsListScreen extends StatefulWidget {
 class _CommunityExamsListScreenState extends State<CommunityExamsListScreen> {
   int _tab = 0;
 
-  static const _tabLabels = ['Duyệt đề', 'Đóng góp', 'Đề của tôi'];
-
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final tokens = context.tokens;
+    final tabLabels = [
+      l10n.communityTabBrowse,
+      l10n.communityTabContribute,
+      l10n.communityTabMine,
+    ];
 
     return Scaffold(
       backgroundColor: tokens.background,
@@ -60,20 +63,18 @@ class _CommunityExamsListScreenState extends State<CommunityExamsListScreen> {
               ),
               const SizedBox(height: 16),
               _TabBar(
+                labels: tabLabels,
                 selected: _tab,
                 onSelected: (i) => setState(() => _tab = i),
               ),
               const SizedBox(height: 16),
               switch (_tab) {
                 0 => const CommunityBrowseTab(),
-                1 => const CommunityGatedTab(
-                  message:
-                      'Tính năng đóng góp đề thi đang được phát triển.\n'
-                      'Hãy quay lại sau nhé!',
+                1 => CommunityGatedTab(
+                  message: l10n.communityContributeComingSoon,
                 ),
-                _ => const CommunityGatedTab(
-                  message:
-                      'Bạn chưa đóng góp đề nào — tính năng này sắp ra mắt.',
+                _ => CommunityGatedTab(
+                  message: l10n.communityMineEmptyGated,
                 ),
               },
             ],
@@ -85,8 +86,13 @@ class _CommunityExamsListScreenState extends State<CommunityExamsListScreen> {
 }
 
 class _TabBar extends StatelessWidget {
-  const _TabBar({required this.selected, required this.onSelected});
+  const _TabBar({
+    required this.labels,
+    required this.selected,
+    required this.onSelected,
+  });
 
+  final List<String> labels;
   final int selected;
   final ValueChanged<int> onSelected;
 
@@ -102,14 +108,10 @@ class _TabBar extends StatelessWidget {
         padding: const EdgeInsets.all(4),
         child: Row(
           children: [
-            for (
-              var i = 0;
-              i < _CommunityExamsListScreenState._tabLabels.length;
-              i++
-            )
+            for (var i = 0; i < labels.length; i++)
               Expanded(
                 child: _TabButton(
-                  label: _CommunityExamsListScreenState._tabLabels[i],
+                  label: labels[i],
                   active: selected == i,
                   onTap: () => onSelected(i),
                 ),

@@ -2,28 +2,26 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../services/api_client.dart';
 import '../../../view_models/providers.dart';
+import '../../../data/practice/practice_result.dart';
+import '../../../data/practice/practice_round_item.dart';
 import '../data/mission_service.dart';
+import '../domain/mission_game_type.dart';
 import '../domain/mission_models.dart';
 
 /// Mission runner state machine — port of web `mission-session-runner.tsx`.
 ///
-/// States: `idle → starting → in_word_intro → in_practice → between_words →
-/// completed` (per phase-05 §B3). `idle`/`starting` collapse into the
-/// provider's `AsyncLoading` (fetch mission + `POST .../start`); the notifier
-/// then drives `inWordIntro → inPractice → betweenWords` per word and
-/// `completed` once every playable round + the mission itself are persisted.
+/// States: `resumePreStep → inRound → completed`. The engine drives whole
+/// **rounds** (not individual words) through the shared practice-view round
+/// types (P4): each playable round is dispatched to
+/// [PracticeListeningView]/[PracticeWritingView] based on
+/// [canonicalMissionGame], mirroring web's unified `<PracticeSession>`.
+/// `resumePreStep` is skipped entirely when the mission has no
+/// `resume_items` (mirrors web `showResume = resumeItems.length > 0 &&
+/// !resumeDone`).
 ///
 /// Persistence is mission-native (`completeRound` per round, `completeMission`
-/// once) — NEVER FSRS (`/user/srs/review`). Mirrors the web runner's comment:
-/// "the engine owns the round flow; this runner owns persistence".
-enum MissionRunnerStatus {
-  idle,
-  starting,
-  inWordIntro,
-  inPractice,
-  betweenWords,
-  completed,
-}
+/// once) — NEVER FSRS (`/user/srs/review`).
+enum MissionRunnerStatus { resumePreStep, inRound, completed }
 
 enum MissionSessionError { roundNotSaved, missionNotCompleted }
 
@@ -33,9 +31,6 @@ class MissionSessionState {
     required this.mission,
     required this.playableRounds,
     this.roundIndex = 0,
-    this.wordIndexInRound = 0,
-    this.roundAnswers = const <MissionRoundAnswer>[],
-    this.lastAnswerCorrect,
     this.totalCorrect = 0,
     this.totalAnswered = 0,
     this.result,
@@ -52,52 +47,37 @@ class MissionSessionState {
   final List<MissionRound> playableRounds;
 
   final int roundIndex;
-  final int wordIndexInRound;
-
-  /// Answers collected so far for the round in progress — flushed to
-  /// `completeRound` when the round finishes.
-  final List<MissionRoundAnswer> roundAnswers;
-
-  final bool? lastAnswerCorrect;
   final int totalCorrect;
   final int totalAnswered;
   final CompleteMissionResult? result;
   final bool submitting;
   final MissionSessionError? error;
 
-  /// Total playable words across all rounds (for progress + final score).
-  int get totalWords =>
-      playableRounds.fold(0, (sum, r) => sum + r.wordIds.length);
-
-  /// 1-based overall word position (for progress display).
-  int get overallPosition {
-    var count = 0;
-    for (var i = 0; i < roundIndex; i++) {
-      count += playableRounds[i].wordIds.length;
-    }
-    return count + wordIndexInRound + 1;
-  }
+  bool get hasRounds => playableRounds.isNotEmpty;
 
   MissionRound? get currentRound =>
       roundIndex < playableRounds.length ? playableRounds[roundIndex] : null;
 
-  DailyMissionWord? get currentWord {
+  /// Round items for the current round, in the shared source-agnostic shape
+  /// consumed by the P4 practice views.
+  List<PracticeRoundItem> get currentRoundItems {
     final round = currentRound;
-    if (round == null || wordIndexInRound >= round.wordIds.length) {
-      return null;
-    }
-    return mission.wordById(round.wordIds[wordIndexInRound]);
+    if (round == null) return const [];
+    return round.wordIds
+        .map(mission.wordById)
+        .whereType<DailyMissionWord>()
+        .map(PracticeRoundItem.fromMissionWord)
+        .toList(growable: false);
   }
 
-  bool get hasWords => totalWords > 0;
+  MissionCanonicalGame? get currentGame {
+    final round = currentRound;
+    return round == null ? null : canonicalMissionGame(round.gameType);
+  }
 
   MissionSessionState copyWith({
     MissionRunnerStatus? status,
     int? roundIndex,
-    int? wordIndexInRound,
-    List<MissionRoundAnswer>? roundAnswers,
-    bool? lastAnswerCorrect,
-    bool clearLastAnswer = false,
     int? totalCorrect,
     int? totalAnswered,
     CompleteMissionResult? result,
@@ -110,11 +90,6 @@ class MissionSessionState {
       mission: mission,
       playableRounds: playableRounds,
       roundIndex: roundIndex ?? this.roundIndex,
-      wordIndexInRound: wordIndexInRound ?? this.wordIndexInRound,
-      roundAnswers: roundAnswers ?? this.roundAnswers,
-      lastAnswerCorrect: clearLastAnswer
-          ? null
-          : (lastAnswerCorrect ?? this.lastAnswerCorrect),
       totalCorrect: totalCorrect ?? this.totalCorrect,
       totalAnswered: totalAnswered ?? this.totalAnswered,
       result: result ?? this.result,
@@ -148,11 +123,14 @@ class MissionSessionNotifier
     }
 
     final playableRounds = mission.playableRounds;
-    final initialStatus = playableRounds.isEmpty
+    final showResume = mission.resumeItems.isNotEmpty;
+    final initialStatus = !showResume && playableRounds.isEmpty
         ? MissionRunnerStatus.completed
-        : MissionRunnerStatus.inWordIntro;
+        : showResume
+            ? MissionRunnerStatus.resumePreStep
+            : MissionRunnerStatus.inRound;
 
-    if (initialStatus == MissionRunnerStatus.inWordIntro) {
+    if (initialStatus != MissionRunnerStatus.completed) {
       ref
           .read(eventTrackingProvider)
           .track(
@@ -169,83 +147,57 @@ class MissionSessionNotifier
     );
   }
 
-  /// WordIntroView → PracticeView.
-  void beginPractice() {
+  /// ResumePreStep → first playable round (mirrors web `setResumeDone(true)`).
+  void completeResumeStep() {
     final s = state.value;
-    if (s == null || s.status != MissionRunnerStatus.inWordIntro) return;
-    state = AsyncData(s.copyWith(status: MissionRunnerStatus.inPractice));
-  }
-
-  /// PracticeView reports self-graded recall (correct/incorrect) →
-  /// ResultView (`between_words`). Grading here is mission-native pass/fail
-  /// bookkeeping for `completeRound`, NOT FSRS — the FSRS queue/rating flow
-  /// (Again/Hard/Good/Easy) lives entirely in `reviewSessionProvider`.
-  void submitAnswer(bool correct) {
-    final s = state.value;
-    if (s == null || s.status != MissionRunnerStatus.inPractice) return;
-    final word = s.currentWord;
-    if (word == null) return;
-
+    if (s == null || s.status != MissionRunnerStatus.resumePreStep) return;
     state = AsyncData(
       s.copyWith(
-        status: MissionRunnerStatus.betweenWords,
-        roundAnswers: [
-          ...s.roundAnswers,
-          MissionRoundAnswer(itemId: word.wordId, correct: correct),
-        ],
-        lastAnswerCorrect: correct,
-        totalCorrect: s.totalCorrect + (correct ? 1 : 0),
-        totalAnswered: s.totalAnswered + 1,
+        status: s.hasRounds
+            ? MissionRunnerStatus.inRound
+            : MissionRunnerStatus.completed,
       ),
     );
   }
 
-  /// ResultView → next word / next round / completed. Flushes the round's
-  /// answers via `completeRound` when a round finishes, then `completeMission`
-  /// once after the last round (mirrors web `handleRoundResults` +
-  /// `handleComplete`).
-  Future<void> advance() async {
+  /// The active round's practice view reports its results → persist the
+  /// round, then advance to the next round or finish the mission (mirrors
+  /// web `handleRoundResults` + `handleComplete`).
+  Future<void> submitRoundResults(List<PracticeResultEntry> results) async {
     final s = state.value;
-    if (s == null ||
-        s.status != MissionRunnerStatus.betweenWords ||
-        s.submitting) {
+    if (s == null || s.status != MissionRunnerStatus.inRound || s.submitting) {
       return;
     }
-
     final round = s.currentRound;
     if (round == null) return;
 
-    final nextWordIndex = s.wordIndexInRound + 1;
-    if (nextWordIndex < round.wordIds.length) {
+    final correct = results.where((r) => r.correct).length;
+    state = AsyncData(
+      s.copyWith(
+        submitting: true,
+        clearError: true,
+        totalCorrect: s.totalCorrect + correct,
+        totalAnswered: s.totalAnswered + results.length,
+      ),
+    );
+
+    final saved = await _completeRound(s, round, results);
+    if (!saved) {
       state = AsyncData(
-        s.copyWith(
-          status: MissionRunnerStatus.inWordIntro,
-          wordIndexInRound: nextWordIndex,
-          clearLastAnswer: true,
+        state.value!.copyWith(
+          submitting: false,
+          error: MissionSessionError.roundNotSaved,
         ),
       );
       return;
     }
 
-    // Round finished — persist it, then move to the next round or finish.
-    state = AsyncData(s.copyWith(submitting: true, clearError: true));
-    final roundSaved = await _completeRound(s, round);
-    if (!roundSaved) {
+    final current = state.value!;
+    final nextRoundIndex = current.roundIndex + 1;
+    if (nextRoundIndex < current.playableRounds.length) {
       state = AsyncData(
-        s.copyWith(submitting: false, error: MissionSessionError.roundNotSaved),
-      );
-      return;
-    }
-
-    final nextRoundIndex = s.roundIndex + 1;
-    if (nextRoundIndex < s.playableRounds.length) {
-      state = AsyncData(
-        s.copyWith(
-          status: MissionRunnerStatus.inWordIntro,
+        current.copyWith(
           roundIndex: nextRoundIndex,
-          wordIndexInRound: 0,
-          roundAnswers: const [],
-          clearLastAnswer: true,
           submitting: false,
           clearError: true,
         ),
@@ -253,10 +205,10 @@ class MissionSessionNotifier
       return;
     }
 
-    final result = await _completeMission(s);
+    final result = await _completeMission(current);
     if (result == null) {
       state = AsyncData(
-        s.copyWith(
+        state.value!.copyWith(
           submitting: false,
           error: MissionSessionError.missionNotCompleted,
         ),
@@ -269,10 +221,10 @@ class MissionSessionNotifier
         .track(
           'mission_completed',
           source: 'mission_action_queue',
-          metadata: {'answered_count': s.totalAnswered},
+          metadata: {'answered_count': current.totalAnswered},
         );
     state = AsyncData(
-      s.copyWith(
+      state.value!.copyWith(
         status: MissionRunnerStatus.completed,
         result: result,
         submitting: false,
@@ -281,12 +233,18 @@ class MissionSessionNotifier
     );
   }
 
-  Future<bool> _completeRound(MissionSessionState s, MissionRound round) async {
-    final total = s.roundAnswers.length.clamp(1, 1 << 30);
-    final correct = s.roundAnswers.where((a) => a.correct).length;
+  Future<bool> _completeRound(
+    MissionSessionState s,
+    MissionRound round,
+    List<PracticeResultEntry> results,
+  ) async {
+    final total = results.length.clamp(1, 1 << 30);
+    final correct = results.where((r) => r.correct).length;
     final payload = CompleteRoundPayload(
       score: ((correct / total) * 100).round(),
-      answers: s.roundAnswers,
+      answers: results
+          .map((r) => MissionRoundAnswer(itemId: r.cardId, correct: r.correct))
+          .toList(),
     );
     try {
       await ref

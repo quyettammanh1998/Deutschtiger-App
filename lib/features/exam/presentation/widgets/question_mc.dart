@@ -36,6 +36,7 @@ class QuestionMc extends StatelessWidget {
     return QuestionCardFrame(
       questionNumber: questionNumber,
       sectionLabel: sectionLabel,
+      questionId: question.answerKey,
       prompt: question.prompt,
       topSlot: Column(
         children: [
@@ -47,11 +48,12 @@ class QuestionMc extends StatelessWidget {
                 option: question.options[i],
                 isSelected: selectedOptionId == question.options[i].id,
                 isCorrectAnswer:
-                    showCorrectness && question.options[i].id == question.correctOptionId,
+                    showCorrectness &&
+                    question.options[i].id == question.correctOptionId,
                 isUserWrong:
                     showCorrectness &&
-                        selectedOptionId == question.options[i].id &&
-                        question.options[i].id != question.correctOptionId,
+                    selectedOptionId == question.options[i].id &&
+                    question.options[i].id != question.correctOptionId,
                 onTap: () => onSelect(question.options[i].id),
               ),
             ),
@@ -112,7 +114,10 @@ class _OptionTile extends StatelessWidget {
         padding: const EdgeInsets.all(DesignTokens.spacingMd),
         decoration: BoxDecoration(
           color: bg,
-          border: Border.all(color: borderColor, width: isSelected || isCorrectAnswer || isUserWrong ? 2 : 1),
+          border: Border.all(
+            color: borderColor,
+            width: isSelected || isCorrectAnswer || isUserWrong ? 2 : 1,
+          ),
           borderRadius: BorderRadius.circular(DesignTokens.radius),
         ),
         child: Row(
@@ -147,10 +152,12 @@ class _OptionTile extends StatelessWidget {
             ),
             if (trailing != null) ...[
               const SizedBox(width: DesignTokens.spacingSm),
-              Icon(trailing,
-                  color: isCorrectAnswer
-                      ? ExamDesignTokens.examAnswerCorrectColor
-                      : ExamDesignTokens.examAnswerWrongColor),
+              Icon(
+                trailing,
+                color: isCorrectAnswer
+                    ? ExamDesignTokens.examAnswerCorrectColor
+                    : ExamDesignTokens.examAnswerWrongColor,
+              ),
             ],
           ],
         ),

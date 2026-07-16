@@ -3,7 +3,6 @@
 import 'package:go_router/go_router.dart';
 
 import '../../screens/ai/ai_chat_page.dart';
-import '../../screens/ai/ai_writing_practice_page.dart';
 import '../../screens/ai/ai_settings_page.dart';
 
 final List<RouteBase> aiRoutes = [
@@ -21,9 +20,12 @@ final List<RouteBase> aiRoutes = [
         path: 'chat-new',
         builder: (context, state) => const AIChatPage(),
       ),
+      // P9 W4: `ai_writing_practice_page.dart` deleted (mock, no web
+      // counterpart, superseded by the live-data `/luyen-viet` writing hub
+      // built in P9 waves 1-4). Redirect keeps old deep-links alive.
       GoRoute(
         path: 'writing',
-        builder: (context, state) => const AIWritingPracticePage(),
+        redirect: (context, state) => '/luyen-viet',
       ),
       GoRoute(
         path: 'settings',

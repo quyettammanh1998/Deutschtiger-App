@@ -75,3 +75,31 @@ String lessonGroupKey(GrammarLessonSummary lesson) {
 }
 
 bool isSoloGroup(String key) => key.startsWith(_soloGroupPrefix);
+
+/// Nhóm ký tự có dấu → ký tự gốc, dùng cho tìm kiếm không phân biệt dấu.
+const _diacriticGroups = <String, String>{
+  'aàáảãạăằắẳẵặâầấẩẫậ': 'a',
+  'eèéẻẽẹêềếểễệ': 'e',
+  'iìíỉĩị': 'i',
+  'oòóỏõọôồốổỗộơờớởỡợ': 'o',
+  'uùúủũụưừứửữự': 'u',
+  'yỳýỷỹỵ': 'y',
+  'đ': 'd',
+};
+
+String _stripDiacritic(String lowerChar) {
+  for (final entry in _diacriticGroups.entries) {
+    if (entry.key.contains(lowerChar)) return entry.value;
+  }
+  return lowerChar;
+}
+
+/// Chuẩn hoá chuỗi tìm kiếm không dấu — port `normalizeSearch` bên web
+/// (`grammar-list-page.tsx`/`grammar-level-detail.tsx`).
+String normalizeGrammarSearch(String text) {
+  final buffer = StringBuffer();
+  for (final rune in text.toLowerCase().runes) {
+    buffer.write(_stripDiacritic(String.fromCharCode(rune)));
+  }
+  return buffer.toString();
+}

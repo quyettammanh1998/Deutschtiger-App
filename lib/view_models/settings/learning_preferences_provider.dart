@@ -35,7 +35,16 @@ class LearningPreferencesNotifier
     extends AutoDisposeNotifier<LearningPreferencesState> {
   @override
   LearningPreferencesState build() {
-    unawaited(_load());
+    // `Future.microtask` (not `unawaited(_load())`) defers the first
+    // network call to the next microtask so `build()` always returns and
+    // installs the initial state BEFORE `_load()` runs. `unawaited` runs
+    // the function body synchronously up to its first `await`; if
+    // `ref.read(...)` throws synchronously there (e.g. the repository
+    // provider itself fails to construct) the `catch` block's `state = `
+    // assignment executes before this `build()` call returns, and
+    // Riverpod throws "Tried to read the state of an uninitialized
+    // provider" instead of surfacing the real error.
+    Future.microtask(_load);
     return const LearningPreferencesState();
   }
 

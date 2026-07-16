@@ -5,8 +5,17 @@ import 'package:deutschtiger/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 void main() {
+  // `markdown_widget` (article body renderer) uses `VisibilityDetector`
+  // internally with a debounced update timer; without a zero interval it
+  // leaves a real Timer pending past `pumpAndSettle`, which the test
+  // binding flags as a leak on teardown.
+  setUpAll(() {
+    VisibilityDetectorController.instance.updateInterval = Duration.zero;
+  });
+
   Widget wrap(Widget child, {List<Override> overrides = const []}) {
     return ProviderScope(
       overrides: overrides,
@@ -27,9 +36,7 @@ void main() {
     markdown: '# Bài 1\n\nNội dung bài đọc đầy đủ.',
   );
 
-  testWidgets('renders article markdown and mark-complete CTA', (
-    tester,
-  ) async {
+  testWidgets('renders article markdown and mark-complete CTA', (tester) async {
     await tester.pumpWidget(
       wrap(
         const GrammarArticleScreen(level: 'a1', slug: 'bai-1'),

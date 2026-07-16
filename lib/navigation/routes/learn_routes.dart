@@ -7,8 +7,7 @@
 
 import 'package:go_router/go_router.dart';
 
-import '../../screens/interview/group_detail_screen.dart';
-import '../../screens/interview/video_player_screen.dart';
+import '../../features/mission/presentation/mission_session_page.dart';
 import '../../screens/journey/journey_screen.dart';
 import '../../screens/learn/can_do_practice_screen.dart';
 import '../../screens/learn/focus_session_screen.dart';
@@ -34,25 +33,9 @@ final List<RouteBase> learnShellRoutes = [
     path: '/learn',
     builder: (context, state) => const JourneyScreen(),
     routes: [
-      GoRoute(
-        path: 'group/:groupId',
-        builder: (context, state) => GroupDetailScreen(
-          groupId: state.pathParameters['groupId']!,
-        ),
-        routes: [
-          GoRoute(
-            path: 'watch/:videoId',
-            builder: (context, state) => VideoPlayerScreen(
-              groupId: state.pathParameters['groupId']!,
-              videoId: state.pathParameters['videoId']!,
-              title: state.extra as String? ?? '',
-            ),
-          ),
-        ],
-      ),
       // Learn extensions (mirrors web `/learn/topics`,
-      // `/learn/can-do/:id/practice`) — mounts as root navigator routes vì
-      // cần fullscreen (không nằm trong shell tab bar).
+      // `/learn/can-do/:id/practice`, `/learn/session/:id`) — mount as root
+      // navigator routes vì cần fullscreen (không nằm trong shell tab bar).
       GoRoute(
         path: 'topics',
         parentNavigatorKey: rootNavigatorKey,
@@ -64,6 +47,14 @@ final List<RouteBase> learnShellRoutes = [
         builder: (context, state) => CanDoPracticeScreen(
           canDoId: Uri.decodeComponent(state.pathParameters['canDoId']!),
         ),
+      ),
+      // Mission session runner — mirrors web `/learn/session/:id` (":id" is
+      // usually the pseudo-id "today"; the runner always resolves today's
+      // mission regardless of the path value).
+      GoRoute(
+        path: 'session/:id',
+        parentNavigatorKey: rootNavigatorKey,
+        builder: (context, state) => const MissionSessionPage(),
       ),
     ],
   ),

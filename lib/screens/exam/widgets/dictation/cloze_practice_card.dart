@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_tokens.dart';
+import '../../../../l10n/app_localizations.dart';
 import 'dictation_cue.dart';
 import 'sentence_gap_text.dart';
 
@@ -46,6 +47,7 @@ class ClozePracticeCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final tokens = context.tokens;
+    final l10n = AppLocalizations.of(context);
     return Column(
       children: [
         Padding(
@@ -57,10 +59,10 @@ class ClozePracticeCard extends StatelessWidget {
                 children: [
                   TextButton(
                     onPressed: onBack,
-                    child: const Text('← Chọn lại'),
+                    child: Text(l10n.dictationBackToSelection),
                   ),
                   Text(
-                    '$answeredCount / $totalCount từ',
+                    l10n.dictationWordCount(answeredCount, totalCount),
                     style: TextStyle(
                       fontSize: 11,
                       color: tokens.mutedForeground,
@@ -124,8 +126,8 @@ class ClozePracticeCard extends StatelessWidget {
                   onSubmitted: (_) => onSubmit(),
                   decoration: InputDecoration(
                     hintText: waitingForInput
-                        ? 'Gõ từ...'
-                        : 'Đang phát audio...',
+                        ? l10n.dictationTypeWordHint
+                        : l10n.dictationPlayingAudioHint,
                     filled: true,
                     fillColor: tokens.card,
                     border: OutlineInputBorder(
@@ -144,24 +146,24 @@ class ClozePracticeCard extends StatelessWidget {
                         style: FilledButton.styleFrom(
                           backgroundColor: tokens.primary,
                         ),
-                        child: const Text('Kiểm tra'),
+                        child: Text(l10n.dictationCheckCta),
                       ),
                     ),
                     const SizedBox(width: 8),
                     IconButton(
                       onPressed: _active ? onReplay : null,
                       icon: const Icon(Icons.replay),
-                      tooltip: 'Nghe lại câu',
+                      tooltip: l10n.dictationReplaySentenceTooltip,
                     ),
                     IconButton(
                       onPressed: _active ? onSkip : null,
                       icon: const Icon(Icons.skip_next),
-                      tooltip: 'Bỏ qua',
+                      tooltip: l10n.dictationClozeSkip,
                     ),
                     IconButton(
                       onPressed: _active ? onReveal : null,
                       icon: const Icon(Icons.visibility_outlined),
-                      tooltip: 'Xem đáp án',
+                      tooltip: l10n.dictationClozeReveal,
                     ),
                   ],
                 ),

@@ -3,6 +3,28 @@ import 'package:deutschtiger/navigation/release_redirect.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
+  test('old easy-german podcast paths redirect to their renamed web paths', () {
+    // P11 W1 renamed the podcast URLs to match web exactly. Old deep links
+    // must still resolve — but the listening gate outranks the rename, so a
+    // gated-off build never lands on the new screen either.
+    if (ReleaseFeatureFlags.listening) {
+      expect(
+        resolveReleaseRedirect('/listening/easy-german'),
+        '/listening/podcast/easy_german',
+      );
+      expect(
+        resolveReleaseRedirect('/listening/easy-german/episode/1'),
+        '/listening/podcast/easy_german/1',
+      );
+    } else {
+      expect(resolveReleaseRedirect('/listening/easy-german'), '/learn');
+      expect(
+        resolveReleaseRedirect('/listening/easy-german/episode/1'),
+        '/learn',
+      );
+    }
+  });
+
   test('release redirects cover every feature-gated route family', () {
     final cases = <({String path, bool enabled, String redirect})>[
       (path: '/landing', enabled: false, redirect: '/welcome'),
@@ -13,7 +35,7 @@ void main() {
         redirect: '/learn',
       ),
       (
-        path: '/listening/easy-german/episode/1',
+        path: '/listening/podcast/easy_german/1',
         enabled: ReleaseFeatureFlags.listening,
         redirect: '/learn',
       ),
@@ -90,9 +112,16 @@ void main() {
   });
 
   test('live and explicitly allowed routes are not redirected', () {
-    expect(resolveReleaseRedirect('/journey/session'), isNull);
     expect(resolveReleaseRedirect('/vocabulary'), isNull);
     expect(resolveReleaseRedirect('/exam'), isNull);
+    expect(resolveReleaseRedirect('/learn/session/today'), isNull);
+  });
+
+  test('old mission session path redirects to the web-parity path', () {
+    expect(
+      resolveReleaseRedirect('/journey/session'),
+      '/learn/session/today',
+    );
   });
 
   test('social sub-routes without a live contract stay gated independently', () {
@@ -145,31 +174,39 @@ void main() {
       // gated behind the blanket `games` flag.
       expect(ReleaseFeatureFlags.casesMastery, isTrue);
       expect(ReleaseFeatureFlags.konjugation, isTrue);
-      expect(resolveReleaseRedirect('/games/cases'), isNull);
-      expect(resolveReleaseRedirect('/games/cases/akk-dat'), isNull);
-      expect(resolveReleaseRedirect('/games/cases/verb-case'), isNull);
+      expect(resolveReleaseRedirect('/games/cases-mastery'), isNull);
+      expect(resolveReleaseRedirect('/games/cases-akk-dat'), isNull);
+      expect(resolveReleaseRedirect('/games/cases-verb-case'), isNull);
       expect(resolveReleaseRedirect('/games/konjugation'), isNull);
+      // Old Flutter-only paths redirect to the web-identical rename.
+      expect(resolveReleaseRedirect('/games/cases'), '/games/cases-mastery');
+      expect(
+        resolveReleaseRedirect('/games/cases/akk-dat'),
+        '/games/cases-akk-dat',
+      );
+      expect(
+        resolveReleaseRedirect('/games/cases/verb-case'),
+        '/games/cases-verb-case',
+      );
     },
   );
 
   test(
-    'writing-sentence/listening/runner games are exempt from the blanket '
+    'listening/runner games are exempt from the blanket '
     'games gate',
     () {
       // Live backend contracts (/vocabulary/learned, /ai/grade-sentence —
       // tái dùng existing repositories), independent flags — reachable even
       // though the other mock games stay gated behind the blanket `games`
       // flag.
-      expect(ReleaseFeatureFlags.writingSentenceGame, isTrue);
       expect(ReleaseFeatureFlags.listeningGame, isTrue);
       expect(ReleaseFeatureFlags.runnerGame, isTrue);
-      expect(resolveReleaseRedirect('/games/writing-sentence'), isNull);
       expect(resolveReleaseRedirect('/games/listening'), isNull);
       expect(resolveReleaseRedirect('/games/runner'), isNull);
       // `/listening` (the listening lesson hub) stays gated by its own flag,
       // unaffected by the `/games/listening` exemption above.
       expect(
-        resolveReleaseRedirect('/listening/easy-german/episode/1'),
+        resolveReleaseRedirect('/listening/podcast/easy_german/1'),
         ReleaseFeatureFlags.listening ? isNull : '/learn',
       );
     },
@@ -203,8 +240,11 @@ void main() {
       // the other mock games stay gated behind the blanket `games` flag.
       expect(ReleaseFeatureFlags.articleGame, isTrue);
       expect(ReleaseFeatureFlags.wordOrderGame, isTrue);
-      expect(resolveReleaseRedirect('/games/article'), isNull);
-      expect(resolveReleaseRedirect('/games/word-order'), isNull);
+      expect(resolveReleaseRedirect('/games/artikel'), isNull);
+      expect(resolveReleaseRedirect('/games/wortstellung'), isNull);
+      // Old Flutter-only paths redirect to the web-identical rename.
+      expect(resolveReleaseRedirect('/games/article'), '/games/artikel');
+      expect(resolveReleaseRedirect('/games/word-order'), '/games/wortstellung');
     },
   );
 }

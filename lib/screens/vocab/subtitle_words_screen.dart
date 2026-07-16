@@ -1,17 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_tokens.dart';
+import '../../data/vocab/subtitle_word.dart';
 import '../../l10n/app_localizations.dart';
 import '../../repositories/vocab/subtitle_words_repository.dart';
+import '../../widgets/common/app_button.dart';
+import 'subtitle_words_providers.dart';
+import 'widgets/subtitle_words_action_bar.dart';
+import 'widgets/subtitle_words_header.dart';
+import 'widgets/subtitle_words_list.dart';
 
-final subtitleWordsProvider = FutureProvider.autoDispose((ref) {
-  return ref.watch(subtitleWordsRepositoryProvider).getWords();
-});
-
-/// Màn "Từ trong phụ đề" — danh sách từ mined từ phụ đề video, cho phép chọn
-/// và lưu vào hàng đợi ôn tập + bộ thẻ mặc định (`POST /subtitle-words/add`).
-/// Truy cập từ hub từ vựng (`VocabularyScreen`).
+/// Màn "Từ đã gặp trong video" — web parity `subtitle-words-page.tsx`. Danh
+/// sách từ mined từ phụ đề video, cho phép lọc theo cấp CEFR và chọn để lưu
+/// vào hàng đợi ôn tập (`POST /subtitle-words/add`). State (level filter,
+/// selection, save flow) lives here; presentation is split across
+/// `widgets/subtitle_words_{header,list,action_bar}.dart`.
 class SubtitleWordsScreen extends ConsumerStatefulWidget {
   const SubtitleWordsScreen({super.key});
 
@@ -20,94 +25,146 @@ class SubtitleWordsScreen extends ConsumerStatefulWidget {
 }
 
 class _SubtitleWordsScreenState extends ConsumerState<SubtitleWordsScreen> {
-  final _selected = <String>{};
+  final _selectedLevels = <String>{};
+  final _selectedIds = <String>{};
   bool _saving = false;
+  String? _successMsg;
 
-  Future<void> _saveSelected() async {
-    if (_selected.isEmpty || _saving) return;
+  String get _levelsKey {
+    final sorted = _selectedLevels.toList()
+      ..sort((a, b) => subtitleWordsLevelOrder(a).compareTo(subtitleWordsLevelOrder(b)));
+    return sorted.join(',');
+  }
+
+  void _toggleLevel(String level) {
+    setState(() {
+      if (_selectedLevels.contains(level)) {
+        _selectedLevels.remove(level);
+      } else {
+        _selectedLevels.add(level);
+      }
+      _selectedIds.clear();
+    });
+  }
+
+  void _selectAllLevels() => setState(() {
+    _selectedLevels.clear();
+    _selectedIds.clear();
+  });
+
+  void _toggleWord(String id) => setState(() {
+    if (_selectedIds.contains(id)) {
+      _selectedIds.remove(id);
+    } else {
+      _selectedIds.add(id);
+    }
+  });
+
+  void _selectAllWords(List<SubtitleWord> words) => setState(() {
+    _selectedIds
+      ..clear()
+      ..addAll(words.map((w) => w.learningItemId).where((id) => id.isNotEmpty));
+  });
+
+  void _clearSelection() => setState(_selectedIds.clear);
+
+  Future<void> _addSelected() async {
+    if (_selectedIds.isEmpty || _saving) return;
     final l10n = AppLocalizations.of(context);
     setState(() => _saving = true);
     try {
       final result = await ref
           .read(subtitleWordsRepositoryProvider)
-          .addWords(_selected.toList());
+          .addWords(_selectedIds.toList());
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(l10n.subtitleWordsAddedCount(result.added))),
-      );
-      setState(() => _selected.clear());
-      ref.invalidate(subtitleWordsProvider);
+      setState(() {
+        _saving = false;
+        _successMsg = l10n.subtitleWordsAddedCount(result.added);
+        _selectedIds.clear();
+      });
+      ref.invalidate(subtitleWordsProvider(_levelsKey));
+      Future.delayed(const Duration(seconds: 3), () {
+        if (mounted) setState(() => _successMsg = null);
+      });
     } catch (_) {
       if (!mounted) return;
+      setState(() => _saving = false);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(l10n.subtitleWordsAddFailed)),
       );
-    } finally {
-      if (mounted) setState(() => _saving = false);
+    }
+  }
+
+  void _goBack() {
+    if (context.canPop()) {
+      context.pop();
+    } else {
+      context.go('/vocabulary');
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final tokens = context.tokens;
     final l10n = AppLocalizations.of(context);
-    final wordsAsync = ref.watch(subtitleWordsProvider);
+    final wordsAsync = ref.watch(subtitleWordsProvider(_levelsKey));
+    final showActionBar = _selectedIds.isNotEmpty || _successMsg != null;
 
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.subtitleWordsTitle)),
-      floatingActionButton: _selected.isEmpty
-          ? null
-          : FloatingActionButton.extended(
-              onPressed: _saving ? null : _saveSelected,
-              icon: _saving
-                  ? const SizedBox(
-                      width: 18,
-                      height: 18,
-                      child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
-                    )
-                  : const Icon(Icons.bookmark_add),
-              label: Text(l10n.subtitleWordsAddSelected(_selected.length)),
+      backgroundColor: tokens.background,
+      body: SafeArea(
+        child: Stack(
+          children: [
+            SingleChildScrollView(
+              padding: EdgeInsets.fromLTRB(16, 12, 16, showActionBar ? 96 : 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SubtitleWordsHeader(
+                    onBack: _goBack,
+                    selectedLevels: _selectedLevels,
+                    onSelectAllLevels: _selectAllLevels,
+                    onToggleLevel: _toggleLevel,
+                  ),
+                  wordsAsync.when(
+                    loading: () => const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 48),
+                      child: Center(child: CircularProgressIndicator()),
+                    ),
+                    error: (_, _) => Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 32),
+                      child: Center(
+                        child: AppButton(
+                          label: l10n.retry,
+                          onPressed: () => ref.invalidate(subtitleWordsProvider(_levelsKey)),
+                        ),
+                      ),
+                    ),
+                    data: (words) => SubtitleWordsList(
+                      words: words,
+                      selectedIds: _selectedIds,
+                      onToggleWord: _toggleWord,
+                      onSelectAll: () => _selectAllWords(words),
+                      onClearSelection: _clearSelection,
+                    ),
+                  ),
+                ],
+              ),
             ),
-      body: wordsAsync.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (_, _) => Center(
-          child: FilledButton(
-            onPressed: () => ref.invalidate(subtitleWordsProvider),
-            child: Text(l10n.retry),
-          ),
-        ),
-        data: (words) {
-          if (words.isEmpty) {
-            return Center(child: Text(l10n.subtitleWordsEmpty));
-          }
-          return ListView.separated(
-            padding: const EdgeInsets.symmetric(vertical: 8),
-            itemCount: words.length,
-            separatorBuilder: (_, _) => const Divider(height: 1),
-            itemBuilder: (context, index) {
-              final word = words[index];
-              final isSelected = _selected.contains(word.learningItemId);
-              return CheckboxListTile(
-                key: Key('subtitle_word_${word.learningItemId}'),
-                value: isSelected,
-                onChanged: word.learningItemId.isEmpty
-                    ? null
-                    : (checked) => setState(() {
-                        if (checked ?? false) {
-                          _selected.add(word.learningItemId);
-                        } else {
-                          _selected.remove(word.learningItemId);
-                        }
-                      }),
-                title: Text(word.contentDe),
-                subtitle: Text(word.contentVi),
-                secondary: Text(
-                  l10n.subtitleWordsSeenCount(word.seenCount),
-                  style: const TextStyle(fontSize: 12, color: AppColors.mutedForeground),
+            if (showActionBar)
+              Positioned(
+                left: 0,
+                right: 0,
+                bottom: 0,
+                child: SubtitleWordsActionBar(
+                  selectedCount: _selectedIds.length,
+                  saving: _saving,
+                  successMessage: _successMsg,
+                  onAdd: _addSelected,
                 ),
-              );
-            },
-          );
-        },
+              ),
+          ],
+        ),
       ),
     );
   }

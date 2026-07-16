@@ -4,8 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../widgets/common/game_shell.dart';
 
 /// Speaking Practice game - Luyện nói với microphone.
+///
+/// NOTE (P7 web-mobile UI fidelity): web `speaking-practice-page.tsx`'s
+/// `?daily=1` mission variant + avg-score completion screen (real AI
+/// pronunciation grading) are NOT ported here — that grading pipeline is
+/// MASTER P8 (voice/STT/Azure PA wiring), out of this phase's UI-only scope.
+/// This screen stays behind the blanket `games` release flag (default off,
+/// not in the live-data guard list) — only the GameShell chrome is adopted.
 class SpeakingGameScreen extends StatefulWidget {
   const SpeakingGameScreen({super.key});
 
@@ -104,34 +112,30 @@ class _SpeakingGameScreenState extends State<SpeakingGameScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.authBackground,
-      appBar: AppBar(
-        backgroundColor: AppColors.authBackground,
-        title: const Text('Luyện Nói'),
-        leading: IconButton(
-          icon: const Icon(Icons.close),
-          onPressed: () => context.pop(),
-        ),
-        actions: [
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-            margin: const EdgeInsets.only(right: 16),
-            decoration: BoxDecoration(
-              color: Colors.pink.shade50,
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: Row(
-              children: [
-                const Icon(Icons.star, size: 16, color: Colors.pink),
-                const SizedBox(width: 4),
-                Text('$_score', style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.pink)),
-              ],
-            ),
-          ),
-        ],
-      ),
-      body: _gameOver ? _buildResults() : _buildGame(),
+    return GameShell(
+      title: 'Luyện Nói',
+      exitGuard: !_gameOver,
+      scrollable: false,
+      trailing: !_gameOver
+          ? Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+              decoration: BoxDecoration(
+                color: Colors.pink.shade50,
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(Icons.star, size: 16, color: Colors.pink),
+                  const SizedBox(width: 4),
+                  Text('$_score',
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold, color: Colors.pink)),
+                ],
+              ),
+            )
+          : null,
+      child: _gameOver ? _buildResults() : _buildGame(),
     );
   }
 

@@ -120,7 +120,9 @@ class _SessionCardBody extends StatelessWidget {
             Material(
               color: Colors.transparent,
               child: InkWell(
-                onTap: canStart ? () => context.push('/journey/session') : null,
+                onTap: canStart
+                    ? () => context.push('/learn/session/today')
+                    : null,
                 borderRadius: BorderRadius.circular(DesignTokens.radiusSm + 4),
                 child: Ink(
                   padding: const EdgeInsets.symmetric(vertical: 12),

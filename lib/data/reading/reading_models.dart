@@ -130,7 +130,7 @@ class ReadingParagraph {
 }
 
 /// Tham số điều hướng tới màn hình chi tiết bài đọc — chỉ cần level+slug để
-/// gọi API; title dùng làm placeholder khi đang tải.
+/// gọi API; title dùng để hiển thị tạm trong lúc đang tải.
 class ReadingDetailArgs {
   const ReadingDetailArgs({required this.level, required this.slug, this.title});
   final String level;
@@ -223,6 +223,34 @@ class ReadingFeedResult {
     return ReadingFeedResult(
       articles: articles,
       coverageReady: map['coverage_ready'] as bool? ?? true,
+    );
+  }
+}
+
+/// Một dòng bảng xếp hạng — trả về bởi `GET /reading-leaderboard` và
+/// `GET /user/reading-rank` (field khớp `ReadingLeaderboardEntry` của web).
+class ReadingLeaderboardEntry {
+  const ReadingLeaderboardEntry({
+    required this.userId,
+    required this.displayName,
+    required this.avatarUrl,
+    required this.completedCount,
+    required this.rank,
+  });
+
+  final String userId;
+  final String displayName;
+  final String avatarUrl;
+  final int completedCount;
+  final int rank;
+
+  factory ReadingLeaderboardEntry.fromJson(Map<String, dynamic> json) {
+    return ReadingLeaderboardEntry(
+      userId: json['user_id'] as String? ?? '',
+      displayName: json['display_name'] as String? ?? '',
+      avatarUrl: json['avatar_url'] as String? ?? '',
+      completedCount: json['completed_count'] as int? ?? 0,
+      rank: json['rank'] as int? ?? 0,
     );
   }
 }

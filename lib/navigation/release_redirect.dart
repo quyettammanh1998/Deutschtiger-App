@@ -8,7 +8,10 @@ String? resolveReleaseRedirect(String path) {
   if (_matches(path, '/landing') || _matches(path, '/welcome-full')) {
     return '/welcome';
   }
-  if (path == '/journey/session') return null;
+  // Mission session runner moved to web-parity path `/learn/session/:id`
+  // (web-mobile UI fidelity P3) — the pseudo-id "today" always resolves to
+  // today's mission regardless of the deep-link value.
+  if (path == '/journey/session') return '/learn/session/today';
 
   if (_matches(path, '/grammar') && !ReleaseFeatureFlags.grammar) {
     return '/learn';
@@ -16,14 +19,42 @@ String? resolveReleaseRedirect(String path) {
   if (_matches(path, '/listening') && !ReleaseFeatureFlags.listening) {
     return '/learn';
   }
+  // P11 W1 — old Flutter-only podcast URL collided with the web-identical
+  // `/listening/easy-german/:level` (video collection) route; podcast moved
+  // to `/listening/podcast/easy_german` (matches web exactly).
+  if (path == '/listening/easy-german') {
+    return '/listening/podcast/easy_german';
+  }
+  const oldPodcastEpisodePrefix = '/listening/easy-german/episode/';
+  if (path.startsWith(oldPodcastEpisodePrefix)) {
+    return '/listening/podcast/easy_german/${path.substring(oldPodcastEpisodePrefix.length)}';
+  }
   if (_matches(path, '/reading') && !ReleaseFeatureFlags.reading) {
     return '/learn';
   }
   if (_matches(path, '/news') && !ReleaseFeatureFlags.news) {
     return '/learn';
   }
+  // P11 W4 — old Flutter-only `/reading/feed` renamed to web-identical
+  // `/reading-feed` (top-level, matches `ROUTE_PATHS.readingFeed`); old
+  // `/reading/detail?extra=` renamed to web-identical `/reading/:level/:slug`
+  // (no redirect needed — that path only ever carried a Dart `extra` object,
+  // never a public/bookmarkable URL). New `/doc-nghe` hub gated the same way.
+  if (path == '/reading/feed') return '/reading-feed';
+  if (_matches(path, '/reading-feed') && !ReleaseFeatureFlags.reading) {
+    return '/learn';
+  }
+  if (_matches(path, '/doc-nghe') && !ReleaseFeatureFlags.reading) {
+    return '/learn';
+  }
   if (_matches(path, '/journey') && !ReleaseFeatureFlags.journey) {
     return '/learn';
+  }
+  // P11 W3 — course hub/detail/lesson moved from `/journey/courses*` to the
+  // web-identical top-level `/course/*` (`course_routes.dart`).
+  const oldCoursesPrefix = '/journey/courses';
+  if (path == oldCoursesPrefix || path.startsWith('$oldCoursesPrefix/')) {
+    return '/course${path.substring(oldCoursesPrefix.length)}';
   }
   if (_matches(path, '/speaking') && !ReleaseFeatureFlags.speaking) {
     return '/learn';
@@ -45,10 +76,23 @@ String? resolveReleaseRedirect(String path) {
   if (_matches(path, '/games/typing-sprint')) {
     return ReleaseFeatureFlags.typingSprint ? null : '/learn';
   }
+  // Old Flutter-only cases sub-routes (`/games/cases/*`) redirect to the
+  // web-identical hyphenated paths (`/games/cases-*`).
+  if (_matches(path, '/games/cases/akk-dat')) return '/games/cases-akk-dat';
+  if (_matches(path, '/games/cases/adjektiv')) return '/games/cases-adjektiv';
+  if (_matches(path, '/games/cases/wechselprep')) {
+    return '/games/cases-wechselprep';
+  }
+  if (_matches(path, '/games/cases/verb-case')) return '/games/cases-verb-case';
+  if (path == '/games/cases') return '/games/cases-mastery';
   // Cases Mastery Hub (`/user/cases/*`) and Konjugationstrainer
   // (`/user/conjugation/exercise`) also have live backend contracts — same
   // exemption pattern.
-  if (_matches(path, '/games/cases')) {
+  if (_matches(path, '/games/cases-mastery') ||
+      _matches(path, '/games/cases-akk-dat') ||
+      _matches(path, '/games/cases-adjektiv') ||
+      _matches(path, '/games/cases-wechselprep') ||
+      _matches(path, '/games/cases-verb-case')) {
     return ReleaseFeatureFlags.casesMastery ? null : '/learn';
   }
   if (_matches(path, '/games/konjugation')) {
@@ -67,21 +111,22 @@ String? resolveReleaseRedirect(String path) {
       _matches(path, '/games/writing')) {
     return ReleaseFeatureFlags.practice ? null : '/learn';
   }
-  if (_matches(path, '/games/writing-sentence')) {
-    return ReleaseFeatureFlags.writingSentenceGame ? null : '/learn';
-  }
   if (_matches(path, '/games/listening')) {
     return ReleaseFeatureFlags.listeningGame ? null : '/learn';
   }
   if (_matches(path, '/games/runner')) {
     return ReleaseFeatureFlags.runnerGame ? null : '/learn';
   }
+  // Web-path-aligned renames (web-mobile UI fidelity P7): old Flutter-only
+  // paths redirect to the web-identical ones below.
+  if (_matches(path, '/games/article')) return '/games/artikel';
+  if (_matches(path, '/games/word-order')) return '/games/wortstellung';
   // Artikel/Wortstellung/Fill-blank also have a live backend contract
   // (`/user/learning-items/balanced`) — same per-game exemption pattern.
-  if (_matches(path, '/games/article')) {
+  if (_matches(path, '/games/artikel')) {
     return ReleaseFeatureFlags.articleGame ? null : '/learn';
   }
-  if (_matches(path, '/games/word-order')) {
+  if (_matches(path, '/games/wortstellung')) {
     return ReleaseFeatureFlags.wordOrderGame ? null : '/learn';
   }
   if (_matches(path, '/games') && !ReleaseFeatureFlags.games) {
@@ -94,6 +139,20 @@ String? resolveReleaseRedirect(String path) {
   // occupies that slot instead, same fallback as `/speaking` below.
   if (_matches(path, '/conversation') && !ReleaseFeatureFlags.speaking) {
     return '/ai';
+  }
+  // Goethe/TELC Sprechen exam UI (P10) reuses the `speaking` flag — same
+  // "not yet backed by verified AI-chat/grading live wiring" gate as
+  // `/conversation` above, since both depend on MASTER P8's voice/AI
+  // grading hookup before shipping to production.
+  if (path.startsWith('/exams/goethe/') &&
+      path.contains('/sprechen') &&
+      !ReleaseFeatureFlags.speaking) {
+    return '/exam';
+  }
+  if ((_matches(path, '/exams/telc-b1/noi') ||
+          _matches(path, '/exams/telc/b1/noi')) &&
+      !ReleaseFeatureFlags.speaking) {
+    return '/exam';
   }
   if (_matches(path, '/ai') && !ReleaseFeatureFlags.aiTutor) return '/learn';
   if (_matches(path, '/ai-tutor') && !ReleaseFeatureFlags.aiTutor) {
@@ -116,6 +175,11 @@ String? resolveReleaseRedirect(String path) {
   if (_matches(path, '/social/duel') && !ReleaseFeatureFlags.socialDuels) {
     return '/social';
   }
+  // P12 wave A — `EditProfileScreen` (`/profile/edit`) removed; profile
+  // editing folded into the settings-root profile-edit card (P12 settings
+  // agent). `/profile` itself keeps rendering the own-profile view (no
+  // redirect needed — same path, new content: web `/u/:id` equivalent).
+  if (path == '/profile/edit') return '/settings';
   if (_matches(path, '/stats') && !ReleaseFeatureFlags.stats) return '/home';
   if (_matches(path, '/achievements') && !ReleaseFeatureFlags.achievements) {
     return '/home';
@@ -139,6 +203,15 @@ String? resolveReleaseRedirect(String path) {
   if (path.startsWith(oldDetailPrefix)) {
     return '/vocabulary/topic-${path.substring(oldDetailPrefix.length)}';
   }
+  // P5 — deck/flashcard suite renamed to web-identical `/notes/*` (decision
+  // #4). `/flashcard-review` had no web counterpart (deleted; web's
+  // flip-review runs inside deck-detail practice modes) so bare deep links
+  // land on the deck list instead of a query param it can no longer resolve.
+  const oldDecksPrefix = '/decks';
+  if (path == oldDecksPrefix || path.startsWith('$oldDecksPrefix/')) {
+    return '/notes${path.substring(oldDecksPrefix.length)}';
+  }
+  if (path == '/flashcard-review') return '/notes';
   return null;
 }
 

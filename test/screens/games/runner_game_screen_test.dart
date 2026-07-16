@@ -32,7 +32,11 @@ void main() {
         child: _app,
       ),
     );
-    await tester.pumpAndSettle();
+    // `pumpAndSettle` hangs forever here: `RunnerSpriteStage` runs a looping
+    // `AnimationController.repeat()` for the sprite run-cycle (by design —
+    // never settles). Pump fixed frames instead.
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 50));
 
     expect(
       _words.any((w) => find.text(w.word).evaluate().isNotEmpty),
@@ -57,7 +61,11 @@ void main() {
         child: _app,
       ),
     );
-    await tester.pumpAndSettle();
+    // `pumpAndSettle` hangs forever here: `RunnerSpriteStage` runs a looping
+    // `AnimationController.repeat()` for the sprite run-cycle (by design —
+    // never settles). Pump fixed frames instead.
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 50));
 
     expect(find.byIcon(Icons.cloud_off_outlined), findsOneWidget);
     expect(tester.takeException(), isNull);
@@ -76,7 +84,11 @@ void main() {
         child: _app,
       ),
     );
-    await tester.pumpAndSettle();
+    // `pumpAndSettle` hangs forever here: `RunnerSpriteStage` runs a looping
+    // `AnimationController.repeat()` for the sprite run-cycle (by design —
+    // never settles). Pump fixed frames instead.
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 50));
 
     expect(find.textContaining('Cần học ít nhất 4 từ'), findsOneWidget);
     expect(tester.takeException(), isNull);

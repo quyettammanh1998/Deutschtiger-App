@@ -56,11 +56,18 @@ class QuestionAnzeigen extends StatelessWidget {
               fit: BoxFit.contain,
               loadingBuilder: (context, child, progress) {
                 if (progress == null) return child;
-                return const _ImagePlaceholder(child: CircularProgressIndicator());
+                return const _ImagePlaceholder(
+                  child: CircularProgressIndicator(),
+                );
               },
-              errorBuilder: (context, error, stackTrace) => const _ImagePlaceholder(
-                child: Icon(Icons.broken_image_outlined, size: 32, color: Colors.grey),
-              ),
+              errorBuilder: (context, error, stackTrace) =>
+                  const _ImagePlaceholder(
+                    child: Icon(
+                      Icons.broken_image_outlined,
+                      size: 32,
+                      color: Colors.grey,
+                    ),
+                  ),
             ),
           ),
         ),

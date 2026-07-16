@@ -74,6 +74,7 @@ class ExamQuestion {
     this.points = 1,
     this.explanation,
     this.imageUrl,
+    this.descriptionVi,
   });
 
   final String id;
@@ -131,6 +132,12 @@ class ExamQuestion {
   /// `image_url`. Null cho các type câu hỏi khác.
   final String? imageUrl;
 
+  /// Vietnamese translation of the passage/description behind this câu hỏi
+  /// (BE field `description_vi`) — chỉ dùng cho toggle "Dịch đoạn văn" ở
+  /// mobile player, KHÔNG phải bản dịch của `prompt` (title). Không tham gia
+  /// chấm điểm/persist attempt — thuần hiển thị.
+  final String? descriptionVi;
+
   bool get hasImage => imageUrl != null && imageUrl!.isNotEmpty;
 
   bool get hasAudio => audioUrl != null && audioUrl!.isNotEmpty;
@@ -155,6 +162,7 @@ class ExamQuestion {
     'points': points,
     'explanation': explanation,
     'imageUrl': imageUrl,
+    'descriptionVi': descriptionVi,
   };
 
   factory ExamQuestion.fromJson(Map<String, dynamic> json) {
@@ -181,6 +189,7 @@ class ExamQuestion {
       points: (json['points'] as int?) ?? 1,
       explanation: json['explanation'] as String?,
       imageUrl: json['imageUrl'] as String?,
+      descriptionVi: json['descriptionVi'] as String?,
     );
   }
 }

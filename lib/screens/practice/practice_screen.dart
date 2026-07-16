@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import 'package:deutschtiger/core/icons/app_phosphor_icons.dart';
+
+import '../../core/theme/app_tokens.dart';
 import '../../data/flashcard/review_item.dart';
 import '../../data/practice/practice_result.dart';
 import '../../data/practice/practice_round_item.dart';
@@ -34,8 +37,11 @@ class PracticeScreen extends ConsumerStatefulWidget {
 class _PracticeScreenState extends ConsumerState<PracticeScreen> {
   PracticeMode? _mode;
   List<PracticeResultEntry>? _results;
+  bool _includeGraduated = false;
 
   void _selectMode(PracticeMode mode) => setState(() => _mode = mode);
+
+  void _changeMode() => setState(() => _mode = null);
 
   void _handleComplete(List<PracticeResultEntry> results) {
     setState(() => _results = results);
@@ -78,42 +84,115 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
     final wordsAsync = ref.watch(deckWordsProvider(widget.deckId));
 
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.practiceTitle)),
-      body: wordsAsync.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (_, _) => Center(
-          child: FilledButton(
-            onPressed: () => ref.invalidate(deckWordsProvider(widget.deckId)),
-            child: Text(l10n.retry),
+      body: SafeArea(
+        child: wordsAsync.when(
+          loading: () => const Center(child: CircularProgressIndicator()),
+          error: (_, _) => Center(
+            child: FilledButton(
+              onPressed: () => ref.invalidate(deckWordsProvider(widget.deckId)),
+              child: Text(l10n.retry),
+            ),
+          ),
+          data: (words) {
+            if (words.isEmpty) {
+              return Center(child: Text(l10n.emptyDeckCards));
+            }
+
+            final results = _results;
+            if (results != null) {
+              return PracticeResultsView(
+                results: results,
+                onRestart: _restart,
+                onBackToDeck: _backToDeck,
+              );
+            }
+
+            final activeWords = _includeGraduated
+                ? words
+                : words.where((w) => !w.isLearned).toList(growable: false);
+
+            final mode = _mode;
+            if (mode == null) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _PracticeLinkButton(label: l10n.practiceBackToDeck, onTap: _backToDeck),
+                  Expanded(
+                    child: PracticeModeSelector(
+                      onSelect: _selectMode,
+                      cardCount: activeWords.length,
+                      includeGraduated: _includeGraduated,
+                      onIncludeGraduatedChanged: (v) => setState(() => _includeGraduated = v),
+                    ),
+                  ),
+                ],
+              );
+            }
+
+            if (activeWords.isEmpty) {
+              return Center(child: Text(l10n.emptyDeckCards));
+            }
+
+            final items = activeWords.map(PracticeRoundItem.fromDeckWord).toList(growable: false);
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _PracticeLinkButton(label: l10n.practiceChangeMode, onTap: _changeMode),
+                Expanded(
+                  child: switch (mode) {
+                    PracticeMode.cloze =>
+                      PracticeClozeView(items: items, onComplete: _handleComplete),
+                    PracticeMode.listening =>
+                      PracticeListeningView(items: items, onComplete: _handleComplete),
+                    PracticeMode.matching =>
+                      PracticeMatchingView(items: items, onComplete: _handleComplete),
+                    PracticeMode.writing =>
+                      PracticeWritingView(items: items, onComplete: _handleComplete),
+                  },
+                ),
+              ],
+            );
+          },
+        ),
+      ),
+    );
+  }
+}
+
+/// Web parity: the "← Quay lại bộ thẻ" / "← Đổi chế độ" text link at the top
+/// of the mode-select and active-play screens (no `AppBar` on web).
+class _PracticeLinkButton extends StatelessWidget {
+  const _PracticeLinkButton({required this.label, required this.onTap});
+
+  final String label;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final tokens = context.tokens;
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(8),
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(AppPhosphorIcons.caretLeft, size: 14, color: tokens.mutedForeground),
+              const SizedBox(width: 4),
+              Text(
+                label,
+                style: TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w500,
+                  color: tokens.mutedForeground,
+                ),
+              ),
+            ],
           ),
         ),
-        data: (words) {
-          if (words.isEmpty) {
-            return Center(child: Text(l10n.emptyDeckCards));
-          }
-
-          final results = _results;
-          if (results != null) {
-            return PracticeResultsView(
-              results: results,
-              onRestart: _restart,
-              onBackToDeck: _backToDeck,
-            );
-          }
-
-          final mode = _mode;
-          if (mode == null) {
-            return PracticeModeSelector(onSelect: _selectMode);
-          }
-
-          final items = words.map(PracticeRoundItem.fromDeckWord).toList(growable: false);
-          return switch (mode) {
-            PracticeMode.cloze => PracticeClozeView(items: items, onComplete: _handleComplete),
-            PracticeMode.listening => PracticeListeningView(items: items, onComplete: _handleComplete),
-            PracticeMode.matching => PracticeMatchingView(items: items, onComplete: _handleComplete),
-            PracticeMode.writing => PracticeWritingView(items: items, onComplete: _handleComplete),
-          };
-        },
       ),
     );
   }

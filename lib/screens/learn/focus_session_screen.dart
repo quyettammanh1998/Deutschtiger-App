@@ -3,132 +3,256 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_tokens.dart';
 import '../../data/learn/learn_models.dart';
 import '../../l10n/app_localizations.dart';
 import '../../view_models/learn/learn_provider.dart';
+import '../../view_models/stats/stats_provider.dart';
+import '../../widgets/common/app_button.dart';
 import '../../widgets/common/async_state_views.dart';
 import '../stats/widgets/error_pattern_labels.dart';
+import 'widgets/goal_reason_line.dart';
 
 /// "Tập trung hôm nay" — tổng hợp việc cần luyện ngay: thẻ tới hạn, từ thi
 /// sai, từ mined từ video, lỗi ngữ pháp hay gặp. `GET /focus-session`.
 /// Mirrors web `focus-session-page.tsx` (đọc-only, không có start/stop timer
-/// — web thực tế là dashboard hành động, không phải đồng hồ đếm giờ).
+/// — web thực tế là dashboard hành động, không phải đồng hồ đếm giờ). No
+/// AppBar — back link + h1 + subtitle + [GoalReasonLine].
 class FocusSessionScreen extends ConsumerWidget {
   const FocusSessionScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
+    final tokens = context.tokens;
     final dataAsync = ref.watch(focusSessionProvider);
 
     return Scaffold(
-      backgroundColor: AppColors.background,
-      appBar: AppBar(
-        backgroundColor: AppColors.background,
-        title: Text(l10n.focusSessionTitle),
-      ),
-      body: dataAsync.when(
-        loading: () => const LoadingView(),
-        error: (_, _) => ErrorView(
-          onRetry: () => ref.invalidate(focusSessionProvider),
-        ),
-        data: (data) {
-          if (data.totalActionable == 0) {
-            return _EmptyCaughtUp(l10n: l10n);
-          }
-          return RefreshIndicator(
-            onRefresh: () async => ref.invalidate(focusSessionProvider),
-            child: ListView(
-              padding: const EdgeInsets.all(16),
-              children: [
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 12,
+      backgroundColor: tokens.background,
+      body: SafeArea(
+        child: dataAsync.when(
+          loading: () => const LoadingView(),
+          error: (_, _) => ErrorView(
+            onRetry: () => ref.invalidate(focusSessionProvider),
+          ),
+          data: (data) {
+            final reasonParts = <String>[
+              if (data.dueWords.isNotEmpty)
+                l10n.focusSessionDueWordsTitle,
+              if (data.examFailWords.isNotEmpty)
+                l10n.focusSessionExamFailTitle,
+              if (data.weaknesses.isNotEmpty)
+                l10n.focusSessionWeaknessesCount(data.weaknesses.length),
+            ];
+            return RefreshIndicator(
+              onRefresh: () async => ref.invalidate(focusSessionProvider),
+              child: ListView(
+                padding: const EdgeInsets.all(16),
+                children: [
+                  GestureDetector(
+                    onTap: () => context.pop(),
+                    child: Icon(Icons.arrow_back, size: 20, color: tokens.foreground),
                   ),
-                  decoration: BoxDecoration(
-                    color: AppColors.orange50,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Text(
-                    l10n.focusSessionSummary(data.totalActionable),
-                    style: const TextStyle(
+                  const SizedBox(height: 8),
+                  Text(
+                    l10n.focusSessionTitle,
+                    style: TextStyle(
+                      fontSize: 20,
                       fontWeight: FontWeight.bold,
-                      color: AppColors.tigerOrangeDark,
+                      color: tokens.foreground,
                     ),
                   ),
-                ),
-                const SizedBox(height: 16),
-                _FocusCard(
-                  title: l10n.focusSessionDueWordsTitle,
-                  count: data.dueWords.length,
-                  emptyLabel: l10n.focusSessionDueWordsEmpty,
-                  words: data.dueWords.map((w) => w.contentDe).toList(),
-                  actionLabel: l10n.focusSessionReviewNow,
-                  onAction: data.dueWords.isEmpty
-                      ? null
-                      : () => context.push('/daily-review'),
-                ),
-                const SizedBox(height: 12),
-                _FocusCard(
-                  title: l10n.focusSessionExamFailTitle,
-                  count: data.examFailWords.length,
-                  emptyLabel: l10n.focusSessionExamFailEmpty,
-                  words: data.examFailWords.map((w) => w.contentDe).toList(),
-                  actionLabel: l10n.focusSessionAddToReview,
-                  onAction: data.examFailWords.isEmpty
-                      ? null
-                      : () => context.push('/stats/error-patterns'),
-                ),
-                const SizedBox(height: 12),
-                _FocusCard(
-                  title: l10n.focusSessionSubtitleWordsTitle,
-                  count: data.subtitleWords.length,
-                  emptyLabel: l10n.focusSessionSubtitleWordsEmpty,
-                  words: data.subtitleWords.map((w) => w.contentDe).toList(),
-                  actionLabel: l10n.focusSessionAddToReview,
-                  onAction: data.subtitleWords.isEmpty
-                      ? null
-                      : () => context.push('/vocabulary'),
-                ),
-                const SizedBox(height: 12),
-                _WeaknessesCard(weaknesses: data.weaknesses, l10n: l10n),
-              ],
-            ),
-          );
-        },
+                  Text(
+                    l10n.focusSessionSubtitle,
+                    style: TextStyle(fontSize: 12, color: tokens.mutedForeground),
+                  ),
+                  GoalReasonLine(
+                    suffix: reasonParts.isEmpty ? null : reasonParts.join(' · '),
+                  ),
+                  const SizedBox(height: 16),
+                  if (data.totalActionable == 0)
+                    _FocusEmptyState(l10n: l10n)
+                  else ...[
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 12,
+                      ),
+                      decoration: BoxDecoration(
+                        color: AppColors.orange50,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Text(
+                        l10n.focusSessionSummary(data.totalActionable),
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.tigerOrangeDark,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    _FocusCard(
+                      title: l10n.focusSessionDueWordsTitle,
+                      count: data.dueWords.length,
+                      emptyLabel: l10n.focusSessionDueWordsEmpty,
+                      words: data.dueWords.map((w) => w.contentDe).toList(),
+                      actionLabel: l10n.focusSessionReviewNow,
+                      onAction: data.dueWords.isEmpty
+                          ? null
+                          : () => context.push('/daily-review'),
+                    ),
+                    const SizedBox(height: 12),
+                    _FocusCard(
+                      title: l10n.focusSessionExamFailTitle,
+                      count: data.examFailWords.length,
+                      emptyLabel: l10n.focusSessionExamFailEmpty,
+                      words: data.examFailWords.map((w) => w.contentDe).toList(),
+                      actionLabel: l10n.focusSessionAddToReview,
+                      onAction: data.examFailWords.isEmpty
+                          ? null
+                          : () => context.push('/exam/readiness'),
+                    ),
+                    const SizedBox(height: 12),
+                    _FocusCard(
+                      title: l10n.focusSessionSubtitleWordsTitle,
+                      count: data.subtitleWords.length,
+                      emptyLabel: l10n.focusSessionSubtitleWordsEmpty,
+                      words: data.subtitleWords.map((w) => w.contentDe).toList(),
+                      actionLabel: l10n.focusSessionAddToReview,
+                      onAction: data.subtitleWords.isEmpty
+                          ? null
+                          : () => context.push('/subtitle-words'),
+                    ),
+                    const SizedBox(height: 12),
+                    _WeaknessesCard(weaknesses: data.weaknesses, l10n: l10n),
+                  ],
+                ],
+              ),
+            );
+          },
+        ),
       ),
     );
   }
 }
 
-class _EmptyCaughtUp extends StatelessWidget {
-  const _EmptyCaughtUp({required this.l10n});
+/// Branches on review history: brand-new user (no data yet, so "no weak
+/// spots" would be misleading) vs genuinely caught-up learner.
+class _FocusEmptyState extends ConsumerWidget {
+  const _FocusEmptyState({required this.l10n});
   final AppLocalizations l10n;
 
   @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final statsAsync = ref.watch(reviewStatsProvider);
+    final hasNoHistory = statsAsync.maybeWhen(
+      data: (s) => s.totalReviews == 0,
+      orElse: () => false,
+    );
+    return hasNoHistory
+        ? _EmptyState(
+            emoji: '📊',
+            title: l10n.focusSessionNoHistoryTitle,
+            body: l10n.focusSessionNoHistoryBody,
+            actions: [
+              _EmptyStateAction(
+                label: l10n.focusSessionSaveWordsCta,
+                onTap: () => context.push('/vocabulary'),
+                primary: true,
+              ),
+              _EmptyStateAction(
+                label: l10n.focusSessionReviewNowCta,
+                onTap: () => context.push('/daily-review'),
+                primary: false,
+              ),
+            ],
+          )
+        : _EmptyState(
+            emoji: '🎉',
+            title: l10n.focusSessionCaughtUpTitle,
+            body: l10n.focusSessionCaughtUpBody,
+            actions: [
+              _EmptyStateAction(
+                label: l10n.focusSessionLearnNewWordsCta,
+                onTap: () => context.push('/vocabulary'),
+                primary: true,
+              ),
+            ],
+          );
+  }
+}
+
+class _EmptyStateAction {
+  const _EmptyStateAction({
+    required this.label,
+    required this.onTap,
+    required this.primary,
+  });
+  final String label;
+  final VoidCallback onTap;
+  final bool primary;
+}
+
+class _EmptyState extends StatelessWidget {
+  const _EmptyState({
+    required this.emoji,
+    required this.title,
+    required this.body,
+    required this.actions,
+  });
+
+  final String emoji;
+  final String title;
+  final String body;
+  final List<_EmptyStateAction> actions;
+
+  @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Text('🎉', style: TextStyle(fontSize: 48)),
-            const SizedBox(height: 16),
-            Text(
-              l10n.focusSessionCaughtUpTitle,
-              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-              textAlign: TextAlign.center,
+    final tokens = context.tokens;
+    return Container(
+      padding: const EdgeInsets.all(24),
+      decoration: BoxDecoration(
+        color: tokens.card,
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(emoji, style: const TextStyle(fontSize: 32)),
+          const SizedBox(height: 12),
+          Text(
+            title,
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 14,
+              color: tokens.foreground,
             ),
-            const SizedBox(height: 8),
-            Text(
-              l10n.focusSessionCaughtUpBody,
-              textAlign: TextAlign.center,
-              style: const TextStyle(color: AppColors.mutedForeground),
-            ),
-          ],
-        ),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 6),
+          Text(
+            body,
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 12, color: tokens.mutedForeground),
+          ),
+          const SizedBox(height: 16),
+          Wrap(
+            spacing: 12,
+            runSpacing: 8,
+            alignment: WrapAlignment.center,
+            children: actions
+                .map(
+                  (a) => AppButton(
+                    label: a.label,
+                    onPressed: a.onTap,
+                    variant: a.primary
+                        ? AppButtonVariant.primary
+                        : AppButtonVariant.outline,
+                  ),
+                )
+                .toList(),
+          ),
+        ],
       ),
     );
   }
@@ -317,6 +441,31 @@ class _WeaknessesCard extends StatelessWidget {
                 );
               }),
             ],
+            const SizedBox(height: 10),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: GestureDetector(
+                onTap: () => context.push('/stats/error-patterns'),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 6,
+                  ),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: AppColors.border),
+                    borderRadius: BorderRadius.circular(999),
+                  ),
+                  child: Text(
+                    l10n.focusSessionWeaknessesFooterLink,
+                    style: const TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.tigerOrange,
+                    ),
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
       ),

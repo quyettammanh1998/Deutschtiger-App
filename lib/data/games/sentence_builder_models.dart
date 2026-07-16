@@ -158,3 +158,100 @@ class SentenceBuilderResult {
 
   bool get isGraded => !skipped && score > 0;
 }
+
+/// Một từ trong danh sách xem trước của 1 topic — `GET /sentence-builder/
+/// topics/:id/words`. Mirrors web `Word` (`src/types/sentence-builder.ts`).
+///
+/// `examples` luôn rỗng ở backend hiện tại: field JSON tồn tại
+/// (`WordResponse.Examples`) nhưng handler Go chỉ `Scan` 8 cột và không bao
+/// giờ gán giá trị cho nó (xem `docs/flutter-api-contract-matrix.md`) — UI
+/// không được coi rỗng là "chưa tải" mà phải ẩn hẳn mục ví dụ.
+class SentenceBuilderTopicWord {
+  const SentenceBuilderTopicWord({
+    required this.id,
+    required this.contentDe,
+    required this.contentVi,
+    required this.wordType,
+    this.gender,
+    required this.importanceScore,
+    required this.isEssential,
+    this.examples = const [],
+  });
+
+  final String id;
+  final String contentDe;
+  final String contentVi;
+  final String wordType;
+  final String? gender;
+  final double importanceScore;
+  final bool isEssential;
+  final List<String> examples;
+
+  factory SentenceBuilderTopicWord.fromJson(Map<String, dynamic> json) =>
+      SentenceBuilderTopicWord(
+        id: json['id'] as String? ?? '',
+        contentDe: json['contentDe'] as String? ?? '',
+        contentVi: json['contentVi'] as String? ?? '',
+        wordType: json['wordType'] as String? ?? 'other',
+        gender: json['gender'] as String?,
+        importanceScore: (json['importanceScore'] as num?)?.toDouble() ?? 0,
+        isEssential: json['isEssential'] as bool? ?? false,
+        examples: (json['examples'] as List<dynamic>? ?? const [])
+            .whereType<String>()
+            .toList(growable: false),
+      );
+}
+
+/// Thống kê số từ theo loại — phần `stats` của response preview.
+class SentenceBuilderWordStats {
+  const SentenceBuilderWordStats({
+    required this.totalWords,
+    required this.essentialWords,
+    required this.verbs,
+    required this.nouns,
+    required this.adjectives,
+  });
+
+  final int totalWords;
+  final int essentialWords;
+  final int verbs;
+  final int nouns;
+  final int adjectives;
+
+  factory SentenceBuilderWordStats.fromJson(Map<String, dynamic> json) =>
+      SentenceBuilderWordStats(
+        totalWords: (json['totalWords'] as num?)?.toInt() ?? 0,
+        essentialWords: (json['essentialWords'] as num?)?.toInt() ?? 0,
+        verbs: (json['verbs'] as num?)?.toInt() ?? 0,
+        nouns: (json['nouns'] as num?)?.toInt() ?? 0,
+        adjectives: (json['adjectives'] as num?)?.toInt() ?? 0,
+      );
+}
+
+/// `GET /sentence-builder/topics/:id/words?level=&limit=` response.
+class SentenceBuilderTopicWordsResponse {
+  const SentenceBuilderTopicWordsResponse({
+    required this.topic,
+    required this.words,
+    required this.stats,
+  });
+
+  final SentenceBuilderSessionTopic topic;
+  final List<SentenceBuilderTopicWord> words;
+  final SentenceBuilderWordStats stats;
+
+  factory SentenceBuilderTopicWordsResponse.fromJson(
+    Map<String, dynamic> json,
+  ) => SentenceBuilderTopicWordsResponse(
+    topic: SentenceBuilderSessionTopic.fromJson(
+      json['topic'] as Map<String, dynamic>? ?? const {},
+    ),
+    words: (json['words'] as List<dynamic>? ?? const [])
+        .whereType<Map<String, dynamic>>()
+        .map(SentenceBuilderTopicWord.fromJson)
+        .toList(growable: false),
+    stats: SentenceBuilderWordStats.fromJson(
+      json['stats'] as Map<String, dynamic>? ?? const {},
+    ),
+  );
+}

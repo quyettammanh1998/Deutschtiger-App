@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_tokens.dart';
 import '../../../../data/exam/exam_ecosystem_models.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../../../../widgets/common/sticky_cta_bar.dart';
 import 'word_selection_clip_card.dart';
 
@@ -35,6 +36,7 @@ class _WordSelectionPanelState extends State<WordSelectionPanel> {
   @override
   Widget build(BuildContext context) {
     final tokens = context.tokens;
+    final l10n = AppLocalizations.of(context);
     final contentWords = widget.words.map((w) => w.clean).toSet();
     final contentClips = <int>[];
     for (var i = 0; i < widget.audios.length; i++) {
@@ -62,8 +64,7 @@ class _WordSelectionPanelState extends State<WordSelectionPanel> {
                 child: Padding(
                   padding: const EdgeInsets.all(10),
                   child: Text(
-                    'Chạm vào những từ gạch chân trong bài để chọn từ muốn luyện, '
-                    'rồi bấm Bắt đầu.',
+                    l10n.dictationWordSelectHint,
                     style: TextStyle(fontSize: 11.5, color: tokens.primary),
                   ),
                 ),
@@ -111,8 +112,10 @@ class _WordSelectionPanelState extends State<WordSelectionPanel> {
                     child: Center(
                       child: Text(
                         widget.selected.isEmpty
-                            ? 'Chọn ít nhất 1 từ để bắt đầu'
-                            : 'Bắt đầu luyện nghe — ${widget.selected.length} từ',
+                            ? l10n.dictationWordSelectCtaEmpty
+                            : l10n.dictationWordSelectCta(
+                                widget.selected.length,
+                              ),
                         style: TextStyle(
                           color: widget.selected.isEmpty
                               ? tokens.mutedForeground

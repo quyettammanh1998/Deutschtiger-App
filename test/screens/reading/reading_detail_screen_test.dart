@@ -82,7 +82,9 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    expect(find.text('Đã đọc'), findsOneWidget);
+    // "Đã đọc" xuất hiện 2 lần: chip trạng thái dưới level pill + nút mark-
+    // complete đã disabled (mirror web — cả hai đều hiện khi bài đã đọc).
+    expect(find.text('Đã đọc'), findsNWidgets(2));
     expect(tester.takeException(), isNull);
   });
 

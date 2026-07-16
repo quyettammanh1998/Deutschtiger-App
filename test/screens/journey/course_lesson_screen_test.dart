@@ -6,13 +6,30 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+// NOTE: lessons use `video: null` in these widget tests — self-hosted mp4
+// playback goes through `webview_flutter`, which asserts on
+// `WebViewPlatform.instance` (only registered on-device, not under plain
+// `flutter test`). Video rendering is exercised manually/on-device instead;
+// see the P11 W3 report.
 void main() {
   const slug = 'nicos-weg-a1';
   const key = LessonKey(slug, 1);
 
+  const detail = DwCourseDetail(
+    id: 1,
+    slug: slug,
+    name: 'Nicos Weg A1',
+    level: CourseLevel.a1,
+    totalLessons: 1,
+    lessons: [DwCourseLessonSummary(id: 1, number: 1, name: 'Guten Tag')],
+  );
+
   Widget wrap(List<Override> overrides) {
     return ProviderScope(
-      overrides: overrides,
+      overrides: [
+        courseDetailProvider(slug).overrideWith((ref) async => detail),
+        ...overrides,
+      ],
       child: MaterialApp(
         locale: const Locale('vi'),
         supportedLocales: AppLocalizations.supportedLocales,
@@ -26,16 +43,12 @@ void main() {
     number: 1,
     name: 'Guten Tag',
     nameVi: 'Xin chào',
-    video: DwLessonVideo(title: 'Guten Tag', mp4: 'https://cdn.test/video.mp4'),
     vocabularies: [
       DwVocabularyItem(german: 'Hallo', vietnamese: 'Xin chào'),
     ],
-    exerciseCount: 3,
   );
 
-  testWidgets('shows video placeholder, vocabulary and mark-complete (happy path)', (
-    tester,
-  ) async {
+  testWidgets('shows lesson heading, vocabulary and notes (happy path)', (tester) async {
     await tester.pumpWidget(wrap([
       lessonContentProvider(key).overrideWith((ref) async => lesson),
       lessonProgressProvider(key).overrideWith((ref) async => null),
@@ -43,19 +56,14 @@ void main() {
     ]));
     await tester.pumpAndSettle();
 
-    expect(find.text('Xin chào'), findsWidgets);
-    expect(find.text('Đánh dấu hoàn thành'), findsOneWidget);
-    expect(find.textContaining('3 bài tập'), findsOneWidget);
-
-    // Vocabulary/notes sections render below the fold — scroll to reveal them.
-    await tester.scrollUntilVisible(find.text('Hallo'), 300);
+    expect(find.text('Bài 01: Guten Tag'), findsOneWidget);
+    expect(find.textContaining('Từ vựng'), findsOneWidget);
     expect(find.text('Hallo'), findsOneWidget);
+    expect(find.byType(TextField), findsWidgets);
     expect(tester.takeException(), isNull);
   });
 
-  testWidgets('tolerates a lesson with no video/vocab/exercises (empty)', (
-    tester,
-  ) async {
+  testWidgets('tolerates a lesson with no video/vocab (empty)', (tester) async {
     await tester.pumpWidget(wrap([
       lessonContentProvider(key).overrideWith(
         (ref) async => const DwLessonDetail(number: 1, name: 'Guten Tag'),
@@ -65,7 +73,7 @@ void main() {
     ]));
     await tester.pumpAndSettle();
 
-    expect(find.byType(TextField), findsOneWidget);
+    expect(find.byType(TextField), findsWidgets);
     expect(tester.takeException(), isNull);
   });
 

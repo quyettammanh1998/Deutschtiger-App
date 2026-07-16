@@ -10,6 +10,24 @@ import 'package:deutschtiger/view_models/social/friends_provider.dart';
 import 'package:deutschtiger/view_models/social/messages_provider.dart';
 import 'package:deutschtiger/view_models/social/public_profile_provider.dart';
 
+import 'widgets/social_avatar.dart';
+
+const Map<String, String> _kChatActivityLabels = {
+  'dashboard': 'Đang online',
+  'learning': 'Đang học từ vựng',
+  'practicing': 'Đang luyện tập',
+  'playing_matching': 'Đang chơi Matching',
+  'playing_cloze': 'Đang chơi Cloze',
+  'playing_listening': 'Đang chơi Listening',
+  'playing_writing': 'Đang chơi Writing',
+  'playing_word_sprint': 'Đang chơi Word Sprint',
+  'watching_youtube': 'Đang xem YouTube',
+  'chatting': 'Đang nhắn tin',
+  'reviewing_flashcards': 'Đang ôn Flashcard',
+  'taking_exam': 'Đang làm bài thi',
+  'in_call': 'Đang gọi điện',
+};
+
 /// DM thread with one friend, keyed by `friendId` (`GET/POST
 /// /user/messages/{friendId}`). Poll-based refresh only: manual pull, and on
 /// app resume — no realtime transport, no background timer.
@@ -98,24 +116,48 @@ class _ChatPageState extends ConsumerState<ChatPage>
         ),
         title: GestureDetector(
           onTap: () => context.push('/social/profile/${widget.friendId}'),
-          child: Row(
-            children: [
-              CircleAvatar(
-                radius: 18,
-                backgroundColor: AppColors.muted,
-                backgroundImage: profileAsync.valueOrNull?.avatarUrl != null
-                    ? NetworkImage(profileAsync.valueOrNull!.avatarUrl!)
-                    : null,
-                child: profileAsync.valueOrNull?.avatarUrl == null
-                    ? const Icon(Icons.person)
-                    : null,
-              ),
-              const SizedBox(width: 12),
-              Text(
-                profileAsync.valueOrNull?.displayName ?? '…',
-                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-              ),
-            ],
+          child: Builder(
+            builder: (context) {
+              final profile = profileAsync.valueOrNull;
+              final activityLabel = profile?.currentActivity != null
+                  ? _kChatActivityLabels[profile!.currentActivity]
+                  : null;
+              return Row(
+                children: [
+                  SocialAvatar(
+                    displayName: profile?.displayName ?? '',
+                    avatarUrl: profile?.avatarUrl,
+                    size: 36,
+                    showOnlineDot: true,
+                    isOnline: profile?.isOnline ?? false,
+                  ),
+                  const SizedBox(width: 12),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        profile?.displayName ?? '…',
+                        style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
+                      ),
+                      if (profile != null)
+                        Text(
+                          profile.isOnline
+                              ? (activityLabel ?? l10n.socialOnlineNow)
+                              : l10n.socialOffline,
+                          style: TextStyle(
+                            fontSize: 11,
+                            fontWeight: profile.isOnline ? FontWeight.w600 : FontWeight.normal,
+                            color: profile.isOnline
+                                ? const Color(0xFF16A34A)
+                                : AppColors.mutedForeground,
+                          ),
+                        ),
+                    ],
+                  ),
+                ],
+              );
+            },
           ),
         ),
         actions: [
@@ -280,61 +322,64 @@ class _MessageBubble extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Web parity: time + read-receipt ticks render OUTSIDE the bubble
+    // (`message-bubble.tsx`), not stacked inside it.
     return Padding(
-      padding: const EdgeInsets.only(bottom: 8),
-      child: Row(
-        mainAxisAlignment: isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
+      padding: const EdgeInsets.only(bottom: 10),
+      child: Column(
+        crossAxisAlignment: isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
         children: [
-          Container(
-            constraints: BoxConstraints(
-              maxWidth: MediaQuery.of(context).size.width * 0.75,
-            ),
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-            decoration: BoxDecoration(
-              color: isMe ? AppColors.tigerOrange : Colors.white,
-              borderRadius: BorderRadius.only(
-                topLeft: const Radius.circular(16),
-                topRight: const Radius.circular(16),
-                bottomLeft: Radius.circular(isMe ? 16 : 4),
-                bottomRight: Radius.circular(isMe ? 4 : 16),
-              ),
-              boxShadow: [
-                BoxShadow(color: Colors.black.withValues(alpha: 0.05), blurRadius: 5),
-              ],
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Text(
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
+            children: [
+              Container(
+                constraints: BoxConstraints(
+                  maxWidth: MediaQuery.of(context).size.width * 0.75,
+                ),
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                decoration: BoxDecoration(
+                  color: isMe ? AppColors.tigerOrange : Colors.white,
+                  borderRadius: BorderRadius.only(
+                    topLeft: const Radius.circular(16),
+                    topRight: const Radius.circular(16),
+                    bottomLeft: Radius.circular(isMe ? 16 : 4),
+                    bottomRight: Radius.circular(isMe ? 4 : 16),
+                  ),
+                  border: isMe ? null : Border.all(color: AppColors.border),
+                  boxShadow: isMe
+                      ? null
+                      : [BoxShadow(color: Colors.black.withValues(alpha: 0.04), blurRadius: 4)],
+                ),
+                child: Text(
                   message.content ?? '',
                   style: TextStyle(
                     color: isMe ? Colors.white : AppColors.foreground,
                     fontSize: 15,
                   ),
                 ),
-                const SizedBox(height: 4),
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      _formatTime(message.createdAt),
-                      style: TextStyle(
-                        fontSize: 10,
-                        color: isMe ? Colors.white70 : AppColors.mutedForeground,
-                      ),
-                    ),
-                    if (isMe) ...[
-                      const SizedBox(width: 4),
-                      Icon(
-                        message.readAt != null ? Icons.done_all : Icons.done,
-                        size: 14,
-                        color: Colors.white70,
-                      ),
-                    ],
-                  ],
+              ),
+            ],
+          ),
+          const SizedBox(height: 2),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                _formatTime(message.createdAt),
+                style: TextStyle(fontSize: 10, color: AppColors.mutedForeground),
+              ),
+              if (isMe) ...[
+                const SizedBox(width: 4),
+                Icon(
+                  message.readAt != null ? Icons.done_all : Icons.done,
+                  size: 12,
+                  color: message.readAt != null
+                      ? AppColors.tigerOrange
+                      : AppColors.mutedForeground,
                 ),
               ],
-            ),
+            ],
           ),
         ],
       ),

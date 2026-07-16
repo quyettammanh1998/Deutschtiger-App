@@ -2,6 +2,7 @@ import 'package:deutschtiger/features/exam/domain/exam_models.dart';
 import 'package:deutschtiger/features/exam/presentation/widgets/question_renderer.dart';
 import 'package:deutschtiger/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -15,20 +16,22 @@ void main() {
         addTearDown(tester.view.resetDevicePixelRatio);
 
         await tester.pumpWidget(
-          MaterialApp(
-            supportedLocales: AppLocalizations.supportedLocales,
-            localizationsDelegates: AppLocalizations.localizationsDelegates,
-            home: Scaffold(
-              body: SingleChildScrollView(
-                padding: const EdgeInsets.all(12),
-                child: IgnorePointer(
-                  child: QuestionRenderer(
-                    question: fixture.question,
-                    questionNumber: 1,
-                    sectionLabel: 'Lesen · Đọc hiểu',
-                    answer: fixture.answer,
-                    onChange: (_) {},
-                    showCorrectness: true,
+          ProviderScope(
+            child: MaterialApp(
+              supportedLocales: AppLocalizations.supportedLocales,
+              localizationsDelegates: AppLocalizations.localizationsDelegates,
+              home: Scaffold(
+                body: SingleChildScrollView(
+                  padding: const EdgeInsets.all(12),
+                  child: IgnorePointer(
+                    child: QuestionRenderer(
+                      question: fixture.question,
+                      questionNumber: 1,
+                      sectionLabel: 'Lesen · Đọc hiểu',
+                      answer: fixture.answer,
+                      onChange: (_) {},
+                      showCorrectness: true,
+                    ),
                   ),
                 ),
               ),
@@ -47,17 +50,19 @@ void main() {
     tester,
   ) async {
     await tester.pumpWidget(
-      MaterialApp(
-        supportedLocales: AppLocalizations.supportedLocales,
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
-        home: Scaffold(
-          body: QuestionRenderer(
-            question: _matching,
-            questionNumber: 1,
-            sectionLabel: 'Lesen',
-            answer: 'bad:value,0:99',
-            onChange: (_) {},
-            showCorrectness: true,
+      ProviderScope(
+        child: MaterialApp(
+          supportedLocales: AppLocalizations.supportedLocales,
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          home: Scaffold(
+            body: QuestionRenderer(
+              question: _matching,
+              questionNumber: 1,
+              sectionLabel: 'Lesen',
+              answer: 'bad:value,0:99',
+              onChange: (_) {},
+              showCorrectness: true,
+            ),
           ),
         ),
       ),

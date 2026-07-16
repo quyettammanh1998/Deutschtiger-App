@@ -1,474 +1,263 @@
+import 'dart:async' show unawaited;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../core/theme/app_colors.dart';
-import 'package:deutschtiger/data/speaking/speaking_models.dart';
-import 'package:deutschtiger/repositories/speaking/speaking_repository.dart';
+import 'package:go_router/go_router.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
+import '../../core/theme/app_tokens.dart';
+import '../../data/speech/conversation_display.dart';
+import '../../data/speech/conversation_models.dart';
+import '../../l10n/app_localizations.dart';
+import '../../view_models/speech/conversation_dialog_controller.dart';
+import '../../view_models/speech/conversation_provider.dart';
+import 'widgets/conversation/conversation_context_collapsible.dart';
+import 'widgets/conversation/conversation_dialog_body.dart';
+import 'widgets/conversation/conversation_done_screen.dart';
+import 'widgets/conversation/conversation_examiner_sheet.dart';
+
+/// Live conversation-practice screen. Web parity:
+/// `conversation-scenario-page.tsx` — routes `/conversation/:id`,
+/// `/conversation/custom/:slug`, `/conversation/interview/play/:id` all
+/// render this one widget, differentiated by which constructor arg is set.
 class ConversationScenarioPage extends ConsumerStatefulWidget {
-  final String conversationId;
+  const ConversationScenarioPage({
+    super.key,
+    this.scenarioId,
+    this.customSlug,
+    this.customTopic,
+    this.customLevel,
+    this.interviewId,
+  });
 
-  const ConversationScenarioPage({super.key, required this.conversationId});
+  /// `/conversation/:id` — catalog scenario id.
+  final String? scenarioId;
+
+  /// `/conversation/custom/:slug` — free-typed topic (de-accented fallback
+  /// recoverable from the slug; exact wording preferred via [customTopic]).
+  final String? customSlug;
+  final String? customTopic;
+  final String? customLevel;
+
+  /// `/conversation/interview/play/:id` — saved interview scenario uuid.
+  final String? interviewId;
 
   @override
-  ConsumerState<ConversationScenarioPage> createState() =>
-      _ConversationScenarioPageState();
+  ConsumerState<ConversationScenarioPage> createState() => _ConversationScenarioPageState();
 }
 
-class _ConversationScenarioPageState
-    extends ConsumerState<ConversationScenarioPage> {
-  AIConversation? _conversation;
-  AIConversationHistory? _history;
-  bool _isLoading = true;
-  bool _isRecording = false;
-  final TextEditingController _inputController = TextEditingController();
-  final ScrollController _scrollController = ScrollController();
-  bool _showVocabPanel = false;
-  String _userInput = '';
+class _ConversationScenarioPageState extends ConsumerState<ConversationScenarioPage> {
+  bool _contextOpen = false;
 
-  @override
-  void initState() {
-    super.initState();
-    _loadConversation();
+  bool get _isCustom => widget.customSlug != null;
+  bool get _isInterview => widget.interviewId != null;
+
+  String get _cacheKey {
+    if (_isCustom) return customScenarioId;
+    if (_isInterview) return 'interview:${widget.interviewId}';
+    return widget.scenarioId ?? customScenarioId;
   }
 
-  Future<void> _loadConversation() async {
-    final repo = SpeakingRepository();
-    final conversations = await repo.getAIConversations();
-    final conversation = conversations.firstWhere(
-      (c) => c.id == widget.conversationId,
-      orElse: () => conversations.first,
-    );
-    final history = await repo.startAIConversation(widget.conversationId);
-    if (mounted) {
-      setState(() {
-        _conversation = conversation;
-        _history = history;
-        _isLoading = false;
-      });
+  Scenario? _buildCustomScenario() {
+    final topic = (widget.customTopic ?? '').trim();
+    if (topic.length >= 3) {
+      return buildCustomConversationScenario(topic, widget.customLevel ?? 'B1');
     }
-  }
-
-  @override
-  void dispose() {
-    _inputController.dispose();
-    _scrollController.dispose();
-    super.dispose();
-  }
-
-  void _sendMessage() {
-    if (_userInput.trim().isEmpty) return;
-
-    setState(() {
-      _history = _history?.copyWith(
-        messages: [
-          ...(_history?.messages ?? []),
-          AIMessage(
-            id: 'msg-${DateTime.now().millisecondsSinceEpoch}',
-            role: 'user',
-            content: _userInput,
-            translation: 'You said: $_userInput',
-          ),
-        ],
-      );
-      _userInput = '';
-      _inputController.clear();
-    });
-
-    _scrollToBottom();
-
-    Future.delayed(const Duration(seconds: 1), () {
-      if (mounted) {
-        setState(() {
-          _history = _history?.copyWith(
-            messages: [
-              ...(_history?.messages ?? []),
-              AIMessage(
-                id: 'ai-${DateTime.now().millisecondsSinceEpoch}',
-                role: 'assistant',
-                content: _getAIResponse(),
-                translation: 'AI response',
-              ),
-            ],
-          );
-        });
-        _scrollToBottom();
-      }
-    });
-  }
-
-  String _getAIResponse() {
-    final responses = [
-      'Das ist sehr gut! Können Sie das noch einmal wiederholen?',
-      'Verstanden! Und wie geht es weiter?',
-      'Sehr schön! Haben Sie noch Fragen?',
-      'Ja, das ist korrekt. Weiter bitte!',
-    ];
-    return responses[DateTime.now().second % responses.length];
-  }
-
-  void _scrollToBottom() {
-    Future.delayed(const Duration(milliseconds: 100), () {
-      if (_scrollController.hasClients) {
-        _scrollController.animateTo(
-          _scrollController.position.maxScrollExtent,
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.easeOut,
-        );
-      }
-    });
-  }
-
-  void _toggleRecording() {
-    setState(() => _isRecording = !_isRecording);
-    if (_isRecording) {
-      Future.delayed(const Duration(seconds: 3), () {
-        if (mounted) {
-          setState(() {
-            _isRecording = false;
-            _userInput = 'Ich möchte gerne einen Kaffee, bitte.';
-            _inputController.text = _userInput;
-          });
-        }
-      });
-    }
+    final parsed = parseCustomConversationSlug(widget.customSlug);
+    if (parsed == null) return null;
+    return buildCustomConversationScenario(parsed.topic, parsed.level);
   }
 
   @override
   Widget build(BuildContext context) {
+    final tokens = context.tokens;
+    final l10n = AppLocalizations.of(context);
+
+    if (_isCustom) {
+      final scenario = _buildCustomScenario();
+      if (scenario == null) return _errorScaffold(context, l10n);
+      return _DialogScaffold(scenario: scenario, cacheKey: _cacheKey, contextOpen: _contextOpen, onToggleContext: () => setState(() => _contextOpen = !_contextOpen));
+    }
+
+    if (_isInterview) {
+      final async = ref.watch(interviewScenarioProvider(widget.interviewId!));
+      return async.when(
+        loading: () => const Scaffold(body: Center(child: CircularProgressIndicator())),
+        error: (err, st) => _errorScaffold(context, l10n),
+        data: (scenario) => _DialogScaffold(scenario: scenario, cacheKey: _cacheKey, contextOpen: _contextOpen, onToggleContext: () => setState(() => _contextOpen = !_contextOpen)),
+      );
+    }
+
+    final id = widget.scenarioId;
+    if (id == null || id.isEmpty) return _errorScaffold(context, l10n);
+    final async = ref.watch(conversationScenarioProvider(id));
+    return async.when(
+      loading: () => Scaffold(backgroundColor: tokens.background, body: const Center(child: CircularProgressIndicator())),
+      error: (err, st) => _errorScaffold(context, l10n),
+      data: (scenario) => _DialogScaffold(scenario: scenario, cacheKey: _cacheKey, contextOpen: _contextOpen, onToggleContext: () => setState(() => _contextOpen = !_contextOpen)),
+    );
+  }
+
+  Widget _errorScaffold(BuildContext context, AppLocalizations l10n) {
+    final tokens = context.tokens;
     return Scaffold(
-      backgroundColor: AppColors.background,
-      appBar: AppBar(
-        title: Text(_conversation?.titleVi ?? 'Conversation'),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        foregroundColor: AppColors.foreground,
+      backgroundColor: tokens.background,
+      body: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(l10n.conversationLoadError, style: TextStyle(color: tokens.mutedForeground)),
+            const SizedBox(height: 8),
+            TextButton(onPressed: () => context.pop(), child: Text(l10n.conversationBack)),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _DialogScaffold extends ConsumerWidget {
+  const _DialogScaffold({
+    required this.scenario,
+    required this.cacheKey,
+    required this.contextOpen,
+    required this.onToggleContext,
+  });
+
+  final Scenario scenario;
+  final String cacheKey;
+  final bool contextOpen;
+  final VoidCallback onToggleContext;
+
+  Future<bool> _confirmExit(
+    BuildContext context,
+    ConversationDialogController controller, {
+    required bool sessionDone,
+    required int userTurns,
+  }) async {
+    if (sessionDone || userTurns == 0) {
+      unawaited(controller.persistSession());
+      return true;
+    }
+    final l10n = AppLocalizations.of(context);
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(l10n.conversationExitConfirmTitle),
+        content: Text(l10n.conversationExitConfirmBody),
         actions: [
-          IconButton(
-            onPressed: () => setState(() => _showVocabPanel = !_showVocabPanel),
-            icon: Icon(
-              _showVocabPanel ? Icons.menu_book : Icons.menu_book_outlined,
-            ),
-            tooltip: 'Vocabulary Panel',
+          TextButton(onPressed: () => Navigator.of(context).pop(false), child: Text(l10n.conversationExitCancelCta)),
+          FilledButton(
+            style: FilledButton.styleFrom(backgroundColor: Colors.red),
+            onPressed: () => Navigator.of(context).pop(true),
+            child: Text(l10n.conversationExitConfirmCta),
           ),
         ],
       ),
-      body: _isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : Row(
-              children: [
-                Expanded(flex: 3, child: _buildChatArea()),
-                if (_showVocabPanel) ...[
-                  Container(width: 1, color: Colors.grey[300]),
-                  SizedBox(width: 280, child: _buildVocabPanel()),
-                ],
-              ],
-            ),
     );
+    if (confirmed == true) {
+      unawaited(controller.persistSession());
+    }
+    return confirmed ?? false;
   }
 
-  Widget _buildChatArea() {
-    return Column(
-      children: [
-        if (_conversation != null) _buildScenarioHeader(),
-        Expanded(
-          child: ListView.builder(
-            controller: _scrollController,
-            padding: const EdgeInsets.all(16),
-            itemCount: _history?.messages.length ?? 0,
-            itemBuilder: (context, index) =>
-                _buildMessageBubble(_history!.messages[index], index % 2 == 0),
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final tokens = context.tokens;
+    final l10n = AppLocalizations.of(context);
+    final args = ConversationDialogArgs(cacheKey: cacheKey, scenario: scenario);
+    final state = ref.watch(conversationDialogControllerProvider(args));
+    final controller = ref.read(conversationDialogControllerProvider(args).notifier);
+
+    if (state.sessionDone) {
+      // Persist once, right when the done screen first renders.
+      WidgetsBinding.instance.addPostFrameCallback((_) => controller.persistSession());
+      return Scaffold(
+        backgroundColor: tokens.background,
+        body: SafeArea(
+          child: ConversationDoneScreen(
+            scenario: scenario,
+            userTurns: state.userTurns,
+            onRestart: controller.restart,
+            onChooseAnother: () => context.go('/conversation'),
           ),
         ),
-        _buildInputArea(),
-      ],
-    );
-  }
+      );
+    }
 
-  Widget _buildScenarioHeader() {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: AppColors.primary.withValues(alpha: 0.05),
-        border: Border(bottom: BorderSide(color: Colors.grey[200]!)),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) async {
+        if (didPop) return;
+        if (await _confirmExit(
+          context,
+          controller,
+          sessionDone: state.sessionDone,
+          userTurns: state.userTurns,
+        )) {
+          if (context.mounted) context.pop();
+        }
+      },
+      child: Scaffold(
+        backgroundColor: tokens.background,
+        body: SafeArea(
+          child: Column(
             children: [
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                decoration: BoxDecoration(
-                  color: AppColors.primary.withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(6),
-                ),
-                child: Text(
-                  _conversation!.level,
-                  style: const TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.primary,
-                  ),
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                decoration: BoxDecoration(border: Border(bottom: BorderSide(color: tokens.border))),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(scenario.titleDe, maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(fontWeight: FontWeight.w800, fontSize: 14, color: tokens.foreground)),
+                          Text(scenario.aiRole, maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 12, color: tokens.mutedForeground)),
+                        ],
+                      ),
+                    ),
+                    OutlinedButton.icon(
+                      onPressed: () => showConversationExaminerSheet(context, coverage: state.coverage),
+                      icon: const Text('⚖️', style: TextStyle(fontSize: 13)),
+                      label: Text(l10n.conversationExaminerButton, style: const TextStyle(fontSize: 12)),
+                      style: OutlinedButton.styleFrom(padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6)),
+                    ),
+                    const SizedBox(width: 6),
+                    FilledButton.icon(
+                      style: FilledButton.styleFrom(backgroundColor: Colors.red, padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6)),
+                      onPressed: () async {
+                        final confirmed = await _confirmExit(
+                          context,
+                          controller,
+                          sessionDone: state.sessionDone,
+                          userTurns: state.userTurns,
+                        );
+                        if (confirmed && context.mounted) context.pop();
+                      },
+                      icon: const Icon(PhosphorIcons.signOut, size: 15),
+                      label: Text(l10n.conversationExit, style: const TextStyle(fontSize: 12)),
+                    ),
+                  ],
                 ),
               ),
-              const SizedBox(width: 12),
-              Icon(Icons.access_time, size: 14, color: Colors.grey[600]),
-              const SizedBox(width: 4),
-              Text(
-                '~${_conversation!.estimatedMinutes} min',
-                style: TextStyle(fontSize: 12, color: Colors.grey[600]),
+              ConversationContextCollapsible(scenario: scenario, open: contextOpen, onToggle: onToggleContext),
+              if (state.error != null)
+                Container(
+                  width: double.infinity,
+                  color: Colors.red.withValues(alpha: 0.08),
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  child: Text(state.error!, style: const TextStyle(fontSize: 12, color: Colors.red)),
+                ),
+              Expanded(
+                child: ConversationDialogBody(
+                  state: state,
+                  onSend: controller.sendMessage,
+                ),
               ),
             ],
           ),
-          const SizedBox(height: 8),
-          Text(
-            _conversation!.scenarioVi,
-            style: TextStyle(fontSize: 14, color: Colors.grey[700]),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildMessageBubble(AIMessage message, bool isUser) {
-    return Align(
-      alignment: isUser ? Alignment.centerRight : Alignment.centerLeft,
-      child: Container(
-        constraints: BoxConstraints(
-          maxWidth: MediaQuery.of(context).size.width * 0.7,
         ),
-        margin: const EdgeInsets.only(bottom: 12),
-        padding: const EdgeInsets.all(14),
-        decoration: BoxDecoration(
-          color: isUser ? AppColors.primary : Colors.white,
-          borderRadius: BorderRadius.only(
-            topLeft: const Radius.circular(16),
-            topRight: const Radius.circular(16),
-            bottomLeft: Radius.circular(isUser ? 16 : 4),
-            bottomRight: Radius.circular(isUser ? 4 : 16),
-          ),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.05),
-              blurRadius: 5,
-              offset: const Offset(0, 2),
-            ),
-          ],
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                if (!isUser)
-                  Container(
-                    padding: const EdgeInsets.all(4),
-                    decoration: BoxDecoration(
-                      color: AppColors.primary.withValues(alpha: 0.1),
-                      shape: BoxShape.circle,
-                    ),
-                    child: const Icon(
-                      Icons.smart_toy,
-                      size: 14,
-                      color: AppColors.primary,
-                    ),
-                  ),
-                if (!isUser) const SizedBox(width: 8),
-                Text(
-                  isUser ? 'You' : 'AI',
-                  style: TextStyle(
-                    fontSize: 11,
-                    fontWeight: FontWeight.bold,
-                    color: isUser ? Colors.white70 : AppColors.primary,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 8),
-            Text(
-              message.content,
-              style: TextStyle(
-                fontSize: 15,
-                color: isUser ? Colors.white : AppColors.foreground,
-              ),
-            ),
-            if (message.translation.isNotEmpty) ...[
-              const SizedBox(height: 6),
-              Text(
-                message.translation,
-                style: TextStyle(
-                  fontSize: 12,
-                  color: isUser ? Colors.white60 : Colors.grey[500],
-                  fontStyle: FontStyle.italic,
-                ),
-              ),
-            ],
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildInputArea() {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
-            blurRadius: 10,
-            offset: const Offset(0, -4),
-          ),
-        ],
-      ),
-      child: SafeArea(
-        child: Row(
-          children: [
-            GestureDetector(
-              onTap: _toggleRecording,
-              child: AnimatedContainer(
-                duration: const Duration(milliseconds: 200),
-                width: 48,
-                height: 48,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: _isRecording
-                      ? Colors.red
-                      : AppColors.primary.withValues(alpha: 0.1),
-                ),
-                child: Icon(
-                  _isRecording ? Icons.stop : Icons.mic,
-                  color: _isRecording ? Colors.white : AppColors.primary,
-                ),
-              ),
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: TextField(
-                controller: _inputController,
-                onChanged: (value) => setState(() => _userInput = value),
-                onSubmitted: (_) => _sendMessage(),
-                decoration: InputDecoration(
-                  hintText: _isRecording
-                      ? 'Recording...'
-                      : 'Type your message...',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(24),
-                    borderSide: BorderSide.none,
-                  ),
-                  filled: true,
-                  fillColor: Colors.grey[100],
-                  contentPadding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 12,
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(width: 12),
-            GestureDetector(
-              onTap: _sendMessage,
-              child: Container(
-                width: 48,
-                height: 48,
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: AppColors.primary,
-                ),
-                child: const Icon(Icons.send, color: Colors.white, size: 20),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildVocabPanel() {
-    return Container(
-      color: Colors.white,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: AppColors.primary.withValues(alpha: 0.1),
-              border: Border(bottom: BorderSide(color: Colors.grey[200]!)),
-            ),
-            child: const Row(
-              children: [
-                Icon(Icons.menu_book, color: AppColors.primary, size: 20),
-                SizedBox(width: 8),
-                Text(
-                  'Key Vocabulary',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.foreground,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Expanded(
-            child: ListView(
-              padding: const EdgeInsets.all(16),
-              children: [
-                _buildVocabItem('Guten Tag', 'Hello', '/ˈɡuːtn̩ taːk/'),
-                _buildVocabItem('ich möchte', 'I would like', '/ɪç ˈmœçtə/'),
-                _buildVocabItem('bitte', 'please', '/ˈbɪtə/'),
-                _buildVocabItem('einen Kaffee', 'a coffee', '/ˈaɪnən ˈkafe/'),
-                _buildVocabItem(
-                  'danke schön',
-                  'thank you very much',
-                  '/ˈdaŋkə ʃøːn/',
-                ),
-                _buildVocabItem('gerne', 'gladly/with pleasure', '/ˈɡɛʁnə/'),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildVocabItem(String word, String translation, String phonetic) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: Colors.grey[50],
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: Colors.grey[200]!),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            word,
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 15,
-              color: AppColors.foreground,
-            ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            translation,
-            style: TextStyle(fontSize: 13, color: Colors.grey[600]),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            phonetic,
-            style: TextStyle(
-              fontSize: 12,
-              color: Colors.grey[500],
-              fontFamily: 'monospace',
-            ),
-          ),
-        ],
       ),
     );
   }

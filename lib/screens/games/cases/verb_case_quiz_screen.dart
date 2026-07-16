@@ -3,10 +3,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/app_tokens.dart';
 import '../../../data/games/cases_models.dart';
 import '../../../repositories/games/grammar_drill_repository.dart';
 import '../../../view_models/games/cases_provider.dart';
 import '../../../widgets/common/async_state_views.dart';
+import '../../../widgets/common/game_shell.dart';
+import 'widgets/case_quiz_option_grid.dart';
+import 'widgets/case_quiz_streak_badge.dart';
+import 'widgets/grammar_explain_panel.dart';
 
 const _minItems = 5;
 const _itemsPerSession = 10;
@@ -31,6 +36,7 @@ class _VerbCaseQuizScreenState extends ConsumerState<VerbCaseQuizScreen> {
   int _index = 0;
   String? _selected;
   bool _gameOver = false;
+  int _streak = 0;
   final List<GrammarDrillResultInput> _results = [];
   bool _submitFailed = false;
 
@@ -51,6 +57,7 @@ class _VerbCaseQuizScreenState extends ConsumerState<VerbCaseQuizScreen> {
     final correct = option == item.caseType;
     setState(() {
       _selected = option;
+      _streak = correct ? _streak + 1 : 0;
       _results.add(GrammarDrillResultInput(key: item.id, correct: correct));
     });
   }
@@ -84,6 +91,7 @@ class _VerbCaseQuizScreenState extends ConsumerState<VerbCaseQuizScreen> {
       _index = 0;
       _selected = null;
       _gameOver = false;
+      _streak = 0;
       _submitFailed = false;
       _results.clear();
       _future = _load();
@@ -92,17 +100,11 @@ class _VerbCaseQuizScreenState extends ConsumerState<VerbCaseQuizScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.authBackground,
-      appBar: AppBar(
-        backgroundColor: AppColors.authBackground,
-        title: const Text('Verb-Case Matching'),
-        leading: IconButton(
-          icon: const Icon(Icons.close),
-          onPressed: () => context.pop(),
-        ),
-      ),
-      body: _gameOver
+    return GameShell(
+      title: 'Verb-Case Matching',
+      exitGuard: !_gameOver,
+      scrollable: false,
+      child: _gameOver
           ? _buildResults()
           : FutureBuilder<VerbCaseResponse>(
               future: _future,
@@ -142,7 +144,23 @@ class _VerbCaseQuizScreenState extends ConsumerState<VerbCaseQuizScreen> {
         ),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 8),
-          child: Text('${_index + 1}/${_questions.length}'),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                '${_index + 1}/${_questions.length}',
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  color: context.tokens.mutedForeground,
+                ),
+              ),
+              Text(
+                '${_results.where((r) => r.correct).length} đúng',
+                style: TextStyle(color: context.tokens.mutedForeground),
+              ),
+              CaseQuizStreakBadge(streak: _streak),
+            ],
+          ),
         ),
         Expanded(
           child: SingleChildScrollView(
@@ -201,46 +219,12 @@ class _VerbCaseQuizScreenState extends ConsumerState<VerbCaseQuizScreen> {
                   ),
                 ),
                 const SizedBox(height: 24),
-                ..._caseOptions.map((option) {
-                  final selected = _selected == option;
-                  final isAnswer = option == item.caseType;
-                  Color bg = Colors.white;
-                  Color border = Colors.teal.withValues(alpha: 0.4);
-                  if (_selected != null) {
-                    if (isAnswer) {
-                      bg = Colors.green.shade50;
-                      border = Colors.green;
-                    } else if (selected) {
-                      bg = Colors.red.shade50;
-                      border = Colors.red;
-                    }
-                  }
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 10),
-                    child: InkWell(
-                      onTap: () => _selectAnswer(item, option),
-                      borderRadius: BorderRadius.circular(12),
-                      child: Container(
-                        width: double.infinity,
-                        padding: const EdgeInsets.all(14),
-                        decoration: BoxDecoration(
-                          color: bg,
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: border, width: 2),
-                        ),
-                        child: Center(
-                          child: Text(
-                            option,
-                            style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  );
-                }),
+                CaseQuizOptionGrid(
+                  options: _caseOptions,
+                  correctAnswer: item.caseType,
+                  selected: _selected,
+                  onSelect: (option) => _selectAnswer(item, option),
+                ),
                 if (_selected != null)
                   Container(
                     padding: const EdgeInsets.symmetric(
@@ -263,6 +247,21 @@ class _VerbCaseQuizScreenState extends ConsumerState<VerbCaseQuizScreen> {
                         color: isCorrect ? Colors.green : Colors.red,
                       ),
                     ),
+                  ),
+                if (_selected != null && !isCorrect)
+                  GrammarExplainPanel(
+                    request: GrammarExplainRequest(
+                      game: 'verb-case',
+                      exerciseKey: item.id,
+                      sentence: '${item.verb} (+ ${item.caseType})',
+                      options: _caseOptions,
+                      correctAnswer: item.caseType,
+                      userAnswer: _selected!,
+                      caseType: item.caseType,
+                      vi: item.viExample,
+                      reason: item.example,
+                    ),
+                    staticReason: item.viExample,
                   ),
                 const SizedBox(height: 12),
               ],
