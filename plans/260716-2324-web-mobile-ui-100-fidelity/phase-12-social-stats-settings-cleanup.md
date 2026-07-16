@@ -55,3 +55,23 @@ protocol plan.md.
 
 - Social poll-based giữ nguyên data layer live; duel giữ flag off.
 - analyze + tests social/stats/settings; l10n vi/en/de.
+
+## Status: DONE (wave B, 17/07/2026)
+
+Report: `plans/reports/fullstack-developer-260717-0549-p12-wave-b-deletion-sweep-qa-report.md`.
+
+- Deletion sweep: tất cả file liệt kê ở trên đã xóa (đã verify từng file trước
+  khi xóa — không file nào "already gone"); `study_groups_list.dart`/
+  `friends_list.dart` (orphan phát sinh) cũng xóa cùng đợt. `StudyGroup` model/
+  mock-repo method bị strip khỏi `social_legacy_mock_{models,repository}.dart`
+  (challenges giữ nguyên, vẫn gated). Guard list + `release_redirect.dart`
+  cập nhật đủ, KHÔNG weaken.
+- `AnnouncementBanner` placement: xong, cả dashboard + exam (vị trí thật khác
+  doc-comment gốc — verify lại theo TSX, xem báo cáo).
+- `challenges_page.dart`: KHÔNG restyle (web bản thân cũng comment-out route
+  này hoàn toàn — không có TSX sống để đối chiếu; xem báo cáo phần "còn lại").
+- QA: route sweep tìm + fix các gap rẻ (redirect); dark-mode audit ra 36 file
+  release-visible còn static token (2 file rẻ đã fix, 34 còn lại — xem báo cáo
+  + `docs/design-tokens-from-web.md`); `flutter analyze` 0 lỗi, `flutter test`
+  747/747 xanh, guard test pass không bị làm yếu.
+- Visual-QA/screenshot: KHÔNG làm (controller xử lý riêng, xem plan.md).

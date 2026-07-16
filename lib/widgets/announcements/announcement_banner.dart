@@ -15,15 +15,15 @@ import 'simple_markdown_text.dart';
 /// key) via [SharedPreferences] so it survives app restarts but is not
 /// synced across devices — matches web behavior.
 ///
-/// **Placement (wave B, deletion sweep):** replaces the deleted
-/// `announcements_page.dart` route. Drop `AnnouncementBanner(page:
-/// 'dashboard')` into `lib/screens/home/home_screen.dart` directly above
-/// the hero section (after `MobileDashboardHeader`, before
-/// `DailyPathHeroCard`/`ExamHeroCard` — matches
-/// `mobile-dashboard-layout.tsx` block 2 in the scout report) and
-/// `AnnouncementBanner(page: 'exam')` into
-/// `lib/screens/exam/exam_screen.dart` near the top of the catalog list
-/// (matches `exam-landing-page.tsx`).
+/// **Placement (done, wave B deletion sweep):** replaces the deleted
+/// `announcements_page.dart` route. `AnnouncementBanner(page: 'dashboard')`
+/// sits in `lib/screens/home/home_screen.dart` ABOVE
+/// `MobileDashboardHeader` (verified against `dashboard-page.tsx` —
+/// `DashboardContent` renders the banner before `MobileDashboardLayout`/the
+/// header entirely, not after it as originally assumed here).
+/// `AnnouncementBanner(page: 'exam')` sits in
+/// `lib/screens/exam/exam_screen.dart` right after the back+title header
+/// row, before the provider/level cards (matches `exam-landing-page.tsx`).
 class AnnouncementBanner extends ConsumerStatefulWidget {
   const AnnouncementBanner({super.key, required this.page, this.publicOnly = false});
 

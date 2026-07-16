@@ -29,7 +29,6 @@ void main() {
         'lib/view_models/social/social_repository_providers.dart',
         'lib/view_models/social/friends_provider.dart',
         'lib/view_models/social/messages_provider.dart',
-        'lib/view_models/social/moments_provider.dart',
         'lib/view_models/stats/stats_provider.dart',
       ];
 

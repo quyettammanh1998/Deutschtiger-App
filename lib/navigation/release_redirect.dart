@@ -3,6 +3,37 @@ import '../core/release/release_feature_flags.dart';
 /// Prevents a deep link from bypassing a release gate. The redirect is applied
 /// only after authentication redirect has allowed the route.
 String? resolveReleaseRedirect(String path) {
+  // P12 wave B route-sweep QA — web's home is `/` (`ROUTE_PATHS.home`);
+  // Flutter's is `/home` (`initialLocation`). No route is registered for
+  // bare `/`, so without this it 404s.
+  if (path == '/') return '/home';
+  // Web `/privacy`/`/dieu-khoan` vs Flutter's `/privacy-policy`/
+  // `/terms-of-service` (pre-existing naming divergence, unrelated to this
+  // wave — fixed here as part of the route-sweep QA pass).
+  if (path == '/privacy') return '/privacy-policy';
+  if (path == '/dieu-khoan') return '/terms-of-service';
+  // Web `ROUTE_PATHS.errorPatterns = '/stats/errors'` vs Flutter's
+  // `/stats/error-patterns` child route.
+  if (path == '/stats/errors') return '/stats/error-patterns';
+  // Web `ROUTE_PATHS.settingsLearning = '/settings/learning'` vs Flutter's
+  // `/settings/learning-preferences` child route.
+  if (path == '/settings/learning') return '/settings/learning-preferences';
+  // Web `ROUTE_PATHS.aiChat = '/ai-chat'` vs Flutter's `/ai` route.
+  if (path == '/ai-chat') return '/ai';
+  // Web `ROUTE_PATHS.premium = '/premium'` (top-level) vs Flutter's
+  // `/settings/premium` child route.
+  if (path == '/premium') return '/settings/premium';
+  // Web itself internally redirects `learnCapabilityMap` → `learnerModel`
+  // (`routes.tsx`: `<Navigate to={ROUTE_PATHS.learnerModel} replace />`) —
+  // mirrored here since Flutter only registers `/learner-model`.
+  if (path == '/learn/capability-map') return '/learner-model';
+  // Web's exam landing is `/exams` (plural, `ROUTE_PATHS.exams`); Flutter's
+  // is `/exam` (singular). Only the bare landing path is safe to redirect
+  // here — the rest of the `/exams/*` tree (provider-level, writing,
+  // sprechen, dictation, sprint…) does not map 1:1 onto Flutter's `/exam/*`
+  // segment shapes and needs a case-by-case audit, not a blind prefix swap
+  // (see the wave-B report's route-sweep section).
+  if (path == '/exams') return '/exam';
   // Dead Flutter-only landing/full-welcome screens have been removed (web
   // parity — the single `/welcome` route now ports the full marketing page).
   if (_matches(path, '/landing') || _matches(path, '/welcome-full')) {
@@ -158,32 +189,80 @@ String? resolveReleaseRedirect(String path) {
   if (_matches(path, '/ai-tutor') && !ReleaseFeatureFlags.aiTutor) {
     return '/learn';
   }
-  if (_matches(path, '/social') && !ReleaseFeatureFlags.social) return '/home';
-  // Groups/Challenges/Duels stay gated independently of the blanket `social`
-  // flag — no wired backend contract (groups/challenges) or realtime/
-  // moderation POC (duels) yet. See `docs/flutter-live-data-inventory.md`.
-  if (_matches(path, '/social/groups') && !ReleaseFeatureFlags.socialGroups) {
-    return '/social';
+  // P12 wave B — `social_screen.dart` (bare `/social` hub) deleted, web has
+  // no hub page either: every deep link that used to land on it now goes
+  // straight to the closest live surface, Friends.
+  if (path == '/social') return '/social/friends';
+  // `moments_page.dart` deleted (web has no moments feed) — bookmarked deep
+  // links fall back to Friends instead of 404ing.
+  if (_matches(path, '/social/moments')) return '/social/friends';
+  // `announcements_page.dart` deleted — its content now surfaces inline as
+  // `AnnouncementBanner` on the dashboard.
+  if (_matches(path, '/social/announcements')) return '/home';
+  // Groups (`groups_page.dart`/`group_detail_page.dart`) were deleted
+  // entirely in the P12 wave-B sweep — web never had a groups feature (see
+  // `docs/api-changelog.md` gap entry) — so these always redirect,
+  // independent of any flag. Checked ahead of the blanket `social` gate
+  // below, same "specific exemption before blanket" pattern as `/games/*`.
+  if (_matches(path, '/social/groups') || _matches(path, '/social/group')) {
+    return '/social/friends';
   }
-  if (_matches(path, '/social/group') && !ReleaseFeatureFlags.socialGroups) {
-    return '/social';
-  }
+  // Challenges/Duels stay gated independently of the blanket `social` flag —
+  // no wired backend contract (challenges) or realtime/moderation POC
+  // (duels) yet. See `docs/flutter-live-data-inventory.md`.
   if (_matches(path, '/social/challenges') &&
       !ReleaseFeatureFlags.socialChallenges) {
-    return '/social';
+    return '/social/friends';
   }
   if (_matches(path, '/social/duel') && !ReleaseFeatureFlags.socialDuels) {
-    return '/social';
+    return '/social/friends';
+  }
+  if (_matches(path, '/social') && !ReleaseFeatureFlags.social) return '/home';
+  // P12 wave B — route-sweep QA gap fix: web's canonical social paths are
+  // top-level (`ROUTE_PATHS.friends = '/friends'`, `.messages = '/messages'`,
+  // `.challenges = '/challenges'`, `ROUTE_PATTERNS.chat = '/messages/:id'`,
+  // `.profile = '/profile/:userId'`, `.duelLobby = '/duel/:roomId'`,
+  // `.duelPlay = '/duel/:roomId/play'`) but Flutter kept every social screen
+  // under a `/social/*` prefix (P12 wave A decision, unchanged here — a full
+  // rename is out of this task's scope, see the wave-B report). These
+  // redirects make the web-canonical paths reachable so deep links copied
+  // from web (or typed from memory) land correctly instead of 404ing.
+  if (path == '/friends' || path.startsWith('/friends/')) {
+    return '/social/friends';
+  }
+  if (path == '/challenges' || path.startsWith('/challenges/')) {
+    return '/social/challenges';
+  }
+  if (path == '/messages') return '/social/messages';
+  const messagesChatPrefix = '/messages/';
+  if (path.startsWith(messagesChatPrefix)) {
+    return '/social/chat/${path.substring(messagesChatPrefix.length)}';
+  }
+  // `/duel/:roomId[/play]` has no Flutter equivalent that carries a roomId in
+  // the URL (the lobby resolves its own room, play takes the opponent via
+  // `extra`) — best-effort fallback to the lobby; the roomId segment is
+  // dropped (documented gap, not a broken 404).
+  if (path == '/duel' || path.startsWith('/duel/')) {
+    return '/social/duel/lobby';
   }
   // P12 wave A — `EditProfileScreen` (`/profile/edit`) removed; profile
   // editing folded into the settings-root profile-edit card (P12 settings
   // agent). `/profile` itself keeps rendering the own-profile view (no
   // redirect needed — same path, new content: web `/u/:id` equivalent).
   if (path == '/profile/edit') return '/settings';
-  if (_matches(path, '/stats') && !ReleaseFeatureFlags.stats) return '/home';
-  if (_matches(path, '/achievements') && !ReleaseFeatureFlags.achievements) {
-    return '/home';
+  // Web's `/profile/:userId` (other-user public profile) — Flutter keeps it
+  // under `/social/profile/:userId`. `/profile/edit` is already handled and
+  // returned above, so anything reaching here is a real userId segment.
+  const profilePrefix = '/profile/';
+  if (path.startsWith(profilePrefix)) {
+    return '/social/profile/${path.substring(profilePrefix.length)}';
   }
+  if (_matches(path, '/stats') && !ReleaseFeatureFlags.stats) return '/home';
+  // P12 wave B — `achievements_screen.dart` deleted; its grid now lives
+  // inside Stats (`stats_achievements_grid.dart`). Web has no standalone
+  // achievements route either, so this redirect is unconditional (not
+  // flag-gated) — there is no screen left to gate.
+  if (_matches(path, '/achievements')) return '/stats';
   if (_matches(path, '/affiliate') && !ReleaseFeatureFlags.affiliate) {
     return '/home';
   }

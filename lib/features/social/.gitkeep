@@ -1,0 +1,7 @@
+# Empty directory placeholder. `lib/features/social/{data,presentation}`
+# were deleted in the P12 wave-B deletion sweep (social screens live under
+# `lib/screens/social/`, data/providers under `lib/{data,repositories,
+# view_models}/social/`) — this top-level dir itself is kept because
+# `test/structure/repositories_layer_test.dart` (an older architecture
+# mirror test, plan 260706-0232) asserts `lib/features/social` exists as
+# one of the web-domain-mirroring feature directories.

@@ -81,11 +81,6 @@ void main() {
         redirect: '/home',
       ),
       (
-        path: '/achievements',
-        enabled: ReleaseFeatureFlags.achievements,
-        redirect: '/home',
-      ),
-      (
         path: '/affiliate/leaderboard',
         enabled: ReleaseFeatureFlags.affiliate,
         redirect: '/home',
@@ -125,22 +120,81 @@ void main() {
   });
 
   test('social sub-routes without a live contract stay gated independently', () {
-    // Groups/challenges/duels have no wired backend contract (groups,
-    // challenges) or realtime/moderation POC (duels) yet, so they redirect
-    // to the Social hub even while the blanket `social` flag is on.
-    expect(ReleaseFeatureFlags.socialGroups, isFalse);
+    // Challenges/duels have no wired backend contract (challenges) or
+    // realtime/moderation POC (duels) yet, so they redirect to Friends even
+    // while the blanket `social` flag is on. Groups was deleted entirely
+    // (P12 wave B) — web never had it — so it always redirects too.
     expect(ReleaseFeatureFlags.socialChallenges, isFalse);
     expect(ReleaseFeatureFlags.socialDuels, isFalse);
-    expect(resolveReleaseRedirect('/social/groups'), '/social');
-    expect(resolveReleaseRedirect('/social/group/1'), '/social');
-    expect(resolveReleaseRedirect('/social/challenges'), '/social');
-    expect(resolveReleaseRedirect('/social/duel/lobby'), '/social');
+    expect(resolveReleaseRedirect('/social/groups'), '/social/friends');
+    expect(resolveReleaseRedirect('/social/group/1'), '/social/friends');
+    expect(resolveReleaseRedirect('/social/challenges'), '/social/friends');
+    expect(resolveReleaseRedirect('/social/duel/lobby'), '/social/friends');
+    // Bare hub, moments and announcements were deleted (P12 wave B) — deep
+    // links fall back instead of 404ing.
+    expect(resolveReleaseRedirect('/social'), '/social/friends');
+    expect(resolveReleaseRedirect('/social/moments'), '/social/friends');
+    expect(resolveReleaseRedirect('/social/announcements'), '/home');
     // Live social surfaces stay reachable.
     expect(resolveReleaseRedirect('/social/friends'), isNull);
-    expect(resolveReleaseRedirect('/social/moments'), isNull);
     expect(resolveReleaseRedirect('/social/profile/user-1'), isNull);
-    expect(resolveReleaseRedirect('/social/announcements'), isNull);
   });
+
+  test('achievements screen was deleted; deep links redirect to Stats', () {
+    // `achievements_screen.dart` removed (P12 wave B) — its grid now lives
+    // inside Stats. Unconditional, not flag-gated (no screen left to gate).
+    expect(resolveReleaseRedirect('/achievements'), '/stats');
+  });
+
+  test(
+    'web-canonical top-level social paths redirect to the /social/* prefix '
+    'Flutter actually uses',
+    () {
+      // P12 wave B route-sweep gap fix — web's ROUTE_PATHS/ROUTE_PATTERNS use
+      // top-level paths for these; Flutter kept a `/social/*` prefix (P12
+      // wave A decision).
+      expect(resolveReleaseRedirect('/friends'), '/social/friends');
+      expect(resolveReleaseRedirect('/challenges'), '/social/challenges');
+      expect(resolveReleaseRedirect('/messages'), '/social/messages');
+      expect(
+        resolveReleaseRedirect('/messages/friend-1'),
+        '/social/chat/friend-1',
+      );
+      expect(
+        resolveReleaseRedirect('/profile/user-1'),
+        '/social/profile/user-1',
+      );
+      expect(resolveReleaseRedirect('/profile/edit'), '/settings');
+      // roomId-based duel URLs have no Flutter equivalent — best-effort
+      // fallback to the lobby (documented gap, not a 404).
+      expect(resolveReleaseRedirect('/duel/room-1'), '/social/duel/lobby');
+      expect(
+        resolveReleaseRedirect('/duel/room-1/play'),
+        '/social/duel/lobby',
+      );
+    },
+  );
+
+  test(
+    'other web-canonical paths without a matching Flutter route redirect '
+    'correctly (route-sweep QA gap fixes)',
+    () {
+      expect(resolveReleaseRedirect('/'), '/home');
+      expect(resolveReleaseRedirect('/privacy'), '/privacy-policy');
+      expect(resolveReleaseRedirect('/dieu-khoan'), '/terms-of-service');
+      expect(resolveReleaseRedirect('/stats/errors'), '/stats/error-patterns');
+      expect(
+        resolveReleaseRedirect('/settings/learning'),
+        '/settings/learning-preferences',
+      );
+      expect(resolveReleaseRedirect('/ai-chat'), '/ai');
+      expect(
+        resolveReleaseRedirect('/learn/capability-map'),
+        '/learner-model',
+      );
+      expect(resolveReleaseRedirect('/exams'), '/exam');
+    },
+  );
 
   test('sentence builder is exempt from the blanket games gate', () {
     // Live backend contract (/sentence-builder/*), independent flag —

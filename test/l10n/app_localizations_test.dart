@@ -8,8 +8,6 @@ import 'package:deutschtiger/screens/auth/onboarding_screen.dart';
 import 'package:deutschtiger/screens/auth/reset_password_screen.dart';
 import 'package:deutschtiger/shared/widgets/more_features_sheet.dart';
 import 'package:deutschtiger/widgets/dashboard/mobile_dashboard_header.dart';
-import 'package:deutschtiger/widgets/dashboard/mobile_stats_card.dart';
-import 'package:deutschtiger/widgets/dashboard/quick_actions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -61,7 +59,6 @@ void main() {
       MobileDashboardHeader.timeGreeting(german, now: DateTime(2026, 7, 15, 8)),
       'Guten Morgen',
     );
-    expect(MobileStatsCard.formatOnlineTime(german, 3900), '1 Std. 5 Min.');
     expect(english.signOutConfirm, 'Are you sure you want to sign out?');
     expect(english.couldNotOpenLink, 'This link could not be opened.');
     expect(german.ratingThanks, 'Danke für deine Bewertung!');
@@ -184,22 +181,6 @@ void main() {
     );
     expect(find.text('Feedback'), findsOneWidget);
     expect(tester.takeException(), isNull);
-  });
-
-  testWidgets('Home quick actions use the active localization', (tester) async {
-    await tester.pumpWidget(
-      MaterialApp(
-        locale: const Locale('de'),
-        supportedLocales: AppLocalizations.supportedLocales,
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
-        home: const Scaffold(body: QuickActions(totalWords: 100)),
-      ),
-    );
-
-    // Lead "Luyện thi" tab + its tile render with the active locale.
-    expect(find.text('🎓 Prüfungsvorbereitung'), findsOneWidget);
-    expect(find.text('Prüfungsvorbereitung'), findsOneWidget);
-    expect(find.text('Wortschatz & Wiederholung'), findsOneWidget);
   });
 
   testWidgets(
@@ -369,10 +350,6 @@ void main() {
     expect(
       ReleaseFeatureFlags.allowsMoreFeature('/stats'),
       ReleaseFeatureFlags.stats,
-    );
-    expect(
-      ReleaseFeatureFlags.allowsMoreFeature('/achievements'),
-      ReleaseFeatureFlags.achievements,
     );
     expect(ReleaseFeatureFlags.journey, isTrue);
     expect(ReleaseFeatureFlags.reading, isTrue);

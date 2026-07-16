@@ -13,6 +13,9 @@ Owner viết tắt:
 - **GĐ2** = `plans/260715-flutter-gd2-extended-coverage/` (phase số)
 - **WAVE** = `plans/260715-2321-gd1-closeout-coding-wave/` (phase số)
 - **PARITY** = `plans/260715-2333-flutter-full-parity-roadmap/` (plan mới, phase số)
+- **UI-FIDELITY** = `plans/260716-2324-web-mobile-ui-100-fidelity/` (P1–P12, hoàn
+  tất 17/07/2026 — rebuild toàn bộ UI cho khớp web; P12 wave B = deletion
+  sweep + QA cuối, cập nhật hàng bên dưới theo kết quả thật)
 
 ## 1. Kiến trúc nền (web) cần biết khi port
 
@@ -41,7 +44,7 @@ Owner viết tắt:
 | game | hub + minigames, cases trainers, sentence builder, Deutsch Runner | LIVE 13 game (16/07: sentence builder, word/typing sprint, cases hub 4 sub-game, konjugation, flashcard, writing word/sentence, listening, runner, artikel, wortstellung, fill-blank — flag riêng từng game); còn 3 game voice = blocked-by-voice (MASTER P8) | done (trừ voice) |
 | pronunciation | hub + 5 trainer (Umlaute, Ich/Ach, R, Sp/St, minimal pairs), Azure PA | PARTIAL (1 màn) | MASTER P8 (cần voice) |
 | conversation | AI sprechen partner (SSE + Soniox), scenario, history, interview import | MOCK-GATED (speaking/ 9 màn) | MASTER P8 (cần voice; SSE infra đã có) |
-| ai | AI chat SSE, sessions, memory, profile (+quota banner) | LIVE (16/07; image input = gap cần Storage upload UI; ai_tutor hợp nhất vào ai) | done |
+| ai | AI chat SSE, sessions, memory, profile (+quota banner) | LIVE (17/07, UI-FIDELITY P12a — markdown render, feature-action chips, limit cards, history full-panel; image attach/voice mic/SpecialCharBar vẫn thiếu — cần UI mới + flag) | done (gaps) / UI-FIDELITY P12a |
 | listening | hub, Sprechen B1/B2, Easy German podcast + player | LIVE podcast (16/07); Sprechen B1/B2 coming-soon (video list web-hardcode); audiobook/dictation mock tự chế đã xoá | done / GĐ2 P1 note |
 | youtube | tracker, watch (transcript sync + word lookup), dictation, shadowing | LIVE tracker+watch (16/07); dictation/shadowing stub + gap | done (stub note) |
 | video-library | curated video tracker + watch | LIVE (16/07; chưa có entry link + flag gate cho /library) | done (follow-up) |
@@ -50,18 +53,18 @@ Owner viết tắt:
 | reading | list, detail, feed, read-listen hub | LIVE (17/07, UI-FIDELITY P11 W4 — level cards+ring grid, tab shell, leaderboard, save-words CTA; topic-accordion + exercises quiz KHÔNG có contract/data nguồn, xem `api-changelog.md`) | done |
 | news | list + detail + progress + week stats + quiz | LIVE (17/07, UI-FIDELITY P11 W4 — tab shell, leaderboard wired, weekly ring moved below list, save-words CTA, level-tip box; quiz vẫn chấm client-side) | done |
 | exam core | landing/section/list, player Lesen+Hören, result, best scores, drafts | LIVE (draft live-evidence pending) | WAVE P1 |
-| exam Schreiben | Goethe B1 writing suite, writing catalog/community, writing sprint | MISSING (1 màn AI writing list mock) | GĐ2 P2 |
-| exam Sprechen | TELC/Goethe sprechen study+practice, AI graded | MISSING | MASTER P8 (cần voice) |
+| exam Schreiben | Goethe B1 writing suite, writing catalog/community, writing sprint | LIVE (17/07, UI-FIDELITY P9 4-wave — hub/panel, topic-list/detail/practice, `/luyen-viet` generic suite, sprint SR mode) | done / UI-FIDELITY P9 |
+| exam Sprechen | TELC/Goethe sprechen study+practice, AI graded | UI DONE, gated (17/07, UI-FIDELITY P10 — full TELC+Goethe sprechen exam UI shell; `ReleaseFeatureFlags.speaking` off tới khi voice/AI-grading live-wired) | MASTER P8 (cần voice wiring) |
 | exam mở rộng | dictation cloze, readiness, schedule+registration, buddy finder, de-thi public | LIVE (16/07; buddy read-only, community write để GĐ2 P3) | done |
 | community | community exams list/detail, comments | LIVE read-only (16/07; comment-write chờ moderation GĐ2 P3) | done (read-only) |
-| social | profile công khai, friends, messages/chat (poll), moments, announcements | LIVE non-realtime (16/07; block wire mọi surface; report = mailto, chờ backend endpoint) | done |
-| social realtime | duels 1v1, groups, challenges, presence, WebRTC calls | GATED flag riêng default-off (duels/groups/challenges); calls DEFERRED | GĐ2 P3 |
-| leaderboard | global/friends XP | LIVE | done |
-| stats | analytics dashboard, error patterns, daily quote | LIVE (16/07; near-achievements + time-by-feature không có contract → bỏ) | done |
+| social | profile công khai, friends, messages/chat (poll) | LIVE non-realtime (17/07, UI-FIDELITY P12a+P12 wave B — profile cover/stats/journey/achievements/timeline rebuild; block wire mọi surface; report = mailto, chờ backend endpoint). **Moments/announcements-page/bare `/social` hub bị XOÁ** (P12 wave B) — web không có 3 tính năng này (moments không tồn tại trên web; announcements chuyển thành `AnnouncementBanner` inline trên dashboard+exam) | done / UI-FIDELITY P12a+12b |
+| social realtime | duels 1v1, challenges, presence, WebRTC calls | Duel: UI shell rebuilt (17/07, UI-FIDELITY P12a — room-code lobby/timer/overlays, mock matchmaking removed, không viết mock mới), flag off chờ GĐ2 P3 wire live loop. Challenges: gated, mock UI chưa restyle (web cũng ẩn route). **Groups (study-groups) bị XOÁ hẳn** (P12 wave B) — web chưa từng có tính năng này. Calls: DEFERRED | GĐ2 P3 |
+| leaderboard | global/friends XP | LIVE (17/07, UI-FIDELITY P12b — podium+crown, hall of fame, countdown, rank delta, breakdown chips/detail sheet; `weekly_score ?? weekly_xp ?? total_xp ?? xp` composite field; friends tab endpoint chưa mount server-side, fail-open như web) | done / UI-FIDELITY P12b |
+| stats | analytics dashboard, error patterns, daily quote | LIVE (17/07, UI-FIDELITY P12b — đủ 13 block web kể cả achievements grid (client-computed) + leaderboard table; near-achievements + time-by-feature không có contract → bỏ) | done / UI-FIDELITY P12b |
 | quotes | daily quote | LIVE (16/07, `/quotes/daily`) | done |
-| settings | security, notification prefs, AI memory, learning prefs, appearance, app-update check | LIVE (16/07) | done |
+| settings | security, notification prefs, AI memory, learning prefs, appearance, app-update check | LIVE (17/07, UI-FIDELITY P12c — profile-edit card on root, password-change card, `/settings/appearance` + `/settings/app-update` new pages, `/settings/ai-memory` route, learning-goal chips+XP calc, review-display toggles) | done / UI-FIDELITY P12c |
 | notifications | in-app notification center + unread badge; push FCM | Center LIVE (16/07, refresh on resume); FCM push chờ backend | done / GĐ2 P3 (push) |
-| payment | SePay VietQR checkout + result pages | MISSING (premium/ RevenueCat skeleton) | MASTER P7 (IAP thay SePay) |
+| payment | SePay VietQR checkout + result pages | MISSING (premium/ RevenueCat skeleton; web's `/payment/success\|error\|cancel` post-checkout pages have no Flutter/IAP equivalent yet — flagged 17/07 by UI-FIDELITY P12 wave-B route sweep, needs an IAP-flow UX decision, not a redirect) | MASTER P7 (IAP thay SePay) |
 | affiliate | dashboard + leaderboard referral | Màn có; leaderboard LIVE, dashboard mock | ⚠️ DECISION (xem §4) |
 | legal | privacy, terms, delete account | LIVE (delete = placeholder) | WAVE P2 |
 | account | deletion + data export | MISSING (placeholder) | WAVE P2 |

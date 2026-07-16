@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/app_tokens.dart';
 import 'package:deutschtiger/data/stats/stats_models.dart';
 import 'error_pattern_labels.dart';
 
@@ -92,8 +92,8 @@ class _ErrorPatternCard extends StatelessWidget {
                     if (pattern.exampleCorrected != null)
                       TextSpan(
                         text: pattern.exampleCorrected,
-                        style: const TextStyle(
-                          color: AppColors.success,
+                        style: TextStyle(
+                          color: context.tokens.success,
                           fontWeight: FontWeight.w600,
                           fontSize: 13,
                         ),

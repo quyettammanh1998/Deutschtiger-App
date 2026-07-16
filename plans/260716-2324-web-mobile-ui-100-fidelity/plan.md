@@ -5,7 +5,7 @@ description: >-
   với 142 màn Flutter. Mục tiêu: mọi màn Flutter giống 100% web về bố cục,
   block order, màu sắc, icon, typography, dark/light. Cho phép xóa code màn cũ
   để làm lại. Đã qua review 3-reviewer 17/07 (v2).
-status: pending
+status: done (17/07/2026, P1–P12 wave B; visual QA outstanding — see Acceptance)
 priority: P1
 branch: main
 tags: [flutter, ui-fidelity, web-parity, rebuild]
@@ -76,16 +76,16 @@ supersedes-ui-scope-of:
 |---|-------|-----------|--------|
 | 1 | [Foundation: tokens, fonts, icons, primitives, shell, router split, assets](./phase-01-foundation-tokens-fonts-icons-shell.md) | — | **done 17/07** (visual QA dồn P12 wave B) |
 | 2 | [Entry: welcome, auth, legal, home residuals, daily quote](./phase-02-entry-auth-home-quote.md) | P1 | **done 17/07** (3 pass: P2/P2a/P2b) |
-| 3 | [Learn & journey](./phase-03-learn-journey.md) | P1, **P4** (runner tái dùng practice views) | pending |
-| 4 | [Vocabulary & practice](./phase-04-vocabulary-practice.md) | P1 | **phần lớn done 17/07** (P4/P4b/P4c); CÒN: daily_review, subtitle_words, practice_screen selector/results → P4d |
-| 5 | [Decks/flashcards](./phase-05-decks-flashcards.md) | P1, **P4** (guided lesson tái dùng practice views) | pending |
-| 6 | [Grammar](./phase-06-grammar.md) | P1 (markdown renderer từ P1) | pending |
-| 7 | [Games](./phase-07-games.md) | P1 | pending |
-| 8 | [Exam core & community — 2 wave](./phase-08-exam-core-community.md) | P1 | wave A **done 17/07** (còn ~60 string chờ ARB); wave B (player+result) pending |
-| 9 | [Writing ecosystem — 4 wave BẮT BUỘC](./phase-09-exam-writing.md) | P1, P8 (IA exam) | pending |
-| 10 | [Speech: sprechen, conversation, pronunciation](./phase-10-speech-conversation-pronunciation.md) | P1; voice live = MASTER P8 wiring | pending |
-| 11 | [Media — 4 wave BẮT BUỘC](./phase-11-media-reading-news.md) | P1 | pending |
-| 12 | [Social/AI/stats/settings (wave A) + deletion sweep & QA (wave B)](./phase-12-social-stats-settings-cleanup.md) | wave A: P1; wave B: P2–P11 | pending |
+| 3 | [Learn & journey](./phase-03-learn-journey.md) | P1, **P4** (runner tái dùng practice views) | **done 17/07** (report `fullstack-developer-260717-0247-p3-learn-journey-report.md`) |
+| 4 | [Vocabulary & practice](./phase-04-vocabulary-practice.md) | P1 | **done 17/07** (4 pass: P4/P4b/P4c/P4d — P4d closed daily_review/subtitle_words/practice_screen selector+results) |
+| 5 | [Decks/flashcards](./phase-05-decks-flashcards.md) | P1, **P4** (guided lesson tái dùng practice views) | **done 17/07** (report `fullstack-developer-260717-0247-p5-decks-flashcards-report.md`) |
+| 6 | [Grammar](./phase-06-grammar.md) | P1 (markdown renderer từ P1) | **done 17/07** (report `fullstack-developer-260717-0217-p6-grammar-report.md`) |
+| 7 | [Games](./phase-07-games.md) | P1 | **done 17/07** (2 pass: P7 + P7b deferred-items) |
+| 8 | [Exam core & community — 2 wave](./phase-08-exam-core-community.md) | P1 | **done 17/07** (wave A + wave B player/result; wave B report notes named concerns, không blocking) |
+| 9 | [Writing ecosystem — 4 wave BẮT BUỘC](./phase-09-exam-writing.md) | P1, P8 (IA exam) | **done 17/07** (4 wave: hub/panel → topic-detail → luyện-viết generic → Sprint v2/telc convergence, FINAL) |
+| 10 | [Speech: sprechen, conversation, pronunciation](./phase-10-speech-conversation-pronunciation.md) | P1; voice live = MASTER P8 wiring | **done 17/07** (UI done, gated on `speaking` flag chờ MASTER P8 voice wiring — report notes named concerns, không blocking) |
+| 11 | [Media — 4 wave BẮT BUỘC](./phase-11-media-reading-news.md) | P1 | **done 17/07** (4 wave: listening/podcast → youtube/video/interview → course → reading/news, FINAL; reading/news report notes named concerns, không blocking) |
+| 12 | [Social/AI/stats/settings (wave A) + deletion sweep & QA (wave B)](./phase-12-social-stats-settings-cleanup.md) | wave A: P1; wave B: P2–P11 | **done 17/07** (wave B closes the plan; see phase-12 §Status) |
 
 ## Điểm chạm dùng chung — protocol merge (BẮT BUỘC, sửa lỗi "parallel" v1)
 
@@ -126,14 +126,27 @@ Các phase P2–P11 chỉ song song được khi tuân thủ:
 ## Acceptance (toàn plan)
 
 - [ ] Mọi trang web mobile trong 9 scout reports có màn Flutter verdict
-      CLOSE→MATCH (block order, màu, icon, font đúng web).
-- [ ] Không còn màn Flutter-only ngoài danh sách giữ đã chốt.
+      CLOSE→MATCH (block order, màu, icon, font đúng web). **Chưa tick** —
+      cần visual QA thật (screenshot so sánh), xem box cuối; P12 wave B chỉ
+      làm route-sweep + dark-mode audit bằng code, không phải visual diff.
+- [x] Không còn màn Flutter-only ngoài danh sách giữ đã chốt. (P12 wave B
+      deletion sweep 17/07 — xóa moments/social-hub/groups/announcements-page/
+      achievements/progress/reminders/home orphans; còn lại đúng danh sách
+      giữ Quyết định #3 + challenges/duel gated giống web tự ẩn route.)
 - [ ] Dark mode theo palette web trên mọi màn rebuild; không màn release-visible
-      nào còn đọc static light token.
-- [ ] Guard live-data + redirect map cập nhật đủ theo protocol; toàn bộ test pass.
-- [ ] `docs/design-tokens-from-web.md`, `docs/web-feature-parity-matrix.md`,
-      contract matrix + api-changelog cập nhật.
+      nào còn đọc static light token. **Chưa đạt** — audit 17/07 (P12 wave B)
+      tìm thấy 36 file release-visible còn dùng `DesignTokens.`/`AppColors.`
+      tĩnh; đã fix 2 file rẻ, còn 34 file cần một pass migrate có visual QA
+      riêng (xem `docs/design-tokens-from-web.md` + wave-B report để có danh
+      sách file đầy đủ).
+- [x] Guard live-data + redirect map cập nhật đủ theo protocol; toàn bộ test pass.
+      (17/07 — `flutter analyze` 0 lỗi, `flutter test` 747/747 xanh, guard
+      test không bị làm yếu.)
+- [x] `docs/design-tokens-from-web.md`, `docs/web-feature-parity-matrix.md`,
+      contract matrix + api-changelog cập nhật. (17/07, P12 wave B.)
 - [ ] Visual QA cuối: screenshot 390×844 light+dark từng màn so web (P12 wave B).
+      **Ngoài phạm vi task này** — controller xử lý riêng (theo brief giao
+      việc P12 wave B), cố ý không tick.
 
 ## Ngoài scope (giữ quyết định owner 15/07, không đổi)
 

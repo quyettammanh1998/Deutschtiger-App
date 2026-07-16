@@ -123,20 +123,14 @@ abstract final class ReleaseFeatureFlags {
     'DEUTSCHTIGER_ENABLE_FILL_BLANK_GAME',
     defaultValue: true,
   );
-  /// Moments feed (read+like), friends (list/request/accept/reject/block),
-  /// public profile, messages (poll-based DM) and announcements are live —
-  /// see `docs/flutter-live-data-inventory.md`. Groups/Challenges/Duels
-  /// remain gated individually below regardless of this flag.
+  /// Friends (list/request/accept/reject/block), public profile and messages
+  /// (poll-based DM) are live — see `docs/flutter-live-data-inventory.md`.
+  /// Challenges/Duels remain gated individually below regardless of this
+  /// flag. Moments/Groups were deleted entirely in the P12 wave-B sweep
+  /// (web has neither feature).
   static const social = bool.fromEnvironment(
     'DEUTSCHTIGER_ENABLE_SOCIAL',
     defaultValue: true,
-  );
-
-  /// Study groups — no wired backend contract and no live web UI either
-  /// (see `docs/api-changelog.md`).
-  static const socialGroups = bool.fromEnvironment(
-    'DEUTSCHTIGER_ENABLE_SOCIAL_GROUPS',
-    defaultValue: false,
   );
 
   /// Challenges — hidden on web too; mock-only in the app.
@@ -153,10 +147,6 @@ abstract final class ReleaseFeatureFlags {
   static const stats = bool.fromEnvironment(
     'DEUTSCHTIGER_ENABLE_STATS',
     defaultValue: true,
-  );
-  static const achievements = bool.fromEnvironment(
-    'DEUTSCHTIGER_ENABLE_ACHIEVEMENTS',
-    defaultValue: false,
   );
   static const journey = bool.fromEnvironment(
     'DEUTSCHTIGER_ENABLE_JOURNEY',
@@ -208,7 +198,6 @@ abstract final class ReleaseFeatureFlags {
     '/games' => games,
     '/social' => social,
     '/stats' => stats,
-    '/achievements' => achievements,
     '/subtitle-words' => practice,
     '/news' => news,
     _ => true,

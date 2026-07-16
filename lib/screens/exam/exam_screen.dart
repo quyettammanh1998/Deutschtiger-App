@@ -6,6 +6,7 @@ import '../../core/theme/app_tokens.dart';
 import '../../features/exam/presentation/widgets/exam_provider_cards.dart';
 import '../../l10n/app_localizations.dart';
 import '../../view_models/settings/learning_preferences_provider.dart';
+import '../../widgets/announcements/announcement_banner.dart';
 import '../../widgets/common/app_button.dart';
 
 /// Web parity: `exam-landing-page.tsx` mobile view — back+title header,
@@ -64,6 +65,10 @@ class ExamScreen extends ConsumerWidget {
               ],
             ),
             const SizedBox(height: 12),
+            // Web parity: `exam-landing-page.tsx` renders `<AnnouncementBanner
+            // page="exam" />` right after the header row, before the
+            // provider/level cards.
+            const AnnouncementBanner(page: 'exam'),
             ExamProviderCards(
               onLevelSelected: (provider, level) =>
                   _onLevelSelected(context, l10n, userLevel, provider, level),

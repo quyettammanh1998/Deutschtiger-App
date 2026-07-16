@@ -1,11 +1,7 @@
-import 'package:flutter/material.dart';
-
-import '../../core/design_tokens.dart';
-
-/// DTOs cho Reading surface (live API — `GET /api/v1/reading/*`).
-///
-/// Nguồn: `thamkhao/deutschtiger-backend/internal/feature/content/video/reading_handler.go`
-/// (list/detail/levels) và `readingfeed/handler.go` (feed cá nhân hoá).
+// DTOs cho Reading surface (live API — `GET /api/v1/reading/*`).
+//
+// Nguồn: `thamkhao/deutschtiger-backend/internal/feature/content/video/reading_handler.go`
+// (list/detail/levels) và `readingfeed/handler.go` (feed cá nhân hoá).
 
 /// Tóm tắt một bài đọc — trả về bởi `GET /reading/articles?level=`.
 class ReadingArticleSummary {
@@ -253,14 +249,4 @@ class ReadingLeaderboardEntry {
       rank: json['rank'] as int? ?? 0,
     );
   }
-}
-
-/// Color mapping cho level badge — match màu web admin dashboard.
-Color readingLevelColor(String level) {
-  if (level.startsWith('A1')) return const Color(0xFF16A34A);
-  if (level.startsWith('A2')) return const Color(0xFF0D9488);
-  if (level.startsWith('B1')) return const Color(0xFF2563EB);
-  if (level.startsWith('B2')) return const Color(0xFF9333EA);
-  if (level.startsWith('C1')) return const Color(0xFFEA580C);
-  return DesignTokens.mutedForeground;
 }

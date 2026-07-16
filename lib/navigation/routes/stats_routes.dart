@@ -4,22 +4,20 @@
 // `/stats`, so it stays in this file together with the rest of the stats
 // tree — coordinate with P2 before changing this sub-route.
 //
-// `/achievements`/`/leaderboard` aren't itemized separately in scanned phase
-// tables; grouped here with stats/leaderboard as closest owner.
+// `/leaderboard` isn't itemized separately in scanned phase tables; grouped
+// here with stats as closest owner. `/achievements` (route + screen) was
+// deleted in the P12 wave-B sweep — its grid now lives inside Stats
+// (`stats_achievements_grid.dart`); `/achievements` deep links always
+// redirect to `/stats` (see `release_redirect.dart`).
 
 import 'package:go_router/go_router.dart';
 
 import '../../screens/stats/stats_screen.dart';
 import '../../screens/stats/error_patterns_page.dart';
 import '../../screens/stats/daily_quote_page.dart';
-import '../../screens/achievements/achievements_screen.dart';
 import '../../screens/leaderboard/leaderboard_screen.dart';
 
 final List<RouteBase> statsRoutes = [
-  GoRoute(
-    path: '/achievements',
-    builder: (context, state) => const AchievementsScreen(),
-  ),
   GoRoute(
     path: '/leaderboard',
     builder: (context, state) => const LeaderboardScreen(),

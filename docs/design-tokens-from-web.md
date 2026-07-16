@@ -23,6 +23,22 @@ Lý do đóng băng thay vì xoá: 271+ file đang tham chiếu `DesignTokens`/
 **PHẢI** dùng `context.tokens`; code cũ tiếp tục compile (chỉ hiện info
 "deprecated" khi `flutter analyze`, không phải lỗi).
 
+**Audit 17/07/2026 (UI-FIDELITY P12 wave B, QA cuối):** 126 file trong `lib/`
+còn tham chiếu `DesignTokens.`/`AppColors.`; đối chiếu với danh sách
+release-visible trong `test/structure/release_live_data_guard_test.dart` →
+**36 file release-visible** vẫn còn dùng static token (danh sách đầy đủ +
+số lần dùng mỗi file trong báo cáo đóng plan
+`plans/reports/fullstack-developer-260717-0549-p12-wave-b-deletion-sweep-qa-report.md`).
+Đã fix 2 case rẻ trong lần sửa này (`error_patterns_list.dart` màu
+`AppColors.success` → `context.tokens.success`; hàm chết
+`readingLevelColor()` trong `reading_models.dart` bị xoá hẳn thay vì migrate).
+34 file còn lại **CHƯA migrate** — số lượng đủ lớn để một lần swap cơ học
+không giám sát rủi ro sai màu cao hơn lợi ích; để dành cho một pass migrate
+có visual QA đi kèm (không phải phạm vi wave B, vốn chỉ là dọn dẹp + audit).
+Lưu ý: không phải mọi match `DesignTokens.` đều là màu — các hằng số
+spacing/radius (`spacingXs`, `cardPadding`, …) không phụ thuộc theme, không
+tính là vi phạm dark-mode dù match regex.
+
 ## Light theme (`:root`) — giá trị ĐÚNG (đã sửa 2026-07-17)
 
 > Trước đây `DesignTokens.primary` bị set nhầm thành hồng `#FF8FA3`

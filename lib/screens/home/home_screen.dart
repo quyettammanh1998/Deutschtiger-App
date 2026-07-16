@@ -6,6 +6,7 @@ import '../../../core/design_tokens.dart';
 import '../../../core/release/release_feature_flags.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../view_models/providers.dart';
+import '../../../widgets/announcements/announcement_banner.dart';
 import '../../../widgets/common/async_state_views.dart';
 import '../../../widgets/dashboard/mobile_dashboard_header.dart';
 import '../../../widgets/dashboard/streak_claim_modal.dart';
@@ -88,6 +89,22 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     SliverToBoxAdapter(
                       child: Column(
                         children: [
+                          // Web parity: `dashboard-page.tsx` renders
+                          // `AnnouncementBanner` above `MobileDashboardHeader`
+                          // (before the layout entirely), gated on
+                          // `initData?.announcements` being non-empty —
+                          // matched here by the banner's own empty-state
+                          // (renders `SizedBox.shrink()` when there is
+                          // nothing to show).
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(
+                              DesignTokens.screenHorizontalPadding,
+                              DesignTokens.spacingSm,
+                              DesignTokens.screenHorizontalPadding,
+                              0,
+                            ),
+                            child: const AnnouncementBanner(page: 'dashboard'),
+                          ),
                           MobileDashboardHeader(
                             displayName: displayName,
                             streak: streak,

@@ -18,8 +18,6 @@ import '../screens/home/widgets/weekly_leaderboard_compact.dart';
 import '../screens/leaderboard/leaderboard_screen.dart';
 import '../view_models/providers.dart';
 import '../widgets/dashboard/mobile_dashboard_header.dart';
-import '../widgets/dashboard/mobile_stats_card.dart';
-import '../widgets/dashboard/quick_actions.dart';
 import 'preview_auth_service.dart';
 
 const _pad = EdgeInsets.symmetric(
@@ -85,21 +83,7 @@ void main() {
                   const SizedBox(height: 12),
                   Padding(padding: _pad, child: DashboardMissionsSection(missions: _missions)),
                   const SizedBox(height: 12),
-                  const Padding(padding: _pad, child: MobileStatsCard(totalWordsLearned: 1240, totalLookups: 3820, streak: 12, onlineSeconds: 5400)),
-                  const SizedBox(height: 12),
                   Padding(padding: _pad, child: WeeklyLeaderboardCompact(onShowAll: () {})),
-                  const SizedBox(height: 12),
-                  Padding(
-                    padding: _pad,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
-                        Text('Khám phá', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                        SizedBox(height: 12),
-                        QuickActions(totalWords: 12500),
-                      ],
-                    ),
-                  ),
                   const SizedBox(height: 12),
                   const Padding(padding: _pad, child: CommunityLinks()),
                   const SizedBox(height: 32),

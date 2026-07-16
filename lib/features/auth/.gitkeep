@@ -1,0 +1,6 @@
+# Empty directory placeholder. `lib/features/auth/presentation/` was deleted
+# in the P12 wave-B deletion sweep (Flutter-only screens rebuilt under
+# `lib/screens/auth/`) — this top-level dir itself is kept because
+# `test/structure/repositories_layer_test.dart` (an older architecture
+# mirror test, plan 260706-0232) asserts `lib/features/auth` exists as one
+# of the web-domain-mirroring feature directories.

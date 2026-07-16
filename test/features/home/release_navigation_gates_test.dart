@@ -5,8 +5,6 @@ import 'package:deutschtiger/l10n/app_localizations.dart';
 import 'package:deutschtiger/screens/home/widgets/dashboard_sections.dart';
 import 'package:deutschtiger/widgets/common/app_shell.dart';
 import 'package:deutschtiger/widgets/dashboard/mobile_dashboard_header.dart';
-import 'package:deutschtiger/widgets/dashboard/mobile_stats_card.dart';
-import 'package:deutschtiger/widgets/dashboard/quick_actions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -73,18 +71,16 @@ void main() {
   testWidgets('Home components hide gated navigation affordances', (
     tester,
   ) async {
+    // `MobileStatsCard`/`QuickActions` were deleted in the P12 wave-B
+    // deletion sweep (Flutter-only orphans — home_screen.dart never rendered
+    // them; superseded by `stats_screen.dart` blocks and `PinnedShortcuts`/
+    // `DashboardMissionsSection`). This test now only covers the header +
+    // missions section that home_screen.dart actually renders.
     await tester.pumpWidget(
       _wrap(
         const Column(
           children: [
             MobileDashboardHeader(displayName: 'Mai', streak: 0),
-            MobileStatsCard(
-              totalWordsLearned: 1,
-              totalLookups: 1,
-              streak: 0,
-              showDetails: false,
-            ),
-            QuickActions(totalWords: 1),
             DashboardMissionsSection(missions: []),
           ],
         ),
@@ -96,84 +92,6 @@ void main() {
     // see mobile_dashboard_header.dart).
     expect(find.byIcon(Icons.chat_bubble_outline_rounded), findsOneWidget);
     expect(find.text('Xem chi tiết'), findsNothing);
-    // QuickActions dropped the "Xem tất cả" see-all button in favour of a
-    // collapse chevron + completed/total counter (daily-missions-section
-    // parity) — the label must never render.
-    expect(find.text('Xem tất cả'), findsNothing);
-  });
-
-  testWidgets('quick actions reflow German labels at 200% text scale', (
-    tester,
-  ) async {
-    await tester.pumpWidget(
-      MaterialApp(
-        locale: const Locale('de'),
-        supportedLocales: AppLocalizations.supportedLocales,
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
-        home: MediaQuery(
-          data: const MediaQueryData(textScaler: TextScaler.linear(2)),
-          child: Scaffold(
-            body: SingleChildScrollView(child: QuickActions(totalWords: 42)),
-          ),
-        ),
-      ),
-    );
-
-    // Lead "Luyện thi" tab is active by default — its tile renders with the
-    // German title/subtitle without overflow exceptions at 200% text scale.
-    expect(find.byType(Wrap), findsWidgets);
-    expect(find.text('🎓 Prüfungsvorbereitung'), findsOneWidget);
-    expect(find.text('Goethe, telc'), findsOneWidget);
-    expect(
-      find.bySemanticsLabel('Prüfungsvorbereitung: Goethe, telc'),
-      findsOneWidget,
-    );
-    expect(tester.takeException(), isNull);
-  });
-
-  testWidgets('Home stats expose localized summaries and actions at 200%', (
-    tester,
-  ) async {
-    var streakTapped = false;
-    var detailsTapped = false;
-    final semantics = tester.ensureSemantics();
-
-    await tester.pumpWidget(
-      MaterialApp(
-        locale: const Locale('de'),
-        supportedLocales: AppLocalizations.supportedLocales,
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
-        home: MediaQuery(
-          data: const MediaQueryData(textScaler: TextScaler.linear(2)),
-          child: Scaffold(
-            body: SingleChildScrollView(
-              child: MobileStatsCard(
-                totalWordsLearned: 14,
-                totalLookups: 6,
-                streak: 4,
-                onlineSeconds: 3900,
-                onStreakTap: () => streakTapped = true,
-                onDetailsTap: () => detailsTapped = true,
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-
-    expect(find.bySemanticsLabel('Gelernte Wörter: 14'), findsOneWidget);
-    expect(find.bySemanticsLabel('Nachschlagen: 6'), findsOneWidget);
-    expect(find.bySemanticsLabel('Serie: 4 Tage'), findsOneWidget);
-    expect(find.bySemanticsLabel('Heute: 1 Std. 5 Min.'), findsOneWidget);
-    expect(find.bySemanticsLabel('Details anzeigen'), findsOneWidget);
-
-    await tester.tap(find.bySemanticsLabel('Serie: 4 Tage'));
-    await tester.tap(find.bySemanticsLabel('Details anzeigen'));
-
-    expect(streakTapped, isTrue);
-    expect(detailsTapped, isTrue);
-    expect(tester.takeException(), isNull);
-    semantics.dispose();
   });
 
   testWidgets('Home header gives Profile and Settings 48px semantic actions', (

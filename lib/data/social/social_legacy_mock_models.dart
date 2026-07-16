@@ -1,29 +1,11 @@
-/// Mock-only models backing gated, non-live social surfaces (study groups,
-/// challenges). No backend contract is wired for these in this phase — the
-/// web app itself has no live UI for groups either (see
-/// `docs/api-changelog.md` gap entry), and challenges are hidden on web too.
-/// Kept as plain Dart (no freezed/codegen) since the UI never mutates
-/// instances of these.
-class StudyGroup {
-  const StudyGroup({
-    required this.id,
-    required this.name,
-    this.description = '',
-    this.level = '',
-    this.memberCount = 0,
-    this.maxMembers = 50,
-    this.isJoined = false,
-  });
-
-  final String id;
-  final String name;
-  final String description;
-  final String level;
-  final int memberCount;
-  final int maxMembers;
-  final bool isJoined;
-}
-
+/// Mock-only models backing the gated, non-live challenges surface. No
+/// backend contract is wired for this in this phase — web hides the
+/// challenges route too. Kept as plain Dart (no freezed/codegen) since the
+/// UI never mutates instances of these.
+///
+/// Study-groups models were removed in the P12 wave-B deletion sweep along
+/// with `groups_page.dart`/`group_detail_page.dart` — web never had a
+/// groups feature either (see `docs/api-changelog.md` gap entry).
 class Challenge {
   const Challenge({
     required this.id,
