@@ -232,6 +232,19 @@ List<MoreFeatureGroup> moreFeatureGroups(
           path: '/pronunciation/minimal-pairs',
           enabled: ReleaseFeatureFlags.pronunciation,
         ),
+        // Conversation hub (web's "Hội thoại" nav tab) surfaced here instead,
+        // since tab 4 stays the AI chat.
+        MoreFeatureItem(
+          label: l10n.navConversation,
+          iconBuilder: AppIcons.conversationHub,
+          color: const TileColor(
+            light100: Color(0xFFFFEDD5),
+            dark20: Color(0x33F97316),
+            fg: Color(0xFFEA580C),
+          ),
+          path: '/conversation',
+          enabled: ReleaseFeatureFlags.speaking,
+        ),
         MoreFeatureItem(
           label: l10n.featureInterview,
           iconBuilder: AppIcons.interview,

@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 
 import '../../core/design_tokens.dart';
 import '../../core/icons/app_icons.dart';
-import '../../core/release/release_feature_flags.dart';
 import '../../l10n/app_localizations.dart';
 import '../../services/offline/offline_service.dart';
 import '../../shared/widgets/more_features_sheet.dart';
@@ -13,6 +12,7 @@ import '../heartbeat_bootstrap.dart';
 import 'nav/app_bottom_nav.dart';
 import 'nav/nav_hamburger_icon.dart';
 import 'nav/nav_tab_accents.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Khung bottom-nav, bao các route con qua go_router ShellRoute.
 ///
@@ -104,27 +104,17 @@ List<AppBottomNavTab> appShellTabs(AppLocalizations l10n) => [
     label: l10n.learn,
     accent: NavTabAccents.learn,
   ),
-  // TAB-4 RELEASE SWITCH: web's 4th bottom-nav slot is always "Hội thoại"
-  // (conversation hub). The Flutter app keeps showing the pre-parity "AI"
-  // tab in that slot until `ReleaseFeatureFlags.speaking` (P10's conversation
-  // hub contract) goes live — flip that flag to complete tab-4 parity; no
-  // other change needed here (branch index 3 stays the same either way, see
-  // `app_router.dart`).
-  if (ReleaseFeatureFlags.speaking)
-    AppBottomNavTab(
-      branchIndex: 3,
-      iconBuilder: AppIcons.conversationHub,
-      label: l10n.navConversation,
-      accent: NavTabAccents.conversation,
-    )
-  else
-    AppBottomNavTab(
-      branchIndex: 3,
-      iconBuilder: ({double size = 24, Color? color}) =>
-          Icon(Icons.smart_toy_rounded, size: size, color: color),
-      label: l10n.ai,
-      accent: NavTabAccents.ai,
-    ),
+  // Tab 4 is the AI chat (product decision — kept in the nav bar rather than
+  // web's "Hội thoại" slot). The conversation hub still ships when
+  // `ReleaseFeatureFlags.speaking` is on, reached from the More-features sheet
+  // instead of this tab.
+  AppBottomNavTab(
+    branchIndex: 3,
+    iconBuilder: ({double size = 24, Color? color}) =>
+        Icon(PhosphorIcons.robot, size: size, color: color),
+    label: l10n.ai,
+    accent: NavTabAccents.ai,
+  ),
   AppBottomNavTab(
     opensMoreSheet: true,
     iconBuilder: ({double size = 24, Color? color}) => NavHamburgerIcon(
