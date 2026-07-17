@@ -1052,7 +1052,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get coursesNoLessonsYet => 'Khoá học này chưa có bài học.';
 
   @override
-  String get coursesLessonCompleted => 'Đã hoàn thành';
+  String get coursesLessonCompleted => 'Hoàn thành';
 
   @override
   String get coursesMarkComplete => 'Đánh dấu hoàn thành';

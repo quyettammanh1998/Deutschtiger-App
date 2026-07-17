@@ -1993,7 +1993,7 @@ abstract class AppLocalizations {
   /// No description provided for @coursesLessonCompleted.
   ///
   /// In vi, this message translates to:
-  /// **'Đã hoàn thành'**
+  /// **'Hoàn thành'**
   String get coursesLessonCompleted;
 
   /// No description provided for @coursesMarkComplete.
