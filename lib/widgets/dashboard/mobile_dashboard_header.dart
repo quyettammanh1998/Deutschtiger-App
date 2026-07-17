@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 import '../../core/design_tokens.dart';
+import '../../core/theme/app_tokens.dart';
 import '../../l10n/app_localizations.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Mobile dashboard header — warm cream card with greeting, streak chip and
 /// quick actions. Mirrors web `mobile-dashboard-header.tsx`: a light card
@@ -50,6 +52,24 @@ class MobileDashboardHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final greetingLabel = timeGreeting(l10n);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final tokens = context.tokens;
+    // Warm cream brand gradient in light mode; a theme-aware dark surface in
+    // dark mode so the card no longer stays light against the dark dashboard.
+    final cardGradient = isDark
+        ? LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [tokens.card, tokens.muted],
+          )
+        : const LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [Color(0xFFFFFBF7), Color(0xFFFFF1E6)],
+          );
+    // Near-black title (headerTextDark) is invisible on the dark surface — use
+    // the theme foreground there while keeping the brand brown in light mode.
+    final titleColor = isDark ? tokens.foreground : DesignTokens.headerTextDark;
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 12, 16, 16),
@@ -58,12 +78,10 @@ class MobileDashboardHeader extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(DesignTokens.radiusLg),
-            border: Border.all(color: DesignTokens.headerCardBorder),
-            gradient: const LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [Color(0xFFFFFBF7), Color(0xFFFFF1E6)],
+            border: Border.all(
+              color: isDark ? tokens.border : DesignTokens.headerCardBorder,
             ),
+            gradient: cardGradient,
             boxShadow: const [
               BoxShadow(
                 color: Color(0x2ED67828),
@@ -110,10 +128,10 @@ class MobileDashboardHeader extends StatelessWidget {
                                 ),
                                 Text(
                                   '$displayName 👋',
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
-                                    color: DesignTokens.headerTextDark,
+                                    color: titleColor,
                                   ),
                                   overflow: TextOverflow.ellipsis,
                                 ),

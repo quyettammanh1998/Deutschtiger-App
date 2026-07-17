@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/theme/app_tokens.dart';
 import '../../data/games/typing_sprint_models.dart';
 import '../../view_models/games/typing_sprint_provider.dart';
 import '../../widgets/common/async_state_views.dart';
@@ -226,18 +227,27 @@ class _TypingSprintGameScreenState
 
   Widget _buildGame() {
     final sentence = _currentSentence;
+    // Coral surface stays for light mode; dark mode follows the app tokens so
+    // the play area no longer paints itself light under a dark app bar.
+    final tokens = context.tokens;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final surface = isDark ? tokens.background : TypingSprintPalette.bgInner;
+    final inkColor = isDark ? tokens.foreground : TypingSprintPalette.ink;
+    final inkDimColor =
+        isDark ? tokens.mutedForeground : TypingSprintPalette.inkDim;
+    final fieldColor = isDark ? tokens.card : TypingSprintPalette.card;
     return DecoratedBox(
-      decoration: const BoxDecoration(color: TypingSprintPalette.bgInner),
+      decoration: BoxDecoration(color: surface),
       child: Column(
         children: [
           const SizedBox(height: 8),
           Text(
             sentence.vi,
             textAlign: TextAlign.center,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 15,
               fontWeight: FontWeight.w500,
-              color: TypingSprintPalette.inkDim,
+              color: inkDimColor,
             ),
           ),
           const SizedBox(height: 16),
@@ -268,15 +278,16 @@ class _TypingSprintGameScreenState
                 autofocus: true,
                 textAlign: TextAlign.center,
                 maxLines: 2,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
-                  color: TypingSprintPalette.ink,
+                  color: inkColor,
                 ),
                 decoration: InputDecoration(
                   hintText: 'Gõ câu ở đây...',
+                  hintStyle: TextStyle(color: inkDimColor),
                   filled: true,
-                  fillColor: TypingSprintPalette.card,
+                  fillColor: fieldColor,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(16),
                     borderSide: const BorderSide(color: TypingSprintPalette.coralSoft),
@@ -297,7 +308,7 @@ class _TypingSprintGameScreenState
           TextButton(
             key: const Key('typing-sprint-skip'),
             onPressed: _skipSentence,
-            style: TextButton.styleFrom(foregroundColor: TypingSprintPalette.inkDim),
+            style: TextButton.styleFrom(foregroundColor: inkDimColor),
             child: const Text('Bỏ qua câu này'),
           ),
           const SizedBox(height: 8),

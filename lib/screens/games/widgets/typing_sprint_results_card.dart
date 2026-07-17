@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../../../core/theme/app_tokens.dart';
 import 'typing_sprint_paragraph_view.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Coral-themed results card — web parity: `ResultsModal`.
 class TypingSprintResultsCard extends StatelessWidget {
@@ -29,13 +31,22 @@ class TypingSprintResultsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Card + neutral text follow the theme in dark mode; light mode keeps the
+    // original coral-on-white result surface.
+    final tokens = context.tokens;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final cardColor = isDark ? tokens.card : TypingSprintPalette.card;
+    final inkColor = isDark ? tokens.foreground : TypingSprintPalette.ink;
+    final inkDimColor =
+        isDark ? tokens.mutedForeground : TypingSprintPalette.inkDim;
+    final outlineColor = isDark ? tokens.border : TypingSprintPalette.inkFaint;
     return Center(
       child: SingleChildScrollView(
         child: Container(
           margin: const EdgeInsets.all(24),
           padding: const EdgeInsets.all(24),
           decoration: BoxDecoration(
-            color: TypingSprintPalette.card,
+            color: cardColor,
             borderRadius: BorderRadius.circular(24),
             boxShadow: [
               BoxShadow(
@@ -70,9 +81,9 @@ class TypingSprintResultsCard extends StatelessWidget {
                   color: TypingSprintPalette.coral,
                 ),
               ),
-              const Text(
+              Text(
                 'Tốc độ gõ',
-                style: TextStyle(fontSize: 14, color: TypingSprintPalette.inkDim),
+                style: TextStyle(fontSize: 14, color: inkDimColor),
               ),
               if (xpAwarded != null && xpAwarded! > 0) ...[
                 const SizedBox(height: 8),
@@ -113,8 +124,8 @@ class TypingSprintResultsCard extends StatelessWidget {
                     child: OutlinedButton(
                       onPressed: onGoHome,
                       style: OutlinedButton.styleFrom(
-                        foregroundColor: TypingSprintPalette.ink,
-                        side: const BorderSide(color: TypingSprintPalette.inkFaint),
+                        foregroundColor: inkColor,
+                        side: BorderSide(color: outlineColor),
                         padding: const EdgeInsets.symmetric(vertical: 14),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
@@ -157,6 +168,9 @@ class _StatItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final labelColor =
+        isDark ? context.tokens.mutedForeground : TypingSprintPalette.inkDim;
     return Column(
       children: [
         Text(
@@ -165,7 +179,7 @@ class _StatItem extends StatelessWidget {
         ),
         Text(
           label,
-          style: const TextStyle(fontSize: 11, color: TypingSprintPalette.inkDim),
+          style: TextStyle(fontSize: 11, color: labelColor),
         ),
       ],
     );

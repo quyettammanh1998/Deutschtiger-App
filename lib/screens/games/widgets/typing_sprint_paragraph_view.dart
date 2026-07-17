@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../core/theme/app_tokens.dart';
+
 /// Coral palette — approximates web `--ts-*` custom properties scoped to
 /// `typing-sprint-page.tsx` (`ts-root` CSS vars). Kept local to the typing
 /// sprint widgets rather than added to [AppTokens]/`app_tokens.dart` since
@@ -37,6 +39,14 @@ class TypingSprintParagraphView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Untyped/upcoming characters follow the theme so the sentence stays
+    // readable on the dark surface; light mode keeps the coral ink tones.
+    final tokens = context.tokens;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final currentColor =
+        isDark ? tokens.foreground : TypingSprintPalette.ink;
+    final upcomingColor =
+        isDark ? tokens.mutedForeground : TypingSprintPalette.inkFaint;
     final spans = <TextSpan>[];
     for (var i = 0; i < target.length; i++) {
       final targetChar = target[i];
@@ -48,9 +58,9 @@ class TypingSprintParagraphView extends StatelessWidget {
         color = matches ? TypingSprintPalette.coralDeep : Colors.red.shade600;
         decoration = matches ? null : TextDecoration.underline;
       } else if (i == typed.length) {
-        color = TypingSprintPalette.ink;
+        color = currentColor;
       } else {
-        color = TypingSprintPalette.inkFaint;
+        color = upcomingColor;
       }
       spans.add(
         TextSpan(

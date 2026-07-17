@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/theme/app_tokens.dart';
 import '../../../view_models/providers.dart' show audioServiceProvider;
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// "Phát âm" drill card — web parity: word card (4xl word + IPA + VI
 /// meaning), amber "Mẹo phát âm:" hint, gradient "Nghe phát âm" button
@@ -163,29 +164,46 @@ class _PronunciationWordDrillCardState
           ),
         ),
         const SizedBox(height: 12),
-        Container(
-          width: double.infinity,
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-          decoration: BoxDecoration(
-            color: const Color(0xFFFFFBEB),
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: RichText(
-            text: TextSpan(
-              style: const TextStyle(
-                color: Color(0xFF78350F),
-                fontSize: 13.5,
-                height: 1.4,
+        Builder(
+          builder: (context) {
+            final isDark = Theme.of(context).brightness == Brightness.dark;
+            // Amber callout: keep the warm cream tint in light mode; in dark
+            // mode use a translucent amber surface with light amber text so the
+            // hint stays readable against the dark background.
+            final hintBackground = isDark
+                ? const Color(0x33F59E0B)
+                : const Color(0xFFFFFBEB);
+            final hintTextColor = isDark
+                ? const Color(0xFFFCD34D)
+                : const Color(0xFF78350F);
+            return Container(
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(
+                horizontal: 16,
+                vertical: 12,
               ),
-              children: [
-                TextSpan(
-                  text: '${widget.hintLabel} ',
-                  style: const TextStyle(fontWeight: FontWeight.w700),
+              decoration: BoxDecoration(
+                color: hintBackground,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: RichText(
+                text: TextSpan(
+                  style: TextStyle(
+                    color: hintTextColor,
+                    fontSize: 13.5,
+                    height: 1.4,
+                  ),
+                  children: [
+                    TextSpan(
+                      text: '${widget.hintLabel} ',
+                      style: const TextStyle(fontWeight: FontWeight.w700),
+                    ),
+                    TextSpan(text: widget.hint),
+                  ],
                 ),
-                TextSpan(text: widget.hint),
-              ],
-            ),
-          ),
+              ),
+            );
+          },
         ),
         const SizedBox(height: 12),
         DecoratedBox(

@@ -31,23 +31,38 @@ class PronunciationScreen extends StatelessWidget {
                 onBack: () => context.go('/games'),
               ),
               const SizedBox(height: 24),
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 12,
-                ),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFEFF6FF),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Text(
-                  l10n.pronunciationHubInfoBanner,
-                  style: const TextStyle(
-                    color: Color(0xFF1E3A8A),
-                    fontSize: 13.5,
-                    height: 1.5,
-                  ),
-                ),
+              Builder(
+                builder: (context) {
+                  final isDark =
+                      Theme.of(context).brightness == Brightness.dark;
+                  // Info banner: keep the pale-blue tint in light mode; in dark
+                  // mode use a translucent blue surface with light blue text so
+                  // it reads against the dark background.
+                  final bannerBackground = isDark
+                      ? const Color(0x333B82F6)
+                      : const Color(0xFFEFF6FF);
+                  final bannerTextColor = isDark
+                      ? const Color(0xFF93C5FD)
+                      : const Color(0xFF1E3A8A);
+                  return Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 12,
+                    ),
+                    decoration: BoxDecoration(
+                      color: bannerBackground,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Text(
+                      l10n.pronunciationHubInfoBanner,
+                      style: TextStyle(
+                        color: bannerTextColor,
+                        fontSize: 13.5,
+                        height: 1.5,
+                      ),
+                    ),
+                  );
+                },
               ),
               const SizedBox(height: 24),
               _ModuleCard(

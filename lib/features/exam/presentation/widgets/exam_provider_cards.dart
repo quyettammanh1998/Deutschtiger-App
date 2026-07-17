@@ -6,6 +6,7 @@ import '../../../../core/design_tokens.dart';
 import '../../../../core/theme/app_tokens.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../../view_models/settings/learning_preferences_provider.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Mirrors web `exam-landing-page.tsx` mobile view: a highlighted
 /// "Tìm bạn ôn thi" CTA followed by one card per certificate provider
@@ -173,6 +174,9 @@ class _ProviderMeta {
     required this.accent,
     required this.pillBg,
     required this.pillBorder,
+    required this.accentDark,
+    required this.pillBgDark,
+    required this.pillBorderDark,
     required this.levels,
   });
 
@@ -183,9 +187,18 @@ class _ProviderMeta {
   final String shortDescKey;
   final String wordmark;
   final Color brandBg;
+
+  /// Light-mode level-pill palette (pastel tint + brand accent text).
   final Color accent;
   final Color pillBg;
   final Color pillBorder;
+
+  /// Dark-mode level-pill palette — muted-dark tinted surface with a lighter
+  /// brand accent so the pills stop painting themselves pastel-light on the
+  /// dark exam page. Sourced from the `exam*Dark` tokens in `design_tokens`.
+  final Color accentDark;
+  final Color pillBgDark;
+  final Color pillBorderDark;
   final List<String> levels;
 }
 
@@ -212,6 +225,9 @@ final _providers = [
     accent: DesignTokens.examActive, // blue-600, matches web accentLight
     pillBg: DesignTokens.examActiveSoft, // blue-50
     pillBorder: const Color(0xB3BFDBFE), // blue-200/70
+    accentDark: DesignTokens.examActiveStrongDark, // blue-300
+    pillBgDark: DesignTokens.examActiveSoftDark, // blue-950 tint
+    pillBorderDark: const Color(0xFF1E3A8A), // blue-900
     levels: const ['B1', 'B2'],
   ),
   _ProviderMeta(
@@ -223,6 +239,9 @@ final _providers = [
     accent: DesignTokens.emerald600,
     pillBg: DesignTokens.emerald50,
     pillBorder: const Color(0xB3A7F3D0), // emerald-200/70
+    accentDark: DesignTokens.examSuccessFgDark, // emerald-300
+    pillBgDark: DesignTokens.examSuccessSoftDark, // emerald-950 tint
+    pillBorderDark: DesignTokens.examSuccessBorderDark, // emerald-800
     levels: const ['A1', 'A2', 'B1', 'B2', 'C1'],
   ),
   _ProviderMeta(
@@ -234,6 +253,9 @@ final _providers = [
     accent: DesignTokens.examDanger, // red-600
     pillBg: DesignTokens.examDangerSoft, // red-50
     pillBorder: const Color(0xB3FECACA), // red-200/70
+    accentDark: DesignTokens.examDangerFgDark, // red-300
+    pillBgDark: DesignTokens.examDangerSoftDark, // red-950 tint
+    pillBorderDark: DesignTokens.examDangerBorderDark, // red-900
     levels: const ['B2'],
   ),
 ];
@@ -399,8 +421,14 @@ class _LevelPill extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    // Dark mode swaps the pastel tint for a muted-dark brand surface so the
+    // level boxes match the dark exam page; light mode is untouched.
+    final pillBg = isDark ? meta.pillBgDark : meta.pillBg;
+    final pillBorder = isDark ? meta.pillBorderDark : meta.pillBorder;
+    final levelColor = isDark ? meta.accentDark : meta.accent;
     return Material(
-      color: meta.pillBg,
+      color: pillBg,
       borderRadius: BorderRadius.circular(DesignTokens.radiusSm + 4),
       child: InkWell(
         borderRadius: BorderRadius.circular(DesignTokens.radiusSm + 4),
@@ -410,7 +438,7 @@ class _LevelPill extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(DesignTokens.radiusSm + 4),
             border: Border.all(
-              color: recommended ? DesignTokens.orange500 : meta.pillBorder,
+              color: recommended ? DesignTokens.orange500 : pillBorder,
               width: recommended ? 2 : 1,
             ),
           ),
@@ -428,7 +456,7 @@ class _LevelPill extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
-                        color: meta.accent,
+                        color: levelColor,
                       ),
                     ),
                     Text(
