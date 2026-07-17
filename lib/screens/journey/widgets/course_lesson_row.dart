@@ -122,16 +122,19 @@ class CourseLessonRow extends StatelessWidget {
     if (progress == null) {
       return _Pill(bg: tokens.muted, fg: tokens.mutedForeground, label: l10n.coursesLessonNotStarted);
     }
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     if (isComplete) {
+      // Emerald "done" pill: light tint in light mode, translucent emerald in dark.
       return _Pill(
-        bg: const Color(0xFFD1FAE5),
-        fg: const Color(0xFF047857),
+        bg: isDark ? const Color(0x3310B981) : const Color(0xFFD1FAE5),
+        fg: isDark ? const Color(0xFF6EE7B7) : const Color(0xFF047857),
         label: l10n.coursesLessonCompleted,
       );
     }
+    // Amber "N%" pill: light tint in light mode, translucent amber in dark.
     return _Pill(
-      bg: const Color(0xFFFEF3C7),
-      fg: const Color(0xFFB45309),
+      bg: isDark ? const Color(0x33F59E0B) : const Color(0xFFFEF3C7),
+      fg: isDark ? const Color(0xFFFCD34D) : const Color(0xFFB45309),
       label: '$score%',
     );
   }

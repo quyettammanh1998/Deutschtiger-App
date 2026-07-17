@@ -150,13 +150,33 @@ class _CourseLessonBodyState extends ConsumerState<CourseLessonBody> {
                   variant: _videoCompleted ? AppButtonVariant.outline : AppButtonVariant.primary,
                 )
               else if (widget.lesson.video != null)
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                  decoration: BoxDecoration(color: const Color(0xFFFEF3C7), borderRadius: BorderRadius.circular(999)),
-                  child: Text(
-                    l10n.coursesLessonWatchHint,
-                    style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: Color(0xFFB45309)),
-                  ),
+                Builder(
+                  builder: (context) {
+                    final isDark =
+                        Theme.of(context).brightness == Brightness.dark;
+                    return Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 6),
+                      decoration: BoxDecoration(
+                        // Amber hint pill: keep the light cream in light mode,
+                        // switch to a translucent amber tint in dark mode.
+                        color: isDark
+                            ? const Color(0x33F59E0B)
+                            : const Color(0xFFFEF3C7),
+                        borderRadius: BorderRadius.circular(999),
+                      ),
+                      child: Text(
+                        l10n.coursesLessonWatchHint,
+                        style: TextStyle(
+                          fontSize: 11,
+                          fontWeight: FontWeight.w600,
+                          color: isDark
+                              ? const Color(0xFFFCD34D)
+                              : const Color(0xFFB45309),
+                        ),
+                      ),
+                    );
+                  },
                 ),
               OutlinedButton(
                 onPressed: _saving ? null : () => _persist(),
