@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/design_tokens.dart';
+import '../../../core/theme/app_tokens.dart';
 import '../../../features/daily_path/domain/daily_path.dart';
 import '../../../features/daily_path/presentation/daily_path_provider.dart';
 import '../../../features/daily_path/presentation/daily_path_route_resolver.dart';
@@ -56,11 +57,12 @@ class _PlanCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+    final tokens = context.tokens;
     return Container(
       padding: const EdgeInsets.all(DesignTokens.cardPadding),
       decoration: BoxDecoration(
-        color: DesignTokens.card,
-        border: Border.all(color: DesignTokens.border),
+        color: tokens.card,
+        border: Border.all(color: tokens.border),
         borderRadius: BorderRadius.circular(DesignTokens.radiusLg),
       ),
       child: Column(
@@ -68,10 +70,10 @@ class _PlanCard extends StatelessWidget {
         children: [
           Text(
             l10n.dailyPathPlanSummary(path.doneCount, path.totalCount),
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 13,
               fontWeight: FontWeight.bold,
-              color: DesignTokens.foreground,
+              color: tokens.foreground,
             ),
           ),
           const SizedBox(height: DesignTokens.spacingSm),
@@ -114,11 +116,12 @@ class _EmptyPlanCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = context.tokens;
     return Container(
       padding: const EdgeInsets.all(DesignTokens.cardPadding),
       decoration: BoxDecoration(
-        color: DesignTokens.card,
-        border: Border.all(color: DesignTokens.border),
+        color: tokens.card,
+        border: Border.all(color: tokens.border),
         borderRadius: BorderRadius.circular(DesignTokens.radiusLg),
       ),
       child: Column(
@@ -126,19 +129,16 @@ class _EmptyPlanCard extends StatelessWidget {
         children: [
           Text(
             l10n.dailyPathEmptyTitle,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w600,
-              color: DesignTokens.foreground,
+              color: tokens.foreground,
             ),
           ),
           const SizedBox(height: 2),
           Text(
             l10n.dailyPathEmptyDescription,
-            style: const TextStyle(
-              fontSize: 12,
-              color: DesignTokens.mutedForeground,
-            ),
+            style: TextStyle(fontSize: 12, color: tokens.mutedForeground),
           ),
           const SizedBox(height: DesignTokens.spacingSm),
           Material(

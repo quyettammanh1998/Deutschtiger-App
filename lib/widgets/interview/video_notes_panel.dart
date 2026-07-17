@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/app_tokens.dart';
 import 'package:deutschtiger/view_models/interview/video_note_provider.dart';
 
 /// Panel ghi chu cho video YouTube.
@@ -92,11 +93,12 @@ class _VideoNotesPanelState extends ConsumerState<VideoNotesPanel> {
       }
     });
 
+    final tokens = context.tokens;
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: tokens.card,
         border: Border(
-          top: BorderSide(color: AppColors.muted.withValues(alpha: 0.3)),
+          top: BorderSide(color: tokens.muted.withValues(alpha: 0.3)),
         ),
       ),
       padding: const EdgeInsets.all(12),
@@ -142,7 +144,7 @@ class _VideoNotesPanelState extends ConsumerState<VideoNotesPanel> {
               error: (e, _) => Center(
                 child: Text(
                   'Lỗi: $e',
-                  style: const TextStyle(color: AppColors.destructive, fontSize: 12),
+                  style: TextStyle(color: context.tokens.destructive, fontSize: 12),
                 ),
               ),
               data: (note) {
@@ -166,7 +168,7 @@ class _VideoNotesPanelState extends ConsumerState<VideoNotesPanel> {
                       borderRadius: BorderRadius.circular(8),
                     ),
                     filled: true,
-                    fillColor: AppColors.authBackground,
+                    fillColor: tokens.muted.withValues(alpha: 0.4),
                     contentPadding: const EdgeInsets.all(12),
                   ),
                   style: const TextStyle(fontSize: 14),

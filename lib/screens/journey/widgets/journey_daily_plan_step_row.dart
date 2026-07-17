@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/design_tokens.dart';
+import '../../../core/theme/app_tokens.dart';
 import '../../../features/daily_path/domain/daily_path.dart';
 import '../../../features/daily_path/domain/skill_emoji.dart';
 import '../../../features/daily_path/presentation/daily_path_route_resolver.dart';
@@ -59,6 +60,7 @@ class _StatusRail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = context.tokens;
     final isGradientDot = !step.done && !step.premium && isCurrent;
     return Column(
       children: [
@@ -74,7 +76,7 @@ class _StatusRail extends StatelessWidget {
                 ? DesignTokens.amber100
                 : isGradientDot
                 ? null
-                : DesignTokens.muted,
+                : tokens.muted,
             gradient: isGradientDot
                 ? const LinearGradient(
                     colors: [DesignTokens.orange500, DesignTokens.orange600],
@@ -89,12 +91,12 @@ class _StatusRail extends StatelessWidget {
                   skillEmoji(step.skill),
                   style: TextStyle(
                     fontSize: 14,
-                    color: isCurrent ? Colors.white : DesignTokens.mutedForeground,
+                    color: isCurrent ? Colors.white : tokens.mutedForeground,
                   ),
                 ),
         ),
         if (!isLast)
-          Expanded(child: Container(width: 1, color: DesignTokens.border)),
+          Expanded(child: Container(width: 1, color: tokens.border)),
       ],
     );
   }
@@ -117,6 +119,7 @@ class _StepBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = context.tokens;
     return Material(
       color: Colors.transparent,
       child: InkWell(
@@ -145,8 +148,8 @@ class _StepBody extends StatelessWidget {
                         fontSize: 13,
                         fontWeight: FontWeight.w600,
                         color: step.done
-                            ? DesignTokens.mutedForeground
-                            : DesignTokens.foreground,
+                            ? tokens.mutedForeground
+                            : tokens.foreground,
                         decoration: step.done
                             ? TextDecoration.lineThrough
                             : null,
@@ -165,10 +168,7 @@ class _StepBody extends StatelessWidget {
                       : step.description,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    fontSize: 11,
-                    color: DesignTokens.mutedForeground,
-                  ),
+                  style: TextStyle(fontSize: 11, color: tokens.mutedForeground),
                 ),
               ],
             ],
@@ -221,6 +221,7 @@ class _CtaBadge extends StatelessWidget {
         ),
       );
     }
+    final tokens = context.tokens;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
       decoration: BoxDecoration(
@@ -229,7 +230,7 @@ class _CtaBadge extends StatelessWidget {
                 colors: [DesignTokens.orange500, DesignTokens.orange600],
               )
             : null,
-        color: isCurrent ? null : DesignTokens.muted,
+        color: isCurrent ? null : tokens.muted,
         borderRadius: BorderRadius.circular(DesignTokens.radiusSm),
       ),
       child: Text(
@@ -237,7 +238,7 @@ class _CtaBadge extends StatelessWidget {
         style: TextStyle(
           fontSize: 11,
           fontWeight: FontWeight.bold,
-          color: isCurrent ? Colors.white : DesignTokens.foreground,
+          color: isCurrent ? Colors.white : tokens.foreground,
         ),
       ),
     );

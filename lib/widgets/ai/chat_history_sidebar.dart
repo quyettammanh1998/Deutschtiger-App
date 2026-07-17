@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/app_tokens.dart';
 import 'package:deutschtiger/data/ai/ai_chat_live_models.dart';
 import 'package:deutschtiger/view_models/ai/ai_provider.dart';
 
@@ -74,12 +74,12 @@ class _SidebarHeader extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColors.primary.withValues(alpha: 0.1),
+        color: context.tokens.primary.withValues(alpha: 0.1),
         border: Border(bottom: BorderSide(color: Colors.grey[200]!)),
       ),
       child: Row(
         children: [
-          const Icon(Icons.history, color: AppColors.primary),
+          Icon(Icons.history, color: context.tokens.primary),
           const SizedBox(width: 12),
           const Expanded(
             child: Text(
@@ -166,9 +166,9 @@ class _HistoryItem extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         decoration: BoxDecoration(
-          color: isSelected ? AppColors.primary.withValues(alpha: 0.1) : null,
+          color: isSelected ? context.tokens.primary.withValues(alpha: 0.1) : null,
           border: isSelected
-              ? Border(left: BorderSide(color: AppColors.primary, width: 3))
+              ? Border(left: BorderSide(color: context.tokens.primary, width: 3))
               : null,
         ),
         child: Row(
@@ -176,10 +176,10 @@ class _HistoryItem extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: AppColors.primary.withValues(alpha: 0.1),
+                color: context.tokens.primary.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: const Icon(Icons.smart_toy_outlined, size: 18, color: AppColors.primary),
+              child: Icon(Icons.smart_toy_outlined, size: 18, color: context.tokens.primary),
             ),
             const SizedBox(width: 12),
             Expanded(
@@ -191,7 +191,7 @@ class _HistoryItem extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
-                      color: isSelected ? AppColors.primary : Colors.black87,
+                      color: isSelected ? context.tokens.primary : Colors.black87,
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,

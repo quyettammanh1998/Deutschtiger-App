@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/design_tokens.dart';
+import '../../../core/theme/app_tokens.dart';
 import '../../l10n/app_localizations.dart';
 import 'widgets/settings_actions.dart';
 
@@ -13,10 +14,11 @@ class DeleteAccountScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+    final background = context.tokens.background;
     return Scaffold(
-      backgroundColor: DesignTokens.authBackground,
+      backgroundColor: background,
       appBar: AppBar(
-        backgroundColor: DesignTokens.authBackground,
+        backgroundColor: background,
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
@@ -58,20 +60,20 @@ class DeleteAccountScreen extends StatelessWidget {
                       Text(
                         l10n.accountDeletionUnavailableTitle,
                         textAlign: TextAlign.center,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w700,
-                          color: DesignTokens.foreground,
+                          color: context.tokens.foreground,
                         ),
                       ),
                       const SizedBox(height: DesignTokens.spacingSm),
                       Text(
                         l10n.accountDeletionUnavailableBody,
                         textAlign: TextAlign.center,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 15,
                           height: 1.5,
-                          color: DesignTokens.mutedForeground,
+                          color: context.tokens.mutedForeground,
                         ),
                       ),
                       const SizedBox(height: DesignTokens.spacingXl),

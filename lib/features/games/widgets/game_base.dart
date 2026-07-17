@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/app_tokens.dart';
 import '../../../data/games/game_models.dart';
 
 /// Base class cho các game widgets.
@@ -283,7 +284,7 @@ class _GameBaseState extends State<GameBase> {
             textAlign: TextAlign.center,
             style: Theme.of(
               context,
-            ).textTheme.bodyLarge?.copyWith(color: AppColors.mutedForeground),
+            ).textTheme.bodyLarge?.copyWith(color: context.tokens.mutedForeground),
           ),
         ],
         const SizedBox(height: 24),
@@ -307,14 +308,14 @@ class _GameBaseState extends State<GameBase> {
                 foregroundColor: showWrong
                     ? AppColors.error
                     : showCorrect
-                    ? AppColors.success
-                    : AppColors.foreground,
+                    ? context.tokens.success
+                    : context.tokens.foreground,
                 side: BorderSide(
                   color: showWrong
                       ? AppColors.error
                       : showCorrect
-                      ? AppColors.success
-                      : AppColors.border,
+                      ? context.tokens.success
+                      : context.tokens.border,
                 ),
                 padding: const EdgeInsets.symmetric(vertical: 16),
               ),
@@ -397,9 +398,9 @@ class _GameBaseState extends State<GameBase> {
                 color: AppColors.tigerOrange,
               ),
             ),
-            const Text(
+            Text(
               'Điểm',
-              style: TextStyle(fontSize: 16, color: AppColors.mutedForeground),
+              style: TextStyle(fontSize: 16, color: context.tokens.mutedForeground),
             ),
 
             const SizedBox(height: 24),
@@ -513,7 +514,7 @@ class _StatItem extends StatelessWidget {
         ),
         Text(
           label,
-          style: TextStyle(fontSize: 12, color: AppColors.mutedForeground),
+          style: TextStyle(fontSize: 12, color: context.tokens.mutedForeground),
         ),
       ],
     );

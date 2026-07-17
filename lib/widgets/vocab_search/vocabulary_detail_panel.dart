@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/app_tokens.dart';
 
 /// Chi tiết từ vựng - sync từ web vocabulary-item-detail.tsx
 class VocabularyDetailPanel extends StatelessWidget {
@@ -124,10 +125,10 @@ class _WordHeading extends StatelessWidget {
             children: [
               Text(
                 word,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
-                  color: AppColors.foreground,
+                  color: context.tokens.foreground,
                 ),
               ),
               if (pronunciation != null) ...[
@@ -136,7 +137,7 @@ class _WordHeading extends StatelessWidget {
                   pronunciation!,
                   style: TextStyle(
                     fontSize: 14,
-                    color: AppColors.mutedForeground,
+                    color: context.tokens.mutedForeground,
                     fontStyle: FontStyle.italic,
                   ),
                 ),
@@ -164,7 +165,7 @@ class _WordHeading extends StatelessWidget {
               width: 44,
               height: 44,
               decoration: BoxDecoration(
-                color: AppColors.primary.withValues(alpha: 0.1),
+                color: context.tokens.primary.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: const Icon(
@@ -239,7 +240,7 @@ class _TypeBadge extends StatelessWidget {
         type,
         style: TextStyle(
           fontSize: 12,
-          color: AppColors.mutedForeground,
+          color: context.tokens.mutedForeground,
         ),
       ),
     );
@@ -270,7 +271,7 @@ class _WordMetaBadges extends StatelessWidget {
             'Pl. $plural',
             style: TextStyle(
               fontSize: 13,
-              color: AppColors.mutedForeground,
+              color: context.tokens.mutedForeground,
             ),
           ),
       ],
@@ -352,16 +353,16 @@ class _MeaningSection extends StatelessWidget {
             style: TextStyle(
               fontSize: 11,
               fontWeight: FontWeight.w500,
-              color: AppColors.mutedForeground,
+              color: context.tokens.mutedForeground,
               letterSpacing: 0.5,
             ),
           ),
           const SizedBox(height: 8),
           Text(
             translation,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 15,
-              color: AppColors.foreground,
+              color: context.tokens.foreground,
             ),
           ),
         ],
@@ -401,7 +402,7 @@ class _ExamplesSection extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 11,
                   fontWeight: FontWeight.w500,
-                  color: AppColors.mutedForeground,
+                  color: context.tokens.mutedForeground,
                   letterSpacing: 0.5,
                 ),
               ),
@@ -412,7 +413,7 @@ class _ExamplesSection extends StatelessWidget {
                   child: Icon(
                     Icons.volume_up_outlined,
                     size: 18,
-                    color: AppColors.mutedForeground,
+                    color: context.tokens.mutedForeground,
                   ),
                 ),
             ],
@@ -420,9 +421,9 @@ class _ExamplesSection extends StatelessWidget {
           const SizedBox(height: 8),
           Text(
             example,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 15,
-              color: AppColors.foreground,
+              color: context.tokens.foreground,
             ),
           ),
           if (translation != null) ...[
@@ -431,7 +432,7 @@ class _ExamplesSection extends StatelessWidget {
               translation!,
               style: TextStyle(
                 fontSize: 13,
-                color: AppColors.mutedForeground,
+                color: context.tokens.mutedForeground,
               ),
             ),
           ],
@@ -462,7 +463,7 @@ class _TagsSection extends StatelessWidget {
             tag,
             style: TextStyle(
               fontSize: 12,
-              color: AppColors.mutedForeground,
+              color: context.tokens.mutedForeground,
             ),
           ),
         );

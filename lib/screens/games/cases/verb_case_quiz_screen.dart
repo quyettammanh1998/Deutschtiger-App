@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_tokens.dart';
 import '../../../data/games/cases_models.dart';
 import '../../../repositories/games/grammar_drill_repository.dart';
@@ -193,7 +192,7 @@ class _VerbCaseQuizScreenState extends ConsumerState<VerbCaseQuizScreen> {
                       const SizedBox(height: 4),
                       Text(
                         '(${item.viVerb})',
-                        style: TextStyle(color: AppColors.mutedForeground),
+                        style: TextStyle(color: context.tokens.mutedForeground),
                       ),
                       const SizedBox(height: 12),
                       Text(
@@ -211,7 +210,7 @@ class _VerbCaseQuizScreenState extends ConsumerState<VerbCaseQuizScreen> {
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 12,
-                            color: AppColors.mutedForeground,
+                            color: context.tokens.mutedForeground,
                           ),
                         ),
                       ],
@@ -319,14 +318,14 @@ class _VerbCaseQuizScreenState extends ConsumerState<VerbCaseQuizScreen> {
                 ),
               ),
               Text('$correct / $total đúng',
-                  style: const TextStyle(color: AppColors.mutedForeground)),
+                  style: TextStyle(color: context.tokens.mutedForeground)),
               if (_mastery != null) ...[
                 const SizedBox(height: 12),
                 Text(
                   'Đã thành thạo: ${_mastery!.mastered}/${_mastery!.total}',
                   style: TextStyle(
                     fontSize: 12,
-                    color: AppColors.mutedForeground,
+                    color: context.tokens.mutedForeground,
                   ),
                 ),
               ],

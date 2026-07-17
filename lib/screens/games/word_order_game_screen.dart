@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_tokens.dart';
 import '../../data/games/learning_item_models.dart';
 import '../../view_models/games/learning_item_provider.dart';
 import '../../widgets/common/app_pill.dart';
@@ -314,15 +314,15 @@ class _WordOrderGameScreenState extends ConsumerState<WordOrderGameScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
+              Text(
                 'Câu của bạn:',
-                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: AppColors.mutedForeground),
+                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: context.tokens.mutedForeground),
               ),
               const SizedBox(height: 8),
               if (_userOrder.isEmpty)
-                const Text(
+                Text(
                   'Nhấn vào từ bên dưới để xếp câu',
-                  style: TextStyle(fontStyle: FontStyle.italic, color: AppColors.mutedForeground),
+                  style: TextStyle(fontStyle: FontStyle.italic, color: context.tokens.mutedForeground),
                 )
               else
                 Wrap(
@@ -362,9 +362,9 @@ class _WordOrderGameScreenState extends ConsumerState<WordOrderGameScreen> {
           ),
           child: Column(
             children: [
-              const Text(
+              Text(
                 'Chọn từ:',
-                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: AppColors.mutedForeground),
+                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: context.tokens.mutedForeground),
               ),
               const SizedBox(height: 12),
               Wrap(
@@ -436,7 +436,7 @@ class _WordOrderGameScreenState extends ConsumerState<WordOrderGameScreen> {
             ),
             const SizedBox(height: 16),
             Text('$_score', style: const TextStyle(fontSize: 48, fontWeight: FontWeight.bold, color: Colors.amber)),
-            const Text('Điểm', style: TextStyle(fontSize: 16, color: AppColors.mutedForeground)),
+            Text('Điểm', style: TextStyle(fontSize: 16, color: context.tokens.mutedForeground)),
             const SizedBox(height: 24),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -496,7 +496,7 @@ class _StatItem extends StatelessWidget {
     return Column(
       children: [
         Text(value, style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: color)),
-        Text(label, style: const TextStyle(fontSize: 12, color: AppColors.mutedForeground)),
+        Text(label, style: TextStyle(fontSize: 12, color: context.tokens.mutedForeground)),
       ],
     );
   }

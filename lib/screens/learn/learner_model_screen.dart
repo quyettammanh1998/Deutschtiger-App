@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_tokens.dart';
 import '../../data/learn/learn_models.dart';
 import '../../l10n/app_localizations.dart';
@@ -119,7 +118,7 @@ class LearnerModelScreen extends ConsumerWidget {
                         child: LearnerModelStatTile(
                           label: l10n.learnerModelDueNow,
                           value: '${model.dueNow}',
-                          color: AppColors.warning,
+                          color: tokens.warning,
                           onTap: () => context.push('/daily-review'),
                         ),
                       ),
@@ -128,7 +127,7 @@ class LearnerModelScreen extends ConsumerWidget {
                         child: LearnerModelStatTile(
                           label: l10n.learnerModelWeakTotal,
                           value: '${model.weakTotal}',
-                          color: AppColors.destructive,
+                          color: tokens.destructive,
                         ),
                       ),
                       const SizedBox(width: 8),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/design_tokens.dart';
+import '../../core/theme/app_tokens.dart';
 
 /// Màn chặn buộc cập nhật — Phase 13 §"Force-update path".
 ///
@@ -36,8 +37,9 @@ class ForceUpdateScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = context.tokens;
     return Scaffold(
-      backgroundColor: DesignTokens.authBackground,
+      backgroundColor: tokens.background,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(DesignTokens.spacingLg),
@@ -62,7 +64,7 @@ class ForceUpdateScreen extends StatelessWidget {
                 message ??
                     'Phiên bản hiện tại đã cũ. Vui lòng cập nhật để tiếp tục sử dụng DeutschTiger.',
                 style: DesignTokens.bodyMedium.copyWith(
-                  color: DesignTokens.mutedForeground,
+                  color: tokens.mutedForeground,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -71,7 +73,7 @@ class ForceUpdateScreen extends StatelessWidget {
                 Text(
                   'Phiên bản mới nhất: $latestVersion',
                   style: DesignTokens.bodySmall.copyWith(
-                    color: DesignTokens.mutedForeground,
+                    color: tokens.mutedForeground,
                   ),
                 ),
               ],

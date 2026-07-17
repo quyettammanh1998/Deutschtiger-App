@@ -2,7 +2,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 
-import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/app_tokens.dart';
 
 /// Vòng tròn % thẻ đã thuộc — vẽ tay bằng [CustomPainter], không thêm package
 /// chart mới (pubspec chưa có fl_chart/graphic, giữ KISS cho 1 chỉ số đơn).
@@ -12,14 +12,16 @@ class MasteryRing extends StatelessWidget {
   final int percent;
   final double size;
 
-  Color get _color {
-    if (percent >= 70) return AppColors.success;
-    if (percent >= 40) return AppColors.warning;
-    return AppColors.destructive;
+  Color _colorFor(AppTokens tokens) {
+    if (percent >= 70) return tokens.success;
+    if (percent >= 40) return tokens.warning;
+    return tokens.destructive;
   }
 
   @override
   Widget build(BuildContext context) {
+    final tokens = context.tokens;
+    final color = _colorFor(tokens);
     final clamped = percent.clamp(0, 100);
     return SizedBox(
       width: size,
@@ -29,7 +31,11 @@ class MasteryRing extends StatelessWidget {
         children: [
           CustomPaint(
             size: Size(size, size),
-            painter: _MasteryRingPainter(percent: clamped, color: _color),
+            painter: _MasteryRingPainter(
+              percent: clamped,
+              color: color,
+              trackColor: tokens.muted,
+            ),
           ),
           Column(
             mainAxisSize: MainAxisSize.min,
@@ -39,7 +45,7 @@ class MasteryRing extends StatelessWidget {
                 style: TextStyle(
                   fontSize: size * 0.22,
                   fontWeight: FontWeight.bold,
-                  color: _color,
+                  color: color,
                 ),
               ),
             ],
@@ -51,10 +57,15 @@ class MasteryRing extends StatelessWidget {
 }
 
 class _MasteryRingPainter extends CustomPainter {
-  _MasteryRingPainter({required this.percent, required this.color});
+  _MasteryRingPainter({
+    required this.percent,
+    required this.color,
+    required this.trackColor,
+  });
 
   final int percent;
   final Color color;
+  final Color trackColor;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -63,7 +74,7 @@ class _MasteryRingPainter extends CustomPainter {
     final strokeWidth = size.width * 0.09;
 
     final trackPaint = Paint()
-      ..color = AppColors.muted
+      ..color = trackColor
       ..style = PaintingStyle.stroke
       ..strokeWidth = strokeWidth;
     canvas.drawCircle(center, radius, trackPaint);
@@ -86,5 +97,7 @@ class _MasteryRingPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant _MasteryRingPainter oldDelegate) =>
-      oldDelegate.percent != percent || oldDelegate.color != color;
+      oldDelegate.percent != percent ||
+      oldDelegate.color != color ||
+      oldDelegate.trackColor != trackColor;
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/design_tokens.dart';
+import '../../../core/theme/app_tokens.dart';
 import '../../../data/news/news_models.dart';
 import '../../../l10n/app_localizations.dart';
 
@@ -43,14 +44,15 @@ class _NewsQuizCardState extends State<NewsQuizCard> {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = context.tokens;
     final l10n = AppLocalizations.of(context);
     final allAnswered = _selected.length == widget.quiz.length;
     return Container(
       padding: const EdgeInsets.all(DesignTokens.spacingMd),
       decoration: BoxDecoration(
-        color: DesignTokens.card,
+        color: tokens.card,
         borderRadius: BorderRadius.circular(DesignTokens.radius),
-        border: Border.all(color: DesignTokens.border),
+        border: Border.all(color: tokens.border),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -90,7 +92,7 @@ class _NewsQuizCardState extends State<NewsQuizCard> {
                 fontWeight: FontWeight.w700,
                 color: _scorePct >= 60
                     ? const Color(0xFF059669)
-                    : DesignTokens.mutedForeground,
+                    : tokens.mutedForeground,
               ),
             ),
         ],
@@ -116,6 +118,7 @@ class _QuizQuestion extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = context.tokens;
     return Padding(
       padding: const EdgeInsets.only(bottom: DesignTokens.spacingMd),
       child: Column(
@@ -139,10 +142,10 @@ class _QuizQuestion extends StatelessWidget {
               padding: const EdgeInsets.only(top: 4),
               child: Text(
                 quiz.explanationVi,
-                style: const TextStyle(
+                style: TextStyle(
                   fontStyle: FontStyle.italic,
                   fontSize: 12,
-                  color: DesignTokens.mutedForeground,
+                  color: tokens.mutedForeground,
                 ),
               ),
             ),
@@ -169,8 +172,9 @@ class _OptionTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = context.tokens;
     Color? background;
-    Color borderColor = DesignTokens.border;
+    Color borderColor = tokens.border;
     if (revealed) {
       if (isCorrect) {
         background = const Color(0xFFD1FAE5);

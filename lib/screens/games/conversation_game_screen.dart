@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/app_tokens.dart';
 
 /// Conversation Practice game - Hội thoại đời thường.
 class ConversationGameScreen extends StatefulWidget {
@@ -182,21 +182,22 @@ class _ConversationGameScreenState extends State<ConversationGameScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final background = context.tokens.background;
     return Scaffold(
-      backgroundColor: AppColors.authBackground,
+      backgroundColor: background,
       appBar: AppBar(
-        backgroundColor: AppColors.authBackground,
+        backgroundColor: background,
         title: const Text('Hội thoại'),
         leading: IconButton(
           icon: const Icon(Icons.close),
           onPressed: () => context.pop(),
         ),
       ),
-      body: _gameOver ? _buildResults() : _buildGame(),
+      body: _gameOver ? _buildResults(context) : _buildGame(context),
     );
   }
 
-  Widget _buildGame() {
+  Widget _buildGame(BuildContext context) {
     final scenario = _scenarios[_currentIndex];
     final situationColor =
         _situationColors[scenario['situation']] ?? Colors.pink;
@@ -276,7 +277,7 @@ class _ConversationGameScreenState extends State<ConversationGameScreen> {
                     Text(
                       scenario['context'] as String,
                       style: TextStyle(
-                        color: AppColors.mutedForeground,
+                        color: context.tokens.mutedForeground,
                         fontSize: 12,
                       ),
                     ),
@@ -292,10 +293,10 @@ class _ConversationGameScreenState extends State<ConversationGameScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Text(
             scenario['question'] as String,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
-              color: AppColors.foreground,
+              color: context.tokens.foreground,
             ),
             textAlign: TextAlign.center,
           ),
@@ -408,7 +409,7 @@ class _ConversationGameScreenState extends State<ConversationGameScreen> {
     );
   }
 
-  Widget _buildResults() {
+  Widget _buildResults(BuildContext context) {
     final accuracy = _total > 0 ? (_correct / _total * 100).round() : 0;
 
     return Center(
@@ -447,9 +448,12 @@ class _ConversationGameScreenState extends State<ConversationGameScreen> {
                 color: Colors.pink,
               ),
             ),
-            const Text(
+            Text(
               'Điểm',
-              style: TextStyle(fontSize: 16, color: AppColors.mutedForeground),
+              style: TextStyle(
+                fontSize: 16,
+                color: context.tokens.mutedForeground,
+              ),
             ),
             const SizedBox(height: 24),
             Row(
@@ -541,9 +545,9 @@ class _StatItem extends StatelessWidget {
         ),
         Text(
           label,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 12,
-            color: AppColors.mutedForeground,
+            color: context.tokens.mutedForeground,
           ),
         ),
       ],

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/design_tokens.dart';
+import '../../../../core/theme/app_tokens.dart';
 import '../../../../l10n/app_localizations.dart';
 
 /// Pill-style search bar shown at the top of the dashboard — taps through to
@@ -14,6 +15,7 @@ class DashboardSearchBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+    final tokens = context.tokens;
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -22,24 +24,17 @@ class DashboardSearchBar extends StatelessWidget {
           vertical: 12,
         ),
         decoration: BoxDecoration(
-          color: DesignTokens.card,
+          color: tokens.card,
           borderRadius: BorderRadius.circular(DesignTokens.radius),
           boxShadow: DesignTokens.shadowMd,
         ),
         child: Row(
           children: [
-            const Icon(
-              Icons.search,
-              color: DesignTokens.mutedForeground,
-              size: 20,
-            ),
+            Icon(Icons.search, color: tokens.mutedForeground, size: 20),
             const SizedBox(width: DesignTokens.spacingSm + 4),
             Text(
               hint ?? l10n.searchVocabulary,
-              style: const TextStyle(
-                fontSize: 14,
-                color: DesignTokens.mutedForeground,
-              ),
+              style: TextStyle(fontSize: 14, color: tokens.mutedForeground),
             ),
           ],
         ),
@@ -67,6 +62,7 @@ class _DashboardMissionsSectionState extends State<DashboardMissionsSection> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+    final tokens = context.tokens;
     final missions = widget.missions;
     final totalCount = missions.length;
     final completedCount = missions.where((m) => m.isCompleted).length;
@@ -89,10 +85,10 @@ class _DashboardMissionsSectionState extends State<DashboardMissionsSection> {
               children: [
                 Text(
                   l10n.dailyMissionsHeading,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
-                    color: DesignTokens.foreground,
+                    color: tokens.foreground,
                   ),
                 ),
                 if (totalCount > 0)
@@ -105,17 +101,17 @@ class _DashboardMissionsSectionState extends State<DashboardMissionsSection> {
                           fontWeight: FontWeight.bold,
                           color: allDone
                               ? DesignTokens.emerald600
-                              : DesignTokens.mutedForeground,
+                              : tokens.mutedForeground,
                         ),
                       ),
                       const SizedBox(width: DesignTokens.spacingXs),
                       AnimatedRotation(
                         turns: _collapsed ? 0.5 : 0,
                         duration: DesignTokens.durationFast,
-                        child: const Icon(
+                        child: Icon(
                           Icons.keyboard_arrow_up_rounded,
                           size: 18,
-                          color: DesignTokens.mutedForeground,
+                          color: tokens.mutedForeground,
                         ),
                       ),
                     ],
@@ -130,7 +126,7 @@ class _DashboardMissionsSectionState extends State<DashboardMissionsSection> {
               child: LinearProgressIndicator(
                 value: progressRatio,
                 minHeight: 6,
-                backgroundColor: DesignTokens.muted,
+                backgroundColor: tokens.muted,
                 valueColor: AlwaysStoppedAnimation(
                   allDone ? DesignTokens.emerald600 : const Color(0xFFF59E0B),
                 ),
@@ -141,7 +137,7 @@ class _DashboardMissionsSectionState extends State<DashboardMissionsSection> {
           if (missions.isEmpty)
             Text(
               l10n.noBonusMissions,
-              style: const TextStyle(color: DesignTokens.mutedForeground),
+              style: TextStyle(color: tokens.mutedForeground),
             )
           else if (!_collapsed)
             for (var i = 0; i < missions.length; i++) ...[
@@ -233,6 +229,7 @@ class DashboardMissionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = context.tokens;
     final palette = _kMissionPalette[index % _kMissionPalette.length];
     final done = mission.isCompleted;
 
@@ -316,7 +313,9 @@ class DashboardMissionCard extends StatelessWidget {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
               decoration: BoxDecoration(
-                color: done ? DesignTokens.muted : DesignTokens.amber100,
+                // Amber "+XP" chip mirrors web's fixed Tailwind amber-100/700
+                // badge — not a themed semantic token.
+                color: done ? tokens.muted : DesignTokens.amber100,
                 borderRadius: BorderRadius.circular(999),
               ),
               child: Text(
@@ -324,9 +323,7 @@ class DashboardMissionCard extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 10,
                   fontWeight: FontWeight.bold,
-                  color: done
-                      ? DesignTokens.mutedForeground
-                      : DesignTokens.amber700,
+                  color: done ? tokens.mutedForeground : DesignTokens.amber700,
                 ),
               ),
             ),

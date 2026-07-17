@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/app_tokens.dart';
 import '../../../l10n/app_localizations.dart';
 import 'package:deutschtiger/widgets/common/auth_card.dart';
 import 'package:deutschtiger/widgets/common/gradient_button.dart';
@@ -13,6 +14,11 @@ import 'package:deutschtiger/widgets/common/tiger_logo.dart';
 import 'auth_controller.dart';
 import 'widgets/auth_text_field.dart';
 import 'widgets/social_login_button.dart';
+
+/// Nền trang auth theo web: `bg-[#FFFBF5]` — web dùng literal, không phải
+/// token, nên giữ literal ở đây thay vì đọc static token đã deprecated.
+/// Dark mode dùng `context.tokens.background`.
+const Color _authPageBackground = Color(0xFFFFFBF5);
 
 /// Màn đăng nhập native — bám sát web (src/pages/auth/login-page.tsx):
 /// card trắng bo góc + border cam, logo hổ, gradient button. Email/password.
@@ -74,8 +80,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       }
     });
 
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
-      backgroundColor: AppColors.authBackground,
+      // dark:bg-background.
+      backgroundColor: isDark ? context.tokens.background : _authPageBackground,
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
@@ -121,7 +129,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                               ? Icons.visibility_off_outlined
                               : Icons.visibility_outlined,
                           size: 18,
-                          color: AppColors.mutedForeground,
+                          color: context.tokens.mutedForeground,
                         ),
                         onPressed: () => setState(() => _obscure = !_obscure),
                       ),
@@ -170,9 +178,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       children: [
                         Text(
                           l10n.dontHaveAccount,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 14,
-                            color: AppColors.mutedForeground,
+                            color: context.tokens.mutedForeground,
                           ),
                         ),
                         TextButton(
@@ -246,17 +254,18 @@ class _DividerWithText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = context.tokens;
     return Row(
       children: [
-        const Expanded(child: Divider(color: AppColors.border)),
+        Expanded(child: Divider(color: tokens.border)),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Text(
             AppLocalizations.of(context).or,
-            style: TextStyle(color: AppColors.mutedForeground, fontSize: 13),
+            style: TextStyle(color: tokens.mutedForeground, fontSize: 13),
           ),
         ),
-        const Expanded(child: Divider(color: AppColors.border)),
+        Expanded(child: Divider(color: tokens.border)),
       ],
     );
   }

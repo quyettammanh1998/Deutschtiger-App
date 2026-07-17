@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 
 import '../../../core/design_tokens.dart';
+import '../../../core/theme/app_tokens.dart';
 import '../domain/premium_providers.dart';
 import '../data/revenuecat_service.dart';
 
@@ -73,9 +74,9 @@ class _PremiumScreenState extends ConsumerState<PremiumScreen> {
     final packagesAsync = ref.watch(premiumPackagesProvider);
 
     return Scaffold(
-      backgroundColor: DesignTokens.background,
+      backgroundColor: context.tokens.background,
       appBar: AppBar(
-        backgroundColor: DesignTokens.background,
+        backgroundColor: context.tokens.background,
         elevation: 0,
         title: const Text(
           'Nâng cấp Premium',
@@ -127,10 +128,10 @@ class _Body extends StatelessWidget {
           const SizedBox(height: DesignTokens.spacingLg),
           const Icon(Icons.workspace_premium, size: 64, color: DesignTokens.tigerOrange),
           const SizedBox(height: DesignTokens.spacingMd),
-          const Text(
+          Text(
             'Học không giới hạn',
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.w800, color: DesignTokens.foreground),
+            style: TextStyle(fontSize: 24, fontWeight: FontWeight.w800, color: context.tokens.foreground),
           ),
           const SizedBox(height: DesignTokens.spacingXl),
           if (packages.isEmpty)
@@ -145,14 +146,14 @@ class _Body extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(DesignTokens.spacingMd),
             decoration: BoxDecoration(
-              color: DesignTokens.muted,
+              color: context.tokens.muted,
               borderRadius: BorderRadius.circular(DesignTokens.radiusSm),
             ),
-            child: const Text(
+            child: Text(
               'Các gói không tự gia hạn. Mua thêm để tiếp tục sau khi hết hạn. '
               'Huỷ: không áp dụng (không auto-renew).',
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 12, color: DesignTokens.mutedForeground, height: 1.5),
+              style: TextStyle(fontSize: 12, color: context.tokens.mutedForeground, height: 1.5),
             ),
           ),
           const SizedBox(height: DesignTokens.spacingMd),
@@ -181,9 +182,9 @@ class _PlanCard extends StatelessWidget {
         margin: const EdgeInsets.only(bottom: DesignTokens.spacingMd),
         padding: const EdgeInsets.all(DesignTokens.spacingMd),
         decoration: BoxDecoration(
-          color: DesignTokens.card,
+          color: context.tokens.card,
           borderRadius: BorderRadius.circular(DesignTokens.radius),
-          border: Border.all(color: DesignTokens.border),
+          border: Border.all(color: context.tokens.border),
           boxShadow: DesignTokens.shadowCard,
         ),
         child: Row(
@@ -194,16 +195,16 @@ class _PlanCard extends StatelessWidget {
                 children: [
                   Text(
                     storeProduct.title,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontWeight: FontWeight.w700,
                       fontSize: 16,
-                      color: DesignTokens.foreground,
+                      color: context.tokens.foreground,
                     ),
                   ),
                   const SizedBox(height: 4),
                   Text(
                     storeProduct.description,
-                    style: const TextStyle(fontSize: 13, color: DesignTokens.mutedForeground),
+                    style: TextStyle(fontSize: 13, color: context.tokens.mutedForeground),
                   ),
                 ],
               ),

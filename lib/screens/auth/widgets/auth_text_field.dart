@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_tokens.dart';
 import '../../../../l10n/app_localizations.dart';
 
 /// Ô nhập cho màn auth — style bám web login (label nhỏ phía trên,
-/// input bg orange-50, border orange-100, bo rounded-lg).
+/// input bg orange-50, border orange-100, bo rounded-lg) trong light;
+/// dark theo `dark:bg-card dark:border-border dark:focus:border-primary`.
 class AuthTextField extends StatelessWidget {
   const AuthTextField({
     super.key,
@@ -29,6 +31,17 @@ class AuthTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final tokens = context.tokens;
+    // Web: text-gray-700 dark:text-foreground.
+    final labelColor = isDark ? tokens.foreground : const Color(0xFF374151);
+    // Web: bg-orange-50/60 border-orange-100 (light) → dark:bg-card
+    // dark:border-border dark:focus:border-primary.
+    final fillColor = isDark
+        ? tokens.card
+        : AppColors.orange50.withValues(alpha: 0.6);
+    final borderColor = isDark ? tokens.border : AppColors.orange100;
+    final focusColor = isDark ? tokens.primary : AppColors.tigerOrange;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -36,10 +49,10 @@ class AuthTextField extends StatelessWidget {
           padding: const EdgeInsets.only(bottom: 4, left: 2),
           child: Text(
             label,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 13,
               fontWeight: FontWeight.w500,
-              color: Color(0xFF374151), // gray-700
+              color: labelColor,
             ),
           ),
         ),
@@ -49,22 +62,22 @@ class AuthTextField extends StatelessWidget {
           keyboardType: keyboardType,
           textInputAction: textInputAction,
           validator: validator,
-          style: const TextStyle(fontSize: 14),
+          style: TextStyle(fontSize: 14, color: tokens.foreground),
           decoration: InputDecoration(
             hintText: hint,
             filled: true,
-            fillColor: AppColors.orange50.withValues(alpha: 0.6),
+            fillColor: fillColor,
             suffixIcon: suffix,
             isDense: true,
             contentPadding: const EdgeInsets.symmetric(
               horizontal: 12,
               vertical: 12,
             ),
-            border: _border(AppColors.orange100),
-            enabledBorder: _border(AppColors.orange100),
-            focusedBorder: _border(AppColors.tigerOrange, width: 1.5),
-            errorBorder: _border(AppColors.destructive),
-            focusedErrorBorder: _border(AppColors.destructive, width: 1.5),
+            border: _border(borderColor),
+            enabledBorder: _border(borderColor),
+            focusedBorder: _border(focusColor, width: 1.5),
+            errorBorder: _border(tokens.destructive),
+            focusedErrorBorder: _border(tokens.destructive, width: 1.5),
           ),
         ),
       ],

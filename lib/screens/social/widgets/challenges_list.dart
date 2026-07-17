@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:deutschtiger/core/theme/app_colors.dart';
+import 'package:deutschtiger/core/theme/app_tokens.dart';
 import 'package:deutschtiger/data/social/social_legacy_mock_models.dart';
 
 class ChallengesList extends StatelessWidget {
@@ -43,6 +43,7 @@ class _ChallengeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = context.tokens;
     return Card(
       margin: const EdgeInsets.only(bottom: 12),
       child: Padding(
@@ -81,16 +82,16 @@ class _ChallengeCard extends StatelessWidget {
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                       decoration: BoxDecoration(
-                        color: AppColors.primary.withAlpha(25),
+                        color: tokens.primary.withAlpha(25),
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Row(
                         children: [
-                          const Icon(Icons.star, size: 16, color: AppColors.primary),
+                          Icon(Icons.star, size: 16, color: tokens.primary),
                           const SizedBox(width: 4),
                           Text(
                             '+${challenge.xpReward} XP',
-                            style: const TextStyle(color: AppColors.primary, fontWeight: FontWeight.bold),
+                            style: TextStyle(color: tokens.primary, fontWeight: FontWeight.bold),
                           ),
                         ],
                       ),
@@ -135,7 +136,7 @@ class _ChallengeCard extends StatelessWidget {
                       ElevatedButton(
                         onPressed: () {},
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.primary,
+                          backgroundColor: tokens.primary,
                           foregroundColor: Colors.white,
                         ),
                         child: const Text('Accept'),
@@ -158,6 +159,7 @@ class _StatusChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = context.tokens;
     Color color;
     String label;
 
@@ -167,11 +169,11 @@ class _StatusChip extends StatelessWidget {
         label = 'Pending';
         break;
       case 'accepted':
-        color = AppColors.primary;
+        color = tokens.primary;
         label = 'In Progress';
         break;
       case 'completed':
-        color = AppColors.success;
+        color = tokens.success;
         label = 'Completed';
         break;
       default:

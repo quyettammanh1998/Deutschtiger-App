@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/design_tokens.dart';
+import '../../../core/theme/app_tokens.dart';
 import '../../../data/notifications/notification_models.dart';
 import '../../../l10n/app_localizations.dart';
 
@@ -89,7 +90,7 @@ class NotificationTile extends StatelessWidget {
                   Text(
                     _timeAgo(l10n),
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: DesignTokens.mutedForeground,
+                      color: context.tokens.mutedForeground,
                     ),
                   ),
                 ],

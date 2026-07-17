@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/app_tokens.dart';
 import '../../../l10n/app_localizations.dart';
 import 'package:deutschtiger/data/stats/stats_models.dart';
 
@@ -33,7 +34,7 @@ class SRSStatsCard extends StatelessWidget {
       (l10n.statsMasteryNew, mastery.newCount, Colors.grey),
       (l10n.statsMasteryLearning, mastery.learning, AppColors.tigerOrange),
       (l10n.statsMasteryYoung, mastery.young, Colors.amber),
-      (l10n.statsMasteryMature, mastery.mature, AppColors.success),
+      (l10n.statsMasteryMature, mastery.mature, context.tokens.success),
     ];
     final maxReviews = daily
         .map((d) => d.reviewsCount)
@@ -120,7 +121,7 @@ class SRSStatsCard extends StatelessWidget {
                                 horizontal: 1,
                               ),
                               decoration: BoxDecoration(
-                                color: AppColors.success.withValues(
+                                color: context.tokens.success.withValues(
                                   alpha: 0.7,
                                 ),
                                 borderRadius: BorderRadius.circular(2),

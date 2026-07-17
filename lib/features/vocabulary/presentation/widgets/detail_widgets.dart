@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/design_tokens.dart';
+import '../../../../core/theme/app_tokens.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../../shared/widgets/speak_button.dart';
 import '../../../../shared/widgets/save_card_button.dart';
@@ -29,7 +30,7 @@ class _VocabHeroCardState extends State<VocabHeroCard> {
     return Container(
       padding: const EdgeInsets.all(DesignTokens.cardPadding),
       decoration: BoxDecoration(
-        color: DesignTokens.card,
+        color: context.tokens.card,
         borderRadius: BorderRadius.circular(DesignTokens.radiusLg),
         boxShadow: DesignTokens.shadowCard,
       ),
@@ -105,7 +106,7 @@ class _VocabHeroCardState extends State<VocabHeroCard> {
                           Text(
                             item.ipa!,
                             style: theme.textTheme.bodyMedium?.copyWith(
-                              color: DesignTokens.mutedForeground,
+                              color: context.tokens.mutedForeground,
                               fontStyle: FontStyle.italic,
                             ),
                           ),
@@ -160,7 +161,7 @@ class VocabMetaTable extends StatelessWidget {
     if (rows.isEmpty) return const SizedBox.shrink();
     return Container(
       decoration: BoxDecoration(
-        color: DesignTokens.card,
+        color: context.tokens.card,
         borderRadius: BorderRadius.circular(DesignTokens.radius),
       ),
       child: Column(
@@ -194,8 +195,8 @@ class _MetaRow extends StatelessWidget {
       decoration: BoxDecoration(
         border: isLast
             ? null
-            : const Border(
-                bottom: BorderSide(color: DesignTokens.border, width: 0.5),
+            : Border(
+                bottom: BorderSide(color: context.tokens.border, width: 0.5),
               ),
       ),
       padding: const EdgeInsets.symmetric(
@@ -209,7 +210,7 @@ class _MetaRow extends StatelessWidget {
             child: Text(
               label,
               style: theme.textTheme.bodySmall?.copyWith(
-                color: DesignTokens.mutedForeground,
+                color: context.tokens.mutedForeground,
                 fontWeight: FontWeight.w600,
               ),
             ),
@@ -332,7 +333,7 @@ class VocabPracticeButtons extends StatelessWidget {
             label: Text(l10n.practice),
             style: FilledButton.styleFrom(
               backgroundColor: DesignTokens.tigerOrange,
-              foregroundColor: DesignTokens.card,
+              foregroundColor: context.tokens.card,
               padding: const EdgeInsets.symmetric(vertical: 14),
             ),
           ),

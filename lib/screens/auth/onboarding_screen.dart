@@ -3,9 +3,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/design_tokens.dart';
+import '../../../core/theme/app_tokens.dart';
 import '../../../l10n/app_localizations.dart';
 import 'package:deutschtiger/widgets/common/gradient_button.dart';
 import 'package:deutschtiger/view_models/providers.dart';
+
+/// Nền trang auth theo web: `bg-[#FFFBF5]` — literal như web, không đọc
+/// static token đã deprecated. Dark mode dùng `context.tokens.background`.
+const Color _authPageBackground = Color(0xFFFFFBF5);
 
 /// A4 - Màn onboarding slides sau welcome, trước khi vào app chính.
 /// Mỗi slide: image placeholder + tiêu đề + mô tả + nút "Tiếp tục".
@@ -76,8 +81,12 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
     final l10n = AppLocalizations.of(context);
     final slides = _slides(l10n);
 
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final tokens = context.tokens;
     return Scaffold(
-      backgroundColor: DesignTokens.authBackground,
+      // Native-only onboarding (no web page); reuse the same auth-surface
+      // background as login/signup: light = fixed #FFFBF5, dark = theme bg.
+      backgroundColor: isDark ? tokens.background : _authPageBackground,
       body: SafeArea(
         child: Column(
           children: [
@@ -93,7 +102,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                   TextButton(
                     onPressed: _finish,
                     style: TextButton.styleFrom(
-                      foregroundColor: DesignTokens.mutedForeground,
+                      foregroundColor: tokens.mutedForeground,
                       padding: const EdgeInsets.symmetric(
                         horizontal: DesignTokens.spacingMd,
                         vertical: DesignTokens.spacingXs,
@@ -167,6 +176,7 @@ class _SlideView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = context.tokens;
     return LayoutBuilder(
       builder: (context, constraints) {
         return SingleChildScrollView(
@@ -180,7 +190,9 @@ class _SlideView extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  // Image placeholder container
+                  // Image placeholder container — fixed pastel palette per
+                  // slide (marketing icon tiles, no web page to mirror;
+                  // same "deliberately fixed" pattern as welcome/**).
                   Container(
                     width: 220,
                     height: 220,
@@ -195,10 +207,10 @@ class _SlideView extends StatelessWidget {
                   Text(
                     slide.title,
                     textAlign: TextAlign.center,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.w700,
-                      color: DesignTokens.foreground,
+                      color: tokens.foreground,
                       height: 1.3,
                     ),
                   ),
@@ -206,9 +218,9 @@ class _SlideView extends StatelessWidget {
                   Text(
                     slide.description,
                     textAlign: TextAlign.center,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 15,
-                      color: DesignTokens.mutedForeground,
+                      color: tokens.mutedForeground,
                       height: 1.5,
                     ),
                   ),
@@ -230,6 +242,7 @@ class _PageIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = context.tokens;
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: List.generate(count, (index) {
@@ -242,7 +255,8 @@ class _PageIndicator extends StatelessWidget {
           height: 8,
           width: isActive ? 24 : 8,
           decoration: BoxDecoration(
-            color: isActive ? DesignTokens.tigerOrange : DesignTokens.border,
+            // Active dot = fixed brand orange; inactive follows theme border.
+            color: isActive ? DesignTokens.tigerOrange : tokens.border,
             borderRadius: BorderRadius.circular(DesignTokens.radiusSm),
           ),
         );

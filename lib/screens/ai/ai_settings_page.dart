@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/app_tokens.dart';
 import 'package:deutschtiger/data/ai/ai_chat_live_models.dart';
 import 'package:deutschtiger/view_models/ai/ai_provider.dart';
 
@@ -100,7 +100,7 @@ class _AISettingsPageState extends ConsumerState<AISettingsPage> {
                   child: ElevatedButton(
                     onPressed: profileState.isSaving ? null : _saveProfile,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.primary,
+                      backgroundColor: context.tokens.primary,
                       foregroundColor: Colors.white,
                       padding: const EdgeInsets.symmetric(vertical: 14),
                     ),
@@ -141,10 +141,10 @@ class _SectionHeader extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 8),
       child: Text(
         title,
-        style: const TextStyle(
+        style: TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.bold,
-          color: AppColors.primary,
+          color: context.tokens.primary,
           letterSpacing: 0.5,
         ),
       ),

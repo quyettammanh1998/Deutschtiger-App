@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/design_tokens.dart';
+import '../../../core/theme/app_tokens.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../view_models/providers.dart';
 
@@ -69,13 +70,14 @@ class _FeedbackSheetState extends ConsumerState<FeedbackSheet> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+    final tokens = context.tokens;
     final viewInsets = MediaQuery.of(context).viewInsets.bottom;
     return Padding(
       padding: EdgeInsets.only(bottom: viewInsets),
       child: Container(
-        decoration: const BoxDecoration(
-          color: DesignTokens.card,
-          borderRadius: BorderRadius.vertical(
+        decoration: BoxDecoration(
+          color: tokens.card,
+          borderRadius: const BorderRadius.vertical(
             top: Radius.circular(DesignTokens.radiusLg),
           ),
         ),
@@ -84,12 +86,12 @@ class _FeedbackSheetState extends ConsumerState<FeedbackSheet> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Center(
+            Center(
               child: SizedBox(
                 width: 40,
                 height: 4,
                 child: DecoratedBox(
-                  decoration: BoxDecoration(color: DesignTokens.border),
+                  decoration: BoxDecoration(color: tokens.border),
                 ),
               ),
             ),
@@ -128,7 +130,10 @@ class _FeedbackSheetState extends ConsumerState<FeedbackSheet> {
                 label: Text(l10n.sendAction),
                 style: FilledButton.styleFrom(
                   backgroundColor: DesignTokens.orange500,
-                  foregroundColor: DesignTokens.card,
+                  // Fixed brand-orange CTA (matches other orange500 buttons
+                  // app-wide) — foreground stays literal white rather than
+                  // `card`, which would go dark-navy in dark mode.
+                  foregroundColor: Colors.white,
                 ),
               ),
             ),

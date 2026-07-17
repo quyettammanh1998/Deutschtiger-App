@@ -347,6 +347,7 @@ class _FilterBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = context.tokens;
     final l10n = AppLocalizations.of(context);
     return Padding(
       padding: const EdgeInsets.symmetric(
@@ -363,10 +364,10 @@ class _FilterBar extends StatelessWidget {
             children: [
               Text(
                 l10n.newsFilterLevelLabel,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w600,
-                  color: DesignTokens.mutedForeground,
+                  color: tokens.mutedForeground,
                 ),
               ),
               for (final level in levels)
@@ -379,7 +380,7 @@ class _FilterBar extends StatelessWidget {
                     fontWeight: FontWeight.w700,
                     color: activeLevel == level
                         ? Colors.white
-                        : DesignTokens.foreground,
+                        : tokens.foreground,
                   ),
                 ),
             ],
@@ -393,10 +394,10 @@ class _FilterBar extends StatelessWidget {
               children: [
                 Text(
                   l10n.newsFilterTopicLabel,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w600,
-                    color: DesignTokens.mutedForeground,
+                    color: tokens.mutedForeground,
                   ),
                 ),
                 for (final topic in topics)
@@ -437,6 +438,7 @@ class _PaginationBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = context.tokens;
     final l10n = AppLocalizations.of(context);
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: DesignTokens.spacingMd),
@@ -455,9 +457,9 @@ class _PaginationBar extends StatelessWidget {
             child: Text(
               l10n.newsPaginationInfo(page, totalPages),
               overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
+              style: TextStyle(
                 fontWeight: FontWeight.w600,
-                color: DesignTokens.mutedForeground,
+                color: tokens.mutedForeground,
               ),
             ),
           ),
@@ -483,6 +485,7 @@ class _EmptyState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = context.tokens;
     final l10n = AppLocalizations.of(context);
     return Center(
       child: Padding(
@@ -490,16 +493,16 @@ class _EmptyState extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(
+            Icon(
               Icons.newspaper_outlined,
               size: 40,
-              color: DesignTokens.mutedForeground,
+              color: tokens.mutedForeground,
             ),
             const SizedBox(height: DesignTokens.spacingSm),
             Text(
               hasFilter ? l10n.newsEmptyFiltered : l10n.newsEmptyNone,
               textAlign: TextAlign.center,
-              style: const TextStyle(color: DesignTokens.mutedForeground),
+              style: TextStyle(color: tokens.mutedForeground),
             ),
             if (hasFilter) ...[
               const SizedBox(height: DesignTokens.spacingSm),
@@ -527,7 +530,7 @@ class _NewsListSkeleton extends StatelessWidget {
       itemBuilder: (context, index) => Container(
         padding: const EdgeInsets.all(DesignTokens.spacingMd),
         decoration: BoxDecoration(
-          color: DesignTokens.card,
+          color: context.tokens.card,
           borderRadius: BorderRadius.circular(DesignTokens.radius),
         ),
         child: Column(

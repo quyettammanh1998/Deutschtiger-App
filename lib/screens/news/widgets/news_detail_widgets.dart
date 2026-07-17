@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 
 import '../../../core/design_tokens.dart';
+import '../../../core/theme/app_tokens.dart';
 import '../../../data/news/news_models.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../shared/widgets/tappable_sentence.dart';
@@ -22,6 +23,7 @@ class NewsLevelSwitcher extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = context.tokens;
     return Wrap(
       spacing: DesignTokens.spacingSm,
       children: [
@@ -33,7 +35,7 @@ class NewsLevelSwitcher extends StatelessWidget {
             selectedColor: DesignTokens.tigerOrange,
             labelStyle: TextStyle(
               fontWeight: FontWeight.w700,
-              color: active == level ? Colors.white : DesignTokens.foreground,
+              color: active == level ? Colors.white : tokens.foreground,
             ),
           ),
       ],
@@ -99,6 +101,7 @@ class _NewsAudioBarState extends State<NewsAudioBar> {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = context.tokens;
     return Container(
       margin: const EdgeInsets.only(bottom: DesignTokens.spacingMd),
       padding: const EdgeInsets.symmetric(
@@ -106,7 +109,7 @@ class _NewsAudioBarState extends State<NewsAudioBar> {
         vertical: DesignTokens.spacingSm,
       ),
       decoration: BoxDecoration(
-        color: DesignTokens.muted,
+        color: tokens.muted,
         borderRadius: BorderRadius.circular(DesignTokens.radiusSm),
       ),
       child: Row(
@@ -227,12 +230,13 @@ class NewsVocabList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = context.tokens;
     return Container(
       padding: const EdgeInsets.all(DesignTokens.spacingMd),
       decoration: BoxDecoration(
-        color: DesignTokens.card,
+        color: tokens.card,
         borderRadius: BorderRadius.circular(DesignTokens.radius),
-        border: Border.all(color: DesignTokens.border),
+        border: Border.all(color: tokens.border),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -258,8 +262,8 @@ class NewsVocabList extends StatelessWidget {
                         const TextSpan(text: '  —  '),
                         TextSpan(
                           text: v.meaningVi,
-                          style: const TextStyle(
-                            color: DesignTokens.mutedForeground,
+                          style: TextStyle(
+                            color: tokens.mutedForeground,
                           ),
                         ),
                       ],
@@ -268,10 +272,10 @@ class NewsVocabList extends StatelessWidget {
                   if (v.exampleDe.isNotEmpty)
                     Text(
                       v.exampleDe,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontStyle: FontStyle.italic,
                         fontSize: 12,
-                        color: DesignTokens.mutedForeground,
+                        color: tokens.mutedForeground,
                       ),
                     ),
                 ],
@@ -297,10 +301,11 @@ class NewsExamPromptsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = context.tokens;
     return Container(
       padding: const EdgeInsets.all(DesignTokens.spacingMd),
       decoration: BoxDecoration(
-        color: DesignTokens.card,
+        color: tokens.card,
         borderRadius: BorderRadius.circular(DesignTokens.radius),
         border: const Border(
           left: BorderSide(color: DesignTokens.orange500, width: 4),

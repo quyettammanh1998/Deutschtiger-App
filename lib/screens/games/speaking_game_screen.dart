@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/app_tokens.dart';
 import '../../../widgets/common/game_shell.dart';
 
 /// Speaking Practice game - Luyện nói với microphone.
@@ -135,11 +135,11 @@ class _SpeakingGameScreenState extends State<SpeakingGameScreen>
               ),
             )
           : null,
-      child: _gameOver ? _buildResults() : _buildGame(),
+      child: _gameOver ? _buildResults(context) : _buildGame(context),
     );
   }
 
-  Widget _buildGame() {
+  Widget _buildGame(BuildContext context) {
     final sentence = _sentences[_currentIndex];
 
     return Column(
@@ -173,10 +173,10 @@ class _SpeakingGameScreenState extends State<SpeakingGameScreen>
               // Vietnamese meaning
               Text(
                 sentence['vietnamese'] as String,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w500,
-                  color: AppColors.foreground,
+                  color: context.tokens.foreground,
                 ),
               ),
               const SizedBox(height: 24),
@@ -198,7 +198,7 @@ class _SpeakingGameScreenState extends State<SpeakingGameScreen>
                 sentence['phonetic'] as String,
                 style: TextStyle(
                   fontSize: 14,
-                  color: AppColors.mutedForeground,
+                  color: context.tokens.mutedForeground,
                   fontStyle: FontStyle.italic,
                 ),
               ),
@@ -248,7 +248,7 @@ class _SpeakingGameScreenState extends State<SpeakingGameScreen>
           _isRecording ? 'Đang ghi âm...' : 'Nhấn để ghi âm',
           style: TextStyle(
             fontSize: 16,
-            color: _isRecording ? Colors.red : AppColors.mutedForeground,
+            color: _isRecording ? Colors.red : context.tokens.mutedForeground,
             fontWeight: _isRecording ? FontWeight.bold : FontWeight.normal,
           ),
         ),
@@ -297,7 +297,7 @@ class _SpeakingGameScreenState extends State<SpeakingGameScreen>
     return '💪 Cần luyện thêm';
   }
 
-  Widget _buildResults() {
+  Widget _buildResults(BuildContext context) {
     final accuracy = _total > 0 ? (_correct / _total * 100).round() : 0;
 
     return Center(
@@ -332,7 +332,13 @@ class _SpeakingGameScreenState extends State<SpeakingGameScreen>
               '$_score',
               style: const TextStyle(fontSize: 48, fontWeight: FontWeight.bold, color: Colors.pink),
             ),
-            const Text('Điểm', style: TextStyle(fontSize: 16, color: AppColors.mutedForeground)),
+            Text(
+              'Điểm',
+              style: TextStyle(
+                fontSize: 16,
+                color: context.tokens.mutedForeground,
+              ),
+            ),
             const SizedBox(height: 24),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -399,7 +405,10 @@ class _StatItem extends StatelessWidget {
     return Column(
       children: [
         Text(value, style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: color)),
-        Text(label, style: const TextStyle(fontSize: 12, color: AppColors.mutedForeground)),
+        Text(
+          label,
+          style: TextStyle(fontSize: 12, color: context.tokens.mutedForeground),
+        ),
       ],
     );
   }

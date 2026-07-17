@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_tokens.dart';
 import '../../data/games/learning_item_models.dart';
 import '../../view_models/games/learning_item_provider.dart';
 import '../../widgets/common/async_state_views.dart';
@@ -293,17 +293,17 @@ class _ArticleGameScreenState extends ConsumerState<ArticleGameScreen>
                 children: [
                   Text(
                     _currentWord.word,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 48,
                       fontWeight: FontWeight.bold,
-                      color: AppColors.foreground,
+                      color: context.tokens.foreground,
                       letterSpacing: 2,
                     ),
                   ),
                   const SizedBox(height: 8),
                   Text(
                     _currentWord.meaning,
-                    style: TextStyle(fontSize: 20, color: AppColors.mutedForeground),
+                    style: TextStyle(fontSize: 20, color: context.tokens.mutedForeground),
                   ),
                 ],
               ),
@@ -402,7 +402,7 @@ class _ArticleGameScreenState extends ConsumerState<ArticleGameScreen>
                   color: Color(0xFF14B8A6),
                 ),
               ),
-              const Text('Điểm', style: TextStyle(fontSize: 16, color: AppColors.mutedForeground)),
+              Text('Điểm', style: TextStyle(fontSize: 16, color: context.tokens.mutedForeground)),
               const SizedBox(height: 24),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -503,10 +503,10 @@ class _ProgressBar extends StatelessWidget {
             children: [
               Text(
                 'Câu $current/$total',
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w500,
-                  color: AppColors.mutedForeground,
+                  color: context.tokens.mutedForeground,
                 ),
               ),
               Text(
@@ -621,7 +621,7 @@ class _ResultStat extends StatelessWidget {
       children: [
         Text(value, style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: color)),
         const SizedBox(height: 4),
-        Text(label, style: const TextStyle(fontSize: 12, color: AppColors.mutedForeground)),
+        Text(label, style: TextStyle(fontSize: 12, color: context.tokens.mutedForeground)),
       ],
     );
   }

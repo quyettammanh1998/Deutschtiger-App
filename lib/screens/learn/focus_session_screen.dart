@@ -277,6 +277,7 @@ class _FocusCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = context.tokens;
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -297,8 +298,8 @@ class _FocusCard extends StatelessWidget {
                       const SizedBox(height: 4),
                       Text(
                         count == 0 ? emptyLabel : '$count',
-                        style: const TextStyle(
-                          color: AppColors.mutedForeground,
+                        style: TextStyle(
+                          color: tokens.mutedForeground,
                           fontSize: 12,
                         ),
                       ),
@@ -351,6 +352,7 @@ class _WeaknessesCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = context.tokens;
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -366,8 +368,8 @@ class _WeaknessesCard extends StatelessWidget {
               weaknesses.isEmpty
                   ? l10n.focusSessionWeaknessesEmpty
                   : l10n.focusSessionWeaknessesCount(weaknesses.length),
-              style: const TextStyle(
-                color: AppColors.mutedForeground,
+              style: TextStyle(
+                color: tokens.mutedForeground,
                 fontSize: 12,
               ),
             ),
@@ -380,7 +382,7 @@ class _WeaknessesCard extends StatelessWidget {
                   child: Container(
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
-                      border: Border.all(color: AppColors.border),
+                      border: Border.all(color: tokens.border),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Column(
@@ -420,16 +422,16 @@ class _WeaknessesCard extends StatelessWidget {
                           const SizedBox(height: 6),
                           Text(
                             w.lastExampleOriginal!,
-                            style: const TextStyle(
+                            style: TextStyle(
                               decoration: TextDecoration.lineThrough,
-                              color: AppColors.mutedForeground,
+                              color: tokens.mutedForeground,
                               fontSize: 12,
                             ),
                           ),
                           Text(
                             w.lastExampleCorrected!,
-                            style: const TextStyle(
-                              color: AppColors.success,
+                            style: TextStyle(
+                              color: tokens.success,
                               fontWeight: FontWeight.w600,
                               fontSize: 12,
                             ),
@@ -452,7 +454,7 @@ class _WeaknessesCard extends StatelessWidget {
                     vertical: 6,
                   ),
                   decoration: BoxDecoration(
-                    border: Border.all(color: AppColors.border),
+                    border: Border.all(color: tokens.border),
                     borderRadius: BorderRadius.circular(999),
                   ),
                   child: Text(

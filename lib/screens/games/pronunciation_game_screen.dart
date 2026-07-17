@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/app_tokens.dart';
 
 /// Pronunciation Practice game - Luyện phát âm.
 class PronunciationGameScreen extends StatefulWidget {
@@ -160,21 +160,22 @@ class _PronunciationGameScreenState extends State<PronunciationGameScreen>
 
   @override
   Widget build(BuildContext context) {
+    final background = context.tokens.background;
     return Scaffold(
-      backgroundColor: AppColors.authBackground,
+      backgroundColor: background,
       appBar: AppBar(
-        backgroundColor: AppColors.authBackground,
+        backgroundColor: background,
         title: const Text('Luyện phát âm'),
         leading: IconButton(
           icon: const Icon(Icons.close),
           onPressed: () => context.pop(),
         ),
       ),
-      body: _gameOver ? _buildResults() : _buildGame(),
+      body: _gameOver ? _buildResults(context) : _buildGame(context),
     );
   }
 
-  Widget _buildGame() {
+  Widget _buildGame(BuildContext context) {
     final challenge = _challenges[_currentIndex];
     final typeColor = _typeColors[challenge['type']] ?? Colors.deepPurple;
 
@@ -261,7 +262,7 @@ class _PronunciationGameScreenState extends State<PronunciationGameScreen>
                 challenge['phonetic'] as String,
                 style: TextStyle(
                   fontSize: 16,
-                  color: AppColors.mutedForeground,
+                  color: context.tokens.mutedForeground,
                   fontStyle: FontStyle.italic,
                 ),
               ),
@@ -343,7 +344,9 @@ class _PronunciationGameScreenState extends State<PronunciationGameScreen>
         Text(
           _isPlaying ? 'Đang phát...' : 'Nhấn để nghe',
           style: TextStyle(
-            color: _isPlaying ? Colors.deepPurple : AppColors.mutedForeground,
+            color: _isPlaying
+                ? Colors.deepPurple
+                : context.tokens.mutedForeground,
           ),
         ),
 
@@ -400,7 +403,7 @@ class _PronunciationGameScreenState extends State<PronunciationGameScreen>
     );
   }
 
-  Widget _buildResults() {
+  Widget _buildResults(BuildContext context) {
     final accuracy = _total > 0 ? (_correct / _total * 100).round() : 0;
 
     return Center(
@@ -435,7 +438,13 @@ class _PronunciationGameScreenState extends State<PronunciationGameScreen>
               '$_score',
               style: const TextStyle(fontSize: 48, fontWeight: FontWeight.bold, color: Colors.deepPurple),
             ),
-            const Text('Điểm', style: TextStyle(fontSize: 16, color: AppColors.mutedForeground)),
+            Text(
+              'Điểm',
+              style: TextStyle(
+                fontSize: 16,
+                color: context.tokens.mutedForeground,
+              ),
+            ),
             const SizedBox(height: 24),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -500,7 +509,10 @@ class _StatItem extends StatelessWidget {
     return Column(
       children: [
         Text(value, style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: color)),
-        Text(label, style: const TextStyle(fontSize: 12, color: AppColors.mutedForeground)),
+        Text(
+          label,
+          style: TextStyle(fontSize: 12, color: context.tokens.mutedForeground),
+        ),
       ],
     );
   }

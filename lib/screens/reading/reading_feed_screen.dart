@@ -6,6 +6,7 @@ import 'package:deutschtiger/l10n/app_localizations.dart';
 import 'package:deutschtiger/repositories/reading/reading_repository.dart';
 import 'package:deutschtiger/widgets/common/async_state_views.dart';
 import '../../core/design_tokens.dart';
+import '../../core/theme/app_tokens.dart';
 import '../../data/reading/reading_models.dart';
 import '../../shared/widgets/skeleton_loader.dart';
 
@@ -33,15 +34,16 @@ class _ReadingFeedScreenState extends ConsumerState<ReadingFeedScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = context.tokens;
     final l10n = AppLocalizations.of(context);
     final selectedLevels = (_selected.toList()..sort()).join(',');
     final feedAsync = ref.watch(readingFeedProvider(selectedLevels));
 
     return Scaffold(
-      backgroundColor: DesignTokens.background,
+      backgroundColor: tokens.background,
       appBar: AppBar(
         title: Text(l10n.readingFeedAppBarTitle),
-        backgroundColor: DesignTokens.background,
+        backgroundColor: tokens.background,
       ),
       body: Column(
         children: [
@@ -110,16 +112,17 @@ class _FeedLevelPill extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = context.tokens;
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(999),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
         decoration: BoxDecoration(
-          color: selected ? DesignTokens.tigerOrange : DesignTokens.card,
+          color: selected ? DesignTokens.tigerOrange : tokens.card,
           borderRadius: BorderRadius.circular(999),
           border: Border.all(
-            color: selected ? DesignTokens.tigerOrange : DesignTokens.border,
+            color: selected ? DesignTokens.tigerOrange : tokens.border,
           ),
         ),
         child: Text(
@@ -127,7 +130,7 @@ class _FeedLevelPill extends StatelessWidget {
           style: TextStyle(
             fontSize: 13,
             fontWeight: FontWeight.w600,
-            color: selected ? Colors.white : DesignTokens.mutedForeground,
+            color: selected ? Colors.white : tokens.mutedForeground,
           ),
         ),
       ),
@@ -142,6 +145,7 @@ class _FeedEmptyState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = context.tokens;
     final l10n = AppLocalizations.of(context);
     return Center(
       child: SingleChildScrollView(
@@ -149,19 +153,19 @@ class _FeedEmptyState extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.auto_stories_outlined, size: 40, color: DesignTokens.mutedForeground),
+            Icon(Icons.auto_stories_outlined, size: 40, color: tokens.mutedForeground),
             const SizedBox(height: DesignTokens.spacingSm),
             Text(
               coverageReady ? l10n.readingFeedEmptyReady : l10n.readingFeedEmptyNotReady,
               textAlign: TextAlign.center,
-              style: const TextStyle(color: DesignTokens.mutedForeground),
+              style: TextStyle(color: tokens.mutedForeground),
             ),
             if (coverageReady) ...[
               const SizedBox(height: DesignTokens.spacingXs),
               Text(
                 l10n.readingFeedSaveVocabHint,
                 textAlign: TextAlign.center,
-                style: TextStyle(color: DesignTokens.mutedForeground, fontSize: 12),
+                style: TextStyle(color: tokens.mutedForeground, fontSize: 12),
               ),
               const SizedBox(height: DesignTokens.spacingMd),
               FilledButton(
@@ -185,6 +189,7 @@ class _ReadingFeedSkeleton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = context.tokens;
     return ListView.separated(
       padding: const EdgeInsets.all(DesignTokens.spacingMd),
       itemCount: 5,
@@ -193,7 +198,7 @@ class _ReadingFeedSkeleton extends StatelessWidget {
       itemBuilder: (context, index) => Container(
         padding: const EdgeInsets.all(DesignTokens.spacingMd),
         decoration: BoxDecoration(
-          color: DesignTokens.card,
+          color: tokens.card,
           borderRadius: BorderRadius.circular(DesignTokens.radius),
         ),
         child: const Column(
@@ -230,11 +235,12 @@ class _FeedArticleCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final tokens = context.tokens;
     final fitColor = _fitColors[article.fit]!;
     return Padding(
       padding: const EdgeInsets.only(bottom: DesignTokens.spacingSm + 4),
       child: Material(
-        color: DesignTokens.card,
+        color: tokens.card,
         borderRadius: BorderRadius.circular(DesignTokens.radius),
         child: InkWell(
           borderRadius: BorderRadius.circular(DesignTokens.radius),
@@ -306,14 +312,14 @@ class _FeedArticleCard extends StatelessWidget {
                         article.title,
                         style: theme.textTheme.titleMedium?.copyWith(
                           fontWeight: FontWeight.w700,
-                          color: DesignTokens.foreground,
+                          color: tokens.foreground,
                         ),
                       ),
                       if (article.titleVi != null && article.titleVi!.isNotEmpty)
                         Text(
                           article.titleVi!,
                           style: theme.textTheme.bodySmall?.copyWith(
-                            color: DesignTokens.mutedForeground,
+                            color: tokens.mutedForeground,
                           ),
                         ),
                       const SizedBox(height: DesignTokens.spacingSm),
@@ -322,7 +328,7 @@ class _FeedArticleCard extends StatelessWidget {
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: theme.textTheme.bodyMedium?.copyWith(
-                          color: DesignTokens.foreground,
+                          color: tokens.foreground,
                           height: 1.4,
                         ),
                       ),
@@ -333,7 +339,7 @@ class _FeedArticleCard extends StatelessWidget {
                           (article.coverage * 100).round(),
                         ),
                         style: theme.textTheme.bodySmall?.copyWith(
-                          color: DesignTokens.mutedForeground,
+                          color: tokens.mutedForeground,
                         ),
                       ),
                     ],

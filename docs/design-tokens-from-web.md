@@ -23,21 +23,122 @@ Lý do đóng băng thay vì xoá: 271+ file đang tham chiếu `DesignTokens`/
 **PHẢI** dùng `context.tokens`; code cũ tiếp tục compile (chỉ hiện info
 "deprecated" khi `flutter analyze`, không phải lỗi).
 
-**Audit 17/07/2026 (UI-FIDELITY P12 wave B, QA cuối):** 126 file trong `lib/`
-còn tham chiếu `DesignTokens.`/`AppColors.`; đối chiếu với danh sách
-release-visible trong `test/structure/release_live_data_guard_test.dart` →
-**36 file release-visible** vẫn còn dùng static token (danh sách đầy đủ +
-số lần dùng mỗi file trong báo cáo đóng plan
-`plans/reports/fullstack-developer-260717-0549-p12-wave-b-deletion-sweep-qa-report.md`).
-Đã fix 2 case rẻ trong lần sửa này (`error_patterns_list.dart` màu
-`AppColors.success` → `context.tokens.success`; hàm chết
-`readingLevelColor()` trong `reading_models.dart` bị xoá hẳn thay vì migrate).
-34 file còn lại **CHƯA migrate** — số lượng đủ lớn để một lần swap cơ học
-không giám sát rủi ro sai màu cao hơn lợi ích; để dành cho một pass migrate
-có visual QA đi kèm (không phải phạm vi wave B, vốn chỉ là dọn dẹp + audit).
+**Audit + migrate 17/07/2026 (UI-FIDELITY P12 wave B → các pass dark-mode):**
+Wave B audit ban đầu đếm **36 file release-visible** còn đọc static token —
+nhưng chỉ đếm màn route, CHƯA đếm các widget mà màn đó render. Đếm lại theo
+toàn bộ `lib/screens|features|widgets` ra ~56 file match.
+
+Đã migrate xong qua 4 pass (báo cáo:
+`fullstack-developer-260717-0641-dark-mode-static-token-migration-report.md`,
+`…-0655-dark-mode-screens-remainder-report.md`,
+`…-0655-dark-mode-features-widgets-remainder-report.md`,
+`…-0730-auth-dark-mode-final-pass-report.md`):
+
+**Trạng thái hiện tại: 0 file release-visible đọc static light token màu**
+(trừ `lib/screens/affiliate/**` — plan chốt NGOÀI SCOPE, giữ hiện trạng).
+Kiểm chứng:
+```
+grep -rEl '(DesignTokens|AppColors)\.(primary|background|foreground|card|muted|border|success|warning|destructive|accent|secondary|sidebar|ring|input|authBackground)\b' \
+  lib/screens/ lib/features/ lib/widgets/ | grep -v affiliate    # → rỗng
+```
+
+Màu CỐ ĐỊNH có chủ đích (không phải vi phạm, đã ghi comment tại chỗ):
+brand orange `tigerOrange`; pastel accent per-tab của bottom nav; trang
+forgot/reset password nền tối `#050118` (web cũng vậy); welcome marketing
+palette port thẳng từ CSS web; nền trang auth `#FFFBF5` (web dùng literal
+`bg-[#FFFBF5]`, không phải token → giữ literal `_authPageBackground`, dark
+dùng `context.tokens.background`).
+
+**Còn nợ (ngoài phạm vi static-token, cần pass riêng):** 5 file hardcode
+`Colors.white`/`Colors.grey.shade*`/`Colors.black87` cho nền panel/chữ —
+vẫn sai dark mode dù không match regex static token:
+`streak_claim_modal.dart`, `vocabulary_detail_panel.dart`,
+`video_notes_panel.dart`, `transcript_panel.dart`,
+`chat_history_sidebar.dart`.
+
 Lưu ý: không phải mọi match `DesignTokens.` đều là màu — các hằng số
 spacing/radius (`spacingXs`, `cardPadding`, …) không phụ thuộc theme, không
 tính là vi phạm dark-mode dù match regex.
+
+**Migration 17/07/2026 (dark-mode static-token migration, đóng acceptance
+criterion cuối của plan):** của 34 file report ở trên, 1 file
+(`save_article_words_cta.dart`) đã được xác nhận là false-positive (chỉ có
+`DesignTokens.spacingXs`, không phải màu) — còn lại **33 file thật sự có
+màu light-only cần migrate**. Migrate cả 33 file (4 file trong đó hoá ra đã
+theme-aware sẵn, không cần sửa: `read_listen_hub_screen.dart`,
+`reading_leaderboard.dart`, `reading_detail_screen.dart`,
+`news_leaderboard.dart`; 29 file còn lại được sửa thật). Mọi màu semantic
+(`background/foreground/muted/mutedForeground/card/cardForeground/primary/
+primaryForeground/secondary/accent/border/ring/destructive/success/warning/
+brand/brandDark/sidebar`, kể cả các biến thể `dark*` deprecated dùng trong
+ternary `isDark ? ... : ...` thủ công) đã chuyển sang `context.tokens.X`.
+
+Kết quả: `flutter analyze` 0 lỗi, 33 info (bằng baseline, **0**
+`deprecated_member_use` warning còn lại trong toàn bộ `lib/`); `flutter test`
+747/747 xanh (không đổi so với baseline). Không còn file release-visible nào
+đọc `DesignTokens.`/`AppColors.` cho **màu** — các match còn sót lại trong 33
+file (grep vẫn ra) đều là hằng số **không phải màu** hoặc màu **cố ý giữ cố
+định theo thiết kế** (xem danh sách loại trừ dưới), không phải vi phạm
+dark-mode:
+- Spacing/radius: `spacingXs/Sm/Md/Lg/Xl`, `radius`, `radiusSm`,
+  `cardPadding`, `screenHorizontalPadding`.
+- Màu tiện ích cố định cả 2 theme (không nằm trong `AppTokens`, không bị
+  deprecate): `tigerOrange`, `tigerOrangeDark`, `orange50/100/500/600`,
+  `rose600`, `authBackground` (nền trang auth cố ý tối màu theo thiết kế,
+  không đổi theo `Brightness`), `error`, `primaryGradient`, `shadowSm`.
+
+Chi tiết per-file (số lần migrate thật + ghi chú non-obvious) trong
+`plans/reports/fullstack-developer-260717-0641-dark-mode-static-token-migration-report.md`.
+Acceptance criterion "Dark mode theo palette web trên mọi màn rebuild;
+không màn release-visible nào còn đọc static light token" của plan
+`260716-2324-web-mobile-ui-100-fidelity` coi như **đã đóng** (colour-only
+scope; không đổi layout/behaviour).
+
+**Migration 17/07/2026 (bổ sung — shared widgets remainder, `lib/features/**`
++ `lib/widgets/**`):** pass trước chỉ đếm 33 route-SCREEN file; các shared
+widget mà những màn đó render (`lib/features/**`, `lib/widgets/**`) chưa
+từng được audit riêng nên vẫn còn màu light-only. Quét lại bằng regex tương
+tự → 14 file có match: `lib/features/games/widgets/game_base.dart`,
+`lib/features/voice/presentation/widgets/record_button.dart`,
+`lib/features/premium/presentation/premium_screen.dart`,
+`lib/features/vocabulary/presentation/widgets/detail_widgets.dart`,
+`lib/widgets/dashboard/streak_claim_modal.dart`,
+`lib/widgets/common/async_state_views.dart`,
+`lib/widgets/common/minimal_shell.dart`,
+`lib/widgets/vocab_search/vocabulary_detail_panel.dart`,
+`lib/widgets/interview/video_notes_panel.dart`,
+`lib/widgets/interview/transcript_panel.dart`,
+`lib/widgets/ai/chat_history_sidebar.dart`,
+`lib/widgets/speaking/pronunciation_practice_widget.dart` (12 file có màu
+thật cần migrate) + `lib/features/exam/presentation/widgets/exam_provider_cards.dart`
+(đã theme-aware sẵn, match chỉ là `cardPadding` — false positive) +
+`lib/widgets/common/gradient_button.dart` (chỉ dùng `AppColors.primaryGradient`
+cố định, không phải màu semantic — false positive). Migrate hết
+`background/foreground/muted/mutedForeground/card/border/primary/success/
+destructive` sang `context.tokens.X`. Giữ nguyên cố định (không migrate, có
+lý do): `AppColors.tigerOrange`/`AppColors.error`/`AppColors.authBackground`/
+`AppColors.orange50`/`AppColors.rose600`/`AppColors.cardBackground`/
+`AppColors.primaryGradient` (cùng lý do như bảng loại trừ ở trên — brand
+orange cố định + màu tiện ích ngoài `AppTokens`).
+
+Gap còn lại (không phải static-token nên ngoài phạm vi regex, nhưng vẫn ảnh
+hưởng dark mode — ghi nhận để pass sau xử lý nếu cần visual QA riêng): nhiều
+widget trong scope này dùng `Colors.white`/`Colors.grey.shade*`/`Colors.black87`
+làm nền/màu chữ cứng (`streak_claim_modal.dart`, `vocabulary_detail_panel.dart`,
+`video_notes_panel.dart`, `transcript_panel.dart`, `chat_history_sidebar.dart`)
+— các literal này không đọc từ `DesignTokens`/`AppColors` nên không match
+grep, không bị coi là vi phạm acceptance criterion (chỉ tính static-token
+reads), nhưng dark mode ở các panel đó vẫn sẽ hiện nền trắng cứng khi
+`Brightness.dark`.
+
+Kết quả pass này: `flutter analyze` 0 lỗi (issue count không đổi so với
+baseline ngoài phạm vi của 2 sibling agent song song); `flutter test`
+747/747 xanh (không đổi). Chi tiết per-file trong
+`plans/reports/fullstack-developer-260717-0655-dark-mode-features-widgets-remainder-report.md`.
+Phần `lib/screens/**` (do agent khác xử lý song song cùng thời điểm) — xem
+báo cáo riêng `plans/reports/fullstack-developer-260717-0655-dark-mode-screens-remainder-report.md`
+nếu đã tồn tại; nếu chưa, số liệu phần đó coi như pending tại thời điểm ghi
+chú này.
 
 ## Light theme (`:root`) — giá trị ĐÚNG (đã sửa 2026-07-17)
 

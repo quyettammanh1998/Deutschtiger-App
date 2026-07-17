@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../core/design_tokens.dart';
+import '../../../core/theme/app_tokens.dart';
 import '../../../l10n/app_localizations.dart';
 
 /// Brand mark SVGs — path data copied verbatim from web
@@ -79,7 +80,7 @@ class CommunityLinks extends StatelessWidget {
               fontSize: 11,
               fontWeight: FontWeight.w600,
               letterSpacing: 0.4,
-              color: DesignTokens.mutedForeground.withValues(alpha: 0.7),
+              color: context.tokens.mutedForeground.withValues(alpha: 0.7),
             ),
           ),
           const SizedBox(height: DesignTokens.spacingSm),
@@ -130,7 +131,7 @@ class _CommunityLinkCard extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
         decoration: BoxDecoration(
-          color: DesignTokens.card,
+          color: context.tokens.card,
           borderRadius: BorderRadius.circular(DesignTokens.radiusSm),
           boxShadow: DesignTokens.shadowSm,
         ),
@@ -154,19 +155,19 @@ class _CommunityLinkCard extends StatelessWidget {
                 children: [
                   Text(
                     link.title,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w600,
-                      color: DesignTokens.foreground,
+                      color: context.tokens.foreground,
                     ),
                   ),
                   Text(
                     link.description,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 10,
-                      color: DesignTokens.mutedForeground,
+                      color: context.tokens.mutedForeground,
                     ),
                   ),
                 ],

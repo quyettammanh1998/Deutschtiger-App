@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/app_tokens.dart';
 import 'package:deutschtiger/l10n/app_localizations.dart';
 import 'package:deutschtiger/view_models/ai/ai_provider.dart';
 import 'package:deutschtiger/data/ai/ai_chat_live_models.dart';
@@ -144,7 +145,7 @@ class _AIChatPageState extends ConsumerState<AIChatPage> {
     // full-width (not a squeezing side rail) — `chat-history-sidebar.tsx`
     // `hidden md:flex` is desktop-only; mobile uses a full-panel swap.
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: context.tokens.background,
       body: SafeArea(
         child: Column(
           children: [
@@ -221,8 +222,8 @@ class _ChatHeader extends ConsumerWidget {
     return Container(
       padding: const EdgeInsets.fromLTRB(16, 12, 8, 12),
       decoration: BoxDecoration(
-        color: AppColors.card,
-        border: const Border(bottom: BorderSide(color: AppColors.border)),
+        color: context.tokens.card,
+        border: Border(bottom: BorderSide(color: context.tokens.border)),
         boxShadow: AppColors.shadowSm,
       ),
       child: Stack(
@@ -275,9 +276,9 @@ class _ChatHeader extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Text(
+                    Text(
                       'Deutschtiger AI',
-                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppColors.foreground),
+                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: context.tokens.foreground),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -288,13 +289,13 @@ class _ChatHeader extends ConsumerWidget {
                         Container(
                           width: 6,
                           height: 6,
-                          decoration: const BoxDecoration(color: AppColors.success, shape: BoxShape.circle),
+                          decoration: BoxDecoration(color: context.tokens.success, shape: BoxShape.circle),
                         ),
                         const SizedBox(width: 6),
                         Flexible(
                           child: Text(
                             remainingText ?? 'Trợ lý học tiếng Đức',
-                            style: const TextStyle(fontSize: 12, color: AppColors.mutedForeground),
+                            style: TextStyle(fontSize: 12, color: context.tokens.mutedForeground),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),
@@ -333,9 +334,9 @@ class _HeaderIconButton extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(icon, size: 20, color: AppColors.mutedForeground),
+            Icon(icon, size: 20, color: context.tokens.mutedForeground),
             const SizedBox(height: 2),
-            Text(label, style: const TextStyle(fontSize: 9, fontWeight: FontWeight.w500, color: AppColors.mutedForeground)),
+            Text(label, style: TextStyle(fontSize: 9, fontWeight: FontWeight.w500, color: context.tokens.mutedForeground)),
           ],
         ),
       ),
@@ -407,9 +408,9 @@ class _SuggestionChips extends StatelessWidget {
             OutlinedButton(
               onPressed: () => onChipTap(chip.$2),
               style: OutlinedButton.styleFrom(
-                backgroundColor: AppColors.card,
-                foregroundColor: AppColors.foreground,
-                side: const BorderSide(color: AppColors.border),
+                backgroundColor: context.tokens.card,
+                foregroundColor: context.tokens.foreground,
+                side: BorderSide(color: context.tokens.border),
                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(999)),
                 minimumSize: Size.zero,
@@ -460,7 +461,7 @@ class _AssistantBubble extends StatelessWidget {
                 constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.78),
                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                 decoration: BoxDecoration(
-                  color: AppColors.card,
+                  color: context.tokens.card,
                   borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(4),
                     topRight: Radius.circular(16),
@@ -507,9 +508,9 @@ class _FeatureActionChips extends StatelessWidget {
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
                 decoration: BoxDecoration(
-                  color: AppColors.primary.withValues(alpha: 0.05),
+                  color: context.tokens.primary.withValues(alpha: 0.05),
                   borderRadius: BorderRadius.circular(999),
-                  border: Border.all(color: AppColors.primary.withValues(alpha: 0.3)),
+                  border: Border.all(color: context.tokens.primary.withValues(alpha: 0.3)),
                 ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
@@ -518,14 +519,14 @@ class _FeatureActionChips extends StatelessWidget {
                     const SizedBox(width: 4),
                     Text(
                       action.$1,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
-                        color: AppColors.primary,
+                        color: context.tokens.primary,
                       ),
                     ),
                     const SizedBox(width: 2),
-                    const Icon(Icons.chevron_right, size: 14, color: AppColors.primary),
+                    Icon(Icons.chevron_right, size: 14, color: context.tokens.primary),
                   ],
                 ),
               ),
@@ -551,7 +552,7 @@ class _UserBubble extends StatelessWidget {
         constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.78),
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         decoration: BoxDecoration(
-          color: AppColors.primary,
+          color: context.tokens.primary,
           borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(16),
             topRight: Radius.circular(4),
@@ -601,10 +602,10 @@ class _QuotaBanner extends ConsumerWidget {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-      color: AppColors.warning.withValues(alpha: 0.12),
+      color: context.tokens.warning.withValues(alpha: 0.12),
       child: Text(
         'Còn ${status.remaining}/${status.dailyLimit} lượt chat hôm nay',
-        style: const TextStyle(fontSize: 12, color: AppColors.warning),
+        style: TextStyle(fontSize: 12, color: context.tokens.warning),
       ),
     );
   }
@@ -666,7 +667,7 @@ class _LimitCard extends StatelessWidget {
       margin: const EdgeInsets.fromLTRB(16, 0, 16, 12),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColors.card,
+        color: context.tokens.card,
         borderRadius: BorderRadius.circular(16),
         boxShadow: AppColors.shadowSm,
       ),
@@ -678,13 +679,13 @@ class _LimitCard extends StatelessWidget {
                 : (isSessionLimit
                     ? 'Cuộc trò chuyện đã đạt giới hạn tin nhắn'
                     : 'Bạn đã dùng hết lượt chat hôm nay'),
-            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: AppColors.foreground),
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: context.tokens.foreground),
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 4),
           Text(
             isSessionLimit ? 'Tạo cuộc trò chuyện mới để tiếp tục chat nhé!' : 'Quay lại ngày mai nhé!',
-            style: const TextStyle(fontSize: 12, color: AppColors.mutedForeground),
+            style: TextStyle(fontSize: 12, color: context.tokens.mutedForeground),
             textAlign: TextAlign.center,
           ),
           if (isSessionLimit) ...[
@@ -744,7 +745,7 @@ class _TypingDotsState extends State<_TypingDots> with SingleTickerProviderState
               width: 6,
               height: 6,
               decoration: BoxDecoration(
-                color: AppColors.mutedForeground.withValues(
+                color: context.tokens.mutedForeground.withValues(
                   alpha: progress < 0.5 ? progress * 2 : 2 - progress * 2,
                 ),
                 shape: BoxShape.circle,
@@ -787,9 +788,9 @@ class _InputBar extends StatelessWidget {
         top: 8,
         bottom: MediaQuery.of(context).padding.bottom + 8,
       ),
-      decoration: const BoxDecoration(
-        color: AppColors.card,
-        border: Border(top: BorderSide(color: AppColors.border)),
+      decoration: BoxDecoration(
+        color: context.tokens.card,
+        border: Border(top: BorderSide(color: context.tokens.border)),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.end,
@@ -799,18 +800,18 @@ class _InputBar extends StatelessWidget {
               constraints: const BoxConstraints(minHeight: 44),
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
               decoration: BoxDecoration(
-                color: AppColors.background,
+                color: context.tokens.background,
                 borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: AppColors.border),
+                border: Border.all(color: context.tokens.border),
               ),
               child: TextField(
                 controller: controller,
                 focusNode: focusNode,
                 enabled: !limitReached,
-                style: const TextStyle(fontSize: 15, color: AppColors.foreground, height: 1.3),
+                style: TextStyle(fontSize: 15, color: context.tokens.foreground, height: 1.3),
                 decoration: InputDecoration(
                   hintText: limitReached ? 'Đã hết lượt...' : hint,
-                  hintStyle: const TextStyle(color: AppColors.mutedForeground),
+                  hintStyle: TextStyle(color: context.tokens.mutedForeground),
                   border: InputBorder.none,
                   isDense: true,
                   contentPadding: EdgeInsets.zero,
@@ -838,9 +839,9 @@ class _InputBar extends StatelessWidget {
                 return _CircleActionButton(
                   onTap: hasText ? onSend : null,
                   gradient: hasText ? AppColors.primaryGradient : null,
-                  backgroundColor: hasText ? null : AppColors.muted,
+                  backgroundColor: hasText ? null : context.tokens.muted,
                   icon: Icons.send_rounded,
-                  iconColor: hasText ? Colors.white : AppColors.mutedForeground,
+                  iconColor: hasText ? Colors.white : context.tokens.mutedForeground,
                   label: 'Gửi tin nhắn',
                 );
               },

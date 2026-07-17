@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/design_tokens.dart';
+import '../../../core/theme/app_tokens.dart';
 import '../../../features/daily_path/domain/daily_path.dart';
 import '../../../features/daily_path/domain/skill_emoji.dart';
 import '../../../l10n/app_localizations.dart';
@@ -19,10 +20,11 @@ class DailyPathEmptyCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+    final tokens = context.tokens;
     return Container(
       padding: const EdgeInsets.all(DesignTokens.cardPadding),
       decoration: BoxDecoration(
-        color: DesignTokens.card,
+        color: tokens.card,
         borderRadius: BorderRadius.circular(DesignTokens.radiusLg),
         boxShadow: DesignTokens.shadowCard,
       ),
@@ -31,10 +33,10 @@ class DailyPathEmptyCard extends StatelessWidget {
         children: [
           Text(
             l10n.dailyPathHeroTitle,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 13,
               fontWeight: FontWeight.bold,
-              color: DesignTokens.foreground,
+              color: tokens.foreground,
             ),
           ),
           const SizedBox(height: 12),
@@ -59,18 +61,18 @@ class DailyPathEmptyCard extends StatelessWidget {
                   children: [
                     Text(
                       l10n.dailyPathEmptyTitle,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
-                        color: DesignTokens.foreground,
+                        color: tokens.foreground,
                       ),
                     ),
                     const SizedBox(height: 2),
                     Text(
                       l10n.dailyPathEmptyDescription,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 12,
-                        color: DesignTokens.mutedForeground,
+                        color: tokens.mutedForeground,
                       ),
                     ),
                     const SizedBox(height: 10),
@@ -132,7 +134,9 @@ class DailyPathExamBadge extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
       decoration: BoxDecoration(
-        color: close ? DesignTokens.amber100 : DesignTokens.muted,
+        // Amber highlight when the exam is close mirrors web's fixed
+        // Tailwind amber-100/700 badge — not a themed semantic token.
+        color: close ? DesignTokens.amber100 : context.tokens.muted,
         borderRadius: BorderRadius.circular(999),
       ),
       child: Text(
@@ -140,7 +144,9 @@ class DailyPathExamBadge extends StatelessWidget {
         style: TextStyle(
           fontSize: 11,
           fontWeight: FontWeight.bold,
-          color: close ? DesignTokens.amber700 : DesignTokens.mutedForeground,
+          color: close
+              ? DesignTokens.amber700
+              : context.tokens.mutedForeground,
         ),
       ),
     );
@@ -162,6 +168,7 @@ class DailyPathXpRing extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = context.tokens;
     return SizedBox(
       width: 64,
       height: 64,
@@ -172,7 +179,7 @@ class DailyPathXpRing extends StatelessWidget {
             value: progress,
             strokeWidth: 3.5,
             strokeCap: StrokeCap.round,
-            backgroundColor: DesignTokens.muted,
+            backgroundColor: tokens.muted,
             valueColor: const AlwaysStoppedAnimation(DesignTokens.orange500),
           ),
           Column(
@@ -180,17 +187,17 @@ class DailyPathXpRing extends StatelessWidget {
             children: [
               Text(
                 '$xp',
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w800,
-                  color: DesignTokens.foreground,
+                  color: tokens.foreground,
                 ),
               ),
               Text(
                 '/$goal XP',
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 9,
-                  color: DesignTokens.mutedForeground,
+                  color: tokens.mutedForeground,
                 ),
               ),
             ],
@@ -241,10 +248,10 @@ class DailyPathCompleteBanner extends StatelessWidget {
             onTap: onMoreTap,
             child: Text(
               '${l10n.learnMore} →',
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.w600,
-                color: DesignTokens.mutedForeground,
+                color: context.tokens.mutedForeground,
               ),
             ),
           ),
@@ -273,12 +280,12 @@ class DailyPathMiniStepper extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         itemCount: steps.length,
         separatorBuilder: (_, _) => const SizedBox(width: 6),
-        itemBuilder: (context, index) => _dot(steps[index]),
+        itemBuilder: (context, index) => _dot(context, steps[index]),
       ),
     );
   }
 
-  Widget _dot(DailyPathStep step) {
+  Widget _dot(BuildContext context, DailyPathStep step) {
     final isCurrent = step.key == currentKey;
     if (step.done) {
       return _circle(
@@ -306,7 +313,7 @@ class DailyPathMiniStepper extends StatelessWidget {
       );
     }
     return _circle(
-      color: DesignTokens.muted,
+      color: context.tokens.muted,
       child: Text(skillEmoji(step.skill), style: const TextStyle(fontSize: 13)),
     );
   }

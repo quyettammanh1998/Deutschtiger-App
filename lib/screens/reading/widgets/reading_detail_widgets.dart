@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/design_tokens.dart';
+import '../../../core/theme/app_tokens.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../shared/widgets/tappable_sentence.dart';
 import '../../../data/reading/reading_models.dart' show ReadingParagraph;
@@ -20,16 +21,17 @@ class ReadingAudioBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = context.tokens;
     return Container(
       padding: const EdgeInsets.symmetric(
         horizontal: DesignTokens.spacingMd,
         vertical: DesignTokens.spacingSm,
       ),
       decoration: BoxDecoration(
-        color: DesignTokens.muted,
-        border: const Border(
-          top: BorderSide(color: DesignTokens.border),
-          bottom: BorderSide(color: DesignTokens.border),
+        color: tokens.muted,
+        border: Border(
+          top: BorderSide(color: tokens.border),
+          bottom: BorderSide(color: tokens.border),
         ),
       ),
       child: Row(
@@ -39,7 +41,7 @@ class ReadingAudioBar extends StatelessWidget {
             icon: Icon(isPlaying ? Icons.pause : Icons.play_arrow),
             style: IconButton.styleFrom(
               backgroundColor: DesignTokens.tigerOrange,
-              foregroundColor: DesignTokens.card,
+              foregroundColor: tokens.card,
             ),
           ),
           const SizedBox(width: DesignTokens.spacingMd),
@@ -57,7 +59,7 @@ class ReadingAudioBar extends StatelessWidget {
                   child: LinearProgressIndicator(
                     value: progress,
                     minHeight: 4,
-                    backgroundColor: DesignTokens.border,
+                    backgroundColor: tokens.border,
                     valueColor: const AlwaysStoppedAnimation<Color>(
                       DesignTokens.tigerOrange,
                     ),
@@ -94,13 +96,14 @@ class ReadingParagraphView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final tokens = context.tokens;
     return Container(
       margin: const EdgeInsets.only(bottom: DesignTokens.spacingMd),
       padding: const EdgeInsets.all(DesignTokens.spacingMd),
       decoration: BoxDecoration(
-        color: DesignTokens.card,
+        color: tokens.card,
         borderRadius: BorderRadius.circular(DesignTokens.radius),
-        border: Border.all(color: DesignTokens.border),
+        border: Border.all(color: tokens.border),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -108,7 +111,7 @@ class ReadingParagraphView extends StatelessWidget {
           TappableSentence(
             text: paragraph.de,
             style: theme.textTheme.bodyLarge?.copyWith(
-              color: DesignTokens.foreground,
+              color: tokens.foreground,
               fontSize: 16,
               height: 1.6,
             ),
@@ -119,14 +122,14 @@ class ReadingParagraphView extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(DesignTokens.spacingSm),
               decoration: BoxDecoration(
-                color: DesignTokens.muted,
+                color: tokens.muted,
                 borderRadius:
                     BorderRadius.circular(DesignTokens.radiusSm),
               ),
               child: Text(
                 paragraph.vi,
                 style: theme.textTheme.bodyMedium?.copyWith(
-                  color: DesignTokens.mutedForeground,
+                  color: tokens.mutedForeground,
                   fontStyle: FontStyle.italic,
                   height: 1.5,
                 ),

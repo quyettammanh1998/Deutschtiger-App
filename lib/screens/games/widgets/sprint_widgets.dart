@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/design_tokens.dart';
+import '../../../core/theme/app_tokens.dart';
 
 /// Header button (icon + tap) cho Word Sprint — Phase 05 I2.
 class SprintHeaderButton extends StatelessWidget {
@@ -15,17 +16,18 @@ class SprintHeaderButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = context.tokens;
     return GestureDetector(
       onTap: onTap,
       child: Container(
         width: 44,
         height: 44,
         decoration: BoxDecoration(
-          color: DesignTokens.card,
+          color: tokens.card,
           borderRadius: BorderRadius.circular(DesignTokens.radiusSm),
           boxShadow: DesignTokens.shadowSm,
         ),
-        child: Icon(icon, color: DesignTokens.foreground),
+        child: Icon(icon, color: tokens.foreground),
       ),
     );
   }
@@ -44,7 +46,11 @@ class SprintTimerBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = isWarning ? DesignTokens.error : DesignTokens.warning;
+    final tokens = context.tokens;
+    // `error` isn't a themed AppTokens member (only `destructive` is) — kept
+    // as the fixed DesignTokens red used elsewhere for this exact warning
+    // pill; `warning` is themed since it IS an AppTokens member.
+    final color = isWarning ? DesignTokens.error : tokens.warning;
     return Container(
       padding: const EdgeInsets.symmetric(
         horizontal: DesignTokens.spacingMd,
@@ -60,15 +66,15 @@ class SprintTimerBadge extends StatelessWidget {
           Icon(
             Icons.timer_outlined,
             size: 18,
-            color: DesignTokens.card.withValues(alpha: 0.9),
+            color: tokens.card.withValues(alpha: 0.9),
           ),
           const SizedBox(width: 6),
           Text(
             '${seconds}s',
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w700,
-              color: DesignTokens.card,
+              color: tokens.card,
             ),
           ),
         ],
@@ -92,6 +98,7 @@ class SprintProgressBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = context.tokens;
     final pct = total == 0 ? 0 : ((current / total) * 100).round();
     return Column(
       children: [
@@ -102,10 +109,10 @@ class SprintProgressBar extends StatelessWidget {
             children: [
               Text(
                 'Câu $current/$total',
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w500,
-                  color: DesignTokens.mutedForeground,
+                  color: tokens.mutedForeground,
                 ),
               ),
               Text(
@@ -123,7 +130,7 @@ class SprintProgressBar extends StatelessWidget {
         ClipRRect(
           child: LinearProgressIndicator(
             value: total == 0 ? 0 : current / total,
-            backgroundColor: DesignTokens.border,
+            backgroundColor: tokens.border,
             valueColor: AlwaysStoppedAnimation<Color>(color),
             minHeight: 6,
           ),
@@ -191,7 +198,7 @@ class SprintAnswerTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final palette = _paletteFor(state);
+    final palette = _paletteFor(context, state);
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -220,21 +227,25 @@ class SprintAnswerTile extends StatelessWidget {
     );
   }
 
-  _SprintAnswerPalette _paletteFor(SprintAnswerState state) {
+  _SprintAnswerPalette _paletteFor(BuildContext context, SprintAnswerState state) {
+    final tokens = context.tokens;
     switch (state) {
       case SprintAnswerState.idle:
         return _SprintAnswerPalette(
-          bg: DesignTokens.card,
-          border: DesignTokens.border,
-          text: DesignTokens.foreground,
+          bg: tokens.card,
+          border: tokens.border,
+          text: tokens.foreground,
         );
       case SprintAnswerState.correct:
         return _SprintAnswerPalette(
-          bg: DesignTokens.success.withValues(alpha: 0.08),
-          border: DesignTokens.success,
-          text: DesignTokens.success,
+          bg: tokens.success.withValues(alpha: 0.08),
+          border: tokens.success,
+          text: tokens.success,
         );
       case SprintAnswerState.wrong:
+        // `error` isn't a themed AppTokens member (only `destructive` is) —
+        // kept as the fixed DesignTokens red used elsewhere for wrong-answer
+        // feedback.
         return _SprintAnswerPalette(
           bg: DesignTokens.error.withValues(alpha: 0.08),
           border: DesignTokens.error,
@@ -272,6 +283,7 @@ class SprintGameHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = context.tokens;
     return Container(
       padding: const EdgeInsets.symmetric(
         horizontal: DesignTokens.spacingMd,
@@ -281,7 +293,7 @@ class SprintGameHeader extends StatelessWidget {
         children: [
           SprintHeaderButton(icon: Icons.close, onTap: onClose),
           const SizedBox(width: DesignTokens.spacingSm + 4),
-          const Expanded(
+          Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -290,15 +302,12 @@ class SprintGameHeader extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w700,
-                    color: DesignTokens.foreground,
+                    color: tokens.foreground,
                   ),
                 ),
                 Text(
                   '60 giây chinh phục từ vựng',
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: DesignTokens.mutedForeground,
-                  ),
+                  style: TextStyle(fontSize: 12, color: tokens.mutedForeground),
                 ),
               ],
             ),
@@ -325,6 +334,7 @@ class SprintStatRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = context.tokens;
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: DesignTokens.spacingLg,
@@ -336,12 +346,12 @@ class SprintStatRow extends StatelessWidget {
           SprintStatBadge(
             icon: Icons.star_outline,
             value: '$score',
-            color: DesignTokens.warning,
+            color: tokens.warning,
           ),
           SprintStatBadge(
             icon: Icons.check_circle_outline,
             value: '$correct',
-            color: DesignTokens.success,
+            color: tokens.success,
           ),
           if (streak > 0)
             SprintStatBadge(
@@ -362,12 +372,13 @@ class SprintWordCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = context.tokens;
     return Container(
       margin:
           const EdgeInsets.symmetric(horizontal: DesignTokens.spacingLg),
       padding: const EdgeInsets.all(DesignTokens.spacingLg),
       decoration: BoxDecoration(
-        color: DesignTokens.card,
+        color: tokens.card,
         borderRadius: BorderRadius.circular(DesignTokens.radiusLg),
         boxShadow: DesignTokens.shadowMd,
       ),
@@ -375,19 +386,16 @@ class SprintWordCard extends StatelessWidget {
         children: [
           Text(
             word,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 40,
               fontWeight: FontWeight.w800,
-              color: DesignTokens.foreground,
+              color: tokens.foreground,
             ),
           ),
           const SizedBox(height: DesignTokens.spacingSm),
-          const Text(
+          Text(
             'Nghĩa là gì?',
-            style: TextStyle(
-              fontSize: 16,
-              color: DesignTokens.mutedForeground,
-            ),
+            style: TextStyle(fontSize: 16, color: tokens.mutedForeground),
           ),
         ],
       ),

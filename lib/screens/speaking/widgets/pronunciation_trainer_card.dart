@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_tokens.dart';
 import 'package:deutschtiger/data/speaking/speaking_models.dart';
 
 class PronunciationTrainerCard extends StatelessWidget {
@@ -25,7 +25,10 @@ class PronunciationTrainerCard extends StatelessWidget {
                     width: 60,
                     height: 60,
                     decoration: BoxDecoration(
-                      color: _getTrainerColor(trainer.type).withValues(alpha: 0.1),
+                      color: _getTrainerColor(
+                        context,
+                        trainer.type,
+                      ).withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Center(
@@ -34,7 +37,7 @@ class PronunciationTrainerCard extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
-                          color: _getTrainerColor(trainer.type),
+                          color: _getTrainerColor(context, trainer.type),
                         ),
                       ),
                     ),
@@ -89,7 +92,11 @@ class PronunciationTrainerCard extends StatelessWidget {
                       style: TextStyle(color: Colors.grey[600], fontSize: 12),
                     ),
                     const SizedBox(width: 12),
-                    Icon(Icons.check_circle, size: 16, color: AppColors.success),
+                    Icon(
+                      Icons.check_circle,
+                      size: 16,
+                      color: context.tokens.success,
+                    ),
                     const SizedBox(width: 4),
                     Text(
                       '${(trainer.correctAttempts / trainer.totalAttempts * 100).toStringAsFixed(0)}% accuracy',
@@ -102,7 +109,7 @@ class PronunciationTrainerCard extends StatelessWidget {
                     icon: const Icon(Icons.mic, size: 18),
                     label: const Text('Start'),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: _getTrainerColor(trainer.type),
+                      backgroundColor: _getTrainerColor(context, trainer.type),
                       foregroundColor: Colors.white,
                       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     ),
@@ -116,7 +123,7 @@ class PronunciationTrainerCard extends StatelessWidget {
     );
   }
 
-  Color _getTrainerColor(String type) {
+  Color _getTrainerColor(BuildContext context, String type) {
     switch (type) {
       case 'umlaut':
         return Colors.purple;
@@ -127,7 +134,7 @@ class PronunciationTrainerCard extends StatelessWidget {
       case 'sp-st':
         return Colors.teal;
       default:
-        return AppColors.primary;
+        return context.tokens.primary;
     }
   }
 }

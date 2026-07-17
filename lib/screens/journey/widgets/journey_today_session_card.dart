@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/design_tokens.dart';
+import '../../../core/theme/app_tokens.dart';
 import '../../../features/mission/domain/mission_models.dart';
 import '../../../l10n/app_localizations.dart';
 
@@ -51,6 +52,7 @@ class _SessionCardBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+    final tokens = context.tokens;
     final roundsLeft = (mission.roundsPlanned - mission.roundsCompleted).clamp(
       0,
       999,
@@ -71,8 +73,8 @@ class _SessionCardBody extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(DesignTokens.cardPadding),
         decoration: BoxDecoration(
-          color: DesignTokens.card,
-          border: Border.all(color: DesignTokens.border),
+          color: tokens.card,
+          border: Border.all(color: tokens.border),
           borderRadius: BorderRadius.circular(DesignTokens.radiusLg),
         ),
         child: Column(
@@ -84,10 +86,10 @@ class _SessionCardBody extends StatelessWidget {
                 Expanded(
                   child: Text(
                     l10n.todaySession,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
-                      color: DesignTokens.foreground,
+                      color: tokens.foreground,
                     ),
                   ),
                 ),
@@ -98,10 +100,10 @@ class _SessionCardBody extends StatelessWidget {
               completed
                   ? l10n.missionCompletedXp(mission.xpEarned)
                   : l10n.missionRoundsWords(roundsLeft, mission.words.length),
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.w600,
-                color: DesignTokens.mutedForeground,
+                color: tokens.mutedForeground,
               ),
             ),
             const SizedBox(height: DesignTokens.spacingSm),
@@ -110,7 +112,7 @@ class _SessionCardBody extends StatelessWidget {
               child: LinearProgressIndicator(
                 value: progress,
                 minHeight: 6,
-                backgroundColor: DesignTokens.muted,
+                backgroundColor: tokens.muted,
                 valueColor: const AlwaysStoppedAnimation(
                   DesignTokens.orange500,
                 ),

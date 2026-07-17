@@ -207,10 +207,10 @@ class _CaseClozeQuizScreenState extends ConsumerState<CaseClozeQuizScreen> {
                       RichText(
                         textAlign: TextAlign.center,
                         text: TextSpan(
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.w600,
-                            color: AppColors.foreground,
+                            color: context.tokens.foreground,
                           ),
                           children: [
                             TextSpan(text: parts.isNotEmpty ? parts[0] : ''),
@@ -221,7 +221,7 @@ class _CaseClozeQuizScreenState extends ConsumerState<CaseClozeQuizScreen> {
                               style: TextStyle(
                                 color: _selected != null
                                     ? (isCorrect ? Colors.green : Colors.red)
-                                    : AppColors.mutedForeground,
+                                    : context.tokens.mutedForeground,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -238,7 +238,7 @@ class _CaseClozeQuizScreenState extends ConsumerState<CaseClozeQuizScreen> {
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 12,
-                            color: AppColors.mutedForeground,
+                            color: context.tokens.mutedForeground,
                           ),
                         ),
                         Text(
@@ -247,7 +247,7 @@ class _CaseClozeQuizScreenState extends ConsumerState<CaseClozeQuizScreen> {
                           style: TextStyle(
                             fontSize: 12,
                             fontStyle: FontStyle.italic,
-                            color: AppColors.mutedForeground,
+                            color: context.tokens.mutedForeground,
                           ),
                         ),
                       ],
@@ -355,14 +355,14 @@ class _CaseClozeQuizScreenState extends ConsumerState<CaseClozeQuizScreen> {
                 ),
               ),
               Text('$correct / $total đúng',
-                  style: const TextStyle(color: AppColors.mutedForeground)),
+                  style: TextStyle(color: context.tokens.mutedForeground)),
               if (_mastery != null) ...[
                 const SizedBox(height: 12),
                 Text(
                   'Đã thành thạo: ${_mastery!.mastered}/${_mastery!.total}',
                   style: TextStyle(
                     fontSize: 12,
-                    color: AppColors.mutedForeground,
+                    color: context.tokens.mutedForeground,
                   ),
                 ),
               ],

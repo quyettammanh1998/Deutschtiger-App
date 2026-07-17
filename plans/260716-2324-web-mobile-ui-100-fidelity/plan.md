@@ -133,17 +133,22 @@ Các phase P2–P11 chỉ song song được khi tuân thủ:
       deletion sweep 17/07 — xóa moments/social-hub/groups/announcements-page/
       achievements/progress/reminders/home orphans; còn lại đúng danh sách
       giữ Quyết định #3 + challenges/duel gated giống web tự ẩn route.)
-- [ ] Dark mode theo palette web trên mọi màn rebuild; không màn release-visible
-      nào còn đọc static light token. **Chưa đạt** — audit 17/07 (P12 wave B)
-      tìm thấy 36 file release-visible còn dùng `DesignTokens.`/`AppColors.`
-      tĩnh; đã fix 2 file rẻ, còn 34 file cần một pass migrate có visual QA
-      riêng (xem `docs/design-tokens-from-web.md` + wave-B report để có danh
-      sách file đầy đủ).
+- [x] Dark mode theo palette web trên mọi màn rebuild; không màn release-visible
+      nào còn đọc static light token. **ĐẠT 17/07** — audit wave B ban đầu (36
+      file) chỉ đếm màn route, sót widget; đếm lại toàn `lib/screens|features|
+      widgets` ra ~56 file, đã migrate hết qua 4 pass → còn **0** (trừ
+      `lib/screens/affiliate/**` ngoài scope). Màu cố định có chủ đích (brand
+      orange, pastel nav per-tab, forgot/reset nền tối, welcome palette, nền
+      auth `#FFFBF5` literal như web) giữ nguyên + ghi comment. Chi tiết +
+      lệnh kiểm chứng: `docs/design-tokens-from-web.md`.
+      Còn nợ riêng (ngoài static-token, cần pass sau): 5 file hardcode
+      `Colors.white`/`Colors.grey` nền panel — vẫn sai dark mode.
 - [x] Guard live-data + redirect map cập nhật đủ theo protocol; toàn bộ test pass.
       (17/07 — `flutter analyze` 0 lỗi, `flutter test` 747/747 xanh, guard
       test không bị làm yếu.)
 - [x] `docs/design-tokens-from-web.md`, `docs/web-feature-parity-matrix.md`,
-      contract matrix + api-changelog cập nhật. (17/07, P12 wave B.)
+      contract matrix + api-changelog cập nhật. (17/07, P12 wave B + các pass
+      dark-mode.)
 - [ ] Visual QA cuối: screenshot 390×844 light+dark từng màn so web (P12 wave B).
       **Ngoài phạm vi task này** — controller xử lý riêng (theo brief giao
       việc P12 wave B), cố ý không tick.

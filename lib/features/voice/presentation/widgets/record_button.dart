@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/design_tokens.dart';
+import '../../../../core/theme/app_tokens.dart';
 import '../../data/recording_service.dart';
 import '../../domain/voice_providers.dart';
 
@@ -84,17 +85,17 @@ class _RequestPermissionButton extends StatelessWidget {
           child: Container(
             width: size,
             height: size,
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: DesignTokens.muted,
+              color: context.tokens.muted,
             ),
-            child: const Icon(Icons.mic_off_rounded, color: DesignTokens.mutedForeground),
+            child: Icon(Icons.mic_off_rounded, color: context.tokens.mutedForeground),
           ),
         ),
         const SizedBox(height: 8),
-        const Text(
+        Text(
           'Cho phép mic để ghi âm',
-          style: TextStyle(fontSize: 12, color: DesignTokens.mutedForeground),
+          style: TextStyle(fontSize: 12, color: context.tokens.mutedForeground),
         ),
       ],
     );
@@ -113,13 +114,13 @@ class _PermissionDeniedButton extends StatelessWidget {
         Container(
           width: size,
           height: size,
-          decoration: const BoxDecoration(shape: BoxShape.circle, color: DesignTokens.muted),
-          child: const Icon(Icons.mic_off_rounded, color: DesignTokens.mutedForeground),
+          decoration: BoxDecoration(shape: BoxShape.circle, color: context.tokens.muted),
+          child: Icon(Icons.mic_off_rounded, color: context.tokens.mutedForeground),
         ),
         const SizedBox(height: 8),
-        const Text(
+        Text(
           'Cần cấp quyền mic trong Cài đặt',
-          style: TextStyle(fontSize: 12, color: DesignTokens.mutedForeground),
+          style: TextStyle(fontSize: 12, color: context.tokens.mutedForeground),
           textAlign: TextAlign.center,
         ),
       ],

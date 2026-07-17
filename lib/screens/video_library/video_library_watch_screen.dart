@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
 import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_tokens.dart';
 import 'package:deutschtiger/widgets/common/async_state_views.dart';
 import 'package:deutschtiger/widgets/interview/transcript_panel.dart';
 import 'package:deutschtiger/data/youtube/video_library.dart';
@@ -129,11 +130,12 @@ class _VideoLibraryWatchScreenState extends ConsumerState<VideoLibraryWatchScree
   @override
   Widget build(BuildContext context) {
     final videosAsync = ref.watch(videoLibraryGroupVideosProvider(_key));
+    final background = context.tokens.background;
 
     return Scaffold(
-      backgroundColor: AppColors.authBackground,
+      backgroundColor: background,
       appBar: AppBar(
-        backgroundColor: AppColors.authBackground,
+        backgroundColor: background,
         foregroundColor: AppColors.tigerOrange,
         title: const Text(
           'Xem video',
@@ -170,10 +172,10 @@ class _VideoLibraryWatchScreenState extends ConsumerState<VideoLibraryWatchScree
                     children: [
                       Text(
                         active.title,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
-                          color: AppColors.foreground,
+                          color: context.tokens.foreground,
                         ),
                       ),
                       if (active.watchCount > 0)
@@ -181,7 +183,7 @@ class _VideoLibraryWatchScreenState extends ConsumerState<VideoLibraryWatchScree
                           padding: const EdgeInsets.only(top: 2),
                           child: Text(
                             'Đã xem ×${active.watchCount}',
-                            style: const TextStyle(fontSize: 12, color: AppColors.mutedForeground),
+                            style: TextStyle(fontSize: 12, color: context.tokens.mutedForeground),
                           ),
                         ),
                       const SizedBox(height: 16),
@@ -211,7 +213,7 @@ class _VideoLibraryWatchScreenState extends ConsumerState<VideoLibraryWatchScree
                             const Spacer(),
                             Icon(
                               _showTranscript ? Icons.expand_less : Icons.expand_more,
-                              color: AppColors.mutedForeground,
+                              color: context.tokens.mutedForeground,
                             ),
                           ],
                         ),
@@ -290,8 +292,8 @@ class _PlaylistSection extends StatelessWidget {
                       color: v.videoId == activeId
                           ? AppColors.tigerOrange
                           : (completedStyle
-                                ? AppColors.success.withValues(alpha: 0.4)
-                                : AppColors.muted),
+                                ? context.tokens.success.withValues(alpha: 0.4)
+                                : context.tokens.muted),
                       width: v.videoId == activeId ? 2 : 1,
                     ),
                   ),
@@ -307,7 +309,7 @@ class _PlaylistSection extends StatelessWidget {
                           height: 48,
                           fit: BoxFit.cover,
                           errorBuilder: (_, _, _) =>
-                              Container(width: 80, height: 48, color: AppColors.muted),
+                              Container(width: 80, height: 48, color: context.tokens.muted),
                         ),
                       ),
                       const SizedBox(width: 10),
@@ -320,7 +322,7 @@ class _PlaylistSection extends StatelessWidget {
                         ),
                       ),
                       if (completedStyle)
-                        const Icon(Icons.check_circle, size: 16, color: AppColors.success),
+                        Icon(Icons.check_circle, size: 16, color: context.tokens.success),
                     ],
                   ),
                 ),

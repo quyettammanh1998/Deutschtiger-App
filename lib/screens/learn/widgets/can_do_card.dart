@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/app_tokens.dart';
 import '../../../data/learn/learn_models.dart';
 import '../../../l10n/app_localizations.dart';
 
@@ -17,6 +18,7 @@ class CanDoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+    final tokens = context.tokens;
     final statusLabel = canDo.spoken
         ? l10n.canDoStatusSpoken
         : switch (canDo.status) {
@@ -25,15 +27,15 @@ class CanDoCard extends StatelessWidget {
             _ => l10n.canDoStatusNew,
           };
     final statusColor = switch (canDo.status) {
-      'mastered' => AppColors.warning,
+      'mastered' => tokens.warning,
       'in_progress' => AppColors.tigerOrange,
-      _ => AppColors.mutedForeground,
+      _ => tokens.mutedForeground,
     };
 
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: tokens.border),
         borderRadius: BorderRadius.circular(16),
       ),
       child: Column(
@@ -53,9 +55,9 @@ class CanDoCard extends StatelessWidget {
                     const SizedBox(height: 2),
                     Text(
                       '${canDo.labelDe} · ${canDo.cefr}',
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 12,
-                        color: AppColors.mutedForeground,
+                        color: tokens.mutedForeground,
                       ),
                     ),
                   ],
@@ -93,7 +95,7 @@ class CanDoCard extends StatelessWidget {
                       vertical: 4,
                     ),
                     decoration: BoxDecoration(
-                      color: AppColors.muted,
+                      color: tokens.muted,
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Text(

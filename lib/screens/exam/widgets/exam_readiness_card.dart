@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_tokens.dart';
 import 'package:deutschtiger/data/exam/exam_models.dart';
 
 class ExamReadinessCard extends StatelessWidget {
@@ -28,7 +29,7 @@ class ExamReadinessCard extends StatelessWidget {
                               value: readiness.overallScore / 100,
                               backgroundColor: Colors.grey[200],
                               valueColor: AlwaysStoppedAnimation(
-                                _getOverallColor(),
+                                _getOverallColor(context),
                               ),
                               strokeWidth: 8,
                             ),
@@ -41,7 +42,7 @@ class ExamReadinessCard extends StatelessWidget {
                                     style: TextStyle(
                                       fontSize: 24,
                                       fontWeight: FontWeight.bold,
-                                      color: _getOverallColor(),
+                                      color: _getOverallColor(context),
                                     ),
                                   ),
                                   const Text(
@@ -100,14 +101,14 @@ class ExamReadinessCard extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Row(
+                        Row(
                           children: [
                             Icon(
                               Icons.thumb_up,
                               size: 16,
-                              color: AppColors.success,
+                              color: context.tokens.success,
                             ),
-                            SizedBox(width: 4),
+                            const SizedBox(width: 4),
                             Text(
                               'Strengths',
                               style: TextStyle(fontWeight: FontWeight.bold),
@@ -177,9 +178,11 @@ class ExamReadinessCard extends StatelessWidget {
     );
   }
 
-  Color _getOverallColor() {
-    if (readiness.overallScore >= 80) return AppColors.success;
+  Color _getOverallColor(BuildContext context) {
+    if (readiness.overallScore >= 80) return context.tokens.success;
     if (readiness.overallScore >= 60) return Colors.orange;
+    // `error` isn't a themed AppTokens member (only `destructive` is) — kept
+    // as the fixed DesignTokens red already used for low-readiness scores.
     return AppColors.error;
   }
 }

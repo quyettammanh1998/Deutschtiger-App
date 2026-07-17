@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/design_tokens.dart';
+import '../../../core/theme/app_tokens.dart';
 import '../../../features/daily_path/presentation/daily_path_provider.dart';
 import '../../../l10n/app_localizations.dart';
 
@@ -14,6 +15,7 @@ class JourneyHeader extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
+    final tokens = context.tokens;
     final path = ref.watch(dailyPathProvider).valueOrNull;
 
     return Padding(
@@ -28,20 +30,17 @@ class JourneyHeader extends ConsumerWidget {
         children: [
           Text(
             l10n.today,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 22,
               fontWeight: FontWeight.bold,
-              color: DesignTokens.foreground,
+              color: tokens.foreground,
             ),
           ),
           if (path != null && path.estimatedMinutesRemaining > 0) ...[
             const SizedBox(height: 2),
             Text(
               l10n.dailyPathMinutesRemaining(path.estimatedMinutesRemaining),
-              style: const TextStyle(
-                fontSize: 12,
-                color: DesignTokens.mutedForeground,
-              ),
+              style: TextStyle(fontSize: 12, color: tokens.mutedForeground),
             ),
           ],
           if (path != null &&
@@ -69,7 +68,9 @@ class _ExamCountdownLine extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final close = daysToExam <= 28;
-    final color = close ? DesignTokens.amber700 : DesignTokens.mutedForeground;
+    final color = close
+        ? DesignTokens.amber700
+        : context.tokens.mutedForeground;
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [

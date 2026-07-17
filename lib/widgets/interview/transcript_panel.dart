@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/app_tokens.dart';
 import 'package:deutschtiger/data/interview/transcript_models.dart';
 import 'package:deutschtiger/view_models/interview/transcript_provider.dart';
 import 'package:deutschtiger/shared/widgets/word_lookup_sheet.dart';
@@ -49,7 +50,7 @@ class _TranscriptPanelState extends ConsumerState<TranscriptPanel> {
       decoration: BoxDecoration(
         color: Colors.white,
         border: Border(
-          top: BorderSide(color: AppColors.muted.withValues(alpha: 0.3)),
+          top: BorderSide(color: context.tokens.muted.withValues(alpha: 0.3)),
         ),
       ),
       child: Column(
@@ -84,7 +85,7 @@ class _TranscriptPanelState extends ConsumerState<TranscriptPanel> {
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                   fontSize: 12,
-                                  color: AppColors.mutedForeground,
+                                  color: context.tokens.mutedForeground,
                                 ),
                               ),
                             )
@@ -171,7 +172,7 @@ class _TranscriptList extends StatelessWidget {
                     vertical: 2,
                   ),
                   decoration: BoxDecoration(
-                    color: AppColors.muted.withValues(alpha: 0.2),
+                    color: context.tokens.muted.withValues(alpha: 0.2),
                     borderRadius: BorderRadius.circular(4),
                   ),
                   child: Text(
@@ -181,7 +182,7 @@ class _TranscriptList extends StatelessWidget {
                       fontWeight: FontWeight.w500,
                       color: isActive
                           ? AppColors.tigerOrange
-                          : AppColors.mutedForeground,
+                          : context.tokens.mutedForeground,
                     ),
                   ),
                 ),
@@ -198,8 +199,8 @@ class _TranscriptList extends StatelessWidget {
                               ? FontWeight.w500
                               : FontWeight.normal,
                           color: isActive
-                              ? AppColors.foreground
-                              : AppColors.mutedForeground,
+                              ? context.tokens.foreground
+                              : context.tokens.mutedForeground,
                         ),
                       ),
                       if (segment.textVi != null) ...[
@@ -208,7 +209,7 @@ class _TranscriptList extends StatelessWidget {
                           segment.textVi!,
                           style: TextStyle(
                             fontSize: 12,
-                            color: AppColors.mutedForeground,
+                            color: context.tokens.mutedForeground,
                             fontStyle: FontStyle.italic,
                           ),
                         ),
@@ -272,11 +273,11 @@ class _EmptyTranscriptView extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(Icons.subtitles_off, size: 40, color: AppColors.muted),
+          Icon(Icons.subtitles_off, size: 40, color: context.tokens.muted),
           const SizedBox(height: 8),
           Text(
             'Không có transcript',
-            style: TextStyle(fontSize: 14, color: AppColors.mutedForeground),
+            style: TextStyle(fontSize: 14, color: context.tokens.mutedForeground),
           ),
         ],
       ),
@@ -296,11 +297,11 @@ class _ErrorView extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(Icons.error_outline, size: 40, color: AppColors.destructive),
+          Icon(Icons.error_outline, size: 40, color: context.tokens.destructive),
           const SizedBox(height: 8),
           Text(
             'Lỗi: $error',
-            style: TextStyle(fontSize: 12, color: AppColors.destructive),
+            style: TextStyle(fontSize: 12, color: context.tokens.destructive),
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 8),

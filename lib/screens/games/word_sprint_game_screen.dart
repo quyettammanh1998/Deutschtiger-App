@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/design_tokens.dart';
+import '../../core/theme/app_tokens.dart';
 import '../../data/vocab/vocab_models.dart';
 import '../../view_models/games/word_sprint_provider.dart';
 import '../../widgets/common/async_state_views.dart';
@@ -211,7 +212,7 @@ class _WordSprintGameScreenState extends ConsumerState<WordSprintGameScreen> {
         SprintProgressBar(
           current: _currentIndex + 1,
           total: _words.length,
-          color: DesignTokens.warning,
+          color: context.tokens.warning,
         ),
         const SizedBox(height: DesignTokens.spacingMd),
         SprintStatRow(

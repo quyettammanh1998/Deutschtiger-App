@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/design_tokens.dart';
+import '../../core/theme/app_tokens.dart';
 import '../../l10n/app_localizations.dart';
 import '../../view_models/notifications/notifications_provider.dart';
 import '../../widgets/common/async_state_views.dart';
@@ -19,11 +20,12 @@ class NotificationCenterScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
     final notificationsAsync = ref.watch(notificationListProvider);
+    final background = context.tokens.background;
 
     return Scaffold(
-      backgroundColor: DesignTokens.authBackground,
+      backgroundColor: background,
       appBar: AppBar(
-        backgroundColor: DesignTokens.authBackground,
+        backgroundColor: background,
         title: Text(
           l10n.notifications,
           style: const TextStyle(
@@ -67,7 +69,7 @@ class NotificationCenterScreen extends ConsumerWidget {
                       child: Center(
                         child: Text(
                           l10n.notificationEmpty,
-                          style: const TextStyle(color: DesignTokens.mutedForeground),
+                          style: TextStyle(color: context.tokens.mutedForeground),
                         ),
                       ),
                     ),

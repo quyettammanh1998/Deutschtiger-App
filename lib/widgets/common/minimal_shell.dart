@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/design_tokens.dart';
+import '../../core/theme/app_tokens.dart';
 
 /// Widget tiện ích: bọc nội dung trong minimal frame.
 class MinimalShell extends ConsumerWidget {
@@ -33,14 +34,14 @@ class MinimalShell extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final bg = backgroundColor ?? DesignTokens.background;
+    final bg = backgroundColor ?? context.tokens.background;
     return Scaffold(
       backgroundColor: bg,
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(DesignTokens.appBarHeight),
         child: AppBar(
           backgroundColor: bg,
-          foregroundColor: DesignTokens.foreground,
+          foregroundColor: context.tokens.foreground,
           elevation: 0,
           scrolledUnderElevation: 0.5,
           leading: showBack
@@ -51,10 +52,10 @@ class MinimalShell extends ConsumerWidget {
               : null,
           title: Text(
             title,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 15,
               fontWeight: FontWeight.w700,
-              color: DesignTokens.foreground,
+              color: context.tokens.foreground,
             ),
           ),
           centerTitle: true,

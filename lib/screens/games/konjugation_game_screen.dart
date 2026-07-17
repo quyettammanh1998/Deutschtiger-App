@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_tokens.dart';
 import '../../data/games/conjugation_models.dart';
 import '../../repositories/games/grammar_drill_repository.dart';
 import '../../view_models/games/cases_provider.dart';
@@ -217,14 +217,14 @@ class _KonjugationGameScreenState
                       const SizedBox(height: 4),
                       Text(
                         '(${question.viVerb})',
-                        style: TextStyle(color: AppColors.mutedForeground),
+                        style: TextStyle(color: context.tokens.mutedForeground),
                       ),
                       const SizedBox(height: 8),
                       Text(
                         question.tense,
                         style: TextStyle(
                           fontSize: 12,
-                          color: AppColors.mutedForeground,
+                          color: context.tokens.mutedForeground,
                         ),
                       ),
                     ],
@@ -307,7 +307,7 @@ class _KonjugationGameScreenState
                   '${question.type} · ${question.level}',
                   style: TextStyle(
                     fontSize: 11,
-                    color: AppColors.mutedForeground,
+                    color: context.tokens.mutedForeground,
                   ),
                 ),
                 if (_submitted) ...[
@@ -379,7 +379,7 @@ class _KonjugationGameScreenState
               ),
               Text(
                 '$correct / $total đúng',
-                style: const TextStyle(color: AppColors.mutedForeground),
+                style: TextStyle(color: context.tokens.mutedForeground),
               ),
               if (_submitFailed) ...[
                 const SizedBox(height: 8),

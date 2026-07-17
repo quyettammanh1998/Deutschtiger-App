@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/app_tokens.dart';
 
 class PronunciationPracticeWidget extends StatefulWidget {
   final String word;
@@ -96,17 +97,17 @@ class _PronunciationPracticeWidgetState extends State<PronunciationPracticeWidge
           Container(
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
-              color: AppColors.primary.withValues(alpha: 0.05),
+              color: context.tokens.primary.withValues(alpha: 0.05),
               borderRadius: BorderRadius.circular(16),
             ),
             child: Column(
               children: [
                 Text(
                   widget.word,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 32,
                     fontWeight: FontWeight.bold,
-                    color: AppColors.foreground,
+                    color: context.tokens.foreground,
                   ),
                 ),
                 const SizedBox(height: 8),
@@ -137,7 +138,7 @@ class _PronunciationPracticeWidgetState extends State<PronunciationPracticeWidge
                   child: Container(
                     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     decoration: BoxDecoration(
-                      color: AppColors.primary,
+                      color: context.tokens.primary,
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Row(
@@ -213,9 +214,9 @@ class _PronunciationPracticeWidgetState extends State<PronunciationPracticeWidge
               const SizedBox(height: 12),
               Text(
                 _feedback,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 14,
-                  color: AppColors.foreground,
+                  color: context.tokens.foreground,
                 ),
                 textAlign: TextAlign.center,
               ),

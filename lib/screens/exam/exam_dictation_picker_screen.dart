@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/design_tokens.dart';
+import '../../core/theme/app_tokens.dart';
 import '../../features/exam/data/exam_service.dart';
 import '../../features/exam/presentation/exam_player_provider.dart';
 import '../../l10n/app_localizations.dart';
@@ -20,7 +21,7 @@ class ExamDictationPickerScreen extends ConsumerWidget {
     final catalog = ref.watch(examCatalogProvider);
 
     return Scaffold(
-      backgroundColor: DesignTokens.background,
+      backgroundColor: context.tokens.background,
       appBar: AppBar(title: Text(l10n.examDictationPickerTitle)),
       body: catalog.when(
         loading: () => const LoadingView(),
@@ -40,7 +41,7 @@ class ExamDictationPickerScreen extends ConsumerWidget {
             return Center(
               child: Text(
                 l10n.noSupportedExams,
-                style: const TextStyle(color: DesignTokens.mutedForeground),
+                style: TextStyle(color: context.tokens.mutedForeground),
               ),
             );
           }
@@ -74,9 +75,9 @@ class _PickerCard extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(DesignTokens.cardPadding),
         decoration: BoxDecoration(
-          color: DesignTokens.card,
+          color: context.tokens.card,
           borderRadius: BorderRadius.circular(DesignTokens.radius),
-          border: Border.all(color: DesignTokens.border),
+          border: Border.all(color: context.tokens.border),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -88,7 +89,7 @@ class _PickerCard extends StatelessWidget {
             const SizedBox(height: 4),
             Text(
               '${item.provider.toUpperCase()} ${item.level.toUpperCase()}',
-              style: const TextStyle(color: DesignTokens.mutedForeground),
+              style: TextStyle(color: context.tokens.mutedForeground),
             ),
           ],
         ),

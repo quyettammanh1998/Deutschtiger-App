@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_tokens.dart';
 import '../../data/vocab/vocab_models.dart';
 import '../../view_models/games/listening_game_provider.dart';
 import '../../view_models/providers.dart';
@@ -267,10 +267,10 @@ class _ListeningGameScreenState extends ConsumerState<ListeningGameScreen> {
                 _retryWrongMode
                     ? 'Đúng $_correct/$_total (làm lại câu sai)'
                     : 'Đúng $_correct/$_total câu',
-                style: const TextStyle(color: AppColors.mutedForeground),
+                style: TextStyle(color: context.tokens.mutedForeground),
               ),
               Text('$accuracy% chính xác',
-                  style: const TextStyle(color: AppColors.mutedForeground)),
+                  style: TextStyle(color: context.tokens.mutedForeground)),
               const SizedBox(height: 24),
               Row(
                 children: [
@@ -372,12 +372,12 @@ class _ListeningGameScreenState extends ConsumerState<ListeningGameScreen> {
               const SizedBox(height: 16),
               Text(
                 _isPlaying ? 'Đang phát...' : 'Nhấn để nghe lại',
-                style: TextStyle(fontSize: 16, color: AppColors.mutedForeground),
+                style: TextStyle(fontSize: 16, color: context.tokens.mutedForeground),
               ),
               const SizedBox(height: 8),
-              const Text(
+              Text(
                 'Nghe từ và chọn nghĩa đúng',
-                style: TextStyle(fontSize: 14, color: AppColors.mutedForeground),
+                style: TextStyle(fontSize: 14, color: context.tokens.mutedForeground),
               ),
             ],
           ),

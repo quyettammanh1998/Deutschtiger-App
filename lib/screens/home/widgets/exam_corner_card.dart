@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/design_tokens.dart';
+import '../../../core/theme/app_tokens.dart';
 import '../../../data/learn/exam_goal_providers.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../view_models/providers.dart';
@@ -30,6 +31,7 @@ class ExamCornerCard extends ConsumerWidget {
 
         final days = _daysUntil(targetDate);
         final l10n = AppLocalizations.of(context);
+        final tokens = context.tokens;
         final overdue = days < 0;
         final headline = overdue
             ? l10n.examCornerOverdue
@@ -48,7 +50,7 @@ class ExamCornerCard extends ConsumerWidget {
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
             decoration: BoxDecoration(
-              color: DesignTokens.card,
+              color: tokens.card,
               borderRadius: BorderRadius.circular(DesignTokens.radius),
               boxShadow: DesignTokens.shadowSm,
             ),
@@ -63,10 +65,10 @@ class ExamCornerCard extends ConsumerWidget {
                         headline,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
-                          color: DesignTokens.foreground,
+                          color: tokens.foreground,
                         ),
                       ),
                       const SizedBox(height: 4),
@@ -76,10 +78,10 @@ class ExamCornerCard extends ConsumerWidget {
                             onTap: () => context.push('/exam/readiness'),
                             child: Text(
                               l10n.examCornerReadiness,
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w600,
-                                color: DesignTokens.mutedForeground,
+                                color: tokens.mutedForeground,
                               ),
                             ),
                           ),
@@ -91,10 +93,10 @@ class ExamCornerCard extends ConsumerWidget {
                             ),
                             child: Text(
                               l10n.examCornerChangeGoal,
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w600,
-                                color: DesignTokens.mutedForeground,
+                                color: tokens.mutedForeground,
                               ),
                             ),
                           ),
@@ -164,6 +166,7 @@ class _GoalPrompt extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+    final tokens = context.tokens;
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: DesignTokens.screenHorizontalPadding,
@@ -171,7 +174,7 @@ class _GoalPrompt extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
         decoration: BoxDecoration(
-          color: DesignTokens.card,
+          color: tokens.card,
           borderRadius: BorderRadius.circular(DesignTokens.radius),
           boxShadow: DesignTokens.shadowSm,
         ),
@@ -184,10 +187,10 @@ class _GoalPrompt extends StatelessWidget {
                 children: [
                   Text(
                     l10n.examGoalPromptTitle,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
-                      color: DesignTokens.foreground,
+                      color: tokens.foreground,
                     ),
                   ),
                   const SizedBox(height: 2),
@@ -195,9 +198,9 @@ class _GoalPrompt extends StatelessWidget {
                     l10n.examGoalPromptSubtitle,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 12,
-                      color: DesignTokens.mutedForeground,
+                      color: tokens.mutedForeground,
                     ),
                   ),
                 ],

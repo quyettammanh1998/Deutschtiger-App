@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/app_tokens.dart';
 import '../../shared/widgets/confetti_overlay.dart';
 import '../../view_models/providers.dart';
 
@@ -185,10 +186,10 @@ class _StreakClaimModalState extends ConsumerState<StreakClaimModal>
                       // Streak count
                       Text(
                         '$_displayStreak Streak',
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 32,
                           fontWeight: FontWeight.w800,
-                          color: AppColors.primary,
+                          color: context.tokens.primary,
                         ),
                       ),
                       const SizedBox(height: 4),
@@ -198,7 +199,7 @@ class _StreakClaimModalState extends ConsumerState<StreakClaimModal>
                             : 'Bắt đầu chuỗi streak hôm nay!',
                         style: TextStyle(
                           fontSize: 14,
-                          color: AppColors.foreground.withValues(alpha: 0.8),
+                          color: context.tokens.foreground.withValues(alpha: 0.8),
                         ),
                       ),
 
@@ -253,10 +254,10 @@ class _StreakClaimModalState extends ConsumerState<StreakClaimModal>
                                 fontSize: 16,
                                 fontWeight: FontWeight.w800,
                                 color: _claimed
-                                    ? AppColors.foreground
+                                    ? context.tokens.foreground
                                     : _notEnoughTime
                                     ? Colors.amber.shade700
-                                    : AppColors.foreground,
+                                    : context.tokens.foreground,
                               ),
                             ),
                             const SizedBox(height: 4),
@@ -266,7 +267,7 @@ class _StreakClaimModalState extends ConsumerState<StreakClaimModal>
                                   : 'Bạn đã giữ được streak hôm nay. Nhận ngay nhé.',
                               style: TextStyle(
                                 fontSize: 14,
-                                color: AppColors.foreground.withValues(
+                                color: context.tokens.foreground.withValues(
                                   alpha: 0.7,
                                 ),
                               ),
@@ -295,7 +296,7 @@ class _StreakClaimModalState extends ConsumerState<StreakClaimModal>
                           style: ElevatedButton.styleFrom(
                             backgroundColor: _claimed
                                 ? Colors.grey.shade400
-                                : AppColors.primary,
+                                : context.tokens.primary,
                             foregroundColor: Colors.white,
                             padding: const EdgeInsets.symmetric(vertical: 16),
                             shape: RoundedRectangleBorder(
@@ -362,7 +363,7 @@ class _DayItem extends StatelessWidget {
             shape: BoxShape.circle,
             border: Border.all(
               color: day.isToday
-                  ? AppColors.primary
+                  ? context.tokens.primary
                   : isActive
                   ? Colors.green.shade400
                   : Colors.grey.shade300,
@@ -378,7 +379,7 @@ class _DayItem extends StatelessWidget {
                     Icons.local_fire_department,
                     size: 14,
                     color: day.isToday
-                        ? AppColors.primary
+                        ? context.tokens.primary
                         : Colors.green.shade400,
                   )
                 : null,
@@ -390,7 +391,7 @@ class _DayItem extends StatelessWidget {
           style: TextStyle(
             fontSize: 10,
             fontWeight: day.isToday ? FontWeight.bold : FontWeight.w500,
-            color: day.isToday ? AppColors.primary : Colors.grey.shade500,
+            color: day.isToday ? context.tokens.primary : Colors.grey.shade500,
           ),
         ),
         Text(
@@ -398,7 +399,7 @@ class _DayItem extends StatelessWidget {
           style: TextStyle(
             fontSize: 12,
             fontWeight: FontWeight.w600,
-            color: day.isToday ? AppColors.primary : Colors.grey.shade400,
+            color: day.isToday ? context.tokens.primary : Colors.grey.shade400,
           ),
         ),
       ],

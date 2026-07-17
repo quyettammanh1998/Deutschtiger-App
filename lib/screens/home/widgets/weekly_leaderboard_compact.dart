@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/design_tokens.dart';
+import '../../../../core/theme/app_tokens.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../../services/api_client.dart';
 import '../../../../view_models/providers.dart';
@@ -38,13 +39,14 @@ class WeeklyLeaderboardCompact extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
+    final tokens = context.tokens;
     final leaderboard = ref.watch(leaderboardProvider(LeaderboardType.weekly));
     final currentUserId = ref.watch(authServiceProvider).currentUser?.id;
 
     return Container(
       padding: const EdgeInsets.all(DesignTokens.cardPadding),
       decoration: BoxDecoration(
-        color: DesignTokens.card,
+        color: tokens.card,
         borderRadius: BorderRadius.circular(DesignTokens.radius),
         boxShadow: DesignTokens.shadowSm,
       ),
@@ -55,10 +57,10 @@ class WeeklyLeaderboardCompact extends ConsumerWidget {
               Expanded(
                 child: Text(
                   l10n.weeklyLeaderboard,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
-                    color: DesignTokens.foreground,
+                    color: tokens.foreground,
                   ),
                 ),
               ),
@@ -115,10 +117,10 @@ class WeeklyLeaderboardCompact extends ConsumerWidget {
                     userInTop3
                         ? l10n.weeklyLeaderboardInTop3
                         : l10n.learnMoreToRank,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 11,
                       fontWeight: FontWeight.w500,
-                      color: DesignTokens.mutedForeground,
+                      color: tokens.mutedForeground,
                     ),
                   ),
                 ],
@@ -136,6 +138,7 @@ class _RankDivider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = context.tokens;
     return Padding(
       padding: const EdgeInsets.symmetric(
         vertical: DesignTokens.spacingXs,
@@ -143,18 +146,17 @@ class _RankDivider extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Expanded(child: Container(height: 1, color: DesignTokens.border)),
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: DesignTokens.spacingXs),
+          Expanded(child: Container(height: 1, color: tokens.border)),
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: DesignTokens.spacingXs,
+            ),
             child: Text(
               '···',
-              style: TextStyle(
-                fontSize: 10,
-                color: DesignTokens.mutedForeground,
-              ),
+              style: TextStyle(fontSize: 10, color: tokens.mutedForeground),
             ),
           ),
-          Expanded(child: Container(height: 1, color: DesignTokens.border)),
+          Expanded(child: Container(height: 1, color: tokens.border)),
         ],
       ),
     );
@@ -177,6 +179,7 @@ class _CompactRankRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = context.tokens;
     final name = entry.displayName.trim().isEmpty
         ? AppLocalizations.of(context).user
         : entry.displayName.trim();
@@ -187,12 +190,10 @@ class _CompactRankRow extends StatelessWidget {
         vertical: DesignTokens.spacingXs + 2,
       ),
       decoration: BoxDecoration(
-        color: isCurrentUser
-            ? DesignTokens.primary.withValues(alpha: 0.05)
-            : null,
+        color: isCurrentUser ? tokens.primary.withValues(alpha: 0.05) : null,
         borderRadius: BorderRadius.circular(DesignTokens.radiusSm),
         border: isCurrentUser
-            ? Border.all(color: DesignTokens.primary.withValues(alpha: 0.4))
+            ? Border.all(color: tokens.primary.withValues(alpha: 0.4))
             : null,
       ),
       child: Row(
@@ -202,26 +203,26 @@ class _CompactRankRow extends StatelessWidget {
             child: Text(
               _rankMedal(entry.rank),
               textAlign: TextAlign.center,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 13,
                 fontWeight: FontWeight.bold,
-                color: DesignTokens.mutedForeground,
+                color: tokens.mutedForeground,
               ),
             ),
           ),
           const SizedBox(width: DesignTokens.spacingSm),
           CircleAvatar(
             radius: 16,
-            backgroundColor: DesignTokens.primary.withValues(alpha: 0.1),
+            backgroundColor: tokens.primary.withValues(alpha: 0.1),
             foregroundImage: entry.avatarUrl == null
                 ? null
                 : NetworkImage(entry.avatarUrl!),
             child: entry.avatarUrl == null
                 ? Text(
                     name.characters.first.toUpperCase(),
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      color: DesignTokens.primary,
+                      color: tokens.primary,
                     ),
                   )
                 : null,
@@ -232,19 +233,19 @@ class _CompactRankRow extends StatelessWidget {
               name,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 13,
                 fontWeight: FontWeight.w600,
-                color: DesignTokens.foreground,
+                color: tokens.foreground,
               ),
             ),
           ),
           Text(
             '${entry.xp}',
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 12,
               fontWeight: FontWeight.bold,
-              color: DesignTokens.mutedForeground,
+              color: tokens.mutedForeground,
             ),
           ),
         ],
@@ -261,25 +262,23 @@ class _EmptyLeaderboard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = context.tokens;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: DesignTokens.spacingMd),
       child: Column(
         children: [
           Text(
             l10n.noWeeklyLeaderboard,
-            style: const TextStyle(
+            style: TextStyle(
               fontWeight: FontWeight.w600,
-              color: DesignTokens.foreground,
+              color: tokens.foreground,
             ),
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: DesignTokens.spacingXs),
           Text(
             l10n.noWeeklyLeaderboardSubtitle,
-            style: const TextStyle(
-              fontSize: 12,
-              color: DesignTokens.mutedForeground,
-            ),
+            style: TextStyle(fontSize: 12, color: tokens.mutedForeground),
             textAlign: TextAlign.center,
           ),
           if (onRetry != null)

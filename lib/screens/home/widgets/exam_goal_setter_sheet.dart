@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/design_tokens.dart';
+import '../../../core/theme/app_tokens.dart';
 import '../../../data/learn/exam_goal_providers.dart';
 import '../../../data/learn/learn_goal.dart';
 import '../../../features/daily_path/presentation/daily_path_provider.dart';
@@ -120,13 +121,14 @@ class _ExamGoalSetterSheetState extends ConsumerState<ExamGoalSetterSheet> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+    final tokens = context.tokens;
     final viewInsets = MediaQuery.of(context).viewInsets.bottom;
     return Padding(
       padding: EdgeInsets.only(bottom: viewInsets),
       child: Container(
-        decoration: const BoxDecoration(
-          color: DesignTokens.card,
-          borderRadius: BorderRadius.vertical(
+        decoration: BoxDecoration(
+          color: tokens.card,
+          borderRadius: const BorderRadius.vertical(
             top: Radius.circular(DesignTokens.radiusLg),
           ),
         ),
@@ -135,12 +137,12 @@ class _ExamGoalSetterSheetState extends ConsumerState<ExamGoalSetterSheet> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Center(
+            Center(
               child: SizedBox(
                 width: 40,
                 height: 4,
                 child: DecoratedBox(
-                  decoration: BoxDecoration(color: DesignTokens.border),
+                  decoration: BoxDecoration(color: tokens.border),
                 ),
               ),
             ),
@@ -152,10 +154,10 @@ class _ExamGoalSetterSheetState extends ConsumerState<ExamGoalSetterSheet> {
             const SizedBox(height: DesignTokens.spacingMd),
             Text(
               l10n.examGoalSetterProviderLabel,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
-                color: DesignTokens.foreground,
+                color: tokens.foreground,
               ),
             ),
             const SizedBox(height: 6),
@@ -176,10 +178,10 @@ class _ExamGoalSetterSheetState extends ConsumerState<ExamGoalSetterSheet> {
             const SizedBox(height: DesignTokens.spacingMd),
             Text(
               l10n.examGoalSetterLevelLabel,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
-                color: DesignTokens.foreground,
+                color: tokens.foreground,
               ),
             ),
             const SizedBox(height: 6),
@@ -197,10 +199,10 @@ class _ExamGoalSetterSheetState extends ConsumerState<ExamGoalSetterSheet> {
             const SizedBox(height: DesignTokens.spacingMd),
             Text(
               l10n.examGoalSetterDateLabel,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
-                color: DesignTokens.foreground,
+                color: tokens.foreground,
               ),
             ),
             const SizedBox(height: 6),
@@ -212,11 +214,11 @@ class _ExamGoalSetterSheetState extends ConsumerState<ExamGoalSetterSheet> {
                   horizontal: 12,
                   vertical: 14,
                 ),
-                side: const BorderSide(color: DesignTokens.border),
+                side: BorderSide(color: tokens.border),
               ),
               child: Text(
                 _date == null ? l10n.examGoalSetterDateLabel : _formatDate(_date!),
-                style: const TextStyle(color: DesignTokens.foreground),
+                style: TextStyle(color: tokens.foreground),
               ),
             ),
             if (_error != null) ...[

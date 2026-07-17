@@ -4,6 +4,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 import 'package:deutschtiger/services/config/app_config.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/app_tokens.dart';
 
 /// Màn học qua WebView - hiển thị nội dung bài học từ website.
 class WebViewLessonScreen extends ConsumerStatefulWidget {
@@ -32,10 +33,17 @@ class _WebViewLessonScreenState extends ConsumerState<WebViewLessonScreen> {
     _initWebViewController();
   }
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Nền native WebView phải set sau khi có context (initState chưa có
+    // theme) và set lại mỗi lần đổi sáng/tối.
+    _controller.setBackgroundColor(context.tokens.background);
+  }
+
   void _initWebViewController() {
     _controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..setBackgroundColor(AppColors.background)
       ..setNavigationDelegate(
         NavigationDelegate(
           onProgress: (int progress) {
@@ -81,10 +89,11 @@ class _WebViewLessonScreenState extends ConsumerState<WebViewLessonScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = context.tokens;
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: tokens.background,
       appBar: AppBar(
-        backgroundColor: AppColors.authBackground,
+        backgroundColor: tokens.background,
         title: Text(
           widget.title ?? 'Bài học',
           style: const TextStyle(
@@ -110,18 +119,18 @@ class _WebViewLessonScreenState extends ConsumerState<WebViewLessonScreen> {
           ),
         ],
       ),
-      body: _hasError ? _buildErrorView() : _buildWebView(),
+      body: _hasError ? _buildErrorView(context) : _buildWebView(context),
     );
   }
 
-  Widget _buildWebView() {
+  Widget _buildWebView(BuildContext context) {
     return Stack(
       children: [
         WebViewWidget(controller: _controller),
         if (_isLoading)
           LinearProgressIndicator(
             value: _loadingProgress,
-            backgroundColor: AppColors.border,
+            backgroundColor: context.tokens.border,
             valueColor: const AlwaysStoppedAnimation(AppColors.tigerOrange),
             minHeight: 3,
           ),
@@ -129,17 +138,18 @@ class _WebViewLessonScreenState extends ConsumerState<WebViewLessonScreen> {
     );
   }
 
-  Widget _buildErrorView() {
+  Widget _buildErrorView(BuildContext context) {
+    final tokens = context.tokens;
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(24),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(
+            Icon(
               Icons.error_outline,
               size: 64,
-              color: AppColors.destructive,
+              color: tokens.destructive,
             ),
             const SizedBox(height: 16),
             const Text(
@@ -154,7 +164,7 @@ class _WebViewLessonScreenState extends ConsumerState<WebViewLessonScreen> {
               'Vui lòng kiểm tra kết nối internet và thử lại.',
               textAlign: TextAlign.center,
               style: TextStyle(
-                color: AppColors.mutedForeground,
+                color: tokens.mutedForeground,
               ),
             ),
             const SizedBox(height: 24),

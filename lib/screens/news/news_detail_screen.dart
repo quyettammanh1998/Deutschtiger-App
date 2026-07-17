@@ -6,6 +6,7 @@ import 'package:deutschtiger/l10n/app_localizations.dart';
 import 'package:deutschtiger/repositories/news/news_repository.dart';
 import 'package:deutschtiger/widgets/common/async_state_views.dart';
 import '../../core/design_tokens.dart';
+import '../../core/theme/app_tokens.dart';
 import '../../data/news/news_models.dart';
 import '../../shared/widgets/word_lookup_sheet.dart';
 import '../reading/widgets/save_article_words_cta.dart';
@@ -38,14 +39,15 @@ class _NewsDetailScreenState extends ConsumerState<NewsDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = context.tokens;
     final l10n = AppLocalizations.of(context);
     final storyAsync = ref.watch(newsStoryProvider(widget.slug));
 
     return Scaffold(
-      backgroundColor: DesignTokens.background,
+      backgroundColor: tokens.background,
       appBar: AppBar(
         title: Text(l10n.newsHeaderTitle),
-        backgroundColor: DesignTokens.background,
+        backgroundColor: tokens.background,
       ),
       body: storyAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
@@ -90,9 +92,9 @@ class _NewsDetailScreenState extends ConsumerState<NewsDetailScreen> {
                   ),
                   child: Text.rich(
                     TextSpan(
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 12,
-                        color: DesignTokens.mutedForeground,
+                        color: tokens.mutedForeground,
                         height: 1.5,
                       ),
                       children: [
@@ -261,18 +263,19 @@ class _SourceLine extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = context.tokens;
     return Row(
       children: [
         if (article.publishedAt != null)
           Text(
             _formatDate(context, article.publishedAt!),
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 12,
-              color: DesignTokens.mutedForeground,
+              color: tokens.mutedForeground,
             ),
           ),
         if (article.publishedAt != null && article.attribution != null)
-          const Text(' · ', style: TextStyle(color: DesignTokens.mutedForeground)),
+          Text(' · ', style: TextStyle(color: tokens.mutedForeground)),
         if (article.attribution != null)
           GestureDetector(
             onTap: article.sourceUrl == null
@@ -285,7 +288,7 @@ class _SourceLine extends StatelessWidget {
               article.attribution!,
               style: TextStyle(
                 fontSize: 12,
-                color: DesignTokens.mutedForeground,
+                color: tokens.mutedForeground,
                 decoration: article.sourceUrl != null
                     ? TextDecoration.underline
                     : null,

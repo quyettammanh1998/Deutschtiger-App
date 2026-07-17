@@ -762,6 +762,7 @@ class _ReadingHubSkeleton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = context.tokens;
     return GridView.count(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
@@ -774,7 +775,7 @@ class _ReadingHubSkeleton extends StatelessWidget {
         (index) => Container(
           padding: const EdgeInsets.all(DesignTokens.spacingSm),
           decoration: BoxDecoration(
-            color: DesignTokens.muted,
+            color: tokens.muted,
             borderRadius: BorderRadius.circular(16),
           ),
           child: const Column(

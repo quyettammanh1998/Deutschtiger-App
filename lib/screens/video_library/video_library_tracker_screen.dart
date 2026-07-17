@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_tokens.dart';
 import 'package:deutschtiger/widgets/common/async_state_views.dart';
 import 'package:deutschtiger/data/youtube/video_library.dart';
 import 'package:deutschtiger/view_models/youtube/youtube_provider.dart';
@@ -30,11 +31,12 @@ class _VideoLibraryTrackerScreenState extends ConsumerState<VideoLibraryTrackerS
     final progressAsync = ref.watch(videoLibraryGroupProgressProvider(widget.slug));
 
     final selected = _selectedGroup;
+    final background = context.tokens.background;
 
     return Scaffold(
-      backgroundColor: AppColors.authBackground,
+      backgroundColor: background,
       appBar: AppBar(
-        backgroundColor: AppColors.authBackground,
+        backgroundColor: background,
         foregroundColor: AppColors.tigerOrange,
         leading: selected != null
             ? BackButton(onPressed: () => setState(() => _selectedGroup = null))
@@ -70,7 +72,7 @@ class _VideoLibraryTrackerScreenState extends ConsumerState<VideoLibraryTrackerS
                     padding: const EdgeInsets.only(bottom: 12),
                     child: Text(
                       configAsync.value!.description,
-                      style: const TextStyle(color: AppColors.mutedForeground),
+                      style: TextStyle(color: context.tokens.mutedForeground),
                     ),
                   ),
                 if (totalVideos > 0) ...[
@@ -82,7 +84,7 @@ class _VideoLibraryTrackerScreenState extends ConsumerState<VideoLibraryTrackerS
                           child: LinearProgressIndicator(
                             value: totalCompleted / totalVideos,
                             minHeight: 6,
-                            backgroundColor: AppColors.muted,
+                            backgroundColor: context.tokens.muted,
                             color: AppColors.tigerOrange,
                           ),
                         ),
@@ -97,21 +99,21 @@ class _VideoLibraryTrackerScreenState extends ConsumerState<VideoLibraryTrackerS
                   const SizedBox(height: 4),
                   Text(
                     motivationForProgress(totalCompleted, totalVideos),
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 12,
-                      color: AppColors.mutedForeground,
+                      color: context.tokens.mutedForeground,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
                   const SizedBox(height: 16),
                 ],
                 if (groups.isEmpty)
-                  const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 32),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 32),
                     child: Center(
                       child: Text(
                         'Thư viện này chưa có video nào.',
-                        style: TextStyle(color: AppColors.mutedForeground),
+                        style: TextStyle(color: context.tokens.mutedForeground),
                       ),
                     ),
                   )
@@ -168,7 +170,7 @@ class _GroupVideoList extends ConsumerWidget {
           itemBuilder: (context, i) {
             final v = videos[i];
             return Material(
-              color: AppColors.card,
+              color: context.tokens.card,
               borderRadius: BorderRadius.circular(12),
               child: InkWell(
                 borderRadius: BorderRadius.circular(12),
@@ -187,7 +189,7 @@ class _GroupVideoList extends ConsumerWidget {
                           height: 60,
                           fit: BoxFit.cover,
                           errorBuilder: (_, _, _) =>
-                              Container(width: 96, height: 60, color: AppColors.muted),
+                              Container(width: 96, height: 60, color: context.tokens.muted),
                         ),
                       ),
                       const SizedBox(width: 12),
@@ -200,7 +202,7 @@ class _GroupVideoList extends ConsumerWidget {
                         ),
                       ),
                       if (v.isCompleted)
-                        const Icon(Icons.check_circle, color: AppColors.success, size: 22),
+                        Icon(Icons.check_circle, color: context.tokens.success, size: 22),
                     ],
                   ),
                 ),

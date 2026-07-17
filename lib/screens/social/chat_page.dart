@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:deutschtiger/core/theme/app_colors.dart';
+import 'package:deutschtiger/core/theme/app_tokens.dart';
 import 'package:deutschtiger/data/social/message_models.dart';
 import 'package:deutschtiger/l10n/app_localizations.dart';
 import 'package:deutschtiger/view_models/providers.dart';
@@ -106,7 +107,7 @@ class _ChatPageState extends ConsumerState<ChatPage>
     final myId = ref.watch(myProfileProvider).valueOrNull?.id;
 
     return Scaffold(
-      backgroundColor: AppColors.authBackground,
+      backgroundColor: context.tokens.background,
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 1,
@@ -150,7 +151,7 @@ class _ChatPageState extends ConsumerState<ChatPage>
                             fontWeight: profile.isOnline ? FontWeight.w600 : FontWeight.normal,
                             color: profile.isOnline
                                 ? const Color(0xFF16A34A)
-                                : AppColors.mutedForeground,
+                                : context.tokens.mutedForeground,
                           ),
                         ),
                     ],
@@ -175,7 +176,7 @@ class _ChatPageState extends ConsumerState<ChatPage>
                 value: 'block',
                 child: Text(
                   l10n.socialBlockUser,
-                  style: const TextStyle(color: AppColors.destructive),
+                  style: TextStyle(color: context.tokens.destructive),
                 ),
               ),
             ],
@@ -202,7 +203,7 @@ class _ChatPageState extends ConsumerState<ChatPage>
                           Center(
                             child: Text(
                               l10n.socialStartChatting,
-                              style: TextStyle(color: AppColors.mutedForeground),
+                              style: TextStyle(color: context.tokens.mutedForeground),
                             ),
                           ),
                         ],
@@ -244,7 +245,7 @@ class _ChatPageState extends ConsumerState<ChatPage>
             onPressed: () => Navigator.pop(context, true),
             child: Text(
               l10n.socialBlockUser,
-              style: const TextStyle(color: AppColors.destructive),
+              style: TextStyle(color: context.tokens.destructive),
             ),
           ),
         ],
@@ -278,7 +279,7 @@ class _ChatPageState extends ConsumerState<ChatPage>
           Expanded(
             child: Container(
               decoration: BoxDecoration(
-                color: AppColors.muted,
+                color: context.tokens.muted,
                 borderRadius: BorderRadius.circular(24),
               ),
               child: TextField(
@@ -346,7 +347,7 @@ class _MessageBubble extends StatelessWidget {
                     bottomLeft: Radius.circular(isMe ? 16 : 4),
                     bottomRight: Radius.circular(isMe ? 4 : 16),
                   ),
-                  border: isMe ? null : Border.all(color: AppColors.border),
+                  border: isMe ? null : Border.all(color: context.tokens.border),
                   boxShadow: isMe
                       ? null
                       : [BoxShadow(color: Colors.black.withValues(alpha: 0.04), blurRadius: 4)],
@@ -354,7 +355,7 @@ class _MessageBubble extends StatelessWidget {
                 child: Text(
                   message.content ?? '',
                   style: TextStyle(
-                    color: isMe ? Colors.white : AppColors.foreground,
+                    color: isMe ? Colors.white : context.tokens.foreground,
                     fontSize: 15,
                   ),
                 ),
@@ -367,7 +368,7 @@ class _MessageBubble extends StatelessWidget {
             children: [
               Text(
                 _formatTime(message.createdAt),
-                style: TextStyle(fontSize: 10, color: AppColors.mutedForeground),
+                style: TextStyle(fontSize: 10, color: context.tokens.mutedForeground),
               ),
               if (isMe) ...[
                 const SizedBox(width: 4),
@@ -376,7 +377,7 @@ class _MessageBubble extends StatelessWidget {
                   size: 12,
                   color: message.readAt != null
                       ? AppColors.tigerOrange
-                      : AppColors.mutedForeground,
+                      : context.tokens.mutedForeground,
                 ),
               ],
             ],

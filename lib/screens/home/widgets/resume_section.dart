@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/design_tokens.dart';
+import '../../../core/theme/app_tokens.dart';
 import '../../../features/daily_path/domain/daily_path.dart';
 import '../../../features/daily_path/domain/skill_emoji.dart';
 import '../../../features/daily_path/presentation/daily_path_provider.dart';
@@ -75,6 +76,7 @@ class ResumeLearningCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+    final tokens = context.tokens;
     final hasSteps = path != null && path!.steps.isNotEmpty;
     if (!hasSteps) {
       return DailyPathEmptyCard(onTap: onTap);
@@ -91,7 +93,7 @@ class ResumeLearningCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(DesignTokens.cardPadding),
       decoration: BoxDecoration(
-        color: DesignTokens.card,
+        color: tokens.card,
         borderRadius: BorderRadius.circular(DesignTokens.radiusLg),
         boxShadow: DesignTokens.shadowCard,
       ),
@@ -105,10 +107,10 @@ class ResumeLearningCard extends StatelessWidget {
                   l10n.dailyPathHeroTitle,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.bold,
-                    color: DesignTokens.foreground,
+                    color: tokens.foreground,
                   ),
                 ),
               ),
@@ -141,10 +143,10 @@ class ResumeLearningCard extends StatelessWidget {
                             ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
-                        color: DesignTokens.mutedForeground,
+                        color: tokens.mutedForeground,
                       ),
                     ),
                     const SizedBox(height: 8),
@@ -156,10 +158,10 @@ class ResumeLearningCard extends StatelessWidget {
                         '${currentStep.description.isNotEmpty ? ' · ${currentStep.description}' : ''}',
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w600,
-                          color: DesignTokens.mutedForeground,
+                          color: tokens.mutedForeground,
                         ),
                       ),
                       const SizedBox(height: 8),

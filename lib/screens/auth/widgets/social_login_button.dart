@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_tokens.dart';
 
 /// Nút đăng nhập mạng xã hội (Google/Apple) với icon và loading state.
+/// Web: `border-orange-100 bg-white text-gray-700` (light) →
+/// `dark:border-border dark:bg-card dark:text-foreground`.
 class SocialLoginButton extends StatefulWidget {
   const SocialLoginButton({
     super.key,
@@ -38,25 +41,27 @@ class _SocialLoginButtonState extends State<SocialLoginButton> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final tokens = context.tokens;
     return SizedBox(
       height: 52,
       child: OutlinedButton(
         onPressed: _isLoading ? null : _handlePress,
         style: OutlinedButton.styleFrom(
-          backgroundColor: Colors.white,
-          foregroundColor: AppColors.foreground,
-          side: const BorderSide(color: AppColors.border),
+          backgroundColor: isDark ? tokens.card : Colors.white,
+          foregroundColor: tokens.foreground,
+          side: BorderSide(color: isDark ? tokens.border : AppColors.orange100),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
           ),
         ),
         child: _isLoading
-            ? const SizedBox(
+            ? SizedBox(
                 height: 20,
                 width: 20,
                 child: CircularProgressIndicator(
                   strokeWidth: 2,
-                  color: AppColors.tigerOrange,
+                  color: isDark ? tokens.primary : AppColors.tigerOrange,
                 ),
               )
             : Padding(
@@ -95,9 +100,11 @@ class GoogleIconSimple extends StatelessWidget {
       width: 24,
       height: 24,
       decoration: BoxDecoration(
+        // Google "G" badge is always white regardless of app theme
+        // (matches the real Google logo convention) — fixed, not themed.
         color: Colors.white,
         shape: BoxShape.circle,
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: context.tokens.border),
       ),
       child: const Center(
         child: Text(
@@ -119,6 +126,13 @@ class AppleIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Icon(Icons.apple, size: 24, color: Colors.black);
+    // Apple logo mark: black on light surfaces, white on dark (Apple HIG
+    // convention for sign-in buttons) — button bg now follows the theme.
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    return Icon(
+      Icons.apple,
+      size: 24,
+      color: isDark ? Colors.white : Colors.black,
+    );
   }
 }

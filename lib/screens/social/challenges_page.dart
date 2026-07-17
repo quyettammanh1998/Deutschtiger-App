@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/app_tokens.dart';
 import 'package:deutschtiger/data/social/social_legacy_mock_models.dart';
 import 'package:deutschtiger/view_models/social/social_legacy_provider.dart';
 
@@ -29,11 +30,12 @@ class _ChallengesPageState extends ConsumerState<ChallengesPage> with SingleTick
   @override
   Widget build(BuildContext context) {
     final challengesAsync = ref.watch(challengesProvider);
+    final tokens = context.tokens;
 
     return Scaffold(
-      backgroundColor: AppColors.authBackground,
+      backgroundColor: tokens.background,
       appBar: AppBar(
-        backgroundColor: AppColors.authBackground,
+        backgroundColor: tokens.background,
         title: const Text(
           'Challenges',
           style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.tigerOrange, fontSize: 18),
@@ -62,7 +64,7 @@ class _ChallengesPageState extends ConsumerState<ChallengesPage> with SingleTick
             child: TabBar(
               controller: _tabController,
               labelColor: Colors.white,
-              unselectedLabelColor: AppColors.mutedForeground,
+              unselectedLabelColor: tokens.mutedForeground,
               indicatorSize: TabBarIndicatorSize.tab,
               indicator: BoxDecoration(
                 color: AppColors.tigerOrange,
@@ -181,6 +183,7 @@ class _ChallengeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = context.tokens;
     return Card(
       margin: const EdgeInsets.only(bottom: 16),
       color: Colors.white,
@@ -250,7 +253,7 @@ class _ChallengeCard extends StatelessWidget {
                 if (challenge.createdAt != null)
                   Text(
                     _formatTime(challenge.createdAt!),
-                    style: TextStyle(fontSize: 12, color: AppColors.mutedForeground),
+                    style: TextStyle(fontSize: 12, color: tokens.mutedForeground),
                   ),
               ],
             ),
@@ -263,8 +266,8 @@ class _ChallengeCard extends StatelessWidget {
                       child: OutlinedButton(
                         onPressed: onDecline,
                         style: OutlinedButton.styleFrom(
-                          foregroundColor: AppColors.destructive,
-                          side: const BorderSide(color: AppColors.destructive),
+                          foregroundColor: tokens.destructive,
+                          side: BorderSide(color: tokens.destructive),
                         ),
                         child: const Text('Decline'),
                       ),
@@ -311,6 +314,7 @@ class _PlayerInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = context.tokens;
     return Column(
       children: [
         Stack(
@@ -318,7 +322,7 @@ class _PlayerInfo extends StatelessWidget {
             CircleAvatar(
               radius: 32,
               backgroundImage: avatar.isNotEmpty ? NetworkImage(avatar) : null,
-              backgroundColor: AppColors.muted,
+              backgroundColor: tokens.muted,
               child: avatar.isEmpty ? Text(name[0].toUpperCase(), style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)) : null,
             ),
             if (isChallenger)
@@ -344,7 +348,7 @@ class _PlayerInfo extends StatelessWidget {
         ),
         Text(
           isChallenger ? 'Challenger' : 'Challenged',
-          style: TextStyle(fontSize: 11, color: AppColors.mutedForeground),
+          style: TextStyle(fontSize: 11, color: tokens.mutedForeground),
         ),
       ],
     );
@@ -374,7 +378,7 @@ class _StatusChip extends StatelessWidget {
         icon = Icons.play_circle;
         break;
       case 'completed':
-        color = AppColors.success;
+        color = context.tokens.success;
         label = 'Completed';
         icon = Icons.check_circle;
         break;
@@ -426,6 +430,7 @@ class _CreateChallengeSheetState extends State<_CreateChallengeSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = context.tokens;
     final selectedChallenge = _challengeTypes.firstWhere((t) => t['id'] == _selectedType);
 
     return Container(
@@ -470,7 +475,7 @@ class _CreateChallengeSheetState extends State<_CreateChallengeSheet> {
                 onSelected: (_) => setState(() => _selectedType = type['id'] as String),
                 selectedColor: AppColors.tigerOrange.withValues(alpha: 0.2),
                 labelStyle: TextStyle(
-                  color: isSelected ? AppColors.tigerOrange : AppColors.foreground,
+                  color: isSelected ? AppColors.tigerOrange : tokens.foreground,
                   fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
                 ),
               );
@@ -490,8 +495,8 @@ class _CreateChallengeSheetState extends State<_CreateChallengeSheet> {
                 onSelected: (_) => setState(() => _selectedFriend = friend),
                 selectedColor: AppColors.tigerOrange.withValues(alpha: 0.2),
                 avatar: CircleAvatar(
-                  backgroundColor: isSelected ? AppColors.tigerOrange : AppColors.muted,
-                  child: Text(friend[0], style: TextStyle(fontSize: 12, color: isSelected ? Colors.white : AppColors.foreground)),
+                  backgroundColor: isSelected ? AppColors.tigerOrange : tokens.muted,
+                  child: Text(friend[0], style: TextStyle(fontSize: 12, color: isSelected ? Colors.white : tokens.foreground)),
                 ),
               );
             }).toList(),
@@ -512,7 +517,7 @@ class _CreateChallengeSheetState extends State<_CreateChallengeSheet> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Text('Reward', style: TextStyle(fontWeight: FontWeight.w600)),
-                      Text('+${selectedChallenge['reward']} XP for winner', style: TextStyle(color: AppColors.mutedForeground, fontSize: 13)),
+                      Text('+${selectedChallenge['reward']} XP for winner', style: TextStyle(color: tokens.mutedForeground, fontSize: 13)),
                     ],
                   ),
                 ),

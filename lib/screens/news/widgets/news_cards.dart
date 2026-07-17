@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/design_tokens.dart';
+import '../../../core/theme/app_tokens.dart';
 import '../../../data/news/news_models.dart';
 import '../../../l10n/app_localizations.dart';
 
@@ -37,10 +38,11 @@ class NewsStoryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final tokens = context.tokens;
     return Padding(
       padding: const EdgeInsets.only(bottom: DesignTokens.spacingSm + 4),
       child: Material(
-        color: DesignTokens.card,
+        color: tokens.card,
         borderRadius: BorderRadius.circular(DesignTokens.radius),
         child: InkWell(
           borderRadius: BorderRadius.circular(DesignTokens.radius),
@@ -69,7 +71,7 @@ class NewsStoryCard extends StatelessWidget {
                               label: lv,
                               color: lv == activeLevel
                                   ? DesignTokens.tigerOrange
-                                  : DesignTokens.mutedForeground,
+                                  : tokens.mutedForeground,
                               background: lv == activeLevel
                                   ? DesignTokens.tigerOrange.withValues(
                                       alpha: 0.12,
@@ -91,7 +93,7 @@ class NewsStoryCard extends StatelessWidget {
                         story.title,
                         style: theme.textTheme.titleMedium?.copyWith(
                           fontWeight: FontWeight.w700,
-                          color: DesignTokens.foreground,
+                          color: tokens.foreground,
                         ),
                       ),
                       if ((story.titleVi ?? '').isNotEmpty) ...[
@@ -110,7 +112,7 @@ class NewsStoryCard extends StatelessWidget {
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: theme.textTheme.bodyMedium?.copyWith(
-                          color: DesignTokens.mutedForeground,
+                          color: tokens.mutedForeground,
                           height: 1.4,
                         ),
                       ),
@@ -213,6 +215,7 @@ class NewsWeeklyRingCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = context.tokens;
     final total = stats.publishedThisWeek;
     final done = stats.myCompletedThisWeek;
     final progress = total > 0 ? (done / total).clamp(0.0, 1.0) : 0.0;
@@ -225,9 +228,9 @@ class NewsWeeklyRingCard extends StatelessWidget {
       ),
       padding: const EdgeInsets.all(DesignTokens.spacingMd),
       decoration: BoxDecoration(
-        color: DesignTokens.card,
+        color: tokens.card,
         borderRadius: BorderRadius.circular(DesignTokens.radius),
-        border: Border.all(color: DesignTokens.border),
+        border: Border.all(color: tokens.border),
       ),
       child: Row(
         children: [
@@ -240,7 +243,7 @@ class NewsWeeklyRingCard extends StatelessWidget {
                 CircularProgressIndicator(
                   value: progress,
                   strokeWidth: 4,
-                  backgroundColor: DesignTokens.border,
+                  backgroundColor: tokens.border,
                   valueColor: const AlwaysStoppedAnimation<Color>(
                     DesignTokens.tigerOrange,
                   ),
@@ -261,8 +264,8 @@ class NewsWeeklyRingCard extends StatelessWidget {
               total > 0
                   ? AppLocalizations.of(context).newsWeeklyRingProgress(done, total)
                   : AppLocalizations.of(context).newsWeeklyRingEmpty,
-              style: const TextStyle(
-                color: DesignTokens.mutedForeground,
+              style: TextStyle(
+                color: tokens.mutedForeground,
                 fontSize: 13,
               ),
             ),

@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../core/design_tokens.dart';
 import '../../../core/release/release_feature_flags.dart';
+import '../../../core/theme/app_tokens.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../shared/widgets/more_features_sheet.dart';
 
@@ -120,6 +121,7 @@ class PinnedShortcuts extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+    final tokens = context.tokens;
     final items = _shortcuts(
       l10n,
     ).where((item) => item.enabled).toList(growable: false);
@@ -132,7 +134,7 @@ class PinnedShortcuts extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(DesignTokens.cardPadding),
         decoration: BoxDecoration(
-          color: DesignTokens.card,
+          color: tokens.card,
           borderRadius: BorderRadius.circular(DesignTokens.radius),
           boxShadow: DesignTokens.shadowSm,
         ),
@@ -144,10 +146,10 @@ class PinnedShortcuts extends StatelessWidget {
                 Expanded(
                   child: Text(
                     l10n.pinnedShortcutsTitle,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
-                      color: DesignTokens.foreground,
+                      color: tokens.foreground,
                     ),
                   ),
                 ),
@@ -221,10 +223,10 @@ class _ShortcutTile extends StatelessWidget {
               maxLines: 2,
               textAlign: TextAlign.center,
               overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 11,
                 fontWeight: FontWeight.w600,
-                color: DesignTokens.foreground,
+                color: context.tokens.foreground,
                 height: 1.15,
               ),
             ),

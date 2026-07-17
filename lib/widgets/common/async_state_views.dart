@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/app_tokens.dart';
 import '../../l10n/app_localizations.dart';
 
 /// Loading indicator căn giữa — dùng chung các màn.
@@ -31,16 +32,16 @@ class ErrorView extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(
+            Icon(
               Icons.cloud_off_outlined,
               size: 48,
-              color: AppColors.mutedForeground,
+              color: context.tokens.mutedForeground,
             ),
             const SizedBox(height: 12),
             Text(
               message ?? l10n.couldNotLoadData,
               textAlign: TextAlign.center,
-              style: const TextStyle(color: AppColors.mutedForeground),
+              style: TextStyle(color: context.tokens.mutedForeground),
             ),
             if (onRetry != null) ...[
               const SizedBox(height: 16),
