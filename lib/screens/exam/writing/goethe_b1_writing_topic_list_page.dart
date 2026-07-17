@@ -13,6 +13,7 @@ import '../../../widgets/common/async_state_views.dart';
 import 'widgets/topic_list/community_folder_card.dart';
 import 'widgets/topic_list/leaderboard_card.dart';
 import 'widgets/topic_list/topic_row.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Goethe B1 writing topic list — web parity
 /// `goethe-b1-writing-topic-list-page.tsx` (`/exams/goethe-b1/writing/:teilNum`):
@@ -86,6 +87,7 @@ class _GoetheB1WritingTopicListPageState
     List<GoetheB1WritingResult> completedResults,
     bool hasFullAccess,
   ) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     final completedSlugs = completedResults.map((r) => r.slug).toSet();
     final introTopic = teilData.topics.where((t) => t.isIntro).isEmpty
         ? null
@@ -219,7 +221,7 @@ class _GoetheB1WritingTopicListPageState
           Container(
             padding: const EdgeInsets.all(14),
             decoration: BoxDecoration(
-              color: const Color(0xFFFFFBEB),
+              color: isDark ? const Color(0x33F59E0B) : const Color(0xFFFFFBEB),
               borderRadius: BorderRadius.circular(12),
               border: Border.all(color: const Color(0xFFFDE68A)),
             ),
@@ -228,12 +230,12 @@ class _GoetheB1WritingTopicListPageState
               children: [
                 Text(
                   l10n.writingFreeLimitTitle(widget.teil),
-                  style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Color(0xFF78350F)),
+                  style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: isDark ? const Color(0xFFFCD34D) : const Color(0xFF78350F)),
                 ),
                 const SizedBox(height: 4),
                 Text(
                   l10n.writingFreeLimitDesc,
-                  style: const TextStyle(fontSize: 12, color: Color(0xFF92400E), height: 1.4),
+                  style: TextStyle(fontSize: 12, color: isDark ? const Color(0xFFFCD34D) : const Color(0xFF92400E), height: 1.4),
                 ),
               ],
             ),
@@ -265,7 +267,7 @@ class _SearchBar extends StatelessWidget {
         onChanged: onChanged,
         decoration: InputDecoration(
           border: InputBorder.none,
-          prefixIcon: Icon(Icons.search, size: 18, color: tokens.mutedForeground),
+          prefixIcon: Icon(PhosphorIcons.magnifyingGlass, size: 18, color: tokens.mutedForeground),
           hintText: l10n.writingSearchHint,
           hintStyle: TextStyle(fontSize: 13, color: tokens.mutedForeground),
         ),

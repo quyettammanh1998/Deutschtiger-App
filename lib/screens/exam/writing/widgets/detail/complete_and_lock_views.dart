@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../../core/theme/app_tokens.dart';
 import '../../../../../l10n/app_localizations.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// "🎯 Đánh dấu hoàn thành" CTA — web parity: centered gradient pill, states
 /// idle / completed / pending.
@@ -57,22 +58,23 @@ class WritingLockCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final tokens = context.tokens;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     final l10n = AppLocalizations.of(context);
     return Container(
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
-        color: const Color(0xFFFFFBEB).withValues(alpha: 0.7),
+        color: isDark ? const Color(0x33F59E0B) : const Color(0xFFFFFBEB).withValues(alpha: 0.7),
         borderRadius: BorderRadius.circular(14),
         border: Border.all(color: const Color(0xFFFDE68A)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(l10n.writingLockTitle, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF78350F))),
+          Text(l10n.writingLockTitle, style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: isDark ? const Color(0xFFFCD34D) : const Color(0xFF78350F))),
           const SizedBox(height: 6),
           Text(
             isOfficial ? l10n.writingLockOfficialCopy : l10n.writingLockLegacyCopy,
-            style: const TextStyle(fontSize: 12, color: Color(0xFF92400E), height: 1.5),
+            style: TextStyle(fontSize: 12, color: isDark ? const Color(0xFFFCD34D) : const Color(0xFF92400E), height: 1.5),
           ),
           const SizedBox(height: 12),
           InkWell(
@@ -87,7 +89,7 @@ class WritingLockCard extends StatelessWidget {
               ),
               child: Row(
                 children: [
-                  Icon(Icons.lock, size: 16, color: tokens.primary),
+                  Icon(PhosphorIcons.lock, size: 16, color: tokens.primary),
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(l10n.writingUnlockPremiumCta,

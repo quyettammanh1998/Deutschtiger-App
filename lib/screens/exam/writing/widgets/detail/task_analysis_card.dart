@@ -25,6 +25,7 @@ class _WritingTaskAnalysisCardState extends State<WritingTaskAnalysisCard> {
   @override
   Widget build(BuildContext context) {
     final tokens = context.tokens;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     final l10n = AppLocalizations.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -40,7 +41,7 @@ class _WritingTaskAnalysisCardState extends State<WritingTaskAnalysisCard> {
             margin: const EdgeInsets.only(bottom: 8),
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
-              color: const Color(0xFFFFF7ED).withValues(alpha: 0.4),
+              color: isDark ? const Color(0x33F59E0B) : const Color(0xFFFFF7ED).withValues(alpha: 0.4),
               borderRadius: BorderRadius.circular(8),
               border: Border.all(color: const Color(0xFFFED7AA)),
             ),
@@ -79,7 +80,7 @@ class _WritingTaskAnalysisCardState extends State<WritingTaskAnalysisCard> {
                   Padding(
                     padding: const EdgeInsets.only(left: 30, top: 2),
                     child: Text(widget.analysis.points[i].vi,
-                        style: const TextStyle(fontSize: 11, fontStyle: FontStyle.italic, color: Color(0xFF2563EB))),
+                        style: TextStyle(fontSize: 11, fontStyle: FontStyle.italic, color: isDark ? const Color(0xFF93C5FD) : const Color(0xFF2563EB))),
                   ),
                 if (widget.analysis.points[i].subpoints.isNotEmpty)
                   Padding(

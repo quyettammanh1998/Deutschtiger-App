@@ -27,6 +27,7 @@ class _WritingProvenanceCardState extends State<WritingProvenanceCard> {
   @override
   Widget build(BuildContext context) {
     final tokens = context.tokens;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     final l10n = AppLocalizations.of(context);
     final topic = widget.topic;
 
@@ -34,7 +35,7 @@ class _WritingProvenanceCardState extends State<WritingProvenanceCard> {
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
       margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
-        color: const Color(0xFFFFFBEB).withValues(alpha: 0.6),
+        color: isDark ? const Color(0x33F59E0B) : const Color(0xFFFFFBEB).withValues(alpha: 0.6),
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: const Color(0xFFFDE68A)),
       ),
@@ -45,14 +46,14 @@ class _WritingProvenanceCardState extends State<WritingProvenanceCard> {
             children: [
               Text(
                 l10n.writingProvenanceTitle(topic.examDates.length),
-                style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Color(0xFF78350F)),
+                style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: isDark ? const Color(0xFFFCD34D) : const Color(0xFF78350F)),
               ),
               if (topic.frequencyStars >= 5) ...[
                 const SizedBox(width: 6),
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1),
-                  decoration: BoxDecoration(color: const Color(0xFFFEF3C7), borderRadius: BorderRadius.circular(999)),
-                  child: const Text('⭐ 5/5', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Color(0xFFB45309))),
+                  decoration: BoxDecoration(color: isDark ? const Color(0x33F59E0B) : const Color(0xFFFEF3C7), borderRadius: BorderRadius.circular(999)),
+                  child: Text('⭐ 5/5', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: isDark ? const Color(0xFFFCD34D) : const Color(0xFFB45309))),
                 ),
               ],
             ],
@@ -66,7 +67,7 @@ class _WritingProvenanceCardState extends State<WritingProvenanceCard> {
                 for (final s in topic.sources)
                   Text(
                     '${s.type == 'gdocs' ? '📂' : s.type == 'link' ? '🔗' : '📄'} ${s.label}',
-                    style: const TextStyle(fontSize: 11, color: Color(0xFF92400E)),
+                    style: TextStyle(fontSize: 11, color: isDark ? const Color(0xFFFCD34D) : const Color(0xFF92400E)),
                   ),
               ],
             ),

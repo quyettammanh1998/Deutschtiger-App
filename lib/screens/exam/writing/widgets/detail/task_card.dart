@@ -23,6 +23,7 @@ class _WritingTaskCardState extends State<WritingTaskCard> {
   @override
   Widget build(BuildContext context) {
     final tokens = context.tokens;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     final l10n = AppLocalizations.of(context);
     final task = widget.topic.task;
     if (task == null) return const SizedBox.shrink();
@@ -52,7 +53,7 @@ class _WritingTaskCardState extends State<WritingTaskCard> {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
             decoration: BoxDecoration(
-              color: const Color(0xFFFFF7ED).withValues(alpha: 0.5),
+              color: isDark ? const Color(0x33F59E0B) : const Color(0xFFFFF7ED).withValues(alpha: 0.5),
               border: const Border(left: BorderSide(color: Color(0xFFFB923C), width: 4)),
               borderRadius: const BorderRadius.only(topRight: Radius.circular(6), bottomRight: Radius.circular(6)),
             ),
@@ -64,7 +65,7 @@ class _WritingTaskCardState extends State<WritingTaskCard> {
                   Padding(
                     padding: const EdgeInsets.only(top: 6),
                     child: Text(task.vi,
-                        style: TextStyle(fontSize: 12, fontStyle: FontStyle.italic, color: const Color(0xFF2563EB))),
+                        style: TextStyle(fontSize: 12, fontStyle: FontStyle.italic, color: isDark ? const Color(0xFF93C5FD) : const Color(0xFF2563EB))),
                   ),
               ],
             ),

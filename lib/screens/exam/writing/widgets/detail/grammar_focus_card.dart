@@ -13,6 +13,7 @@ class WritingGrammarFocusCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final tokens = context.tokens;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -44,11 +45,11 @@ class WritingGrammarFocusCard extends StatelessWidget {
                   Container(
                     margin: const EdgeInsets.only(top: 6),
                     padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-                    decoration: const BoxDecoration(
-                      color: Color(0xFFFFFBEB),
-                      border: Border(left: BorderSide(color: Color(0xFFFBBF24), width: 2)),
+                    decoration: BoxDecoration(
+                      color: isDark ? const Color(0x33F59E0B) : const Color(0xFFFFFBEB),
+                      border: const Border(left: BorderSide(color: Color(0xFFFBBF24), width: 2)),
                     ),
-                    child: Text(item.when ?? item.vi, style: const TextStyle(fontSize: 11, color: Color(0xFF92400E))),
+                    child: Text(item.when ?? item.vi, style: TextStyle(fontSize: 11, color: isDark ? const Color(0xFFFCD34D) : const Color(0xFF92400E))),
                   ),
               ],
             ),

@@ -32,6 +32,7 @@ class _MiniWriteExerciseViewState extends State<MiniWriteExerciseView> {
   @override
   Widget build(BuildContext context) {
     final tokens = context.tokens;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     final l10n = AppLocalizations.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -40,7 +41,7 @@ class _MiniWriteExerciseViewState extends State<MiniWriteExerciseView> {
           Container(
             margin: const EdgeInsets.only(bottom: 10),
             padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(color: const Color(0xFFEFF6FF).withValues(alpha: 0.5), borderRadius: BorderRadius.circular(10)),
+            decoration: BoxDecoration(color: isDark ? const Color(0x333B82F6) : const Color(0xFFEFF6FF).withValues(alpha: 0.5), borderRadius: BorderRadius.circular(10)),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

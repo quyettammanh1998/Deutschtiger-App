@@ -201,15 +201,24 @@ class _QuotaRow extends StatelessWidget {
     final tokens = context.tokens;
     final l10n = AppLocalizations.of(context);
     if (quota.isWalled) {
+      final isDark = Theme.of(context).brightness == Brightness.dark;
       return Container(
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
         decoration: BoxDecoration(
-          color: const Color(0xFFFEF3C7).withValues(alpha: 0.8),
+          // Amber quota-limit banner: light amber in light mode, translucent
+          // amber on dark so it stays on-theme.
+          color: isDark
+              ? const Color(0x33F59E0B)
+              : const Color(0xFFFEF3C7).withValues(alpha: 0.8),
           borderRadius: BorderRadius.circular(16),
         ),
         child: Row(
           children: [
-            const Icon(PhosphorIcons.crownFill, size: 16, color: Color(0xFFD97706)),
+            Icon(PhosphorIcons.crownFill,
+                size: 16,
+                color: isDark
+                    ? const Color(0xFFFCD34D)
+                    : const Color(0xFFD97706)),
             const SizedBox(width: 8),
             Expanded(
               child: Text(

@@ -11,6 +11,7 @@ import 'widgets/course_lesson_row.dart';
 import 'widgets/course_numbered_pagination.dart';
 import 'widgets/course_premium_upsell_banner.dart';
 import 'widgets/course_progress_ring_card.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 const _pageSize = 15;
 const _freeLessonLimit = 5;
@@ -91,7 +92,7 @@ class _CourseDetailBodyState extends ConsumerState<_CourseDetailBody> {
               children: [
                 IconButton(
                   onPressed: () => context.canPop() ? context.pop() : context.go('/course'),
-                  icon: Icon(Icons.arrow_back, color: tokens.foreground),
+                  icon: Icon(PhosphorIcons.arrowLeft, color: tokens.foreground),
                   padding: EdgeInsets.zero,
                   constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
                 ),
@@ -119,12 +120,22 @@ class _CourseDetailBodyState extends ConsumerState<_CourseDetailBody> {
                   margin: const EdgeInsets.only(top: 4),
                   padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                   decoration: BoxDecoration(
-                    color: const Color(0xFFEFF6FF),
+                    // Level badge: light blue pill in light mode, translucent
+                    // blue in dark so it doesn't glow light on the dark header.
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? const Color(0x333B82F6)
+                        : const Color(0xFFEFF6FF),
                     borderRadius: BorderRadius.circular(999),
                   ),
                   child: Text(
                     widget.detail.level.name.toUpperCase(),
-                    style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: Color(0xFF2563EB)),
+                    style: TextStyle(
+                      fontSize: 11,
+                      fontWeight: FontWeight.w700,
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? const Color(0xFF93C5FD)
+                          : const Color(0xFF2563EB),
+                    ),
                   ),
                 ),
               ],

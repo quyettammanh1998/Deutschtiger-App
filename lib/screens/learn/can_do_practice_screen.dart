@@ -148,6 +148,7 @@ class _CanDoPracticeScreenState extends ConsumerState<CanDoPracticeScreen> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final tokens = context.tokens;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     final mapAsync = ref.watch(capabilityMapProvider);
 
     return Scaffold(
@@ -217,7 +218,7 @@ class _CanDoPracticeScreenState extends ConsumerState<CanDoPracticeScreen> {
                       Container(
                         padding: const EdgeInsets.all(12),
                         decoration: BoxDecoration(
-                          color: const Color(0xFFFFF7ED),
+                          color: isDark ? const Color(0x33F59E0B) : const Color(0xFFFFF7ED),
                           border: Border.all(color: const Color(0xFFFED7AA)),
                           borderRadius: BorderRadius.circular(12),
                         ),

@@ -5,6 +5,7 @@ import '../../../core/theme/app_tokens.dart';
 import '../../../l10n/app_localizations.dart';
 import '../leaderboard_screen.dart';
 import 'leaderboard_providers.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Purple trophy chip + "BXH tuần" label + reset countdown (global tab only).
 /// Mirror web `weekly-leaderboard.tsx` header row.
@@ -22,13 +23,19 @@ class LeaderboardHeaderRow extends StatelessWidget {
           width: 24,
           height: 24,
           decoration: BoxDecoration(
-            color: const Color(0xFFF3E8FF),
+            // Trophy chip: light purple in light mode, translucent purple in
+            // dark so the tile doesn't glow light on the dark header.
+            color: Theme.of(context).brightness == Brightness.dark
+                ? const Color(0x339333EA)
+                : const Color(0xFFF3E8FF),
             borderRadius: BorderRadius.circular(8),
           ),
-          child: const Icon(
-            Icons.emoji_events,
+          child: Icon(
+            PhosphorIcons.trophy,
             size: 14,
-            color: Color(0xFF9333EA),
+            color: Theme.of(context).brightness == Brightness.dark
+                ? const Color(0xFFC084FC)
+                : const Color(0xFF9333EA),
           ),
         ),
         const SizedBox(width: 8),
