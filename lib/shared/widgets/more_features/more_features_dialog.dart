@@ -165,33 +165,80 @@ class _Groups extends StatelessWidget {
               ),
             ),
           ),
-          GridView.count(
-            crossAxisCount: 4,
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            mainAxisSpacing: 8,
-            crossAxisSpacing: 8,
-            childAspectRatio: 0.82,
-            children: [
-              for (final item in group.items)
-                MoreFeaturesTile(
-                  item: item,
-                  isDark: isDark,
-                  foreground: tokens.foreground,
-                  onTap: () {
-                    final path = item.path;
-                    final action = item.action;
-                    Navigator.of(context).pop();
-                    if (action != null) {
-                      action();
-                    } else if (path != null) {
-                      context.push(path);
-                    }
-                  },
-                ),
-            ],
+          _TileGrid(
+            items: group.items,
+            isDark: isDark,
+            foreground: tokens.foreground,
           ),
           const SizedBox(height: 16),
+        ],
+      ],
+    );
+  }
+}
+
+/// 4-column grid with content-driven row heights (web `grid grid-cols-4 gap-2`).
+/// Uses rows of `Expanded` cells rather than [GridView.count] so a row grows to
+/// fit its tallest 2-line label instead of clipping it to a fixed aspect ratio.
+class _TileGrid extends StatelessWidget {
+  const _TileGrid({
+    required this.items,
+    required this.isDark,
+    required this.foreground,
+  });
+
+  final List<MoreFeatureItem> items;
+  final bool isDark;
+  final Color foreground;
+
+  static const int _columns = 4;
+  static const double _gap = 8;
+
+  @override
+  Widget build(BuildContext context) {
+    final rows = <Widget>[];
+    for (var start = 0; start < items.length; start += _columns) {
+      final rowItems = items.sublist(
+        start,
+        (start + _columns).clamp(0, items.length),
+      );
+      rows.add(
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            for (var col = 0; col < _columns; col++) ...[
+              if (col > 0) const SizedBox(width: _gap),
+              Expanded(
+                child: col < rowItems.length
+                    ? MoreFeaturesTile(
+                        item: rowItems[col],
+                        isDark: isDark,
+                        foreground: foreground,
+                        onTap: () {
+                          final item = rowItems[col];
+                          final path = item.path;
+                          final action = item.action;
+                          Navigator.of(context).pop();
+                          if (action != null) {
+                            action();
+                          } else if (path != null) {
+                            context.push(path);
+                          }
+                        },
+                      )
+                    : const SizedBox.shrink(),
+              ),
+            ],
+          ],
+        ),
+      );
+    }
+
+    return Column(
+      children: [
+        for (var i = 0; i < rows.length; i++) ...[
+          if (i > 0) const SizedBox(height: _gap),
+          rows[i],
         ],
       ],
     );

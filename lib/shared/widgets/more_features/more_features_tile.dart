@@ -37,6 +37,9 @@ class MoreFeaturesTile extends StatelessWidget {
           child: item.iconBuilder(size: 24, color: item.color.fg),
         ),
         const SizedBox(height: 6),
+        // Label clamps to 2 lines (web `line-clamp-2`); the tile height is
+        // content-driven (row of Expanded cells), matching web's natural-height
+        // grid rows, so no fixed cell can clip the second line.
         Text(
           item.label,
           textAlign: TextAlign.center,

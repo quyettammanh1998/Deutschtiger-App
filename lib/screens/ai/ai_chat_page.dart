@@ -10,6 +10,8 @@ import 'package:deutschtiger/data/ai/ai_chat_live_models.dart';
 import 'package:deutschtiger/widgets/ai/chat_history_sidebar.dart';
 import 'package:deutschtiger/widgets/common/app_markdown_view.dart';
 import 'package:deutschtiger/widgets/common/tiger_logo.dart';
+import 'package:deutschtiger/widgets/common/umlaut_input_bar.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Web `FEATURE_ACTIONS` (`ai-chat-panel.tsx`) — keyword-matched pill chips
 /// rendered under an assistant reply that deep-link into the relevant app
@@ -246,7 +248,7 @@ class _ChatHeader extends ConsumerWidget {
           Row(
             children: [
               IconButton(
-                icon: const Icon(Icons.arrow_back),
+                icon: const Icon(PhosphorIcons.arrowLeft),
                 onPressed: () =>
                     context.canPop() ? context.pop() : context.go('/home'),
                 padding: EdgeInsets.zero,
@@ -305,8 +307,8 @@ class _ChatHeader extends ConsumerWidget {
                   ],
                 ),
               ),
-              _HeaderIconButton(icon: Icons.history, label: 'Lịch sử', onTap: onToggleHistory),
-              _HeaderIconButton(icon: Icons.edit_note_outlined, label: 'Chat mới', onTap: onNewSession),
+              _HeaderIconButton(icon: PhosphorIcons.clockCounterClockwise, label: 'Lịch sử', onTap: onToggleHistory),
+              _HeaderIconButton(icon: PhosphorIcons.note, label: 'Chat mới', onTap: onNewSession),
             ],
           ),
         ],
@@ -526,7 +528,7 @@ class _FeatureActionChips extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(width: 2),
-                    Icon(Icons.chevron_right, size: 14, color: context.tokens.primary),
+                    Icon(PhosphorIcons.caretRight, size: 14, color: context.tokens.primary),
                   ],
                 ),
               ),
@@ -629,7 +631,7 @@ class _ErrorBanner extends StatelessWidget {
       color: AppColors.error.withValues(alpha: 0.10),
       child: Row(
         children: [
-          const Icon(Icons.error_outline, size: 18, color: AppColors.error),
+          const Icon(PhosphorIcons.warning, size: 18, color: AppColors.error),
           const SizedBox(width: 8),
           Expanded(
             child: Text(
@@ -761,7 +763,7 @@ class _TypingDotsState extends State<_TypingDots> with SingleTickerProviderState
 /// Composer: rounded input pill + circular action button. The action button
 /// swaps between send (primary gradient, paper-plane icon) and stop (red,
 /// square-stop icon) while streaming — mirrors web's right action button.
-class _InputBar extends StatelessWidget {
+class _InputBar extends StatefulWidget {
   final TextEditingController controller;
   final FocusNode focusNode;
   final VoidCallback onSend;
@@ -779,6 +781,31 @@ class _InputBar extends StatelessWidget {
   });
 
   @override
+  State<_InputBar> createState() => _InputBarState();
+}
+
+class _InputBarState extends State<_InputBar> {
+  bool _focused = false;
+
+  @override
+  void initState() {
+    super.initState();
+    widget.focusNode.addListener(_onFocusChange);
+  }
+
+  @override
+  void dispose() {
+    widget.focusNode.removeListener(_onFocusChange);
+    super.dispose();
+  }
+
+  void _onFocusChange() {
+    if (mounted && _focused != widget.focusNode.hasFocus) {
+      setState(() => _focused = widget.focusNode.hasFocus);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     final hint = AppLocalizations.of(context).socialTypeMessageHint;
     return Container(
@@ -792,60 +819,81 @@ class _InputBar extends StatelessWidget {
         color: context.tokens.card,
         border: Border(top: BorderSide(color: context.tokens.border)),
       ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.end,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
-          Expanded(
-            child: Container(
-              constraints: const BoxConstraints(minHeight: 44),
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-              decoration: BoxDecoration(
-                color: context.tokens.background,
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: context.tokens.border),
-              ),
-              child: TextField(
-                controller: controller,
-                focusNode: focusNode,
-                enabled: !limitReached,
-                style: TextStyle(fontSize: 15, color: context.tokens.foreground, height: 1.3),
-                decoration: InputDecoration(
-                  hintText: limitReached ? 'Đã hết lượt...' : hint,
-                  hintStyle: TextStyle(color: context.tokens.mutedForeground),
-                  border: InputBorder.none,
-                  isDense: true,
-                  contentPadding: EdgeInsets.zero,
-                ),
-                textInputAction: TextInputAction.send,
-                onSubmitted: (_) => onSend(),
-                maxLines: 4,
-                minLines: 1,
-              ),
-            ),
+          // German special-char bar (web `SpecialCharBar`) — shown while the
+          // composer is focused so learners can type ä/ö/ü/ß without a German
+          // keyboard layout.
+          UmlautInputBar(
+            visible: _focused && !widget.limitReached,
+            onInsert: (char) {
+              UmlautInputBar.insertAtCursor(widget.controller, char);
+              widget.focusNode.requestFocus();
+            },
           ),
-          const SizedBox(width: 8),
-          if (isSending)
-            _CircleActionButton(
-              onTap: onStop,
-              backgroundColor: AppColors.error,
-              icon: Icons.stop_rounded,
-              label: 'Dừng',
-            )
-          else
-            ValueListenableBuilder<TextEditingValue>(
-              valueListenable: controller,
-              builder: (context, value, _) {
-                final hasText = value.text.trim().isNotEmpty;
-                return _CircleActionButton(
-                  onTap: hasText ? onSend : null,
-                  gradient: hasText ? AppColors.primaryGradient : null,
-                  backgroundColor: hasText ? null : context.tokens.muted,
-                  icon: Icons.send_rounded,
-                  iconColor: hasText ? Colors.white : context.tokens.mutedForeground,
-                  label: 'Gửi tin nhắn',
-                );
-              },
-            ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Expanded(
+                child: Container(
+                  constraints: const BoxConstraints(minHeight: 44),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                  decoration: BoxDecoration(
+                    color: context.tokens.background,
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(color: context.tokens.border),
+                  ),
+                  child: TextField(
+                    controller: widget.controller,
+                    focusNode: widget.focusNode,
+                    enabled: !widget.limitReached,
+                    style: TextStyle(
+                        fontSize: 15,
+                        color: context.tokens.foreground,
+                        height: 1.3),
+                    decoration: InputDecoration(
+                      hintText: widget.limitReached ? 'Đã hết lượt...' : hint,
+                      hintStyle:
+                          TextStyle(color: context.tokens.mutedForeground),
+                      border: InputBorder.none,
+                      isDense: true,
+                      contentPadding: EdgeInsets.zero,
+                    ),
+                    textInputAction: TextInputAction.send,
+                    onSubmitted: (_) => widget.onSend(),
+                    maxLines: 4,
+                    minLines: 1,
+                  ),
+                ),
+              ),
+              const SizedBox(width: 8),
+              if (widget.isSending)
+                _CircleActionButton(
+                  onTap: widget.onStop,
+                  backgroundColor: AppColors.error,
+                  icon: PhosphorIcons.stop,
+                  label: 'Dừng',
+                )
+              else
+                ValueListenableBuilder<TextEditingValue>(
+                  valueListenable: widget.controller,
+                  builder: (context, value, _) {
+                    final hasText = value.text.trim().isNotEmpty;
+                    return _CircleActionButton(
+                      onTap: hasText ? widget.onSend : null,
+                      gradient: hasText ? AppColors.primaryGradient : null,
+                      backgroundColor: hasText ? null : context.tokens.muted,
+                      icon: PhosphorIcons.paperPlaneTilt,
+                      iconColor:
+                          hasText ? Colors.white : context.tokens.mutedForeground,
+                      label: 'Gửi tin nhắn',
+                    );
+                  },
+                ),
+            ],
+          ),
         ],
       ),
     );
