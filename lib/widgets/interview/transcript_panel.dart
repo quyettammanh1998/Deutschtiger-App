@@ -48,7 +48,7 @@ class _TranscriptPanelState extends ConsumerState<TranscriptPanel> {
 
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.tokens.card,
         border: Border(
           top: BorderSide(color: context.tokens.muted.withValues(alpha: 0.3)),
         ),

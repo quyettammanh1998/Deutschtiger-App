@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_tokens.dart';
 import '../../shared/widgets/confetti_overlay.dart';
 import '../../view_models/providers.dart';
@@ -145,7 +144,7 @@ class _StreakClaimModalState extends ConsumerState<StreakClaimModal>
                 maxHeight: MediaQuery.sizeOf(context).height * 0.9,
               ),
               decoration: BoxDecoration(
-                color: AppColors.cardBackground,
+                color: context.tokens.card,
                 borderRadius: BorderRadius.circular(24),
                 boxShadow: [
                   BoxShadow(
@@ -171,13 +170,14 @@ class _StreakClaimModalState extends ConsumerState<StreakClaimModal>
                             width: 40,
                             height: 40,
                             decoration: BoxDecoration(
-                              color: Colors.grey.shade300,
+                              color: context.tokens.muted,
                               shape: BoxShape.circle,
                             ),
-                            child: const Icon(
+                            child: Icon(
                               Icons.close,
                               size: 18,
-                              color: Colors.white,
+                              // Icon on a solid muted fill, not page text.
+                              color: context.tokens.mutedForeground,
                             ),
                           ),
                         ),
@@ -209,7 +209,7 @@ class _StreakClaimModalState extends ConsumerState<StreakClaimModal>
                       Container(
                         padding: const EdgeInsets.all(16),
                         decoration: BoxDecoration(
-                          color: Colors.grey.shade100,
+                          color: context.tokens.muted,
                           borderRadius: BorderRadius.circular(16),
                         ),
                         child: Row(
@@ -227,6 +227,10 @@ class _StreakClaimModalState extends ConsumerState<StreakClaimModal>
                       const SizedBox(height: 16),
 
                       // Reward section
+                      // Semantic status tint (not-enough-time/claimed reward
+                      // box): amber/green shades are a status color, not a
+                      // plain panel bg — no AppTokens equivalent tint exists,
+                      // kept as-is (matches web's fixed status tints).
                       Container(
                         padding: const EdgeInsets.all(16),
                         decoration: BoxDecoration(
@@ -295,7 +299,7 @@ class _StreakClaimModalState extends ConsumerState<StreakClaimModal>
                           onPressed: _claimed ? widget.onClose : _handleClaim,
                           style: ElevatedButton.styleFrom(
                             backgroundColor: _claimed
-                                ? Colors.grey.shade400
+                                ? context.tokens.muted
                                 : context.tokens.primary,
                             foregroundColor: Colors.white,
                             padding: const EdgeInsets.symmetric(vertical: 16),
@@ -362,11 +366,13 @@ class _DayItem extends StatelessWidget {
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             border: Border.all(
+              // Active/today border stays semantic (green streak/primary);
+              // inactive falls back to the theme's muted border.
               color: day.isToday
                   ? context.tokens.primary
                   : isActive
                   ? Colors.green.shade400
-                  : Colors.grey.shade300,
+                  : context.tokens.border,
               width: 2,
             ),
             color: isActive
@@ -391,7 +397,9 @@ class _DayItem extends StatelessWidget {
           style: TextStyle(
             fontSize: 10,
             fontWeight: day.isToday ? FontWeight.bold : FontWeight.w500,
-            color: day.isToday ? context.tokens.primary : Colors.grey.shade500,
+            color: day.isToday
+                ? context.tokens.primary
+                : context.tokens.mutedForeground,
           ),
         ),
         Text(
@@ -399,7 +407,9 @@ class _DayItem extends StatelessWidget {
           style: TextStyle(
             fontSize: 12,
             fontWeight: FontWeight.w600,
-            color: day.isToday ? context.tokens.primary : Colors.grey.shade400,
+            color: day.isToday
+                ? context.tokens.primary
+                : context.tokens.mutedForeground,
           ),
         ),
       ],

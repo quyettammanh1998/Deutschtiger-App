@@ -49,12 +49,19 @@ palette port thẳng từ CSS web; nền trang auth `#FFFBF5` (web dùng literal
 `bg-[#FFFBF5]`, không phải token → giữ literal `_authPageBackground`, dark
 dùng `context.tokens.background`).
 
-**Còn nợ (ngoài phạm vi static-token, cần pass riêng):** 5 file hardcode
-`Colors.white`/`Colors.grey.shade*`/`Colors.black87` cho nền panel/chữ —
-vẫn sai dark mode dù không match regex static token:
+**Đã đóng 17/07/2026 (báo cáo:
+`fullstack-developer-260717-0801-hardcoded-colors-dark-mode-fix-report.md`):**
+5 file panel/text hardcode `Colors.white`/`Colors.grey.shade*`/`Colors.black87`
+(nền panel, text, border/divider) → chuyển sang `context.tokens.card` /
+`.foreground` / `.mutedForeground` / `.border` / `.muted`:
 `streak_claim_modal.dart`, `vocabulary_detail_panel.dart`,
-`video_notes_panel.dart`, `transcript_panel.dart`,
-`chat_history_sidebar.dart`.
+`video_notes_panel.dart` (đã theme-aware sẵn, không cần sửa),
+`transcript_panel.dart`, `chat_history_sidebar.dart`. Màu status/semantic
+(CEFR badge, gender badge, streak reward amber/green tint, text/icon trên nền
+màu) giữ nguyên có chủ đích — xem báo cáo để biết lý do từng chỗ giữ.
+Test dark-mode surface: `test/widgets/dark_mode_surface_colors_test.dart`.
+
+**Còn nợ:** không còn — gap dark-mode cuối cùng đã đóng.
 
 Lưu ý: không phải mọi match `DesignTokens.` đều là màu — các hằng số
 spacing/radius (`spacingXs`, `cardPadding`, …) không phụ thuộc theme, không

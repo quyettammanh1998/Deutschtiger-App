@@ -35,7 +35,7 @@ class _ChatHistorySidebarState extends ConsumerState<ChatHistorySidebar> {
 
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.tokens.card,
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.1),
@@ -75,7 +75,7 @@ class _SidebarHeader extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: context.tokens.primary.withValues(alpha: 0.1),
-        border: Border(bottom: BorderSide(color: Colors.grey[200]!)),
+        border: Border(bottom: BorderSide(color: context.tokens.border)),
       ),
       child: Row(
         children: [
@@ -105,13 +105,20 @@ class _EmptyHistory extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.chat_bubble_outline, size: 48, color: Colors.grey[300]),
+            Icon(
+              Icons.chat_bubble_outline,
+              size: 48,
+              color: context.tokens.mutedForeground,
+            ),
             const SizedBox(height: 16),
-            Text('No chat history yet', style: TextStyle(color: Colors.grey[600], fontSize: 14)),
+            Text(
+              'No chat history yet',
+              style: TextStyle(color: context.tokens.mutedForeground, fontSize: 14),
+            ),
             const SizedBox(height: 8),
             Text(
               'Start a conversation to see it here',
-              style: TextStyle(color: Colors.grey[400], fontSize: 12),
+              style: TextStyle(color: context.tokens.mutedForeground, fontSize: 12),
               textAlign: TextAlign.center,
             ),
           ],
@@ -137,7 +144,7 @@ class _HistoryList extends StatelessWidget {
     return ListView.separated(
       padding: const EdgeInsets.symmetric(vertical: 8),
       itemCount: sessions.length,
-      separatorBuilder: (_, _) => Divider(height: 1, color: Colors.grey[200]),
+      separatorBuilder: (_, _) => Divider(height: 1, color: context.tokens.border),
       itemBuilder: (context, index) {
         final item = sessions[index];
         final isSelected = item.id == currentSessionId;
@@ -191,7 +198,9 @@ class _HistoryItem extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
-                      color: isSelected ? context.tokens.primary : Colors.black87,
+                      color: isSelected
+                          ? context.tokens.primary
+                          : context.tokens.foreground,
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -199,11 +208,18 @@ class _HistoryItem extends StatelessWidget {
                   const SizedBox(height: 4),
                   Row(
                     children: [
-                      Icon(Icons.chat_bubble_outline, size: 12, color: Colors.grey[500]),
+                      Icon(
+                        Icons.chat_bubble_outline,
+                        size: 12,
+                        color: context.tokens.mutedForeground,
+                      ),
                       const SizedBox(width: 4),
                       Text(
                         '${item.messageCount} messages',
-                        style: TextStyle(fontSize: 12, color: Colors.grey[500]),
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: context.tokens.mutedForeground,
+                        ),
                       ),
                     ],
                   ),
@@ -214,7 +230,7 @@ class _HistoryItem extends StatelessWidget {
               const SizedBox(width: 8),
               Text(
                 _formatDate(item.updatedAt!),
-                style: TextStyle(fontSize: 11, color: Colors.grey[400]),
+                style: TextStyle(fontSize: 11, color: context.tokens.mutedForeground),
               ),
             ],
           ],
