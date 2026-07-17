@@ -2746,6 +2746,12 @@ abstract class AppLocalizations {
   /// **'Cặp âm dễ nhầm'**
   String get featureMinimalPairs;
 
+  /// No description provided for @featurePronunciation.
+  ///
+  /// In vi, this message translates to:
+  /// **'Luyện phát âm'**
+  String get featurePronunciation;
+
   /// No description provided for @featureInterview.
   ///
   /// In vi, this message translates to:

@@ -1508,6 +1508,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get featureMinimalPairs => 'Minimalpaare';
 
   @override
+  String get featurePronunciation => 'Aussprache';
+
+  @override
   String get featureInterview => 'Interview';
 
   @override

@@ -1481,6 +1481,9 @@ class AppLocalizationsVi extends AppLocalizations {
   String get featureMinimalPairs => 'Cặp âm dễ nhầm';
 
   @override
+  String get featurePronunciation => 'Luyện phát âm';
+
+  @override
   String get featureInterview => 'Phỏng vấn';
 
   @override

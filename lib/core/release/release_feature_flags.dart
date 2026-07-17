@@ -162,11 +162,11 @@ abstract final class ReleaseFeatureFlags {
   );
   static const speaking = bool.fromEnvironment(
     'DEUTSCHTIGER_ENABLE_SPEAKING',
-    defaultValue: false,
+    defaultValue: true,
   );
   static const pronunciation = bool.fromEnvironment(
     'DEUTSCHTIGER_ENABLE_PRONUNCIATION',
-    defaultValue: false,
+    defaultValue: true,
   );
   static const affiliate = bool.fromEnvironment(
     'DEUTSCHTIGER_ENABLE_AFFILIATE',

@@ -207,6 +207,20 @@ List<MoreFeatureGroup> moreFeatureGroups(
           path: '/games/konjugation',
           enabled: ReleaseFeatureFlags.konjugation,
         ),
+        // Pronunciation hub (`PronunciationScreen`) fronts the umlaute/ich-ach/
+        // r-sound/sp-st trainers. Web reaches it from the games hub; that hub
+        // is release-gated off here, so surface the hub directly instead.
+        MoreFeatureItem(
+          label: l10n.featurePronunciation,
+          iconBuilder: AppIcons.listening,
+          color: const TileColor(
+            light100: Color(0xFFF3E8FF),
+            dark20: Color(0x33A855F7),
+            fg: Color(0xFFA855F7),
+          ),
+          path: '/pronunciation',
+          enabled: ReleaseFeatureFlags.pronunciation,
+        ),
         MoreFeatureItem(
           label: l10n.featureMinimalPairs,
           iconBuilder: AppIcons.listening,
@@ -215,8 +229,8 @@ List<MoreFeatureGroup> moreFeatureGroups(
             dark20: Color(0x33A855F7),
             fg: Color(0xFFA855F7),
           ),
-          // No dedicated minimal-pairs screen in Flutter yet.
-          enabled: false,
+          path: '/pronunciation/minimal-pairs',
+          enabled: ReleaseFeatureFlags.pronunciation,
         ),
         MoreFeatureItem(
           label: l10n.featureInterview,
