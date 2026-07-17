@@ -91,8 +91,12 @@ tasks.configureEach {
                 "Release signing is not configured. Supply android/key.properties " +
                     "with keyAlias, keyPassword, storeFile, and storePassword."
             }
-            check(rootProject.file(keystoreProperties.getProperty("storeFile")).isFile) {
-                "Release keystore file does not exist."
+            // Resolve exactly as the signing config above does — `file(...)`
+            // is relative to this module, `rootProject.file(...)` is not, and
+            // the mismatch failed the check against a path that is never used.
+            check(file(keystoreProperties.getProperty("storeFile")).isFile) {
+                "Release keystore file does not exist: " +
+                    file(keystoreProperties.getProperty("storeFile")).absolutePath
             }
         }
     }
