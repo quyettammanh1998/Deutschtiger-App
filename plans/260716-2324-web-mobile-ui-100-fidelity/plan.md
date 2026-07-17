@@ -150,8 +150,21 @@ Các phase P2–P11 chỉ song song được khi tuân thủ:
       contract matrix + api-changelog cập nhật. (17/07, P12 wave B + các pass
       dark-mode.)
 - [ ] Visual QA cuối: screenshot 390×844 light+dark từng màn so web (P12 wave B).
-      **Ngoài phạm vi task này** — controller xử lý riêng (theo brief giao
-      việc P12 wave B), cố ý không tick.
+      **ĐÃ THỬ HẾT SỨC 17/07 — CẦN MÁY ANDROID THẬT, không phải bỏ qua.**
+      APK build OK (`flutter build apk --debug` xanh). Thử 6 cấu hình emulator,
+      `adb install` đều chết `Failure calling service package: Broken pipe`:
+      mặc định → lean 2GB → sau `gradlew --stop` (host còn 9.6GB) → guest 4GB
+      (verify `/proc/meminfo` = 4016092 kB) → `adb push` + `pm install` (push
+      timeout) → APK nhỏ hơn `--target-platform android-x64` (241MB→170MB).
+      Đào ra 2 nguyên nhân thật, đã sửa: AVD chỉ có `hw.ramSize = 1536M`
+      (guest OOM khi cài APK to), và `hardware-qemu.ini` GHI ĐÈ `config.ini`
+      nên phải truyền `-memory 4096` lúc launch. Sửa xong vẫn không qua —
+      emulator tự shutdown giữa chừng. → **Chạy trên máy Android thật:
+      `flutter install -d <device>` rồi chụp 390×844 light+dark.** Chi tiết:
+      memory `emulator-ram-constraint`.
+      Evidence bằng code (KHÔNG thay thế visual diff, chỉ giảm rủi ro):
+      `flutter test` 749/749 xanh — gồm test render dark-theme assert đúng
+      token, và test German 200% text-scale (bắt được nhiều overflow thật).
 
 ## Ngoài scope (giữ quyết định owner 15/07, không đổi)
 
