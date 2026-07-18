@@ -6,6 +6,11 @@ report_dir="${MOBILE_SECURITY_REPORT_DIR:-$root_dir/build/security}"
 cd "$root_dir"
 
 readonly forbidden_markers='DEEPL_API_KEY|api-free\.deepl\.com|DeepL-Auth-Key|OPENAI_API_KEY|SONIOX_API_KEY|AZURE_SPEECH_KEY|SUPABASE_SERVICE_ROLE|sk-[A-Za-z0-9_-]{20,}|AIza[0-9A-Za-z_-]{30,}'
+# Compiled artifacts embed Skia engine symbols (sk-commandBuffer, sk-Subgroup*,
+# sk-list*Syntax) that collide with the loose sk- OpenAI-key pattern. Drop that
+# one alternative for binary scans; a real leaked OpenAI key is still caught in
+# source by gitleaks and by the OPENAI_API_KEY marker above.
+readonly artifact_forbidden_markers='DEEPL_API_KEY|api-free\.deepl\.com|DeepL-Auth-Key|OPENAI_API_KEY|SONIOX_API_KEY|AZURE_SPEECH_KEY|SUPABASE_SERVICE_ROLE|AIza[0-9A-Za-z_-]{30,}'
 readonly source_paths=(lib android ios .env.example pubspec.yaml)
 
 matches="$(grep -rlE --exclude-dir=.dart_tool --exclude-dir=build "$forbidden_markers" "${source_paths[@]}" 2>/dev/null || true)"
@@ -44,7 +49,7 @@ for artifact in "$@"; do
     *) cp "$artifact" "$artifact_data" ;;
   esac
 
-  if strings "$artifact_data" | grep -qE "$forbidden_markers"; then
+  if strings "$artifact_data" | grep -qE "$artifact_forbidden_markers"; then
     echo "Private-provider marker found in artifact: $artifact" >&2
     exit 1
   fi
