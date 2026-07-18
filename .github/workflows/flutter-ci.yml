@@ -90,6 +90,11 @@ jobs:
     steps:
       - name: Check out source
         uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
+        with:
+          # Full history so `gitleaks git` scans real commit diffs. On a shallow
+          # (depth-1) clone gitleaks treats the whole tree as one new commit and
+          # false-positives on existing content.
+          fetch-depth: 0
 
       - name: Set up Flutter
         uses: subosito/flutter-action@fd55f4c5af5b953cc57a2be44cb082c8f6635e8e # v2.21.0
