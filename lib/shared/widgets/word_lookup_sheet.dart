@@ -7,6 +7,7 @@ import '../../services/dictionary_service.dart';
 import '../../view_models/providers.dart';
 import 'speak_button.dart';
 import 'save_card_button.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 final _wordLookupProvider = FutureProvider.family<WordEntry?, String>(
   (ref, word) => ref.watch(dictionaryServiceProvider).lookup(word),
@@ -41,17 +42,17 @@ class WordLookupSheet extends ConsumerWidget {
         .when(
           data: (result) => result == null
               ? _LookupMessage(
-                  icon: Icons.search_off_rounded,
+                  icon: PhosphorIcons.magnifyingGlass,
                   message: l10n.wordNotFound,
                 )
               : _WordEntryContent(entry: result, onSaved: onSaved),
           loading: () => _LookupMessage(
-            icon: Icons.hourglass_top_rounded,
+            icon: PhosphorIcons.hourglass,
             message: l10n.lookingUpWord,
             loading: true,
           ),
           error: (_, _) => _LookupMessage(
-            icon: Icons.cloud_off_rounded,
+            icon: PhosphorIcons.cloudSlash,
             message: l10n.couldNotLookupWord,
           ),
         );
@@ -273,7 +274,7 @@ class _SaveSentenceButtonState extends ConsumerState<_SaveSentenceButton> {
               dimension: 14,
               child: CircularProgressIndicator(strokeWidth: 2),
             )
-          : Icon(_saved ? Icons.check_rounded : Icons.add_rounded, size: 16),
+          : Icon(_saved ? PhosphorIcons.check : PhosphorIcons.plus, size: 16),
       label: Text(_saved ? l10n.sentenceSaved : l10n.saveSentence),
     );
   }

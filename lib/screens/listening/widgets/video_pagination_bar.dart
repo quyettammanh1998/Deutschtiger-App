@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:deutschtiger/core/theme/app_tokens.dart';
 import 'package:deutschtiger/l10n/app_localizations.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Thanh phân trang "Trước / Trang x/y / Tiếp". Web parity:
 /// `components/listening/video-pagination.tsx` (đơn giản hoá — bỏ dải số
@@ -28,7 +29,7 @@ class VideoPaginationBar extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           _NavButton(
-            icon: Icons.chevron_left,
+            icon: PhosphorIcons.caretLeft,
             label: l10n.examSetPagePrev,
             enabled: page > 1,
             onTap: () => onChanged(page - 1),
@@ -39,7 +40,7 @@ class VideoPaginationBar extends StatelessWidget {
             style: TextStyle(fontSize: 13, color: tokens.mutedForeground),
           ),
           _NavButton(
-            icon: Icons.chevron_right,
+            icon: PhosphorIcons.caretRight,
             label: l10n.examSetPageNext,
             enabled: page < totalPages,
             onTap: () => onChanged(page + 1),

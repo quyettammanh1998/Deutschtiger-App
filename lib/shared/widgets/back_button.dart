@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/design_tokens.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Rounded back button with a soft shadow.
 ///
@@ -45,7 +46,7 @@ class AppBackButton extends StatelessWidget {
         padding: padding,
         constraints: const BoxConstraints(minWidth: 40, minHeight: 40),
         onPressed: onPressed ?? () => _defaultAction(context),
-        icon: Icon(Icons.arrow_back_rounded, color: color, size: 22),
+        icon: Icon(PhosphorIcons.arrowLeft, color: color, size: 22),
       ),
     );
   }

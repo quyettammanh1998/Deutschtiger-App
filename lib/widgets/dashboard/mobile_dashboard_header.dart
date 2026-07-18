@@ -139,14 +139,14 @@ class MobileDashboardHeader extends StatelessWidget {
                             ),
                           ),
                           _HeaderIconButton(
-                            icon: Icons.chat_bubble_outline_rounded,
+                            icon: PhosphorIcons.chatCircle,
                             semanticLabel: l10n.messages,
                             onTap: onMessagesTap ?? () {},
                             badgeCount: unreadNotificationCount,
                           ),
                           const SizedBox(width: 6),
                           _HeaderIconButton(
-                            icon: Icons.settings_outlined,
+                            icon: PhosphorIcons.gearSix,
                             semanticLabel: l10n.settings,
                             onTap: onSettingsTap ?? () {},
                           ),

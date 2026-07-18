@@ -6,6 +6,7 @@ import '../../core/theme/app_tokens.dart';
 import '../../l10n/app_localizations.dart';
 import '../../repositories/announcements/announcement_repository.dart';
 import 'simple_markdown_text.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Amber announcement banner — web parity:
 /// `components/announcement/announcement-banner.tsx`. Fetches
@@ -97,7 +98,7 @@ class _AnnouncementBannerState extends ConsumerState<AnnouncementBanner> {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Icon(Icons.campaign_outlined, size: 18, color: tokens.warning),
+                Icon(PhosphorIcons.megaphone, size: 18, color: tokens.warning),
                 const SizedBox(width: 8),
                 Expanded(
                   child: Column(
@@ -125,7 +126,7 @@ class _AnnouncementBannerState extends ConsumerState<AnnouncementBanner> {
                   child: Padding(
                     padding: const EdgeInsets.all(2),
                     child: Icon(
-                      Icons.close,
+                      PhosphorIcons.x,
                       size: 16,
                       color: tokens.warning,
                       semanticLabel: l10n.dismissAnnouncement,

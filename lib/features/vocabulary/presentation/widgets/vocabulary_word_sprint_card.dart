@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../l10n/app_localizations.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// "⚡ Luyện tập với chủ đề" card — web parity: `WordSprintWidget`'s idle
 /// state (start button gradient `from-amber-500 to-orange-600`). The actual
@@ -42,7 +43,7 @@ class VocabularyWordSprintCard extends StatelessWidget {
                       ],
                     ),
                   ),
-                  const Icon(Icons.arrow_forward, color: Colors.white),
+                  const Icon(PhosphorIcons.arrowRight, color: Colors.white),
                 ],
               ),
             ),

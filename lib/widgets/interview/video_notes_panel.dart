@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_tokens.dart';
 import 'package:deutschtiger/view_models/interview/video_note_provider.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Panel ghi chu cho video YouTube.
 /// Hien thi ghi chu hien tai + cho phep chinh sua.
@@ -107,7 +108,7 @@ class _VideoNotesPanelState extends ConsumerState<VideoNotesPanel> {
         children: [
           Row(
             children: [
-              const Icon(Icons.note_alt, size: 18, color: AppColors.tigerOrange),
+              const Icon(PhosphorIcons.note, size: 18, color: AppColors.tigerOrange),
               const SizedBox(width: 8),
               const Text(
                 'Ghi chú',
@@ -126,7 +127,7 @@ class _VideoNotesPanelState extends ConsumerState<VideoNotesPanel> {
                           height: 16,
                           child: CircularProgressIndicator(strokeWidth: 2),
                         )
-                      : const Icon(Icons.save, size: 18),
+                      : const Icon(PhosphorIcons.floppyDisk, size: 18),
                   label: Text(_isSaving ? 'Đang lưu...' : 'Lưu'),
                   style: TextButton.styleFrom(
                     foregroundColor: AppColors.tigerOrange,

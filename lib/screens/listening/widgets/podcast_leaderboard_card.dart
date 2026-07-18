@@ -5,6 +5,7 @@ import 'package:deutschtiger/core/theme/app_tokens.dart';
 import 'package:deutschtiger/l10n/app_localizations.dart';
 import 'package:deutschtiger/view_models/listening/podcast_provider.dart';
 import 'package:deutschtiger/view_models/providers.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Bảng xếp hạng Easy German Podcast (số tập hoàn thành). Web parity:
 /// `components/listening/podcast-leaderboard.tsx`. Ring tiến độ đã hiển thị
@@ -31,7 +32,7 @@ class PodcastLeaderboardCard extends ConsumerWidget {
         children: [
           Row(
             children: [
-              const Icon(Icons.emoji_events, size: 18, color: Color(0xFFEAB308)),
+              const Icon(PhosphorIcons.trophy, size: 18, color: Color(0xFFEAB308)),
               const SizedBox(width: 6),
               Text(l10n.leaderboardTitle, style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: tokens.foreground)),
             ],

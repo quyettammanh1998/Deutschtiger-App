@@ -11,6 +11,7 @@ import '../../view_models/games/listening_game_provider.dart';
 import '../../view_models/providers.dart';
 import '../../widgets/common/async_state_views.dart';
 import '../../widgets/common/game_shell.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 const _kMinWordsRequired = 4;
 
@@ -195,7 +196,7 @@ class _ListeningGameScreenState extends ConsumerState<ListeningGameScreen> {
         children: [
           IconButton(
             tooltip: 'Xáo trộn',
-            icon: const Icon(Icons.shuffle),
+            icon: const Icon(PhosphorIcons.shuffle),
             onPressed: _started ? _shuffleNow : null,
           ),
           Container(
@@ -207,7 +208,7 @@ class _ListeningGameScreenState extends ConsumerState<ListeningGameScreen> {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Icon(Icons.timer, size: 16),
+                const Icon(PhosphorIcons.timer, size: 16),
                 const SizedBox(width: 4),
                 Text(
                   '${_timeLeft}s',
@@ -297,7 +298,7 @@ class _ListeningGameScreenState extends ConsumerState<ListeningGameScreen> {
                 const SizedBox(height: 12),
                 TextButton.icon(
                   onPressed: _retryWrong,
-                  icon: const Icon(Icons.replay),
+                  icon: const Icon(PhosphorIcons.arrowCounterClockwise),
                   label: Text('Làm lại ${_wrongWords.length} câu sai'),
                 ),
               ],
@@ -324,7 +325,7 @@ class _ListeningGameScreenState extends ConsumerState<ListeningGameScreen> {
             children: [
               Row(
                 children: [
-                  const Icon(Icons.star, color: Colors.purple),
+                  const Icon(PhosphorIcons.star, color: Colors.purple),
                   const SizedBox(width: 4),
                   Text('$_score',
                       style: const TextStyle(
@@ -363,7 +364,7 @@ class _ListeningGameScreenState extends ConsumerState<ListeningGameScreen> {
                     border: Border.all(color: Colors.purple, width: 3),
                   ),
                   child: Icon(
-                    _isPlaying ? Icons.volume_up : Icons.play_arrow,
+                    _isPlaying ? PhosphorIcons.speakerHigh : PhosphorIcons.play,
                     size: 48,
                     color: Colors.purple,
                   ),
@@ -426,9 +427,9 @@ class _ListeningGameScreenState extends ConsumerState<ListeningGameScreen> {
                           ),
                         ),
                         if (_selectedAnswer != null && isCorrectAnswer)
-                          const Icon(Icons.check_circle, color: Colors.green),
+                          const Icon(PhosphorIcons.checkCircle, color: Colors.green),
                         if (_selectedAnswer == option && !isCorrectAnswer)
-                          const Icon(Icons.cancel, color: Colors.red),
+                          const Icon(PhosphorIcons.xCircle, color: Colors.red),
                       ],
                     ),
                   ),

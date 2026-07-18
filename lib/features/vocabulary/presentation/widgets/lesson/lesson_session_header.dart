@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../../core/theme/app_tokens.dart';
 import '../../../data/vocab_lesson_utils.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 const Map<VocabCardMode, String> _modeLabels = {
   VocabCardMode.flip: '🃏 Lật thẻ (DE → VI)',
@@ -48,7 +49,7 @@ class LessonSessionHeader extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(4, 4, 12, 8),
             child: Row(
               children: [
-                IconButton(onPressed: onBack, icon: const Icon(Icons.arrow_back_rounded)),
+                IconButton(onPressed: onBack, icon: const Icon(PhosphorIcons.arrowLeft)),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

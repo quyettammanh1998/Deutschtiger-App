@@ -8,6 +8,7 @@ import '../../../shared/widgets/premium_crown.dart';
 import '../../../view_models/providers.dart';
 import '../../../view_models/settings/profile_edit_provider.dart';
 import '../../../widgets/common/app_card.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Settings-root profile-edit card — avatar (URL-based, no crop/upload
 /// pipeline on mobile) + display name + read-only email + premium badge +
@@ -168,7 +169,7 @@ class _ProfileEditCardState extends ConsumerState<ProfileEditCard> {
               ),
               child: Row(
                 children: [
-                  Icon(Icons.mail_outline, size: 16, color: tokens.mutedForeground),
+                  Icon(PhosphorIcons.envelope, size: 16, color: tokens.mutedForeground),
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../core/theme/app_tokens.dart';
 import '../../../l10n/app_localizations.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Language picker bottom sheet for SettingsScreen.
 class LanguagePickerSheet extends StatelessWidget {
@@ -47,7 +48,7 @@ class LanguagePickerSheet extends StatelessWidget {
                   leading: Text(o.flag, style: const TextStyle(fontSize: 24)),
                   title: Text(o.name),
                   trailing: currentLanguage == o.code
-                      ? Icon(Icons.check, color: tokens.primary)
+                      ? Icon(PhosphorIcons.check, color: tokens.primary)
                       : null,
                   onTap: () {
                     onSelect(o.code);

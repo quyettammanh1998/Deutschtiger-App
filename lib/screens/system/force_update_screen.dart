@@ -3,6 +3,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/design_tokens.dart';
 import '../../core/theme/app_tokens.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Màn chặn buộc cập nhật — Phase 13 §"Force-update path".
 ///
@@ -47,7 +48,7 @@ class ForceUpdateScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Icon(
-                Icons.system_update_alt_rounded,
+                PhosphorIcons.downloadSimple,
                 size: 96,
                 color: DesignTokens.tigerOrange,
               ),

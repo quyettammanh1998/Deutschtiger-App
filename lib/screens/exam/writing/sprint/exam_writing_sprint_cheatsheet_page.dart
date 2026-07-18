@@ -9,6 +9,7 @@ import '../../../../l10n/app_localizations.dart';
 import '../../../../widgets/common/async_state_views.dart';
 import 'widgets/cheatsheet_overview_section.dart';
 import 'widgets/cheatsheet_redemittel_mistakes_section.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Sprint cheatsheet — Redemittel + cluster overview + Teil tables + common
 /// mistakes, all on one scrollable page. Web parity
@@ -36,7 +37,7 @@ class ExamWritingSprintCheatsheetPage extends ConsumerWidget {
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
               child: Row(
                 children: [
-                  IconButton(icon: const Icon(Icons.arrow_back), onPressed: () => context.pop()),
+                  IconButton(icon: const Icon(PhosphorIcons.arrowLeft), onPressed: () => context.pop()),
                   Expanded(
                     child: Text(
                       l10n.writingSprintCheatsheetTitle,

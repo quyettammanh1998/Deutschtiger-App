@@ -8,6 +8,7 @@ import '../../../../repositories/exam/exam_registration_repository.dart';
 import '../../../../view_models/exam/exam_ecosystem_providers.dart';
 import '../../../../widgets/common/async_state_views.dart';
 import 'registration_form_sheet.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 const _examTypeLabels = {
   'goethe': 'Goethe',
@@ -209,7 +210,7 @@ class _RegistrationCard extends ConsumerWidget {
               child: Text(l10n.edit),
             ),
             IconButton(
-              icon: const Icon(Icons.delete_outline),
+              icon: const Icon(PhosphorIcons.trash),
               tooltip: l10n.examRegistrationDelete,
               onPressed: () async {
                 try {

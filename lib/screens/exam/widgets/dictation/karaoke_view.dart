@@ -6,6 +6,7 @@ import '../../../../data/exam/exam_ecosystem_models.dart';
 import '../../../../l10n/app_localizations.dart';
 import 'clip_tab_bar.dart';
 import 'karaoke_sentence_list.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Read-along activity — per-clip play/pause with a synced sentence list.
 /// Mirrors web `exam-karaoke-view.tsx` (word-level tap-to-translate
@@ -136,7 +137,7 @@ class _KaraokeViewState extends State<KaraokeView> {
                             IconButton.filled(
                               onPressed: _togglePlay,
                               icon: Icon(
-                                _isPlaying ? Icons.pause : Icons.play_arrow,
+                                _isPlaying ? PhosphorIcons.pause : PhosphorIcons.play,
                               ),
                               style: IconButton.styleFrom(
                                 backgroundColor: _isPlaying

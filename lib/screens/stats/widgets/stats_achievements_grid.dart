@@ -90,23 +90,27 @@ class _AchievementTile extends StatelessWidget {
           children: [
             Text(achievement.icon, style: const TextStyle(fontSize: 24)),
             const SizedBox(height: 4),
-            Text(
-              achievement.name,
-              textAlign: TextAlign.center,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                fontSize: 11,
-                fontWeight: FontWeight.bold,
-                color: tokens.foreground,
+            Flexible(
+              child: Text(
+                achievement.name,
+                textAlign: TextAlign.center,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  fontSize: 11,
+                  fontWeight: FontWeight.bold,
+                  color: tokens.foreground,
+                ),
               ),
             ),
-            Text(
-              achievement.description,
-              textAlign: TextAlign.center,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(fontSize: 9, color: tokens.mutedForeground),
+            Flexible(
+              child: Text(
+                achievement.description,
+                textAlign: TextAlign.center,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(fontSize: 9, color: tokens.mutedForeground),
+              ),
             ),
           ],
         ),

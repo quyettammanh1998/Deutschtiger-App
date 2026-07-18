@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/design_tokens.dart';
 import '../../../../core/exam_design_tokens.dart';
 import '../../domain/exam_models.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 class SprachbausteineGapPicker extends StatelessWidget {
   const SprachbausteineGapPicker({
@@ -58,10 +59,10 @@ class SprachbausteineGapPicker extends StatelessWidget {
               ),
               const Spacer(),
               if (showCorrectness && correct)
-                const Icon(Icons.check_circle,
+                const Icon(PhosphorIcons.checkCircle,
                     color: ExamDesignTokens.examAnswerCorrectColor, size: 16),
               if (showCorrectness && wrong)
-                const Icon(Icons.cancel,
+                const Icon(PhosphorIcons.xCircle,
                     color: ExamDesignTokens.examAnswerWrongColor, size: 16),
             ],
           ),

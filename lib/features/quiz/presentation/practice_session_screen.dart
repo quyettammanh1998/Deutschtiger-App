@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import '../domain/practice_models.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Practice Session Screen - Cloze, Listening, Matching, Writing, Translation
 class PracticeSessionScreen extends StatefulWidget {
@@ -298,7 +299,7 @@ class _PracticeSessionScreenState extends State<PracticeSessionScreen> {
             padding: const EdgeInsets.only(top: 8),
             child: Row(
               children: [
-                const Icon(Icons.lightbulb, size: 16, color: Colors.amber),
+                const Icon(PhosphorIcons.lightbulb, size: 16, color: Colors.amber),
                 const SizedBox(width: 4),
                 Text(
                   'Gợi ý: ${item.hint}',
@@ -374,7 +375,7 @@ class _PracticeSessionScreenState extends State<PracticeSessionScreen> {
             Row(
               children: [
                 Icon(
-                  isCorrect ? Icons.check_circle : Icons.cancel,
+                  isCorrect ? PhosphorIcons.checkCircle : PhosphorIcons.xCircle,
                   color: isCorrect ? Colors.green : Colors.red,
                 ),
                 const SizedBox(width: 8),
@@ -529,20 +530,20 @@ class PracticeResultScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       _StatRow(
-                        icon: Icons.timer,
+                        icon: PhosphorIcons.timer,
                         label: 'Thời gian',
                         value: '${minutes}m ${seconds}s',
                       ),
                       const Divider(),
                       _StatRow(
-                        icon: Icons.check,
+                        icon: PhosphorIcons.check,
                         label: 'Đúng',
                         value: '$correct',
                         valueColor: Colors.green,
                       ),
                       const Divider(),
                       _StatRow(
-                        icon: Icons.close,
+                        icon: PhosphorIcons.x,
                         label: 'Sai',
                         value: '${total - correct}',
                         valueColor: Colors.red,

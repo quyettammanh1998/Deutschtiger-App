@@ -11,6 +11,7 @@ import '../../view_models/games/learning_item_provider.dart';
 import '../../widgets/common/app_pill.dart';
 import '../../widgets/common/async_state_views.dart';
 import '../../widgets/common/game_shell.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 // See `article_game_screen.dart` for why this is a fixed default rather
 // than wired to `learningPreferencesProvider` (AutoDispose + bare `ref.read`
@@ -215,7 +216,7 @@ class _WordOrderGameScreenState extends ConsumerState<WordOrderGameScreen> {
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Icon(Icons.timer, size: 16),
+                      const Icon(PhosphorIcons.timer, size: 16),
                       const SizedBox(width: 4),
                       Text('${_timeLeft}s', style: const TextStyle(fontWeight: FontWeight.bold)),
                     ],
@@ -266,7 +267,7 @@ class _WordOrderGameScreenState extends ConsumerState<WordOrderGameScreen> {
             children: [
               Row(
                 children: [
-                  const Icon(Icons.star, color: Colors.amber),
+                  const Icon(PhosphorIcons.star, color: Colors.amber),
                   const SizedBox(width: 4),
                   Text('$_score', style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                 ],
@@ -284,7 +285,7 @@ class _WordOrderGameScreenState extends ConsumerState<WordOrderGameScreen> {
           ),
           child: Row(
             children: [
-              const Icon(Icons.translate, color: Colors.amber, size: 20),
+              const Icon(PhosphorIcons.translate, color: Colors.amber, size: 20),
               const SizedBox(width: 8),
               Expanded(
                 child: Text(
@@ -432,7 +433,7 @@ class _WordOrderGameScreenState extends ConsumerState<WordOrderGameScreen> {
               width: 80,
               height: 80,
               decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.amber.shade100),
-              child: const Icon(Icons.swap_vert, size: 40, color: Colors.amber),
+              child: const Icon(PhosphorIcons.arrowsDownUp, size: 40, color: Colors.amber),
             ),
             const SizedBox(height: 16),
             Text('$_score', style: const TextStyle(fontSize: 48, fontWeight: FontWeight.bold, color: Colors.amber)),

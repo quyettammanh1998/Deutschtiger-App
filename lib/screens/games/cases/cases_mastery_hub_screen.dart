@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../core/theme/app_tokens.dart';
 import '../../../widgets/common/game_shell.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Hub cho 4 sub-game "Cases Mastery" — mirrors web
 /// `src/pages/game/cases-mastery-hub-page.tsx`. Mỗi thẻ dẫn tới một game
@@ -93,7 +94,7 @@ class CasesMasteryHubScreen extends StatelessWidget {
               _SubDrillCard(
                 title: 'Akkusativ vs Dativ',
                 description: 'Chọn đúng der/den/dem trong câu',
-                icon: Icons.shuffle,
+                icon: PhosphorIcons.shuffle,
                 gradient: const [Color(0xFF3B82F6), Color(0xFF0891B2)],
                 tokens: tokens,
                 onTap: () => context.push('/games/cases-akk-dat'),
@@ -101,7 +102,7 @@ class CasesMasteryHubScreen extends StatelessWidget {
               _SubDrillCard(
                 title: 'Adjektivendungen',
                 description: 'Der ___ Mann (groß) → große / großen',
-                icon: Icons.translate,
+                icon: PhosphorIcons.translate,
                 gradient: const [Color(0xFFA855F7), Color(0xFF7C3AED)],
                 tokens: tokens,
                 onTap: () => context.push('/games/cases-adjektiv'),
@@ -109,7 +110,7 @@ class CasesMasteryHubScreen extends StatelessWidget {
               _SubDrillCard(
                 title: 'Wechselpräpositionen',
                 description: 'in die Schule (Akk) vs in der Schule (Dat)',
-                icon: Icons.list_alt,
+                icon: PhosphorIcons.listBullets,
                 gradient: const [Color(0xFFF59E0B), Color(0xFFEA580C)],
                 tokens: tokens,
                 onTap: () => context.push('/games/cases-wechselprep'),
@@ -117,7 +118,7 @@ class CasesMasteryHubScreen extends StatelessWidget {
               _SubDrillCard(
                 title: 'Verb-Case Matching',
                 description: 'helfen → Dativ, sehen → Akkusativ',
-                icon: Icons.menu_book,
+                icon: PhosphorIcons.bookOpen,
                 gradient: const [Color(0xFF10B981), Color(0xFF0D9488)],
                 tokens: tokens,
                 onTap: () => context.push('/games/cases-verb-case'),
@@ -183,22 +184,28 @@ class _SubDrillCard extends StatelessWidget {
               child: Icon(icon, color: Colors.white, size: 26),
             ),
             const SizedBox(height: 10),
-            Text(
-              title,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 13,
-                fontWeight: FontWeight.w700,
-                color: tokens.foreground,
+            Flexible(
+              child: Text(
+                title,
+                textAlign: TextAlign.center,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w700,
+                  color: tokens.foreground,
+                ),
               ),
             ),
             const SizedBox(height: 4),
-            Text(
-              description,
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 11, color: tokens.mutedForeground),
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
+            Flexible(
+              child: Text(
+                description,
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 11, color: tokens.mutedForeground),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
           ],
         ),

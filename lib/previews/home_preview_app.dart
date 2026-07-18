@@ -19,6 +19,7 @@ import '../screens/leaderboard/leaderboard_screen.dart';
 import '../view_models/providers.dart';
 import '../widgets/dashboard/mobile_dashboard_header.dart';
 import 'preview_auth_service.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 const _pad = EdgeInsets.symmetric(
   horizontal: DesignTokens.screenHorizontalPadding,
@@ -39,9 +40,9 @@ final _path = DailyPath(
 );
 
 final _missions = <DashboardMission>[
-  const DashboardMission(title: 'Học 10 từ mới', icon: Icons.school_rounded, xpReward: 20, currentProgress: 6, targetCount: 10),
-  const DashboardMission(title: 'Ôn tập 15 phút', icon: Icons.autorenew_rounded, xpReward: 15, currentProgress: 15, targetCount: 15, isCompleted: true),
-  const DashboardMission(title: 'Nghe 1 video', icon: Icons.volume_up_rounded, xpReward: 10, currentProgress: 0, targetCount: 1),
+  const DashboardMission(title: 'Học 10 từ mới', icon: PhosphorIcons.graduationCap, xpReward: 20, currentProgress: 6, targetCount: 10),
+  const DashboardMission(title: 'Ôn tập 15 phút', icon: PhosphorIcons.arrowsClockwise, xpReward: 15, currentProgress: 15, targetCount: 15, isCompleted: true),
+  const DashboardMission(title: 'Nghe 1 video', icon: PhosphorIcons.speakerHigh, xpReward: 10, currentProgress: 0, targetCount: 1),
 ];
 
 final _leaderboard = <LeaderboardEntry>[

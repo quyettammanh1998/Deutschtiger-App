@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/theme/app_tokens.dart';
 import '../../../view_models/providers.dart' show audioServiceProvider;
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Generic two-choice "listen and pick which word played" quiz card — web
 /// parity: `src/components/pronunciation/minimal-pair-quiz.tsx`
@@ -168,7 +169,7 @@ class _MinimalPairQuizCardState extends ConsumerState<MinimalPairQuizCard> {
                             ),
                           )
                         : const Icon(
-                            Icons.play_arrow_rounded,
+                            PhosphorIcons.play,
                             color: Colors.white,
                             size: 28,
                           ),

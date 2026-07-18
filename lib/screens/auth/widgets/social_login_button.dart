@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_tokens.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Nút đăng nhập mạng xã hội (Google/Apple) với icon và loading state.
 /// Web: `border-orange-100 bg-white text-gray-700` (light) →
@@ -130,7 +131,7 @@ class AppleIcon extends StatelessWidget {
     // convention for sign-in buttons) — button bg now follows the theme.
     final isDark = Theme.of(context).brightness == Brightness.dark;
     return Icon(
-      Icons.apple,
+      PhosphorIcons.appleLogo,
       size: 24,
       color: isDark ? Colors.white : Colors.black,
     );

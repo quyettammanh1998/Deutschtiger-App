@@ -4,6 +4,7 @@ import '../../../core/design_tokens.dart';
 import '../../../core/theme/app_tokens.dart';
 import '../../../data/news/news_models.dart';
 import '../../../l10n/app_localizations.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Bản dịch tiếng Việt cho chủ đề tin tức — khớp `TOPIC_VI` của web
 /// (`news-page.tsx`). Chủ đề không nằm trong bảng thì hiển thị nguyên gốc.
@@ -84,7 +85,7 @@ class NewsStoryCard extends StatelessWidget {
                               label: AppLocalizations.of(context).coursesLessonCompleted,
                               color: const Color(0xFF059669),
                               background: const Color(0xFFD1FAE5),
-                              icon: Icons.check_circle_rounded,
+                              icon: PhosphorIcons.checkCircle,
                             ),
                         ],
                       ),
@@ -122,7 +123,7 @@ class NewsStoryCard extends StatelessWidget {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Icon(
-                              Icons.graphic_eq_rounded,
+                              PhosphorIcons.waveform,
                               size: 14,
                               color: DesignTokens.tigerOrange,
                             ),

@@ -5,6 +5,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 import 'package:deutschtiger/services/config/app_config.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_tokens.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Màn học qua WebView - hiển thị nội dung bài học từ website.
 class WebViewLessonScreen extends ConsumerStatefulWidget {
@@ -103,17 +104,17 @@ class _WebViewLessonScreenState extends ConsumerState<WebViewLessonScreen> {
           ),
         ),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
+          icon: const Icon(PhosphorIcons.arrowLeft),
           onPressed: () => Navigator.of(context).pop(),
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.refresh),
+            icon: const Icon(PhosphorIcons.arrowClockwise),
             onPressed: () => _controller.reload(),
             tooltip: 'Tải lại',
           ),
           IconButton(
-            icon: const Icon(Icons.open_in_browser),
+            icon: const Icon(PhosphorIcons.arrowSquareOut),
             onPressed: () => _openInBrowser(_lessonUrl),
             tooltip: 'Mở trong trình duyệt',
           ),
@@ -147,7 +148,7 @@ class _WebViewLessonScreenState extends ConsumerState<WebViewLessonScreen> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(
-              Icons.error_outline,
+              PhosphorIcons.warning,
               size: 64,
               color: tokens.destructive,
             ),
@@ -176,7 +177,7 @@ class _WebViewLessonScreenState extends ConsumerState<WebViewLessonScreen> {
                 });
                 _controller.reload();
               },
-              icon: const Icon(Icons.refresh),
+              icon: const Icon(PhosphorIcons.arrowClockwise),
               label: const Text('Thử lại'),
             ),
             const SizedBox(height: 12),

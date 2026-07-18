@@ -8,6 +8,7 @@ import '../../l10n/app_localizations.dart';
 import '../../view_models/notifications/notifications_provider.dart';
 import '../../widgets/common/async_state_views.dart';
 import 'widgets/notification_tile.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// In-app notification center — `GET /user/notifications`. Mark-as-read is
 /// optimistic (list + badge update immediately, repository call fires in
@@ -35,7 +36,7 @@ class NotificationCenterScreen extends ConsumerWidget {
           ),
         ),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
+          icon: const Icon(PhosphorIcons.arrowLeft),
           tooltip: MaterialLocalizations.of(context).backButtonTooltip,
           onPressed: () => context.pop(),
         ),

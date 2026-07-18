@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../core/design_tokens.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Neutral paywall gate shown in place of premium-only features in GĐ1.
 ///
@@ -16,7 +17,7 @@ class PremiumGateCard extends StatelessWidget {
     super.key,
     required this.title,
     required this.description,
-    this.icon = Icons.lock_outline,
+    this.icon = PhosphorIcons.lock,
     this.actionLabel,
     this.onAction,
   });

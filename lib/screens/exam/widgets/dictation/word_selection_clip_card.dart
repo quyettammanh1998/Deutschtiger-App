@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/theme/app_tokens.dart';
 import '../../../../data/exam/exam_ecosystem_models.dart';
 import '../../../../l10n/app_localizations.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// One collapsible clip within [WordSelectionPanel] — Teil badge header +
 /// flowing tappable transcript body.
@@ -81,7 +82,7 @@ class WordSelectionClipCard extends StatelessWidget {
                   ),
                   const Spacer(),
                   Icon(
-                    expanded ? Icons.expand_less : Icons.chevron_right,
+                    expanded ? PhosphorIcons.caretUp : PhosphorIcons.caretRight,
                     color: tokens.mutedForeground,
                     size: 18,
                   ),

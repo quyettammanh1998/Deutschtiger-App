@@ -4,6 +4,7 @@ import '../../../core/theme/app_tokens.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../repositories/settings/device_session_repository.dart';
 import 'settings_tiles.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Password-change card + device-tile row — extracted from
 /// `security_screen.dart` to keep it under the ~200-LOC guideline.
@@ -134,10 +135,10 @@ String deviceLabel(DeviceSession device, AppLocalizations l10n) {
 
 IconData _deviceIcon(DeviceSession device) {
   final ua = device.userAgent ?? '';
-  if (ua.contains('iPhone')) return Icons.phone_iphone;
-  if (ua.contains('iPad')) return Icons.tablet_mac;
-  if (ua.contains('Android')) return Icons.android;
-  return Icons.laptop_mac;
+  if (ua.contains('iPhone')) return PhosphorIcons.deviceMobile;
+  if (ua.contains('iPad')) return PhosphorIcons.deviceTablet;
+  if (ua.contains('Android')) return PhosphorIcons.androidLogo;
+  return PhosphorIcons.laptop;
 }
 
 /// Định dạng thời gian tương đối đơn giản (không phụ thuộc `intl`/`timeago`).
@@ -221,7 +222,7 @@ class DeviceTile extends StatelessWidget {
           ),
           if (onRevoke != null)
             IconButton(
-              icon: Icon(Icons.logout, color: tokens.destructive),
+              icon: Icon(PhosphorIcons.signOut, color: tokens.destructive),
               tooltip: l10n.signOutThisDevice,
               onPressed: onRevoke,
             ),

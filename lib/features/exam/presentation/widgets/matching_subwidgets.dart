@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/design_tokens.dart';
 import '../../../../core/exam_design_tokens.dart';
 import '../../../../l10n/app_localizations.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 class PickedRight extends StatelessWidget {
   const PickedRight({super.key, required this.text, required this.isCorrect});
@@ -31,7 +32,7 @@ class PickedRight extends StatelessWidget {
       child: Row(
         children: [
           Icon(
-            isCorrect ? Icons.check_circle : Icons.cancel,
+            isCorrect ? PhosphorIcons.checkCircle : PhosphorIcons.xCircle,
             color: isCorrect
                 ? ExamDesignTokens.examAnswerCorrectColor
                 : ExamDesignTokens.examAnswerWrongColor,
@@ -173,7 +174,7 @@ class LeftItemTile extends StatelessWidget {
             ),
             IconButton(
               onPressed: onClear,
-              icon: const Icon(Icons.close, size: 16),
+              icon: const Icon(PhosphorIcons.x, size: 16),
               tooltip: l10n.removeMatch,
               visualDensity: VisualDensity.compact,
             ),

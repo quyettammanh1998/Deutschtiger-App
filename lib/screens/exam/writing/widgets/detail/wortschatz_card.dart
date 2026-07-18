@@ -6,6 +6,7 @@ import '../../../../../features/writing/domain/writing_topic/grammar_wortschatz_
 import '../../../../../features/writing/presentation/widgets/writing_audio_play_button.dart';
 import '../../../../../l10n/app_localizations.dart';
 import '../../../../../view_models/providers.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 const _genusColor = {'m': Color(0xFF3B82F6), 'f': Color(0xFFF43F5E), 'n': Color(0xFF10B981)};
 const _genusArticle = {'m': 'der', 'f': 'die', 'n': 'das'};
@@ -76,7 +77,7 @@ class _WritingWortschatzCardState extends ConsumerState<WritingWortschatzCard> {
                 onPressed: _translating ? null : () => _translateMissing(kernList),
                 icon: _translating
                     ? const SizedBox(width: 12, height: 12, child: CircularProgressIndicator(strokeWidth: 1.5))
-                    : const Icon(Icons.translate, size: 14),
+                    : const Icon(PhosphorIcons.translate, size: 14),
                 label: Text(l10n.writingTranslateExamples, style: const TextStyle(fontSize: 11)),
               ),
             ],

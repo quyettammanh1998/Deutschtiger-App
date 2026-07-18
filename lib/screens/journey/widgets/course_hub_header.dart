@@ -5,6 +5,7 @@ import '../../../core/icons/app_phosphor_icons.dart';
 import '../../../core/theme/app_tokens.dart';
 import '../../../features/journey/domain/course_models.dart';
 import '../../../l10n/app_localizations.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Web parity `StatsBar` in `course-hub-page.tsx`: back button + title +
 /// subtitle, "N khoá · M+ bài học" counts, per-level pill counts.
@@ -29,7 +30,7 @@ class CourseHubStatsBar extends StatelessWidget {
           children: [
             IconButton(
               onPressed: () => context.canPop() ? context.pop() : context.go('/home'),
-              icon: Icon(Icons.arrow_back, color: tokens.foreground),
+              icon: Icon(PhosphorIcons.arrowLeft, color: tokens.foreground),
               padding: EdgeInsets.zero,
               constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
             ),

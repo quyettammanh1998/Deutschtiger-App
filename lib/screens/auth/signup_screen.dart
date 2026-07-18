@@ -14,6 +14,7 @@ import 'package:deutschtiger/widgets/common/tiger_logo.dart';
 import 'auth_controller.dart';
 import 'widgets/auth_text_field.dart';
 import 'widgets/social_login_button.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Nền trang auth theo web: `bg-[#FFFBF5]` — web dùng literal, không phải
 /// token, nên giữ literal ở đây thay vì đọc static token đã deprecated.
@@ -156,8 +157,8 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                       suffix: IconButton(
                         icon: Icon(
                           _obscure
-                              ? Icons.visibility_off_outlined
-                              : Icons.visibility_outlined,
+                              ? PhosphorIcons.eyeSlash
+                              : PhosphorIcons.eye,
                           size: 18,
                           color: context.tokens.mutedForeground,
                         ),
@@ -179,8 +180,8 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                       suffix: IconButton(
                         icon: Icon(
                           _obscureConfirm
-                              ? Icons.visibility_off_outlined
-                              : Icons.visibility_outlined,
+                              ? PhosphorIcons.eyeSlash
+                              : PhosphorIcons.eye,
                           size: 18,
                           color: context.tokens.mutedForeground,
                         ),

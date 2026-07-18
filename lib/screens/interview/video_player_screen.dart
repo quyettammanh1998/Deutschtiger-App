@@ -7,6 +7,7 @@ import 'package:deutschtiger/widgets/common/async_state_views.dart';
 import 'package:deutschtiger/widgets/interview/transcript_panel.dart';
 import 'package:deutschtiger/data/interview/interview_models.dart';
 import 'package:deutschtiger/view_models/interview/interview_provider.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Xem video phỏng vấn trong một nhóm — web parity `interview-watch-page.tsx`:
 /// sticky player → title (×lần xem) → transcript inline (collapsible) →
@@ -161,7 +162,7 @@ class _VideoPlayerScreenState extends ConsumerState<VideoPlayerScreen> {
                             padding: const EdgeInsets.symmetric(vertical: 14),
                           ),
                           onPressed: _completing ? null : _markComplete,
-                          icon: Icon(active.isCompleted ? Icons.replay : Icons.check_circle),
+                          icon: Icon(active.isCompleted ? PhosphorIcons.arrowCounterClockwise : PhosphorIcons.checkCircle),
                           label: Text(active.isCompleted ? 'Xem lại' : 'Đã hoàn thành'),
                         ),
                       ),
@@ -170,7 +171,7 @@ class _VideoPlayerScreenState extends ConsumerState<VideoPlayerScreen> {
                         onTap: () => setState(() => _showTranscript = !_showTranscript),
                         child: Row(
                           children: [
-                            Icon(Icons.subtitles, size: 16, color: tokens.primary),
+                            Icon(PhosphorIcons.closedCaptioning, size: 16, color: tokens.primary),
                             const SizedBox(width: 8),
                             Text(
                               'Transcript',
@@ -182,7 +183,7 @@ class _VideoPlayerScreenState extends ConsumerState<VideoPlayerScreen> {
                             ),
                             const Spacer(),
                             Icon(
-                              _showTranscript ? Icons.expand_less : Icons.expand_more,
+                              _showTranscript ? PhosphorIcons.caretUp : PhosphorIcons.caretDown,
                               color: tokens.mutedForeground,
                             ),
                           ],
@@ -290,7 +291,7 @@ class _PlaylistSection extends StatelessWidget {
                           style: TextStyle(fontSize: 12, color: tokens.foreground),
                         ),
                       ),
-                      if (completedStyle) Icon(Icons.check_circle, size: 16, color: tokens.success),
+                      if (completedStyle) Icon(PhosphorIcons.checkCircle, size: 16, color: tokens.success),
                     ],
                   ),
                 ),

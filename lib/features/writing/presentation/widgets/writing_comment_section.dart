@@ -13,6 +13,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/theme/app_tokens.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../../view_models/providers.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 class WritingComment {
   const WritingComment({
@@ -198,7 +199,7 @@ class _WritingCommentSectionState extends ConsumerState<WritingCommentSection> {
                         height: 16,
                         child: CircularProgressIndicator(strokeWidth: 2),
                       )
-                    : Icon(Icons.send, color: tokens.primary, size: 18),
+                    : Icon(PhosphorIcons.paperPlaneTilt, color: tokens.primary, size: 18),
               ),
             ],
           ),

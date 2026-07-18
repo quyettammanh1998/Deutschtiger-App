@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
 import 'package:deutschtiger/data/affiliate/affiliate_models.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 class ReferralStatsCard extends StatelessWidget {
   final ReferralProgram program;
@@ -20,14 +21,14 @@ class ReferralStatsCard extends StatelessWidget {
                   child: _StatItem(
                     label: 'Total Referrals',
                     value: '${program.totalReferrals}',
-                    icon: Icons.people,
+                    icon: PhosphorIcons.users,
                   ),
                 ),
                 Expanded(
                   child: _StatItem(
                     label: 'Active',
                     value: '${program.activeReferrals}',
-                    icon: Icons.check_circle,
+                    icon: PhosphorIcons.checkCircle,
                     color: AppColors.success,
                   ),
                 ),
@@ -40,7 +41,7 @@ class ReferralStatsCard extends StatelessWidget {
                   child: _StatItem(
                     label: 'Total Earnings',
                     value: '\$${program.totalEarnings.toStringAsFixed(2)}',
-                    icon: Icons.account_balance_wallet,
+                    icon: PhosphorIcons.wallet,
                     color: AppColors.primary,
                   ),
                 ),
@@ -48,7 +49,7 @@ class ReferralStatsCard extends StatelessWidget {
                   child: _StatItem(
                     label: 'Pending',
                     value: '\$${program.pendingEarnings.toStringAsFixed(2)}',
-                    icon: Icons.schedule,
+                    icon: PhosphorIcons.clock,
                     color: Colors.orange,
                   ),
                 ),
@@ -61,7 +62,7 @@ class ReferralStatsCard extends StatelessWidget {
                   child: _StatItem(
                     label: 'Withdrawn',
                     value: '\$${program.withdrawnAmount.toStringAsFixed(2)}',
-                    icon: Icons.payments,
+                    icon: PhosphorIcons.creditCard,
                     color: AppColors.success,
                   ),
                 ),
@@ -179,7 +180,7 @@ class _TierRow extends StatelessWidget {
             ),
             child: Center(
               child: tier.isUnlocked
-                  ? const Icon(Icons.check, color: AppColors.success)
+                  ? const Icon(PhosphorIcons.check, color: AppColors.success)
                   : Text(
                       '${tier.referrals}',
                       style: const TextStyle(fontWeight: FontWeight.bold),

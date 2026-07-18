@@ -6,6 +6,7 @@ import '../../../../core/theme/app_tokens.dart';
 import '../../../../features/exam/data/exam_service.dart';
 import '../../../../features/exam/presentation/exam_player_provider.dart';
 import '../../../../l10n/app_localizations.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Web parity: `exam-skill-list-page.tsx` row. Shows the violet dictation
 /// "Từ vựng" shortcut only on TELC B1 Hörverstehen rows (matches web).
@@ -49,7 +50,7 @@ class ExamSkillRow extends ConsumerWidget {
               ),
               child: isCompleted
                   ? const Icon(
-                      Icons.check_rounded,
+                      PhosphorIcons.check,
                       color: Colors.white,
                       size: 20,
                     )
@@ -125,7 +126,7 @@ class ExamSkillRow extends ConsumerWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         const Icon(
-                          Icons.headphones_rounded,
+                          PhosphorIcons.headphones,
                           size: 12,
                           color: Color(0xFF6D28D9),
                         ),
@@ -144,7 +145,7 @@ class ExamSkillRow extends ConsumerWidget {
                 ),
               ),
             Icon(
-              Icons.chevron_right_rounded,
+              PhosphorIcons.caretRight,
               size: 18,
               color: tokens.mutedForeground,
             ),

@@ -12,6 +12,7 @@ import '../../widgets/common/app_button.dart';
 import '../../widgets/common/async_state_views.dart';
 import '../stats/widgets/error_pattern_labels.dart';
 import 'widgets/goal_reason_line.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// "Tập trung hôm nay" — tổng hợp việc cần luyện ngay: thẻ tới hạn, từ thi
 /// sai, từ mined từ video, lỗi ngữ pháp hay gặp. `GET /focus-session`.
@@ -51,7 +52,7 @@ class FocusSessionScreen extends ConsumerWidget {
                 children: [
                   GestureDetector(
                     onTap: () => context.pop(),
-                    child: Icon(Icons.arrow_back, size: 20, color: tokens.foreground),
+                    child: Icon(PhosphorIcons.arrowLeft, size: 20, color: tokens.foreground),
                   ),
                   const SizedBox(height: 8),
                   Text(

@@ -5,6 +5,7 @@ import '../../../core/theme/app_tokens.dart';
 import '../../../features/vocabulary/domain/vocabulary_models.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../widgets/common/app_card.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Deterministic gradient palette for the topic icon tile — web reads
 /// `topic.color` (a Tailwind gradient class from the DB); Flutter has no
@@ -111,7 +112,7 @@ class _TopicGroupCardState extends State<TopicGroupCard> {
                       turns: _expanded ? 0.5 : 0,
                       duration: const Duration(milliseconds: 150),
                       child: Icon(
-                        Icons.keyboard_arrow_down,
+                        PhosphorIcons.caretDown,
                         color: tokens.mutedForeground,
                       ),
                     ),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../../core/theme/app_tokens.dart';
 import '../../../../../features/writing/domain/goethe_b1_writing_topic_summary.dart';
 import '../../../../../l10n/app_localizations.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// One topic row inside the topic-list card — web parity
 /// `topic-list-item.tsx`: position/lock/check badge, title + HOT/Premium/
@@ -141,7 +142,7 @@ class TopicRow extends StatelessWidget {
                 ),
               )
             else
-              Icon(Icons.chevron_right, size: 18, color: tokens.mutedForeground.withValues(alpha: 0.4)),
+              Icon(PhosphorIcons.caretRight, size: 18, color: tokens.mutedForeground.withValues(alpha: 0.4)),
           ],
         ),
       ),

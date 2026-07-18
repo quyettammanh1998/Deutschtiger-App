@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../core/design_tokens.dart';
 import '../../../core/theme/app_tokens.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Header button (icon + tap) cho Word Sprint — Phase 05 I2.
 class SprintHeaderButton extends StatelessWidget {
@@ -64,7 +65,7 @@ class SprintTimerBadge extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Icon(
-            Icons.timer_outlined,
+            PhosphorIcons.timer,
             size: 18,
             color: tokens.card.withValues(alpha: 0.9),
           ),
@@ -291,7 +292,7 @@ class SprintGameHeader extends StatelessWidget {
       ),
       child: Row(
         children: [
-          SprintHeaderButton(icon: Icons.close, onTap: onClose),
+          SprintHeaderButton(icon: PhosphorIcons.x, onTap: onClose),
           const SizedBox(width: DesignTokens.spacingSm + 4),
           Expanded(
             child: Column(
@@ -344,18 +345,18 @@ class SprintStatRow extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           SprintStatBadge(
-            icon: Icons.star_outline,
+            icon: PhosphorIcons.star,
             value: '$score',
             color: tokens.warning,
           ),
           SprintStatBadge(
-            icon: Icons.check_circle_outline,
+            icon: PhosphorIcons.checkCircle,
             value: '$correct',
             color: tokens.success,
           ),
           if (streak > 0)
             SprintStatBadge(
-              icon: Icons.local_fire_department,
+              icon: PhosphorIcons.fire,
               value: 'x$streak',
               color: DesignTokens.tigerOrange,
             ),

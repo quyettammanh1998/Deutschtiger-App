@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:deutschtiger/core/theme/app_tokens.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 const podcastPurple600 = Color(0xFF9333EA);
 
@@ -74,7 +75,7 @@ class PodcastPlayerBar extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  IconButton(icon: const Icon(Icons.replay_10), iconSize: 28, onPressed: () => onSeekBy(-10)),
+                  IconButton(icon: const Icon(PhosphorIcons.rewind), iconSize: 28, onPressed: () => onSeekBy(-10)),
                   const SizedBox(width: 20),
                   GestureDetector(
                     onTap: isLoading ? null : onTogglePlay,
@@ -84,11 +85,11 @@ class PodcastPlayerBar extends StatelessWidget {
                       decoration: const BoxDecoration(color: podcastPurple600, shape: BoxShape.circle),
                       child: isLoading
                           ? const Padding(padding: EdgeInsets.all(18), child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2))
-                          : Icon(isPlaying ? Icons.pause : Icons.play_arrow, size: 32, color: Colors.white),
+                          : Icon(isPlaying ? PhosphorIcons.pause : PhosphorIcons.play, size: 32, color: Colors.white),
                     ),
                   ),
                   const SizedBox(width: 20),
-                  IconButton(icon: const Icon(Icons.forward_10), iconSize: 28, onPressed: () => onSeekBy(10)),
+                  IconButton(icon: const Icon(PhosphorIcons.fastForward), iconSize: 28, onPressed: () => onSeekBy(10)),
                 ],
               ),
               Positioned(

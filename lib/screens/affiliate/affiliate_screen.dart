@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import '../../../core/theme/app_colors.dart';
 import 'package:deutschtiger/view_models/affiliate/affiliate_provider.dart';
 import 'widgets/referral_stats_card.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 class AffiliateScreen extends ConsumerWidget {
   const AffiliateScreen({super.key});
@@ -75,7 +76,7 @@ class _ShareCodeCard extends StatelessWidget {
       ),
       child: Column(
         children: [
-          const Icon(Icons.card_giftcard, size: 48, color: Colors.white),
+          const Icon(PhosphorIcons.gift, size: 48, color: Colors.white),
           const SizedBox(height: 12),
           const Text(
             'Share & Earn',
@@ -111,7 +112,7 @@ class _ShareCodeCard extends StatelessWidget {
                 ),
                 const SizedBox(width: 12),
                 IconButton(
-                  icon: const Icon(Icons.copy, color: AppColors.primary),
+                  icon: const Icon(PhosphorIcons.copy, color: AppColors.primary),
                   onPressed: onShare,
                 ),
               ],
@@ -120,7 +121,7 @@ class _ShareCodeCard extends StatelessWidget {
           const SizedBox(height: 16),
           ElevatedButton.icon(
             onPressed: onShare,
-            icon: const Icon(Icons.share),
+            icon: const Icon(PhosphorIcons.shareNetwork),
             label: const Text('Share Code'),
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.white,
@@ -156,7 +157,7 @@ class _ReferralsSection extends StatelessWidget {
               child: Center(
                 child: Column(
                   children: [
-                    Icon(Icons.people, size: 48, color: Colors.grey[400]),
+                    Icon(PhosphorIcons.users, size: 48, color: Colors.grey[400]),
                     const SizedBox(height: 8),
                     Text(
                       'No referrals yet',
@@ -225,7 +226,7 @@ class _ActivitiesSection extends StatelessWidget {
                   color: AppColors.success.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(8),
                 ),
-                child: const Icon(Icons.attach_money, color: AppColors.success),
+                child: const Icon(PhosphorIcons.currencyDollar, color: AppColors.success),
               ),
               title: Text(act.description),
               subtitle: Text(_formatDate(act.createdAt)),

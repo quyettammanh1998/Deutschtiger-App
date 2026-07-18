@@ -9,6 +9,7 @@ import '../../../features/writing/domain/writing_offering.dart';
 import '../../../features/writing/presentation/writing_practice_panel.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../widgets/common/async_state_views.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// `writing-level-practice` (`/exam/:providerLevel/writing/:slug/practice`)
 /// — thin wrapper around [WritingPracticePanel] for a generic official
@@ -61,7 +62,7 @@ class WritingLevelPracticePage extends ConsumerWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    IconButton(icon: const Icon(Icons.arrow_back), onPressed: () => context.pop()),
+                    IconButton(icon: const Icon(PhosphorIcons.arrowLeft), onPressed: () => context.pop()),
                     Text(
                       topic?.locked == true ? l10n.writingLevelLocked : l10n.writingPracticeNotFound,
                       style: TextStyle(color: tokens.mutedForeground),
@@ -76,7 +77,7 @@ class WritingLevelPracticePage extends ConsumerWidget {
               children: [
                 Row(
                   children: [
-                    IconButton(icon: const Icon(Icons.arrow_back), onPressed: () => context.pop()),
+                    IconButton(icon: const Icon(PhosphorIcons.arrowLeft), onPressed: () => context.pop()),
                     Expanded(
                       child: Text(
                         topic.titleDe,

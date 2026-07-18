@@ -13,6 +13,7 @@ import 'sprechen_instruction_banner.dart';
 import 'sprechen_partner_chat.dart';
 import 'sprechen_session_history_sheet.dart';
 import 'sprechen_study_panel.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Web parity: `sprechen-exam-mode.tsx` — the shared engine powering every
 /// sprechen exam page (Goethe + TELC): study tab (markdown + "Luyện thi
@@ -161,7 +162,7 @@ class _ResultView extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.check_circle, color: tokens.success, size: 56),
+            Icon(PhosphorIcons.checkCircle, color: tokens.success, size: 56),
             const SizedBox(height: 12),
             Text(
               l10n.missionCompleteTitle,

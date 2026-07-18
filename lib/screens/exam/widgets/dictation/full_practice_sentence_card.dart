@@ -6,6 +6,7 @@ import '../../../../l10n/app_localizations.dart';
 import 'clip_tab_bar.dart';
 import 'dictation_diff.dart';
 import 'full_dictation_diff_text.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Active-sentence body for [FullPracticeView]: clip tabs, progress row,
 /// replay control, input, diff result, and the check/next CTA. Pure
@@ -81,7 +82,7 @@ class FullPracticeSentenceCard extends StatelessWidget {
                   children: [
                     IconButton(
                       onPressed: diff == null ? onReplay : null,
-                      icon: const Icon(Icons.replay),
+                      icon: const Icon(PhosphorIcons.arrowCounterClockwise),
                     ),
                     Text(
                       l10n.dictationReplayThisSentence,

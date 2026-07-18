@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_tokens.dart';
 import '../../../../widgets/common/app_card.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// One tappable row inside the Goethe B1 hub's single "3 rows" card — web
 /// parity `goethe-b1-hub-page.tsx`: 10×10 rounded-xl icon box (`bg-muted
@@ -67,7 +68,7 @@ class GoetheB1HubRowCard extends StatelessWidget {
                   ],
                 ),
               ),
-              Icon(Icons.chevron_right, size: 18, color: tokens.mutedForeground.withValues(alpha: 0.6)),
+              Icon(PhosphorIcons.caretRight, size: 18, color: tokens.mutedForeground.withValues(alpha: 0.6)),
             ],
           ),
         ),

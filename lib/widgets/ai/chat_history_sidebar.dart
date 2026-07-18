@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/theme/app_tokens.dart';
 import 'package:deutschtiger/data/ai/ai_chat_live_models.dart';
 import 'package:deutschtiger/view_models/ai/ai_provider.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Chat history sidebar backed by the live `GET /ai/sessions` list.
 class ChatHistorySidebar extends ConsumerStatefulWidget {
@@ -79,7 +80,7 @@ class _SidebarHeader extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Icon(Icons.history, color: context.tokens.primary),
+          Icon(PhosphorIcons.clockCounterClockwise, color: context.tokens.primary),
           const SizedBox(width: 12),
           const Expanded(
             child: Text(
@@ -87,7 +88,7 @@ class _SidebarHeader extends StatelessWidget {
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
           ),
-          IconButton(icon: const Icon(Icons.close), onPressed: onClose, iconSize: 20),
+          IconButton(icon: const Icon(PhosphorIcons.x), onPressed: onClose, iconSize: 20),
         ],
       ),
     );
@@ -106,7 +107,7 @@ class _EmptyHistory extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
-              Icons.chat_bubble_outline,
+              PhosphorIcons.chatCircle,
               size: 48,
               color: context.tokens.mutedForeground,
             ),
@@ -186,7 +187,7 @@ class _HistoryItem extends StatelessWidget {
                 color: context.tokens.primary.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: Icon(Icons.smart_toy_outlined, size: 18, color: context.tokens.primary),
+              child: Icon(PhosphorIcons.robot, size: 18, color: context.tokens.primary),
             ),
             const SizedBox(width: 12),
             Expanded(
@@ -209,7 +210,7 @@ class _HistoryItem extends StatelessWidget {
                   Row(
                     children: [
                       Icon(
-                        Icons.chat_bubble_outline,
+                        PhosphorIcons.chatCircle,
                         size: 12,
                         color: context.tokens.mutedForeground,
                       ),

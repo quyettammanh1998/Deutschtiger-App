@@ -7,6 +7,7 @@ import '../../../../view_models/exam/exam_ecosystem_providers.dart';
 import '../../../../widgets/common/async_state_views.dart';
 import 'buddy_card.dart';
 import 'schedule_pill_tabs.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 const _pageSize = 12;
 const _examTypeOptions = ['goethe', 'telc', 'osd', 'testdaf_dsh', 'ecl'];
@@ -118,7 +119,7 @@ class _BuddyDirectoryTabState extends ConsumerState<BuddyDirectoryTab> {
                 decoration: InputDecoration(
                   hintText: l10n.scheduleSearchHint,
                   isDense: true,
-                  prefixIcon: const Icon(Icons.search, size: 18),
+                  prefixIcon: const Icon(PhosphorIcons.magnifyingGlass, size: 18),
                   filled: true,
                   fillColor: tokens.card,
                   border: OutlineInputBorder(
@@ -244,7 +245,7 @@ class _PaginationBar extends StatelessWidget {
       children: [
         IconButton(
           onPressed: page > 1 ? () => onPage(page - 1) : null,
-          icon: const Icon(Icons.chevron_left),
+          icon: const Icon(PhosphorIcons.caretLeft),
         ),
         Text(
           '$page / $totalPages',
@@ -255,7 +256,7 @@ class _PaginationBar extends StatelessWidget {
         ),
         IconButton(
           onPressed: page < totalPages ? () => onPage(page + 1) : null,
-          icon: const Icon(Icons.chevron_right),
+          icon: const Icon(PhosphorIcons.caretRight),
         ),
       ],
     );

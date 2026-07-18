@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/theme/app_tokens.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// `h-9 w-9` bordered back button + title row — web parity: the header row
 /// repeated at the top of every pronunciation screen (hub + 4 trainers +
@@ -48,7 +49,7 @@ class PronunciationTrainerHeader extends StatelessWidget {
               width: 36,
               height: 36,
               child: Icon(
-                Icons.arrow_back_ios_new_rounded,
+                PhosphorIcons.caretLeft,
                 size: 18,
                 color: tokens.mutedForeground,
               ),

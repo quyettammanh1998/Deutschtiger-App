@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/icons/app_phosphor_icons.dart';
 import '../../../../core/theme/app_tokens.dart';
 import '../../../../l10n/app_localizations.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Web parity: `sprechen-exam-header.tsx` — sticky top bar of
 /// `SprechenExamMode`. Study tab shows "Lịch sử"/"Zurück"; practice tab
@@ -109,7 +110,7 @@ class SprechenExamHeader extends StatelessWidget {
                 ),
                 const SizedBox(width: 6),
                 _HeaderIconButton(
-                  icon: Icons.logout,
+                  icon: PhosphorIcons.signOut,
                   color: tokens.destructive,
                   onTap: onExit,
                 ),

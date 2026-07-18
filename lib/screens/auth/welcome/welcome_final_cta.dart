@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:deutschtiger/widgets/common/tiger_logo.dart';
 import 'welcome_palette.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Final CTA band — mirrors `welcome-final-cta.tsx`.
 class WelcomeFinalCta extends StatelessWidget {
@@ -72,7 +73,7 @@ class WelcomeFinalCta extends StatelessWidget {
                         ),
                       ),
                       SizedBox(width: 10),
-                      Icon(Icons.arrow_forward, size: 16, color: Colors.white),
+                      Icon(PhosphorIcons.arrowRight, size: 16, color: Colors.white),
                     ],
                   ),
                 ),

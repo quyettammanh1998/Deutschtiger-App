@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../core/theme/app_tokens.dart';
 import '../../../data/speech/conversation_models.dart';
 import '../../../l10n/app_localizations.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Step 2: review/edit the AI-extracted questions + prepared-answer hints
 /// before saving. The edit step is both the quality gate and the security
@@ -53,7 +54,7 @@ class InterviewImportEditStep extends StatelessWidget {
         const SizedBox(height: 6),
         SizedBox(
           width: double.infinity,
-          child: OutlinedButton.icon(onPressed: onAddPoint, icon: const Icon(Icons.add, size: 18), label: Text(l10n.interviewImportAddQuestion)),
+          child: OutlinedButton.icon(onPressed: onAddPoint, icon: const Icon(PhosphorIcons.plus, size: 18), label: Text(l10n.interviewImportAddQuestion)),
         ),
         const SizedBox(height: 14),
         SizedBox(
@@ -91,7 +92,7 @@ class _PointCard extends StatelessWidget {
           Row(
             children: [
               Expanded(child: Text(l10n.interviewImportQuestionLabel(index + 1), style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: tokens.mutedForeground))),
-              IconButton(icon: const Icon(Icons.delete_outline, size: 18, color: Colors.red), onPressed: onRemove),
+              IconButton(icon: const Icon(PhosphorIcons.trash, size: 18, color: Colors.red), onPressed: onRemove),
             ],
           ),
           TextFormField(

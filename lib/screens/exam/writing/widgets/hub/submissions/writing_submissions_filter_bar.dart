@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../../../core/theme/app_tokens.dart';
 import '../../../../../../l10n/app_localizations.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 enum WritingSubmissionSort { date, score }
 
@@ -77,7 +78,7 @@ class WritingSubmissionsFilterBar extends StatelessWidget {
             decoration: InputDecoration(
               border: InputBorder.none,
               isDense: true,
-              prefixIcon: Icon(Icons.search, size: 18, color: tokens.mutedForeground),
+              prefixIcon: Icon(PhosphorIcons.magnifyingGlass, size: 18, color: tokens.mutedForeground),
               hintText: l10n.writingSearchHint,
               hintStyle: TextStyle(fontSize: 13, color: tokens.mutedForeground),
             ),

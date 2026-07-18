@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:deutschtiger/core/theme/app_tokens.dart';
 import 'package:deutschtiger/l10n/app_localizations.dart';
 import 'podcast_index_parts.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Widget con của `EasyGermanPodcastPage` (header tím, ô tìm kiếm + chip lọc
 /// duration, thanh phân trang) — tách riêng để giữ file trang chính dưới 200
@@ -16,7 +17,7 @@ class PodcastPageHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        InkWell(onTap: onBack, child: Icon(Icons.arrow_back, color: tokens.foreground)),
+        InkWell(onTap: onBack, child: Icon(PhosphorIcons.arrowLeft, color: tokens.foreground)),
         const SizedBox(width: 10),
         Expanded(
           child: Container(
@@ -32,7 +33,7 @@ class PodcastPageHeader extends StatelessWidget {
                   width: 40,
                   height: 40,
                   decoration: BoxDecoration(color: purple600, borderRadius: BorderRadius.circular(10)),
-                  child: const Icon(Icons.mic, color: Colors.white, size: 20),
+                  child: const Icon(PhosphorIcons.microphone, color: Colors.white, size: 20),
                 ),
                 const SizedBox(width: 10),
                 Expanded(
@@ -81,7 +82,7 @@ class PodcastSearchFilterBar extends StatelessWidget {
             onChanged: onQueryChanged,
             decoration: InputDecoration(
               hintText: l10n.podcastSearchHint,
-              prefixIcon: const Icon(Icons.search, size: 18),
+              prefixIcon: const Icon(PhosphorIcons.magnifyingGlass, size: 18),
               border: InputBorder.none,
               contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
             ),
@@ -141,13 +142,13 @@ class PodcastPaginationRow extends StatelessWidget {
         children: [
           TextButton.icon(
             onPressed: page > 1 ? () => onChanged(page - 1) : null,
-            icon: const Icon(Icons.chevron_left, size: 16),
+            icon: const Icon(PhosphorIcons.caretLeft, size: 16),
             label: Text(l10n.examSetPagePrev),
           ),
           Text(l10n.podcastPageInfo(page, totalPages, totalCount), style: TextStyle(fontSize: 12, color: tokens.mutedForeground)),
           TextButton.icon(
             onPressed: page < totalPages ? () => onChanged(page + 1) : null,
-            icon: const Icon(Icons.chevron_right, size: 16),
+            icon: const Icon(PhosphorIcons.caretRight, size: 16),
             label: Text(l10n.examSetPageNext),
           ),
         ],

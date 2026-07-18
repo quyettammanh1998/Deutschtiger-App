@@ -7,6 +7,7 @@ import '../../l10n/app_localizations.dart';
 import '../../repositories/decks/deck_repository.dart';
 import '../../repositories/flashcard/flashcard_quick_save_repository.dart';
 import '../../view_models/providers.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 enum _SaveState { idle, saving, saved, duplicate, error }
 
@@ -100,13 +101,13 @@ class _SaveCardButtonState extends ConsumerState<SaveCardButton> {
                   subtitle: Text(l10n.chooseDeckDescription),
                 ),
                 ListTile(
-                  leading: const Icon(Icons.bookmark_add_outlined),
+                  leading: const Icon(PhosphorIcons.bookmarkSimple),
                   title: Text(l10n.quickSave),
                   onTap: () => Navigator.pop(context, ''),
                 ),
                 for (final deck in decks)
                   ListTile(
-                    leading: const Icon(Icons.style_outlined),
+                    leading: const Icon(PhosphorIcons.cards),
                     title: Text(deck.name),
                     onTap: () => Navigator.pop(context, deck.id),
                   ),
@@ -130,26 +131,26 @@ class _SaveCardButtonState extends ConsumerState<SaveCardButton> {
         : widget.variant;
     final (icon, label, color) = switch (_state) {
       _SaveState.idle => (
-        Icons.bookmark_add_outlined,
+        PhosphorIcons.bookmarkSimple,
         variant == SaveCardButtonVariant.button ? l10n.saveToDeck : l10n.save,
         DesignTokens.orange500,
       ),
       _SaveState.saving => (
-        Icons.hourglass_top_rounded,
+        PhosphorIcons.hourglass,
         l10n.saving,
         DesignTokens.mutedForeground,
       ),
       _SaveState.saved => (
-        Icons.bookmark_added,
+        PhosphorIcons.bookmarkSimple,
         l10n.saved,
         DesignTokens.success,
       ),
       _SaveState.duplicate => (
-        Icons.bookmark_added,
+        PhosphorIcons.bookmarkSimple,
         l10n.alreadySaved,
         DesignTokens.success,
       ),
-      _SaveState.error => (Icons.refresh, l10n.retry, DesignTokens.rose600),
+      _SaveState.error => (PhosphorIcons.arrowClockwise, l10n.retry, DesignTokens.rose600),
     };
     if (variant == SaveCardButtonVariant.star) {
       return IconButton(
@@ -157,8 +158,8 @@ class _SaveCardButtonState extends ConsumerState<SaveCardButton> {
         tooltip: label,
         icon: Icon(
           _state == _SaveState.saved || _state == _SaveState.duplicate
-              ? Icons.star_rounded
-              : Icons.star_border_rounded,
+              ? PhosphorIcons.star
+              : PhosphorIcons.star,
           color: color,
         ),
       );

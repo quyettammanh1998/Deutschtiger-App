@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/design_tokens.dart';
 import '../../l10n/app_localizations.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Wraps [child] in a build-time error boundary.
 ///
@@ -98,7 +99,7 @@ class _DefaultFallback extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             const Icon(
-              Icons.warning_amber_rounded,
+              PhosphorIcons.warning,
               color: DesignTokens.error,
               size: 48,
             ),

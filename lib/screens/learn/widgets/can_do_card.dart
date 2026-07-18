@@ -5,6 +5,7 @@ import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_tokens.dart';
 import '../../../data/learn/learn_models.dart';
 import '../../../l10n/app_localizations.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 const _rungIcons = ['👂', '👁️', '✍️', '🗣️'];
 
@@ -112,7 +113,7 @@ class CanDoCard extends StatelessWidget {
               onPressed: () => context.push(
                 '/learn/can-do/${Uri.encodeComponent(canDo.id)}/practice',
               ),
-              icon: const Icon(Icons.edit_outlined, size: 16),
+              icon: const Icon(PhosphorIcons.pencilSimple, size: 16),
               label: Text(l10n.canDoPracticeNow),
             ),
           ],

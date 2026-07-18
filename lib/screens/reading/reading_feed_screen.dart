@@ -9,6 +9,7 @@ import '../../core/design_tokens.dart';
 import '../../core/theme/app_tokens.dart';
 import '../../data/reading/reading_models.dart';
 import '../../shared/widgets/skeleton_loader.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Reading Feed — gợi ý bài đọc "vừa sức" (i+1) theo coverage từ vựng đã
 /// biết. Nguồn `GET /reading-feed?levels=`. Mirror `reading-feed-page.tsx`.
@@ -153,7 +154,7 @@ class _FeedEmptyState extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.auto_stories_outlined, size: 40, color: tokens.mutedForeground),
+            Icon(PhosphorIcons.bookOpen, size: 40, color: tokens.mutedForeground),
             const SizedBox(height: DesignTokens.spacingSm),
             Text(
               coverageReady ? l10n.readingFeedEmptyReady : l10n.readingFeedEmptyNotReady,

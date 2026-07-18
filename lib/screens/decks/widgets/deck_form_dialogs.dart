@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../data/decks/deck_models.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../shared/widgets/app_bottom_sheet.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Create/edit-deck dialog (name + optional description).
 Future<void> showDeckFormDialog(
@@ -180,7 +181,7 @@ Future<void> showMoveToFolderSheet(
         Text(l10n.deckMoveToFolder, style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 16)),
         const SizedBox(height: 8),
         ListTile(
-          leading: const Icon(Icons.close),
+          leading: const Icon(PhosphorIcons.x),
           title: Text(l10n.deckNoFolder),
           selected: currentFolderId == null,
           onTap: () async {
@@ -190,7 +191,7 @@ Future<void> showMoveToFolderSheet(
         ),
         for (final folder in folders)
           ListTile(
-            leading: const Icon(Icons.folder_outlined),
+            leading: const Icon(PhosphorIcons.folder),
             title: Text(folder.name),
             selected: currentFolderId == folder.id,
             onTap: () async {

@@ -11,6 +11,7 @@ import '../../../widgets/common/async_state_views.dart';
 import 'widgets/community_topic/community_add_version_sheet.dart';
 import 'widgets/community_topic/community_version_card.dart';
 import 'widgets/community_topic/community_version_selector.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// `writing-community-topic`
 /// (`/exam/:providerLevel/writing/community/:teil/:slug`) — canonical
@@ -83,7 +84,7 @@ class _WritingCommunityTopicPageState extends ConsumerState<WritingCommunityTopi
               children: [
                 Row(
                   children: [
-                    IconButton(icon: const Icon(Icons.arrow_back), onPressed: () => context.pop()),
+                    IconButton(icon: const Icon(PhosphorIcons.arrowLeft), onPressed: () => context.pop()),
                     Expanded(
                       child: Text(
                         canonical.titleDe.isNotEmpty ? canonical.titleDe : l10n.writingCommunityTopicFallbackTitle,

@@ -6,6 +6,7 @@ import 'package:deutschtiger/l10n/app_localizations.dart';
 import 'package:deutschtiger/widgets/common/umlaut_input_bar.dart';
 import 'package:deutschtiger/widgets/common/answer_diff_view.dart';
 import 'dictation_settings_sheet.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Core "Nghe chép chính tả" loop — web parity `dictation-panel.tsx` (subset:
 /// sentence + cloze modes; word-by-word mic mode and auto-replay/auto-pause
@@ -195,7 +196,7 @@ class _DictationPanelState extends State<DictationPanel> {
             ),
             IconButton(
               icon: Icon(
-                Icons.settings_outlined,
+                PhosphorIcons.gearSix,
                 size: 18,
                 color: tokens.mutedForeground,
               ),
@@ -226,14 +227,14 @@ class _DictationPanelState extends State<DictationPanel> {
             children: [
               IconButton(
                 onPressed: _index > 0 ? () => _goTo(_index - 1) : null,
-                icon: const Icon(Icons.skip_previous),
+                icon: const Icon(PhosphorIcons.skipBack),
               ),
-              IconButton(onPressed: _replay, icon: const Icon(Icons.replay)),
+              IconButton(onPressed: _replay, icon: const Icon(PhosphorIcons.arrowCounterClockwise)),
               TextButton(
                 onPressed: _skip,
                 child: Text(l10n.dictationClozeSkip),
               ),
-              IconButton(onPressed: _next, icon: const Icon(Icons.skip_next)),
+              IconButton(onPressed: _next, icon: const Icon(PhosphorIcons.skipForward)),
             ],
           ),
         ),

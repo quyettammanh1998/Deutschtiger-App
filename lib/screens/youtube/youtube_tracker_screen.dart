@@ -13,6 +13,7 @@ import 'widgets/video_pagination_bar.dart';
 import 'widgets/video_collection_card.dart';
 import 'widgets/youtube_tracker_widgets.dart';
 import 'youtube_url_utils.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 const _pageSize = 20;
 
@@ -133,7 +134,7 @@ class _YouTubeTrackerScreenState extends ConsumerState<YouTubeTrackerScreen> {
                   MediaBreadcrumb(items: [(l10n.listeningPageTitle, '/listening'), ('YouTube', null)]),
                   const SizedBox(height: 10),
                   MediaHeaderCard(
-                    icon: Icons.smart_display,
+                    icon: PhosphorIcons.monitorPlay,
                     title: 'YouTube',
                     subtitle: l10n.listeningSourceVideoCount(all.length),
                     accentColor: const Color(0xFFEF4444),

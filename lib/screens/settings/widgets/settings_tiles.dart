@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../core/theme/app_tokens.dart';
 import '../../../widgets/common/app_card.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Reusable primitives for the settings tree — web parity:
 /// `thamkhao/deutschtiger-frontend/src/pages/settings/settings-page.tsx`
@@ -102,7 +103,7 @@ class SettingsNavRow extends StatelessWidget {
                 ),
               ),
               trailing ??
-                  Icon(Icons.chevron_right, size: 18, color: color),
+                  Icon(PhosphorIcons.caretRight, size: 18, color: color),
             ],
           ),
         ),

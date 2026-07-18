@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../../../../../core/theme/app_tokens.dart';
 import '../../../../../features/writing/domain/goethe_b1_writing_topic.dart';
 import '../../../../../l10n/app_localizations.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Reader header — web parity `detail-header.tsx`: back + title/titleVi +
 /// font-scale control, difficulty/frequency/HOT badges, meta row.
@@ -50,7 +51,7 @@ class WritingDetailHeader extends StatelessWidget {
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            IconButton(icon: const Icon(Icons.arrow_back), onPressed: () => context.pop()),
+            IconButton(icon: const Icon(PhosphorIcons.arrowLeft), onPressed: () => context.pop()),
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.only(top: 10),
@@ -114,7 +115,7 @@ class WritingDetailHeader extends StatelessWidget {
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Icon(Icons.play_arrow, size: 14, color: Colors.white),
+                      const Icon(PhosphorIcons.play, size: 14, color: Colors.white),
                       const SizedBox(width: 4),
                       Text(l10n.writingPlayAll,
                           style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Colors.white)),

@@ -6,6 +6,7 @@ import '../../../core/release/release_feature_flags.dart';
 import '../../../core/theme/app_tokens.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../shared/widgets/more_features_sheet.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// One pinned shortcut tile — mirrors web `PINNED_SHORTCUTS`
 /// (`components/dashboard/quick-actions-data.tsx`).
@@ -42,35 +43,35 @@ class PinnedShortcuts extends StatelessWidget {
   List<_Shortcut> _shortcuts(AppLocalizations l10n) => [
     _Shortcut(
       title: l10n.examPractice,
-      icon: Icons.school_rounded,
+      icon: PhosphorIcons.graduationCap,
       color: DesignTokens.tigerOrange,
       bgColor: DesignTokens.orange50,
       path: '/exam',
     ),
     _Shortcut(
       title: l10n.dailyReview,
-      icon: Icons.autorenew_rounded,
+      icon: PhosphorIcons.arrowsClockwise,
       color: DesignTokens.emerald600,
       bgColor: DesignTokens.emerald50,
       path: '/daily-review',
     ),
     _Shortcut(
       title: l10n.vocabulary,
-      icon: Icons.translate_rounded,
+      icon: PhosphorIcons.translate,
       color: const Color(0xFF0EA5E9),
       bgColor: const Color(0xFFF0F9FF),
       path: '/vocabulary',
     ),
     _Shortcut(
       title: l10n.myWords,
-      icon: Icons.bookmark_rounded,
+      icon: PhosphorIcons.bookmarkSimple,
       color: const Color(0xFF8B5CF6),
       bgColor: const Color(0xFFF5F3FF),
       path: '/my-words',
     ),
     _Shortcut(
       title: l10n.pinnedShortcutConversation,
-      icon: Icons.chat_bubble_outline_rounded,
+      icon: PhosphorIcons.chatCircle,
       color: const Color(0xFF14B8A6),
       bgColor: const Color(0xFFF0FDFA),
       path: '/speaking/conversation-hub',
@@ -78,7 +79,7 @@ class PinnedShortcuts extends StatelessWidget {
     ),
     _Shortcut(
       title: l10n.pinnedShortcutWriteSentence,
-      icon: Icons.edit_rounded,
+      icon: PhosphorIcons.pencilSimple,
       color: const Color(0xFF22C55E),
       bgColor: const Color(0xFFF0FDF4),
       path: '/games/sentence-builder',
@@ -86,7 +87,7 @@ class PinnedShortcuts extends StatelessWidget {
     ),
     _Shortcut(
       title: l10n.pinnedShortcutListening,
-      icon: Icons.volume_up_rounded,
+      icon: PhosphorIcons.speakerHigh,
       color: const Color(0xFFA855F7),
       bgColor: const Color(0xFFFAF5FF),
       path: '/listening',
@@ -94,7 +95,7 @@ class PinnedShortcuts extends StatelessWidget {
     ),
     _Shortcut(
       title: l10n.pinnedShortcutYoutube,
-      icon: Icons.smart_display_rounded,
+      icon: PhosphorIcons.monitorPlay,
       color: const Color(0xFFEF4444),
       bgColor: const Color(0xFFFEF2F2),
       path: '/listening/youtube',
@@ -102,7 +103,7 @@ class PinnedShortcuts extends StatelessWidget {
     ),
     _Shortcut(
       title: l10n.gamePractice,
-      icon: Icons.sports_esports_rounded,
+      icon: PhosphorIcons.gameController,
       color: const Color(0xFFF59E0B),
       bgColor: const Color(0xFFFFFBEB),
       path: '/games',
@@ -110,7 +111,7 @@ class PinnedShortcuts extends StatelessWidget {
     ),
     _Shortcut(
       title: l10n.pinnedShortcutCourse,
-      icon: Icons.menu_book_rounded,
+      icon: PhosphorIcons.bookOpen,
       color: const Color(0xFF6366F1),
       bgColor: const Color(0xFFEEF2FF),
       path: '/journey/courses',
@@ -218,16 +219,20 @@ class _ShortcutTile extends StatelessWidget {
               child: Icon(item.icon, color: item.color, size: 24),
             ),
             const SizedBox(height: 6),
-            Text(
-              item.title,
-              maxLines: 2,
-              textAlign: TextAlign.center,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                fontSize: 11,
-                fontWeight: FontWeight.w600,
-                color: context.tokens.foreground,
-                height: 1.15,
+            // Flexible lets the label ellipsize within the fixed-height grid
+            // cell instead of overflowing when a long title wraps to 2 lines.
+            Flexible(
+              child: Text(
+                item.title,
+                maxLines: 2,
+                textAlign: TextAlign.center,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  fontSize: 11,
+                  fontWeight: FontWeight.w600,
+                  color: context.tokens.foreground,
+                  height: 1.15,
+                ),
               ),
             ),
           ],

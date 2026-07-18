@@ -8,6 +8,7 @@ import 'language_picker_sheet.dart';
 import 'settings_actions.dart';
 import 'settings_tiles.dart';
 import 'sound_settings_sheet.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// App-only settings blocks with no web page counterpart — Quyết định #3
 /// keeper (c): "settings ngôn ngữ/âm thanh/About". Extracted from
@@ -27,12 +28,12 @@ class SettingsAppOnlySection extends ConsumerWidget {
         SettingsNavRowCard(
           children: [
             SettingsNavRow(
-              icon: Icons.language_outlined,
+              icon: PhosphorIcons.globe,
               label: '${l10n.appLanguage} · ${_languageName(preferences.appLanguage)}',
               onTap: () => _showLanguagePicker(context, ref),
             ),
             SettingsNavRow(
-              icon: Icons.volume_up_outlined,
+              icon: PhosphorIcons.speakerHigh,
               label: l10n.sound,
               onTap: () => showModalBottomSheet<void>(
                 context: context,
@@ -47,28 +48,28 @@ class SettingsAppOnlySection extends ConsumerWidget {
         SettingsNavRowCard(
           children: [
             SettingsNavRow(
-              icon: Icons.info_outline,
+              icon: PhosphorIcons.info,
               label: '${l10n.version} · 1.0.0',
               onTap: () {},
             ),
             SettingsNavRow(
-              icon: Icons.description_outlined,
+              icon: PhosphorIcons.fileText,
               label: l10n.termsOfService,
               onTap: () => context.push('/terms-of-service'),
             ),
             SettingsNavRow(
-              icon: Icons.privacy_tip_outlined,
+              icon: PhosphorIcons.shield,
               label: l10n.privacyPolicy,
               onTap: () => context.push('/privacy-policy'),
             ),
             SettingsNavRow(
-              icon: Icons.help_outline,
+              icon: PhosphorIcons.question,
               label: l10n.helpCenter,
               onTap: () =>
                   SettingsActions.openUrl(context, 'https://deutschtiger.com/help'),
             ),
             SettingsNavRow(
-              icon: Icons.star_outline,
+              icon: PhosphorIcons.star,
               label: l10n.rateApp,
               onTap: () => SettingsActions.rateApp(context),
             ),

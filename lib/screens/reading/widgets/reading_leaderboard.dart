@@ -8,6 +8,7 @@ import '../../../data/reading/reading_models.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../repositories/reading/reading_repository.dart';
 import 'reading_level_theme.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Bảng xếp hạng theo level + ring tiến trình — mirror `reading-leaderboard.tsx`.
 /// Ring dùng `completed`/`total` của chính level đang xem (đã tải sẵn ở màn cha).
@@ -108,7 +109,7 @@ class ReadingLeaderboardCard extends ConsumerWidget {
             children: [
               Row(
                 children: [
-                  const Icon(Icons.emoji_events_rounded, size: 18, color: Color(0xFFF59E0B)),
+                  const Icon(PhosphorIcons.trophy, size: 18, color: Color(0xFFF59E0B)),
                   const SizedBox(width: 6),
                   Text(
                     l10n.readingLeaderboardTitleLevel(level),

@@ -16,6 +16,7 @@ import 'widgets/profile_activity_timeline.dart';
 import 'widgets/profile_cover_header.dart';
 import 'widgets/profile_learning_journey.dart';
 import 'widgets/profile_stats_row.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 const Map<String, String> _kActivityLabels = {
   'dashboard': 'Đang online',
@@ -83,7 +84,7 @@ class ProfilePage extends ConsumerWidget {
                 Row(
                   children: [
                     IconButton(
-                      icon: const Icon(Icons.arrow_back),
+                      icon: const Icon(PhosphorIcons.arrowLeft),
                       onPressed: () => context.canPop()
                           ? context.pop()
                           : context.go('/home'),
@@ -397,7 +398,7 @@ class _FriendActionButton extends ConsumerWidget {
     switch (status) {
       case 'accepted':
         return _PillButton(
-          icon: Icons.person_remove_outlined,
+          icon: PhosphorIcons.userMinus,
           label: l10n.socialRemoveFriend,
           onTap: () async {
             final friends = await ref.read(friendsProvider.future);
@@ -415,7 +416,7 @@ class _FriendActionButton extends ConsumerWidget {
         return _StaticPill(label: l10n.socialRequestSent, tokens: tokens);
       case 'pending_received':
         return _PillButton(
-          icon: Icons.check,
+          icon: PhosphorIcons.check,
           label: l10n.socialAccept,
           onTap: () async {
             final req = await ref.read(pendingFriendRequestsProvider.future);
@@ -432,7 +433,7 @@ class _FriendActionButton extends ConsumerWidget {
         return const SizedBox.shrink();
       default:
         return _PillButton(
-          icon: Icons.person_add_alt,
+          icon: PhosphorIcons.userPlus,
           label: l10n.socialAddFriend,
           gradient: true,
           onTap: () async {

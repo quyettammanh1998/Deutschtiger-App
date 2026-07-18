@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../core/theme/app_colors.dart';
 import 'package:deutschtiger/data/affiliate/affiliate_models.dart';
 import 'package:deutschtiger/view_models/affiliate/affiliate_provider.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 class AffiliatePage extends ConsumerStatefulWidget {
   const AffiliatePage({super.key});
@@ -47,7 +48,7 @@ class _AffiliatePageState extends ConsumerState<AffiliatePage>
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.leaderboard),
+            icon: const Icon(PhosphorIcons.chartBar),
             onPressed: () => context.push('/affiliate/leaderboard'),
             tooltip: 'Leaderboard',
           ),
@@ -139,7 +140,7 @@ class _ReferralCodeCard extends StatelessWidget {
       ),
       child: Column(
         children: [
-          const Icon(Icons.card_giftcard, size: 48, color: Colors.white),
+          const Icon(PhosphorIcons.gift, size: 48, color: Colors.white),
           const SizedBox(height: 12),
           const Text(
             'Mã giới thiệu của bạn',
@@ -169,7 +170,7 @@ class _ReferralCodeCard extends StatelessWidget {
                 ),
                 const SizedBox(width: 12),
                 IconButton(
-                  icon: const Icon(Icons.copy, color: AppColors.primary),
+                  icon: const Icon(PhosphorIcons.copy, color: AppColors.primary),
                   onPressed: () {
                     Clipboard.setData(ClipboardData(text: program?.referralCode ?? 'DEUTSCH15'));
                     ScaffoldMessenger.of(context).showSnackBar(
@@ -203,7 +204,7 @@ Tải app: https://deutschtiger.app/download
                 ),
               );
             },
-            icon: const Icon(Icons.share),
+            icon: const Icon(PhosphorIcons.shareNetwork),
             label: const Text('Chia sẻ mã'),
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.white,
@@ -238,7 +239,7 @@ class _CommissionStatsCard extends StatelessWidget {
                     color: AppColors.success.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: const Icon(Icons.insights, color: AppColors.success),
+                  child: const Icon(PhosphorIcons.chartLineUp, color: AppColors.success),
                 ),
                 const SizedBox(width: 12),
                 const Text(
@@ -257,7 +258,7 @@ class _CommissionStatsCard extends StatelessWidget {
                   child: _StatItem(
                     label: 'Tổng giới thiệu',
                     value: '${program?.totalReferrals ?? 0}',
-                    icon: Icons.people,
+                    icon: PhosphorIcons.users,
                     color: AppColors.primary,
                   ),
                 ),
@@ -265,7 +266,7 @@ class _CommissionStatsCard extends StatelessWidget {
                   child: _StatItem(
                     label: 'Đang hoạt động',
                     value: '${program?.activeReferrals ?? 0}',
-                    icon: Icons.check_circle,
+                    icon: PhosphorIcons.checkCircle,
                     color: AppColors.success,
                   ),
                 ),
@@ -280,7 +281,7 @@ class _CommissionStatsCard extends StatelessWidget {
                   child: _StatItem(
                     label: 'Tổng thu nhập',
                     value: '\$${(program?.totalEarnings ?? 0).toStringAsFixed(2)}',
-                    icon: Icons.account_balance_wallet,
+                    icon: PhosphorIcons.wallet,
                     color: Colors.green,
                   ),
                 ),
@@ -288,7 +289,7 @@ class _CommissionStatsCard extends StatelessWidget {
                   child: _StatItem(
                     label: 'Chờ thanh toán',
                     value: '\$${(program?.pendingEarnings ?? 0).toStringAsFixed(2)}',
-                    icon: Icons.hourglass_empty,
+                    icon: PhosphorIcons.hourglass,
                     color: Colors.orange,
                   ),
                 ),
@@ -296,7 +297,7 @@ class _CommissionStatsCard extends StatelessWidget {
                   child: _StatItem(
                     label: 'Đã rút',
                     value: '\$${(program?.withdrawnAmount ?? 0).toStringAsFixed(2)}',
-                    icon: Icons.payments,
+                    icon: PhosphorIcons.creditCard,
                     color: AppColors.primary,
                   ),
                 ),
@@ -378,7 +379,7 @@ class _ReferralsListCard extends StatelessWidget {
                     color: AppColors.primary.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: const Icon(Icons.people_alt, color: AppColors.primary),
+                  child: const Icon(PhosphorIcons.users, color: AppColors.primary),
                 ),
                 const SizedBox(width: 12),
                 const Text(
@@ -411,7 +412,7 @@ class _ReferralsListCard extends StatelessWidget {
               Center(
                 child: Column(
                   children: [
-                    Icon(Icons.person_add_disabled, size: 48, color: Colors.grey[300]),
+                    Icon(PhosphorIcons.userPlus, size: 48, color: Colors.grey[300]),
                     const SizedBox(height: 8),
                     Text(
                       'Chưa có người được giới thiệu nào',
@@ -522,13 +523,13 @@ class _ReferralItem extends StatelessWidget {
   IconData _getStatusIcon(String status) {
     switch (status) {
       case 'completed':
-        return Icons.check_circle;
+        return PhosphorIcons.checkCircle;
       case 'pending':
-        return Icons.hourglass_empty;
+        return PhosphorIcons.hourglass;
       case 'expired':
-        return Icons.cancel;
+        return PhosphorIcons.xCircle;
       default:
-        return Icons.help;
+        return PhosphorIcons.question;
     }
   }
 
@@ -576,7 +577,7 @@ class _HowItWorksCard extends StatelessWidget {
                     color: AppColors.tigerOrange.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: const Icon(Icons.help_outline, color: AppColors.tigerOrange),
+                  child: const Icon(PhosphorIcons.question, color: AppColors.tigerOrange),
                 ),
                 const SizedBox(width: 12),
                 const Text(
@@ -593,7 +594,7 @@ class _HowItWorksCard extends StatelessWidget {
               number: '1',
               title: 'Chia sẻ mã của bạn',
               description: 'Gửi mã giới thiệu cho bạn bè qua tin nhắn, mạng xã hội hoặc email',
-              icon: Icons.share,
+              icon: PhosphorIcons.shareNetwork,
               color: Colors.blue,
             ),
             const SizedBox(height: 16),
@@ -601,7 +602,7 @@ class _HowItWorksCard extends StatelessWidget {
               number: '2',
               title: 'Bạn bè đăng ký',
               description: 'Khi người được giới thiệu tạo tài khoản với mã của bạn',
-              icon: Icons.person_add,
+              icon: PhosphorIcons.userPlus,
               color: Colors.green,
             ),
             const SizedBox(height: 16),
@@ -609,7 +610,7 @@ class _HowItWorksCard extends StatelessWidget {
               number: '3',
               title: 'Nhận hoa hồng',
               description: 'Kiếm \$5 cho mỗi người hoàn thành 30 ngày học tập',
-              icon: Icons.attach_money,
+              icon: PhosphorIcons.currencyDollar,
               color: Colors.orange,
             ),
             const SizedBox(height: 16),
@@ -617,7 +618,7 @@ class _HowItWorksCard extends StatelessWidget {
               number: '4',
               title: 'Nhận thưởng đặc biệt',
               description: 'Mở khóa các cấp độ thưởng với nhiều phần thưởng hơn',
-              icon: Icons.card_giftcard,
+              icon: PhosphorIcons.gift,
               color: Colors.purple,
             ),
           ],
@@ -708,7 +709,7 @@ class _HistoryTab extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.history, size: 64, color: Colors.grey[300]),
+            Icon(PhosphorIcons.clockCounterClockwise, size: 64, color: Colors.grey[300]),
             const SizedBox(height: 16),
             Text(
               'Chưa có hoạt động nào',
@@ -803,15 +804,15 @@ class _ActivityItem extends StatelessWidget {
   IconData _getTypeIcon(String type) {
     switch (type) {
       case 'referral_completed':
-        return Icons.people;
+        return PhosphorIcons.users;
       case 'tier_bonus':
-        return Icons.stars;
+        return PhosphorIcons.star;
       case 'milestone_partial':
-        return Icons.flag;
+        return PhosphorIcons.flag;
       case 'payout':
-        return Icons.payments;
+        return PhosphorIcons.creditCard;
       default:
-        return Icons.attach_money;
+        return PhosphorIcons.currencyDollar;
     }
   }
 
@@ -910,7 +911,7 @@ class _PayoutInfoCardState extends State<_PayoutInfoCard> {
                     color: Colors.green.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: const Icon(Icons.account_balance, color: Colors.green),
+                  child: const Icon(PhosphorIcons.bank, color: Colors.green),
                 ),
                 const SizedBox(width: 12),
                 const Text(
@@ -974,7 +975,7 @@ class _PayoutInfoCardState extends State<_PayoutInfoCard> {
                     decoration: const InputDecoration(
                       labelText: 'Tên tài khoản',
                       border: OutlineInputBorder(),
-                      prefixIcon: Icon(Icons.person),
+                      prefixIcon: Icon(PhosphorIcons.user),
                     ),
                     validator: (value) {
                       if (value?.isEmpty ?? true) return 'Vui lòng nhập tên';
@@ -987,7 +988,7 @@ class _PayoutInfoCardState extends State<_PayoutInfoCard> {
                     decoration: const InputDecoration(
                       labelText: 'Email',
                       border: OutlineInputBorder(),
-                      prefixIcon: Icon(Icons.email),
+                      prefixIcon: Icon(PhosphorIcons.envelope),
                     ),
                     keyboardType: TextInputType.emailAddress,
                     validator: (value) {
@@ -1006,8 +1007,8 @@ class _PayoutInfoCardState extends State<_PayoutInfoCard> {
                       border: const OutlineInputBorder(),
                       prefixIcon: Icon(
                         _selectedMethod == 'bank_transfer'
-                            ? Icons.account_balance
-                            : Icons.account_balance_wallet,
+                            ? PhosphorIcons.bank
+                            : PhosphorIcons.wallet,
                       ),
                     ),
                     validator: (value) {
@@ -1098,7 +1099,7 @@ class _PaymentMethodSelector extends StatelessWidget {
         Expanded(
           child: _MethodOption(
             label: 'Chuyển khoản',
-            icon: Icons.account_balance,
+            icon: PhosphorIcons.bank,
             value: 'bank_transfer',
             selected: selected,
             onTap: () => onChanged('bank_transfer'),
@@ -1108,7 +1109,7 @@ class _PaymentMethodSelector extends StatelessWidget {
         Expanded(
           child: _MethodOption(
             label: 'Ví điện tử',
-            icon: Icons.account_balance_wallet,
+            icon: PhosphorIcons.wallet,
             value: 'e_wallet',
             selected: selected,
             onTap: () => onChanged('e_wallet'),
@@ -1189,7 +1190,7 @@ class _CommissionHistoryCard extends StatelessWidget {
                     color: Colors.blue.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: const Icon(Icons.receipt_long, color: Colors.blue),
+                  child: const Icon(PhosphorIcons.receipt, color: Colors.blue),
                 ),
                 const SizedBox(width: 12),
                 const Text(
@@ -1252,7 +1253,7 @@ class _CommissionHistoryItem extends StatelessWidget {
               borderRadius: BorderRadius.circular(8),
             ),
             child: Icon(
-              status == 'completed' ? Icons.check_circle : Icons.hourglass_empty,
+              status == 'completed' ? PhosphorIcons.checkCircle : PhosphorIcons.hourglass,
               color: status == 'completed' ? Colors.green : Colors.orange,
               size: 20,
             ),
@@ -1307,7 +1308,7 @@ class _TiersCard extends StatelessWidget {
                     color: Colors.purple.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: const Icon(Icons.stars, color: Colors.purple),
+                  child: const Icon(PhosphorIcons.star, color: Colors.purple),
                 ),
                 const SizedBox(width: 12),
                 const Text(
@@ -1366,7 +1367,7 @@ class _TierItem extends StatelessWidget {
             ),
             child: Center(
               child: tier.isUnlocked
-                  ? const Icon(Icons.check, color: Colors.green)
+                  ? const Icon(PhosphorIcons.check, color: Colors.green)
                   : Text(
                       '${tier.referrals}',
                       style: TextStyle(

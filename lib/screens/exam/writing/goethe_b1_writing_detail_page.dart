@@ -28,6 +28,7 @@ import 'widgets/detail/uebungen_section.dart';
 import 'widgets/detail/useful_phrases_card.dart';
 import 'widgets/detail/wortschatz_card.dart';
 import 'widgets/typing_practice/collect_practice_sentences.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Goethe B1 writing reader — web parity `goethe-b1-writing-detail-page.tsx`.
 /// Full 30+ component spec:
@@ -123,7 +124,7 @@ class _GoetheB1WritingDetailPageState extends ConsumerState<GoetheB1WritingDetai
         children: [
           Row(
             children: [
-              IconButton(icon: const Icon(Icons.arrow_back), onPressed: () => context.pop()),
+              IconButton(icon: const Icon(PhosphorIcons.arrowLeft), onPressed: () => context.pop()),
               Expanded(
                 child: Text(topic.titleDe, style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: tokens.foreground)),
               ),
@@ -149,7 +150,7 @@ class _GoetheB1WritingDetailPageState extends ConsumerState<GoetheB1WritingDetai
         children: [
           Row(
             children: [
-              IconButton(icon: const Icon(Icons.arrow_back), onPressed: () => context.pop()),
+              IconButton(icon: const Icon(PhosphorIcons.arrowLeft), onPressed: () => context.pop()),
               Expanded(
                 child: Text(topic.titleDe, style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: tokens.foreground)),
               ),

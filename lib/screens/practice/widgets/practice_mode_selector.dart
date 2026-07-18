@@ -161,24 +161,28 @@ class _ModeCard extends StatelessWidget {
                   child: Icon(config.icon, color: Colors.white, size: 22),
                 ),
                 const SizedBox(height: 8),
-                Text(
-                  config.title,
-                  textAlign: TextAlign.center,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w600,
-                    color: tokens.foreground,
+                Flexible(
+                  child: Text(
+                    config.title,
+                    textAlign: TextAlign.center,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                      color: tokens.foreground,
+                    ),
                   ),
                 ),
                 const SizedBox(height: 2),
-                Text(
-                  config.enabled ? config.description : comingSoonLabel,
-                  textAlign: TextAlign.center,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(fontSize: 11, color: tokens.mutedForeground),
+                Flexible(
+                  child: Text(
+                    config.enabled ? config.description : comingSoonLabel,
+                    textAlign: TextAlign.center,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(fontSize: 11, color: tokens.mutedForeground),
+                  ),
                 ),
               ],
             ),

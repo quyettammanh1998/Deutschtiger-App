@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/theme/app_tokens.dart';
 import 'package:deutschtiger/data/ai/ai_chat_live_models.dart';
 import 'package:deutschtiger/view_models/ai/ai_provider.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// AI Memory & Profile settings — wired to `GET/DELETE /ai/memory` (facts
 /// Tiger AI extracted automatically) and `GET/PUT /ai/profile` (the
@@ -237,7 +238,7 @@ class _NotesCard extends StatelessWidget {
                       ),
                     ),
                     IconButton(
-                      icon: const Icon(Icons.close, size: 18),
+                      icon: const Icon(PhosphorIcons.x, size: 18),
                       onPressed: () => onRemove(i),
                     ),
                   ],
@@ -245,7 +246,7 @@ class _NotesCard extends StatelessWidget {
               ),
             TextButton.icon(
               onPressed: onAdd,
-              icon: const Icon(Icons.add, size: 18),
+              icon: const Icon(PhosphorIcons.plus, size: 18),
               label: const Text('Thêm ghi chú'),
             ),
           ],
@@ -297,7 +298,7 @@ class _MemoryFactsCard extends ConsumerWidget {
                   title: Text(fact.factKey, style: const TextStyle(fontWeight: FontWeight.w600)),
                   subtitle: Text(fact.factValue),
                   trailing: IconButton(
-                    icon: const Icon(Icons.delete_outline, color: Colors.red, size: 20),
+                    icon: const Icon(PhosphorIcons.trash, color: Colors.red, size: 20),
                     onPressed: () =>
                         ref.read(aiMemoryNotifierProvider.notifier).deleteFact(fact.factKey),
                   ),
@@ -308,7 +309,7 @@ class _MemoryFactsCard extends ConsumerWidget {
         const SizedBox(height: 12),
         OutlinedButton.icon(
           onPressed: () => _confirmClearAll(context, ref),
-          icon: const Icon(Icons.delete_sweep_outlined, color: Colors.red),
+          icon: const Icon(PhosphorIcons.trash, color: Colors.red),
           label: const Text('Xoá toàn bộ bộ nhớ', style: TextStyle(color: Colors.red)),
           style: OutlinedButton.styleFrom(
             side: const BorderSide(color: Colors.red),

@@ -6,6 +6,7 @@ import 'package:deutschtiger/core/theme/app_tokens.dart';
 import 'package:deutschtiger/view_models/providers.dart';
 
 import 'widgets/social_avatar.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Duel room lobby — UI shell only (web parity: `duel-lobby-page.tsx` +
 /// `duel-lobby.tsx`, room-code card, host/guest player cards, invite CTA).
@@ -33,7 +34,7 @@ class DuelLobbyPage extends ConsumerWidget {
               child: Row(
                 children: [
                   IconButton(
-                    icon: const Icon(Icons.arrow_back),
+                    icon: const Icon(PhosphorIcons.arrowLeft),
                     onPressed: () => context.pop(),
                   ),
                   Text(
@@ -117,7 +118,7 @@ class DuelLobbyPage extends ConsumerWidget {
                                   ),
                                 ),
                                 alignment: Alignment.center,
-                                child: Icon(Icons.add, color: tokens.mutedForeground),
+                                child: Icon(PhosphorIcons.plus, color: tokens.mutedForeground),
                               ),
                               const SizedBox(height: 8),
                               Text(

@@ -8,6 +8,7 @@ import 'package:deutschtiger/widgets/common/async_state_views.dart';
 import 'package:deutschtiger/data/youtube/video_library.dart';
 import 'package:deutschtiger/view_models/youtube/youtube_provider.dart';
 import 'package:deutschtiger/screens/youtube/widgets/group_progress_tile.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Tracker của một "video library" (bộ sưu tập video biên tập sẵn theo
 /// slug — vd Sprechen B1/B2): danh sách nhóm + tiến độ, bấm nhóm → danh sách
@@ -202,7 +203,7 @@ class _GroupVideoList extends ConsumerWidget {
                         ),
                       ),
                       if (v.isCompleted)
-                        Icon(Icons.check_circle, color: context.tokens.success, size: 22),
+                        Icon(PhosphorIcons.checkCircle, color: context.tokens.success, size: 22),
                     ],
                   ),
                 ),

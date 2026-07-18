@@ -10,6 +10,7 @@ import '../../../core/theme/app_tokens.dart';
 import '../../../shared/widgets/back_button.dart';
 import 'grammar_level_widgets.dart';
 import 'grammar_provider.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Bài đọc ngữ pháp dài (markdown tĩnh, `data/grammar/articles/{level}/{slug}.md`)
 /// — web parity `grammar-article-page.tsx`: level pill, "Nguồn: deutsch.vn",
@@ -106,7 +107,7 @@ class _GrammarArticleScreenState extends ConsumerState<GrammarArticleScreen> {
                     TextButton.icon(
                       onPressed: () => Navigator.of(context).maybePop(),
                       icon: Icon(
-                        Icons.arrow_back,
+                        PhosphorIcons.arrowLeft,
                         size: 16,
                         color: tokens.mutedForeground,
                       ),
@@ -196,7 +197,7 @@ class _CompleteChip extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Icon(
-                    Icons.check,
+                    PhosphorIcons.check,
                     size: 16,
                     color: completed ? tokens.success : Colors.white,
                   ),

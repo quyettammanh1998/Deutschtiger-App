@@ -9,6 +9,7 @@ import 'package:deutschtiger/widgets/interview/transcript_panel.dart';
 import 'package:deutschtiger/l10n/app_localizations.dart';
 import 'package:deutschtiger/view_models/youtube/youtube_provider.dart';
 import 'package:deutschtiger/data/youtube/youtube_video.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Màn xem video YouTube (tracker cá nhân) — web parity `youtube-watch-page.tsx`.
 ///
@@ -136,7 +137,7 @@ class _YouTubeWatchScreenState extends ConsumerState<YouTubeWatchScreen> {
                   TextButton.icon(
                     onPressed: () => context.pop(),
                     icon: Icon(
-                      Icons.arrow_back,
+                      PhosphorIcons.arrowLeft,
                       size: 16,
                       color: tokens.mutedForeground,
                     ),
@@ -164,7 +165,7 @@ class _YouTubeWatchScreenState extends ConsumerState<YouTubeWatchScreen> {
                         ),
                         onPressed: _completing ? null : _markComplete,
                         icon: Icon(
-                          video.isCompleted ? Icons.replay : Icons.check_circle,
+                          video.isCompleted ? PhosphorIcons.arrowCounterClockwise : PhosphorIcons.checkCircle,
                         ),
                         label: Text(
                           video.isCompleted
@@ -201,7 +202,7 @@ class _YouTubeWatchScreenState extends ConsumerState<YouTubeWatchScreen> {
                         Expanded(
                           child: OutlinedButton.icon(
                             onPressed: () => _openPractice('dictation'),
-                            icon: const Icon(Icons.edit_note, size: 18),
+                            icon: const Icon(PhosphorIcons.note, size: 18),
                             label: Text(l10n.dictationActivityFullTitle),
                           ),
                         ),
@@ -209,7 +210,7 @@ class _YouTubeWatchScreenState extends ConsumerState<YouTubeWatchScreen> {
                         Expanded(
                           child: OutlinedButton.icon(
                             onPressed: () => _openPractice('shadowing'),
-                            icon: const Icon(Icons.record_voice_over, size: 18),
+                            icon: const Icon(PhosphorIcons.microphoneStage, size: 18),
                             label: Text(l10n.youtubePracticeShadowing),
                           ),
                         ),
@@ -218,7 +219,7 @@ class _YouTubeWatchScreenState extends ConsumerState<YouTubeWatchScreen> {
                     const SizedBox(height: 16),
                     _SectionToggle(
                       label: l10n.youtubeTranscriptLabel,
-                      icon: Icons.subtitles,
+                      icon: PhosphorIcons.closedCaptioning,
                       expanded: _showTranscript,
                       onTap: () =>
                           setState(() => _showTranscript = !_showTranscript),
@@ -234,7 +235,7 @@ class _YouTubeWatchScreenState extends ConsumerState<YouTubeWatchScreen> {
                     const SizedBox(height: 8),
                     _SectionToggle(
                       label: l10n.youtubeNotesLabel,
-                      icon: Icons.note_alt,
+                      icon: PhosphorIcons.note,
                       expanded: _showNotes,
                       onTap: () => setState(() => _showNotes = !_showNotes),
                     ),
@@ -292,7 +293,7 @@ class _SectionToggle extends StatelessWidget {
             ),
             const Spacer(),
             Icon(
-              expanded ? Icons.expand_less : Icons.expand_more,
+              expanded ? PhosphorIcons.caretUp : PhosphorIcons.caretDown,
               size: 18,
               color: tokens.mutedForeground,
             ),

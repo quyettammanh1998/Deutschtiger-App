@@ -8,6 +8,7 @@ import '../../../../shared/widgets/speak_button.dart';
 import '../../../../shared/widgets/save_card_button.dart';
 import '../../domain/vocabulary_models.dart';
 import '../vocabulary_word_screen.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Hero card at the top of vocabulary detail — headword + IPA + Vietnamese
 /// translation + SpeakButton.
@@ -66,7 +67,7 @@ class _VocabHeroCardState extends State<VocabHeroCard> {
                   IconButton(
                     onPressed: () => setState(() => _showBack = false),
                     tooltip: l10n.flipVocabularyCard,
-                    icon: const Icon(Icons.flip),
+                    icon: const Icon(PhosphorIcons.arrowsClockwise),
                   ),
                 ],
               )
@@ -125,7 +126,7 @@ class _VocabHeroCardState extends State<VocabHeroCard> {
                       IconButton(
                         onPressed: () => setState(() => _showBack = true),
                         tooltip: l10n.flipVocabularyCard,
-                        icon: const Icon(Icons.flip),
+                        icon: const Icon(PhosphorIcons.arrowsClockwise),
                       ),
                       SpeakButton(
                         text: item.contentDe,
@@ -316,7 +317,7 @@ class VocabPracticeButtons extends StatelessWidget {
         Expanded(
           child: OutlinedButton.icon(
             onPressed: () => context.push('/games/flashcards'),
-            icon: const Icon(Icons.style),
+            icon: const Icon(PhosphorIcons.cards),
             label: Text(l10n.flashcardPractice),
             style: OutlinedButton.styleFrom(
               foregroundColor: DesignTokens.tigerOrange,
@@ -329,7 +330,7 @@ class VocabPracticeButtons extends StatelessWidget {
         Expanded(
           child: FilledButton.icon(
             onPressed: () => context.push('/games/word-sprint'),
-            icon: const Icon(Icons.speed),
+            icon: const Icon(PhosphorIcons.gauge),
             label: Text(l10n.practice),
             style: FilledButton.styleFrom(
               backgroundColor: DesignTokens.tigerOrange,

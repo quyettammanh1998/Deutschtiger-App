@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../core/theme/app_tokens.dart';
 import '../../../widgets/common/game_shell.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Speaking Practice game - Luyện nói với microphone.
 ///
@@ -126,7 +127,7 @@ class _SpeakingGameScreenState extends State<SpeakingGameScreen>
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Icon(Icons.star, size: 16, color: Colors.pink),
+                  const Icon(PhosphorIcons.star, size: 16, color: Colors.pink),
                   const SizedBox(width: 4),
                   Text('$_score',
                       style: const TextStyle(
@@ -231,7 +232,7 @@ class _SpeakingGameScreenState extends State<SpeakingGameScreen>
                     ],
                   ),
                   child: Icon(
-                    _isRecording ? Icons.stop : Icons.mic,
+                    _isRecording ? PhosphorIcons.stop : PhosphorIcons.microphone,
                     size: 48,
                     color: Colors.white,
                   ),
@@ -325,7 +326,7 @@ class _SpeakingGameScreenState extends State<SpeakingGameScreen>
                 shape: BoxShape.circle,
                 color: Colors.pink.shade100,
               ),
-              child: const Icon(Icons.mic, size: 40, color: Colors.pink),
+              child: const Icon(PhosphorIcons.microphone, size: 40, color: Colors.pink),
             ),
             const SizedBox(height: 16),
             Text(

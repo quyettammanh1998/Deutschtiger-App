@@ -10,6 +10,7 @@ import '../../view_models/journey/journey_provider.dart';
 import '../../widgets/common/async_state_views.dart';
 import 'widgets/course_lesson_body.dart';
 import 'widgets/course_lesson_strip.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 const _freeLessonLimit = 5;
 
@@ -112,7 +113,7 @@ class _LessonContent extends ConsumerWidget {
               children: [
                 IconButton(
                   onPressed: () => context.canPop() ? context.pop() : context.go('/course/$slug'),
-                  icon: Icon(Icons.arrow_back, color: tokens.foreground),
+                  icon: Icon(PhosphorIcons.arrowLeft, color: tokens.foreground),
                   padding: EdgeInsets.zero,
                   constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
                 ),

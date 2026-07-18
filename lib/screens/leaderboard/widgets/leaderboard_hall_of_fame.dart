@@ -5,6 +5,7 @@ import '../../../core/icons/app_phosphor_icons.dart';
 import '../../../core/theme/app_tokens.dart';
 import '../../../data/leaderboard/hall_of_fame_entry.dart';
 import '../../../l10n/app_localizations.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 const _medalColors = {
   1: (bg: Color(0xFFFEF3C7), fg: Color(0xFFD97706)),
@@ -115,7 +116,7 @@ class _MedalCard extends StatelessWidget {
                 ),
               )
             else
-              Icon(Icons.star, size: 16, color: colors.fg),
+              Icon(PhosphorIcons.star, size: 16, color: colors.fg),
             const SizedBox(height: 4),
             Text(
               entry.displayName,

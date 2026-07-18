@@ -13,6 +13,7 @@ import 'widgets/vocabulary_level_tab.dart';
 import 'widgets/vocabulary_tip_card.dart';
 import 'widgets/vocabulary_topic_tab.dart';
 import 'widgets/vocabulary_word_sprint_card.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// `/vocabulary` hub — web parity: `vocabulary-page.tsx`. 4-tab gradient
 /// segmented control (🎯 mục tiêu / 🧭 cấp độ / 📚 chủ đề / ⭐ của tôi) over
@@ -113,7 +114,7 @@ class _Header extends StatelessWidget {
             onPressed: () => Navigator.of(context).canPop()
                 ? Navigator.of(context).pop()
                 : context.go('/home'),
-            icon: const Icon(Icons.arrow_back),
+            icon: const Icon(PhosphorIcons.arrowLeft),
           ),
           Expanded(
             child: Column(
@@ -130,7 +131,7 @@ class _Header extends StatelessWidget {
           IconButton(
             tooltip: l10n.subtitleWordsTitle,
             onPressed: () => context.push('/subtitle-words'),
-            icon: const Icon(Icons.subtitles_outlined),
+            icon: const Icon(PhosphorIcons.closedCaptioning),
           ),
         ],
       ),

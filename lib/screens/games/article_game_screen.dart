@@ -10,6 +10,7 @@ import '../../data/games/learning_item_models.dart';
 import '../../view_models/games/learning_item_provider.dart';
 import '../../widgets/common/async_state_views.dart';
 import '../../widgets/common/game_shell.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 // Web (`artikel-game-page.tsx`) derives the level automatically from
 // `usePreferences().effective.cefr_level` (no manual picker on-screen).
@@ -252,15 +253,15 @@ class _ArticleGameScreenState extends ConsumerState<ArticleGameScreen>
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              _StatBadge(icon: Icons.star, value: '$_score', color: Colors.amber),
+              _StatBadge(icon: PhosphorIcons.star, value: '$_score', color: Colors.amber),
               _StatBadge(
-                icon: Icons.check_circle,
+                icon: PhosphorIcons.checkCircle,
                 value: '$_correct/$_total',
                 color: Colors.green,
               ),
               if (_streak > 0)
                 _StatBadge(
-                  icon: Icons.local_fire_department,
+                  icon: PhosphorIcons.fire,
                   value: 'x$_streak',
                   color: Colors.orange,
                 ),
@@ -388,7 +389,7 @@ class _ArticleGameScreenState extends ConsumerState<ArticleGameScreen>
                   ),
                 ),
                 child: Icon(
-                  accuracy >= 70 ? Icons.emoji_events : Icons.refresh,
+                  accuracy >= 70 ? PhosphorIcons.trophy : PhosphorIcons.arrowClockwise,
                   size: 50,
                   color: Colors.white,
                 ),
@@ -470,7 +471,7 @@ class _TimerBadge extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Icon(
-            Icons.timer,
+            PhosphorIcons.timer,
             size: 18,
             color: isWarning ? Colors.white : Colors.white.withValues(alpha: 0.9),
           ),

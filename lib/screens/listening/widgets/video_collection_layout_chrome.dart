@@ -4,6 +4,7 @@ import 'package:deutschtiger/core/theme/app_tokens.dart';
 import 'package:deutschtiger/l10n/app_localizations.dart';
 
 import 'video_collection_models.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Widget "chrome" nhỏ dùng trong [VideoCollectionLayout] (breadcrumb, header
 /// card, ô tìm kiếm, tab bar, empty/error state) — tách riêng để giữ file
@@ -20,11 +21,11 @@ class VideoCollectionBreadcrumb extends StatelessWidget {
       children: [
         InkWell(
           onTap: () => context.canPop() ? context.pop() : context.go('/listening'),
-          child: Icon(Icons.arrow_back, size: 18, color: tokens.mutedForeground),
+          child: Icon(PhosphorIcons.arrowLeft, size: 18, color: tokens.mutedForeground),
         ),
         const SizedBox(width: 6),
         Text(AppLocalizations.of(context).listeningPageTitle, style: TextStyle(fontSize: 12, color: tokens.mutedForeground)),
-        Icon(Icons.chevron_right, size: 14, color: tokens.mutedForeground),
+        Icon(PhosphorIcons.caretRight, size: 14, color: tokens.mutedForeground),
         Flexible(
           child: Text(
             label,
@@ -103,7 +104,7 @@ class VideoCollectionSearchField extends StatelessWidget {
         decoration: InputDecoration(
           hintText: hint,
           hintStyle: TextStyle(fontSize: 13, color: tokens.mutedForeground),
-          prefixIcon: Icon(Icons.search, size: 18, color: tokens.mutedForeground),
+          prefixIcon: Icon(PhosphorIcons.magnifyingGlass, size: 18, color: tokens.mutedForeground),
           border: InputBorder.none,
           contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
         ),

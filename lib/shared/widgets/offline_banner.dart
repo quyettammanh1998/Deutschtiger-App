@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../core/design_tokens.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Yellow/amber banner shown at the top of the screen when the device is
 /// offline. Drop in at the top of any `Scaffold` body or inside a column.
@@ -8,7 +9,7 @@ class OfflineBanner extends StatelessWidget {
   const OfflineBanner({
     super.key,
     required this.message,
-    this.icon = Icons.wifi_off_rounded,
+    this.icon = PhosphorIcons.wifiSlash,
   });
 
   final String message;

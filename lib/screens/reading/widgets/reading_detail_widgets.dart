@@ -5,6 +5,7 @@ import '../../../core/theme/app_tokens.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../shared/widgets/tappable_sentence.dart';
 import '../../../data/reading/reading_models.dart' show ReadingParagraph;
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Audio bar cho bài đọc — phát/tạm dừng + tiến trình (0..1) từ audio player.
 class ReadingAudioBar extends StatelessWidget {
@@ -38,7 +39,7 @@ class ReadingAudioBar extends StatelessWidget {
         children: [
           IconButton.filled(
             onPressed: onPlayPause,
-            icon: Icon(isPlaying ? Icons.pause : Icons.play_arrow),
+            icon: Icon(isPlaying ? PhosphorIcons.pause : PhosphorIcons.play),
             style: IconButton.styleFrom(
               backgroundColor: DesignTokens.tigerOrange,
               foregroundColor: tokens.card,
@@ -70,7 +71,7 @@ class ReadingAudioBar extends StatelessWidget {
           ),
           const SizedBox(width: DesignTokens.spacingSm),
           IconButton(
-            icon: const Icon(Icons.speed),
+            icon: const Icon(PhosphorIcons.gauge),
             tooltip: AppLocalizations.of(context).readingAudioSpeedTooltip,
             onPressed: () {},
           ),

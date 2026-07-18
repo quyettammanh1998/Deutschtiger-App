@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'welcome_hero_phone_mock.dart';
 import 'welcome_palette.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Hero — mirrors `welcome-hero-section.tsx`: live/rating pills, Grandstander
 /// display headline "Chơi. Học. Đỗ!", sub copy, primary+secondary CTA, mini
@@ -52,7 +53,7 @@ class WelcomeHeroSection extends StatelessWidget {
           const Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(Icons.check_circle, size: 16, color: WelPalette.green500),
+              Icon(PhosphorIcons.checkCircle, size: 16, color: WelPalette.green500),
               SizedBox(width: 6),
               Flexible(
                 child: Text(
@@ -237,7 +238,7 @@ class _PrimaryCta extends StatelessWidget {
                 children: [
                   Text('Bắt đầu hành trình', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w800, fontSize: 15)),
                   SizedBox(width: 10),
-                  Icon(Icons.arrow_forward, size: 16, color: Colors.white),
+                  Icon(PhosphorIcons.arrowRight, size: 16, color: Colors.white),
                 ],
               ),
             ),
@@ -272,7 +273,7 @@ class _SecondaryCta extends StatelessWidget {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  CircleAvatar(radius: 11, backgroundColor: WelPalette.ink, child: Icon(Icons.play_arrow, size: 12, color: Colors.white)),
+                  CircleAvatar(radius: 11, backgroundColor: WelPalette.ink, child: Icon(PhosphorIcons.play, size: 12, color: Colors.white)),
                   SizedBox(width: 10),
                   Text('Xem cách học', style: TextStyle(color: WelPalette.ink, fontWeight: FontWeight.w700, fontSize: 14)),
                 ],

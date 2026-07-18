@@ -10,6 +10,7 @@ import 'widgets/feedback_sheet.dart';
 import 'widgets/profile_edit_card.dart';
 import 'widgets/settings_app_only_section.dart';
 import 'widgets/settings_tiles.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Cài đặt root — web parity: `settings-page.tsx`. Order: back+title+
 /// subtitle header, [ProfileEditCard], nav-rows card (learning goals /
@@ -33,7 +34,7 @@ class SettingsScreen extends ConsumerWidget {
             Row(
               children: [
                 IconButton(
-                  icon: Icon(Icons.arrow_back, color: tokens.foreground),
+                  icon: Icon(PhosphorIcons.arrowLeft, color: tokens.foreground),
                   tooltip: MaterialLocalizations.of(context).backButtonTooltip,
                   onPressed: () => context.pop(),
                 ),
@@ -65,33 +66,33 @@ class SettingsScreen extends ConsumerWidget {
             SettingsNavRowCard(
               children: [
                 SettingsNavRow(
-                  icon: Icons.school_outlined,
+                  icon: PhosphorIcons.graduationCap,
                   label: l10n.learningPreferencesTitle,
                   onTap: () => context.push('/settings/learning-preferences'),
                 ),
                 SettingsNavRow(
-                  icon: Icons.dark_mode_outlined,
+                  icon: PhosphorIcons.moon,
                   label: l10n.appearance,
                   onTap: () => context.push('/settings/appearance'),
                 ),
                 SettingsNavRow(
-                  icon: Icons.notifications_outlined,
+                  icon: PhosphorIcons.bell,
                   label: l10n.notificationPreferencesTitle,
                   onTap: () => context.push('/settings/notifications'),
                 ),
                 SettingsNavRow(
-                  icon: Icons.lock_outline,
+                  icon: PhosphorIcons.lock,
                   label: l10n.changePassword,
                   onTap: () => context.push('/settings/security'),
                 ),
                 if (ReleaseFeatureFlags.aiTutor)
                   SettingsNavRow(
-                    icon: Icons.auto_awesome_outlined,
+                    icon: PhosphorIcons.sparkle,
                     label: l10n.aiMemorySettings,
                     onTap: () => context.push('/settings/ai-memory'),
                   ),
                 SettingsNavRow(
-                  icon: Icons.system_update_outlined,
+                  icon: PhosphorIcons.downloadSimple,
                   label: l10n.checkForUpdates,
                   onTap: () => context.push('/settings/app-update'),
                 ),
@@ -105,7 +106,7 @@ class SettingsScreen extends ConsumerWidget {
             SettingsNavRowCard(
               children: [
                 SettingsNavRow(
-                  icon: Icons.rate_review_outlined,
+                  icon: PhosphorIcons.chatText,
                   label: l10n.sendFeedback,
                   onTap: () => showFeedbackSheet(context),
                 ),
@@ -116,7 +117,7 @@ class SettingsScreen extends ConsumerWidget {
             SettingsNavRowCard(
               children: [
                 SettingsNavRow(
-                  icon: Icons.logout,
+                  icon: PhosphorIcons.signOut,
                   label: l10n.signOut,
                   destructive: true,
                   onTap: () => _confirmLogout(context, ref),

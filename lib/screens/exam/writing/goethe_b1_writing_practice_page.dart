@@ -9,6 +9,7 @@ import '../../../features/writing/presentation/writing_practice_panel.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../widgets/common/async_state_views.dart';
 import 'widgets/practice/practice_prompt_card.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// `goethe-b1-writing-practice` (`.../:teilNum/:slug/practice`) — a thin
 /// wrapper around W1's [WritingPracticePanel]. Web parity
@@ -50,7 +51,7 @@ class GoetheB1WritingPracticePage extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     IconButton(
-                      icon: const Icon(Icons.arrow_back),
+                      icon: const Icon(PhosphorIcons.arrowLeft),
                       onPressed: () => context.pop(),
                     ),
                     Text(l10n.writingPracticeNotFound,
@@ -65,7 +66,7 @@ class GoetheB1WritingPracticePage extends ConsumerWidget {
                 Row(
                   children: [
                     IconButton(
-                      icon: const Icon(Icons.arrow_back),
+                      icon: const Icon(PhosphorIcons.arrowLeft),
                       onPressed: () => context.pop(),
                     ),
                     Expanded(

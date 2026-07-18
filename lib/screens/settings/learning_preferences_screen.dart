@@ -9,6 +9,7 @@ import '../../view_models/settings/learning_preferences_provider.dart';
 import '../../widgets/common/async_state_views.dart';
 import 'widgets/review_display_card.dart';
 import 'widgets/settings_tiles.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Mục tiêu học tập — web parity: `settings-learning-page.tsx`
 /// (`SettingsLearningPreferencesSection` + `SettingsReviewDisplaySection`).
@@ -63,7 +64,7 @@ class LearningPreferencesScreen extends ConsumerWidget {
                   Row(
                     children: [
                       IconButton(
-                        icon: Icon(Icons.arrow_back, color: tokens.foreground),
+                        icon: Icon(PhosphorIcons.arrowLeft, color: tokens.foreground),
                         onPressed: () => context.pop(),
                       ),
                       const SizedBox(width: 4),

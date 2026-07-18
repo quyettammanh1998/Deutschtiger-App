@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/theme/app_tokens.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Breadcrumb + header card — web parity `listening-breadcrumb.tsx` +
 /// `VideoCollectionLayout` header row (`rounded-xl border bg-card px-4 py-3`).
@@ -22,7 +23,7 @@ class MediaBreadcrumb extends StatelessWidget {
           if (i > 0)
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 4),
-              child: Icon(Icons.chevron_right, size: 14, color: tokens.mutedForeground),
+              child: Icon(PhosphorIcons.caretRight, size: 14, color: tokens.mutedForeground),
             ),
           if (items[i].$2 != null)
             GestureDetector(
@@ -84,7 +85,7 @@ class MediaHeaderCard extends StatelessWidget {
             IconButton(
               padding: EdgeInsets.zero,
               constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
-              icon: Icon(Icons.arrow_back, size: 18, color: tokens.mutedForeground),
+              icon: Icon(PhosphorIcons.arrowLeft, size: 18, color: tokens.mutedForeground),
               onPressed: onBack,
             ),
           Container(

@@ -5,6 +5,7 @@ import '../../../../core/theme/app_tokens.dart';
 import '../../../../data/exam/exam_ecosystem_models.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../../repositories/exam/exam_registration_repository.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 const examLevelOptions = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
 const examTypeOptions = ['goethe', 'telc', 'osd', 'testdaf_dsh', 'ecl'];
@@ -81,7 +82,7 @@ class _RegistrationFormSheetState extends ConsumerState<RegistrationFormSheet> {
               contentPadding: EdgeInsets.zero,
               title: Text(l10n.examDateLabel),
               subtitle: Text(_date.toIso8601String().split('T').first),
-              trailing: const Icon(Icons.calendar_today),
+              trailing: const Icon(PhosphorIcons.calendarBlank),
               onTap: () async {
                 final picked = await showDatePicker(
                   context: context,

@@ -11,6 +11,7 @@ import '../../data/reading/reading_models.dart';
 import '../../shared/widgets/skeleton_loader.dart';
 import 'widgets/reading_leaderboard.dart';
 import 'widgets/reading_level_theme.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Reading Hub — nguồn `GET /reading/articles` (tất cả level, 1 request).
 ///
@@ -87,7 +88,7 @@ class _ReadingHubScreenState extends ConsumerState<ReadingHubScreen> {
                               border: Border.all(color: tokens.border),
                             ),
                             child: Icon(
-                              Icons.arrow_back_ios_new,
+                              PhosphorIcons.caretLeft,
                               size: 18,
                               color: tokens.mutedForeground,
                             ),
@@ -372,7 +373,7 @@ class _LevelCard extends StatelessWidget {
                           ),
                         ),
                         if (allDone)
-                          const Icon(Icons.check, color: Colors.white, size: 18)
+                          const Icon(PhosphorIcons.check, color: Colors.white, size: 18)
                         else
                           FittedBox(
                             fit: BoxFit.scaleDown,
@@ -641,7 +642,7 @@ class _ReadingLevelDetailState extends State<_ReadingLevelDetail> {
           onChanged: (v) => setState(() => _query = v),
           decoration: InputDecoration(
             hintText: l10n.readingSearchHintInLevel(widget.level),
-            prefixIcon: const Icon(Icons.search, size: 18),
+            prefixIcon: const Icon(PhosphorIcons.magnifyingGlass, size: 18),
             filled: true,
             fillColor: tokens.card,
             contentPadding: const EdgeInsets.symmetric(vertical: 10),
@@ -728,7 +729,7 @@ class _ArticleRow extends StatelessWidget {
                 shape: BoxShape.circle,
               ),
               child: done
-                  ? const Icon(Icons.check, size: 16, color: Color(0xFF059669))
+                  ? const Icon(PhosphorIcons.check, size: 16, color: Color(0xFF059669))
                   : Text(
                       '$index',
                       style: TextStyle(
@@ -749,7 +750,7 @@ class _ArticleRow extends StatelessWidget {
                 ),
               ),
             ),
-            Icon(Icons.chevron_right, size: 18, color: tokens.mutedForeground),
+            Icon(PhosphorIcons.caretRight, size: 18, color: tokens.mutedForeground),
           ],
         ),
       ),

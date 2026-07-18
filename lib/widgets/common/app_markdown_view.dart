@@ -4,6 +4,7 @@ import 'package:markdown_widget/markdown_widget.dart';
 
 import '../../core/theme/app_tokens.dart';
 import '../../view_models/providers.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Shared markdown renderer wrapping `markdown_widget` with app-token
 /// colors so both grammar (P6) and media/reading (P11) content render
@@ -204,7 +205,7 @@ class _AudioLinkTile extends ConsumerWidget {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(Icons.play_circle_fill, color: tokens.primary, size: 20),
+                Icon(PhosphorIcons.playCircle, color: tokens.primary, size: 20),
                 const SizedBox(width: 8),
                 Flexible(
                   child: Text(

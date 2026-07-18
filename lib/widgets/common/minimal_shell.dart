@@ -14,6 +14,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/design_tokens.dart';
 import '../../core/theme/app_tokens.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Widget tiện ích: bọc nội dung trong minimal frame.
 class MinimalShell extends ConsumerWidget {
@@ -46,7 +47,7 @@ class MinimalShell extends ConsumerWidget {
           scrolledUnderElevation: 0.5,
           leading: showBack
               ? IconButton(
-                  icon: const Icon(Icons.arrow_back, size: 20),
+                  icon: const Icon(PhosphorIcons.arrowLeft, size: 20),
                   onPressed: () => Navigator.of(context).maybePop(),
                 )
               : null,

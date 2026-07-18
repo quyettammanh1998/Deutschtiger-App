@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../core/theme/app_tokens.dart';
 import '../../../../l10n/app_localizations.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// "Việc cần làm" quick-links card — mirrors web `exam-readiness-page.tsx`.
 /// Only the due-review link is wired: the web's second bullet ("từ thi sai
@@ -44,7 +45,7 @@ class ReadinessTodoCard extends StatelessWidget {
               onTap: () => context.push('/focus-session'),
               child: Row(
                 children: [
-                  Icon(Icons.circle, size: 8, color: tokens.warning),
+                  Icon(PhosphorIcons.circle, size: 8, color: tokens.warning),
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text.rich(

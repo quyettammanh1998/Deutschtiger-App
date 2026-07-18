@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_tokens.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Chi tiết từ vựng - sync từ web vocabulary-item-detail.tsx
 class VocabularyDetailPanel extends StatelessWidget {
@@ -169,7 +170,7 @@ class _WordHeading extends StatelessWidget {
                 borderRadius: BorderRadius.circular(12),
               ),
               child: const Icon(
-                Icons.volume_up_rounded,
+                PhosphorIcons.speakerHigh,
                 color: AppColors.tigerOrange,
               ),
             ),
@@ -411,7 +412,7 @@ class _ExamplesSection extends StatelessWidget {
                 GestureDetector(
                   onTap: onSpeakTap,
                   child: Icon(
-                    Icons.volume_up_outlined,
+                    PhosphorIcons.speakerHigh,
                     size: 18,
                     color: context.tokens.mutedForeground,
                   ),

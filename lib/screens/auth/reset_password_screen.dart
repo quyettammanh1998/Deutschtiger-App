@@ -8,6 +8,7 @@ import 'package:deutschtiger/widgets/common/tiger_logo.dart';
 import '../../l10n/app_localizations.dart';
 import 'widgets/auth_dark_glass_card.dart';
 import 'widgets/auth_dark_text_field.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 enum _PageState { loading, ready, success, error }
 
@@ -288,7 +289,7 @@ class _ResetForm extends StatelessWidget {
             validator: validatePassword,
             suffix: IconButton(
               icon: Icon(
-                obscurePassword ? Icons.visibility_off_outlined : Icons.visibility_outlined,
+                obscurePassword ? PhosphorIcons.eyeSlash : PhosphorIcons.eye,
                 color: const Color(0xFF9CA3AF),
                 size: 18,
               ),
@@ -307,7 +308,7 @@ class _ResetForm extends StatelessWidget {
             validator: validateConfirm,
             suffix: IconButton(
               icon: Icon(
-                obscureConfirm ? Icons.visibility_off_outlined : Icons.visibility_outlined,
+                obscureConfirm ? PhosphorIcons.eyeSlash : PhosphorIcons.eye,
                 color: const Color(0xFF9CA3AF),
                 size: 18,
               ),

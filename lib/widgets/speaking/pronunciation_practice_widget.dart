@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_tokens.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 class PronunciationPracticeWidget extends StatefulWidget {
   final String word;
@@ -145,7 +146,7 @@ class _PronunciationPracticeWidgetState extends State<PronunciationPracticeWidge
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Icon(
-                          _isPlaying ? Icons.pause : Icons.volume_up,
+                          _isPlaying ? PhosphorIcons.pause : PhosphorIcons.speakerHigh,
                           color: Colors.white,
                           size: 20,
                         ),
@@ -190,7 +191,7 @@ class _PronunciationPracticeWidgetState extends State<PronunciationPracticeWidge
                       ],
                     ),
                     child: Icon(
-                      _isRecording ? Icons.stop : Icons.mic,
+                      _isRecording ? PhosphorIcons.stop : PhosphorIcons.microphone,
                       color: Colors.white,
                       size: 32,
                     ),
@@ -232,13 +233,13 @@ class _PronunciationPracticeWidgetState extends State<PronunciationPracticeWidge
     IconData icon;
     if (_score >= 0.8) {
       color = Colors.green;
-      icon = Icons.star;
+      icon = PhosphorIcons.star;
     } else if (_score >= 0.6) {
       color = Colors.orange;
-      icon = Icons.thumb_up;
+      icon = PhosphorIcons.thumbsUp;
     } else {
       color = Colors.red;
-      icon = Icons.replay;
+      icon = PhosphorIcons.arrowCounterClockwise;
     }
 
     return Container(

@@ -9,6 +9,7 @@ import 'package:deutschtiger/l10n/app_localizations.dart';
 import 'package:deutschtiger/view_models/interview/transcript_provider.dart';
 import 'package:deutschtiger/view_models/youtube/youtube_provider.dart';
 import 'widgets/dictation_panel.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Nghe chép chính tả — web parity `youtube-dictation-page.tsx`. Nguồn câu là
 /// transcript đã có sẵn ([transcriptProvider], DE/VI theo segment) thay cho
@@ -61,7 +62,7 @@ class _YouTubeDictationScreenState extends ConsumerState<YouTubeDictationScreen>
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
               child: Row(
                 children: [
-                  IconButton(icon: const Icon(Icons.arrow_back), onPressed: () => context.pop()),
+                  IconButton(icon: const Icon(PhosphorIcons.arrowLeft), onPressed: () => context.pop()),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -90,7 +91,7 @@ class _YouTubeDictationScreenState extends ConsumerState<YouTubeDictationScreen>
                         ? l10n.youtubeDictationShowVideoTooltip
                         : l10n.youtubeDictationAudioOnlyTooltip,
                     icon: Icon(
-                      _hideVideo ? Icons.visibility_off : Icons.visibility,
+                      _hideVideo ? PhosphorIcons.eyeSlash : PhosphorIcons.eye,
                       size: 20,
                       color: tokens.mutedForeground,
                     ),

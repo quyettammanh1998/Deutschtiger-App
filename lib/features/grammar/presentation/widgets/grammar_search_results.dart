@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:deutschtiger/l10n/app_localizations.dart';
 import '../../../../core/theme/app_tokens.dart';
 import '../../../../data/grammar/grammar_models.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Danh sách kết quả tìm kiếm dùng chung cho `/grammar` (toàn bộ level) và
 /// level-detail (trong 1 level) — web parity: `card divide-y` list với hàng
@@ -88,7 +89,7 @@ class _ResultRow extends StatelessWidget {
                   shape: BoxShape.circle,
                 ),
                 child: Icon(
-                  done ? Icons.check : Icons.menu_book_outlined,
+                  done ? PhosphorIcons.check : PhosphorIcons.bookOpen,
                   color: done ? Colors.white : tokens.mutedForeground,
                   size: 16,
                 ),
@@ -124,7 +125,7 @@ class _ResultRow extends StatelessWidget {
                 ),
               ),
               Icon(
-                Icons.chevron_right,
+                PhosphorIcons.caretRight,
                 size: 18,
                 color: tokens.mutedForeground,
               ),

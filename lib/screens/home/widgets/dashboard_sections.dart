@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/design_tokens.dart';
 import '../../../../core/theme/app_tokens.dart';
 import '../../../../l10n/app_localizations.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Pill-style search bar shown at the top of the dashboard — taps through to
 /// the vocabulary hub search screen.
@@ -30,7 +31,7 @@ class DashboardSearchBar extends StatelessWidget {
         ),
         child: Row(
           children: [
-            Icon(Icons.search, color: tokens.mutedForeground, size: 20),
+            Icon(PhosphorIcons.magnifyingGlass, color: tokens.mutedForeground, size: 20),
             const SizedBox(width: DesignTokens.spacingSm + 4),
             Text(
               hint ?? l10n.searchVocabulary,
@@ -109,7 +110,7 @@ class _DashboardMissionsSectionState extends State<DashboardMissionsSection> {
                         turns: _collapsed ? 0.5 : 0,
                         duration: DesignTokens.durationFast,
                         child: Icon(
-                          Icons.keyboard_arrow_up_rounded,
+                          PhosphorIcons.caretUp,
                           size: 18,
                           color: tokens.mutedForeground,
                         ),
@@ -253,7 +254,7 @@ class DashboardMissionCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Icon(
-                done ? Icons.check_rounded : mission.icon,
+                done ? PhosphorIcons.check : mission.icon,
                 size: 16,
                 color: done ? DesignTokens.emerald600 : palette.text,
               ),

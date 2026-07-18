@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../core/design_tokens.dart';
 import '../../l10n/app_localizations.dart';
 import 'confetti_overlay.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Game / lesson end screen with score, accuracy, and two CTAs.
 ///
@@ -88,7 +89,7 @@ class _GameCompletionScreenState extends State<GameCompletionScreen>
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       const Icon(
-                        Icons.emoji_events_rounded,
+                        PhosphorIcons.trophy,
                         size: 56,
                         color: DesignTokens.warning,
                       ),
@@ -132,7 +133,7 @@ class _GameCompletionScreenState extends State<GameCompletionScreen>
                         width: double.infinity,
                         child: FilledButton.icon(
                           onPressed: widget.onPlayAgain,
-                          icon: const Icon(Icons.replay_rounded),
+                          icon: const Icon(PhosphorIcons.arrowCounterClockwise),
                           label: Text(l10n.playAgain),
                           style: FilledButton.styleFrom(
                             backgroundColor: DesignTokens.orange500,
@@ -146,7 +147,7 @@ class _GameCompletionScreenState extends State<GameCompletionScreen>
                         width: double.infinity,
                         child: OutlinedButton.icon(
                           onPressed: widget.onGoHome,
-                          icon: const Icon(Icons.home_outlined),
+                          icon: const Icon(PhosphorIcons.house),
                           label: Text(l10n.backToHome),
                           style: OutlinedButton.styleFrom(
                             foregroundColor: DesignTokens.orange500,

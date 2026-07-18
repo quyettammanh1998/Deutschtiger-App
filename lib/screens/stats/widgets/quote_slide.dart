@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:deutschtiger/core/theme/app_tokens.dart';
 import 'package:deutschtiger/data/stats/quote_model.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Accent sage green — web `#a8c686` (dots, quote-mark icon, category tag).
 const Color quoteSage = Color(0xFFA8C686);
@@ -99,7 +100,7 @@ class _QuoteCard extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 12),
-          Icon(Icons.format_quote, color: quoteSage, size: 24),
+          Icon(PhosphorIcons.quotes, color: quoteSage, size: 24),
           const SizedBox(height: 4),
           if (quote.contentDe != null && quote.contentDe!.isNotEmpty)
             Text(
@@ -139,7 +140,7 @@ class _QuoteCard extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Icon(
-                    Icons.keyboard_arrow_up,
+                    PhosphorIcons.caretUp,
                     size: 16,
                     color: tokens.mutedForeground.withValues(alpha: 0.5),
                   ),

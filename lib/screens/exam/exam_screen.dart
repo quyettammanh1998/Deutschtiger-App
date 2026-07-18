@@ -8,6 +8,7 @@ import '../../l10n/app_localizations.dart';
 import '../../view_models/settings/learning_preferences_provider.dart';
 import '../../widgets/announcements/announcement_banner.dart';
 import '../../widgets/common/app_button.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Web parity: `exam-landing-page.tsx` mobile view — back+title header,
 /// buddy-finder CTA, provider/level cards. The old inline catalog filter +
@@ -36,7 +37,7 @@ class ExamScreen extends ConsumerWidget {
               children: [
                 IconButton(
                   onPressed: () => context.pop(),
-                  icon: const Icon(Icons.arrow_back_rounded),
+                  icon: const Icon(PhosphorIcons.arrowLeft),
                   color: tokens.foreground,
                 ),
                 const SizedBox(width: 4),

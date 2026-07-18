@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/design_tokens.dart';
 import '../../domain/exam_models.dart';
 import 'question_mc.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 class QuestionAnzeigen extends StatelessWidget {
   const QuestionAnzeigen({
@@ -63,7 +64,7 @@ class QuestionAnzeigen extends StatelessWidget {
               errorBuilder: (context, error, stackTrace) =>
                   const _ImagePlaceholder(
                     child: Icon(
-                      Icons.broken_image_outlined,
+                      PhosphorIcons.imageBroken,
                       size: 32,
                       color: Colors.grey,
                     ),

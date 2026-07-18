@@ -10,6 +10,7 @@ import '../../../view_models/speech/sprechen_provider.dart';
 import '../../../view_models/speech/sprechen_session_provider.dart';
 import '../../../widgets/common/app_card.dart';
 import 'widgets/sprechen_topic_group_list.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Web parity: `sprechen-topic-list-page.tsx` (TELC) — same tag-group list
 /// as the Goethe topic list plus a diacritic-insensitive search box, see
@@ -86,7 +87,7 @@ class _SprechenTopicListPageState extends ConsumerState<SprechenTopicListPage> {
                     suffixIcon: _query.isEmpty
                         ? null
                         : IconButton(
-                            icon: const Icon(Icons.close, size: 16),
+                            icon: const Icon(PhosphorIcons.x, size: 16),
                             onPressed: () => setState(() {
                               _searchController.clear();
                               _query = '';

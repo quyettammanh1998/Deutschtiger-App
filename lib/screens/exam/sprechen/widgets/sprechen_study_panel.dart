@@ -4,6 +4,7 @@ import '../../../../core/theme/app_tokens.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../../shared/widgets/speak_button.dart';
 import '../../../../shared/widgets/tappable_sentence.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Web parity: `sprechen-study-panel.tsx` — renders the topic's study
 /// markdown (`GET /exams/official/sprechen-content`). Web splits this into
@@ -36,7 +37,7 @@ class SprechenStudyPanel extends StatelessWidget {
         ),
         child: Column(
           children: [
-            Icon(Icons.lock, color: tokens.warning, size: 28),
+            Icon(PhosphorIcons.lock, color: tokens.warning, size: 28),
             const SizedBox(height: 8),
             Text(
               AppLocalizations.of(context).sprechenStudyPanelLocked,

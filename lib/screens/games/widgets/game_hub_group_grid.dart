@@ -106,24 +106,28 @@ class _GameHubCardTile extends StatelessWidget {
               child: Icon(card.icon, color: Colors.white, size: 22),
             ),
             const SizedBox(height: 8),
-            Text(
-              card.title,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 13,
-                fontWeight: FontWeight.w600,
-                color: tokens.foreground,
+            Flexible(
+              child: Text(
+                card.title,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600,
+                  color: tokens.foreground,
+                ),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
               ),
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
             ),
             const SizedBox(height: 4),
-            Text(
-              card.description,
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 11, color: tokens.mutedForeground),
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
+            Flexible(
+              child: Text(
+                card.description,
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 11, color: tokens.mutedForeground),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
           ],
         ),

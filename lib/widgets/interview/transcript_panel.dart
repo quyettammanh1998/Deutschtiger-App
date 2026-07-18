@@ -6,6 +6,7 @@ import '../../../core/theme/app_tokens.dart';
 import 'package:deutschtiger/data/interview/transcript_models.dart';
 import 'package:deutschtiger/view_models/interview/transcript_provider.dart';
 import 'package:deutschtiger/shared/widgets/word_lookup_sheet.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Panel hien thi transcript cua video YouTube.
 /// Hien transcript voi tap-to-seek functionality.
@@ -61,7 +62,7 @@ class _TranscriptPanelState extends ConsumerState<TranscriptPanel> {
             child: Row(
               children: [
                 const Icon(
-                  Icons.subtitles,
+                  PhosphorIcons.closedCaptioning,
                   size: 18,
                   color: AppColors.tigerOrange,
                 ),
@@ -273,7 +274,7 @@ class _EmptyTranscriptView extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(Icons.subtitles_off, size: 40, color: context.tokens.muted),
+          Icon(PhosphorIcons.closedCaptioning, size: 40, color: context.tokens.muted),
           const SizedBox(height: 8),
           Text(
             'Không có transcript',
@@ -297,7 +298,7 @@ class _ErrorView extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(Icons.error_outline, size: 40, color: context.tokens.destructive),
+          Icon(PhosphorIcons.warning, size: 40, color: context.tokens.destructive),
           const SizedBox(height: 8),
           Text(
             'Lỗi: $error',

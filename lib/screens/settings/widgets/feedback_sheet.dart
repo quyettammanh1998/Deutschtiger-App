@@ -5,6 +5,7 @@ import '../../../core/design_tokens.dart';
 import '../../../core/theme/app_tokens.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../view_models/providers.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Feedback sheet — Phase 05 N6.
 ///
@@ -126,7 +127,7 @@ class _FeedbackSheetState extends ConsumerState<FeedbackSheet> {
               width: double.infinity,
               child: FilledButton.icon(
                 onPressed: _loading ? null : _submit,
-                icon: const Icon(Icons.send_outlined, size: 18),
+                icon: const Icon(PhosphorIcons.paperPlaneTilt, size: 18),
                 label: Text(l10n.sendAction),
                 style: FilledButton.styleFrom(
                   backgroundColor: DesignTokens.orange500,

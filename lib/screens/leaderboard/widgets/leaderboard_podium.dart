@@ -4,6 +4,7 @@ import '../../../core/icons/app_phosphor_icons.dart';
 import '../../../core/theme/app_tokens.dart';
 import '../leaderboard_screen.dart';
 import 'leaderboard_score_chips.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 const _podiumRing = {
   1: Color(0xFFC084FC),
@@ -111,7 +112,7 @@ class _PodiumAvatar extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           if (rank == 1)
-            const Icon(Icons.emoji_events, size: 20, color: Color(0xFFFBBF24)),
+            const Icon(PhosphorIcons.trophy, size: 20, color: Color(0xFFFBBF24)),
           Stack(
             clipBehavior: Clip.none,
             children: [

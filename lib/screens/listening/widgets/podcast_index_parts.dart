@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:deutschtiger/core/theme/app_tokens.dart';
 import 'package:deutschtiger/data/listening/podcast_models.dart';
 import 'package:deutschtiger/l10n/app_localizations.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Widget con của `EasyGermanPodcastPage` (stats box + episode row + bộ lọc
 /// duration) — tách riêng để giữ file trang chính dưới 200 dòng.
@@ -88,7 +89,7 @@ class PodcastEpisodeRow extends StatelessWidget {
               SizedBox(
                 width: 22,
                 child: completed
-                    ? const Icon(Icons.check, size: 16, color: Colors.green)
+                    ? const Icon(PhosphorIcons.check, size: 16, color: Colors.green)
                     : Text('${index + 1}', textAlign: TextAlign.center, style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: tokens.mutedForeground)),
               ),
               const SizedBox(width: 10),
@@ -100,7 +101,7 @@ class PodcastEpisodeRow extends StatelessWidget {
                     const SizedBox(height: 3),
                     Row(
                       children: [
-                        Icon(Icons.schedule, size: 12, color: tokens.mutedForeground),
+                        Icon(PhosphorIcons.clock, size: 12, color: tokens.mutedForeground),
                         const SizedBox(width: 3),
                         Text(formatPodcastDuration(episode.duration), style: TextStyle(fontSize: 11, color: tokens.mutedForeground)),
                         const SizedBox(width: 10),
@@ -114,7 +115,7 @@ class PodcastEpisodeRow extends StatelessWidget {
                 width: 32,
                 height: 32,
                 decoration: const BoxDecoration(color: purple600, shape: BoxShape.circle),
-                child: const Icon(Icons.play_arrow, color: Colors.white, size: 18),
+                child: const Icon(PhosphorIcons.play, color: Colors.white, size: 18),
               ),
             ],
           ),

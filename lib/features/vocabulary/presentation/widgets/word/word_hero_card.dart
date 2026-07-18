@@ -6,6 +6,7 @@ import '../../../../../shared/widgets/level_badge.dart';
 import '../../../../../shared/widgets/save_card_button.dart';
 import '../../../../../shared/widgets/speak_button.dart';
 import '../../../domain/vocabulary_models.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 Color _genderBarColor(String? gender) {
   switch (gender) {
@@ -136,7 +137,7 @@ class WordHeroCard extends ConsumerWidget {
                   const SizedBox(height: 12),
                   _ActionRow(
                     label: mastered ? 'Đã đánh dấu thuộc ✓' : 'Đã thuộc',
-                    icon: mastered ? Icons.check_circle_rounded : Icons.star_border_rounded,
+                    icon: mastered ? PhosphorIcons.checkCircle : PhosphorIcons.star,
                     loading: masteredPending,
                     tint: mastered ? const Color(0xFF10B981) : tokens.primary,
                     onTap: mastered || masteredPending ? null : onMarkMastered,
@@ -144,7 +145,7 @@ class WordHeroCard extends ConsumerWidget {
                   const SizedBox(height: 8),
                   _ActionRow(
                     label: youglishOpen ? 'Ẩn phát âm người bản xứ' : 'Nghe người bản xứ phát âm (video thật)',
-                    icon: Icons.travel_explore_rounded,
+                    icon: PhosphorIcons.globeHemisphereWest,
                     tint: const Color(0xFF10B981),
                     filled: youglishOpen,
                     onTap: onToggleYouglish,

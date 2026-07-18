@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/theme/app_tokens.dart';
 import '../../shared/widgets/confetti_overlay.dart';
 import '../../view_models/providers.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Modal để claim streak hàng ngày.
 class StreakClaimModal extends ConsumerStatefulWidget {
@@ -174,7 +175,7 @@ class _StreakClaimModalState extends ConsumerState<StreakClaimModal>
                               shape: BoxShape.circle,
                             ),
                             child: Icon(
-                              Icons.close,
+                              PhosphorIcons.x,
                               size: 18,
                               // Icon on a solid muted fill, not page text.
                               color: context.tokens.mutedForeground,
@@ -382,7 +383,7 @@ class _DayItem extends StatelessWidget {
           child: Center(
             child: isActive
                 ? Icon(
-                    Icons.local_fire_department,
+                    PhosphorIcons.fire,
                     size: 14,
                     color: day.isToday
                         ? context.tokens.primary

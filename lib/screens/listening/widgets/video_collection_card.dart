@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:deutschtiger/core/theme/app_tokens.dart';
 import 'package:deutschtiger/l10n/app_localizations.dart';
 import 'video_collection_models.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// 16:9 thumbnail card cho 1 video trong bộ sưu tập. Web parity:
 /// `components/listening/video-collection-card.tsx` (mobile = 1 cột).
@@ -121,7 +122,7 @@ class _StatusBadge extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Icon(
-            completed ? Icons.check : Icons.access_time,
+            completed ? PhosphorIcons.check : PhosphorIcons.clock,
             size: 10,
             color: Colors.white,
           ),

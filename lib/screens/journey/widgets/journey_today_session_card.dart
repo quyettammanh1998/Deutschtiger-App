@@ -6,6 +6,7 @@ import '../../../core/design_tokens.dart';
 import '../../../core/theme/app_tokens.dart';
 import '../../../features/mission/domain/mission_models.dart';
 import '../../../l10n/app_localizations.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// "Phiên hôm nay" card — mirrors web `today-session-card.tsx` (mobile):
 /// white card with a ☀️ heading, a progress bar and a full-width gradient
@@ -35,7 +36,7 @@ class TodaySessionCard extends StatelessWidget {
         padding: const EdgeInsets.all(DesignTokens.spacingMd),
         child: OutlinedButton.icon(
           onPressed: onRetry,
-          icon: const Icon(Icons.refresh),
+          icon: const Icon(PhosphorIcons.arrowClockwise),
           label: Text(l10n.retryTodaySession),
         ),
       ),

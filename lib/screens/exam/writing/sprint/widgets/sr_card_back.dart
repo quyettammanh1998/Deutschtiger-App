@@ -5,6 +5,7 @@ import '../../../../../features/writing/domain/sprint/sprint_types.dart';
 import '../../../../../features/writing/presentation/widgets/writing_audio_play_button.dart';
 import '../../../../../l10n/app_localizations.dart';
 import 'sr_rating_bar.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// SR card back face — match result + outline diff + audio + mini-model
 /// toggle + redemittel chips + rating bar. Web parity `sr-card-back.tsx`.
@@ -139,7 +140,7 @@ class _SrCardBackState extends State<SrCardBack> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(l10n.writingSprintMiniModelToggle, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: tokens.foreground)),
-                      Icon(_miniModelOpen ? Icons.expand_less : Icons.expand_more, color: tokens.mutedForeground),
+                      Icon(_miniModelOpen ? PhosphorIcons.caretUp : PhosphorIcons.caretDown, color: tokens.mutedForeground),
                     ],
                   ),
                 ),

@@ -111,7 +111,7 @@ class _GoetheB1WritingTopicListPageState
       children: [
         Row(
           children: [
-            IconButton(icon: const Icon(Icons.arrow_back), onPressed: () => context.pop()),
+            IconButton(icon: const Icon(PhosphorIcons.arrowLeft), onPressed: () => context.pop()),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

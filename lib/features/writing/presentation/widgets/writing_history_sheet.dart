@@ -5,6 +5,7 @@ import '../../../../core/theme/app_tokens.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../data/writing_repository.dart';
 import '../../domain/writing_submission.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Past-submission history bottom sheet for one `examId` — web parity
 /// `components/exam/history/writing-history-sheet.tsx`. Opened from the
@@ -61,7 +62,7 @@ class WritingHistorySheet extends ConsumerWidget {
                       ),
                     ),
                     IconButton(
-                      icon: const Icon(Icons.close),
+                      icon: const Icon(PhosphorIcons.x),
                       onPressed: () => Navigator.of(context).pop(),
                     ),
                   ],

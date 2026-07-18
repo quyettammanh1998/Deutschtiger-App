@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Achievement model.
 class Achievement {
@@ -42,7 +43,7 @@ final mockAchievements = [
     description: 'Complete your first login',
     titleVi: 'Bước chân đầu tiên',
     descriptionVi: 'Hoàn thành đăng nhập lần đầu',
-    icon: Icons.flag,
+    icon: PhosphorIcons.flag,
     color: Colors.blue,
     xpReward: 10,
     isUnlocked: true,
@@ -56,7 +57,7 @@ final mockAchievements = [
     description: 'Learn your first word',
     titleVi: 'Người sưu tập từ',
     descriptionVi: 'Học từ đầu tiên',
-    icon: Icons.abc,
+    icon: PhosphorIcons.textAa,
     color: Colors.green,
     xpReward: 20,
     isUnlocked: true,
@@ -70,7 +71,7 @@ final mockAchievements = [
     description: 'Learn 10 words',
     titleVi: 'Tân binh từ vựng',
     descriptionVi: 'Học 10 từ',
-    icon: Icons.menu_book,
+    icon: PhosphorIcons.bookOpen,
     color: Colors.teal,
     xpReward: 50,
     isUnlocked: true,
@@ -84,7 +85,7 @@ final mockAchievements = [
     description: 'Learn 100 words',
     titleVi: 'Bậc thầy từ vựng',
     descriptionVi: 'Học 100 từ',
-    icon: Icons.workspace_premium,
+    icon: PhosphorIcons.crown,
     color: Colors.amber,
     xpReward: 200,
     progress: 0.75,

@@ -9,6 +9,7 @@ import '../../widgets/common/async_state_views.dart';
 import 'exam_list_page.dart';
 import 'widgets/section/exam_bundle_row.dart';
 import 'widgets/section/exam_readiness_summary_card.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 const _providerLabels = {
   'telc': 'telc Deutsch',
@@ -60,7 +61,7 @@ class _TelcB1BundleChooser extends StatelessWidget {
               children: [
                 IconButton(
                   onPressed: () => context.pop(),
-                  icon: const Icon(Icons.arrow_back_rounded),
+                  icon: const Icon(PhosphorIcons.arrowLeft),
                   color: tokens.foreground,
                 ),
                 const SizedBox(width: 4),

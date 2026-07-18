@@ -5,6 +5,7 @@ import '../../../../../core/theme/app_tokens.dart';
 import '../../../../../features/writing/data/goethe_b1_writing_repository.dart';
 import '../../../../../l10n/app_localizations.dart';
 import '../../../../../view_models/providers.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Topic-list sidebar leaderboard — web parity
 /// `goethe-b1-writing-leaderboard.tsx`: top-10 + current-user row.
@@ -46,7 +47,7 @@ class WritingLeaderboardCard extends ConsumerWidget {
             children: [
               Row(
                 children: [
-                  const Icon(Icons.emoji_events, size: 16, color: Color(0xFFF59E0B)),
+                  const Icon(PhosphorIcons.trophy, size: 16, color: Color(0xFFF59E0B)),
                   const SizedBox(width: 6),
                   Text(
                     l10n.writingLeaderboardTitle(teil),

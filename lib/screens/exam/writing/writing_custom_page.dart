@@ -9,6 +9,7 @@ import '../../../features/writing/domain/writing_offering.dart';
 import '../../../features/writing/presentation/writing_practice_panel.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../widgets/common/gradient_button.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// `writing-custom` (`/luyen-viet/tu-nhap`) — bring-your-own prompt writing
 /// practice: chip selectors (provider/level/Teil), 2 textareas, ✨ AI-polish,
@@ -238,7 +239,7 @@ class _WritingCustomPageState extends ConsumerState<WritingCustomPage> {
           children: [
             Row(
               children: [
-                IconButton(icon: const Icon(Icons.arrow_back), onPressed: () => context.pop()),
+                IconButton(icon: const Icon(PhosphorIcons.arrowLeft), onPressed: () => context.pop()),
                 Expanded(
                   child: Text(
                     l10n.writingCustomTitle,

@@ -11,6 +11,7 @@ import 'widgets/dictation/dictation_activity_menu.dart';
 import 'widgets/dictation/full_practice_view.dart';
 import 'widgets/dictation/karaoke_view.dart';
 import 'widgets/dictation/word_selection_panel.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 enum _ClozePhase { prep, practice }
 
@@ -72,7 +73,7 @@ class _ExamDictationScreenState extends ConsumerState<ExamDictationScreen> {
       appBar: AppBar(
         title: Text(l10n.examDictationTitle),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
+          icon: const Icon(PhosphorIcons.arrowLeft),
           onPressed: _handleBack,
         ),
       ),

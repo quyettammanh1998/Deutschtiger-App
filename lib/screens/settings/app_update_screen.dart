@@ -6,6 +6,7 @@ import '../../l10n/app_localizations.dart';
 import 'widgets/settings_actions.dart';
 import 'widgets/settings_tiles.dart';
 import 'package:deutschtiger/services/force_update_service.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Cập nhật ứng dụng — web parity: `settings-app-update-page.tsx`. Web's
 /// action is "clear cache + reload" (`/reset`, a web-only concept); the
@@ -59,7 +60,7 @@ class AppUpdateScreen extends StatelessWidget {
             Row(
               children: [
                 IconButton(
-                  icon: Icon(Icons.arrow_back, color: tokens.foreground),
+                  icon: Icon(PhosphorIcons.arrowLeft, color: tokens.foreground),
                   onPressed: () => context.pop(),
                 ),
                 const SizedBox(width: 4),

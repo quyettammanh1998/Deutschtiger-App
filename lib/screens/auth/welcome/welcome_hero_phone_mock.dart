@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'welcome_hero_badges.dart';
 import 'welcome_palette.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// CSS-drawn phone mock with 4 floating proof badges — mirrors
 /// `welcome-hero-phone-mock.tsx` + the `.wel-float-badge` positions in
@@ -105,7 +106,7 @@ class _PhoneFrame extends StatelessWidget {
                         ),
                       ),
                       Icon(
-                        Icons.signal_cellular_alt,
+                        PhosphorIcons.cellSignalFull,
                         size: 12,
                         color: WelPalette.ink,
                       ),
@@ -171,7 +172,7 @@ class _MiniStatCard extends StatelessWidget {
             ),
           ),
           SizedBox(width: 6),
-          Icon(Icons.local_fire_department, size: 16, color: Colors.white),
+          Icon(PhosphorIcons.fire, size: 16, color: Colors.white),
         ],
       ),
     );

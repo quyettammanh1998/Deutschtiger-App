@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:deutschtiger/core/theme/app_tokens.dart';
 import 'package:deutschtiger/data/social/social_legacy_mock_models.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 class ChallengesList extends StatelessWidget {
   final List<Challenge> challenges;
@@ -14,13 +15,13 @@ class ChallengesList extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.emoji_events, size: 64, color: Colors.grey[400]),
+            Icon(PhosphorIcons.trophy, size: 64, color: Colors.grey[400]),
             const SizedBox(height: 16),
             Text('No challenges', style: TextStyle(color: Colors.grey[600])),
             const SizedBox(height: 8),
             ElevatedButton.icon(
               onPressed: () {},
-              icon: const Icon(Icons.add),
+              icon: const Icon(PhosphorIcons.plus),
               label: const Text('Create Challenge'),
             ),
           ],
@@ -87,7 +88,7 @@ class _ChallengeCard extends StatelessWidget {
                       ),
                       child: Row(
                         children: [
-                          Icon(Icons.star, size: 16, color: tokens.primary),
+                          Icon(PhosphorIcons.star, size: 16, color: tokens.primary),
                           const SizedBox(width: 4),
                           Text(
                             '+${challenge.xpReward} XP',

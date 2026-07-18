@@ -4,6 +4,7 @@ import 'package:deutschtiger/data/listening/podcast_models.dart';
 import 'package:deutschtiger/l10n/app_localizations.dart';
 import 'podcast_reader_settings_sheet.dart';
 import 'podcast_sentence_row.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Widget con của `EasyGermanPodcastPlayerPage` (header, empty/error state,
 /// danh sách transcript) — tách riêng để giữ file trang chính dưới 200 dòng.
@@ -33,7 +34,7 @@ class PodcastPlayerHeader extends StatelessWidget {
       decoration: BoxDecoration(color: tokens.card, border: Border(bottom: BorderSide(color: tokens.border))),
       child: Row(
         children: [
-          InkWell(onTap: onBack, child: Icon(Icons.arrow_back, color: tokens.foreground)),
+          InkWell(onTap: onBack, child: Icon(PhosphorIcons.arrowLeft, color: tokens.foreground)),
           const SizedBox(width: 10),
           Expanded(
             child: Column(
@@ -45,7 +46,7 @@ class PodcastPlayerHeader extends StatelessWidget {
             ),
           ),
           IconButton(
-            icon: Icon(Icons.settings_outlined, color: tokens.mutedForeground),
+            icon: Icon(PhosphorIcons.gearSix, color: tokens.mutedForeground),
             onPressed: () => PodcastReaderSettingsSheet.show(
               context,
               initialScale: fontScale,
@@ -72,7 +73,7 @@ class PodcastPlayerErrorView extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.wifi_off, size: 56, color: tokens.mutedForeground),
+          Icon(PhosphorIcons.wifiSlash, size: 56, color: tokens.mutedForeground),
           const SizedBox(height: 12),
           Text(l10n.podcastEpisodeLoadError, style: TextStyle(color: tokens.mutedForeground)),
           const SizedBox(height: 12),

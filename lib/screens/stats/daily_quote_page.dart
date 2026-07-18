@@ -7,6 +7,7 @@ import 'package:deutschtiger/view_models/stats/daily_quote_provider.dart';
 import 'package:deutschtiger/widgets/common/async_state_views.dart';
 import 'widgets/quote_image_assigner.dart';
 import 'widgets/quote_slide.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Full-screen vertical snap photo feed of motivational quotes — mirrors web
 /// `quotes/daily-quote-page.tsx`. Source: `GET /api/v1/quotes/random`
@@ -87,7 +88,7 @@ class _GlassBackButton extends StatelessWidget {
         child: const SizedBox(
           width: 36,
           height: 36,
-          child: Icon(Icons.arrow_back, color: Colors.white, size: 20),
+          child: Icon(PhosphorIcons.arrowLeft, color: Colors.white, size: 20),
         ),
       ),
     );

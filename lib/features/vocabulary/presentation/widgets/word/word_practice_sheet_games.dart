@@ -6,14 +6,15 @@ import '../../../../../data/practice/practice_result.dart';
 import '../../../../../data/practice/practice_round_item.dart';
 import '../../../../../screens/practice/widgets/practice_listening_view.dart';
 import '../../../../../screens/practice/widgets/practice_writing_view.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 enum WordSheetGame { writing, listening, speaking, flashcard }
 
 const _sheetGames = [
-  (type: WordSheetGame.writing, label: 'Viết từ', icon: Icons.edit_note_rounded, color: Color(0xFF3B82F6)),
-  (type: WordSheetGame.listening, label: 'Nghe & chọn', icon: Icons.headphones_rounded, color: Color(0xFFF59E0B)),
-  (type: WordSheetGame.speaking, label: 'Phát âm', icon: Icons.mic_rounded, color: Color(0xFF10B981)),
-  (type: WordSheetGame.flashcard, label: 'Lật thẻ', icon: Icons.style_rounded, color: Color(0xFF8B5CF6)),
+  (type: WordSheetGame.writing, label: 'Viết từ', icon: PhosphorIcons.note, color: Color(0xFF3B82F6)),
+  (type: WordSheetGame.listening, label: 'Nghe & chọn', icon: PhosphorIcons.headphones, color: Color(0xFFF59E0B)),
+  (type: WordSheetGame.speaking, label: 'Phát âm', icon: PhosphorIcons.microphone, color: Color(0xFF10B981)),
+  (type: WordSheetGame.flashcard, label: 'Lật thẻ', icon: PhosphorIcons.cards, color: Color(0xFF8B5CF6)),
 ];
 
 /// "Luyện tập thêm" 4-icon grid — each tile opens a bottom sheet running a
@@ -97,7 +98,9 @@ class _GameTile extends StatelessWidget {
             children: [
               Icon(game.icon, color: game.color, size: 20),
               const SizedBox(height: 6),
-              Text(game.label, textAlign: TextAlign.center, style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: tokens.foreground)),
+              Flexible(
+                child: Text(game.label, textAlign: TextAlign.center, maxLines: 2, overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: tokens.foreground)),
+              ),
             ],
           ),
         ),

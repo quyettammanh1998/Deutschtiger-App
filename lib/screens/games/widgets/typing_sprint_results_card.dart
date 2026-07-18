@@ -67,7 +67,7 @@ class TypingSprintResultsCard extends StatelessWidget {
                   color: TypingSprintPalette.coralSoft,
                 ),
                 child: const Icon(
-                  Icons.bolt_rounded,
+                  PhosphorIcons.lightning,
                   size: 36,
                   color: TypingSprintPalette.coral,
                 ),

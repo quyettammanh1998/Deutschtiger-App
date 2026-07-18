@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_tokens.dart';
 import '../../../../l10n/app_localizations.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Per-Teil metadata — web parity `TEIL_META` in `teil-pick-card.tsx`.
 /// Fixed (only 3 Teils exist for Goethe B1 Schreiben); not sourced from the
@@ -136,7 +137,7 @@ class TeilPickCard extends StatelessWidget {
                     style: TextStyle(fontSize: 11, color: tokens.mutedForeground),
                   ),
                   const SizedBox(height: 4),
-                  Icon(Icons.chevron_right, size: 16, color: tokens.mutedForeground.withValues(alpha: 0.4)),
+                  Icon(PhosphorIcons.caretRight, size: 16, color: tokens.mutedForeground.withValues(alpha: 0.4)),
                 ],
               ),
             ],

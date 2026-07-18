@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../repositories/affiliate/affiliate_leaderboard_repository.dart';
 import '../../view_models/providers.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// `period` query param sent to `GET /user/affiliate/leaderboard`: 'all' | 'monthly' | 'weekly'.
 final affiliateLeaderboardProvider =
@@ -52,7 +53,7 @@ class _AffiliateLeaderboardPageState extends ConsumerState<AffiliateLeaderboardP
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.filter_list),
+            icon: const Icon(PhosphorIcons.funnel),
             onPressed: () => _showFilterBottomSheet(context),
           ),
         ],
@@ -63,7 +64,7 @@ class _AffiliateLeaderboardPageState extends ConsumerState<AffiliateLeaderboardP
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.error_outline, size: 48, color: Colors.grey[400]),
+              Icon(PhosphorIcons.warning, size: 48, color: Colors.grey[400]),
               const SizedBox(height: 16),
               Text('Error loading leaderboard: $e'),
               const SizedBox(height: 16),
@@ -87,7 +88,7 @@ class _AffiliateLeaderboardPageState extends ConsumerState<AffiliateLeaderboardP
         child: ListView(
           children: [
             const SizedBox(height: 120),
-            Icon(Icons.leaderboard_outlined, size: 64, color: Colors.grey[400]),
+            Icon(PhosphorIcons.chartBar, size: 64, color: Colors.grey[400]),
             const SizedBox(height: 16),
             Center(
               child: Text(
@@ -168,7 +169,7 @@ class _AffiliateLeaderboardPageState extends ConsumerState<AffiliateLeaderboardP
             children: [
               Expanded(
                 child: _SummaryItem(
-                  icon: Icons.people,
+                  icon: PhosphorIcons.users,
                   value: '$totalConversions',
                   label: 'Tổng giới thiệu',
                   color: AppColors.primary,
@@ -177,7 +178,7 @@ class _AffiliateLeaderboardPageState extends ConsumerState<AffiliateLeaderboardP
               Container(height: 40, width: 1, color: Colors.grey[300]),
               Expanded(
                 child: _SummaryItem(
-                  icon: Icons.attach_money,
+                  icon: PhosphorIcons.currencyDollar,
                   value: '\$$totalEarned',
                   label: 'Tổng thu nhập',
                   color: Colors.green,
@@ -186,7 +187,7 @@ class _AffiliateLeaderboardPageState extends ConsumerState<AffiliateLeaderboardP
               Container(height: 40, width: 1, color: Colors.grey[300]),
               Expanded(
                 child: _SummaryItem(
-                  icon: Icons.trending_up,
+                  icon: PhosphorIcons.trendUp,
                   value: '$avgConversions',
                   label: 'Trung bình',
                   color: Colors.orange,
@@ -216,14 +217,14 @@ class _AffiliateLeaderboardPageState extends ConsumerState<AffiliateLeaderboardP
                 children: [
                   _SortChip(
                     label: 'Giới thiệu',
-                    icon: Icons.people,
+                    icon: PhosphorIcons.users,
                     selected: _sortBy == 'referrals',
                     onTap: () => setState(() => _sortBy = 'referrals'),
                   ),
                   const SizedBox(width: 8),
                   _SortChip(
                     label: 'Thu nhập',
-                    icon: Icons.attach_money,
+                    icon: PhosphorIcons.currencyDollar,
                     selected: _sortBy == 'earnings',
                     onTap: () => setState(() => _sortBy = 'earnings'),
                   ),
@@ -468,13 +469,13 @@ class _TopThreeCard extends StatelessWidget {
   IconData _getMedalIcon(int rank) {
     switch (rank) {
       case 1:
-        return Icons.emoji_events;
+        return PhosphorIcons.trophy;
       case 2:
-        return Icons.workspace_premium;
+        return PhosphorIcons.crown;
       case 3:
-        return Icons.military_tech;
+        return PhosphorIcons.medal;
       default:
-        return Icons.star;
+        return PhosphorIcons.star;
     }
   }
 }
@@ -655,7 +656,7 @@ class _LeaderboardItem extends StatelessWidget {
             if (rankChange != 0) ...[
               const SizedBox(width: 8),
               Icon(
-                rankChange > 0 ? Icons.arrow_upward : Icons.arrow_downward,
+                rankChange > 0 ? PhosphorIcons.arrowUp : PhosphorIcons.arrowDown,
                 size: 14,
                 color: rankChange > 0 ? Colors.green : Colors.red,
               ),

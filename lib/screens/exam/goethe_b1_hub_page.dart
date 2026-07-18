@@ -8,6 +8,7 @@ import '../../l10n/app_localizations.dart';
 import '../../view_models/exam/exam_ecosystem_providers.dart';
 import 'widgets/hub/goethe_b1_hub_row_card.dart';
 import 'widgets/readiness/readiness_band_card.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Goethe B1 hub — web parity `goethe-b1-hub-page.tsx`
 /// (`/exams/goethe-b1` + aliases): `ExamReadinessCard` + one `card divide-y`
@@ -35,7 +36,7 @@ class GoetheB1HubPage extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   IconButton(
-                    icon: const Icon(Icons.arrow_back),
+                    icon: const Icon(PhosphorIcons.arrowLeft),
                     onPressed: () => context.pop(),
                   ),
                   const SizedBox(width: 4),

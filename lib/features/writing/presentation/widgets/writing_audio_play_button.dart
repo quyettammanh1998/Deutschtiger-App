@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/theme/app_tokens.dart';
 import '../../../../view_models/providers.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Shared "currently playing" token so every [WritingAudioPlayButton] on a
 /// page stays mutually exclusive (starting one visually stops the others).
@@ -47,7 +48,7 @@ class _WritingAudioPlayButtonState extends ConsumerState<WritingAudioPlayButton>
               child: CircularProgressIndicator(strokeWidth: 1.5, color: tokens.mutedForeground),
             )
           : Icon(
-              isPlaying ? Icons.pause_circle_filled : Icons.volume_up,
+              isPlaying ? PhosphorIcons.pauseCircle : PhosphorIcons.speakerHigh,
               size: widget.size,
               color: isPlaying ? tokens.primary : tokens.mutedForeground,
             ),

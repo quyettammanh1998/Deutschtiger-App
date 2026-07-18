@@ -12,6 +12,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/theme/app_tokens.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../view_models/providers.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 class CourseComment {
   const CourseComment({
@@ -166,7 +167,7 @@ class _CourseCommentSectionState extends ConsumerState<CourseCommentSection> {
                 onPressed: _sending ? null : _send,
                 icon: _sending
                     ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2))
-                    : Icon(Icons.send, color: tokens.primary, size: 18),
+                    : Icon(PhosphorIcons.paperPlaneTilt, color: tokens.primary, size: 18),
               ),
             ],
           ),

@@ -9,6 +9,7 @@ import 'package:deutschtiger/widgets/common/async_state_views.dart';
 import 'package:deutschtiger/l10n/app_localizations.dart';
 import 'package:deutschtiger/view_models/interview/transcript_provider.dart';
 import 'package:deutschtiger/data/interview/transcript_models.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Shadowing — web parity `youtube-shadowing-page.tsx`/`YouTubeShadowingMode`.
 ///
@@ -75,7 +76,7 @@ class _YouTubeShadowingScreenState
               child: Row(
                 children: [
                   IconButton(
-                    icon: const Icon(Icons.arrow_back),
+                    icon: const Icon(PhosphorIcons.arrowLeft),
                     onPressed: () => context.pop(),
                   ),
                   Expanded(
@@ -109,7 +110,7 @@ class _YouTubeShadowingScreenState
                         ? l10n.youtubeDictationShowVideoTooltip
                         : l10n.shadowingHideVideoTooltip,
                     icon: Icon(
-                      _hideVideo ? Icons.visibility_off : Icons.visibility,
+                      _hideVideo ? PhosphorIcons.eyeSlash : PhosphorIcons.eye,
                       size: 20,
                       color: tokens.mutedForeground,
                     ),
@@ -248,11 +249,11 @@ class _ShadowingCard extends StatelessWidget {
               children: [
                 IconButton(
                   onPressed: onPrev,
-                  icon: const Icon(Icons.skip_previous),
+                  icon: const Icon(PhosphorIcons.skipBack),
                 ),
                 OutlinedButton.icon(
                   onPressed: onListenAgain,
-                  icon: const Icon(Icons.replay, size: 18),
+                  icon: const Icon(PhosphorIcons.arrowCounterClockwise, size: 18),
                   label: Text(l10n.shadowingListenAgain),
                 ),
                 const SizedBox(width: 12),
@@ -270,14 +271,14 @@ class _ShadowingCard extends StatelessWidget {
                     ),
                     onPressed: micEnabled ? null : null,
                     child: Icon(
-                      Icons.mic,
+                      PhosphorIcons.microphone,
                       color: micEnabled ? Colors.white : tokens.mutedForeground,
                     ),
                   ),
                 ),
                 IconButton(
                   onPressed: onNext,
-                  icon: const Icon(Icons.skip_next),
+                  icon: const Icon(PhosphorIcons.skipForward),
                 ),
               ],
             ),

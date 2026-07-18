@@ -9,6 +9,7 @@ import 'package:deutschtiger/l10n/app_localizations.dart';
 import 'package:deutschtiger/view_models/social/messages_provider.dart';
 
 import 'widgets/social_avatar.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Conversation list — `GET /user/messages/conversations`. Poll-based: the
 /// list refreshes on open, on app resume (`didChangeAppLifecycleState`) and
@@ -60,7 +61,7 @@ class _MessagesPageState extends ConsumerState<MessagesPage>
               child: Row(
                 children: [
                   IconButton(
-                    icon: const Icon(Icons.arrow_back),
+                    icon: const Icon(PhosphorIcons.arrowLeft),
                     onPressed: () =>
                         context.canPop() ? context.pop() : context.go('/home'),
                   ),

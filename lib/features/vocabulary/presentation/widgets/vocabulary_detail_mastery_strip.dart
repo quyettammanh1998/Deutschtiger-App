@@ -4,6 +4,7 @@ import '../../../../core/theme/app_tokens.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../domain/graduation_stats.dart';
 import 'vocabulary_detail_item_list.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Mastery strip below the header — web parity: the `masteryTotal > 0` block
 /// in `vocabulary-detail-page.tsx` (`DeckMasteryProgressBar` + graduated line
@@ -95,7 +96,7 @@ class VocabularyDetailMasteryStrip extends StatelessWidget {
                       decoration: InputDecoration(
                         isDense: true,
                         hintText: l10n.vocabularySearchHint,
-                        prefixIcon: const Icon(Icons.search, size: 16),
+                        prefixIcon: const Icon(PhosphorIcons.magnifyingGlass, size: 16),
                         contentPadding: const EdgeInsets.symmetric(
                           horizontal: 8,
                         ),

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_tokens.dart';
 import '../../../data/games/game_models.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Base class cho các game widgets.
 class GameBase extends StatefulWidget {
@@ -178,7 +179,7 @@ class _GameBaseState extends State<GameBase> {
           // Score
           Row(
             children: [
-              const Icon(Icons.star, color: AppColors.tigerOrange, size: 20),
+              const Icon(PhosphorIcons.star, color: AppColors.tigerOrange, size: 20),
               const SizedBox(width: 4),
               Text(
                 '$_score',
@@ -202,7 +203,7 @@ class _GameBaseState extends State<GameBase> {
               child: Row(
                 children: [
                   Icon(
-                    Icons.timer,
+                    PhosphorIcons.timer,
                     size: 16,
                     color: _timeLeft <= 10
                         ? Colors.white
@@ -382,7 +383,7 @@ class _GameBaseState extends State<GameBase> {
                     : Colors.grey.shade200,
               ),
               child: Icon(
-                accuracy >= 70 ? Icons.emoji_events : Icons.refresh,
+                accuracy >= 70 ? PhosphorIcons.trophy : PhosphorIcons.arrowClockwise,
                 size: 40,
                 color: accuracy >= 70 ? Colors.amber : Colors.grey,
               ),

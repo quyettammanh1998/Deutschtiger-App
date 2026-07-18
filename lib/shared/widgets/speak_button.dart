@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/design_tokens.dart';
 import '../../view_models/providers.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Speaker icon button that plays a remote audio URL via [just_audio].
 ///
@@ -83,7 +84,7 @@ class _SpeakButtonState extends ConsumerState<SpeakButton> {
               child: const CircularProgressIndicator(strokeWidth: 2),
             )
           : Icon(
-              _error != null ? Icons.error_outline : Icons.volume_up_outlined,
+              _error != null ? PhosphorIcons.warning : PhosphorIcons.speakerHigh,
               size: widget.iconSize,
               color: _error != null
                   ? DesignTokens.error

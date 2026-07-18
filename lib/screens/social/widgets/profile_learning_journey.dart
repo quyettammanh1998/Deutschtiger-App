@@ -135,10 +135,14 @@ class _JourneyCard extends StatelessWidget {
           const SizedBox(height: 4),
           child,
           const SizedBox(height: 2),
-          Text(
-            label,
-            style: TextStyle(fontSize: 10, color: tokens.mutedForeground),
-            textAlign: TextAlign.center,
+          Flexible(
+            child: Text(
+              label,
+              style: TextStyle(fontSize: 10, color: tokens.mutedForeground),
+              textAlign: TextAlign.center,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
         ],
       ),

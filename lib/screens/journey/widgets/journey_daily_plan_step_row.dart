@@ -7,6 +7,7 @@ import '../../../features/daily_path/domain/daily_path.dart';
 import '../../../features/daily_path/domain/skill_emoji.dart';
 import '../../../features/daily_path/presentation/daily_path_route_resolver.dart';
 import '../../../l10n/app_localizations.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Single row inside [JourneyDailyPlanSection]'s vertical stepper — a status
 /// dot + rail connector on the left, and a tappable step card on the right.
@@ -84,7 +85,7 @@ class _StatusRail extends StatelessWidget {
                 : null,
           ),
           child: step.done
-              ? const Icon(Icons.check, size: 18, color: DesignTokens.emerald600)
+              ? const Icon(PhosphorIcons.check, size: 18, color: DesignTokens.emerald600)
               : step.premium
               ? const Text('🔒', style: TextStyle(fontSize: 14))
               : Text(

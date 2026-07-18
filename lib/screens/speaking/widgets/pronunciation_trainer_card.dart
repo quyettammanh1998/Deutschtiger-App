@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_tokens.dart';
 import 'package:deutschtiger/data/speaking/speaking_models.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 class PronunciationTrainerCard extends StatelessWidget {
   final PronunciationTrainer trainer;
@@ -85,7 +86,7 @@ class PronunciationTrainerCard extends StatelessWidget {
               Row(
                 children: [
                   if (trainer.totalAttempts > 0) ...[
-                    Icon(Icons.repeat, size: 16, color: Colors.grey[600]),
+                    Icon(PhosphorIcons.repeat, size: 16, color: Colors.grey[600]),
                     const SizedBox(width: 4),
                     Text(
                       '${trainer.totalAttempts} attempts',
@@ -93,7 +94,7 @@ class PronunciationTrainerCard extends StatelessWidget {
                     ),
                     const SizedBox(width: 12),
                     Icon(
-                      Icons.check_circle,
+                      PhosphorIcons.checkCircle,
                       size: 16,
                       color: context.tokens.success,
                     ),
@@ -106,7 +107,7 @@ class PronunciationTrainerCard extends StatelessWidget {
                   const Spacer(),
                   ElevatedButton.icon(
                     onPressed: () {},
-                    icon: const Icon(Icons.mic, size: 18),
+                    icon: const Icon(PhosphorIcons.microphone, size: 18),
                     label: const Text('Start'),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: _getTrainerColor(context, trainer.type),

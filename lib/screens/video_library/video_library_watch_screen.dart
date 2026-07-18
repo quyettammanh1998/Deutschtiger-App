@@ -8,6 +8,7 @@ import 'package:deutschtiger/widgets/common/async_state_views.dart';
 import 'package:deutschtiger/widgets/interview/transcript_panel.dart';
 import 'package:deutschtiger/data/youtube/video_library.dart';
 import 'package:deutschtiger/view_models/youtube/youtube_provider.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Màn xem video trong một "video library" (bộ sưu tập biên tập sẵn): player
 /// (đầu trang, luôn hiển thị — tương đương `sticky` của web) + transcript
@@ -195,7 +196,7 @@ class _VideoLibraryWatchScreenState extends ConsumerState<VideoLibraryWatchScree
                             padding: const EdgeInsets.symmetric(vertical: 14),
                           ),
                           onPressed: _completing ? null : _markComplete,
-                          icon: Icon(active.isCompleted ? Icons.replay : Icons.check_circle),
+                          icon: Icon(active.isCompleted ? PhosphorIcons.arrowCounterClockwise : PhosphorIcons.checkCircle),
                           label: Text(active.isCompleted ? 'Xem lại' : 'Đã hoàn thành'),
                         ),
                       ),
@@ -204,7 +205,7 @@ class _VideoLibraryWatchScreenState extends ConsumerState<VideoLibraryWatchScree
                         onTap: () => setState(() => _showTranscript = !_showTranscript),
                         child: Row(
                           children: [
-                            const Icon(Icons.subtitles, size: 16, color: AppColors.tigerOrange),
+                            const Icon(PhosphorIcons.closedCaptioning, size: 16, color: AppColors.tigerOrange),
                             const SizedBox(width: 8),
                             const Text(
                               'Transcript',
@@ -212,7 +213,7 @@ class _VideoLibraryWatchScreenState extends ConsumerState<VideoLibraryWatchScree
                             ),
                             const Spacer(),
                             Icon(
-                              _showTranscript ? Icons.expand_less : Icons.expand_more,
+                              _showTranscript ? PhosphorIcons.caretUp : PhosphorIcons.caretDown,
                               color: context.tokens.mutedForeground,
                             ),
                           ],
@@ -322,7 +323,7 @@ class _PlaylistSection extends StatelessWidget {
                         ),
                       ),
                       if (completedStyle)
-                        Icon(Icons.check_circle, size: 16, color: context.tokens.success),
+                        Icon(PhosphorIcons.checkCircle, size: 16, color: context.tokens.success),
                     ],
                   ),
                 ),

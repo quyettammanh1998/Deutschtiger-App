@@ -10,6 +10,7 @@ import '../../../../features/writing/domain/sprint/sprint_types.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../../widgets/common/async_state_views.dart';
 import 'widgets/sr_mode_picker.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Sprint v2 entry page — mode picker (Marathon/Daily) + Start/Resume CTAs.
 /// Web parity `exam-writing-sprint-page.tsx`.
@@ -69,7 +70,7 @@ class _ExamWritingSprintPageState extends ConsumerState<ExamWritingSprintPage> {
           children: [
             Row(
               children: [
-                IconButton(icon: const Icon(Icons.arrow_back), onPressed: () => context.pop()),
+                IconButton(icon: const Icon(PhosphorIcons.arrowLeft), onPressed: () => context.pop()),
                 Expanded(
                   child: Text(l10n.writingSprintTitle, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: tokens.foreground)),
                 ),

@@ -7,6 +7,7 @@ import '../../../core/theme/app_tokens.dart';
 import '../../../data/news/news_models.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../repositories/news/news_repository.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Bảng xếp hạng tuần (số bài tin tức hoàn thành) — mirror `news-leaderboard.tsx`.
 class NewsLeaderboardCard extends ConsumerWidget {
@@ -31,7 +32,7 @@ class NewsLeaderboardCard extends ConsumerWidget {
         children: [
           Row(
             children: [
-              const Icon(Icons.emoji_events_rounded, size: 18, color: Color(0xFFF59E0B)),
+              const Icon(PhosphorIcons.trophy, size: 18, color: Color(0xFFF59E0B)),
               const SizedBox(width: 6),
               Text(
                 l10n.newsLeaderboardTitleWeekly,

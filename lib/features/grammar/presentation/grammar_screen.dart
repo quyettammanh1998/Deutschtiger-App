@@ -11,6 +11,7 @@ import 'grammar_provider.dart';
 import 'widgets/grammar_home_grid.dart';
 import 'widgets/grammar_level_detail_view.dart';
 import 'widgets/grammar_search_results.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Grammar hub — web parity `grammar-list-page.tsx`: header + global search
 /// (mọi màn hình con), rồi tuỳ trạng thái: kết quả tìm kiếm / level detail /
@@ -76,7 +77,7 @@ class _GrammarScreenState extends ConsumerState<GrammarScreen> {
                       children: [
                         if (level != null)
                           IconButton(
-                            icon: const Icon(Icons.arrow_back),
+                            icon: const Icon(PhosphorIcons.arrowLeft),
                             onPressed: _goHome,
                           )
                         else
@@ -99,10 +100,10 @@ class _GrammarScreenState extends ConsumerState<GrammarScreen> {
                     TextField(
                       decoration: InputDecoration(
                         hintText: l10n.grammarSearchHint,
-                        prefixIcon: const Icon(Icons.search),
+                        prefixIcon: const Icon(PhosphorIcons.magnifyingGlass),
                         suffixIcon: _searchQuery.isNotEmpty
                             ? IconButton(
-                                icon: const Icon(Icons.clear),
+                                icon: const Icon(PhosphorIcons.x),
                                 onPressed: () =>
                                     setState(() => _searchQuery = ''),
                               )

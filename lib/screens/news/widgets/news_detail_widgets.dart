@@ -6,6 +6,7 @@ import '../../../core/theme/app_tokens.dart';
 import '../../../data/news/news_models.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../shared/widgets/tappable_sentence.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Segmented control chọn CEFR level của bài (level switcher — chỉ hiện khi
 /// bài có >1 level, giống `LevelSwitcher` của web).
@@ -116,7 +117,7 @@ class _NewsAudioBarState extends State<NewsAudioBar> {
         children: [
           IconButton.filled(
             onPressed: _togglePlay,
-            icon: Icon(_isPlaying ? Icons.pause : Icons.play_arrow),
+            icon: Icon(_isPlaying ? PhosphorIcons.pause : PhosphorIcons.play),
             style: IconButton.styleFrom(
               backgroundColor: DesignTokens.tigerOrange,
               foregroundColor: Colors.white,
@@ -169,7 +170,7 @@ class _NewsSentenceReaderState extends State<NewsSentenceReader> {
           alignment: Alignment.centerRight,
           child: OutlinedButton.icon(
             onPressed: () => setState(() => _showVi = !_showVi),
-            icon: const Icon(Icons.translate, size: 16),
+            icon: const Icon(PhosphorIcons.translate, size: 16),
             label: Text(_showVi ? AppLocalizations.of(context).examHideTranslation : AppLocalizations.of(context).readingShowTranslation),
           ),
         ),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_tokens.dart';
 import '../../l10n/app_localizations.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Loading indicator căn giữa — dùng chung các màn.
 class LoadingView extends StatelessWidget {
@@ -33,7 +34,7 @@ class ErrorView extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(
-              Icons.cloud_off_outlined,
+              PhosphorIcons.cloudSlash,
               size: 48,
               color: context.tokens.mutedForeground,
             ),
@@ -47,7 +48,7 @@ class ErrorView extends StatelessWidget {
               const SizedBox(height: 16),
               OutlinedButton.icon(
                 onPressed: onRetry,
-                icon: const Icon(Icons.refresh),
+                icon: const Icon(PhosphorIcons.arrowClockwise),
                 label: Text(l10n.retry),
               ),
             ],

@@ -8,6 +8,7 @@ import '../../domain/graduation_stats.dart';
 import '../../domain/vocabulary_models.dart';
 import '../vocabulary_provider.dart';
 import 'vocabulary_detail_scope_resolver.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 enum VocabularyDetailTab { list, mine }
 
@@ -172,7 +173,7 @@ class _ItemRow extends StatelessWidget {
       ),
       title: Text(item.contentDe, style: const TextStyle(fontWeight: FontWeight.w600)),
       subtitle: Text(item.contentVi ?? item.meanings?.firstOrNull ?? ''),
-      trailing: const Icon(Icons.chevron_right, size: 18),
+      trailing: const Icon(PhosphorIcons.caretRight, size: 18),
       onTap: () => context.push(
         '/vocabulary/word/${item.id}'
         '?topicKey=${scope.topicKey ?? ''}'

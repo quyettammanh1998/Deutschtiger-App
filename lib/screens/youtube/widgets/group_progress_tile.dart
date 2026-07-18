@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/theme/app_tokens.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Divided-list group row shared by video-library and interview roadmap
 /// screens — web parity: both use the same visual language (progress bar +
@@ -102,7 +103,7 @@ class GroupProgressTile extends StatelessWidget {
                   ),
                 ),
               const SizedBox(width: 4),
-              Icon(Icons.chevron_right, color: tokens.mutedForeground, size: 20),
+              Icon(PhosphorIcons.caretRight, color: tokens.mutedForeground, size: 20),
             ],
           ),
         ),
@@ -138,7 +139,7 @@ class _IndexCircle extends StatelessWidget {
       alignment: Alignment.center,
       decoration: BoxDecoration(color: bg, shape: BoxShape.circle),
       child: isComplete
-          ? Icon(Icons.check, color: fg, size: 18)
+          ? Icon(PhosphorIcons.check, color: fg, size: 18)
           : Text(
               order.toString().padLeft(2, '0'),
               style: TextStyle(color: fg, fontWeight: FontWeight.w700, fontSize: 13),

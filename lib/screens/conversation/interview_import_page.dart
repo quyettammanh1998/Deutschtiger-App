@@ -9,6 +9,7 @@ import '../../services/api_client.dart';
 import '../../view_models/speech/conversation_provider.dart';
 import 'widgets/interview_import_edit_step.dart';
 import 'widgets/interview_import_input_step.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// `/conversation/interview/import` — premium "luyện phỏng vấn từ tài liệu":
 /// paste a doc → AI extracts a draft (questions + prepared-answer hints) →
@@ -119,7 +120,7 @@ class _InterviewImportPageState extends ConsumerState<InterviewImportPage> {
             children: [
               TextButton.icon(
                 onPressed: () => _editing ? setState(() => _editing = false) : context.go('/conversation'),
-                icon: const Icon(Icons.arrow_back, size: 16),
+                icon: const Icon(PhosphorIcons.arrowLeft, size: 16),
                 label: Text(_editing ? l10n.interviewImportBackToEdit : l10n.conversationHubTitle),
               ),
               Row(
@@ -128,7 +129,7 @@ class _InterviewImportPageState extends ConsumerState<InterviewImportPage> {
                     width: 40,
                     height: 40,
                     decoration: BoxDecoration(gradient: LinearGradient(colors: [tokens.primary, tokens.primary.withValues(alpha: 0.8)]), borderRadius: BorderRadius.circular(12)),
-                    child: const Icon(Icons.description_outlined, color: Colors.white),
+                    child: const Icon(PhosphorIcons.fileText, color: Colors.white),
                   ),
                   const SizedBox(width: 10),
                   Expanded(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:deutschtiger/core/theme/app_tokens.dart';
 import 'package:deutschtiger/l10n/app_localizations.dart';
 import '../../../data/listening/easy_german_models.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Bảng "Top học tập" cho 1 bộ sưu tập video (Easy German level, Sprechen
 /// B1/B2). Web parity: `components/listening/video-leaderboard-card.tsx`.
@@ -42,7 +43,7 @@ class VideoLeaderboardCard extends StatelessWidget {
                   color: Colors.amber.shade100,
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: Icon(Icons.emoji_events, size: 16, color: Colors.amber.shade700),
+                child: Icon(PhosphorIcons.trophy, size: 16, color: Colors.amber.shade700),
               ),
               const SizedBox(width: 8),
               Expanded(

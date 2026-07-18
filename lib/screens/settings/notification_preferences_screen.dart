@@ -10,6 +10,7 @@ import '../../view_models/notifications/notifications_provider.dart';
 import '../../view_models/providers.dart';
 import '../../widgets/common/async_state_views.dart';
 import 'widgets/settings_tiles.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// `GET`/`PUT /user/notification-preferences` + `POST /user/push/test`.
 /// Web parity: `settings-notification-section.tsx` — permission banner,
@@ -120,7 +121,7 @@ class _NotificationPreferencesScreenState
                   Row(
                     children: [
                       IconButton(
-                        icon: Icon(Icons.arrow_back, color: tokens.foreground),
+                        icon: Icon(PhosphorIcons.arrowLeft, color: tokens.foreground),
                         onPressed: () => context.pop(),
                       ),
                       const SizedBox(width: 4),
@@ -312,7 +313,7 @@ class _PermissionDeniedBanner extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Icon(Icons.notifications_off_outlined, color: tokens.destructive, size: 20),
+          Icon(PhosphorIcons.bellSlash, color: tokens.destructive, size: 20),
           const SizedBox(width: 10),
           Expanded(
             child: Column(

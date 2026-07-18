@@ -11,6 +11,7 @@ import '../../data/news/news_models.dart';
 import '../../shared/widgets/skeleton_loader.dart';
 import 'widgets/news_cards.dart';
 import 'widgets/news_leaderboard.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 const _pageSize = 10;
 const _cefrLevels = ['A1', 'A2', 'B1', 'B2'];
@@ -303,7 +304,7 @@ class _NewsHeader extends StatelessWidget {
                 borderRadius: BorderRadius.circular(DesignTokens.radiusSm),
                 border: Border.all(color: tokens.border),
               ),
-              child: Icon(Icons.arrow_back_ios_new, size: 18, color: tokens.mutedForeground),
+              child: Icon(PhosphorIcons.caretLeft, size: 18, color: tokens.mutedForeground),
             ),
           ),
           const SizedBox(width: DesignTokens.spacingSm),
@@ -448,7 +449,7 @@ class _PaginationBar extends StatelessWidget {
           Flexible(
             child: OutlinedButton.icon(
               onPressed: page > 1 ? onPrev : null,
-              icon: const Icon(Icons.chevron_left),
+              icon: const Icon(PhosphorIcons.caretLeft),
               label: Text(l10n.examSetPagePrev, overflow: TextOverflow.ellipsis),
             ),
           ),
@@ -467,7 +468,7 @@ class _PaginationBar extends StatelessWidget {
           Flexible(
             child: OutlinedButton.icon(
               onPressed: page < totalPages ? onNext : null,
-              icon: const Icon(Icons.chevron_right),
+              icon: const Icon(PhosphorIcons.caretRight),
               label: Text(l10n.newsPaginationNext, overflow: TextOverflow.ellipsis),
             ),
           ),
@@ -494,7 +495,7 @@ class _EmptyState extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(
-              Icons.newspaper_outlined,
+              PhosphorIcons.newspaper,
               size: 40,
               color: tokens.mutedForeground,
             ),

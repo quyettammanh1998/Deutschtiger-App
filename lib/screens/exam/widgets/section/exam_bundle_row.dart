@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_tokens.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// One row in the TELC B1 bundle chooser (`exam-section-page.tsx`
 /// `TELC_BUNDLES`) — emoji tile + title/desc + chevron, or a disabled
@@ -81,7 +82,7 @@ class ExamBundleRow extends StatelessWidget {
               )
             else
               Icon(
-                Icons.chevron_right_rounded,
+                PhosphorIcons.caretRight,
                 size: 18,
                 color: tokens.mutedForeground,
               ),

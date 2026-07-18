@@ -104,7 +104,7 @@ class _BuddyFinderCta extends StatelessWidget {
                 ),
                 borderRadius: BorderRadius.circular(DesignTokens.radiusSm + 4),
               ),
-              child: const Icon(Icons.groups_rounded, color: Colors.white, size: 22),
+              child: const Icon(PhosphorIcons.usersThree, color: Colors.white, size: 22),
             ),
             const SizedBox(width: DesignTokens.spacingMd),
             Expanded(
@@ -154,7 +154,7 @@ class _BuddyFinderCta extends StatelessWidget {
               ),
             ),
             const Icon(
-              Icons.chevron_right_rounded,
+              PhosphorIcons.caretRight,
               color: Color(0xB3F97316), // orange-500/70
             ),
           ],
@@ -367,7 +367,9 @@ class _LevelGrid extends StatelessWidget {
       physics: const NeverScrollableScrollPhysics(),
       mainAxisSpacing: DesignTokens.spacingSm,
       crossAxisSpacing: DesignTokens.spacingSm,
-      childAspectRatio: 2.6,
+      // 2.4 (not 2.6) gives each pill a few extra px of height so the two
+      // stacked text lines never overflow on narrower/denser device metrics.
+      childAspectRatio: 2.4,
       children: [
         for (final level in meta.levels)
           _LevelPill(

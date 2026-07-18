@@ -49,15 +49,15 @@ class _VocabularyTipCardState extends State<VocabularyTipCard> {
           Expanded(
             child: Text(
               _kTips[_index],
-              style: const TextStyle(fontSize: 12.5, color: Color(0xFF92400E)),
+              style: TextStyle(fontSize: 12.5, color: amberInk),
             ),
           ),
           InkWell(
             onTap: () => setState(() => _index = (_index + 1) % _kTips.length),
             borderRadius: BorderRadius.circular(999),
-            child: const Padding(
-              padding: EdgeInsets.only(left: 6),
-              child: Icon(Icons.refresh, size: 16, color: Color(0xFF92400E)),
+            child: Padding(
+              padding: const EdgeInsets.only(left: 6),
+              child: Icon(PhosphorIcons.arrowClockwise, size: 16, color: amberInk),
             ),
           ),
         ],

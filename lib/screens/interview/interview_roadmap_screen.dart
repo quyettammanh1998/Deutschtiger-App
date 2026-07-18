@@ -9,6 +9,7 @@ import 'package:deutschtiger/shared/widgets/premium_gate_card.dart';
 import 'package:deutschtiger/data/interview/interview_models.dart';
 import 'package:deutschtiger/view_models/interview/interview_provider.dart';
 import 'package:deutschtiger/screens/youtube/widgets/group_progress_tile.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Lộ trình luyện phỏng vấn — web parity `interview-tracker-page.tsx`
 /// (`PurchaseGate(module 'interview')` + `InterviewRoadmap`: progress bar +
@@ -43,7 +44,7 @@ class _InterviewRoadmapScreenState extends ConsumerState<InterviewRoadmapScreen>
               title: 'Luyện phỏng vấn',
               description:
                   'Bộ video phỏng vấn có hướng dẫn theo lộ trình — tính năng premium chưa mở trên app.',
-              icon: Icons.workspace_premium_outlined,
+              icon: PhosphorIcons.crown,
             ),
           ),
         ),
@@ -60,7 +61,7 @@ class _InterviewRoadmapScreenState extends ConsumerState<InterviewRoadmapScreen>
         title: Text(selected != null ? selected.nameVi : 'Luyện phỏng vấn'),
         leading: selected != null
             ? IconButton(
-                icon: const Icon(Icons.arrow_back),
+                icon: const Icon(PhosphorIcons.arrowLeft),
                 onPressed: () => setState(() => _selectedGroup = null),
               )
             : null,
@@ -183,7 +184,7 @@ class _GroupVideoList extends ConsumerWidget {
                           ),
                         ),
                       ),
-                      if (v.isCompleted) Icon(Icons.check_circle, color: tokens.success, size: 22),
+                      if (v.isCompleted) Icon(PhosphorIcons.checkCircle, color: tokens.success, size: 22),
                     ],
                   ),
                 ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../../core/theme/app_tokens.dart';
 import '../../../../../l10n/app_localizations.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Per-card VI reveal toggle — web parity `show-translation-toggle.tsx`.
 class ViTranslationToggle extends StatelessWidget {
@@ -27,7 +28,7 @@ class ViTranslationToggle extends StatelessWidget {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(show ? Icons.visibility_off : Icons.visibility,
+            Icon(show ? PhosphorIcons.eyeSlash : PhosphorIcons.eye,
                 size: 12, color: show ? Colors.white : tokens.mutedForeground),
             const SizedBox(width: 4),
             Text(

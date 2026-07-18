@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../../l10n/app_localizations.dart';
 import '../../../../../view_models/exam/exam_ecosystem_providers.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Entry-point card to the community-contributed writing topics for this
 /// Teil — web parity `community-topic-folder-card.tsx`. Count is best-effort
@@ -31,7 +32,7 @@ class WritingCommunityFolderCard extends ConsumerWidget {
         ),
         child: Row(
           children: [
-            const Icon(Icons.folder_outlined, color: Colors.white, size: 24),
+            const Icon(PhosphorIcons.folder, color: Colors.white, size: 24),
             const SizedBox(width: 12),
             Expanded(
               child: Column(
@@ -51,7 +52,7 @@ class WritingCommunityFolderCard extends ConsumerWidget {
                 ],
               ),
             ),
-            Icon(Icons.chevron_right, color: Colors.white.withValues(alpha: 0.7), size: 18),
+            Icon(PhosphorIcons.caretRight, color: Colors.white.withValues(alpha: 0.7), size: 18),
           ],
         ),
       ),

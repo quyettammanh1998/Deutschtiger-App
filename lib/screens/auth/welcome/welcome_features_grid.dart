@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'welcome_palette.dart';
 import 'welcome_section_head.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// "Tính năng" — 9-card grid — mirrors `welcome-features-grid.tsx`.
 class WelcomeFeaturesGrid extends StatelessWidget {
@@ -9,7 +10,7 @@ class WelcomeFeaturesGrid extends StatelessWidget {
 
   static const _cards = [
     (
-      icon: Icons.sports_esports,
+      icon: PhosphorIcons.gameController,
       gradient: [Color(0xFFFB923C), Color(0xFFE11D48)],
       stamp: 'Phổ biến',
       title: 'Runner Game',
@@ -17,7 +18,7 @@ class WelcomeFeaturesGrid extends StatelessWidget {
       meta: '6,508 đang chơi',
     ),
     (
-      icon: Icons.speed,
+      icon: PhosphorIcons.gauge,
       gradient: [Color(0xFF38BDF8), WelPalette.sky600],
       stamp: null,
       title: 'Word Sprint',
@@ -25,7 +26,7 @@ class WelcomeFeaturesGrid extends StatelessWidget {
       meta: 'BXH tuần · Top 100',
     ),
     (
-      icon: Icons.style,
+      icon: PhosphorIcons.cards,
       gradient: [Color(0xFFA78BFA), WelPalette.violet600],
       stamp: null,
       title: 'Flashcards SRS',
@@ -33,7 +34,7 @@ class WelcomeFeaturesGrid extends StatelessWidget {
       meta: 'Thuật toán SM-2',
     ),
     (
-      icon: Icons.menu_book,
+      icon: PhosphorIcons.bookOpen,
       gradient: [Color(0xFF34D399), Color(0xFF059669)],
       stamp: null,
       title: '24 khóa A1–C1',
@@ -41,7 +42,7 @@ class WelcomeFeaturesGrid extends StatelessWidget {
       meta: '149 bài · A1→C1',
     ),
     (
-      icon: Icons.school,
+      icon: PhosphorIcons.graduationCap,
       gradient: [Color(0xFFFBBF24), Color(0xFFD97706)],
       stamp: 'Premium',
       title: 'Đề thi mô phỏng',
@@ -49,7 +50,7 @@ class WelcomeFeaturesGrid extends StatelessWidget {
       meta: 'A1 · A2 · B1 · B2 · C1',
     ),
     (
-      icon: Icons.headphones,
+      icon: PhosphorIcons.headphones,
       gradient: [Color(0xFFF472B6), WelPalette.rose600],
       stamp: null,
       title: 'Listening Hub',
@@ -57,7 +58,7 @@ class WelcomeFeaturesGrid extends StatelessWidget {
       meta: '1,200+ audio',
     ),
     (
-      icon: Icons.mic,
+      icon: PhosphorIcons.microphone,
       gradient: [Color(0xFF22D3EE), WelPalette.cyan600],
       stamp: 'Mới',
       title: 'Shadowing',
@@ -65,7 +66,7 @@ class WelcomeFeaturesGrid extends StatelessWidget {
       meta: 'AI chấm phát âm',
     ),
     (
-      icon: Icons.smart_display,
+      icon: PhosphorIcons.monitorPlay,
       gradient: [Color(0xFFF87171), WelPalette.red600],
       stamp: null,
       title: 'Video YouTube',
@@ -73,7 +74,7 @@ class WelcomeFeaturesGrid extends StatelessWidget {
       meta: '500+ video B1–C1',
     ),
     (
-      icon: Icons.auto_awesome,
+      icon: PhosphorIcons.sparkle,
       gradient: [Color(0xFFC084FC), WelPalette.purple600],
       stamp: 'AI',
       title: 'Tiger AI',

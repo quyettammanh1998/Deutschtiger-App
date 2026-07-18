@@ -9,6 +9,7 @@ import 'package:deutschtiger/view_models/listening/podcast_provider.dart';
 import 'widgets/podcast_index_parts.dart';
 import 'widgets/podcast_leaderboard_card.dart';
 import 'widgets/podcast_page_chrome.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// `/listening/podcast/easy_german` — index Easy German Podcast (tím, chip
 /// theo khoảng thời lượng, stats strip, phân trang, leaderboard). Web parity:
@@ -56,7 +57,7 @@ class _EasyGermanPodcastPageState extends ConsumerState<EasyGermanPodcastPage> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.wifi_off, size: 56, color: tokens.mutedForeground),
+          Icon(PhosphorIcons.wifiSlash, size: 56, color: tokens.mutedForeground),
           const SizedBox(height: 12),
           Text(l10n.podcastLoadError, style: TextStyle(color: tokens.mutedForeground)),
           const SizedBox(height: 12),

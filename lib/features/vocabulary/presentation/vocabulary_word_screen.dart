@@ -14,6 +14,7 @@ import 'widgets/word/word_conjugation_card.dart';
 import 'widgets/word/word_examples_card.dart';
 import 'widgets/word/word_hero_card.dart';
 import 'widgets/word/word_practice_sheet_games.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Route-backed C3 screen. It resolves the requested word from the same topic
 /// queue as C2, so deep links and in-app navigation share one data path.
@@ -198,7 +199,7 @@ class _VocabularyWordScreenState extends ConsumerState<VocabularyWordScreen> {
               padding: const EdgeInsets.fromLTRB(4, 4, 12, 4),
               child: Row(
                 children: [
-                  IconButton(onPressed: () => Navigator.of(context).maybePop(), icon: const Icon(Icons.arrow_back_rounded)),
+                  IconButton(onPressed: () => Navigator.of(context).maybePop(), icon: const Icon(PhosphorIcons.arrowLeft)),
                   if (_hasQueue)
                     Expanded(
                       child: Column(
@@ -221,7 +222,7 @@ class _VocabularyWordScreenState extends ConsumerState<VocabularyWordScreen> {
                   if (widget.onOpenDetail != null)
                     IconButton(
                       onPressed: () => widget.onOpenDetail!(item),
-                      icon: const Icon(Icons.open_in_new_rounded),
+                      icon: const Icon(PhosphorIcons.arrowSquareOut),
                     ),
                 ],
               ),
@@ -269,7 +270,7 @@ class _VocabularyWordScreenState extends ConsumerState<VocabularyWordScreen> {
               Expanded(
                 child: OutlinedButton(
                   onPressed: _index > 0 ? _prev : null,
-                  child: const _NavButtonLabel(icon: Icons.arrow_back, label: 'Trước', iconFirst: true),
+                  child: const _NavButtonLabel(icon: PhosphorIcons.arrowLeft, label: 'Trước', iconFirst: true),
                 ),
               ),
             if (_hasQueue) const SizedBox(width: 12),
@@ -278,7 +279,7 @@ class _VocabularyWordScreenState extends ConsumerState<VocabularyWordScreen> {
               child: FilledButton(
                 onPressed: _next,
                 style: FilledButton.styleFrom(backgroundColor: tokens.primary),
-                child: const _NavButtonLabel(icon: Icons.arrow_forward, label: 'Tiếp theo', iconFirst: false),
+                child: const _NavButtonLabel(icon: PhosphorIcons.arrowRight, label: 'Tiếp theo', iconFirst: false),
               ),
             ),
           ],

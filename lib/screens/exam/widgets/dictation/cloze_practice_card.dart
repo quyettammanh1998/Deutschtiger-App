@@ -4,6 +4,7 @@ import '../../../../core/theme/app_tokens.dart';
 import '../../../../l10n/app_localizations.dart';
 import 'dictation_cue.dart';
 import 'sentence_gap_text.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Active-practice UI for one [DictationCue]: progress header, sentence
 /// card, answer input, and check/replay/skip/reveal actions. Pure
@@ -152,17 +153,17 @@ class ClozePracticeCard extends StatelessWidget {
                     const SizedBox(width: 8),
                     IconButton(
                       onPressed: _active ? onReplay : null,
-                      icon: const Icon(Icons.replay),
+                      icon: const Icon(PhosphorIcons.arrowCounterClockwise),
                       tooltip: l10n.dictationReplaySentenceTooltip,
                     ),
                     IconButton(
                       onPressed: _active ? onSkip : null,
-                      icon: const Icon(Icons.skip_next),
+                      icon: const Icon(PhosphorIcons.skipForward),
                       tooltip: l10n.dictationClozeSkip,
                     ),
                     IconButton(
                       onPressed: _active ? onReveal : null,
-                      icon: const Icon(Icons.visibility_outlined),
+                      icon: const Icon(PhosphorIcons.eye),
                       tooltip: l10n.dictationClozeReveal,
                     ),
                   ],

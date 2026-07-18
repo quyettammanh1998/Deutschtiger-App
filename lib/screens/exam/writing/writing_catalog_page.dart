@@ -8,6 +8,7 @@ import 'widgets/hub/writing_community_tab.dart';
 import 'widgets/hub/writing_hub_tabs.dart';
 import 'widgets/hub/writing_start_tab.dart';
 import 'widgets/hub/writing_submissions_tab.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// `writing-catalog` (`/luyen-viet`) — unified writing hub: 3 tabs (Bắt đầu/
 /// Bài của tôi/Cộng đồng), rubric sheet. Web parity `WritingCatalogPage`.
@@ -40,7 +41,7 @@ class _WritingCatalogPageState extends State<WritingCatalogPage> {
           children: [
             Row(
               children: [
-                IconButton(icon: const Icon(Icons.arrow_back), onPressed: () => context.pop()),
+                IconButton(icon: const Icon(PhosphorIcons.arrowLeft), onPressed: () => context.pop()),
                 Expanded(
                   child: Text(
                     l10n.writingHubTitle,

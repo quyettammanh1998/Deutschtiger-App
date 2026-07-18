@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Màu + nhãn tiếng Việt cho mỗi level (A1..C1) — port `LEVEL_CONFIG`/
 /// `LEVEL_THEME` bên web (`grammar-home.tsx`, `grammar-level-detail.tsx`).
@@ -152,7 +153,7 @@ class GrammarProgressRing extends StatelessWidget {
             backgroundColor: Colors.transparent,
           ),
           if (allDone)
-            Icon(Icons.check, color: color, size: size * 0.4)
+            Icon(PhosphorIcons.check, color: color, size: size * 0.4)
           else
             Text(
               '$completed/$total',

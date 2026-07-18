@@ -11,6 +11,7 @@ import '../../data/reading/reading_models.dart';
 import '../../shared/widgets/word_lookup_sheet.dart';
 import 'widgets/reading_detail_widgets.dart';
 import 'widgets/save_article_words_cta.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Key cho [readingArticleProvider] — level + slug xác định duy nhất 1 bài.
 typedef ReadingArticleKey = ({String level, String slug});
@@ -103,11 +104,11 @@ class _ReadingDetailScreenState extends ConsumerState<ReadingDetailScreen> {
                           borderRadius: BorderRadius.circular(DesignTokens.radiusSm),
                           border: Border.all(color: tokens.border),
                         ),
-                        child: Icon(Icons.arrow_back_ios_new, size: 18, color: tokens.mutedForeground),
+                        child: Icon(PhosphorIcons.caretLeft, size: 18, color: tokens.mutedForeground),
                       ),
                     ),
                     const SizedBox(width: DesignTokens.spacingSm),
-                    Icon(Icons.menu_book_outlined, size: 18, color: tokens.mutedForeground),
+                    Icon(PhosphorIcons.bookOpen, size: 18, color: tokens.mutedForeground),
                     const SizedBox(width: 6),
                     Flexible(
                       child: Text(
@@ -143,7 +144,7 @@ class _ReadingDetailScreenState extends ConsumerState<ReadingDetailScreen> {
                       Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          const Icon(Icons.check_circle, size: 16, color: Color(0xFF059669)),
+                          const Icon(PhosphorIcons.checkCircle, size: 16, color: Color(0xFF059669)),
                           const SizedBox(width: 4),
                           Text(l10n.readingDoneChip, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: Color(0xFF059669))),
                         ],
@@ -162,7 +163,7 @@ class _ReadingDetailScreenState extends ConsumerState<ReadingDetailScreen> {
                   children: [
                     OutlinedButton.icon(
                       onPressed: () => setState(() => _showTranslation = !_showTranslation),
-                      icon: Icon(_showTranslation ? Icons.visibility_off : Icons.translate, size: 16),
+                      icon: Icon(_showTranslation ? PhosphorIcons.eyeSlash : PhosphorIcons.translate, size: 16),
                       label: Text(_showTranslation ? l10n.examHideTranslation : l10n.readingShowTranslation),
                       style: OutlinedButton.styleFrom(
                         foregroundColor: _showTranslation ? Colors.white : const Color(0xFF0369A1),
@@ -351,7 +352,7 @@ class _MarkCompleteButton extends StatelessWidget {
       width: double.infinity,
       child: FilledButton.icon(
         onPressed: isDone || isBusy ? null : onPressed,
-        icon: Icon(isDone ? Icons.check_circle : Icons.check_circle_outline),
+        icon: Icon(isDone ? PhosphorIcons.checkCircle : PhosphorIcons.checkCircle),
         label: Text(
           isBusy ? l10n.saving : (isDone ? l10n.readingDoneChip : l10n.readingMarkComplete),
         ),

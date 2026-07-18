@@ -8,6 +8,7 @@ import '../../../../core/design_tokens.dart';
 import '../../../../core/exam_design_tokens.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../domain/exam_models.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 class ExamExplanationCard extends StatelessWidget {
   const ExamExplanationCard({
@@ -40,7 +41,7 @@ class ExamExplanationCard extends StatelessWidget {
     final color = isCorrect
         ? ExamDesignTokens.examAnswerCorrectColor
         : ExamDesignTokens.examAnswerWrongColor;
-    final icon = isCorrect ? Icons.check_circle : Icons.lightbulb;
+    final icon = isCorrect ? PhosphorIcons.checkCircle : PhosphorIcons.lightbulb;
     final label = isCorrect ? l10n.examCorrect : l10n.examNotCorrect;
 
     return Container(

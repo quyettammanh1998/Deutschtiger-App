@@ -7,6 +7,7 @@ import '../../../core/theme/app_tokens.dart';
 import '../../../l10n/app_localizations.dart';
 import 'package:deutschtiger/widgets/common/gradient_button.dart';
 import 'package:deutschtiger/view_models/providers.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Nền trang auth theo web: `bg-[#FFFBF5]` — literal như web, không đọc
 /// static token đã deprecated. Dark mode dùng `context.tokens.background`.
@@ -29,21 +30,21 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
 
   static List<_OnboardingSlide> _slides(AppLocalizations l10n) => [
     _OnboardingSlide(
-      icon: Icons.style_outlined,
+      icon: PhosphorIcons.cards,
       iconBg: Color(0xFFFFF1E6),
       iconColor: Color(0xFFEA580C),
       title: l10n.smartVocabularyLearning,
       description: l10n.smartVocabularyLearningDescription,
     ),
     _OnboardingSlide(
-      icon: Icons.school_outlined,
+      icon: PhosphorIcons.graduationCap,
       iconBg: Color(0xFFE8F5E9),
       iconColor: Color(0xFF22C55E),
       title: l10n.goetheTelcPractice,
       description: l10n.goetheTelcPracticeDescription,
     ),
     _OnboardingSlide(
-      icon: Icons.emoji_events_outlined,
+      icon: PhosphorIcons.trophy,
       iconBg: Color(0xFFFEF3C7),
       iconColor: Color(0xFFF59E0B),
       title: l10n.gamificationAndStreak,

@@ -8,6 +8,7 @@ import '../../domain/grammar_curriculum_order.dart';
 import '../grammar_level_widgets.dart';
 import 'grammar_leaderboard_card.dart';
 import 'grammar_search_results.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// `/grammar?level=X` khi có level — web parity `grammar-level-detail.tsx`:
 /// gradient hero + progress ring, search-trong-level, topic sections
@@ -116,7 +117,7 @@ class _GrammarLevelDetailViewState extends State<GrammarLevelDetailView> {
         TextField(
           decoration: InputDecoration(
             hintText: l10n.grammarSearchInLevelHint(widget.level),
-            prefixIcon: const Icon(Icons.search, size: 18),
+            prefixIcon: const Icon(PhosphorIcons.magnifyingGlass, size: 18),
             filled: true,
             fillColor: tokens.card,
             contentPadding: const EdgeInsets.symmetric(vertical: 0),
@@ -215,7 +216,7 @@ class _SoloLessonRow extends StatelessWidget {
                     shape: BoxShape.circle,
                   ),
                   child: done
-                      ? const Icon(Icons.check, color: Colors.white, size: 16)
+                      ? const Icon(PhosphorIcons.check, color: Colors.white, size: 16)
                       : Text(
                           '${index + 1}',
                           style: const TextStyle(
@@ -237,7 +238,7 @@ class _SoloLessonRow extends StatelessWidget {
                   ),
                 ),
                 Icon(
-                  Icons.chevron_right,
+                  PhosphorIcons.caretRight,
                   size: 18,
                   color: tokens.mutedForeground,
                 ),
@@ -313,7 +314,7 @@ class _TopicSection extends StatelessWidget {
                         ),
                         child: allDone
                             ? const Icon(
-                                Icons.check,
+                                PhosphorIcons.check,
                                 color: Colors.white,
                                 size: 16,
                               )
@@ -376,7 +377,7 @@ class _TopicSection extends StatelessWidget {
                         turns: expanded ? 0.25 : 0,
                         duration: const Duration(milliseconds: 150),
                         child: Icon(
-                          Icons.chevron_right,
+                          PhosphorIcons.caretRight,
                           size: 18,
                           color: tokens.mutedForeground,
                         ),
@@ -440,7 +441,7 @@ class _SubLessonRow extends StatelessWidget {
                   shape: BoxShape.circle,
                 ),
                 child: done
-                    ? Icon(Icons.check, size: 13, color: tokens.success)
+                    ? Icon(PhosphorIcons.check, size: 13, color: tokens.success)
                     : Text(
                         '${index + 1}',
                         style: TextStyle(
@@ -461,7 +462,7 @@ class _SubLessonRow extends StatelessWidget {
                 ),
               ),
               Icon(
-                Icons.chevron_right,
+                PhosphorIcons.caretRight,
                 size: 15,
                 color: tokens.mutedForeground,
               ),

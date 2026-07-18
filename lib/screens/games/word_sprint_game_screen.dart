@@ -12,6 +12,7 @@ import '../../view_models/games/word_sprint_provider.dart';
 import '../../widgets/common/async_state_views.dart';
 import '../../widgets/common/game_shell.dart';
 import 'widgets/sprint_widgets.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Word Sprint (60s quiz) — nguồn từ vựng live: `GET /vocabulary/learned`
 /// (tái dùng [VocabularyRepository], không còn dùng danh sách tĩnh cũ).
@@ -183,7 +184,7 @@ class _WordSprintGameScreenState extends ConsumerState<WordSprintGameScreen> {
       scrollable: false,
       trailing: IconButton(
         tooltip: 'Đổi chủ đề',
-        icon: const Icon(Icons.shuffle),
+        icon: const Icon(PhosphorIcons.shuffle),
         onPressed: _started ? _shuffleTopic : null,
       ),
       child: wordsAsync.when(

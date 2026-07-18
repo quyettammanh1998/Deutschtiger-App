@@ -7,6 +7,7 @@ import '../../l10n/app_localizations.dart';
 import '../../view_models/preferences_provider.dart';
 import '../../view_models/theme_provider.dart';
 import 'widgets/settings_tiles.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Giao diện — web parity: `settings-appearance-page.tsx` /
 /// `settings-appearance-section.tsx`. Dark-mode toggle (drives the
@@ -34,7 +35,7 @@ class AppearanceScreen extends ConsumerWidget {
             Row(
               children: [
                 IconButton(
-                  icon: Icon(Icons.arrow_back, color: tokens.foreground),
+                  icon: Icon(PhosphorIcons.arrowLeft, color: tokens.foreground),
                   onPressed: () => context.pop(),
                 ),
                 const SizedBox(width: 4),

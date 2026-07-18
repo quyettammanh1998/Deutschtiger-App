@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_tokens.dart';
 import 'package:deutschtiger/data/exam/exam_models.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 class ExamReadinessCard extends StatelessWidget {
   final ExamReadiness readiness;
@@ -104,7 +105,7 @@ class ExamReadinessCard extends StatelessWidget {
                         Row(
                           children: [
                             Icon(
-                              Icons.thumb_up,
+                              PhosphorIcons.thumbsUp,
                               size: 16,
                               color: context.tokens.success,
                             ),
@@ -140,7 +141,7 @@ class ExamReadinessCard extends StatelessWidget {
                         const Row(
                           children: [
                             Icon(
-                              Icons.trending_up,
+                              PhosphorIcons.trendUp,
                               size: 16,
                               color: AppColors.error,
                             ),

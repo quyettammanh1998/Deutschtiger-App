@@ -5,6 +5,7 @@ import '../../../../core/theme/app_tokens.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../../widgets/common/sticky_cta_bar.dart';
 import 'vocabulary_practice_launcher.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Sticky bottom bar — web parity: `VocabLearnBottomBar` (pager row + 4
 /// practice-mode icon buttons + "Học từ mới" gradient CTA when a lesson
@@ -44,12 +45,12 @@ class VocabularyDetailStickyBar extends ConsumerWidget {
                 children: [
                   IconButton(
                     onPressed: page! > 1 ? onPrevPage : null,
-                    icon: const Icon(Icons.chevron_left),
+                    icon: const Icon(PhosphorIcons.caretLeft),
                   ),
                   Text('$page / $totalPages', style: const TextStyle(fontSize: 12)),
                   IconButton(
                     onPressed: page! < totalPages! ? onNextPage : null,
-                    icon: const Icon(Icons.chevron_right),
+                    icon: const Icon(PhosphorIcons.caretRight),
                   ),
                 ],
               ),

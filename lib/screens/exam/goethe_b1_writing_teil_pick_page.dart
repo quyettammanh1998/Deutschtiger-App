@@ -9,6 +9,7 @@ import '../../l10n/app_localizations.dart';
 import '../../widgets/common/app_card.dart';
 import 'widgets/writing_teil_pick/teil_pick_card.dart';
 import 'widgets/writing_teil_pick/teil_pick_hero.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Goethe B1 writing Teil picker — web parity
 /// `goethe-b1-writing-teil-pick-page.tsx` (`/exams/goethe-b1/writing`):
@@ -39,7 +40,7 @@ class GoetheB1WritingTeilPickPage extends ConsumerWidget {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  IconButton(icon: const Icon(Icons.arrow_back), onPressed: () => context.pop()),
+                  IconButton(icon: const Icon(PhosphorIcons.arrowLeft), onPressed: () => context.pop()),
                   const SizedBox(width: 4),
                   Expanded(
                     child: Padding(

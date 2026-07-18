@@ -4,6 +4,7 @@ import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_tokens.dart';
 import 'package:deutschtiger/data/social/social_legacy_mock_models.dart';
 import 'package:deutschtiger/view_models/social/social_legacy_provider.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 class ChallengesPage extends ConsumerStatefulWidget {
   const ChallengesPage({super.key});
@@ -42,7 +43,7 @@ class _ChallengesPageState extends ConsumerState<ChallengesPage> with SingleTick
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.emoji_events),
+            icon: const Icon(PhosphorIcons.trophy),
             onPressed: () {},
           ),
         ],
@@ -103,7 +104,7 @@ class _ChallengesPageState extends ConsumerState<ChallengesPage> with SingleTick
       floatingActionButton: FloatingActionButton.extended(
         backgroundColor: AppColors.tigerOrange,
         onPressed: () => _showCreateChallengeSheet(context),
-        icon: const Icon(Icons.add, color: Colors.white),
+        icon: const Icon(PhosphorIcons.plus, color: Colors.white),
         label: const Text('Send Challenge', style: TextStyle(color: Colors.white)),
       ),
     );
@@ -116,7 +117,7 @@ class _ChallengesPageState extends ConsumerState<ChallengesPage> with SingleTick
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
-              tab == 'pending' ? Icons.hourglass_empty : (tab == 'accepted' ? Icons.sports : Icons.emoji_events),
+              tab == 'pending' ? PhosphorIcons.hourglass : (tab == 'accepted' ? PhosphorIcons.gameController : PhosphorIcons.trophy),
               size: 64,
               color: Colors.grey[400],
             ),
@@ -222,7 +223,7 @@ class _ChallengeCard extends StatelessWidget {
                       Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          const Icon(Icons.star, size: 16, color: AppColors.tigerOrange),
+                          const Icon(PhosphorIcons.star, size: 16, color: AppColors.tigerOrange),
                           const SizedBox(width: 4),
                           Text(
                             '+${challenge.xpReward} XP',
@@ -335,7 +336,7 @@ class _PlayerInfo extends StatelessWidget {
                     color: AppColors.tigerOrange,
                     shape: BoxShape.circle,
                   ),
-                  child: const Icon(Icons.arrow_forward, size: 12, color: Colors.white),
+                  child: const Icon(PhosphorIcons.arrowRight, size: 12, color: Colors.white),
                 ),
               ),
           ],
@@ -370,22 +371,22 @@ class _StatusChip extends StatelessWidget {
       case 'pending':
         color = Colors.orange;
         label = 'Pending';
-        icon = Icons.hourglass_empty;
+        icon = PhosphorIcons.hourglass;
         break;
       case 'accepted':
         color = AppColors.tigerOrange;
         label = 'In Progress';
-        icon = Icons.play_circle;
+        icon = PhosphorIcons.playCircle;
         break;
       case 'completed':
         color = context.tokens.success;
         label = 'Completed';
-        icon = Icons.check_circle;
+        icon = PhosphorIcons.checkCircle;
         break;
       default:
         color = Colors.grey;
         label = status;
-        icon = Icons.circle;
+        icon = PhosphorIcons.circle;
     }
 
     return Container(
@@ -456,7 +457,7 @@ class _CreateChallengeSheetState extends State<_CreateChallengeSheet> {
               ),
               const Spacer(),
               IconButton(
-                icon: const Icon(Icons.close),
+                icon: const Icon(PhosphorIcons.x),
                 onPressed: () => Navigator.pop(context),
               ),
             ],
@@ -510,7 +511,7 @@ class _CreateChallengeSheetState extends State<_CreateChallengeSheet> {
             ),
             child: Row(
               children: [
-                const Icon(Icons.emoji_events, color: AppColors.tigerOrange),
+                const Icon(PhosphorIcons.trophy, color: AppColors.tigerOrange),
                 const SizedBox(width: 12),
                 Expanded(
                   child: Column(

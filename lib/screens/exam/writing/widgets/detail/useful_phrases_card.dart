@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../../core/theme/app_tokens.dart';
 import '../../../../../features/writing/domain/writing_topic/phrases_samples_models.dart';
 import '../../../../../features/writing/presentation/widgets/writing_audio_play_button.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// `sec-redemittel` — one nested collapsible category per group, table of
 /// (de, vi) rows inside — "Dùng khi" column dropped on mobile per spec.
@@ -42,7 +43,7 @@ class _WritingUsefulPhrasesCardState extends State<WritingUsefulPhrasesCard> {
                           child: Text(widget.categories[i].category,
                               style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: tokens.foreground)),
                         ),
-                        Icon(_open.contains(i) ? Icons.expand_less : Icons.expand_more, size: 16, color: tokens.mutedForeground),
+                        Icon(_open.contains(i) ? PhosphorIcons.caretUp : PhosphorIcons.caretDown, size: 16, color: tokens.mutedForeground),
                       ],
                     ),
                   ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../core/design_tokens.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// "Premium" badge with a gold icon and a label. Renders inline next to a
 /// username, in a card header, or as a small chip.
@@ -39,7 +40,7 @@ class PremiumCrown extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Icon(
-            Icons.workspace_premium,
+            PhosphorIcons.crown,
             color: DesignTokens.card,
             size: iconSize,
           ),

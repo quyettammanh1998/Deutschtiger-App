@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../core/theme/app_tokens.dart';
 import '../../../data/speech/conversation_display.dart';
 import '../../../l10n/app_localizations.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 const interviewImportMaxChars = 60000;
 
@@ -69,7 +70,7 @@ class InterviewImportInputStep extends StatelessWidget {
               onPressed: busy ? null : onExtract,
               icon: busy
                   ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
-                  : const Icon(Icons.auto_awesome, size: 18),
+                  : const Icon(PhosphorIcons.sparkle, size: 18),
               label: Text(busy ? l10n.interviewImportExtracting : l10n.interviewImportExtract),
             ),
           ),

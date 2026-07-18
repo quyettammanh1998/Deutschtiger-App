@@ -9,6 +9,7 @@ import '../../../l10n/app_localizations.dart';
 import '../../../view_models/exam/exam_ecosystem_providers.dart';
 import '../../../widgets/common/async_state_views.dart';
 import '../widgets/community/community_topic_card.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// `writing-level-topics` (`/exam/:providerLevel/writing`) — generic official
 /// topic list + community section for a provider/level offering not covered
@@ -56,7 +57,7 @@ class WritingLevelTopicsPage extends ConsumerWidget {
           children: [
             Row(
               children: [
-                IconButton(icon: const Icon(Icons.arrow_back), onPressed: () => context.pop()),
+                IconButton(icon: const Icon(PhosphorIcons.arrowLeft), onPressed: () => context.pop()),
                 Expanded(
                   child: Text(
                     l10n.writingLevelTitle(offering.label),
@@ -230,7 +231,7 @@ class _NotFound extends StatelessWidget {
         children: [
           Row(
             children: [
-              IconButton(icon: const Icon(Icons.arrow_back), onPressed: () => context.pop()),
+              IconButton(icon: const Icon(PhosphorIcons.arrowLeft), onPressed: () => context.pop()),
             ],
           ),
           Text(l10n.writingLevelNotFound),

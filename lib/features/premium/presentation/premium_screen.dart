@@ -7,6 +7,7 @@ import '../../../core/design_tokens.dart';
 import '../../../core/theme/app_tokens.dart';
 import '../domain/premium_providers.dart';
 import '../data/revenuecat_service.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// GĐ2 — Premium purchase screen.
 ///
@@ -126,7 +127,7 @@ class _Body extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           const SizedBox(height: DesignTokens.spacingLg),
-          const Icon(Icons.workspace_premium, size: 64, color: DesignTokens.tigerOrange),
+          const Icon(PhosphorIcons.crown, size: 64, color: DesignTokens.tigerOrange),
           const SizedBox(height: DesignTokens.spacingMd),
           Text(
             'Học không giới hạn',

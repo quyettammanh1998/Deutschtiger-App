@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'welcome_palette.dart';
 import 'welcome_section_head.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// "Học viên" testimonials — mirrors `welcome-testimonials.tsx`.
 class WelcomeTestimonials extends StatelessWidget {
@@ -129,7 +130,7 @@ class _TestimonialCard extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(width: 4),
-                        const CircleAvatar(radius: 7, backgroundColor: WelPalette.orange500, child: Icon(Icons.check, size: 9, color: Colors.white)),
+                        const CircleAvatar(radius: 7, backgroundColor: WelPalette.orange500, child: Icon(PhosphorIcons.check, size: 9, color: Colors.white)),
                       ],
                     ),
                     Text(sub, overflow: TextOverflow.ellipsis, maxLines: 1, style: const TextStyle(fontSize: 12, color: WelPalette.inkMuted55)),

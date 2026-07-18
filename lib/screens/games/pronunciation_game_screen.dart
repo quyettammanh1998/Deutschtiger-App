@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/theme/app_tokens.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Pronunciation Practice game - Luyện phát âm.
 class PronunciationGameScreen extends StatefulWidget {
@@ -167,7 +168,7 @@ class _PronunciationGameScreenState extends State<PronunciationGameScreen>
         backgroundColor: background,
         title: const Text('Luyện phát âm'),
         leading: IconButton(
-          icon: const Icon(Icons.close),
+          icon: const Icon(PhosphorIcons.x),
           onPressed: () => context.pop(),
         ),
       ),
@@ -197,7 +198,7 @@ class _PronunciationGameScreenState extends State<PronunciationGameScreen>
             children: [
               Row(
                 children: [
-                  const Icon(Icons.star, color: Colors.deepPurple),
+                  const Icon(PhosphorIcons.star, color: Colors.deepPurple),
                   const SizedBox(width: 4),
                   Text('$_score', style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                 ],
@@ -277,7 +278,7 @@ class _PronunciationGameScreenState extends State<PronunciationGameScreen>
                 ),
                 child: Row(
                   children: [
-                    Icon(Icons.lightbulb_outline, color: typeColor, size: 20),
+                    Icon(PhosphorIcons.lightbulb, color: typeColor, size: 20),
                     const SizedBox(width: 8),
                     Expanded(
                       child: Text(
@@ -329,7 +330,7 @@ class _PronunciationGameScreenState extends State<PronunciationGameScreen>
                       ),
                     // Icon
                     Icon(
-                      _isPlaying ? Icons.volume_up : Icons.play_arrow,
+                      _isPlaying ? PhosphorIcons.speakerHigh : PhosphorIcons.play,
                       size: 48,
                       color: Colors.deepPurple,
                     ),
@@ -369,7 +370,7 @@ class _PronunciationGameScreenState extends State<PronunciationGameScreen>
                   child: const Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.close),
+                      Icon(PhosphorIcons.x),
                       SizedBox(width: 8),
                       Text('Chưa đúng'),
                     ],
@@ -389,7 +390,7 @@ class _PronunciationGameScreenState extends State<PronunciationGameScreen>
                   child: const Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.check),
+                      Icon(PhosphorIcons.check),
                       SizedBox(width: 8),
                       Text('Đúng rồi'),
                     ],
@@ -431,7 +432,7 @@ class _PronunciationGameScreenState extends State<PronunciationGameScreen>
                 shape: BoxShape.circle,
                 color: Colors.deepPurple.shade100,
               ),
-              child: const Icon(Icons.record_voice_over, size: 40, color: Colors.deepPurple),
+              child: const Icon(PhosphorIcons.microphoneStage, size: 40, color: Colors.deepPurple),
             ),
             const SizedBox(height: 16),
             Text(

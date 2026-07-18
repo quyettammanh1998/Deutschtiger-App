@@ -6,6 +6,7 @@ import 'package:deutschtiger/core/theme/app_tokens.dart';
 import 'package:deutschtiger/view_models/providers.dart';
 
 import 'widgets/social_avatar.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Duel match screen — UI shell only (web parity: `duel-play-page.tsx`,
 /// `duel-score-overlay.tsx`, `duel-result-screen.tsx`: fixed score overlay,
@@ -47,7 +48,7 @@ class DuelPlayPage extends ConsumerWidget {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Icon(Icons.hourglass_empty, size: 48, color: tokens.mutedForeground),
+                      Icon(PhosphorIcons.hourglass, size: 48, color: tokens.mutedForeground),
                       const SizedBox(height: 16),
                       Text(
                         'Trận đấu trực tiếp sắp ra mắt',

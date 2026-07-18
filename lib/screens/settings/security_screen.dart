@@ -10,6 +10,7 @@ import '../../repositories/settings/device_session_repository.dart';
 import 'package:deutschtiger/view_models/settings/device_session_provider.dart';
 import 'widgets/security_form_cards.dart';
 import 'widgets/settings_tiles.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Bảo mật — web parity: `settings-security-page.tsx`. Password-change card
 /// (Supabase `auth.updateUser`, matching `useAuth().updatePassword` on web)
@@ -168,7 +169,7 @@ class _SecurityScreenState extends ConsumerState<SecurityScreen> {
               Row(
                 children: [
                   IconButton(
-                    icon: Icon(Icons.arrow_back, color: tokens.foreground),
+                    icon: Icon(PhosphorIcons.arrowLeft, color: tokens.foreground),
                     onPressed: () => context.pop(),
                   ),
                   const SizedBox(width: 4),
@@ -222,7 +223,7 @@ class _SecurityScreenState extends ConsumerState<SecurityScreen> {
               SettingsNavRowCard(
                 children: [
                   SettingsNavRow(
-                    icon: Icons.delete_outline,
+                    icon: PhosphorIcons.trash,
                     label: l10n.deleteAccount,
                     destructive: true,
                     onTap: () => context.push('/settings/delete-account'),
@@ -248,7 +249,7 @@ class _SecurityScreenState extends ConsumerState<SecurityScreen> {
         padding: const EdgeInsets.all(12),
         child: Row(
           children: [
-            Icon(Icons.error_outline, color: tokens.destructive),
+            Icon(PhosphorIcons.warning, color: tokens.destructive),
             const SizedBox(width: 8),
             Expanded(child: Text(l10n.couldNotLoadDevices)),
             TextButton(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/theme/app_tokens.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 const _kCefrOrder = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
 const _kLevelLabels = {
@@ -46,7 +47,7 @@ class GameHubLevelTip extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(Icons.info_outline,
+          Icon(PhosphorIcons.info,
               size: 16, color: isDark ? Colors.blue.shade300 : Colors.blue.shade500),
           const SizedBox(width: 10),
           Expanded(

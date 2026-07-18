@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../../core/theme/app_tokens.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Reader section shell — web parity `collapsible.tsx`. Emoji lives in
 /// [title]. Supports controlled ([isOpen]/[onToggle], used by TOC/autoplay
@@ -53,7 +54,7 @@ class CollapsibleSection extends StatelessWidget {
                   AnimatedRotation(
                     turns: isOpen ? 0.5 : 0,
                     duration: const Duration(milliseconds: 200),
-                    child: Icon(Icons.keyboard_arrow_down, size: 18, color: tokens.mutedForeground),
+                    child: Icon(PhosphorIcons.caretDown, size: 18, color: tokens.mutedForeground),
                   ),
                 ],
               ),

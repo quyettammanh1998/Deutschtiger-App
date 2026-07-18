@@ -12,6 +12,7 @@ import '../../../../core/design_tokens.dart';
 import '../../../../core/exam_design_tokens.dart';
 import '../../domain/exam_models.dart';
 import 'question_card_frame.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 class QuestionMc extends StatelessWidget {
   const QuestionMc({
@@ -93,13 +94,13 @@ class _OptionTile extends StatelessWidget {
       bg = ExamDesignTokens.examSuccessSoft;
       letterBg = ExamDesignTokens.examAnswerCorrectColor;
       letterFg = Colors.white;
-      trailing = Icons.check_circle;
+      trailing = PhosphorIcons.checkCircle;
     } else if (isUserWrong) {
       borderColor = ExamDesignTokens.examAnswerWrongColor;
       bg = ExamDesignTokens.examDangerSoft;
       letterBg = ExamDesignTokens.examAnswerWrongColor;
       letterFg = Colors.white;
-      trailing = Icons.cancel;
+      trailing = PhosphorIcons.xCircle;
     } else if (isSelected) {
       borderColor = ExamDesignTokens.examActive;
       bg = ExamDesignTokens.examActiveSoft;

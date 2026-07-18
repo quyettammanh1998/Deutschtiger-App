@@ -10,6 +10,7 @@ import '../../widgets/common/async_state_views.dart';
 import 'widgets/list/exam_list_item.dart';
 import 'widgets/list/exam_part_card.dart';
 import 'widgets/section/exam_readiness_summary_card.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 const _providerLabels = {
   'telc': 'telc Deutsch',
@@ -124,7 +125,7 @@ class _ListViewState extends ConsumerState<_ListView> {
               onPressed: () => widget.parentPath != null
                   ? context.go(widget.parentPath!)
                   : context.pop(),
-              icon: const Icon(Icons.arrow_back_rounded),
+              icon: const Icon(PhosphorIcons.arrowLeft),
               color: tokens.foreground,
             ),
             const SizedBox(width: 4),
@@ -245,7 +246,7 @@ class _DetailView extends StatelessWidget {
           children: [
             IconButton(
               onPressed: onBack,
-              icon: const Icon(Icons.arrow_back_rounded),
+              icon: const Icon(PhosphorIcons.arrowLeft),
             ),
             Text(
               l10n.examSetEmptyTitle,
@@ -262,7 +263,7 @@ class _DetailView extends StatelessWidget {
           children: [
             IconButton(
               onPressed: onBack,
-              icon: const Icon(Icons.arrow_back_rounded),
+              icon: const Icon(PhosphorIcons.arrowLeft),
               color: tokens.foreground,
             ),
             const SizedBox(width: 4),

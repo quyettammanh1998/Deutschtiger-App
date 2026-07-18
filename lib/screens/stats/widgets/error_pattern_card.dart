@@ -6,6 +6,7 @@ import '../../../l10n/app_localizations.dart';
 import '../../../widgets/common/app_button.dart';
 import 'package:deutschtiger/data/stats/stats_models.dart';
 import 'error_pattern_labels.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// One error-pattern card — bullet + label + count, strikethrough/corrected
 /// example, per-type drill CTA, source pills. Mirror web `PatternCard`.
@@ -113,7 +114,7 @@ class ErrorPatternCard extends StatelessWidget {
                       ),
                       const SizedBox(width: 2),
                       Icon(
-                        Icons.arrow_forward,
+                        PhosphorIcons.arrowRight,
                         size: 14,
                         color: tokens.primary,
                       ),

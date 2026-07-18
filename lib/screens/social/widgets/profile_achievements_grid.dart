@@ -226,16 +226,18 @@ class _ProfileAchievementsGridState extends State<ProfileAchievementsGrid> {
                           style: const TextStyle(fontSize: 22),
                         ),
                         const SizedBox(height: 4),
-                        Text(
-                          isExpanded ? a.description : a.name,
-                          style: TextStyle(
-                            fontSize: 9,
-                            height: 1.1,
-                            color: tokens.mutedForeground,
+                        Flexible(
+                          child: Text(
+                            isExpanded ? a.description : a.name,
+                            style: TextStyle(
+                              fontSize: 9,
+                              height: 1.1,
+                              color: tokens.mutedForeground,
+                            ),
+                            textAlign: TextAlign.center,
+                            maxLines: 3,
+                            overflow: TextOverflow.ellipsis,
                           ),
-                          textAlign: TextAlign.center,
-                          maxLines: 3,
-                          overflow: TextOverflow.ellipsis,
                         ),
                       ],
                     ),

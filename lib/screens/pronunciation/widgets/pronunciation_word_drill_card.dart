@@ -232,7 +232,7 @@ class _PronunciationWordDrillCardState
                       )
                     else
                       const Icon(
-                        Icons.play_arrow_rounded,
+                        PhosphorIcons.play,
                         color: Colors.white,
                         size: 20,
                       ),

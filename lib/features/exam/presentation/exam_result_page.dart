@@ -19,6 +19,7 @@ import 'widgets/mobile_player/exam_comment_section.dart';
 import 'widgets/result/attempt_history_list.dart';
 import 'widgets/result/result_summary_card.dart';
 import 'widgets/result/smart_review_card.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 class ExamResultPage extends ConsumerWidget {
   const ExamResultPage({super.key, required this.examId});
@@ -75,7 +76,7 @@ class _ResultBody extends StatelessWidget {
               IconButton(
                 onPressed: () =>
                     context.go('/exam/practice/${exam.id}?mode=review'),
-                icon: Icon(Icons.arrow_back, color: tokens.foreground),
+                icon: Icon(PhosphorIcons.arrowLeft, color: tokens.foreground),
               ),
               Expanded(
                 child: Text(

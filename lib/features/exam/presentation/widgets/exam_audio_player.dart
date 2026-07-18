@@ -16,6 +16,7 @@ import '../../../../core/design_tokens.dart';
 import '../../../../core/exam_design_tokens.dart';
 import '../../../../l10n/app_localizations.dart';
 import 'exam_audio_controls.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 class ExamAudioPlayer extends StatefulWidget {
   const ExamAudioPlayer({
@@ -125,7 +126,7 @@ class _ExamAudioPlayerState extends State<ExamAudioPlayer> {
           Row(
             children: [
               const Icon(
-                Icons.headphones,
+                PhosphorIcons.headphones,
                 color: ExamDesignTokens.examActive,
                 size: 20,
               ),
@@ -198,7 +199,7 @@ class _ExamAudioPlayerState extends State<ExamAudioPlayer> {
               child: Row(
                 children: [
                   const Icon(
-                    Icons.info_outline,
+                    PhosphorIcons.info,
                     size: 14,
                     color: ExamDesignTokens.examWarnFg,
                   ),

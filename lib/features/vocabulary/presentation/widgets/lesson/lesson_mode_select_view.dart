@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../../core/theme/app_tokens.dart';
 import '../../../../../widgets/common/app_card.dart';
 import '../../../data/vocab_lesson_utils.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 const _modeOrder = [
   VocabLessonMode.quick,
@@ -18,9 +19,9 @@ const Map<VocabLessonMode, Color> _accentColors = {
 };
 
 const Map<VocabLessonMode, IconData> _modeIcons = {
-  VocabLessonMode.quick: Icons.bolt_rounded,
-  VocabLessonMode.standard: Icons.menu_book_rounded,
-  VocabLessonMode.intensive: Icons.emoji_events_rounded,
+  VocabLessonMode.quick: PhosphorIcons.lightning,
+  VocabLessonMode.standard: PhosphorIcons.bookOpen,
+  VocabLessonMode.intensive: PhosphorIcons.trophy,
 };
 
 /// Phase "select-mode" full-screen body — 3 tier cards (Nhanh/Đầy đủ/Chuyên
@@ -186,7 +187,7 @@ class _ModeCard extends StatelessWidget {
                   ],
                 ),
               ),
-              Icon(Icons.chevron_right_rounded, color: tokens.mutedForeground.withValues(alpha: 0.5)),
+              Icon(PhosphorIcons.caretRight, color: tokens.mutedForeground.withValues(alpha: 0.5)),
             ],
           ),
         ),

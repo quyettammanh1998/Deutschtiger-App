@@ -7,6 +7,7 @@ import '../../features/exam/presentation/exam_player_provider.dart';
 import '../../l10n/app_localizations.dart';
 import '../../widgets/common/async_state_views.dart';
 import 'widgets/skill/exam_skill_row.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 const _skillMeta = {
   'leseverstehen': ('Đọc hiểu', '📖'),
@@ -95,7 +96,7 @@ class ExamSkillListScreen extends ConsumerWidget {
                   children: [
                     IconButton(
                       onPressed: () => context.pop(),
-                      icon: const Icon(Icons.arrow_back_rounded),
+                      icon: const Icon(PhosphorIcons.arrowLeft),
                       color: tokens.foreground,
                     ),
                     const SizedBox(width: 4),

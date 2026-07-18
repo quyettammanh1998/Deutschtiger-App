@@ -11,6 +11,7 @@ import 'package:deutschtiger/view_models/social/messages_provider.dart';
 import 'package:deutschtiger/widgets/common/app_card.dart';
 
 import 'widgets/social_avatar.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Friends hub: accepted friends (online/offline sections), pending requests
 /// (accept/reject) and user search (send request, w/ suggestions). Block is
@@ -57,7 +58,7 @@ class _FriendsPageState extends ConsumerState<FriendsPage> {
               child: Row(
                 children: [
                   IconButton(
-                    icon: const Icon(Icons.arrow_back),
+                    icon: const Icon(PhosphorIcons.arrowLeft),
                     onPressed: () =>
                         context.canPop() ? context.pop() : context.go('/home'),
                   ),
@@ -476,7 +477,7 @@ class _RequestsTab extends ConsumerWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.hourglass_empty, size: 48, color: tokens.mutedForeground),
+            Icon(PhosphorIcons.hourglass, size: 48, color: tokens.mutedForeground),
             const SizedBox(height: 12),
             Text(
               l10n.socialNoPendingRequests,

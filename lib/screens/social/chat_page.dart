@@ -12,6 +12,7 @@ import 'package:deutschtiger/view_models/social/messages_provider.dart';
 import 'package:deutschtiger/view_models/social/public_profile_provider.dart';
 
 import 'widgets/social_avatar.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 const Map<String, String> _kChatActivityLabels = {
   'dashboard': 'Đang online',
@@ -112,7 +113,7 @@ class _ChatPageState extends ConsumerState<ChatPage>
         backgroundColor: Colors.white,
         elevation: 1,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
+          icon: const Icon(PhosphorIcons.arrowLeft),
           onPressed: () => context.pop(),
         ),
         title: GestureDetector(
@@ -305,7 +306,7 @@ class _ChatPageState extends ConsumerState<ChatPage>
                     height: 20,
                     child: CircularProgressIndicator(strokeWidth: 2),
                   )
-                : const Icon(Icons.send),
+                : const Icon(PhosphorIcons.paperPlaneTilt),
             onPressed: _sending ? null : _sendMessage,
             color: AppColors.tigerOrange,
           ),
@@ -373,7 +374,7 @@ class _MessageBubble extends StatelessWidget {
               if (isMe) ...[
                 const SizedBox(width: 4),
                 Icon(
-                  message.readAt != null ? Icons.done_all : Icons.done,
+                  message.readAt != null ? PhosphorIcons.checks : PhosphorIcons.check,
                   size: 12,
                   color: message.readAt != null
                       ? AppColors.tigerOrange

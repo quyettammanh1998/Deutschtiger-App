@@ -5,6 +5,7 @@ import '../../../core/theme/app_tokens.dart';
 import '../../../features/daily_path/domain/daily_path.dart';
 import '../../../features/daily_path/domain/skill_emoji.dart';
 import '../../../l10n/app_localizations.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Sub-widgets used only by [ResumeLearningCard] (`resume_section.dart`) —
 /// split out to keep the main hero file under the project's LOC guidance.
@@ -291,7 +292,7 @@ class DailyPathMiniStepper extends StatelessWidget {
       return _circle(
         color: DesignTokens.emerald100,
         child: const Icon(
-          Icons.check,
+          PhosphorIcons.check,
           size: 16,
           color: DesignTokens.emerald600,
         ),

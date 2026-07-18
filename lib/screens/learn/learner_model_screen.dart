@@ -13,6 +13,7 @@ import 'widgets/learner_model_sections.dart';
 import 'widgets/learner_readiness_card.dart';
 import 'widgets/mastery_ring.dart';
 import 'widgets/weekly_recap_card.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// "Hồ sơ năng lực" — độ thành thạo theo trình độ, việc làm được (can-do) và
 /// điểm cần cải thiện. `GET /user/learner-model` + `GET
@@ -52,7 +53,7 @@ class LearnerModelScreen extends ConsumerWidget {
                 children: [
                   GestureDetector(
                     onTap: () => context.pop(),
-                    child: Icon(Icons.arrow_back, size: 20, color: tokens.foreground),
+                    child: Icon(PhosphorIcons.arrowLeft, size: 20, color: tokens.foreground),
                   ),
                   const SizedBox(height: 8),
                   Text(

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../core/theme/app_tokens.dart';
 import 'package:deutschtiger/l10n/app_localizations.dart';
 import 'video_status_filter_bar.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// 16:9 thumbnail grid card with status ring/badge — web parity
 /// `video-collection-card.tsx` (`VideoCollectionCard`/`VideoThumbnailCard`).
@@ -97,7 +98,7 @@ class VideoCollectionCard extends StatelessWidget {
                                 color: Colors.black.withValues(alpha: 0.6),
                                 shape: BoxShape.circle,
                               ),
-                              child: const Icon(Icons.close, size: 14, color: Colors.white),
+                              child: const Icon(PhosphorIcons.x, size: 14, color: Colors.white),
                             ),
                           ),
                         ),
@@ -161,7 +162,7 @@ class VideoCollectionCard extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(completed ? Icons.check : Icons.schedule, size: 10, color: Colors.white),
+          Icon(completed ? PhosphorIcons.check : PhosphorIcons.clock, size: 10, color: Colors.white),
           const SizedBox(width: 2),
           Text(
             completed ? l10n.videoCollectionWatched : l10n.statsMasteryLearning,

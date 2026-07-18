@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/theme/app_tokens.dart';
 import '../../../../features/exam/presentation/exam_player_provider.dart';
 import '../../../../features/exam/data/exam_service.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Web parity: `listing/exam-list-item.tsx`. One row = one exam set.
 /// Completion state comes from [examResultProvider] keyed by the SET slug
@@ -52,13 +53,13 @@ class ExamListItem extends ConsumerWidget {
                 ),
                 child: locked
                     ? Icon(
-                        Icons.lock_outline_rounded,
+                        PhosphorIcons.lock,
                         size: 16,
                         color: tokens.mutedForeground,
                       )
                     : isCompleted
                     ? const Icon(
-                        Icons.check_rounded,
+                        PhosphorIcons.check,
                         color: Colors.white,
                         size: 20,
                       )
@@ -110,7 +111,7 @@ class ExamListItem extends ConsumerWidget {
                 ),
               const SizedBox(width: 4),
               Icon(
-                Icons.chevron_right_rounded,
+                PhosphorIcons.caretRight,
                 size: 18,
                 color: tokens.mutedForeground,
               ),

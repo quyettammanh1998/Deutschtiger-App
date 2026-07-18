@@ -281,7 +281,7 @@ class _CreateButton extends StatelessWidget {
           child: const SizedBox(
             width: 36,
             height: 36,
-            child: Icon(Icons.add, color: Colors.white, size: 20),
+            child: Icon(PhosphorIcons.plus, color: Colors.white, size: 20),
           ),
         ),
       ),

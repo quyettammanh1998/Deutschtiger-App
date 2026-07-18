@@ -11,6 +11,7 @@ import 'widgets/vocabulary_detail_mastery_strip.dart';
 import 'widgets/vocabulary_detail_scope_resolver.dart';
 import 'widgets/vocabulary_detail_sticky_bar.dart';
 import 'widgets/vocabulary_practice_launcher.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// `/vocabulary/:slug` — a topic/level/collection WORD LIST (not a
 /// single-word view; that's `vocabulary_word_screen.dart`). Web parity:
@@ -160,7 +161,7 @@ class _Header extends StatelessWidget {
             onPressed: () => Navigator.of(context).canPop()
                 ? Navigator.of(context).pop()
                 : GoRouter.of(context).go('/vocabulary'),
-            icon: const Icon(Icons.arrow_back),
+            icon: const Icon(PhosphorIcons.arrowLeft),
           ),
           Expanded(
             child: Column(

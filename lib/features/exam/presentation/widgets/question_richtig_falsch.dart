@@ -8,6 +8,7 @@ import '../../../../core/design_tokens.dart';
 import '../../../../core/exam_design_tokens.dart';
 import '../../domain/exam_models.dart';
 import 'question_card_frame.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 class QuestionRichtigFalsch extends StatelessWidget {
   const QuestionRichtigFalsch({
@@ -49,7 +50,7 @@ class QuestionRichtigFalsch extends StatelessWidget {
             child: _BoolButton(
               label: 'Richtig',
               subLabel: 'Đúng',
-              icon: Icons.check_circle_outline,
+              icon: PhosphorIcons.checkCircle,
               isSelected: selected == true,
               isCorrectAnswer: showCorrectness && correct == true,
               isUserWrong:
@@ -63,7 +64,7 @@ class QuestionRichtigFalsch extends StatelessWidget {
             child: _BoolButton(
               label: 'Falsch',
               subLabel: 'Sai',
-              icon: Icons.cancel_outlined,
+              icon: PhosphorIcons.xCircle,
               isSelected: selected == false,
               isCorrectAnswer: showCorrectness && correct == false,
               isUserWrong:

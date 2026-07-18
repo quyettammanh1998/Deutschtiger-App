@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/design_tokens.dart';
 import 'confirm_dialog.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Default reasons offered in the report sheet (kept short & non-leading so
 /// the free-text field is the primary signal). Mirrors the pattern used in
@@ -55,7 +56,7 @@ class ReportContentButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconButton(
       icon: Icon(
-        Icons.flag_outlined,
+        PhosphorIcons.flag,
         size: 20,
         color: iconColor ?? DesignTokens.mutedForeground,
       ),
@@ -160,7 +161,7 @@ class _ReportContentSheetState extends State<_ReportContentSheet> {
               Row(
                 children: [
                   const Icon(
-                    Icons.flag_outlined,
+                    PhosphorIcons.flag,
                     color: DesignTokens.warning,
                     size: 22,
                   ),
@@ -234,7 +235,7 @@ class _ReportContentSheetState extends State<_ReportContentSheet> {
                   Expanded(
                     child: FilledButton.icon(
                       onPressed: _submit,
-                      icon: const Icon(Icons.send_outlined, size: 18),
+                      icon: const Icon(PhosphorIcons.paperPlaneTilt, size: 18),
                       label: const Text('Gửi báo cáo'),
                       style: FilledButton.styleFrom(
                         backgroundColor: DesignTokens.orange500,
@@ -263,6 +264,6 @@ Future<bool> confirmReportContent(BuildContext context) {
         'trong thời gian sớm nhất.',
     confirmLabel: 'Báo cáo',
     cancelLabel: 'Huỷ',
-    icon: Icons.flag_outlined,
+    icon: PhosphorIcons.flag,
   );
 }

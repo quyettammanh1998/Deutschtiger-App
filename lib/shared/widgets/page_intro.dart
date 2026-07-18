@@ -3,6 +3,7 @@ import 'package:deutschtiger/core/icons/app_phosphor_icons.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../core/theme/app_tokens.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// "Mỗi màn 3 câu" — collapsible orienting strip at the top of a page,
 /// answering: why the user sees this page · what they do here · where to go
@@ -134,7 +135,7 @@ class _PageIntroState extends State<PageIntro> {
                     turns: collapsed ? 0 : 0.5,
                     duration: const Duration(milliseconds: 150),
                     child: Icon(
-                      Icons.keyboard_arrow_down,
+                      PhosphorIcons.caretDown,
                       size: 16,
                       color: tokens.mutedForeground,
                     ),

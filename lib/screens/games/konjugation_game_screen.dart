@@ -9,6 +9,7 @@ import '../../view_models/games/cases_provider.dart';
 import '../../view_models/games/conjugation_provider.dart';
 import '../../widgets/common/async_state_views.dart';
 import '../../widgets/common/game_shell.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 const _minItems = 5;
 const _itemsPerSession = 10;
@@ -366,7 +367,7 @@ class _KonjugationGameScreenState
                   shape: BoxShape.circle,
                   color: Colors.teal.shade100,
                 ),
-                child: const Icon(Icons.edit_note, size: 40, color: Colors.teal),
+                child: const Icon(PhosphorIcons.note, size: 40, color: Colors.teal),
               ),
               const SizedBox(height: 16),
               Text(

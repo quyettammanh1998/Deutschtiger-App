@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../../core/theme/app_tokens.dart';
 import '../../../../../l10n/app_localizations.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Fullscreen typing-practice runner — simplified web parity
 /// `TypingPracticeSheet`/`TypingPracticeRunner`.
@@ -76,7 +77,7 @@ class _TypingPracticeSheetState extends State<TypingPracticeSheet> {
       backgroundColor: tokens.background,
       appBar: AppBar(
         title: Text(l10n.writingTypingPracticeTitle),
-        leading: IconButton(icon: const Icon(Icons.close), onPressed: () => Navigator.of(context).pop()),
+        leading: IconButton(icon: const Icon(PhosphorIcons.x), onPressed: () => Navigator.of(context).pop()),
       ),
       body: SafeArea(
         child: _isDone ? _buildCompletion(tokens, l10n) : _buildRunner(tokens, l10n),

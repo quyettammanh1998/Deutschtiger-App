@@ -6,6 +6,7 @@ import '../../core/theme/app_tokens.dart';
 import '../../l10n/app_localizations.dart';
 import '../../view_models/speech/conversation_provider.dart';
 import 'widgets/conversation_transcript_view.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// `/conversation/history/:id` — read-only review of a saved conversation
 /// practice session (full transcript, no audio). Web parity:
@@ -50,7 +51,7 @@ class ConversationHistoryDetailPage extends ConsumerWidget {
                 Row(
                   children: [
                     IconButton(
-                      icon: const Icon(Icons.arrow_back),
+                      icon: const Icon(PhosphorIcons.arrowLeft),
                       onPressed: () => context.canPop() ? context.pop() : context.go('/conversation'),
                     ),
                     Expanded(

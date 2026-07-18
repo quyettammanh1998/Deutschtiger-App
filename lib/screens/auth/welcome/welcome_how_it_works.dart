@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'welcome_palette.dart';
 import 'welcome_section_head.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// "Cách học" — 3-step showcase — mirrors `welcome-how-it-works.tsx`.
 /// Mobile: stacked (web's alternating left/right reverse rows collapse to a
@@ -233,7 +234,7 @@ class _ShowcaseRow extends StatelessWidget {
                     radius: 10,
                     backgroundColor: Color(0xFFDCFCE7),
                     child: Icon(
-                      Icons.check,
+                      PhosphorIcons.check,
                       size: 12,
                       color: WelPalette.green700,
                     ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'welcome_palette.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Small decorative "3D" badge icons for the hero phone mock — vector
 /// approximations of `welcome-hero-badges.tsx`'s inline-SVG badges
@@ -11,7 +12,7 @@ class WelStreakBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Icon(Icons.local_fire_department, size: size, color: WelPalette.orange600);
+    return Icon(PhosphorIcons.fire, size: size, color: WelPalette.orange600);
   }
 }
 
@@ -29,7 +30,7 @@ class WelXpBadge extends StatelessWidget {
       child: SizedBox(
         width: size,
         height: size,
-        child: const Icon(Icons.star, size: 16, color: Colors.white),
+        child: const Icon(PhosphorIcons.star, size: 16, color: Colors.white),
       ),
     );
   }
@@ -41,7 +42,7 @@ class WelLevelUpBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Icon(Icons.arrow_upward_rounded, size: size, color: WelPalette.green600);
+    return Icon(PhosphorIcons.arrowUp, size: size, color: WelPalette.green600);
   }
 }
 
@@ -51,7 +52,7 @@ class WelTrophyBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Icon(Icons.emoji_events, size: size, color: WelPalette.amber400);
+    return Icon(PhosphorIcons.trophy, size: size, color: WelPalette.amber400);
   }
 }
 

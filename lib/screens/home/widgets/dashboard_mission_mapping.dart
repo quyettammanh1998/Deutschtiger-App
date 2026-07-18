@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../data/home/dashboard_data.dart';
 import '../../../l10n/app_localizations.dart';
 import 'dashboard_sections.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Maps the backend's `Mission` list (real dashboard data) to the
 /// presentation-layer [DashboardMission] the missions section renders.
@@ -27,14 +28,14 @@ List<DashboardMission> mapDashboardMissions(
 /// `daily-missions-section.tsx` (pencil/headphones/cards/book/zap/target/
 /// play/clipboard/gamepad).
 IconData _missionIcon(String icon) => switch (icon) {
-  'pencil' => Icons.edit_outlined,
-  'headphones' => Icons.headset_outlined,
-  'cards' => Icons.style_outlined,
-  'book' => Icons.menu_book_outlined,
-  'zap' => Icons.bolt_outlined,
-  'target' => Icons.track_changes_outlined,
-  'play' => Icons.play_circle_outline,
-  'clipboard' => Icons.assignment_outlined,
-  'gamepad' => Icons.sports_esports_outlined,
-  _ => Icons.star_outline,
+  'pencil' => PhosphorIcons.pencilSimple,
+  'headphones' => PhosphorIcons.headphones,
+  'cards' => PhosphorIcons.cards,
+  'book' => PhosphorIcons.bookOpen,
+  'zap' => PhosphorIcons.lightning,
+  'target' => PhosphorIcons.crosshair,
+  'play' => PhosphorIcons.playCircle,
+  'clipboard' => PhosphorIcons.clipboardText,
+  'gamepad' => PhosphorIcons.gameController,
+  _ => PhosphorIcons.star,
 };

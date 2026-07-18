@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../core/design_tokens.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Sample data for widget previews.
 ///
@@ -35,7 +36,7 @@ class PreviewAchievementData {
 
   static const title = 'First Steps';
   static const description = 'Complete your first lesson';
-  static const icon = Icons.emoji_events;
+  static const icon = PhosphorIcons.trophy;
   static const isUnlocked = true;
 }
 

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import '../../../../../core/theme/app_tokens.dart';
 import '../../../../../l10n/app_localizations.dart';
 import 'exam_player_palette.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 class MobileFooterBar extends StatelessWidget {
   const MobileFooterBar({
@@ -58,7 +59,7 @@ class MobileFooterBar extends StatelessWidget {
               ),
             const Spacer(),
             _SquareButton(
-              icon: Icons.chevron_left,
+              icon: PhosphorIcons.caretLeft,
               enabled: canGoPrev,
               tooltip: l10n.examNavPrevQuestion,
               onTap: onPrev,
@@ -79,7 +80,7 @@ class MobileFooterBar extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Icon(
-                      Icons.grid_view_rounded,
+                      PhosphorIcons.squaresFour,
                       size: 14,
                       color: examAmberFg(context),
                     ),
@@ -98,7 +99,7 @@ class MobileFooterBar extends StatelessWidget {
             ),
             const SizedBox(width: 8),
             _SquareButton(
-              icon: Icons.chevron_right,
+              icon: PhosphorIcons.caretRight,
               enabled: canGoNext,
               tooltip: l10n.examNavNextQuestion,
               onTap: onNext,

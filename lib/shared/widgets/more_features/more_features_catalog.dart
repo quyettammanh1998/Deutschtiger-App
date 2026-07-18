@@ -447,7 +447,7 @@ List<MoreFeatureGroup> moreFeatureGroups(
         MoreFeatureItem(
           label: l10n.featureAiAssistant,
           iconBuilder: ({double size = 24, Color? color}) =>
-              Icon(Icons.smart_toy_rounded, size: size, color: color),
+              Icon(PhosphorIcons.robot, size: size, color: color),
           color: const TileColor(
             light100: Color(0xFFDBEAFE),
             dark20: Color(0x333B82F6),

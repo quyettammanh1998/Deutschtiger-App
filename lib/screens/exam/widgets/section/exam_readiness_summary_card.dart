@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../../../core/theme/app_tokens.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../../view_models/exam/exam_ecosystem_providers.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Compact readiness band shown atop the section/list pages — web
 /// `ExamReadinessCard`. `GET /exam-readiness` is NOT provider/level scoped
@@ -61,7 +62,7 @@ class ExamReadinessSummaryCard extends ConsumerWidget {
                   ),
                 ),
                 Icon(
-                  Icons.chevron_right_rounded,
+                  PhosphorIcons.caretRight,
                   color: tokens.mutedForeground,
                 ),
               ],

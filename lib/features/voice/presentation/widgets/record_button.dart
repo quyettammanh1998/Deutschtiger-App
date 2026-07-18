@@ -5,6 +5,7 @@ import '../../../../core/design_tokens.dart';
 import '../../../../core/theme/app_tokens.dart';
 import '../../data/recording_service.dart';
 import '../../domain/voice_providers.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// GĐ2 — Hold-to-record / tap-toggle record button.
 ///
@@ -61,7 +62,7 @@ class RecordButton extends ConsumerWidget {
           boxShadow: isRecording ? DesignTokens.shadowMd : DesignTokens.shadowSm,
         ),
         child: Icon(
-          isRecording ? Icons.stop_rounded : Icons.mic_rounded,
+          isRecording ? PhosphorIcons.stop : PhosphorIcons.microphone,
           color: Colors.white,
           size: size * 0.45,
         ),
@@ -89,7 +90,7 @@ class _RequestPermissionButton extends StatelessWidget {
               shape: BoxShape.circle,
               color: context.tokens.muted,
             ),
-            child: Icon(Icons.mic_off_rounded, color: context.tokens.mutedForeground),
+            child: Icon(PhosphorIcons.microphoneSlash, color: context.tokens.mutedForeground),
           ),
         ),
         const SizedBox(height: 8),
@@ -115,7 +116,7 @@ class _PermissionDeniedButton extends StatelessWidget {
           width: size,
           height: size,
           decoration: BoxDecoration(shape: BoxShape.circle, color: context.tokens.muted),
-          child: Icon(Icons.mic_off_rounded, color: context.tokens.mutedForeground),
+          child: Icon(PhosphorIcons.microphoneSlash, color: context.tokens.mutedForeground),
         ),
         const SizedBox(height: 8),
         Text(

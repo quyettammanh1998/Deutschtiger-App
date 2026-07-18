@@ -7,6 +7,7 @@ import '../../../../../core/theme/app_tokens.dart';
 import '../../../../../l10n/app_localizations.dart';
 import '../../../domain/exam_models.dart';
 import 'exam_player_palette.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 Future<void> showMobileNavSheet(
   BuildContext context, {
@@ -138,7 +139,7 @@ class _MobileNavSheet extends StatelessWidget {
                 IconButton(
                   visualDensity: VisualDensity.compact,
                   icon: Icon(
-                    Icons.close,
+                    PhosphorIcons.x,
                     size: 18,
                     color: tokens.mutedForeground,
                   ),

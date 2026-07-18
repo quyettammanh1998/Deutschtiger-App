@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../../core/theme/app_tokens.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 class TocEntry {
   const TocEntry(this.id, this.emoji, this.label);
@@ -109,7 +110,7 @@ class _FloatingTocPillState extends State<FloatingTocPill> {
                   AnimatedRotation(
                     turns: _open ? 0.5 : 0,
                     duration: const Duration(milliseconds: 150),
-                    child: Icon(Icons.keyboard_arrow_down, size: 14, color: tokens.mutedForeground),
+                    child: Icon(PhosphorIcons.caretDown, size: 14, color: tokens.mutedForeground),
                   ),
                 ],
               ),

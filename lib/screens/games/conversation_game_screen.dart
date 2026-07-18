@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/theme/app_tokens.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Conversation Practice game - Hội thoại đời thường.
 class ConversationGameScreen extends StatefulWidget {
@@ -189,7 +190,7 @@ class _ConversationGameScreenState extends State<ConversationGameScreen> {
         backgroundColor: background,
         title: const Text('Hội thoại'),
         leading: IconButton(
-          icon: const Icon(Icons.close),
+          icon: const Icon(PhosphorIcons.x),
           onPressed: () => context.pop(),
         ),
       ),
@@ -220,7 +221,7 @@ class _ConversationGameScreenState extends State<ConversationGameScreen> {
             children: [
               Row(
                 children: [
-                  const Icon(Icons.star, color: Colors.pink),
+                  const Icon(PhosphorIcons.star, color: Colors.pink),
                   const SizedBox(width: 4),
                   Text(
                     '$_score',
@@ -256,7 +257,7 @@ class _ConversationGameScreenState extends State<ConversationGameScreen> {
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: const Icon(
-                  Icons.location_on,
+                  PhosphorIcons.mapPin,
                   color: Colors.white,
                   size: 20,
                 ),
@@ -368,9 +369,9 @@ class _ConversationGameScreenState extends State<ConversationGameScreen> {
                           ),
                         ),
                         if (_selectedAnswer != null && isCorrectAnswer)
-                          const Icon(Icons.check_circle, color: Colors.green),
+                          const Icon(PhosphorIcons.checkCircle, color: Colors.green),
                         if (_selectedAnswer == option && !isCorrectAnswer)
-                          const Icon(Icons.cancel, color: Colors.red),
+                          const Icon(PhosphorIcons.xCircle, color: Colors.red),
                       ],
                     ),
                   ),
@@ -391,7 +392,7 @@ class _ConversationGameScreenState extends State<ConversationGameScreen> {
             ),
             child: Row(
               children: [
-                const Icon(Icons.check_circle, color: Colors.green),
+                const Icon(PhosphorIcons.checkCircle, color: Colors.green),
                 const SizedBox(width: 8),
                 Expanded(
                   child: Text(
@@ -437,7 +438,7 @@ class _ConversationGameScreenState extends State<ConversationGameScreen> {
                 shape: BoxShape.circle,
                 color: Colors.pink.shade100,
               ),
-              child: const Icon(Icons.chat, size: 40, color: Colors.pink),
+              child: const Icon(PhosphorIcons.chatCircle, size: 40, color: Colors.pink),
             ),
             const SizedBox(height: 16),
             Text(

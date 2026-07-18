@@ -7,6 +7,7 @@ import '../../../l10n/app_localizations.dart';
 import '../../../view_models/exam/exam_ecosystem_providers.dart';
 import '../../../widgets/common/async_state_views.dart';
 import '../widgets/community/community_topic_card.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// `goethe-b1-community-writing-list` — web parity
 /// `goethe-b1-community-writing-list-page.tsx`: header + community topics
@@ -40,7 +41,7 @@ class GoetheB1CommunityWritingListPage extends ConsumerWidget {
           children: [
             Row(
               children: [
-                IconButton(icon: const Icon(Icons.arrow_back), onPressed: () => context.pop()),
+                IconButton(icon: const Icon(PhosphorIcons.arrowLeft), onPressed: () => context.pop()),
                 const SizedBox(width: 4),
                 Text(
                   l10n.writingCommunityListTitle(teil),

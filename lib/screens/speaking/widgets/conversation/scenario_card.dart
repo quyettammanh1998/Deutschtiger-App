@@ -90,24 +90,28 @@ class ConversationScenarioCard extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 10),
-              Text(
-                titleDe,
-                textAlign: TextAlign.center,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w700,
-                  color: tokens.foreground,
+              Flexible(
+                child: Text(
+                  titleDe,
+                  textAlign: TextAlign.center,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w700,
+                    color: tokens.foreground,
+                  ),
                 ),
               ),
               const SizedBox(height: 2),
-              Text(
-                titleVi,
-                textAlign: TextAlign.center,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(fontSize: 12, color: tokens.mutedForeground),
+              Flexible(
+                child: Text(
+                  titleVi,
+                  textAlign: TextAlign.center,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(fontSize: 12, color: tokens.mutedForeground),
+                ),
               ),
               const SizedBox(height: 8),
               LevelBadge(level: level),

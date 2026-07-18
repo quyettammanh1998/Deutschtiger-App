@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/exam_design_tokens.dart';
 import '../../../../l10n/app_localizations.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 class AudioPlayPauseButton extends StatelessWidget {
   const AudioPlayPauseButton({
@@ -50,7 +51,7 @@ class AudioPlayPauseButton extends StatelessWidget {
                       ),
                     )
                   : Icon(
-                      isPlaying ? Icons.pause : Icons.play_arrow,
+                      isPlaying ? PhosphorIcons.pause : PhosphorIcons.play,
                       color: Colors.white,
                       size: 28,
                     ),

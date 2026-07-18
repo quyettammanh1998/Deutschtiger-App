@@ -11,6 +11,7 @@ import 'package:deutschtiger/view_models/listening/easy_german_provider.dart';
 import 'package:deutschtiger/view_models/listening/podcast_provider.dart';
 import 'package:deutschtiger/view_models/youtube/youtube_provider.dart';
 import 'widgets/listening_source_card.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 const _easyGermanLevels = [
   (level: 'a1', title: 'Easy German A1', desc: 'For Absolute Beginners', videoId: 'sTbqHypqM2M'),
@@ -46,7 +47,7 @@ class ListeningHubScreen extends ConsumerWidget {
               children: [
                 InkWell(
                   onTap: () => context.pop(),
-                  child: Icon(Icons.arrow_back, color: tokens.foreground),
+                  child: Icon(PhosphorIcons.arrowLeft, color: tokens.foreground),
                 ),
                 const SizedBox(width: 12),
                 Text(l10n.listeningPageTitle, style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: tokens.foreground)),

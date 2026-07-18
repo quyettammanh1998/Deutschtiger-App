@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../core/theme/app_tokens.dart';
 import '../../../widgets/common/tiger_logo.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Shared shell for legal pages (privacy policy / terms of service) —
 /// mirrors web `legal/privacy-policy-page.tsx` /
@@ -137,7 +138,7 @@ class _BackHomeButton extends StatelessWidget {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.chevron_left, size: 18, color: tokens.mutedForeground),
+            Icon(PhosphorIcons.caretLeft, size: 18, color: tokens.mutedForeground),
             const SizedBox(width: 4),
             Text(
               'Về trang chủ',

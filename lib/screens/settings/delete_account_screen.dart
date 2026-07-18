@@ -5,6 +5,7 @@ import '../../../core/design_tokens.dart';
 import '../../../core/theme/app_tokens.dart';
 import '../../l10n/app_localizations.dart';
 import 'widgets/settings_actions.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Shows an honest support path while the backend account-deletion contract
 /// is not available. This screen must not claim an account was deleted.
@@ -21,7 +22,7 @@ class DeleteAccountScreen extends StatelessWidget {
         backgroundColor: background,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
+          icon: const Icon(PhosphorIcons.arrowLeft),
           onPressed: () => context.pop(),
         ),
         title: Text(
@@ -52,7 +53,7 @@ class DeleteAccountScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       const Icon(
-                        Icons.info_outline,
+                        PhosphorIcons.info,
                         color: DesignTokens.tigerOrange,
                         size: 48,
                       ),
@@ -82,7 +83,7 @@ class DeleteAccountScreen extends StatelessWidget {
                           context,
                           'mailto:support@deutschtiger.com',
                         ),
-                        icon: const Icon(Icons.email_outlined),
+                        icon: const Icon(PhosphorIcons.envelope),
                         label: Text(l10n.contactSupport),
                       ),
                     ],

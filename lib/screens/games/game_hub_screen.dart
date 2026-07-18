@@ -12,6 +12,7 @@ import '../../view_models/stats/daily_quote_provider.dart';
 import '../../widgets/common/game_shell.dart';
 import 'widgets/game_hub_group_grid.dart';
 import 'widgets/game_hub_level_tip.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Games hub — web parity: `src/pages/game/game-hub-page.tsx`. Grouped by
 /// skill/grammar topic (IA only, no new games/routes — see `GAME_GROUPS`).
@@ -29,49 +30,49 @@ class GameHubScreen extends ConsumerWidget {
           description: 'Trả lời quiz & tiếp tục chạy',
           to: '/games/runner',
           gradient: [Color(0xFF3B82F6), Color(0xFF4F46E5)],
-          icon: Icons.rocket_launch_outlined,
+          icon: PhosphorIcons.rocketLaunch,
         ),
         GameHubCard(
           title: 'Nối từ',
           description: 'Ghép cặp từ Đức - Việt',
           to: '/games/matching',
           gradient: [Color(0xFFEC4899), Color(0xFFE11D48)],
-          icon: Icons.link,
+          icon: PhosphorIcons.link,
         ),
         GameHubCard(
           title: 'Word Sprint',
           description: 'Chạy đua từ vựng 60 giây',
           to: '/games/word-sprint',
           gradient: [Color(0xFFF59E0B), Color(0xFFEA580C)],
-          icon: Icons.bolt,
+          icon: PhosphorIcons.lightning,
         ),
         GameHubCard(
           title: 'Kiểm tra trình độ gõ tiếng Đức',
           description: 'Gõ câu B1 trong 60 giây',
           to: '/games/typing-sprint',
           gradient: [Color(0xFF0EA5E9), Color(0xFFE11D48)],
-          icon: Icons.keyboard_outlined,
+          icon: PhosphorIcons.keyboard,
         ),
         GameHubCard(
           title: 'Viết từ',
           description: 'Viết từ tiếng Đức từ nghĩa Việt',
           to: '/games/writing?type=word',
           gradient: [Color(0xFF22C55E), Color(0xFF059669)],
-          icon: Icons.edit_outlined,
+          icon: PhosphorIcons.pencilSimple,
         ),
         GameHubCard(
           title: 'Điền từ',
           description: 'Điền từ còn thiếu trong câu',
           to: '/games/cloze',
           gradient: [Color(0xFF06B6D4), Color(0xFFE11D48)],
-          icon: Icons.format_list_bulleted,
+          icon: PhosphorIcons.listBullets,
         ),
         GameHubCard(
           title: 'Luyện Flashcards',
           description: 'Nghe và lật thẻ đoán nghĩa',
           to: '/games/flashcards',
           gradient: [Color(0xFFA855F7), Color(0xFF7C3AED)],
-          icon: Icons.volume_up_outlined,
+          icon: PhosphorIcons.speakerHigh,
         ),
       ]),
       GameHubGroup(title: 'Ngữ pháp: Mạo từ & Cách (Kasus)', games: const [
@@ -80,14 +81,14 @@ class GameHubScreen extends ConsumerWidget {
           description: 'Đoán mạo từ đúng cho danh từ',
           to: '/games/artikel',
           gradient: [Color(0xFF14B8A6), Color(0xFF0891B2)],
-          icon: Icons.menu_book_outlined,
+          icon: PhosphorIcons.bookOpen,
         ),
         GameHubCard(
           title: 'Cases Mastery',
           description: 'Akk/Dat/Gen + Adjektivendungen',
           to: '/games/cases-mastery',
           gradient: [Color(0xFF3B82F6), Color(0xFF0891B2)],
-          icon: Icons.menu_book_outlined,
+          icon: PhosphorIcons.bookOpen,
         ),
       ]),
       const GameHubGroup(title: 'Ngữ pháp: Động từ', games: [
@@ -96,7 +97,7 @@ class GameHubScreen extends ConsumerWidget {
           description: 'Chia động từ qua mọi thì',
           to: '/games/konjugation',
           gradient: [Color(0xFF10B981), Color(0xFF0D9488)],
-          icon: Icons.edit_note_outlined,
+          icon: PhosphorIcons.note,
         ),
       ]),
       GameHubGroup(title: 'Câu & Trật tự từ', games: [
@@ -105,14 +106,14 @@ class GameHubScreen extends ConsumerWidget {
           description: 'Xếp từ đúng thứ tự trong câu',
           to: '/games/wortstellung',
           gradient: [Color(0xFFEAB308), Color(0xFFD97706)],
-          icon: Icons.short_text,
+          icon: PhosphorIcons.textAlignLeft,
         ),
         const GameHubCard(
           title: 'Viết câu',
           description: 'Viết câu tiếng Đức hoàn chỉnh',
           to: '/games/writing?type=sentence',
           gradient: [Color(0xFF6366F1), Color(0xFF7C3AED)],
-          icon: Icons.description_outlined,
+          icon: PhosphorIcons.fileText,
         ),
         if (aiSentenceBuilder)
           const GameHubCard(
@@ -120,7 +121,7 @@ class GameHubScreen extends ConsumerWidget {
             description: 'Viết câu tự do, AI chấm điểm',
             to: '/games/sentence-builder',
             gradient: [Color(0xFFF97316), Color(0xFFDC2626)],
-            icon: Icons.edit_note_outlined,
+            icon: PhosphorIcons.note,
           ),
       ]),
       const GameHubGroup(title: 'Nghe (Hören)', games: [
@@ -129,7 +130,7 @@ class GameHubScreen extends ConsumerWidget {
           description: 'Nghe từ và chọn đáp án đúng',
           to: '/games/listening',
           gradient: [Color(0xFF8B5CF6), Color(0xFF9333EA)],
-          icon: Icons.volume_up_outlined,
+          icon: PhosphorIcons.speakerHigh,
         ),
       ]),
       GameHubGroup(title: 'Nói & Phát âm (Sprechen)', games: [
@@ -139,21 +140,21 @@ class GameHubScreen extends ConsumerWidget {
             description: 'Luyện phát âm tiếng Đức với AI',
             to: '/games/speaking',
             gradient: [Color(0xFFF43F5E), Color(0xFFDC2626)],
-            icon: Icons.mic_none_outlined,
+            icon: PhosphorIcons.microphone,
           ),
         const GameHubCard(
           title: 'Luyện phát âm',
           description: 'Umlaute, Ich-laut, R-Sound',
           to: '/games/pronunciation',
           gradient: [Color(0xFFD946EF), Color(0xFFDB2777)],
-          icon: Icons.volume_up_outlined,
+          icon: PhosphorIcons.speakerHigh,
         ),
         const GameHubCard(
           title: 'Hội thoại đời thường',
           description: 'Restaurant, Wegbeschreibung & more',
           to: '/games/conversation',
           gradient: [Color(0xFFF43F5E), Color(0xFFDC2626)],
-          icon: Icons.mic_none_outlined,
+          icon: PhosphorIcons.microphone,
         ),
       ]),
     ];
@@ -171,7 +172,7 @@ class GameHubScreen extends ConsumerWidget {
       exitGuard: false,
       trailing: IconButton(
         tooltip: 'Chơi ngẫu nhiên',
-        icon: const Icon(Icons.shuffle),
+        icon: const Icon(PhosphorIcons.shuffle),
         onPressed: () => _playRandom(context, groups),
       ),
       child: Column(
@@ -212,7 +213,7 @@ class GameHubScreen extends ConsumerWidget {
                         'assets/images/anh1.webp',
                         fit: BoxFit.contain,
                         errorBuilder: (_, _, _) =>
-                            Icon(Icons.games, size: 40, color: tokens.primary),
+                            Icon(PhosphorIcons.gameController, size: 40, color: tokens.primary),
                       ),
                     ),
                   ),
@@ -342,7 +343,7 @@ class _ShadowingBanner extends StatelessWidget {
                 ),
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: const Icon(Icons.mic_none_outlined, color: Colors.white, size: 22),
+              child: const Icon(PhosphorIcons.microphone, color: Colors.white, size: 22),
             ),
             const SizedBox(width: 12),
             Expanded(

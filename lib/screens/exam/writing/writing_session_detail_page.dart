@@ -11,6 +11,7 @@ import '../../../widgets/common/async_state_views.dart';
 import '../../../widgets/common/gradient_button.dart';
 import 'widgets/hub/writing_submissions_tab.dart' show allWritingSubmissionsProvider;
 import 'widgets/session_detail/grading_attempt_timeline.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// `writing-session-detail` (`/writing-practice/:id`) — read-only view of one
 /// graded writing submission + "Luyện lại" + grading-attempt timeline. Web
@@ -46,7 +47,7 @@ class WritingSessionDetailPage extends ConsumerWidget {
                   children: [
                     Row(
                       children: [
-                        IconButton(icon: const Icon(Icons.arrow_back), onPressed: () => context.push('/luyen-viet')),
+                        IconButton(icon: const Icon(PhosphorIcons.arrowLeft), onPressed: () => context.push('/luyen-viet')),
                         Expanded(
                           child: Text(
                             l10n.writingSessionTitleFallback,
@@ -76,7 +77,7 @@ class WritingSessionDetailPage extends ConsumerWidget {
               children: [
                 Row(
                   children: [
-                    IconButton(icon: const Icon(Icons.arrow_back), onPressed: () => context.push('/luyen-viet')),
+                    IconButton(icon: const Icon(PhosphorIcons.arrowLeft), onPressed: () => context.push('/luyen-viet')),
                     Expanded(
                       child: Text(
                         meta.title,
