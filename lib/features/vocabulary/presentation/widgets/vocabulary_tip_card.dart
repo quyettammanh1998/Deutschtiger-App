@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// "💡 Mẹo học tập" card — simplified web parity of `LearningTipCard`: the
 /// web version reads a rotating tip from a dedicated tips backend/query
@@ -33,8 +32,9 @@ class _VocabularyTipCardState extends State<VocabularyTipCard> {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     // Light: warm cream chrome + deep amber ink (web parity).
     // Dark: translucent amber tint + light amber ink for readable contrast.
-    final backgroundColor = isDark ? const Color(0x33F59E0B) : const Color(0xFFFFFBEB);
-    final amberInk = isDark ? const Color(0xFFFCD34D) : const Color(0xFF92400E);
+    final backgroundColor = isDark
+        ? const Color(0x33F59E0B)
+        : const Color(0xFFFFFBEB);
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(

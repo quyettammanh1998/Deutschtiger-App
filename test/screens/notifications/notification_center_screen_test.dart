@@ -19,7 +19,9 @@ void main() {
     ),
   );
 
-  testWidgets('shows notifications and marks one as read on tap', (tester) async {
+  testWidgets('shows notifications and marks one as read on tap', (
+    tester,
+  ) async {
     final repo = _FakeNotificationsRepository(
       items: [
         AppNotification(
@@ -43,20 +45,32 @@ void main() {
     expect(repo.markedAsRead, ['n1']);
   });
 
-  testWidgets('shows the empty state when there are no notifications', (tester) async {
-    await tester.pumpWidget(wrap(_FakeNotificationsRepository(items: const [])));
+  testWidgets('shows the empty state when there are no notifications', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      wrap(_FakeNotificationsRepository(items: const [])),
+    );
     await tester.pumpAndSettle();
 
     expect(find.text('Không có thông báo nào'), findsOneWidget);
   });
 
-  testWidgets('shows an error view with retry when the list fails to load', (tester) async {
-    final repo = _FakeNotificationsRepository(items: const [], shouldFail: true);
+  testWidgets('shows an error view with retry when the list fails to load', (
+    tester,
+  ) async {
+    final repo = _FakeNotificationsRepository(
+      items: const [],
+      shouldFail: true,
+    );
 
     await tester.pumpWidget(wrap(repo));
     await tester.pumpAndSettle();
 
-    expect(find.text('Không tải được thông báo. Vui lòng thử lại.'), findsOneWidget);
+    expect(
+      find.text('Không tải được thông báo. Vui lòng thử lại.'),
+      findsOneWidget,
+    );
 
     repo.shouldFail = false;
     await tester.tap(find.text('Thử lại'));
@@ -99,9 +113,13 @@ void main() {
 /// screen only depends on [NotificationsRepository]'s public methods, so
 /// faking at that seam keeps the test focused on UI behavior.
 class _FakeNotificationsRepository extends NotificationsRepository {
-  _FakeNotificationsRepository({required List<AppNotification> items, this.shouldFail = false})
-    : _items = items,
-      super(ApiClient(baseUrl: 'https://example.test/api/v1', tokenProvider: _NoTokenProvider()));
+  _FakeNotificationsRepository({required this._items, this.shouldFail = false})
+    : super(
+        ApiClient(
+          baseUrl: 'https://example.test/api/v1',
+          tokenProvider: _NoTokenProvider(),
+        ),
+      );
 
   final List<AppNotification> _items;
   bool shouldFail;

@@ -29,10 +29,12 @@ class WritingCommunityTopicPage extends ConsumerStatefulWidget {
   final String slug;
 
   @override
-  ConsumerState<WritingCommunityTopicPage> createState() => _WritingCommunityTopicPageState();
+  ConsumerState<WritingCommunityTopicPage> createState() =>
+      _WritingCommunityTopicPageState();
 }
 
-class _WritingCommunityTopicPageState extends ConsumerState<WritingCommunityTopicPage> {
+class _WritingCommunityTopicPageState
+    extends ConsumerState<WritingCommunityTopicPage> {
   int? _selectedIndex;
   bool _voting = false;
 
@@ -62,20 +64,21 @@ class _WritingCommunityTopicPageState extends ConsumerState<WritingCommunityTopi
       body: SafeArea(
         child: async.when(
           loading: () => const LoadingView(),
-          error: (_, _) => _NotFoundView(
-            l10n: l10n,
-            onBack: () => context.pop(),
-          ),
+          error: (_, _) =>
+              _NotFoundView(l10n: l10n, onBack: () => context.pop()),
           data: (canonical) {
             final versions = canonical.versions ?? [canonical];
             final defaultIndex = () {
               final idx = versions.indexWhere(
-                (v) => v.isVerified == true || v.id == canonical.defaultVersionId,
+                (v) =>
+                    v.isVerified == true || v.id == canonical.defaultVersionId,
               );
               return idx >= 0 ? idx : 0;
             }();
             final effectiveIndex =
-                (_selectedIndex != null && _selectedIndex! < versions.length) ? _selectedIndex! : defaultIndex;
+                (_selectedIndex != null && _selectedIndex! < versions.length)
+                ? _selectedIndex!
+                : defaultIndex;
             final selected = versions.isEmpty ? null : versions[effectiveIndex];
 
             return ListView(
@@ -83,13 +86,22 @@ class _WritingCommunityTopicPageState extends ConsumerState<WritingCommunityTopi
               children: [
                 Row(
                   children: [
-                    IconButton(icon: const Icon(Icons.arrow_back), onPressed: () => context.pop()),
+                    IconButton(
+                      icon: const Icon(Icons.arrow_back),
+                      onPressed: () => context.pop(),
+                    ),
                     Expanded(
                       child: Text(
-                        canonical.titleDe.isNotEmpty ? canonical.titleDe : l10n.writingCommunityTopicFallbackTitle,
+                        canonical.titleDe.isNotEmpty
+                            ? canonical.titleDe
+                            : l10n.writingCommunityTopicFallbackTitle,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: tokens.foreground),
+                        style: TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.bold,
+                          color: tokens.foreground,
+                        ),
                       ),
                     ),
                   ],
@@ -107,7 +119,9 @@ class _WritingCommunityTopicPageState extends ConsumerState<WritingCommunityTopi
                     isVoting: _voting,
                     onVote: () async {
                       setState(() => _voting = true);
-                      final repo = ref.read(communityWritingWriteRepositoryProvider);
+                      final repo = ref.read(
+                        communityWritingWriteRepositoryProvider,
+                      );
                       try {
                         if (selected.isVoted == true) {
                           await repo.unvote(selected.id);
@@ -116,9 +130,12 @@ class _WritingCommunityTopicPageState extends ConsumerState<WritingCommunityTopi
                         }
                         ref.invalidate(communityWritingTopicProvider(scope));
                       } catch (_) {
-                        if (mounted) {
-                          ScaffoldMessenger.of(context)
-                              .showSnackBar(SnackBar(content: Text(l10n.writingCommunityVoteError)));
+                        if (context.mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(l10n.writingCommunityVoteError),
+                            ),
+                          );
                         }
                       } finally {
                         if (mounted) setState(() => _voting = false);
@@ -135,20 +152,33 @@ class _WritingCommunityTopicPageState extends ConsumerState<WritingCommunityTopi
                           canonicalId: canonical.id,
                         ),
                       );
-                      if (saved == true) ref.invalidate(communityWritingTopicProvider(scope));
+                      if (saved == true) {
+                        ref.invalidate(communityWritingTopicProvider(scope));
+                      }
                     },
                     onReport: () async {
-                      final repo = ref.read(communityWritingWriteRepositoryProvider);
+                      final repo = ref.read(
+                        communityWritingWriteRepositoryProvider,
+                      );
                       try {
-                        await repo.report(selected.id, l10n.writingCommunityReportReason);
-                        if (mounted) {
-                          ScaffoldMessenger.of(context)
-                              .showSnackBar(SnackBar(content: Text(l10n.writingCommunityReportSent)));
+                        await repo.report(
+                          selected.id,
+                          l10n.writingCommunityReportReason,
+                        );
+                        if (context.mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(l10n.writingCommunityReportSent),
+                            ),
+                          );
                         }
                       } catch (_) {
-                        if (mounted) {
-                          ScaffoldMessenger.of(context)
-                              .showSnackBar(SnackBar(content: Text(l10n.writingCommunityVoteError)));
+                        if (context.mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(l10n.writingCommunityVoteError),
+                            ),
+                          );
                         }
                       }
                     },
@@ -182,7 +212,10 @@ class _NotFoundView extends StatelessWidget {
             const SizedBox(height: 10),
             Text(
               l10n.writingCommunityNotFoundTitle,
-              style: TextStyle(fontWeight: FontWeight.w700, color: tokens.foreground),
+              style: TextStyle(
+                fontWeight: FontWeight.w700,
+                color: tokens.foreground,
+              ),
             ),
             const SizedBox(height: 4),
             Text(
@@ -191,7 +224,10 @@ class _NotFoundView extends StatelessWidget {
               style: TextStyle(fontSize: 12, color: tokens.mutedForeground),
             ),
             const SizedBox(height: 16),
-            OutlinedButton(onPressed: onBack, child: Text(l10n.writingCommunityBackToList)),
+            OutlinedButton(
+              onPressed: onBack,
+              child: Text(l10n.writingCommunityBackToList),
+            ),
           ],
         ),
       ),

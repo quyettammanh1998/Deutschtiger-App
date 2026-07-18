@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../../core/design_tokens.dart';
 import '../../core/theme/app_tokens.dart';
 import '../../l10n/app_localizations.dart';
-import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Mobile dashboard header — warm cream card with greeting, streak chip and
 /// quick actions. Mirrors web `mobile-dashboard-header.tsx`: a light card
@@ -96,11 +95,7 @@ class MobileDashboardHeader extends StatelessWidget {
             child: Stack(
               children: [
                 // Top-right radial glow — mirrors the web `::before` accent.
-                const Positioned(
-                  top: -32,
-                  right: -32,
-                  child: _RadialGlow(),
-                ),
+                const Positioned(top: -32, right: -32, child: _RadialGlow()),
                 Padding(
                   padding: const EdgeInsets.all(16),
                   child: Column(

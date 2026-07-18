@@ -21,22 +21,27 @@ class GoetheB1WritingRepository {
 
   /// `GET /goethe-b1-writing/manifest` — public, no auth required.
   Future<GoetheB1WritingManifest> fetchManifest() async {
-    final data = await _api.get<Map<String, dynamic>>('/goethe-b1-writing/manifest');
+    final data = await _api.get<Map<String, dynamic>>(
+      '/goethe-b1-writing/manifest',
+    );
     return GoetheB1WritingManifest.fromJson(data);
   }
 
   /// `GET /goethe-b1-writing/teil/{n}` — public. Full per-Teil topic list
   /// (feeds the topic-list page's rows/search/grouping).
   Future<GoetheB1WritingTeilData> fetchTeil(int teil) async {
-    final data = await _api.get<Map<String, dynamic>>('/goethe-b1-writing/teil/$teil');
+    final data = await _api.get<Map<String, dynamic>>(
+      '/goethe-b1-writing/teil/$teil',
+    );
     return GoetheB1WritingTeilData.fromJson(data);
   }
 
   /// `GET /goethe-b1-writing/topic/{n}/{slug}` — public. Full topic detail
   /// (feeds the reader page).
   Future<GoetheB1WritingTopic> fetchTopic(int teil, String slug) async {
-    final data =
-        await _api.get<Map<String, dynamic>>('/goethe-b1-writing/topic/$teil/$slug');
+    final data = await _api.get<Map<String, dynamic>>(
+      '/goethe-b1-writing/topic/$teil/$slug',
+    );
     return GoetheB1WritingTopic.fromJson(data);
   }
 
@@ -44,10 +49,14 @@ class GoetheB1WritingRepository {
   /// current user, across all 3 Teil. Requires auth; caller decides how to
   /// degrade (teil-pick page shows 0/N when unauthenticated/unavailable).
   Future<List<GoetheB1WritingResult>> fetchAllResults() async {
-    final data = await _api.get<List<dynamic>>('/user/goethe-b1-writing-results');
+    final data = await _api.get<List<dynamic>>(
+      '/user/goethe-b1-writing-results',
+    );
     return data
         .whereType<Map>()
-        .map((e) => GoetheB1WritingResult.fromJson(Map<String, dynamic>.from(e)))
+        .map(
+          (e) => GoetheB1WritingResult.fromJson(Map<String, dynamic>.from(e)),
+        )
         .toList();
   }
 
@@ -60,7 +69,9 @@ class GoetheB1WritingRepository {
     );
     return data
         .whereType<Map>()
-        .map((e) => GoetheB1WritingResult.fromJson(Map<String, dynamic>.from(e)))
+        .map(
+          (e) => GoetheB1WritingResult.fromJson(Map<String, dynamic>.from(e)),
+        )
         .toList();
   }
 
@@ -78,81 +89,103 @@ class GoetheB1WritingRepository {
       body: {
         'teil': teil,
         'topic_slug': slug,
-        if (score != null) 'score': score,
-        if (grade != null) 'grade': grade,
+        'score': ?score,
+        'grade': ?grade,
       },
     );
   }
 
   /// `GET /user/goethe-b1-writing-leaderboard?teil=` — top-10 + current-user
   /// row for the topic-list page's sidebar leaderboard.
-  Future<List<GoetheB1WritingLeaderboardEntry>> fetchLeaderboard(int teil) async {
+  Future<List<GoetheB1WritingLeaderboardEntry>> fetchLeaderboard(
+    int teil,
+  ) async {
     final data = await _api.get<List<dynamic>>(
       '/user/goethe-b1-writing-leaderboard',
       query: {'teil': teil},
     );
     return data
         .whereType<Map>()
-        .map((e) =>
-            GoetheB1WritingLeaderboardEntry.fromJson(Map<String, dynamic>.from(e)))
+        .map(
+          (e) => GoetheB1WritingLeaderboardEntry.fromJson(
+            Map<String, dynamic>.from(e),
+          ),
+        )
         .toList();
   }
 }
 
-final goetheB1WritingRepositoryProvider = Provider<GoetheB1WritingRepository>((ref) {
+final goetheB1WritingRepositoryProvider = Provider<GoetheB1WritingRepository>((
+  ref,
+) {
   return GoetheB1WritingRepository(ref.watch(apiClientProvider));
 });
 
 /// Manifest is static content — cache for the app session (web:
 /// `staleTime: Infinity`).
-final goetheB1WritingManifestProvider = FutureProvider<GoetheB1WritingManifest>((ref) {
-  return ref.watch(goetheB1WritingRepositoryProvider).fetchManifest();
-});
+final goetheB1WritingManifestProvider = FutureProvider<GoetheB1WritingManifest>(
+  (ref) {
+    return ref.watch(goetheB1WritingRepositoryProvider).fetchManifest();
+  },
+);
 
 /// Results refetch whenever auth state changes; degrades to `[]` so the
 /// teil-pick page still renders (0/N) for a signed-out/errored user instead
 /// of crashing.
-final goetheB1WritingAllResultsProvider = FutureProvider<List<GoetheB1WritingResult>>((
-  ref,
-) async {
-  ref.watch(authStateProvider);
-  try {
-    return await ref.watch(goetheB1WritingRepositoryProvider).fetchAllResults();
-  } catch (_) {
-    return const [];
-  }
-});
+final goetheB1WritingAllResultsProvider =
+    FutureProvider<List<GoetheB1WritingResult>>((ref) async {
+      ref.watch(authStateProvider);
+      try {
+        return await ref
+            .watch(goetheB1WritingRepositoryProvider)
+            .fetchAllResults();
+      } catch (_) {
+        return const [];
+      }
+    });
 
 /// Full per-Teil topic list — static content, cached per session per Teil.
 final goetheB1WritingTeilProvider =
     FutureProvider.family<GoetheB1WritingTeilData, int>((ref, teil) {
-  return ref.watch(goetheB1WritingRepositoryProvider).fetchTeil(teil);
-});
+      return ref.watch(goetheB1WritingRepositoryProvider).fetchTeil(teil);
+    });
 
 /// Full topic detail, keyed by `(teil, slug)`.
 final goetheB1WritingTopicProvider =
-    FutureProvider.family<GoetheB1WritingTopic, ({int teil, String slug})>((ref, key) {
-  return ref.watch(goetheB1WritingRepositoryProvider).fetchTopic(key.teil, key.slug);
-});
+    FutureProvider.family<GoetheB1WritingTopic, ({int teil, String slug})>((
+      ref,
+      key,
+    ) {
+      return ref
+          .watch(goetheB1WritingRepositoryProvider)
+          .fetchTopic(key.teil, key.slug);
+    });
 
 /// Completed slugs for one Teil — degrades to `[]` signed-out/errored.
 final goetheB1WritingTeilResultsProvider =
     FutureProvider.family<List<GoetheB1WritingResult>, int>((ref, teil) async {
-  ref.watch(authStateProvider);
-  try {
-    return await ref.watch(goetheB1WritingRepositoryProvider).fetchResultsForTeil(teil);
-  } catch (_) {
-    return const [];
-  }
-});
+      ref.watch(authStateProvider);
+      try {
+        return await ref
+            .watch(goetheB1WritingRepositoryProvider)
+            .fetchResultsForTeil(teil);
+      } catch (_) {
+        return const [];
+      }
+    });
 
 /// Leaderboard rows for one Teil — degrades to `[]` on any error so the
 /// sidebar renders an empty state instead of crashing the topic-list page.
 final goetheB1WritingLeaderboardProvider =
-    FutureProvider.family<List<GoetheB1WritingLeaderboardEntry>, int>((ref, teil) async {
-  try {
-    return await ref.watch(goetheB1WritingRepositoryProvider).fetchLeaderboard(teil);
-  } catch (_) {
-    return const [];
-  }
-});
+    FutureProvider.family<List<GoetheB1WritingLeaderboardEntry>, int>((
+      ref,
+      teil,
+    ) async {
+      try {
+        return await ref
+            .watch(goetheB1WritingRepositoryProvider)
+            .fetchLeaderboard(teil);
+      } catch (_) {
+        return const [];
+      }
+    });

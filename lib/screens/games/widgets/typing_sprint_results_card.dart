@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../../../core/theme/app_tokens.dart';
 import 'typing_sprint_paragraph_view.dart';
-import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Coral-themed results card — web parity: `ResultsModal`.
 class TypingSprintResultsCard extends StatelessWidget {
@@ -37,8 +36,9 @@ class TypingSprintResultsCard extends StatelessWidget {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final cardColor = isDark ? tokens.card : TypingSprintPalette.card;
     final inkColor = isDark ? tokens.foreground : TypingSprintPalette.ink;
-    final inkDimColor =
-        isDark ? tokens.mutedForeground : TypingSprintPalette.inkDim;
+    final inkDimColor = isDark
+        ? tokens.mutedForeground
+        : TypingSprintPalette.inkDim;
     final outlineColor = isDark ? tokens.border : TypingSprintPalette.inkFaint;
     return Center(
       child: SingleChildScrollView(
@@ -107,9 +107,21 @@ class TypingSprintResultsCard extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  _StatItem(label: 'Điểm', value: '$score', color: TypingSprintPalette.coralDeep),
-                  _StatItem(label: 'Đúng', value: '$correctWords', color: Colors.green),
-                  _StatItem(label: 'Sai', value: '$wrongWords', color: Colors.red),
+                  _StatItem(
+                    label: 'Điểm',
+                    value: '$score',
+                    color: TypingSprintPalette.coralDeep,
+                  ),
+                  _StatItem(
+                    label: 'Đúng',
+                    value: '$correctWords',
+                    color: Colors.green,
+                  ),
+                  _StatItem(
+                    label: 'Sai',
+                    value: '$wrongWords',
+                    color: Colors.red,
+                  ),
                   _StatItem(
                     label: 'Chính xác',
                     value: '$accuracy%',
@@ -160,7 +172,11 @@ class TypingSprintResultsCard extends StatelessWidget {
 }
 
 class _StatItem extends StatelessWidget {
-  const _StatItem({required this.label, required this.value, required this.color});
+  const _StatItem({
+    required this.label,
+    required this.value,
+    required this.color,
+  });
 
   final String label;
   final String value;
@@ -169,18 +185,20 @@ class _StatItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final labelColor =
-        isDark ? context.tokens.mutedForeground : TypingSprintPalette.inkDim;
+    final labelColor = isDark
+        ? context.tokens.mutedForeground
+        : TypingSprintPalette.inkDim;
     return Column(
       children: [
         Text(
           value,
-          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: color),
+          style: TextStyle(
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
+            color: color,
+          ),
         ),
-        Text(
-          label,
-          style: TextStyle(fontSize: 11, color: labelColor),
-        ),
+        Text(label, style: TextStyle(fontSize: 11, color: labelColor)),
       ],
     );
   }

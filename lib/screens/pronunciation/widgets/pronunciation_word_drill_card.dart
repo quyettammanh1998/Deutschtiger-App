@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/theme/app_tokens.dart';
 import '../../../view_models/providers.dart' show audioServiceProvider;
-import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// "Phát âm" drill card — web parity: word card (4xl word + IPA + VI
 /// meaning), amber "Mẹo phát âm:" hint, gradient "Nghe phát âm" button
@@ -94,10 +93,7 @@ class _PronunciationWordDrillCardState
               style: TextStyle(color: tokens.mutedForeground, fontSize: 14),
             ),
             Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 10,
-                vertical: 3,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
               decoration: BoxDecoration(
                 color: widget.badgeColor,
                 borderRadius: BorderRadius.circular(999),
@@ -154,10 +150,7 @@ class _PronunciationWordDrillCardState
                 const SizedBox(height: 6),
                 Text(
                   widget.compareLabel!,
-                  style: TextStyle(
-                    color: tokens.mutedForeground,
-                    fontSize: 12,
-                  ),
+                  style: TextStyle(color: tokens.mutedForeground, fontSize: 12),
                 ),
               ],
             ],
@@ -178,10 +171,7 @@ class _PronunciationWordDrillCardState
                 : const Color(0xFF78350F);
             return Container(
               width: double.infinity,
-              padding: const EdgeInsets.symmetric(
-                horizontal: 16,
-                vertical: 12,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               decoration: BoxDecoration(
                 color: hintBackground,
                 borderRadius: BorderRadius.circular(12),

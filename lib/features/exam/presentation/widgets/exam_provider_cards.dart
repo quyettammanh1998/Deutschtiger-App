@@ -6,7 +6,6 @@ import '../../../../core/design_tokens.dart';
 import '../../../../core/theme/app_tokens.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../../view_models/settings/learning_preferences_provider.dart';
-import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 /// Mirrors web `exam-landing-page.tsx` mobile view: a highlighted
 /// "Tìm bạn ôn thi" CTA followed by one card per certificate provider
@@ -26,8 +25,7 @@ class ExamProviderCards extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
     final userLevel =
-        (ref.watch(learningPreferencesProvider).preferences?.cefrLevel ??
-                'A1')
+        (ref.watch(learningPreferencesProvider).preferences?.cefrLevel ?? 'A1')
             .toUpperCase();
 
     return Column(
@@ -104,7 +102,11 @@ class _BuddyFinderCta extends StatelessWidget {
                 ),
                 borderRadius: BorderRadius.circular(DesignTokens.radiusSm + 4),
               ),
-              child: const Icon(Icons.groups_rounded, color: Colors.white, size: 22),
+              child: const Icon(
+                Icons.groups_rounded,
+                color: Colors.white,
+                size: 22,
+              ),
             ),
             const SizedBox(width: DesignTokens.spacingMd),
             Expanded(
@@ -208,7 +210,13 @@ String _shortDesc(AppLocalizations l10n, String key) => switch (key) {
   _ => l10n.examShortDescOsd,
 };
 
-const _levelEmoji = {'A1': '🌱', 'A2': '🌿', 'B1': '🌳', 'B2': '🏔️', 'C1': '🏆'};
+const _levelEmoji = {
+  'A1': '🌱',
+  'A2': '🌿',
+  'B1': '🌳',
+  'B2': '🏔️',
+  'C1': '🏆',
+};
 
 // Standard CEFR tier names reused from the goal-setting l10n namespace —
 // web shows custom short labels per level; these convey the same
@@ -324,7 +332,10 @@ class _ProviderCard extends StatelessWidget {
                       ),
                       Text(
                         _shortDesc(l10n, meta.shortDescKey),
-                        style: TextStyle(fontSize: 11, color: tokens.mutedForeground),
+                        style: TextStyle(
+                          fontSize: 11,
+                          color: tokens.mutedForeground,
+                        ),
                       ),
                     ],
                   ),
@@ -465,7 +476,9 @@ class _LevelPill extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         fontSize: 11,
-                        fontWeight: recommended ? FontWeight.w600 : FontWeight.normal,
+                        fontWeight: recommended
+                            ? FontWeight.w600
+                            : FontWeight.normal,
                         color: recommended
                             ? DesignTokens.orange600
                             : context.tokens.mutedForeground,

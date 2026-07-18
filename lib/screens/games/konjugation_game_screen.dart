@@ -27,9 +27,8 @@ class KonjugationGameScreen extends ConsumerStatefulWidget {
       _KonjugationGameScreenState();
 }
 
-class _KonjugationGameScreenState
-    extends ConsumerState<KonjugationGameScreen> {
-  String _level = 'A2';
+class _KonjugationGameScreenState extends ConsumerState<KonjugationGameScreen> {
+  final String _level = 'A2';
   late Future<List<ConjugationExercise>> _future;
 
   List<ConjugationExercise> _questions = const [];
@@ -294,7 +293,7 @@ class _KonjugationGameScreenState
                       _isCorrect
                           ? 'Chính xác! — ${question.expected}'
                           : 'Sai — đáp án đúng: ${question.expected}'
-                            '${question.alternatives.isNotEmpty ? ' (hoặc: ${question.alternatives.join(', ')})' : ''}',
+                                '${question.alternatives.isNotEmpty ? ' (hoặc: ${question.alternatives.join(', ')})' : ''}',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
@@ -366,7 +365,11 @@ class _KonjugationGameScreenState
                   shape: BoxShape.circle,
                   color: Colors.teal.shade100,
                 ),
-                child: const Icon(Icons.edit_note, size: 40, color: Colors.teal),
+                child: const Icon(
+                  Icons.edit_note,
+                  size: 40,
+                  color: Colors.teal,
+                ),
               ),
               const SizedBox(height: 16),
               Text(
