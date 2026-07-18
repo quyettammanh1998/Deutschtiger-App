@@ -27,25 +27,31 @@ class WelcomeNavHeader extends StatelessWidget {
             children: [
               const TigerIcon(size: 32),
               const SizedBox(width: 8),
-              // Wordmark sizes to its content (web never truncates it). A
-              // `Flexible` here would split free space with the `Spacer` and
-              // clip "Tiger" on narrow phones, so keep it intrinsic-width.
-              const Text.rich(
-                TextSpan(
-                  text: 'Deutsch',
-                  style: TextStyle(
-                    fontFamily: WelPalette.brandFont,
-                    fontSize: 18,
-                    color: WelPalette.ink,
-                  ),
-                  children: [
-                    TextSpan(
-                      text: 'Tiger',
-                      style: TextStyle(color: WelPalette.orange500),
+              // Wordmark sizes to its content on wide screens (web never
+              // truncates it), but the "Fredoka One" brand font is wide
+              // enough that "DeutschTiger" + the CTA pill overflow on
+              // narrow phones (~390px). Wrap in `Flexible` with an ellipsis
+              // so it degrades gracefully instead of throwing a RenderFlex
+              // overflow.
+              Flexible(
+                child: Text.rich(
+                  const TextSpan(
+                    text: 'Deutsch',
+                    style: TextStyle(
+                      fontFamily: WelPalette.brandFont,
+                      fontSize: 18,
+                      color: WelPalette.ink,
                     ),
-                  ],
+                    children: [
+                      TextSpan(
+                        text: 'Tiger',
+                        style: TextStyle(color: WelPalette.orange500),
+                      ),
+                    ],
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
-                maxLines: 1,
               ),
               const Spacer(),
               // Streak chip is hidden below 720px on web (`.wel-nav-streak`
@@ -100,7 +106,11 @@ class _CtaButton extends StatelessWidget {
                 CircleAvatar(
                   radius: 11,
                   backgroundColor: Color(0x38FFFFFF),
-                  child: Icon(PhosphorIcons.arrowRight, size: 12, color: Colors.white),
+                  child: Icon(
+                    PhosphorIcons.arrowRight,
+                    size: 12,
+                    color: Colors.white,
+                  ),
                 ),
               ],
             ),
