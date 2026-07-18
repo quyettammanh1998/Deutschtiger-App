@@ -32,15 +32,18 @@ void main() {
   testWidgets('welcome CTA opens onboarding via auth modal', (tester) async {
     app.main();
 
-    // 1. Landing page hiện ra sau bootstrap.
+    // 1. Landing page hiện ra sau bootstrap (chờ network async xong).
     await _pumpUntilFound(tester, find.byType(WelcomeScreen));
+    await tester.pumpAndSettle();
     expect(find.byType(WelcomeScreen), findsOneWidget);
 
     // 2. CTA sticky "Bắt đầu" ở nav header mở auth modal (bottom sheet).
     //    Landing có nhiều CTA cùng mở modal — dùng cái đầu tiên (nav header,
-    //    luôn hiển thị, không nằm trong vùng cuộn).
+    //    luôn hiển thị, không nằm trong vùng cuộn). `pumpAndSettle` cho sheet
+    //    trượt lên xong, nếu không nút dưới cùng còn ngoài màn → tap trượt.
     await tester.tap(find.text('Bắt đầu').first);
-    await _pumpUntilFound(tester, find.text('Xem giới thiệu app trước'));
+    await tester.pumpAndSettle();
+    expect(find.text('Xem giới thiệu app trước'), findsOneWidget);
 
     // 3. Lựa chọn "Xem giới thiệu app trước" điều hướng sang /onboarding.
     await tester.tap(find.text('Xem giới thiệu app trước'));
