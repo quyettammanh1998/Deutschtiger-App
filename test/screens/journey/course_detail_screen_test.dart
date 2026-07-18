@@ -29,20 +29,37 @@ void main() {
     level: CourseLevel.a1,
     totalLessons: 2,
     lessons: [
-      DwCourseLessonSummary(id: 1, number: 1, name: 'Lektion 1', nameVi: 'Chào hỏi'),
-      DwCourseLessonSummary(id: 2, number: 2, name: 'Lektion 2', nameVi: 'Số đếm'),
+      DwCourseLessonSummary(
+        id: 1,
+        number: 1,
+        name: 'Lektion 1',
+        nameVi: 'Chào hỏi',
+      ),
+      DwCourseLessonSummary(
+        id: 2,
+        number: 2,
+        name: 'Lektion 2',
+        nameVi: 'Số đếm',
+      ),
     ],
   );
 
-  testWidgets('shows lesson list with completed progress (happy path)', (tester) async {
-    await tester.pumpWidget(wrap([
-      courseDetailProvider(slug).overrideWith((ref) async => detail),
-      courseProgressProvider(slug).overrideWith(
-        (ref) async => {
-          1: const CourseLessonProgress(lessonNumber: 1, videoCompleted: true),
-        },
-      ),
-    ]));
+  testWidgets('shows lesson list with completed progress (happy path)', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      wrap([
+        courseDetailProvider(slug).overrideWith((ref) async => detail),
+        courseProgressProvider(slug).overrideWith(
+          (ref) async => {
+            1: const CourseLessonProgress(
+              lessonNumber: 1,
+              videoCompleted: true,
+            ),
+          },
+        ),
+      ]),
+    );
     await tester.pumpAndSettle();
 
     expect(find.text('Nicos Weg A1'), findsOneWidget);
@@ -53,30 +70,38 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
-  testWidgets('shows empty state when the course has no lessons yet', (tester) async {
-    await tester.pumpWidget(wrap([
-      courseDetailProvider(slug).overrideWith(
-        (ref) async => const DwCourseDetail(
-          id: 1,
-          slug: slug,
-          name: 'Nicos Weg A1',
-          level: CourseLevel.a1,
+  testWidgets('shows empty state when the course has no lessons yet', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      wrap([
+        courseDetailProvider(slug).overrideWith(
+          (ref) async => const DwCourseDetail(
+            id: 1,
+            slug: slug,
+            name: 'Nicos Weg A1',
+            level: CourseLevel.a1,
+          ),
         ),
-      ),
-      courseProgressProvider(slug).overrideWith((ref) async => const {}),
-    ]));
+        courseProgressProvider(slug).overrideWith((ref) async => const {}),
+      ]),
+    );
     await tester.pumpAndSettle();
 
     expect(find.text('Khoá học này chưa có bài học.'), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
 
-  testWidgets('shows retry button when the course fails to load', (tester) async {
-    await tester.pumpWidget(wrap([
-      courseDetailProvider(slug).overrideWith(
-        (ref) async => Future<DwCourseDetail>.error('boom'),
-      ),
-    ]));
+  testWidgets('shows retry button when the course fails to load', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      wrap([
+        courseDetailProvider(
+          slug,
+        ).overrideWith((ref) async => Future<DwCourseDetail>.error('boom')),
+      ]),
+    );
     await tester.pumpAndSettle();
 
     expect(find.byType(OutlinedButton), findsOneWidget);
