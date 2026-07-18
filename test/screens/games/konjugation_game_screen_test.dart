@@ -6,6 +6,7 @@ import 'package:deutschtiger/screens/games/konjugation_game_screen.dart';
 import 'package:deutschtiger/view_models/games/cases_provider.dart';
 import 'package:deutschtiger/view_models/games/conjugation_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -17,22 +18,22 @@ const _app = MaterialApp(
 );
 
 List<ConjugationExercise> _fiveExercises() => List.generate(
-      5,
-      (i) => ConjugationExercise(
-        id: 'c$i',
-        verb: 'haben',
-        infinitive: 'haben',
-        type: 'irregular',
-        level: 'A1',
-        tense: 'Präsens',
-        person: 'ich',
-        expected: 'habe',
-        alternatives: const [],
-        viVerb: 'có',
-        prompt: 'ich (haben, Präsens)',
-        key: 'haben:Präsens:ich:$i',
-      ),
-    );
+  5,
+  (i) => ConjugationExercise(
+    id: 'c$i',
+    verb: 'haben',
+    infinitive: 'haben',
+    type: 'irregular',
+    level: 'A1',
+    tense: 'Präsens',
+    person: 'ich',
+    expected: 'habe',
+    alternatives: const [],
+    viVerb: 'có',
+    prompt: 'ich (haben, Präsens)',
+    key: 'haben:Präsens:ich:$i',
+  ),
+);
 
 void main() {
   testWidgets('konjugation trainer renders live exercise', (tester) async {
@@ -74,13 +75,11 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    expect(find.byIcon(Icons.cloud_off_outlined), findsOneWidget);
+    expect(find.byIcon(PhosphorIcons.cloudSlash), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
 
-  testWidgets('typing the correct form shows success feedback', (
-    tester,
-  ) async {
+  testWidgets('typing the correct form shows success feedback', (tester) async {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
@@ -132,5 +131,6 @@ class _FakeGrammarDrillRepository implements GrammarDrillRepository {
   @override
   Future<GrammarExplainResult> explainGrammar(
     GrammarExplainRequest request,
-  ) async => const GrammarExplainResult(explanation: '', ok: false, cached: false);
+  ) async =>
+      const GrammarExplainResult(explanation: '', ok: false, cached: false);
 }

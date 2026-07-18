@@ -8,6 +8,7 @@ import 'package:deutschtiger/services/api_client.dart';
 import 'package:deutschtiger/services/auth_provider.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -47,36 +48,43 @@ void main() {
     body: 'Satz eins.\n\nSatz zwei.',
   );
 
-  testWidgets('reading detail shows paragraphs and mark-complete button (happy path)', (
-    tester,
-  ) async {
-    await tester.pumpWidget(
-      wrap(
-        const ReadingDetailScreen(level: 'A1', slug: 'im-cafe', title: 'Im Café'),
-        overrides: [
-          readingArticleProvider(key).overrideWith((ref) async => article),
-          readingCompletedIdsProvider.overrideWith((ref) async => <String>[]),
-        ],
-      ),
-    );
-    await tester.pumpAndSettle();
+  testWidgets(
+    'reading detail shows paragraphs and mark-complete button (happy path)',
+    (tester) async {
+      await tester.pumpWidget(
+        wrap(
+          const ReadingDetailScreen(
+            level: 'A1',
+            slug: 'im-cafe',
+            title: 'Im Café',
+          ),
+          overrides: [
+            readingArticleProvider(key).overrideWith((ref) async => article),
+            readingCompletedIdsProvider.overrideWith((ref) async => <String>[]),
+          ],
+        ),
+      );
+      await tester.pumpAndSettle();
 
-    expect(find.text('Satz eins.', findRichText: true), findsOneWidget);
-    expect(find.text('Đánh dấu đã đọc'), findsOneWidget);
-    expect(tester.takeException(), isNull);
-  });
+      expect(find.text('Satz eins.', findRichText: true), findsOneWidget);
+      expect(find.text('Đánh dấu đã đọc'), findsOneWidget);
+      expect(tester.takeException(), isNull);
+    },
+  );
 
   testWidgets('reading detail shows "Đã đọc" when article already completed', (
     tester,
   ) async {
     await tester.pumpWidget(
       wrap(
-        const ReadingDetailScreen(level: 'A1', slug: 'im-cafe', title: 'Im Café'),
+        const ReadingDetailScreen(
+          level: 'A1',
+          slug: 'im-cafe',
+          title: 'Im Café',
+        ),
         overrides: [
           readingArticleProvider(key).overrideWith((ref) async => article),
-          readingCompletedIdsProvider.overrideWith(
-            (ref) async => ['a1-cafe'],
-          ),
+          readingCompletedIdsProvider.overrideWith((ref) async => ['a1-cafe']),
         ],
       ),
     );
@@ -95,16 +103,16 @@ void main() {
       wrap(
         const ReadingDetailScreen(level: 'A1', slug: 'im-cafe'),
         overrides: [
-          readingArticleProvider(key).overrideWith(
-            (ref) => Future<ReadingArticle>.error('network down'),
-          ),
+          readingArticleProvider(
+            key,
+          ).overrideWith((ref) => Future<ReadingArticle>.error('network down')),
           readingCompletedIdsProvider.overrideWith((ref) async => <String>[]),
         ],
       ),
     );
     await tester.pumpAndSettle();
 
-    expect(find.byIcon(Icons.refresh), findsOneWidget);
+    expect(find.byIcon(PhosphorIcons.arrowClockwise), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
 }

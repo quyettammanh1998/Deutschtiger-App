@@ -4,25 +4,26 @@ import 'package:deutschtiger/repositories/games/learning_item_repository.dart';
 import 'package:deutschtiger/screens/games/word_order_game_screen.dart';
 import 'package:deutschtiger/view_models/games/learning_item_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 Widget _app() => const MaterialApp(
-      locale: Locale('vi'),
-      supportedLocales: AppLocalizations.supportedLocales,
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
-      home: WordOrderGameScreen(),
-    );
+  locale: Locale('vi'),
+  supportedLocales: AppLocalizations.supportedLocales,
+  localizationsDelegates: AppLocalizations.localizationsDelegates,
+  home: WordOrderGameScreen(),
+);
 
 List<LearningItem> _fiveSentences() => List.generate(
-      5,
-      (i) => LearningItem(
-        id: 's$i',
-        type: 'sentence',
-        contentDe: 'Ich lerne Deutsch $i.',
-        contentVi: 'Tôi học tiếng Đức $i',
-      ),
-    );
+  5,
+  (i) => LearningItem(
+    id: 's$i',
+    type: 'sentence',
+    contentDe: 'Ich lerne Deutsch $i.',
+    contentVi: 'Tôi học tiếng Đức $i',
+  ),
+);
 
 void main() {
   testWidgets('word order game renders scrambled words for a live sentence', (
@@ -60,49 +61,53 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    expect(find.byIcon(Icons.cloud_off_outlined), findsOneWidget);
+    expect(find.byIcon(PhosphorIcons.cloudSlash), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
 
-  testWidgets('word order game shows gate message when fewer than 3 sentences', (
-    tester,
-  ) async {
-    await tester.pumpWidget(
-      ProviderScope(
-        overrides: [
-          learningItemRepositoryProvider.overrideWithValue(
-            _FakeLearningItemRepository(items: _fiveSentences().take(1).toList()),
-          ),
-        ],
-        child: _app(),
-      ),
-    );
-    await tester.pumpAndSettle();
+  testWidgets(
+    'word order game shows gate message when fewer than 3 sentences',
+    (tester) async {
+      await tester.pumpWidget(
+        ProviderScope(
+          overrides: [
+            learningItemRepositoryProvider.overrideWithValue(
+              _FakeLearningItemRepository(
+                items: _fiveSentences().take(1).toList(),
+              ),
+            ),
+          ],
+          child: _app(),
+        ),
+      );
+      await tester.pumpAndSettle();
 
-    expect(find.textContaining('Cần ít nhất'), findsOneWidget);
-    expect(tester.takeException(), isNull);
-  });
+      expect(find.textContaining('Cần ít nhất'), findsOneWidget);
+      expect(tester.takeException(), isNull);
+    },
+  );
 
-  testWidgets('tapping words builds the answer and check button becomes enabled', (
-    tester,
-  ) async {
-    await tester.pumpWidget(
-      ProviderScope(
-        overrides: [
-          learningItemRepositoryProvider.overrideWithValue(
-            _FakeLearningItemRepository(items: _fiveSentences()),
-          ),
-        ],
-        child: _app(),
-      ),
-    );
-    await tester.pumpAndSettle();
+  testWidgets(
+    'tapping words builds the answer and check button becomes enabled',
+    (tester) async {
+      await tester.pumpWidget(
+        ProviderScope(
+          overrides: [
+            learningItemRepositoryProvider.overrideWithValue(
+              _FakeLearningItemRepository(items: _fiveSentences()),
+            ),
+          ],
+          child: _app(),
+        ),
+      );
+      await tester.pumpAndSettle();
 
-    await tester.tap(find.text('Ich'));
-    await tester.pump();
+      await tester.tap(find.text('Ich'));
+      await tester.pump();
 
-    expect(tester.takeException(), isNull);
-  });
+      expect(tester.takeException(), isNull);
+    },
+  );
 }
 
 class _FakeLearningItemRepository implements LearningItemRepository {

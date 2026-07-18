@@ -2,6 +2,7 @@ import 'package:deutschtiger/data/reading/reading_models.dart';
 import 'package:deutschtiger/l10n/app_localizations.dart';
 import 'package:deutschtiger/screens/reading/reading_feed_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -78,9 +79,7 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
-  testWidgets('reading feed shows retry button on load error', (
-    tester,
-  ) async {
+  testWidgets('reading feed shows retry button on load error', (tester) async {
     await tester.pumpWidget(
       wrap(
         const ReadingFeedScreen(),
@@ -93,7 +92,7 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    expect(find.byIcon(Icons.refresh), findsOneWidget);
+    expect(find.byIcon(PhosphorIcons.arrowClockwise), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
 }

@@ -9,7 +9,8 @@ import 'package:deutschtiger/screens/news/news_list_screen.dart';
 import 'package:deutschtiger/screens/reading/read_listen_hub_screen.dart';
 import 'package:deutschtiger/screens/reading/reading_detail_screen.dart';
 import 'package:deutschtiger/screens/reading/reading_feed_screen.dart';
-import 'package:deutschtiger/screens/reading/reading_hub_screen.dart' hide readingCompletedIdsProvider;
+import 'package:deutschtiger/screens/reading/reading_hub_screen.dart'
+    hide readingCompletedIdsProvider;
 import 'package:deutschtiger/services/api_client.dart';
 import 'package:deutschtiger/services/auth_provider.dart';
 import 'package:deutschtiger/view_models/listening/easy_german_provider.dart';
@@ -47,7 +48,10 @@ void main() {
   );
 
   ReadingRepository fakeReadingRepo() {
-    final client = ApiClient(baseUrl: 'https://example.test/api/v1', tokenProvider: _NoTokenProvider());
+    final client = ApiClient(
+      baseUrl: 'https://example.test/api/v1',
+      tokenProvider: _NoTokenProvider(),
+    );
     client.raw.httpClientAdapter = _NoopAdapter();
     return ReadingRepository(client);
   }
@@ -60,7 +64,10 @@ void main() {
         supportedLocales: AppLocalizations.supportedLocales,
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         home: MediaQuery(
-          data: const MediaQueryData(size: Size(390, 844), textScaler: TextScaler.linear(2)),
+          data: const MediaQueryData(
+            size: Size(390, 844),
+            textScaler: TextScaler.linear(2),
+          ),
           child: child,
         ),
       ),
@@ -74,20 +81,25 @@ void main() {
     addTearDown(tester.view.resetDevicePixelRatio);
   }
 
-  testWidgets('reading hub reflows at German 200% without overflow', (tester) async {
+  testWidgets('reading hub reflows at German 200% without overflow', (
+    tester,
+  ) async {
     setPhysicalSize(tester);
-    await tester.pumpWidget(wrap(const ReadingHubScreen(), [
-      readingArticlesProvider.overrideWith((ref) async => [readingArticle]),
-    ]));
+    await tester.pumpWidget(
+      wrap(const ReadingHubScreen(), [
+        readingArticlesProvider.overrideWith((ref) async => [readingArticle]),
+      ]),
+    );
     await tester.pumpAndSettle();
     expect(tester.takeException(), isNull);
   });
 
-  testWidgets('reading detail reflows at German 200% without overflow', (tester) async {
+  testWidgets('reading detail reflows at German 200% without overflow', (
+    tester,
+  ) async {
     setPhysicalSize(tester);
-    await tester.pumpWidget(wrap(
-      const ReadingDetailScreen(level: 'a1', slug: 'im-cafe'),
-      [
+    await tester.pumpWidget(
+      wrap(const ReadingDetailScreen(level: 'a1', slug: 'im-cafe'), [
         readingRepositoryProvider.overrideWithValue(fakeReadingRepo()),
         readingArticleProvider((level: 'a1', slug: 'im-cafe')).overrideWith(
           (ref) async => const ReadingArticle(
@@ -101,74 +113,98 @@ void main() {
           ),
         ),
         readingCompletedIdsProvider.overrideWith((ref) async => const []),
-      ],
-    ));
+      ]),
+    );
     await tester.pumpAndSettle();
     expect(tester.takeException(), isNull);
   });
 
-  testWidgets('reading feed reflows at German 200% without overflow', (tester) async {
+  testWidgets('reading feed reflows at German 200% without overflow', (
+    tester,
+  ) async {
     setPhysicalSize(tester);
-    await tester.pumpWidget(wrap(const ReadingFeedScreen(), [
-      readingFeedProvider('').overrideWith(
-        (ref) async => const ReadingFeedResult(articles: [], coverageReady: true),
-      ),
-    ]));
+    await tester.pumpWidget(
+      wrap(const ReadingFeedScreen(), [
+        readingFeedProvider('').overrideWith(
+          (ref) async =>
+              const ReadingFeedResult(articles: [], coverageReady: true),
+        ),
+      ]),
+    );
     await tester.pumpAndSettle();
     expect(tester.takeException(), isNull);
   });
 
-  testWidgets('read-listen hub reflows at German 200% without overflow', (tester) async {
+  testWidgets('read-listen hub reflows at German 200% without overflow', (
+    tester,
+  ) async {
     setPhysicalSize(tester);
-    await tester.pumpWidget(wrap(const ReadListenHubScreen(), [
-      readingFeedProvider('').overrideWith(
-        (ref) async => const ReadingFeedResult(articles: [], coverageReady: true),
-      ),
-      for (final level in const ['a1', 'a2', 'b1', 'b2', 'c1'])
-        easyGermanIndexProvider(level).overrideWith((ref) async => const []),
-      podcastIndexProvider.overrideWith((ref) async => const []),
-      pendingVideosProvider.overrideWith((ref) async => const []),
-      completedVideosProvider.overrideWith((ref) async => const []),
-    ]));
+    await tester.pumpWidget(
+      wrap(const ReadListenHubScreen(), [
+        readingFeedProvider('').overrideWith(
+          (ref) async =>
+              const ReadingFeedResult(articles: [], coverageReady: true),
+        ),
+        for (final level in const ['a1', 'a2', 'b1', 'b2', 'c1'])
+          easyGermanIndexProvider(level).overrideWith((ref) async => const []),
+        podcastIndexProvider.overrideWith((ref) async => const []),
+        pendingVideosProvider.overrideWith((ref) async => const []),
+        completedVideosProvider.overrideWith((ref) async => const []),
+      ]),
+    );
     await tester.pumpAndSettle();
     expect(tester.takeException(), isNull);
   });
 
-  testWidgets('news list reflows at German 200% without overflow', (tester) async {
+  testWidgets('news list reflows at German 200% without overflow', (
+    tester,
+  ) async {
     setPhysicalSize(tester);
     const key = (page: 1, topic: null, level: null);
-    await tester.pumpWidget(wrap(const NewsListScreen(), [
-      newsListProvider(key).overrideWith(
-        (ref) async => const NewsListResult(stories: [newsStory], total: 1, page: 1, pageSize: 10),
-      ),
-      newsTopicsProvider.overrideWith((ref) async => <String, int>{}),
-      newsCompletedIdsProvider.overrideWith((ref) async => const []),
-      newsWeekStatsProvider.overrideWith(
-        (ref) async => const NewsWeekStats(publishedThisWeek: 4, myCompletedThisWeek: 2),
-      ),
-    ]));
+    await tester.pumpWidget(
+      wrap(const NewsListScreen(), [
+        newsListProvider(key).overrideWith(
+          (ref) async => const NewsListResult(
+            stories: [newsStory],
+            total: 1,
+            page: 1,
+            pageSize: 10,
+          ),
+        ),
+        newsTopicsProvider.overrideWith((ref) async => <String, int>{}),
+        newsCompletedIdsProvider.overrideWith((ref) async => const []),
+        newsWeekStatsProvider.overrideWith(
+          (ref) async =>
+              const NewsWeekStats(publishedThisWeek: 4, myCompletedThisWeek: 2),
+        ),
+      ]),
+    );
     await tester.pumpAndSettle();
     expect(tester.takeException(), isNull);
   });
 
-  testWidgets('news detail reflows at German 200% without overflow', (tester) async {
+  testWidgets('news detail reflows at German 200% without overflow', (
+    tester,
+  ) async {
     setPhysicalSize(tester);
-    await tester.pumpWidget(wrap(const NewsDetailScreen(slug: 'eu-gipfel-a1'), [
-      newsStoryProvider('eu-gipfel-a1').overrideWith(
-        (ref) async => const [
-          NewsLevelArticle(
-            id: 'na1',
-            storyGroupId: 'g1',
-            slug: 'eu-gipfel-a1',
-            topic: 'politik',
-            level: 'A1',
-            title: 'EU-Gipfel bringt neue Entscheidungen für Europa',
-            summary: 'Die EU trifft sich zu wichtigen Verhandlungen.',
-            body: 'Die EU trifft sich zu wichtigen Verhandlungen.',
-          ),
-        ],
-      ),
-    ]));
+    await tester.pumpWidget(
+      wrap(const NewsDetailScreen(slug: 'eu-gipfel-a1'), [
+        newsStoryProvider('eu-gipfel-a1').overrideWith(
+          (ref) async => const [
+            NewsLevelArticle(
+              id: 'na1',
+              storyGroupId: 'g1',
+              slug: 'eu-gipfel-a1',
+              topic: 'politik',
+              level: 'A1',
+              title: 'EU-Gipfel bringt neue Entscheidungen für Europa',
+              summary: 'Die EU trifft sich zu wichtigen Verhandlungen.',
+              body: 'Die EU trifft sich zu wichtigen Verhandlungen.',
+            ),
+          ],
+        ),
+      ]),
+    );
     await tester.pumpAndSettle();
     expect(tester.takeException(), isNull);
   });

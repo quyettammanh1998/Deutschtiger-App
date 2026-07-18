@@ -28,8 +28,11 @@ Future<void> _ensureSupabaseInitialized() async {
   SharedPreferences.setMockInitialValues({});
   await Supabase.initialize(
     url: 'https://example.supabase.co',
-    anonKey: 'test-anon-key', // ignore: deprecated_member_use — fake anon key is enough for this offline test double.
-    authOptions: const FlutterAuthClientOptions(localStorage: EmptyLocalStorage()),
+    // ignore: deprecated_member_use — fake anon key is enough for this offline test double.
+    anonKey: 'test-anon-key',
+    authOptions: const FlutterAuthClientOptions(
+      localStorage: EmptyLocalStorage(),
+    ),
   );
 }
 
@@ -137,51 +140,55 @@ void main() {
     semantics.dispose();
   });
 
-  testWidgets('more features dialog reflows German labels on a 200% phone viewport', (
-    tester,
-  ) async {
-    await tester.pumpWidget(
-      MaterialApp(
-        locale: const Locale('de'),
-        supportedLocales: AppLocalizations.supportedLocales,
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
-        home: MediaQuery(
-          data: const MediaQueryData(
-            size: Size(360, 800),
-            textScaler: TextScaler.linear(2),
-          ),
-          child: Builder(
-            builder: (context) => Scaffold(
-              body: Center(
-                child: ElevatedButton(
-                  onPressed: () => MoreFeaturesSheet.show(context),
-                  child: const Text('open'),
+  testWidgets(
+    'more features dialog reflows German labels on a 200% phone viewport',
+    (tester) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          locale: const Locale('de'),
+          supportedLocales: AppLocalizations.supportedLocales,
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          home: MediaQuery(
+            data: const MediaQueryData(
+              size: Size(360, 800),
+              textScaler: TextScaler.linear(2),
+            ),
+            child: Builder(
+              builder: (context) => Scaffold(
+                body: Center(
+                  child: ElevatedButton(
+                    onPressed: () => MoreFeaturesSheet.show(context),
+                    child: const Text('open'),
+                  ),
                 ),
               ),
             ),
           ),
         ),
-      ),
-    );
+      );
 
-    await tester.tap(find.text('open'));
-    await tester.pumpAndSettle();
+      await tester.tap(find.text('open'));
+      await tester.pumpAndSettle();
 
-    // Web spec is a fixed 4-column grid (not a responsive reflow) — long
-    // German labels line-clamp to 2 lines with an ellipsis instead.
-    final grid = tester.widget<GridView>(find.byType(GridView).first);
-    final delegate =
-        grid.gridDelegate as SliverGridDelegateWithFixedCrossAxisCount;
-    expect(delegate.crossAxisCount, 4);
+      // Web spec is a fixed 4-column grid (not a responsive reflow) — long
+      // German labels line-clamp to 2 lines with an ellipsis instead. The
+      // grid is built from rows of `Expanded` cells (not `GridView`) so a row
+      // can grow to fit a tall 2-line label; assert the column count via the
+      // tile-row's `Expanded` children instead of a `GridView` delegate.
+      final tileRow = tester
+          .widgetList<Row>(find.byType(Row))
+          .firstWhere((row) => row.children.whereType<Expanded>().length > 1);
+      expect(tileRow.children.whereType<Expanded>().length, 4);
 
-    await tester.scrollUntilVisible(
-      find.text('Feedback'),
-      200,
-      scrollable: find.byType(Scrollable).first,
-    );
-    expect(find.text('Feedback'), findsOneWidget);
-    expect(tester.takeException(), isNull);
-  });
+      await tester.scrollUntilVisible(
+        find.text('Feedback'),
+        200,
+        scrollable: find.byType(Scrollable).first,
+      );
+      expect(find.text('Feedback'), findsOneWidget);
+      expect(tester.takeException(), isNull);
+    },
+  );
 
   testWidgets(
     'Welcome route keeps its localized login action reachable at 200%',

@@ -3,6 +3,7 @@ import 'package:deutschtiger/l10n/app_localizations.dart';
 import 'package:deutschtiger/screens/games/sentence_builder/sentence_builder_topics_screen.dart';
 import 'package:deutschtiger/view_models/games/sentence_builder_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -60,7 +61,7 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    expect(find.byIcon(Icons.cloud_off_outlined), findsOneWidget);
+    expect(find.byIcon(PhosphorIcons.cloudSlash), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
 

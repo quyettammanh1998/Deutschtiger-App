@@ -48,7 +48,7 @@ void main() {
     expect(find.text('Nicos Weg A1'), findsOneWidget);
     expect(find.text('Chào hỏi'), findsOneWidget);
     expect(find.text('Số đếm'), findsOneWidget);
-    expect(find.text('Đã hoàn thành'), findsOneWidget);
+    expect(find.text('Hoàn thành'), findsOneWidget);
     expect(find.text('Chưa học'), findsOneWidget);
     expect(tester.takeException(), isNull);
   });

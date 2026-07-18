@@ -5,6 +5,7 @@ import 'package:deutschtiger/repositories/games/grammar_drill_repository.dart';
 import 'package:deutschtiger/screens/games/cases/verb_case_quiz_screen.dart';
 import 'package:deutschtiger/view_models/games/cases_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -16,17 +17,17 @@ const _app = MaterialApp(
 );
 
 List<VerbCaseItem> _fiveItems() => List.generate(
-      5,
-      (i) => VerbCaseItem(
-        id: 'v$i',
-        level: 'A2',
-        verb: 'helfen',
-        caseType: 'Dativ',
-        example: 'Ich helfe dem Mann.',
-        viExample: 'Tôi giúp người đàn ông.',
-        viVerb: 'giúp đỡ',
-      ),
-    );
+  5,
+  (i) => VerbCaseItem(
+    id: 'v$i',
+    level: 'A2',
+    verb: 'helfen',
+    caseType: 'Dativ',
+    example: 'Ich helfe dem Mann.',
+    viExample: 'Tôi giúp người đàn ông.',
+    viVerb: 'giúp đỡ',
+  ),
+);
 
 void main() {
   testWidgets('verb case quiz renders live items', (tester) async {
@@ -68,7 +69,7 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    expect(find.byIcon(Icons.cloud_off_outlined), findsOneWidget);
+    expect(find.byIcon(PhosphorIcons.cloudSlash), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
 
@@ -142,5 +143,6 @@ class _FakeGrammarDrillRepository implements GrammarDrillRepository {
   @override
   Future<GrammarExplainResult> explainGrammar(
     GrammarExplainRequest request,
-  ) async => const GrammarExplainResult(explanation: '', ok: false, cached: false);
+  ) async =>
+      const GrammarExplainResult(explanation: '', ok: false, cached: false);
 }

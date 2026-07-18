@@ -6,6 +6,7 @@ import 'package:deutschtiger/services/api_client.dart';
 import 'package:deutschtiger/services/auth_provider.dart';
 import 'package:deutschtiger/view_models/listening/podcast_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -14,7 +15,10 @@ void main() {
   // `setUrl` throws and the widget catches it (shows a snackbar) instead of
   // crashing — these tests assert the transcript/controls still render.
   final testRepository = PodcastRepository(
-    ApiClient(baseUrl: 'https://example.test/api/v1', tokenProvider: _NoTokenProvider()),
+    ApiClient(
+      baseUrl: 'https://example.test/api/v1',
+      tokenProvider: _NoTokenProvider(),
+    ),
     'https://static.test',
   );
 
@@ -53,7 +57,7 @@ void main() {
     expect(find.text('Im Restaurant'), findsOneWidget);
     expect(find.text('Guten Tag!'), findsOneWidget);
     expect(find.text('Xin chào!'), findsOneWidget);
-    expect(find.byIcon(Icons.play_arrow), findsWidgets);
+    expect(find.byIcon(PhosphorIcons.play), findsWidgets);
     expect(tester.takeException(), isNull);
   });
 
@@ -64,9 +68,9 @@ void main() {
       ProviderScope(
         overrides: [
           podcastRepositoryProvider.overrideWithValue(testRepository),
-          podcastEpisodeProvider('ep-404').overrideWith(
-            (ref) async => throw Exception('not found'),
-          ),
+          podcastEpisodeProvider(
+            'ep-404',
+          ).overrideWith((ref) async => throw Exception('not found')),
         ],
         child: MaterialApp(
           locale: const Locale('vi'),

@@ -7,6 +7,7 @@ import 'package:deutschtiger/services/auth_provider.dart';
 import 'package:deutschtiger/view_models/games/listening_game_provider.dart';
 import 'package:deutschtiger/view_models/providers.dart';
 import 'package:flutter/material.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -42,7 +43,9 @@ void main() {
     expect(find.text('Nghe từ và chọn nghĩa đúng'), findsOneWidget);
     // 4 meaning options rendered (1 correct + 3 distractors).
     expect(
-      _words.where((w) => find.text(w.translation).evaluate().isNotEmpty).length,
+      _words
+          .where((w) => find.text(w.translation).evaluate().isNotEmpty)
+          .length,
       4,
     );
     expect(tester.takeException(), isNull);
@@ -65,28 +68,29 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    expect(find.byIcon(Icons.cloud_off_outlined), findsOneWidget);
+    expect(find.byIcon(PhosphorIcons.cloudSlash), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
 
-  testWidgets('listening game shows a guidance message when too few words are learned', (
-    tester,
-  ) async {
-    await tester.pumpWidget(
-      ProviderScope(
-        overrides: [
-          listeningGameWordsProvider.overrideWith(
-            (ref) async => _words.take(2).toList(),
-          ),
-        ],
-        child: _app,
-      ),
-    );
-    await tester.pumpAndSettle();
+  testWidgets(
+    'listening game shows a guidance message when too few words are learned',
+    (tester) async {
+      await tester.pumpWidget(
+        ProviderScope(
+          overrides: [
+            listeningGameWordsProvider.overrideWith(
+              (ref) async => _words.take(2).toList(),
+            ),
+          ],
+          child: _app,
+        ),
+      );
+      await tester.pumpAndSettle();
 
-    expect(find.textContaining('Cần học ít nhất 4 từ'), findsOneWidget);
-    expect(tester.takeException(), isNull);
-  });
+      expect(find.textContaining('Cần học ít nhất 4 từ'), findsOneWidget);
+      expect(tester.takeException(), isNull);
+    },
+  );
 }
 
 class _FakeAudioService extends AudioService {

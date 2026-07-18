@@ -10,6 +10,7 @@ import 'package:deutschtiger/services/api_client.dart';
 import 'package:deutschtiger/services/auth_provider.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -36,18 +37,28 @@ void main() {
     );
   });
 
-  testWidgets('streams assistant tokens into the transcript as they arrive', (tester) async {
+  testWidgets('streams assistant tokens into the transcript as they arrive', (
+    tester,
+  ) async {
     final controller = StreamController<Uint8List>();
     final adapter = _ScriptedAdapter((options) async {
-      return ResponseBody(controller.stream, 200, headers: {
-        Headers.contentTypeHeader: ['text/event-stream'],
-        'x-session-id': ['session-1'],
-      });
+      return ResponseBody(
+        controller.stream,
+        200,
+        headers: {
+          Headers.contentTypeHeader: ['text/event-stream'],
+          'x-session-id': ['session-1'],
+        },
+      );
     });
 
     await tester.pumpWidget(
       ProviderScope(
-        overrides: [aiRepositoryProvider.overrideWithValue(AIRepository(_client(adapter)))],
+        overrides: [
+          aiRepositoryProvider.overrideWithValue(
+            AIRepository(_client(adapter)),
+          ),
+        ],
         child: MaterialApp(
           supportedLocales: AppLocalizations.supportedLocales,
           localizationsDelegates: AppLocalizations.localizationsDelegates,
@@ -62,7 +73,7 @@ void main() {
     // wired to the pre-text (disabled/null) callback until the widget
     // tree rebuilds, so tapping it immediately would silently no-op.
     await tester.pump();
-    await tester.tap(find.byIcon(Icons.send_rounded));
+    await tester.tap(find.byIcon(PhosphorIcons.paperPlaneTilt));
     await _flush(tester);
 
     // User bubble appears immediately; assistant bubble starts as typing dots.
@@ -80,7 +91,9 @@ void main() {
     expect(find.textContaining('Mir geht es gut'), findsOneWidget);
   });
 
-  testWidgets('shows a quota-exceeded banner without a Retry action', (tester) async {
+  testWidgets('shows a quota-exceeded banner without a Retry action', (
+    tester,
+  ) async {
     // A 429 rejection also triggers ApiClient's real 2s auto-retry Timer
     // (see `_responseInterceptor`), which a widget test can't fast-forward.
     // Exercised at the repository/contract level instead (see
@@ -111,7 +124,7 @@ void main() {
     // See comment above — the send button needs a frame to pick up the
     // now-non-empty text before its `onTap` is wired.
     await tester.pump();
-    await tester.tap(find.byIcon(Icons.send_rounded));
+    await tester.tap(find.byIcon(PhosphorIcons.paperPlaneTilt));
     await _flush(tester);
 
     expect(find.textContaining('7 lượt chat miễn phí'), findsOneWidget);
@@ -119,7 +132,9 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
-  testWidgets('shows a Retry banner on a generic error and resends on tap', (tester) async {
+  testWidgets('shows a Retry banner on a generic error and resends on tap', (
+    tester,
+  ) async {
     var requestCount = 0;
     final adapter = _ScriptedAdapter((options) async {
       requestCount++;
@@ -144,7 +159,11 @@ void main() {
 
     await tester.pumpWidget(
       ProviderScope(
-        overrides: [aiRepositoryProvider.overrideWithValue(AIRepository(_client(adapter)))],
+        overrides: [
+          aiRepositoryProvider.overrideWithValue(
+            AIRepository(_client(adapter)),
+          ),
+        ],
         child: MaterialApp(
           supportedLocales: AppLocalizations.supportedLocales,
           localizationsDelegates: AppLocalizations.localizationsDelegates,
@@ -157,7 +176,7 @@ void main() {
     // See comment above — the send button needs a frame to pick up the
     // now-non-empty text before its `onTap` is wired.
     await tester.pump();
-    await tester.tap(find.byIcon(Icons.send_rounded));
+    await tester.tap(find.byIcon(PhosphorIcons.paperPlaneTilt));
     await _flush(tester);
 
     expect(find.textContaining('quá tải'), findsOneWidget);
@@ -242,7 +261,10 @@ Future<ResponseBody> _chatStatusResponse() async => ResponseBody.fromString(
 class _FakeRejectingRepository extends AIRepository {
   _FakeRejectingRepository(this._error)
     : super(
-        ApiClient(baseUrl: 'https://example.test/api/v1', tokenProvider: _NoTokenProvider()),
+        ApiClient(
+          baseUrl: 'https://example.test/api/v1',
+          tokenProvider: _NoTokenProvider(),
+        ),
       );
   final AiChatRequestException _error;
 

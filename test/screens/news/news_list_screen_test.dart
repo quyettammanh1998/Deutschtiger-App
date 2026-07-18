@@ -2,6 +2,7 @@ import 'package:deutschtiger/data/news/news_models.dart';
 import 'package:deutschtiger/l10n/app_localizations.dart';
 import 'package:deutschtiger/screens/news/news_list_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -35,11 +36,13 @@ void main() {
       wrap(
         const NewsListScreen(),
         overrides: [
-          newsListProvider(
-            initialKey,
-          ).overrideWith(
-            (ref) async =>
-                const NewsListResult(stories: [story], total: 1, page: 1, pageSize: 10),
+          newsListProvider(initialKey).overrideWith(
+            (ref) async => const NewsListResult(
+              stories: [story],
+              total: 1,
+              page: 1,
+              pageSize: 10,
+            ),
           ),
           newsTopicsProvider.overrideWith((ref) async => <String, int>{}),
           newsCompletedIdsProvider.overrideWith((ref) async => <String>[]),
@@ -83,9 +86,9 @@ void main() {
       wrap(
         const NewsListScreen(),
         overrides: [
-          newsListProvider(initialKey).overrideWith(
-            (ref) => Future<NewsListResult>.error('network down'),
-          ),
+          newsListProvider(
+            initialKey,
+          ).overrideWith((ref) => Future<NewsListResult>.error('network down')),
           newsTopicsProvider.overrideWith((ref) async => <String, int>{}),
           newsCompletedIdsProvider.overrideWith((ref) async => <String>[]),
           newsWeekStatsProvider.overrideWith((ref) async => null),
@@ -94,7 +97,7 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    expect(find.byIcon(Icons.refresh), findsOneWidget);
+    expect(find.byIcon(PhosphorIcons.arrowClockwise), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
 
@@ -116,8 +119,10 @@ void main() {
           newsTopicsProvider.overrideWith((ref) async => <String, int>{}),
           newsCompletedIdsProvider.overrideWith((ref) async => <String>[]),
           newsWeekStatsProvider.overrideWith(
-            (ref) async =>
-                const NewsWeekStats(publishedThisWeek: 4, myCompletedThisWeek: 2),
+            (ref) async => const NewsWeekStats(
+              publishedThisWeek: 4,
+              myCompletedThisWeek: 2,
+            ),
           ),
         ],
       ),

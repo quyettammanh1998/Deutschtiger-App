@@ -102,7 +102,12 @@ SentenceBuilderSession _oneWordSession() => const SentenceBuilderSession(
 
 class _FakeSentenceBuilderRepository extends SentenceBuilderRepository {
   _FakeSentenceBuilderRepository(this._session)
-    : super(ApiClient(baseUrl: 'https://example.test', tokenProvider: _NoTokenProvider()));
+    : super(
+        ApiClient(
+          baseUrl: 'https://example.test',
+          tokenProvider: _NoTokenProvider(),
+        ),
+      );
 
   final SentenceBuilderSession _session;
 
@@ -124,7 +129,12 @@ class _FakeSentenceBuilderRepository extends SentenceBuilderRepository {
 
 class _FakeLearnRepository extends LearnRepository {
   _FakeLearnRepository({required this.score})
-    : super(ApiClient(baseUrl: 'https://example.test', tokenProvider: _NoTokenProvider()));
+    : super(
+        ApiClient(
+          baseUrl: 'https://example.test',
+          tokenProvider: _NoTokenProvider(),
+        ),
+      );
 
   final int score;
 
@@ -144,7 +154,12 @@ class _FakeLearnRepository extends LearnRepository {
 
 class _FailingLearnRepository extends LearnRepository {
   _FailingLearnRepository()
-    : super(ApiClient(baseUrl: 'https://example.test', tokenProvider: _NoTokenProvider()));
+    : super(
+        ApiClient(
+          baseUrl: 'https://example.test',
+          tokenProvider: _NoTokenProvider(),
+        ),
+      );
 
   @override
   Future<GradeSentenceResult> gradeSentence({

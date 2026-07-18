@@ -4,26 +4,27 @@ import 'package:deutschtiger/repositories/games/learning_item_repository.dart';
 import 'package:deutschtiger/screens/games/article_game_screen.dart';
 import 'package:deutschtiger/view_models/games/learning_item_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 Widget _app() => const MaterialApp(
-      locale: Locale('vi'),
-      supportedLocales: AppLocalizations.supportedLocales,
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
-      home: ArticleGameScreen(),
-    );
+  locale: Locale('vi'),
+  supportedLocales: AppLocalizations.supportedLocales,
+  localizationsDelegates: AppLocalizations.localizationsDelegates,
+  home: ArticleGameScreen(),
+);
 
 List<LearningItem> _tenNouns() => List.generate(
-      10,
-      (i) => LearningItem(
-        id: 'w$i',
-        type: 'word',
-        contentDe: 'Hund$i',
-        contentVi: 'con chó $i',
-        gender: i.isEven ? 'm' : 'f',
-      ),
-    );
+  10,
+  (i) => LearningItem(
+    id: 'w$i',
+    type: 'word',
+    contentDe: 'Hund$i',
+    contentVi: 'con chó $i',
+    gender: i.isEven ? 'm' : 'f',
+  ),
+);
 
 void main() {
   testWidgets('article game renders live noun + der/die/das buttons', (
@@ -62,7 +63,7 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    expect(find.byIcon(Icons.cloud_off_outlined), findsOneWidget);
+    expect(find.byIcon(PhosphorIcons.cloudSlash), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
 

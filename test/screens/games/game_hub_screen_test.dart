@@ -6,6 +6,7 @@ import 'package:deutschtiger/screens/games/game_hub_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 class _FakeLearningPreferencesRepository
     implements LearningPreferencesRepository {
@@ -25,27 +26,28 @@ class _FakeDailyQuoteRepository implements DailyQuoteRepository {
 
   @override
   Future<List<Quote>> getRandom({int limit = 20}) async => const [
-        Quote(
-          id: 'q1',
-          contentDe: 'Übung macht den Meister',
-          contentVi: 'Có công mài sắt',
-        ),
-      ];
+    Quote(
+      id: 'q1',
+      contentDe: 'Übung macht den Meister',
+      contentVi: 'Có công mài sắt',
+    ),
+  ];
 }
 
 Widget _app() => ProviderScope(
-      overrides: [
-        learningPreferencesRepositoryProvider
-            .overrideWithValue(_FakeLearningPreferencesRepository()),
-        dailyQuoteRepositoryProvider.overrideWithValue(_FakeDailyQuoteRepository()),
-      ],
-      child: const MaterialApp(
-        locale: Locale('vi'),
-        supportedLocales: AppLocalizations.supportedLocales,
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
-        home: GameHubScreen(),
-      ),
-    );
+  overrides: [
+    learningPreferencesRepositoryProvider.overrideWithValue(
+      _FakeLearningPreferencesRepository(),
+    ),
+    dailyQuoteRepositoryProvider.overrideWithValue(_FakeDailyQuoteRepository()),
+  ],
+  child: const MaterialApp(
+    locale: Locale('vi'),
+    supportedLocales: AppLocalizations.supportedLocales,
+    localizationsDelegates: AppLocalizations.localizationsDelegates,
+    home: GameHubScreen(),
+  ),
+);
 
 void main() {
   testWidgets('game hub renders level tip, groups and shuffle CTA', (
@@ -58,6 +60,6 @@ void main() {
     expect(find.text('Der/Die/Das'), findsOneWidget);
     expect(find.text('Deutsch Runner'), findsOneWidget);
     expect(find.text('Cases Mastery'), findsOneWidget);
-    expect(find.byIcon(Icons.shuffle), findsWidgets);
+    expect(find.byIcon(PhosphorIcons.shuffle), findsWidgets);
   });
 }

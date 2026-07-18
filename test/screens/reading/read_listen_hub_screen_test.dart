@@ -26,9 +26,10 @@ void main() {
       wrap(
         const ReadListenHubScreen(),
         overrides: [
-          readingFeedProvider(
-            '',
-          ).overrideWith((ref) async => const ReadingFeedResult(articles: [], coverageReady: true)),
+          readingFeedProvider('').overrideWith(
+            (ref) async =>
+                const ReadingFeedResult(articles: [], coverageReady: true),
+          ),
         ],
       ),
     );

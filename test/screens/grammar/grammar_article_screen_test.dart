@@ -3,6 +3,7 @@ import 'package:deutschtiger/features/grammar/presentation/grammar_article_scree
 import 'package:deutschtiger/features/grammar/presentation/grammar_provider.dart';
 import 'package:deutschtiger/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:visibility_detector/visibility_detector.dart';
@@ -86,7 +87,7 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    expect(find.byIcon(Icons.refresh), findsOneWidget);
+    expect(find.byIcon(PhosphorIcons.arrowClockwise), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
 }

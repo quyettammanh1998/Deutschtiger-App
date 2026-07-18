@@ -16,7 +16,9 @@ void main() {
         supportedLocales: AppLocalizations.supportedLocales,
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         builder: (context, child) => MediaQuery(
-          data: MediaQuery.of(context).copyWith(textScaler: const TextScaler.linear(2.0)),
+          data: MediaQuery.of(
+            context,
+          ).copyWith(textScaler: const TextScaler.linear(2.0)),
           child: child!,
         ),
         home: child,
@@ -36,7 +38,12 @@ void main() {
         overrides: [
           grammarLessonIndexProvider.overrideWith(
             (ref) async => [
-              const GrammarLessonSummary(id: 'l1', title: 'Sehr sehr sehr langer Titel fuer den Test', level: 'A1', tags: ['Verben']),
+              const GrammarLessonSummary(
+                id: 'l1',
+                title: 'Sehr sehr sehr langer Titel fuer den Test',
+                level: 'A1',
+                tags: ['Verben'],
+              ),
             ],
           ),
           grammarCompletedIdsProvider.overrideWith((ref) async => <String>[]),
@@ -47,7 +54,9 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
-  testWidgets('grammar lesson detail at DE 200% does not overflow', (tester) async {
+  testWidgets('grammar lesson detail at DE 200% does not overflow', (
+    tester,
+  ) async {
     tester.view.physicalSize = const Size(390, 844);
     tester.view.devicePixelRatio = 1;
     addTearDown(tester.view.resetPhysicalSize);
@@ -68,7 +77,9 @@ void main() {
         overrides: [
           grammarLessonProvider(key).overrideWith((ref) async => lesson),
           grammarCompletedIdsProvider.overrideWith((ref) async => <String>[]),
-          grammarLessonIndexProvider.overrideWith((ref) async => <GrammarLessonSummary>[]),
+          grammarLessonIndexProvider.overrideWith(
+            (ref) async => <GrammarLessonSummary>[],
+          ),
         ],
       ),
     );

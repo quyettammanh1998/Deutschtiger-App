@@ -5,29 +5,30 @@ import 'package:deutschtiger/repositories/games/grammar_drill_repository.dart';
 import 'package:deutschtiger/screens/games/cases/case_cloze_quiz_screen.dart';
 import 'package:deutschtiger/view_models/games/cases_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 Widget _app() => const MaterialApp(
-      locale: Locale('vi'),
-      supportedLocales: AppLocalizations.supportedLocales,
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
-      home: CaseClozeQuizScreen(game: 'akk-dat', title: 'Akkusativ vs Dativ'),
-    );
+  locale: Locale('vi'),
+  supportedLocales: AppLocalizations.supportedLocales,
+  localizationsDelegates: AppLocalizations.localizationsDelegates,
+  home: CaseClozeQuizScreen(game: 'akk-dat', title: 'Akkusativ vs Dativ'),
+);
 
 List<CaseExercise> _tenExercises() => List.generate(
-      10,
-      (i) => CaseExercise(
-        id: 'e$i',
-        level: 'A2',
-        sentence: 'Ich sehe ___ Mann.',
-        options: const ['der', 'den', 'dem'],
-        answer: 'den',
-        caseType: 'Akkusativ',
-        reason: 'sehen + Akkusativ',
-        vi: 'Tôi thấy người đàn ông.',
-      ),
-    );
+  10,
+  (i) => CaseExercise(
+    id: 'e$i',
+    level: 'A2',
+    sentence: 'Ich sehe ___ Mann.',
+    options: const ['der', 'den', 'dem'],
+    answer: 'den',
+    caseType: 'Akkusativ',
+    reason: 'sehen + Akkusativ',
+    vi: 'Tôi thấy người đàn ông.',
+  ),
+);
 
 void main() {
   testWidgets('case cloze quiz renders live exercises', (tester) async {
@@ -35,9 +36,9 @@ void main() {
       ProviderScope(
         overrides: [
           casesRepositoryProvider.overrideWithValue(
-            _FakeCasesRepository(clozeResponse: CaseExercisesResponse(
-              exercises: _tenExercises(),
-            )),
+            _FakeCasesRepository(
+              clozeResponse: CaseExercisesResponse(exercises: _tenExercises()),
+            ),
           ),
           grammarDrillRepositoryProvider.overrideWithValue(
             _FakeGrammarDrillRepository(),
@@ -77,7 +78,7 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    expect(find.byIcon(Icons.cloud_off_outlined), findsOneWidget);
+    expect(find.byIcon(PhosphorIcons.cloudSlash), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
 
@@ -89,9 +90,9 @@ void main() {
       ProviderScope(
         overrides: [
           casesRepositoryProvider.overrideWithValue(
-            _FakeCasesRepository(clozeResponse: CaseExercisesResponse(
-              exercises: _tenExercises(),
-            )),
+            _FakeCasesRepository(
+              clozeResponse: CaseExercisesResponse(exercises: _tenExercises()),
+            ),
           ),
           grammarDrillRepositoryProvider.overrideWithValue(drillRepo),
         ],
@@ -158,5 +159,6 @@ class _FakeGrammarDrillRepository implements GrammarDrillRepository {
   @override
   Future<GrammarExplainResult> explainGrammar(
     GrammarExplainRequest request,
-  ) async => const GrammarExplainResult(explanation: '', ok: false, cached: false);
+  ) async =>
+      const GrammarExplainResult(explanation: '', ok: false, cached: false);
 }

@@ -1,4 +1,3 @@
-import 'package:deutschtiger/core/release/release_feature_flags.dart';
 import 'package:deutschtiger/features/daily_path/domain/daily_path.dart';
 import 'package:deutschtiger/features/daily_path/presentation/daily_path_route_resolver.dart';
 import 'package:deutschtiger/l10n/app_localizations.dart';
@@ -6,6 +5,7 @@ import 'package:deutschtiger/screens/home/widgets/dashboard_sections.dart';
 import 'package:deutschtiger/widgets/common/app_shell.dart';
 import 'package:deutschtiger/widgets/dashboard/mobile_dashboard_header.dart';
 import 'package:flutter/material.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 Widget _wrap(Widget child) => MaterialApp(
@@ -50,20 +50,17 @@ void main() {
   });
 
   test(
-    'bottom navigation tab 4 shows Hội thoại only once the speaking flag ships',
+    'bottom navigation tab 4 stays the AI chat regardless of the speaking flag',
     () async {
       final l10n = await AppLocalizations.delegate.load(const Locale('en'));
       final tabs = appShellTabs(l10n);
 
-      // Tab 4 (branch index 3) is always present — it's either "Hội thoại"
-      // (web parity, gated on ReleaseFeatureFlags.speaking / P10 conversation
-      // hub) or the pre-parity "AI" tab in the same slot. See the tab-4
-      // release switch comment in `app_shell.dart`.
+      // Tab 4 (branch index 3) is a product decision to always be the AI
+      // chat, not web's "Hội thoại" slot — the conversation hub still ships
+      // when `ReleaseFeatureFlags.speaking` is on, but it's reached from the
+      // More-features sheet instead. See the tab-4 comment in `app_shell.dart`.
       final tab4 = tabs.singleWhere((tab) => tab.branchIndex == 3);
-      expect(
-        tab4.label,
-        ReleaseFeatureFlags.speaking ? l10n.navConversation : l10n.ai,
-      );
+      expect(tab4.label, l10n.ai);
       expect(tabs.last.opensMoreSheet, isTrue);
     },
   );
@@ -90,7 +87,7 @@ void main() {
     // Messages/settings are always visible in the header now (web parity —
     // the messages icon slot is no longer gated by ReleaseFeatureFlags.social,
     // see mobile_dashboard_header.dart).
-    expect(find.byIcon(Icons.chat_bubble_outline_rounded), findsOneWidget);
+    expect(find.byIcon(PhosphorIcons.chatCircle), findsOneWidget);
     expect(find.text('Xem chi tiết'), findsNothing);
   });
 
@@ -125,7 +122,7 @@ void main() {
     expect(
       tester.getSize(
         find.ancestor(
-          of: find.byIcon(Icons.settings_outlined),
+          of: find.byIcon(PhosphorIcons.gearSix),
           matching: find.byType(SizedBox),
         ),
       ),

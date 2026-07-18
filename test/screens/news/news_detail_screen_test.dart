@@ -10,6 +10,7 @@ import 'package:deutschtiger/services/api_client.dart';
 import 'package:deutschtiger/services/auth_provider.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -49,9 +50,7 @@ void main() {
     body: 'Satz eins.\n\nSatz zwei.',
   );
 
-  testWidgets('news detail shows body paragraphs (happy path)', (
-    tester,
-  ) async {
+  testWidgets('news detail shows body paragraphs (happy path)', (tester) async {
     await tester.pumpWidget(
       wrap(
         const NewsDetailScreen(slug: 'eu-gipfel-a1'),
@@ -104,7 +103,7 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    expect(find.byIcon(Icons.refresh), findsOneWidget);
+    expect(find.byIcon(PhosphorIcons.arrowClockwise), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
 

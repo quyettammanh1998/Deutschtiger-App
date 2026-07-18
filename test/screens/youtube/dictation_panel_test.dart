@@ -2,11 +2,17 @@ import 'package:deutschtiger/data/interview/transcript_models.dart';
 import 'package:deutschtiger/l10n/app_localizations.dart';
 import 'package:deutschtiger/screens/youtube/widgets/dictation_panel.dart';
 import 'package:flutter/material.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   const segments = [
-    TranscriptSegment(startMs: 0, endMs: 2000, textDe: 'Hallo Welt', textVi: 'Xin chào thế giới'),
+    TranscriptSegment(
+      startMs: 0,
+      endMs: 2000,
+      textDe: 'Hallo Welt',
+      textVi: 'Xin chào thế giới',
+    ),
     TranscriptSegment(
       startMs: 2000,
       endMs: 4000,
@@ -15,7 +21,9 @@ void main() {
     ),
   ];
 
-  testWidgets('sentence mode: correct answer awards XP and shows diff', (tester) async {
+  testWidgets('sentence mode: correct answer awards XP and shows diff', (
+    tester,
+  ) async {
     var seeked = <int>[];
     var awarded = 0;
 
@@ -67,7 +75,7 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    await tester.tap(find.byIcon(Icons.skip_next));
+    await tester.tap(find.byIcon(PhosphorIcons.skipForward));
     await tester.pumpAndSettle();
 
     expect(find.text('Câu 2/2 · Đúng 0'), findsOneWidget);

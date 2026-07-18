@@ -5,6 +5,7 @@ import 'package:deutschtiger/screens/games/typing_sprint_game_screen.dart';
 import 'package:deutschtiger/screens/games/widgets/typing_sprint_paragraph_view.dart';
 import 'package:deutschtiger/view_models/games/typing_sprint_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -21,15 +22,17 @@ void main() {
       ProviderScope(
         overrides: [
           typingSprintRepositoryProvider.overrideWithValue(
-            _FakeTypingSprintRepository(sentences: const [
-              TypingSentence(
-                id: 's1',
-                topic: 'alltag',
-                de: 'Ich trinke Kaffee.',
-                vi: 'Tôi uống cà phê.',
-                wordCount: 3,
-              ),
-            ]),
+            _FakeTypingSprintRepository(
+              sentences: const [
+                TypingSentence(
+                  id: 's1',
+                  topic: 'alltag',
+                  de: 'Ich trinke Kaffee.',
+                  vi: 'Tôi uống cà phê.',
+                  wordCount: 3,
+                ),
+              ],
+            ),
           ),
         ],
         child: _app,
@@ -66,27 +69,27 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    expect(find.byIcon(Icons.cloud_off_outlined), findsOneWidget);
+    expect(find.byIcon(PhosphorIcons.cloudSlash), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
 
   testWidgets('typing correct sentence advances and submits results', (
     tester,
   ) async {
-    final repo = _FakeTypingSprintRepository(sentences: const [
-      TypingSentence(
-        id: 's1',
-        topic: 'alltag',
-        de: 'Hallo',
-        vi: 'Xin chào',
-        wordCount: 1,
-      ),
-    ]);
+    final repo = _FakeTypingSprintRepository(
+      sentences: const [
+        TypingSentence(
+          id: 's1',
+          topic: 'alltag',
+          de: 'Hallo',
+          vi: 'Xin chào',
+          wordCount: 1,
+        ),
+      ],
+    );
     await tester.pumpWidget(
       ProviderScope(
-        overrides: [
-          typingSprintRepositoryProvider.overrideWithValue(repo),
-        ],
+        overrides: [typingSprintRepositoryProvider.overrideWithValue(repo)],
         child: _app,
       ),
     );
@@ -113,10 +116,7 @@ void main() {
 }
 
 class _FakeTypingSprintRepository implements TypingSprintRepository {
-  _FakeTypingSprintRepository({
-    this.sentences = const [],
-    this.fetchError,
-  });
+  _FakeTypingSprintRepository({this.sentences = const [], this.fetchError});
 
   final List<TypingSentence> sentences;
   final Object? fetchError;
