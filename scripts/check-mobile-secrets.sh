@@ -8,7 +8,7 @@ cd "$root_dir"
 readonly forbidden_markers='DEEPL_API_KEY|api-free\.deepl\.com|DeepL-Auth-Key|OPENAI_API_KEY|SONIOX_API_KEY|AZURE_SPEECH_KEY|SUPABASE_SERVICE_ROLE|sk-[A-Za-z0-9_-]{20,}|AIza[0-9A-Za-z_-]{30,}'
 readonly source_paths=(lib android ios .env.example pubspec.yaml)
 
-matches="$(rg -l --hidden --glob '!**/.dart_tool/**' --glob '!**/build/**' "$forbidden_markers" "${source_paths[@]}" || true)"
+matches="$(grep -rlE --exclude-dir=.dart_tool --exclude-dir=build "$forbidden_markers" "${source_paths[@]}" 2>/dev/null || true)"
 if [[ -n "$matches" ]]; then
   echo "Private-provider marker found in a mobile source file:" >&2
   printf '%s\n' "$matches" >&2
@@ -44,7 +44,7 @@ for artifact in "$@"; do
     *) cp "$artifact" "$artifact_data" ;;
   esac
 
-  if strings "$artifact_data" | rg -q "$forbidden_markers"; then
+  if strings "$artifact_data" | grep -qE "$forbidden_markers"; then
     echo "Private-provider marker found in artifact: $artifact" >&2
     exit 1
   fi
