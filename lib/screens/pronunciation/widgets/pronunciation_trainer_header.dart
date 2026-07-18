@@ -76,15 +76,12 @@ class PronunciationTrainerHeader extends StatelessWidget {
                   subtitle!,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontSize: 13,
-                    color: tokens.mutedForeground,
-                  ),
+                  style: TextStyle(fontSize: 13, color: tokens.mutedForeground),
                 ),
             ],
           ),
         ),
-        if (trailing != null) trailing!,
+        ?trailing,
       ],
     );
   }

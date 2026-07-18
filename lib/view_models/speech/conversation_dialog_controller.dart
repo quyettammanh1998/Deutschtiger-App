@@ -13,7 +13,10 @@ import '../../services/api_client.dart';
 /// frame.
 @immutable
 class ConversationDialogArgs {
-  const ConversationDialogArgs({required this.cacheKey, required this.scenario});
+  const ConversationDialogArgs({
+    required this.cacheKey,
+    required this.scenario,
+  });
 
   final String cacheKey;
   final Scenario scenario;
@@ -71,14 +74,13 @@ class ConversationDialogState {
 /// line → user sends → `/turn` → AI reply (+coverage/session-done). Mic/
 /// voice turn input is MASTER P8 scope — this controller only exposes the
 /// text-composer path.
-class ConversationDialogController extends StateNotifier<ConversationDialogState> {
+class ConversationDialogController
+    extends StateNotifier<ConversationDialogState> {
   ConversationDialogController({
-    required ConversationRepository repository,
-    required ConversationSessionRepository sessionRepository,
+    required this._repository,
+    required this._sessionRepository,
     required this.args,
-  }) : _repository = repository,
-       _sessionRepository = sessionRepository,
-       super(const ConversationDialogState()) {
+  }) : super(const ConversationDialogState()) {
     _loadOpening();
   }
 
@@ -141,7 +143,9 @@ class ConversationDialogController extends StateNotifier<ConversationDialogState
         ],
         sending: false,
         sessionDone: response.sessionDone,
-        coverage: response.coverage.isNotEmpty ? response.coverage : state.coverage,
+        coverage: response.coverage.isNotEmpty
+            ? response.coverage
+            : state.coverage,
       );
     } on ApiException catch (e) {
       state = state.copyWith(sending: false, error: e.message);

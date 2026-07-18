@@ -152,8 +152,8 @@ class DeckRepository {
       'deck_id': deckId,
       'word_de': wordDe,
       'word_vi': wordVi,
-      if (exampleSentence != null) 'example_sentence': exampleSentence,
-      if (exampleSentenceVi != null) 'example_sentence_vi': exampleSentenceVi,
+      'example_sentence': ?exampleSentence,
+      'example_sentence_vi': ?exampleSentenceVi,
     };
     final response = await _apiClient.post<Map<String, dynamic>>(
       '/user/flashcards',
@@ -170,10 +170,10 @@ class DeckRepository {
     String? exampleSentenceVi,
   }) async {
     final data = <String, dynamic>{
-      if (wordDe != null) 'word_de': wordDe,
-      if (wordVi != null) 'word_vi': wordVi,
-      if (exampleSentence != null) 'example_sentence': exampleSentence,
-      if (exampleSentenceVi != null) 'example_sentence_vi': exampleSentenceVi,
+      'word_de': ?wordDe,
+      'word_vi': ?wordVi,
+      'example_sentence': ?exampleSentence,
+      'example_sentence_vi': ?exampleSentenceVi,
     };
     final response = await _apiClient.put<Map<String, dynamic>>(
       '/user/flashcards/$cardId',
@@ -201,7 +201,10 @@ class DeckRepository {
     required String deckName,
     required List<String> sentences,
   }) async {
-    final lines = sentences.map((s) => s.trim()).where((s) => s.isNotEmpty).toList();
+    final lines = sentences
+        .map((s) => s.trim())
+        .where((s) => s.isNotEmpty)
+        .toList();
     if (lines.isEmpty) return 0;
     final deck = await createDeck(name: deckName);
     final response = await _apiClient.post<Map<String, dynamic>>(

@@ -45,7 +45,7 @@ class InterviewRepository {
         'title': title,
         'level': level,
         'scenario': _scenarioToJson(scenario),
-        if (sourceMarkdown != null) 'source_markdown': sourceMarkdown,
+        'source_markdown': ?sourceMarkdown,
       },
     );
     return (json['id'] as String?) ?? '';

@@ -66,8 +66,8 @@ class WritingRepository {
         body: {
           'studentAnswer': studentAnswer,
           'level': level,
-          if (taskPrompt != null) 'taskPrompt': taskPrompt,
-          if (writingPoints != null) 'writingPoints': writingPoints,
+          'taskPrompt': ?taskPrompt,
+          'writingPoints': ?writingPoints,
           'regenerate': regenerate,
         },
       );
@@ -137,7 +137,9 @@ class WritingRepository {
   }
 
   /// `GET /user/writing-submissions/{id}/gradings` — newest first.
-  Future<List<WritingGradingAttempt>> listGradingAttempts(String submissionId) async {
+  Future<List<WritingGradingAttempt>> listGradingAttempts(
+    String submissionId,
+  ) async {
     final data = await _api.get<Map<String, dynamic>>(
       '/user/writing-submissions/$submissionId/gradings',
     );
@@ -145,7 +147,9 @@ class WritingRepository {
     if (rows is! List) return const [];
     return rows
         .whereType<Map>()
-        .map((e) => WritingGradingAttempt.fromJson(Map<String, dynamic>.from(e)))
+        .map(
+          (e) => WritingGradingAttempt.fromJson(Map<String, dynamic>.from(e)),
+        )
         .toList();
   }
 

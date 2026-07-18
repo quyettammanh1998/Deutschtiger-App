@@ -37,7 +37,7 @@ class CaseClozeQuizScreen extends ConsumerStatefulWidget {
 }
 
 class _CaseClozeQuizScreenState extends ConsumerState<CaseClozeQuizScreen> {
-  String _level = 'A2';
+  final String _level = 'A2';
   late Future<CaseExercisesResponse> _future;
 
   List<CaseExercise> _questions = const [];
@@ -74,9 +74,7 @@ class _CaseClozeQuizScreenState extends ConsumerState<CaseClozeQuizScreen> {
     setState(() {
       _selected = option;
       _streak = correct ? _streak + 1 : 0;
-      _results.add(
-        GrammarDrillResultInput(key: question.id, correct: correct),
-      );
+      _results.add(GrammarDrillResultInput(key: question.id, correct: correct));
     });
   }
 
@@ -225,9 +223,7 @@ class _CaseClozeQuizScreenState extends ConsumerState<CaseClozeQuizScreen> {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            TextSpan(
-                              text: parts.length > 1 ? parts[1] : '',
-                            ),
+                            TextSpan(text: parts.length > 1 ? parts[1] : ''),
                           ],
                         ),
                       ),
@@ -354,8 +350,10 @@ class _CaseClozeQuizScreenState extends ConsumerState<CaseClozeQuizScreen> {
                   color: AppColors.tigerOrange,
                 ),
               ),
-              Text('$correct / $total đúng',
-                  style: TextStyle(color: context.tokens.mutedForeground)),
+              Text(
+                '$correct / $total đúng',
+                style: TextStyle(color: context.tokens.mutedForeground),
+              ),
               if (_mastery != null) ...[
                 const SizedBox(height: 12),
                 Text(
@@ -412,4 +410,3 @@ class _CaseClozeQuizScreenState extends ConsumerState<CaseClozeQuizScreen> {
     );
   }
 }
-

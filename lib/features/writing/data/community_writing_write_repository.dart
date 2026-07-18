@@ -47,7 +47,7 @@ class CommunityWritingWriteRepository {
   /// prompt into a full German Aufgabe. Returns `{generated_data, title_de,
   /// title_vi}`.
   Future<({Map<String, dynamic> generatedData, String titleDe, String titleVi})>
-      generate({
+  generate({
     required String provider,
     String? level,
     required int teil,
@@ -57,7 +57,7 @@ class CommunityWritingWriteRepository {
       '/user/community/exams/generate',
       body: {
         'provider': provider,
-        if (level != null) 'level': level,
+        'level': ?level,
         'skill': 'writing',
         'teil': teil,
         'input': input,
@@ -65,7 +65,9 @@ class CommunityWritingWriteRepository {
     );
     final gd = data['generated_data'];
     return (
-      generatedData: gd is Map ? Map<String, dynamic>.from(gd) : <String, dynamic>{},
+      generatedData: gd is Map
+          ? Map<String, dynamic>.from(gd)
+          : <String, dynamic>{},
       titleDe: data['title_de']?.toString() ?? '',
       titleVi: data['title_vi']?.toString() ?? '',
     );
@@ -88,15 +90,15 @@ class CommunityWritingWriteRepository {
       '/user/community/exams/',
       body: {
         'provider': provider,
-        if (level != null) 'level': level,
+        'level': ?level,
         'skill': 'writing',
         'teil': teil,
         'title_de': titleDe,
-        if (titleVi != null) 'title_vi': titleVi,
+        'title_vi': ?titleVi,
         'input_text': inputText,
         'generated_data': generatedData,
-        if (examDate != null) 'exam_date': examDate,
-        if (examLocation != null) 'exam_location': examLocation,
+        'exam_date': ?examDate,
+        'exam_location': ?examLocation,
       },
     );
     return CommunityWritingTopic.fromJson(data);
@@ -117,11 +119,11 @@ class CommunityWritingWriteRepository {
       '/user/community/exams/$canonicalId/versions',
       body: {
         'title_de': titleDe,
-        if (titleVi != null) 'title_vi': titleVi,
+        'title_vi': ?titleVi,
         'input_text': inputText,
         'generated_data': generatedData,
-        if (examDate != null) 'exam_date': examDate,
-        if (examLocation != null) 'exam_location': examLocation,
+        'exam_date': ?examDate,
+        'exam_location': ?examLocation,
       },
     );
     return data['id']?.toString() ?? '';
@@ -136,7 +138,8 @@ class CommunityWritingWriteRepository {
       _api.delete<Map<String, dynamic>>('/user/community/exams/$id/vote');
 
   /// `POST /user/community/exams/{id}/report`.
-  Future<void> report(String id, String reason) => _api.post<Map<String, dynamic>>(
+  Future<void> report(String id, String reason) =>
+      _api.post<Map<String, dynamic>>(
         '/user/community/exams/$id/report',
         body: {'reason': reason},
       );
@@ -144,18 +147,20 @@ class CommunityWritingWriteRepository {
 
 final communityWritingWriteRepositoryProvider =
     Provider<CommunityWritingWriteRepository>((ref) {
-  return CommunityWritingWriteRepository(ref.watch(apiClientProvider));
-});
+      return CommunityWritingWriteRepository(ref.watch(apiClientProvider));
+    });
 
 /// `(provider, level, teil, slug)` scoped canonical + versions.
-final communityWritingTopicProvider = FutureProvider.autoDispose.family<
-    CommunityWritingTopic,
-    ({String provider, String level, int teil, String slug})>((ref, scope) {
-  final repo = ref.watch(communityWritingWriteRepositoryProvider);
-  return repo.getCanonicalBySlug(
-    provider: scope.provider,
-    level: scope.level,
-    teil: scope.teil,
-    slug: scope.slug,
-  );
-});
+final communityWritingTopicProvider = FutureProvider.autoDispose
+    .family<
+      CommunityWritingTopic,
+      ({String provider, String level, int teil, String slug})
+    >((ref, scope) {
+      final repo = ref.watch(communityWritingWriteRepositoryProvider);
+      return repo.getCanonicalBySlug(
+        provider: scope.provider,
+        level: scope.level,
+        teil: scope.teil,
+        slug: scope.slug,
+      );
+    });

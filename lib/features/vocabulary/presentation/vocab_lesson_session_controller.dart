@@ -32,11 +32,11 @@ class VocabLessonSessionController extends ChangeNotifier {
     required this.cards,
     required this.cardModes,
     required this.choiceOptions,
-    required VocabLessonRepository lessonRepository,
+    required this._lessonRepository,
     required this.wordWritingRepository,
     required this.learnRepository,
     this.levelHint = '',
-  }) : _lessonRepository = lessonRepository;
+  });
 
   final List<LessonCard> cards;
   final Map<String, VocabCardMode> cardModes;
@@ -128,7 +128,10 @@ class VocabLessonSessionController extends ChangeNotifier {
         level: card.level ?? levelHint,
       );
       writingCorrect = res.correct;
-      writingFeedback = GradeFeedback(hint: res.hint, suggestion: res.suggestion.isNotEmpty ? res.suggestion : target);
+      writingFeedback = GradeFeedback(
+        hint: res.hint,
+        suggestion: res.suggestion.isNotEmpty ? res.suggestion : target,
+      );
     } catch (_) {
       writingCorrect = false;
       writingFeedback = GradeFeedback(suggestion: target);
@@ -142,7 +145,10 @@ class VocabLessonSessionController extends ChangeNotifier {
   void selectChoice(String option) {
     final card = currentCard;
     if (card == null || choiceResult != null) return;
-    choiceResult = ChoiceOutcome(selected: option, correct: card.displayVi == option);
+    choiceResult = ChoiceOutcome(
+      selected: option,
+      correct: card.displayVi == option,
+    );
     showBack = true;
     notifyListeners();
   }
@@ -157,9 +163,12 @@ class VocabLessonSessionController extends ChangeNotifier {
     if (card == null) return;
     final cloze = deriveCloze(card);
     if (cloze == null) return;
-    final strippedTarget =
-        cloze.answer.replaceFirst(RegExp(r'^(der |die |das )', caseSensitive: false), '').trim();
-    clozeCorrect = isWritingCorrect(clozeInput, cloze.answer) || isWritingCorrect(clozeInput, strippedTarget);
+    final strippedTarget = cloze.answer
+        .replaceFirst(RegExp(r'^(der |die |das )', caseSensitive: false), '')
+        .trim();
+    clozeCorrect =
+        isWritingCorrect(clozeInput, cloze.answer) ||
+        isWritingCorrect(clozeInput, strippedTarget);
     showBack = true;
     notifyListeners();
   }
@@ -177,8 +186,13 @@ class VocabLessonSessionController extends ChangeNotifier {
     final sentence = composeInput.trim();
     if (sentence.isEmpty || target.isEmpty) return;
 
-    final root = target.replaceFirst(RegExp(r'^(der |die |das )', caseSensitive: false), '').trim();
-    final containsWord = RegExp(r'\b' + RegExp.escape(root) + r'\b', caseSensitive: false).hasMatch(sentence);
+    final root = target
+        .replaceFirst(RegExp(r'^(der |die |das )', caseSensitive: false), '')
+        .trim();
+    final containsWord = RegExp(
+      r'\b' + RegExp.escape(root) + r'\b',
+      caseSensitive: false,
+    ).hasMatch(sentence);
     if (!containsWord) {
       composeCorrect = false;
       composeFeedback = GradeFeedback(hint: 'Câu cần dùng từ "$target".');
@@ -194,11 +208,16 @@ class VocabLessonSessionController extends ChangeNotifier {
         promptWord: target,
         promptMeaning: targetVi,
         userSentence: sentence,
-        userLevel: (card.level ?? levelHint).isEmpty ? 'A1' : (card.level ?? levelHint).toUpperCase(),
+        userLevel: (card.level ?? levelHint).isEmpty
+            ? 'A1'
+            : (card.level ?? levelHint).toUpperCase(),
         targetBlocks: const [],
       );
       composeCorrect = res.isCorrect;
-      composeFeedback = GradeFeedback(hint: res.summaryVi, suggestion: res.correctedSentence);
+      composeFeedback = GradeFeedback(
+        hint: res.summaryVi,
+        suggestion: res.correctedSentence,
+      );
     } catch (_) {
       composeCorrect = true;
       composeFeedback = const GradeFeedback(
@@ -217,7 +236,11 @@ class VocabLessonSessionController extends ChangeNotifier {
     submitting = true;
     notifyListeners();
     try {
-      await _lessonRepository.rate(card, rating, mode: 'vocab_lesson_${currentMode.name}');
+      await _lessonRepository.rate(
+        card,
+        rating,
+        mode: 'vocab_lesson_${currentMode.name}',
+      );
       completedCount += 1;
       cardIndex += 1;
       _resetCardState();
@@ -233,7 +256,11 @@ class VocabLessonSessionController extends ChangeNotifier {
     submitting = true;
     notifyListeners();
     try {
-      await _lessonRepository.rate(card, reviewRatingEasy, mode: 'vocab_lesson_skip');
+      await _lessonRepository.rate(
+        card,
+        reviewRatingEasy,
+        mode: 'vocab_lesson_skip',
+      );
       completedCount += 1;
       cardIndex += 1;
       _resetCardState();
